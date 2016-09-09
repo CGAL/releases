@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h $
-// $Id: Constraint_hierarchy_2.h 41717 2008-01-20 20:47:32Z spion $
+// $Id: Constraint_hierarchy_2.h 53428 2009-12-15 16:41:27Z lrineau $
 // 
 //
 // Author(s)     : Olivier Billet, Mariette Yvinec
@@ -382,7 +382,6 @@ bool Constraint_hierarchy_2<T,Data>::
 insert_constraint(T va, T vb){
   H_edge        he = make_edge(va, vb);
   H_vertex_list*  children = new H_vertex_list; 
-  H_context_list* fathers = new H_context_list;
 
   children->push_front(he.first);
   children->push_back(he.second);
@@ -391,12 +390,24 @@ insert_constraint(T va, T vb){
     H_context ctxt;
     ctxt.enclosing = children;
     ctxt.pos     = children->begin();
+
+    // It may happen that the sub-constraint he is already in the map.  The
+    // following variable 'fathers' is a reference to a pointer. If the
+    // sub-constraint he is already in the map, 'fathers' will be the
+    // pointer to its fathers list. If the sub-constraint he is new,
+    // std::make_pair(he, 0) is inserted in the map (that is what does
+    // map::operator[]), 'fathers' will be a default-constructed pointer
+    // (that is the NULL pointer), and it will re-assigned to a newly
+    // created context list.  As 'father' is a reference (to a pointer),
+    // there is no need to modify the map after that.
+    H_context_list*& fathers = sc_to_c_map[he];
+    if(fathers == 0) {
+      fathers = new H_context_list;
+    }
     fathers->push_front(ctxt);
-    sc_to_c_map.insert(std::make_pair(he,fathers));
     return true;
   }
   delete children;
-  delete fathers;
   return false; //duplicate constraint - no insertion
 }
 

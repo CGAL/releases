@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_intersections/Bbox_3_bbox_3_do_intersect.h $
-// $Id: Bbox_3_bbox_3_do_intersect.h 51932 2009-09-14 13:32:24Z lrineau $
+// $Id: Bbox_3_bbox_3_do_intersect.h 53383 2009-12-11 08:01:50Z stayeb $
 // 
 //
 // Author(s)     :  Laurent Rineau, Camille Wormser, Jane Tournois, Pierre Alliez
@@ -28,7 +28,9 @@
 
 CGAL_BEGIN_NAMESPACE
 
-bool do_intersect(const CGAL::Bbox_3& c, 
+bool
+inline
+do_intersect(const CGAL::Bbox_3& c, 
 		  const CGAL::Bbox_3& bbox)
 {
   return CGAL::do_overlap(c, bbox);

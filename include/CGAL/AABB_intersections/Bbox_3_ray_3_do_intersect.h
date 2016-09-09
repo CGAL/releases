@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_intersections/Bbox_3_ray_3_do_intersect.h $
-// $Id: Bbox_3_ray_3_do_intersect.h 51936 2009-09-14 17:37:18Z stayeb $
+// $Id: Bbox_3_ray_3_do_intersect.h 53053 2009-11-16 12:56:49Z stayeb $
 // 
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez
@@ -160,7 +160,7 @@ template <class K>
 bool do_intersect(const CGAL::Bbox_3& bbox, 
 		  const CGAL::Ray_3<K>& ray)
 {
-  return typename K::Do_intersect_3(ray, bbox);
+  return typename K::Do_intersect_3()(ray, bbox);
 }
 
 CGAL_END_NAMESPACE

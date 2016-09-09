@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 51948 2009-09-15 17:09:03Z spion $
+// $Id: Triangulation_data_structure_2.h 52618 2009-10-19 15:50:53Z mcaroli $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -1738,6 +1738,7 @@ is_valid(bool verbose, int level) const
       ++vit) {
     CGAL_triangulation_assertion( vit->face() != Face_handle());
     result = result && vit->is_valid(verbose,level);
+    result = result && (vit == vit->face()->vertex( vit->face()->index(vit)));
     CGAL_triangulation_assertion( result );
     ++vertex_count;
   }

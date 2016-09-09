@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
-// $Id: Polyhedral_mesh_domain_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $Id: Polyhedral_mesh_domain_3.h 53152 2009-11-24 12:43:03Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -330,8 +330,8 @@ Polyhedral_mesh_domain_3<P_,IGT,TA>::Construct_initial_points::operator()(
 
   const Bounding_box bbox = r_domain_.tree_.bbox();
   const Point_3 center( FT( (bbox.xmin() + bbox.xmax()) / 2),
-                        FT( (bbox.xmin() + bbox.xmax()) / 2),
-                        FT( (bbox.xmin() + bbox.xmax()) / 2) );
+                        FT( (bbox.ymin() + bbox.ymax()) / 2),
+                        FT( (bbox.zmin() + bbox.zmax()) / 2) );
 
   const double diameter = Mesh_3::details::max_length(bbox) * 2;
   Random_points_on_sphere_3<Point_3> random_point(1.);

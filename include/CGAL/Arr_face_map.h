@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_face_map.h $
-// $Id: Arr_face_map.h 46641 2008-11-04 10:08:25Z afabri $
+// $Id: Arr_face_map.h 53436 2009-12-15 23:14:31Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -24,7 +24,11 @@
  */
 
 #include <CGAL/Unique_hash_map.h>
+#if BOOST_VERSION >= 104000
+#include <boost/property_map/property_map.hpp>
+#else
 #include <boost/property_map.hpp>
+#endif
 #include <boost/graph/properties.hpp>
 
 CGAL_BEGIN_NAMESPACE
