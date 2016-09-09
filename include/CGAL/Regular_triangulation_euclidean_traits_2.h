@@ -32,6 +32,8 @@
 //
 // release       : CGAL-2.2
 // release_date  : 2000, September 30
+// patch         : 1
+// patch_date    : 2000, December 11
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_2.h
 // package       : Triangulation (4.69)
@@ -192,7 +194,7 @@ public:
   typedef Triangulation_euclidean_traits_2 <R>  Traits;
   typedef typename Traits::Point_2              Bare_point;
   typedef Weighted_point <Bare_point, W>        Weighted_point;
-
+  typedef Weighted_point                        Point_2;
   typedef CGAL::Power_test_2<Bare_point, W>     Power_test_2;
   typedef CGAL::Power_test_degenerated_2<Bare_point, W>  
                                                 Power_test_degenerated_2;

@@ -1,54 +1,30 @@
 // ============================================================================
 //
 // Copyright (c) 1999, 2000 The CGAL Consortium
-
-// This software and related documentation is part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
 //
-// Every use of CGAL requires a license. 
+// This software and related documentation is part of an INTERNAL release
+// of the Computational Geometry Algorithms Library (CGAL). It is not
+// intended for general use.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// ----------------------------------------------------------------------------
 //
-// Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
-// - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : $CGAL_Revision $
+// release_date  : $CGAL_Date $
 //
 // file          : minimum_enclosing_quadrilateral_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Min_quadrilaterals $
 // source        : oops.aw
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2000/09/15 07:40:26 $
-// author(s)     : Michael Hoffmann and
-//                 Emo Welzl
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2000/10/23 10:36:28 $
+// author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
+//                 Emo Welzl <emo@inf.ethz.ch>
 //
+// maintainer    : Michael Hoffmann <hoffmann@inf.ethz.ch>
 // coordinator   : ETH
 //
 // Demo Program: Computing minimum enclosing quadrilaterals
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// ============================================================================
 
 #include <CGAL/basic.h>
 #ifdef CGAL_USE_LEDA
@@ -145,30 +121,36 @@ public geowin_update< CGALPointlist, list< leda_polygon > > {
     Polygon_2 p;
     convex_hull_points_2(
       pts.vertices_begin(), pts.vertices_end(), back_inserter(p));
-    cout << "convex hull area " << CGAL::to_double(p.area()) << endl;
+    //cout << "convex hull area " << CGAL::to_double(p.area()) << endl;
     CGAL_assertion(p.is_simple());
     CGAL_assertion(p.is_convex());
 
     Polygon_2 kg;
-    Timer t;
-    t.start();
-    min_rectangle_2(
-      p.vertices_begin(), p.vertices_end(), back_inserter(kg));
-    t.stop();
-    cout << "min_rectangle area "
-         << CGAL::to_double(kg.area())
-         << " [time: " << t.time() << " sec.]"
-         << endl;
-    {
-      CGAL_assertion(kg.is_simple());
-      CGAL_assertion(kg.is_convex());
-      for (Polygon_2::iterator ii = p.vertices_begin();
-           ii != p.vertices_end();
-           ++ii)
-        CGAL_assertion(!kg.has_on_unbounded_side(*ii));
-      CGAL_assertion(kg.area() >= p.area());
-      cout << "convex hull area 2 " << CGAL::to_double(p.area()) << endl;
-    }
+    if (p.size() >= 3) {
+      Timer t;
+      t.start();
+      min_rectangle_2(
+        p.vertices_begin(), p.vertices_end(), back_inserter(kg));
+      t.stop();
+      cout << "min_rectangle area "
+           << CGAL::to_double(kg.area())
+           << " [time: " << t.time() << " sec.]"
+           << endl;
+      {
+        CGAL_assertion(kg.is_simple());
+        CGAL_assertion(kg.is_convex());
+        for (Polygon_2::iterator ii = p.vertices_begin();
+             ii != p.vertices_end();
+             ++ii)
+          CGAL_assertion(!kg.has_on_unbounded_side(*ii));
+        CGAL_assertion(kg.area() >= p.area());
+        //cout << "convex hull area 2 "
+        //     << CGAL::to_double(p.area()) << endl;
+      }
+    } else
+      cout << "min_rectangle undefined with < 3 points on the convex hull."
+           << endl;
+
     leda_list< leda_point > HLP;
     for (int i = 0; i < kg.size(); ++i)
       HLP.append(convert_to_leda(kg.container()[i]));
@@ -199,30 +181,36 @@ public geowin_update< CGALPointlist, list< leda_polygon > > {
     Polygon_2 p;
     convex_hull_points_2(
       pts.vertices_begin(), pts.vertices_end(), back_inserter(p));
-    cout << "convex hull area " << CGAL::to_double(p.area()) << endl;
+    //cout << "convex hull area " << CGAL::to_double(p.area()) << endl;
     CGAL_assertion(p.is_simple());
     CGAL_assertion(p.is_convex());
 
     Polygon_2 kg;
-    Timer t;
-    t.start();
-    min_parallelogram_2(
-      p.vertices_begin(), p.vertices_end(), back_inserter(kg));
-    t.stop();
-    cout << "min_parallelogram area "
-         << CGAL::to_double(kg.area())
-         << " [time: " << t.time() << " sec.]"
-         << endl;
-    {
-      CGAL_assertion(kg.is_simple());
-      CGAL_assertion(kg.is_convex());
-      for (Polygon_2::iterator ii = p.vertices_begin();
-           ii != p.vertices_end();
-           ++ii)
-        CGAL_assertion(!kg.has_on_unbounded_side(*ii));
-      CGAL_assertion(kg.area() >= p.area());
-      cout << "convex hull area 2 " << CGAL::to_double(p.area()) << endl;
-    }
+    if (p.size() >= 3) {
+      Timer t;
+      t.start();
+      min_parallelogram_2(
+        p.vertices_begin(), p.vertices_end(), back_inserter(kg));
+      t.stop();
+      cout << "min_parallelogram area "
+           << CGAL::to_double(kg.area())
+           << " [time: " << t.time() << " sec.]"
+           << endl;
+      {
+        CGAL_assertion(kg.is_simple());
+        CGAL_assertion(kg.is_convex());
+        for (Polygon_2::iterator ii = p.vertices_begin();
+             ii != p.vertices_end();
+             ++ii)
+          CGAL_assertion(!kg.has_on_unbounded_side(*ii));
+        CGAL_assertion(kg.area() >= p.area());
+        //cout << "convex hull area 2 "
+        //     << CGAL::to_double(p.area()) << endl;
+      }
+    } else
+      cout << "min_parallelogram undefined with < 3 points on the convex hull."
+           << endl;
+
     leda_list< leda_point > HLP;
     for (int i = 0; i < kg.size(); ++i)
       HLP.append(convert_to_leda(kg.container()[i]));
@@ -256,17 +244,23 @@ public geowin_update< CGALPointlist, list< leda_line > > {
 
     typedef std::vector< Line_2 > Linelist;
     Linelist ll;
-    Timer t;
-    t.start();
-    min_strip_2(
-      p.vertices_begin(), p.vertices_end(), back_inserter(ll));
-    t.stop();
-    cout << "min_strip width^2 ";
-    if (ll.size() > 1)
-      cout << CGAL::to_double(squared_distance(ll[0], ll[1]));
-    else
-      cout << "undef";
-    cout << " [time: " << t.time() << " sec.]" << endl;
+
+    if (p.size() >= 2) {
+      Timer t;
+      t.start();
+      min_strip_2(
+        p.vertices_begin(), p.vertices_end(), back_inserter(ll));
+      t.stop();
+      cout << "min_strip width^2 ";
+      if (ll.size() > 1)
+        cout << CGAL::to_double(squared_distance(ll[0], ll[1]));
+      else
+        cout << "undef";
+      cout << " [time: " << t.time() << " sec.]" << endl;
+    } else
+      cout << "min_strip undefined with < 2 points on the convex hull."
+           << endl;
+
     for (Linelist::iterator i = ll.begin(); i != ll.end(); ++i)
       lines.push_back(
         leda_line(

@@ -1,26 +1,26 @@
 // ======================================================================
 //
-// Copyright (c) 2000 The CGAL Consortium
+// Copyright (c) 1997  The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
 // This software and documentation is provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// damage of any kind.
 //
-// Every use of CGAL requires a license. 
+// Every use of CGAL requires a license.
 //
 // Academic research and teaching license
 // - For academic research and teaching purposes, permission to use and copy
 //   the software and its documentation is hereby granted free of charge,
 //   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+//   notice appears in all copies of the software and related documentation.
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.de).
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   Algorithmic Solutions (contact@algorithmic-solutions.com).
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
@@ -32,13 +32,16 @@
 //
 // release       : CGAL-2.2
 // release_date  : 2000, September 30
+// patch         : 1
+// patch_date    : 2000, December 11
 //
 // file          : include/CGAL/Cartesian.h
-// package       : Cartesian_basic (4.2)
-// revision      : $Revision: 1.28 $
-// revision_date : $Date: 2000/08/11 14:09:40 $
+// package       : Cartesian_basic (4.3)
+// revision      : $Revision: 1.29 $
+// revision_date : $Date: 2000/10/13 07:34:56 $
 // author(s)     : Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+//
+// coordinator   : INRIA Sophia-Antipolis 
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -107,6 +110,7 @@ struct Cartesian_base :
     typedef typename Kernel_base_3::Segment_3             Segment_3;
     typedef typename Kernel_base_3::Triangle_3            Triangle_3;
     typedef typename Kernel_base_3::Tetrahedron_3         Tetrahedron_3;
+    typedef typename Kernel_base_3::Sphere_3              Sphere_3;
     typedef typename Kernel_base_3::Iso_cuboid_3          Iso_cuboid_3;
     typedef typename Kernel_base_3::Aff_transformation_3  Aff_transformation_3;
 
@@ -165,6 +169,7 @@ struct Cartesian : public Cartesian_base< Cartesian<FT_>, FT_ >
     typedef typename Kernel_base::Segment_3               Segment_3;
     typedef typename Kernel_base::Triangle_3              Triangle_3;
     typedef typename Kernel_base::Tetrahedron_3           Tetrahedron_3;
+    typedef typename Kernel_base::Sphere_3                Sphere_3;
     typedef typename Kernel_base::Iso_cuboid_3            Iso_cuboid_3;
     typedef typename Kernel_base::Aff_transformation_3    Aff_transformation_3;
 
@@ -199,6 +204,7 @@ struct Cartesian : public Cartesian_base< Cartesian<FT_>, FT_ >
     typedef typename Kernel_base::Segment_3               Segment_3_base;
     typedef typename Kernel_base::Triangle_3              Triangle_3_base;
     typedef typename Kernel_base::Tetrahedron_3           Tetrahedron_3_base;
+    typedef typename Kernel_base::Sphere_3                Sphere_3_base;
     typedef typename Kernel_base::Iso_cuboid_3            Iso_cuboid_3_base;
     typedef typename Kernel_base::Aff_transformation_3    
                                                   Aff_transformation_3_base;
@@ -232,6 +238,7 @@ struct Cartesian : public Cartesian_base< Cartesian<FT_>, FT_ >
     typedef CGAL::Segment_3<Self>                         Segment_3;
     typedef CGAL::Triangle_3<Self>                        Triangle_3;
     typedef CGAL::Tetrahedron_3<Self>                     Tetrahedron_3;
+    typedef CGAL::Sphere_3<Self>                          Sphere_3;
     typedef CGAL::Iso_cuboid_3<Self>                      Iso_cuboid_3;
     typedef CGAL::Aff_transformation_3<Self>              Aff_transformation_3;
 
