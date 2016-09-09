@@ -18,7 +18,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kernel_23/include/CGAL/Circle_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Circle_3.h $
 // $Id: Circle_3.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

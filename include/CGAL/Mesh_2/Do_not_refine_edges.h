@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_2/include/CGAL/Mesh_2/Do_not_refine_edges.h $
-// $Id: Do_not_refine_edges.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_2/include/CGAL/Mesh_2/Do_not_refine_edges.h $
+// $Id: Do_not_refine_edges.h 69638 2012-06-15 13:03:08Z lrineau $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -80,7 +80,7 @@ public:
       const Face_handle& fh = eit->first;
       const int& i = eit->second;
 
-      if(fh->is_constrained(i) && !is_locally_conform(this->tr, fh, i, p))
+      if(fh->is_constrained(i) && !this->is_locally_conform(this->tr, fh, i, p))
       {
         return CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
       }

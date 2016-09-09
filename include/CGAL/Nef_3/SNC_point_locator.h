@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
 // $Id: SNC_point_locator.h 67513 2012-01-30 14:30:27Z efif $
 // 
 //

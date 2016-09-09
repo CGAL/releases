@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 67487 2012-01-27 14:10:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 70206 2012-07-02 15:02:41Z lrineau $
 // 
 //
 // Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/AABB_tree/include/CGAL/AABB_intersections.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/AABB_tree/include/CGAL/AABB_intersections.h $
 // $Id: AABB_intersections.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

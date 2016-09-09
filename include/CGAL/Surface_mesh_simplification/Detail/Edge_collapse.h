@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse.h $
 // $Id: Edge_collapse.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>

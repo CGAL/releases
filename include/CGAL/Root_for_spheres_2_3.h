@@ -18,7 +18,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
 // $Id: Root_for_spheres_2_3.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

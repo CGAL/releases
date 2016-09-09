@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
-// $Id: Parameterization_mesh_feature_extractor.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
+// $Id: Parameterization_mesh_feature_extractor.h 68828 2012-04-24 16:06:55Z lrineau $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -98,7 +98,12 @@ public:
         m_nb_borders = -1;
         m_genus = -1;
     }
-    virtual ~Parameterization_mesh_feature_extractor() {}
+
+    virtual ~Parameterization_mesh_feature_extractor() {
+      for (typename Skeleton::iterator iter = m_skeleton.begin();
+           iter != m_skeleton.end(); ++iter)
+          delete *iter;
+    }
 
     /// Get number of borders.
     int get_nb_borders()

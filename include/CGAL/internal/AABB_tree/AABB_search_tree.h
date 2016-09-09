@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
 // $Id: AABB_search_tree.h 67743 2012-02-14 10:43:34Z lrineau $
 //
 //

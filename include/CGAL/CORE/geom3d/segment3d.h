@@ -16,7 +16,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
  *                                                                           
  *                                                                           
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/geom3d/segment3d.h $                                                                     
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/include/CGAL/CORE/geom3d/segment3d.h $                                                                     
  * $Id: segment3d.h 67175 2012-01-16 15:37:02Z lrineau $                                                                      
  ***************************************************************************/
 /*****************************************************************

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
 // $Id: compute_average_spacing.h 67225 2012-01-17 17:13:01Z afabri $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret

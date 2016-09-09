@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_configure.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_configure.h $
 // $Id: Approximate_min_ellipsoid_d_configure.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 //

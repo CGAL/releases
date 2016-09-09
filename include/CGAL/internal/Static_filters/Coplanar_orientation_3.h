@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Filtered_kernel/include/CGAL/internal/Static_filters/Coplanar_orientation_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Coplanar_orientation_3.h $
 // $Id: Coplanar_orientation_3.h 67093 2012-01-13 11:22:39Z lrineau $
 // 
 //

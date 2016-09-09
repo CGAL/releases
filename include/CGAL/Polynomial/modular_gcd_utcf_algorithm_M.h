@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Polynomial/include/CGAL/Polynomial/modular_gcd_utcf_algorithm_M.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial/modular_gcd_utcf_algorithm_M.h $
 // $Id: modular_gcd_utcf_algorithm_M.h 67346 2012-01-21 08:36:43Z afabri $
 //
 //

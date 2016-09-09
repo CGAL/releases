@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
 // $Id: Monge_via_jet_fitting.h 67421 2012-01-24 17:51:43Z sloriot $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

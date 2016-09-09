@@ -10,7 +10,7 @@
 //-------------------------------------------------------------------------------------- 
 // Copyright (C) 2007 GeometryFactory (France)
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Installation/include/CGAL/auto_link/auto_link.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Installation/include/CGAL/auto_link/auto_link.h $
 // $Id: auto_link.h 67315 2012-01-19 16:50:34Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactory.com)

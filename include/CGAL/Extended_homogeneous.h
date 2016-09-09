@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_2/include/CGAL/Extended_homogeneous.h $
-// $Id: Extended_homogeneous.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
+// $Id: Extended_homogeneous.h 69638 2012-06-15 13:03:08Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -56,7 +56,7 @@ class Extended_homogeneous : public
 geometry\footnote{It is called extended geometry for simplicity,
 though it is not a real geometry in the classical sense.}. Let |\Mvar|
 be an instance of the data type |\Mname|.  The central notion of
-extended geomtry are extended points. An extended point represents
+extended geometry are extended points. An extended point represents
 either a standard affine point of the Cartesian plane or a
 non-standard point representing the equivalence class of rays where
 two rays are equivalent if one is contained in the other.

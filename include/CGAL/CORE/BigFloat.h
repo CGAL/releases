@@ -28,7 +28,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/BigFloat.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/include/CGAL/CORE/BigFloat.h $
  * $Id: BigFloat.h 67117 2012-01-13 18:14:48Z lrineau $
  ***************************************************************************/
 

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
 // $Id: Delaunay_triangulation_3.h 67417 2012-01-24 17:25:20Z sloriot $
 //
 //

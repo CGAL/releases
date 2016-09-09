@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Envelope_3/demo/Envelope_3/envelope_3.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Envelope_3/demo/Envelope_3/envelope_3.cpp $
 // $Id: envelope_3.cpp 67117 2012-01-13 18:14:48Z lrineau $
 //
 //

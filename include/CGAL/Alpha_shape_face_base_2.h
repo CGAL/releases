@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Alpha_shapes_2/include/CGAL/Alpha_shape_face_base_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_face_base_2.h $
 // $Id: Alpha_shape_face_base_2.h 67216 2012-01-17 15:28:40Z sloriot $
 // 
 //

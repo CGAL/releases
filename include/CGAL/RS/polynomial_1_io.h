@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_io.h $
-// $Id: polynomial_1_io.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_io.h $
+// $Id: polynomial_1_io.h 68449 2012-04-11 16:57:34Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -65,6 +65,7 @@ std::ostream& operator<<(std::ostream &os,const RS_polynomial_1 &p){
         }
 }
 
+inline
 std::istream& operator>>(std::istream &is,RS_polynomial_1 &pol){
         std::istream::int_type c;
         std::ios::fmtflags old_flags=is.flags();

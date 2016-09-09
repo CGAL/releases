@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
 // $Id: Polynomial_traits_d.h 67292 2012-01-19 08:09:04Z afabri $
 // 
 //

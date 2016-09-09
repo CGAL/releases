@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
-// $Id: SNC_io_parser.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
+// $Id: SNC_io_parser.h 68828 2012-04-24 16:06:55Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -38,6 +38,10 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 293
 #include <CGAL/Nef_2/debug.h>
+
+#ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
+#include <boost/any.hpp>
+#endif
 
 namespace CGAL {
 
@@ -889,7 +893,11 @@ public:
   typedef typename Infi_box::Standard_vector Standard_vector;
   typedef typename Infi_box::Standard_plane  Standard_plane;
 
+  #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
   typedef void* GenPtr;
+  #else
+  typedef boost::any GenPtr;
+  #endif
 
   using Base::visit_shell_objects;
 

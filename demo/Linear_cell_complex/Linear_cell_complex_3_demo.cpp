@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Linear_cell_complex/demo/Linear_cell_complex/Linear_cell_complex_3_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Linear_cell_complex/demo/Linear_cell_complex/Linear_cell_complex_3_demo.cpp $
 // $Id: Linear_cell_complex_3_demo.cpp 67427 2012-01-24 18:39:05Z lrineau $
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

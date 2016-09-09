@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $ 
 // $Id: SNC_indexed_items.h 67117 2012-01-13 18:14:48Z lrineau $ 
 // 
 //

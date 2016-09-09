@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_adapterH2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_adapterH2.h $
 // $Id: Min_circle_2_adapterH2.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

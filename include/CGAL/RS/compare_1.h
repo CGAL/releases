@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/compare_1.h $
-// $Id: compare_1.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/RS/compare_1.h $
+// $Id: compare_1.h 68449 2012-04-11 16:57:34Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -36,6 +36,7 @@ namespace RS_COMPARE{
 
 // compare two algebraic numbers, knowing they are not equal
 //template <class _Gcd_policy>
+inline 
 Comparison_result
 compare_1_unequal(const Algebraic_1 &r1,const Algebraic_1 &r2){
         /*typedef _Gcd_policy     Gcd;

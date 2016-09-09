@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
-// $Id: SM_const_decorator.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
+// $Id: SM_const_decorator.h 68828 2012-04-24 16:06:55Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -36,6 +36,9 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 67
 #include <CGAL/Nef_2/debug.h>
+#ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
+#include <boost/any.hpp>
+#endif
 
 namespace CGAL {
 
@@ -74,7 +77,12 @@ typedef typename Map::Mark   Mark;
 typedef size_t Size_type;
 /*{\Mtypemember size type.}*/
 
+#ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 typedef void*  GenPtr;
+#else
+typedef boost::any GenPtr;
+#endif
+
 
 // typedef typename Map::Constructor_const_parameter Constructor_parameter;
 typedef typename Map::SVertex_const_handle SVertex_const_handle;

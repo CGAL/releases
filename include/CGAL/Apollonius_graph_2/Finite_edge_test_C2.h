@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test_C2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test_C2.h $
 // $Id: Finite_edge_test_C2.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

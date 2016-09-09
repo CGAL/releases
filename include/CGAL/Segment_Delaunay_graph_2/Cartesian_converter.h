@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Cartesian_converter.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Cartesian_converter.h $
 // $Id: Cartesian_converter.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

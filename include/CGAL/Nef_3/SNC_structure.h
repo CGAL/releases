@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 68828 2012-04-24 16:06:55Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -1212,7 +1212,8 @@ public:
     sfaces_.erase(h);
     put_sface_node(&*h);
   }
-  
+    //SL: in the following function, I guess the sizeof(void*) is related to the void* info that was
+    //used together with geninfo to store an arbitrary type. I replaced that with any and did not changed that
     std::size_t bytes() {
       // bytes used for the SNC_structure
 
@@ -1253,7 +1254,8 @@ public:
       return result;
     }
 
-
+    //SL: in the following function, I guess the sizeof(void*) is related to the void* info that was
+    //used together with geninfo to store an arbitrary type. I replaced that with any and did not changed that
     std::size_t bytes_reduced() {
       // bytes used for the SNC_structure
 

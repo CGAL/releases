@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
 // $Id: Envelope_divide_and_conquer_3.h 67537 2012-02-01 08:10:55Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>

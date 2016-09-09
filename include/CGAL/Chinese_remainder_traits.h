@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
 // $Id: Chinese_remainder_traits.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //

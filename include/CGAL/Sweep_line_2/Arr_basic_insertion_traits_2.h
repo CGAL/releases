@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_basic_insertion_traits_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_basic_insertion_traits_2.h $
 // $Id: Arr_basic_insertion_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

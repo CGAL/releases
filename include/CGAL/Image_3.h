@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/CGALimageIO/include/CGAL/Image_3.h $
-// $Id: Image_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/CGALimageIO/include/CGAL/Image_3.h $
+// $Id: Image_3.h 68449 2012-04-11 16:57:34Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Pierre Alliez
@@ -247,7 +247,7 @@ Image_3::trilinear_interpolation(const Coord_type& x,
      lz < 0 ||
      lz >= dimz-1 ||
      ly >= dimy-1 ||
-     lz >= dimx-1)
+     lx >= dimx-1)
   {
     return transform(value_outside);
   }  

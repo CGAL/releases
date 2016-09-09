@@ -13,7 +13,7 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/CGALimageIO/src/CGALImageIO/gis.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/CGALimageIO/src/CGALImageIO/gis.cpp $
 // $Id: gis.cpp 67158 2012-01-16 14:14:28Z lrineau $
 //
 //

@@ -13,7 +13,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
 // $Id: Residue_type.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer

@@ -44,7 +44,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/poly/Poly.tcc $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/include/CGAL/CORE/poly/Poly.tcc $
  * $Id: Poly.tcc 67165 2012-01-16 14:43:24Z lrineau $
  ***************************************************************************/
 
