@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/properties_Polyhedron_3.h $
-// $Id: properties_Polyhedron_3.h 42705 2008-04-01 16:15:55Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/properties_Polyhedron_3.h $
+// $Id: properties_Polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -30,7 +30,7 @@
 #  define CGAL_HDS_PARAM_ class HDS
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 class Polyhedron_edge_weight_map : public boost::put_get_helper<double, Polyhedron_edge_weight_map<Gt, I, HDS, A> >
@@ -302,7 +302,7 @@ struct Polyhedron_property_map<vertex_external_index_t>
   };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace boost
 {

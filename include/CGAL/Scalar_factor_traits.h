@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
-// $Id: Scalar_factor_traits.h 42663 2008-03-31 12:32:17Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
+// $Id: Scalar_factor_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -31,7 +31,7 @@
 /*! \file NiX/Scalar_factor_traits.h
  *  \brief Definition of traits class NiX::Scalar_factor_traits.
  */
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \nosubgrouping
  *  \ingroup NiX_Scalar_factor_traits_spec
@@ -157,7 +157,7 @@ scalar_factor(const NT& x,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // NiX_SCALAR_FACTOR_TRAITS_H
 // EOF

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
-// $Id: HyperplaneCd.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
+// $Id: HyperplaneCd.h 56991 2010-06-22 16:17:33Z afabri $
 // 
 // Author(s)     : Michael Seel
 
@@ -25,7 +25,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointCd PointCd2
 
 template <class FT, class LA>
@@ -73,7 +73,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
   "hyperplane::construction: dimensions disagree.");
 
   int d = first->dimension(); // we are in $d$ - dimensional space
-  int m = std::distance(first,last); // |P| has $m$ points
+  int m = static_cast<int>(std::distance(first,last)); // |P| has $m$ points
   typename LA::Matrix A(m,d + 1);
 
   for (int i = 0; i < m; i++) {  /* define $i$-th equation */
@@ -232,6 +232,6 @@ bool weak_equality(const HyperplaneCd<FT,LA>& h1,
 }
 
 #undef PointCd
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HYPERPLANECD_H
 //----------------------- end of file ----------------------------------

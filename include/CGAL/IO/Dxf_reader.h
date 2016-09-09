@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
-// $Id: Dxf_reader.h 50417 2009-07-07 08:23:06Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
+// $Id: Dxf_reader.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
 
@@ -34,7 +34,7 @@
 #include <string>
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K>
 class Dxf_reader {
@@ -300,6 +300,6 @@ void operator()(std::istream& is, Polygons& polygons, Centers_and_radii& car)
 }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_DXF_READER_H

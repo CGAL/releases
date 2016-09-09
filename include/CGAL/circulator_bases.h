@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circulator/include/CGAL/circulator_bases.h $
-// $Id: circulator_bases.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circulator/include/CGAL/circulator_bases.h $
+// $Id: circulator_bases.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -27,7 +27,7 @@
 #include <cstddef>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Circulator_tag {};                   // any circulator.
 struct Iterator_tag {};                     // any iterator.
@@ -128,7 +128,7 @@ class Random_access_circulator_ptrbase   // random access circulator.
         Random_access_circulator_ptrbase(void* p) : _ptr(p) {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULATOR_BASES_H //
 // EOF //

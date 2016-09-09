@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/internal/AABB_Intersections_3/Bbox_3_Sphere_3_do_intersect.h $
-// $Id: Bbox_3_Sphere_3_do_intersect.h 53460 2009-12-16 17:03:17Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/internal/AABB_Intersections_3/Bbox_3_Sphere_3_do_intersect.h $
+// $Id: Bbox_3_Sphere_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez
@@ -27,7 +27,7 @@
 #include <CGAL/number_utils.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -111,6 +111,6 @@ bool do_intersect(const CGAL::Bbox_3& bbox,
     return typename K::Do_intersect_3()(sphere, bbox);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_INTERNAL_INTERSECTIONS_3_BBOX_3_SPHERE_3_DO_INTERSECT_H

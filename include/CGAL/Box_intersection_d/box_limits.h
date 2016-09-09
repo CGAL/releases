@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
-// $Id: box_limits.h 46630 2008-11-03 18:39:52Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
+// $Id: box_limits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <limits>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Box_intersection_d {
 
@@ -59,7 +59,7 @@ struct box_limits<double> {
 } // end namespace Box_intersection_d
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif

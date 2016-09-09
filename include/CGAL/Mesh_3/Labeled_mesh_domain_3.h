@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Labeled_mesh_domain_3.h $
-// $Id: Labeled_mesh_domain_3.h 53828 2010-01-27 14:37:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Labeled_mesh_domain_3.h $
+// $Id: Labeled_mesh_domain_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -78,25 +78,6 @@ public:
   typedef boost::optional<Surface_index> Surface_patch;
   /// Type of indexes to characterize the lowest dimensional face of the input
   /// complex on which a vertex lie
-//  class Index
-//  {
-//  public:
-//    Index()
-//      : index_() {}
-//    Index(const Subdomain_index& subdomain_index)
-//      : index_(subdomain_index) {}
-//    Index(const Surface_index& surface_index)
-//      : index_(surface_index) {}
-//
-//    Subdomain_index subdomain_index() const
-//    { return boost::get<Subdomain_index>(index_); }
-//    Surface_index surface_index() const
-//    { return boost::get<Surface_index>(index_); }
-//
-//  private:
-//    typedef boost::variant<Subdomain_index, Surface_index> Internal_index;
-//    Internal_index index_;
-//  };
   typedef boost::variant<Subdomain_index, Surface_index> Index;
   typedef CGAL::cpp0x::tuple<Point_3,Index,int> Intersection;
 
@@ -116,7 +97,7 @@ public:
                          const FT& error_bound = FT(1e-3));
 
   /// Destructor
-  virtual ~Labeled_mesh_domain_3()  { };
+  virtual ~Labeled_mesh_domain_3()  {}
 
   /**
    * Constructs  a set of \ccc{n} points on the surface, and output them to
@@ -164,7 +145,7 @@ public:
   };
 
   /// Returns Is_in_domain object
-  Is_in_domain is_in_domain_object() const { return Is_in_domain(*this); };
+  Is_in_domain is_in_domain_object() const { return Is_in_domain(*this); }
 
   /**
    * Returns true is the element \ccc{type} intersect properly any of the
@@ -224,23 +205,6 @@ public:
         return this->operator()(*s);
       else
         return Surface_patch();
-
-//      // CGAL::intersection(x,BBox_3) returns objects of kernel
-//      // Simple_cartesian<double>
-//      typedef Simple_cartesian<double>::Segment_3 Seg_3;
-//      if ( const Seg_3* s = object_cast<Seg_3>(&clipped) )
-//      {
-//        const FT& px = s->source().x();
-//        const FT& py = s->source().y();
-//        const FT& pz = s->source().z();
-//        const FT& qx = s->target().x();
-//        const FT& qy = s->target().y();
-//        const FT& qz = s->target().z();
-//        const Point_3 p(px,py,pz);
-//        const Point_3 q(qx,qy,qz);
-//
-//        return this->operator()(p,q);
-//      }
     }
 
   private:
@@ -363,25 +327,6 @@ public:
         return this->operator()(*s);
       else
         return Intersection();
-
-      //      // CGAL::intersection(x,BBox_3) returns objects of kernel
-      //      // Simple_cartesian<double>
-      //      typedef Simple_cartesian<double>::Segment_3 Seg_3;
-      //      const Object clipped = CGAL::intersection(query, r_domain_.bbox_);
-      //
-      //      if ( const Seg_3* s = object_cast<Seg_3>(&clipped) )
-      //      {
-      //        const FT& px = s->source().x();
-      //        const FT& py = s->source().y();
-      //        const FT& pz = s->source().z();
-      //        const FT& qx = s->target().x();
-      //        const FT& qy = s->target().y();
-      //        const FT& qz = s->target().z();
-      //        const Point_3 p(px,py,pz);
-      //        const Point_3 q(qx,qy,qz);
-      //
-      //        return this->operator()(p,q);
-      //      }
     }
 
   private:
@@ -399,28 +344,28 @@ public:
    * by \c index.
    */
   Index index_from_surface_index(const Surface_index& index) const
-  { return Index(index); };
+  { return Index(index); }
 
   /**
    * Returns the index to be stored in a vertex lying in the subdomain
    * identified by \c index.
    */
   Index index_from_subdomain_index(const Subdomain_index& index) const
-  { return Index(index); };
+  { return Index(index); }
 
   /**
    * Returns the \c Surface_index of the surface patch
    * where lies a vertex with dimension 2 and index \c index.
    */
   Surface_index surface_index(const Index& index) const
-  { return boost::get<Surface_index>(index); };
+  { return boost::get<Surface_index>(index); }
 
   /**
    * Returns the index of the subdomain containing a vertex
    *  with dimension 3 and index \c index.
    */
   Subdomain_index subdomain_index(const Index& index) const
-  { return boost::get<Subdomain_index>(index); };
+  { return boost::get<Subdomain_index>(index); }
 
 
 private:
@@ -466,6 +411,10 @@ private:
 
     return Iso_cuboid_3(p_min,p_max);
   }
+  
+protected:
+  /// Returns bounding box
+  const Iso_cuboid_3& bounding_box() const { return bbox_; }
 
 private:
   /// The function which answers subdomain queries
@@ -500,7 +449,7 @@ Labeled_mesh_domain_3<F,BGT>::Labeled_mesh_domain_3(
 , squared_error_bound_(squared_error_bound(bounding_sphere,error_bound))
 {
   // TODO : CGAL_ASSERT(0 < f(bounding_sphere.get_center()) ) ?
-};
+}
 
 template<class F, class BGT>
 Labeled_mesh_domain_3<F,BGT>::Labeled_mesh_domain_3(
@@ -512,7 +461,7 @@ Labeled_mesh_domain_3<F,BGT>::Labeled_mesh_domain_3(
 , squared_error_bound_(squared_error_bound(bbox_,error_bound))
 {
   // TODO : CGAL_ASSERT(0 < f(bounding_sphere.get_center()) ) ?
-};
+}
 
 
 

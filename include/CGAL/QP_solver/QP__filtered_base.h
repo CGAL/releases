@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
-// $Id: QP__filtered_base.h 38478 2007-04-30 10:16:02Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
+// $Id: QP__filtered_base.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -28,7 +28,7 @@
 #include <CGAL/QP_solver/QP_solver.h>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ==================
 // class declarations
@@ -52,6 +52,9 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Q, ET, Tags> {
     // number type
     typedef  NT_                        NT;
     typedef  ET2NT_                     ET2NT;
+
+  using Base::price_dantzig;
+  using Base::is_improving;
 
   protected:
 
@@ -287,7 +290,7 @@ set_q(int c, int b, Tag_false)
    q = std::ldexp( 1.015625 * ( c+b+2) * ( c+b+3), -53);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/QP_solver/QP__filtered_base_impl.h>
 

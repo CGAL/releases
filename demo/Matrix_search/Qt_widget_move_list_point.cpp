@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/demo/Matrix_search/Qt_widget_move_list_point.cpp $
-// $Id: Qt_widget_move_list_point.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/demo/Matrix_search/Qt_widget_move_list_point.cpp $
+// $Id: Qt_widget_move_list_point.cpp 55756 2010-04-26 12:46:09Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -22,8 +22,8 @@
 
 #include "Qt_widget_move_list_point.h"
 
-void Qt_widget_movepoint_helper::delete_point() { delete_pointi(); };
-void Qt_widget_movepoint_helper::move_point() { move_pointi(); };
+void Qt_widget_movepoint_helper::delete_point() { delete_pointi(); }
+void Qt_widget_movepoint_helper::move_point() { move_pointi(); }
 void Qt_widget_movepoint_helper::stateChanged(int i){
   if(i==2)
     activate();

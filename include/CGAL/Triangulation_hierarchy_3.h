@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h 53845 2010-01-27 16:43:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
+// $Id: Triangulation_hierarchy_3.h 57015 2010-06-23 13:35:35Z afabri $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -29,7 +29,7 @@
 #include <boost/random/geometric_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This class is deprecated, but must be kept for backward compatibility.
 //
@@ -125,9 +125,9 @@ public:
                        int li, int lj);
 
   template < class InputIterator >
-  int insert(InputIterator first, InputIterator last)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last)
   {
-      int n = number_of_vertices();
+    size_type n = number_of_vertices();
 
       std::vector<Point> points (first, last);
       spatial_sort (points.begin(), points.end(), geom_traits());
@@ -150,16 +150,15 @@ public:
               prev = v;
           }
       }
-
       return number_of_vertices() - n;
   }
 
   void remove(Vertex_handle v);
 
   template < typename InputIterator >
-  int remove(InputIterator first, InputIterator beyond)
+  size_type remove(InputIterator first, InputIterator beyond)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
     while (first != beyond) {
       remove(*first);
       ++first;
@@ -167,7 +166,48 @@ public:
     return n - number_of_vertices();
   }
 
-  Vertex_handle move_point(Vertex_handle v, const Point & p);
+#ifndef CGAL_NO_DEPRECATED_CODE
+  CGAL_DEPRECATED Vertex_handle move_point(Vertex_handle v, const Point & p);
+#endif
+
+  Vertex_handle move_if_no_collision(Vertex_handle v, const Point &p);
+  Vertex_handle move(Vertex_handle v, const Point &p);
+
+public: // some internal methods
+
+  // INSERT REMOVE DISPLACEMENT
+  // GIVING NEW FACES
+
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point  &p, 
+                                          OutputItCells fit,
+                                          Cell_handle start = Cell_handle() );
+		
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point& p,
+                                          OutputItCells fit,
+                                          Vertex_handle hint)
+  {
+    return insert_and_give_new_cells(p, hint == Vertex_handle() ? 
+                                     this->infinite_cell() : hint->cell());			
+  }
+
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point& p,
+                                          Locate_type lt,
+                                          Cell_handle c, int li, int lj, 
+                                          OutputItCells fit);
+
+  template <class OutputItCells>
+  void remove_and_give_new_cells(Vertex_handle v, 
+                                 OutputItCells fit);
+
+  template <class OutputItCells>
+  Vertex_handle move_if_no_collision_and_give_new_cells(Vertex_handle v, 
+                                                        const Point &p, OutputItCells fit);
+	
+public:	
+
 
   //LOCATE
   Cell_handle locate(const Point& p, Locate_type& lt, int& li, int& lj,
@@ -189,7 +229,7 @@ public:
   Vertex_handle
   nearest_vertex(const Point& p, Cell_handle start = Cell_handle()) const;
 
-private:
+protected:
 
   struct locs {
       Cell_handle pos;
@@ -344,6 +384,44 @@ insert(const Point &p, Cell_handle start)
 }
 
 template <class Tr>
+template <class OutputItCells>
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
+Triangulation_hierarchy_3<Tr>::
+insert_and_give_new_cells(const Point &p, OutputItCells fit, Cell_handle start)
+{
+  int vertex_level = random_level();
+  Locate_type lt;
+  int i, j;
+  // locate using hierarchy
+  locs positions[maxlevel];
+  locate(p, lt, i, j, positions, start);
+  // insert at level 0
+  Vertex_handle vertex = hierarchy[0]->insert_and_give_new_cells(p,
+                                                                 positions[0].lt,
+                                                                 positions[0].pos,
+                                                                 positions[0].li,
+                                                                 positions[0].lj,fit);
+  Vertex_handle previous = vertex;
+  Vertex_handle first = vertex;
+
+  int level = 1;
+  while (level <= vertex_level ){
+    if (positions[level].pos == Cell_handle())
+      vertex = hierarchy[level]->insert(p);
+    else
+      vertex = hierarchy[level]->insert(p,
+                                        positions[level].lt,
+                                        positions[level].pos,
+                                        positions[level].li,
+                                        positions[level].lj);
+    set_up_down(vertex, previous);
+    previous=vertex;
+    level++;
+  }
+  return first;
+}
+
+template <class Tr>
 typename Triangulation_hierarchy_3<Tr>::Vertex_handle
 Triangulation_hierarchy_3<Tr>::
 insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
@@ -380,6 +458,45 @@ insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
 }
 
 template <class Tr>
+template <class OutputItCells>
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
+Triangulation_hierarchy_3<Tr>::
+insert_and_give_new_cells(const Point &p, Locate_type lt, Cell_handle loc, 
+  int li, int lj, OutputItCells fit)
+{
+  int vertex_level = random_level();
+  // insert at level 0
+  Vertex_handle vertex = 
+    hierarchy[0]->insert_and_give_new_cells(p,lt,loc,li,lj,fit);
+  Vertex_handle previous = vertex;
+  Vertex_handle first = vertex;
+
+  if (vertex_level > 0) {
+    Locate_type lt;
+    int i, j;
+    // locate using hierarchy
+    locs positions[maxlevel];
+    locate(p, lt, i, j, positions, vertex->cell());
+
+    int level = 1;
+    while (level <= vertex_level ){
+      if (positions[level].pos == Cell_handle())
+	vertex = hierarchy[level]->insert(p);
+      else
+	vertex = hierarchy[level]->insert(p,
+                                          positions[level].lt,
+                                          positions[level].pos,
+                                          positions[level].li,
+                                          positions[level].lj);
+      set_up_down(vertex, previous);
+      previous=vertex;
+      level++;
+    }
+  }
+  return first;
+}
+
+template <class Tr>
 void
 Triangulation_hierarchy_3<Tr>::
 remove(Vertex_handle v)
@@ -394,6 +511,25 @@ remove(Vertex_handle v)
   }
 }
 
+template <class Tr>
+template <class OutputItCells>
+void
+Triangulation_hierarchy_3<Tr>::
+remove_and_give_new_cells(Vertex_handle v, OutputItCells fit)
+{
+  CGAL_triangulation_precondition(v != Vertex_handle());
+  CGAL_triangulation_precondition(!is_infinite(v));
+  for (int l = 0; l < maxlevel; ++l) {
+    Vertex_handle u = v->up();
+    if(l) hierarchy[l]->remove(v);
+    else hierarchy[l]->remove_and_give_new_cells(v, fit);
+    if (u == Vertex_handle())
+	break;
+    v = u;
+  }
+}
+
+#ifndef CGAL_NO_DEPRECATED_CODE
 template < class Tr >
 typename Triangulation_hierarchy_3<Tr>::Vertex_handle
 Triangulation_hierarchy_3<Tr>::
@@ -402,7 +538,7 @@ move_point(Vertex_handle v, const Point & p)
   CGAL_triangulation_precondition(v != Vertex_handle());
   Vertex_handle old, ret;
 
-  for (int l = 0; l < maxlevel; ++l) {
+  for (std::size_t l = 0; l < maxlevel; ++l) {
     Vertex_handle u = v->up();
     Vertex_handle w = hierarchy[l]->move_point(v, p);
     if (l == 0) {
@@ -418,6 +554,65 @@ move_point(Vertex_handle v, const Point & p)
   }
 
   return ret;
+}
+#endif
+
+template <class Tr>
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
+Triangulation_hierarchy_3<Tr>::
+move_if_no_collision(Vertex_handle v, const Point & p)
+{
+  CGAL_triangulation_precondition(!this->is_infinite(v));	
+  if(v->point() == p) return v;
+  Vertex_handle ans;
+  for (int l = 0; l < maxlevel; ++l) {
+    Vertex_handle u = v->up();
+    if(l) hierarchy[l]->move_if_no_collision(v, p);
+    else ans = hierarchy[l]->move_if_no_collision(v, p);
+    if(ans != v) return ans;
+    if (u == Vertex_handle())
+      break;
+    v = u;
+  }
+  return ans;
+}
+
+template <class Tr>
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
+Triangulation_hierarchy_3<Tr>::
+move(Vertex_handle v, const Point & p)
+{
+  CGAL_triangulation_precondition(!this->is_infinite(v));
+  if(v->point() == p) return v;
+  Vertex_handle w = move_if_no_collision(v,p);
+  if(w != v) {
+    remove(v);
+    return w;
+  }
+  return v;
+}
+
+template <class Tr>
+template <class OutputItCells>
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
+Triangulation_hierarchy_3<Tr>::
+move_if_no_collision_and_give_new_cells(
+  Vertex_handle v, const Point & p, OutputItCells fit)
+{
+  CGAL_triangulation_precondition(!is_infinite(v));	
+  if(v->point() == p) return v;
+  Vertex_handle ans;
+  for (int l = 0; l < maxlevel; ++l) {
+    Vertex_handle u = v->up();
+    if(l) hierarchy[l]->move_if_no_collision(v, p);
+    else ans = 
+           hierarchy[l]->move_if_no_collision_and_give_new_cells(v, p, fit);
+    if(ans != v) return ans;
+    if (u == Vertex_handle())
+      break;
+    v = u;
+  }
+  return ans;
 }
 
 template <class Tr>
@@ -509,6 +704,6 @@ random_level()
   return (std::min)(die(), (int)maxlevel)-1;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_HIERARCHY_3_H

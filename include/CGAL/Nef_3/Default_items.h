@@ -9,8 +9,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/Default_items.h $
-// $Id: Default_items.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Default_items.h $
+// $Id: Default_items.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <andreas.fabri@geometryfactory.com>
@@ -23,7 +23,7 @@
 #include <CGAL/Extended_homogeneous.h>
 #include <CGAL/Extended_cartesian.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Kernel>
 struct Default_items {
@@ -40,8 +40,5 @@ struct Default_items<CGAL::Extended_cartesian<NT> > {
   typedef CGAL::SNC_items Items;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif
-
-
-

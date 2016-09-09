@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_function.h $
-// $Id: Filtered_function.h 33689 2006-08-24 15:54:13Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_function.h $
+// $Id: Filtered_function.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -27,7 +27,7 @@
 #include <CGAL/Polynomial/internal/filtered_function_operation_nodes.h>
 #include <iterator>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 //! A function which supports filtering.
 /*!  This class wraps a tree for generating functions, allowing the
@@ -278,5 +278,5 @@ Filtered_function<Traits> operator+(const typename Traits::Exact_function::NT &n
 }
 
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

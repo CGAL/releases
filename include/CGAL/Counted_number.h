@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Counted_number.h $
-// $Id: Counted_number.h 49008 2009-04-29 13:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Counted_number.h $
+// $Id: Counted_number.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Geert-Jan Giezeman,
@@ -29,7 +29,7 @@
 #include <boost/iterator/transform_iterator.hpp> // for Root_of_selector
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class NT>
 class Counted_number {
@@ -781,6 +781,6 @@ const Counted_number<NT> & y){
   return CGAL::Max<Counted_number<NT> > ()(x,y);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/demo/Envelope_3/envelope_3.h $
-// $Id: envelope_3.h 50550 2009-07-11 13:55:52Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/demo/Envelope_3/envelope_3.h $
+// $Id: envelope_3.h 54351 2010-03-01 07:54:14Z afabri $
 //
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -114,7 +114,7 @@ private:
     unsigned int num_of_surfaces = 0;
     in_file >> num_of_surfaces;
     CGAL::Random rand;
-    for (int i=0 ; i<num_of_surfaces; i++) {
+    for (unsigned int i=0 ; i<num_of_surfaces; i++) {
       int r = rand.get_int(128, 256);
       int g = rand.get_int(0, 256);
       int b = rand.get_int(0, 256);

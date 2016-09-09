@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/demo/Interpolation/interpolation_2.cpp $
-// $Id: interpolation_2.cpp 47396 2008-12-12 08:45:46Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/demo/Interpolation/interpolation_2.cpp $
+// $Id: interpolation_2.cpp 56240 2010-05-14 12:42:35Z afabri $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -54,7 +54,7 @@ int main()
 #include <CGAL/IO/Geomview_stream.h>
 
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Delaunay_triangulation_2<K>   Dt;
 typedef CGAL::Interpolation_traits_2<K>     ITraits;

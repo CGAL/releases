@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/SearchStructures/include/CGAL/Tree_base.h $
-// $Id: Tree_base.h 41371 2007-12-30 16:55:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/include/CGAL/Tree_base.h $
+// $Id: Tree_base.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -28,13 +28,13 @@
 #include <CGAL/assertions.h>
 #include <CGAL/Tree_assertions.h>
 
-#ifndef TREE_BASE_NULL
-#define TREE_BASE_NULL 0
+#ifndef CGAL_TREE_BASE_NULL
+#define CGAL_TREE_BASE_NULL 0
 #endif
 
 #define stlvector
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //link type definition of an ordinary vertex of the tree
 template < typename Node >
@@ -232,6 +232,6 @@ protected:
   bool is_anchor()const {return true;}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

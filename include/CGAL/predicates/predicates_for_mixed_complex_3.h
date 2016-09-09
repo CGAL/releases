@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/predicates/predicates_for_mixed_complex_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/predicates/predicates_for_mixed_complex_3.h $
 
-// $Id: predicates_for_mixed_complex_3.h 33102 2006-08-07 12:20:36Z nicokruithof $
+// $Id: predicates_for_mixed_complex_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Nico Kruithof
@@ -24,7 +24,7 @@
 #include <CGAL/determinant.h>
 #include <CGAL/enum.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /* q: circumcenter(p1,p2)
  *   <p1-x,p1-q> - s*<p1-q,p1-q>
@@ -119,6 +119,6 @@ side_of_mixed_cellC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &p1w,
 		  ((1-s)*p1z+s*qz-xz)*nz);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PREDICATES_FOR_MIXED_COMPLEX_3_H

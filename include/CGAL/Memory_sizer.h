@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/include/CGAL/Memory_sizer.h $
-// $Id: Memory_sizer.h 46037 2008-10-02 13:30:56Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Profiling_tools/include/CGAL/Memory_sizer.h $
+// $Id: Memory_sizer.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Sylvain Pion, Andreas Fabri
 
@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Memory_sizer
 {
@@ -36,7 +36,7 @@ struct Memory_sizer
     size_type resident_size() const { return 0; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #else // defined _MSC_VER ||  defined __linux__ || defined __APPLE__
 
@@ -52,7 +52,7 @@ CGAL_END_NAMESPACE
 #include <mach/mach_init.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // A class giving access to the memory currently used by the process.
 // Both the virtual memory size and the resident size.
@@ -160,7 +160,7 @@ private:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
 

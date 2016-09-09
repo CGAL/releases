@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/Edge_edge_overlay.h $
-// $Id: Edge_edge_overlay.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Edge_edge_overlay.h $
+// $Id: Edge_edge_overlay.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 71
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename SNC_structure_>
 class Edge_edge_overlay
@@ -1027,6 +1027,5 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_EDGE_EDGE_OVERLAY_H
-

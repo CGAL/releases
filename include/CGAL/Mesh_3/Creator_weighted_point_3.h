@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Creator_weighted_point_3.h $
-// $Id: Creator_weighted_point_3.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Creator_weighted_point_3.h $
+// $Id: Creator_weighted_point_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -47,9 +47,9 @@ public:
   typedef Arg_ argument_type;
 
   /// Constructor
-  Creator_weighted_point_3() {};
+  Creator_weighted_point_3() {}
   /// Destructor
-  ~Creator_weighted_point_3() {};
+  ~Creator_weighted_point_3() {}
 
   /// Constructs a weighted point with default weight from 3 \c Arg_
   /// We do not pass \c const \c Arg_& because \c Arg_ is a ring number type

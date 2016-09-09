@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/internal/Static_filters/Periodic_3_side_of_oriented_sphere_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/internal/Static_filters/Periodic_3_side_of_oriented_sphere_3.h $
 // $Id: Periodic_3_side_of_oriented_sphere_3.h 52571 2009-10-15 17:01:02Z mcaroli $
 // 
 //

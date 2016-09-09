@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Predicates_C2.h $
-// $Id: Predicates_C2.h 32872 2006-08-01 12:38:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Predicates_C2.h $
+// $Id: Predicates_C2.h 54854 2010-03-22 10:19:22Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -36,6 +36,7 @@
 #include <CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Is_degenerate_edge_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Arrangement_type_C2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Arrangement_type_non_intersecting_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h>
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_PREDICATES_C2_H

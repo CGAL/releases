@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
-// $Id: Gps_traits_decorator.h 51988 2009-09-21 10:54:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
+// $Id: Gps_traits_decorator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -22,7 +22,7 @@
 
 #include <boost/mpl/assert.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_, class Curve_data_, class Point_data_>
 class Gps_traits_decorator
@@ -51,6 +51,7 @@ public:
   typedef typename Base::Construct_opposite_2      Base_Construct_opposite_2;
   typedef typename Base::Has_left_category         Has_left_category;
   typedef typename Base::Has_merge_category        Has_merge_category;
+  typedef typename Base::Has_do_intersect_category Has_do_intersect_category;
 
   typedef typename Base::Arr_left_side_category         Arr_left_side_category;
   typedef typename Base::Arr_bottom_side_category       Arr_bottom_side_category;
@@ -552,6 +553,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

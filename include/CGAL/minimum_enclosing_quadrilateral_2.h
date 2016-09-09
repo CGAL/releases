@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_quadrilateral_2/include/CGAL/minimum_enclosing_quadrilateral_2.h $
-// $Id: minimum_enclosing_quadrilateral_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_quadrilateral_2/include/CGAL/minimum_enclosing_quadrilateral_2.h $
+// $Id: minimum_enclosing_quadrilateral_2.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -30,4 +30,3 @@
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

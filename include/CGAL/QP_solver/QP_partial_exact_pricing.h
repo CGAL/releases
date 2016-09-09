@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_partial_exact_pricing.h $
-// $Id: QP_partial_exact_pricing.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_partial_exact_pricing.h $
+// $Id: QP_partial_exact_pricing.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -26,7 +26,7 @@
 // includes
 #include <CGAL/QP_solver/QP__partial_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =================
 // class declaration
@@ -108,7 +108,7 @@ pricing_helper(int& /*direction*/, Tag_true /*is_in_standard_form*/)
 	  continue;
 
 	// compute mu_j
-	mu = mu_j( *it);
+	mu = this->mu_j( *it);
 
 	CGAL_qpe_debug {
 	    this->vout() << "  mu_" << *it << ": " << mu << std::endl;
@@ -133,7 +133,7 @@ pricing_helper(int& /*direction*/, Tag_true /*is_in_standard_form*/)
 	    if (this->solver().is_artificial( *it)) continue;
 	    
 	    // compute mu_j
-	    mu = mu_j( *it);
+	    mu = this->mu_j( *it);
 
 	    CGAL_qpe_debug {
 		this->vout() << "  mu_" << *it << ": " << mu << std::endl;
@@ -144,7 +144,7 @@ pricing_helper(int& /*direction*/, Tag_true /*is_in_standard_form*/)
 
 		// make variable active
 		active_it = it;
-		activating( active_it);
+		this->activating( active_it);
 
 		// new minimum?
 		if ( mu < min_mu) { min_it = active_it; min_mu = mu; }
@@ -158,7 +158,7 @@ pricing_helper(int& /*direction*/, Tag_true /*is_in_standard_form*/)
     // return index of entering variable, if any
     if ( min_mu < this->et0) {
 	int  j = *min_it;
-	entering_basis( min_it);
+	this->entering_basis( min_it);
 	return j;
     }
 
@@ -187,7 +187,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
 	// compute mu_j
 	mu = this->mu_j( *it);
 
-	if (price_dantzig (*it, mu, this->et0, min_j, min_mu, direction))
+	if (this->price_dantzig (*it, mu, this->et0, min_j, min_mu, direction))
 	  min_it = it;
     }
 
@@ -209,21 +209,21 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
 	  if (this->solver().is_artificial( *it)) continue;
 	    
 	  // compute mu_j
-	  mu = mu_j( *it);
+	  mu = this->mu_j( *it);
 
 	  CGAL_qpe_debug {
 	    this->vout() << "  mu_" << *it << ": " << mu << std::endl;
 	  }
 
 	  // candidate for entering?
-	  if ( is_improving(*it, mu, this->et0)) {
+	  if ( this->is_improving(*it, mu, this->et0)) {
 
 	    // make variable active
 	    active_it = it;
-	    activating( active_it);
+	    this->activating( active_it);
 
 	    // new minimum?
-	    if (price_dantzig (*active_it, mu, this->et0, 
+	    if (this->price_dantzig (*active_it, mu, this->et0, 
 			       min_j, min_mu, direction))
 	      min_it = active_it;
 	  }
@@ -236,7 +236,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
     // return index of entering variable, if any
     if ( min_j >= 0) {
       CGAL_qpe_assertion(min_j == *min_it);
-      entering_basis( min_it);
+      this->entering_basis( min_it);
       return min_j;
     }
 
@@ -244,7 +244,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
     return -1;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_PARTIAL_EXACT_PRICING_H
 

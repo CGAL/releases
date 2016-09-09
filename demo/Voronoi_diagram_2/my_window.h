@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
-// $Id: my_window.h 41712 2008-01-20 19:13:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
+// $Id: my_window.h 57459 2010-07-11 17:28:04Z glisse $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -462,7 +462,7 @@ private slots:
     CGAL::Timer timer;
     vvd->clear();
 
-    std::ifstream f(fileName);
+    std::ifstream f(fileName.ascii());
     assert( f );
 
     int counter = 0;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
-// $Id: box_intersection_d.h 37478 2007-03-26 09:32:03Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
+// $Id: box_intersection_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Generic call with custom predicate traits parameter.
 template< class RandomAccessIter1, class RandomAccessIter2,
@@ -390,6 +390,6 @@ void box_self_intersection_all_pairs_d(
                                        topology);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Robust_construction.h $
-// $Id: Robust_construction.h 45169 2008-08-27 15:08:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Robust_construction.h $
+// $Id: Robust_construction.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Sylvain Pion, Mariette Yvinec, Laurent Rineau
 
@@ -22,7 +22,7 @@
 
 #include <CGAL/config.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This template class is a functor adaptor targetting geometric constructions.
 //
@@ -136,6 +136,6 @@ public:
 #endif
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ROBUST_CONSTRUCTION_H

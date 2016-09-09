@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
-// $Id: Mesh_complex_3_in_triangulation_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
+// $Id: Mesh_complex_3_in_triangulation_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -27,6 +27,7 @@
 
 #include <CGAL/iterator.h>
 #include <CGAL/IO/File_medit.h>
+#include <CGAL/Bbox_3.h>
 #include <iostream>
 #include <fstream>
 
@@ -73,16 +74,16 @@ public:
   Mesh_complex_3_in_triangulation_3()
     : number_of_facets_(0)
     , tr_()
-    , number_of_cells_(0)    { };
+    , number_of_cells_(0)    {}
   
   /// Copy constructor
   Mesh_complex_3_in_triangulation_3(const Self& rhs)
     : number_of_facets_(rhs.number_of_facets_)
     , tr_(rhs.tr_)
-    , number_of_cells_(rhs.number_of_cells_)    { };
+    , number_of_cells_(rhs.number_of_cells_)    {}
 
   /// Destructor
-  ~Mesh_complex_3_in_triangulation_3() { };
+  ~Mesh_complex_3_in_triangulation_3() {}
   
   /// Assignment operator
   Self& operator=(Self rhs)
@@ -300,7 +301,10 @@ public:
     tr_.swap(rhs.tr_);
     std::swap(rhs.number_of_cells_, number_of_cells_);
   }
-
+  
+  /// Returns bbox
+  Bbox_3 bbox() const;
+  
   //-------------------------------------------------------
   // MeshComplex_2InTriangulation3 traversal
   //-------------------------------------------------------
@@ -373,6 +377,7 @@ public:
     typedef Cell_iterator Self;
 
   public:
+    Cell_iterator() : Base() { }
     Cell_iterator(Base i) : Base(i) { }
 
     Self& operator++() { Base::operator++(); return *this; }
@@ -438,6 +443,32 @@ Mesh_complex_3_in_triangulation_3<Tr>::remove_from_complex(const Facet& facet)
     set_surface_index(mirror.first, mirror.second, Surface_index());
     --number_of_facets_;
   }
+}
+  
+
+// -----------------------------------
+// Undocumented
+// -----------------------------------
+template <typename Tr>
+Bbox_3
+Mesh_complex_3_in_triangulation_3<Tr>::
+bbox() const
+{
+  if ( 0 == number_of_vertices() )
+  {
+    return Bbox_3();
+  }
+  
+  typename Tr::Finite_vertices_iterator vit = tr_.finite_vertices_begin();
+  Bbox_3 result = (vit++)->point().bbox();
+  
+  for(typename Tr::Finite_vertices_iterator end = tr_.finite_vertices_end();
+      vit != end ; ++vit)
+  {
+    result = result + vit->point().bbox();
+  }
+  
+  return result;
 }
 
 }  // end namespace CGAL

@@ -30,8 +30,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/extLong.h $
- * $Id: extLong.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/extLong.h $
+ * $Id: extLong.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_EXTLONG_H_
@@ -40,7 +40,7 @@
 #include <CGAL/CORE/Impl.h>
 #include <CGAL/CORE/CoreAux.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 #ifndef LONG_MAX
 #error "haven't define LONG_MAX"
@@ -290,6 +290,5 @@ inline bool extLong::isNaN() const {
   return (flag == 2);
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_EXTLONG_H_
-

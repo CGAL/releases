@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
-// $Id: Root_for_circles_2_2.h 33727 2006-08-25 09:02:22Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
+// $Id: Root_for_circles_2_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -30,7 +30,7 @@
 #include <CGAL/Handle_for.h>
 #include <boost/type_traits/is_same.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename RT_ >
 class Root_for_circles_2_2 {
@@ -130,6 +130,6 @@ operator>>(std::istream & is, Root_for_circles_2_2<RT> &r)
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_ROOT_FOR_CIRCLES_2_2_H

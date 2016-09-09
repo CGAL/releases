@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_sl_visitor.h $
-// $Id: Arr_insertion_sl_visitor.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_sl_visitor.h $
+// $Id: Arr_insertion_sl_visitor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -27,7 +27,7 @@
 
 #include <CGAL/Sweep_line_2/Arr_basic_insertion_sl_visitor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_insertion_sl_visitor
  * A sweep-line visitor for inserting new curves into an existing arrangement
@@ -145,6 +145,6 @@ Arr_insertion_sl_visitor<Hlpr>::split_edge
   return (new_he);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

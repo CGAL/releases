@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_weighted_points_3.h $
-// $Id: SoQt_moving_weighted_points_3.h 41622 2008-01-14 22:01:20Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_weighted_points_3.h $
+// $Id: SoQt_moving_weighted_points_3.h 56668 2010-06-09 08:45:58Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -44,7 +44,7 @@
 #include <Inventor/nodes/SoEventCallback.h>
 #include <Inventor/sensors/SoOneShotSensor.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE;
+namespace CGAL { namespace Kinetic {;
 
 //! A graphical moving point set in 3D
 /*!
@@ -450,5 +450,5 @@ void SoQt_moving_weighted_points_3<T,G>::write(std::ostream &out) const
 }
 
 
-CGAL_KINETIC_END_NAMESPACE;
+} } //namespace CGAL::Kinetic;
 #endif                                            // guard

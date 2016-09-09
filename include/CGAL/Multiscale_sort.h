@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_sorting/include/CGAL/Multiscale_sort.h $
-// $Id: Multiscale_sort.h 47102 2008-11-28 09:07:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_sorting/include/CGAL/Multiscale_sort.h $
+// $Id: Multiscale_sort.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Christophe Delage
 
@@ -24,7 +24,7 @@
 #include <iterator>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Sort>
 class Multiscale_sort
@@ -53,6 +53,6 @@ public:
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MULTISCALE_SORT_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/IO/write_off_points.h $
-// $Id: write_off_points.h 51831 2009-09-04 11:38:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/IO/write_off_points.h $
+// $Id: write_off_points.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -32,7 +32,7 @@
 #include <iostream>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 //===================================================================================
@@ -233,6 +233,6 @@ write_off_points(
 /// @endcond
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_WRITE_OFF_POINTS_H

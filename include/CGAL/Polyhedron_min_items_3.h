@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron/include/CGAL/Polyhedron_min_items_3.h $
-// $Id: Polyhedron_min_items_3.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron/include/CGAL/Polyhedron_min_items_3.h $
+// $Id: Polyhedron_min_items_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -23,7 +23,7 @@
 #include <CGAL/HalfedgeDS_halfedge_base.h>
 #include <CGAL/HalfedgeDS_face_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Polyhedron_min_items_3 {
 public:
@@ -42,6 +42,6 @@ public:
     };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POLYHEDRON_MIN_ITEMS_3_H //
 // EOF //

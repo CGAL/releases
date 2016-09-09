@@ -14,7 +14,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: linearAlgebra.h 37060 2007-03-13 18:10:39Z reichel $
+ * $Id: linearAlgebra.h 53957 2010-02-01 12:55:28Z spion $
  *****************************************************************/
 
 #ifndef CORE_LINEAR_ALGEBRA_H
@@ -153,4 +153,3 @@ public:
 }; //Matrix
 
 #endif
-

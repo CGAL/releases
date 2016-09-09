@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
-// $Id: Mesh_cell_criteria_3.h 53504 2009-12-18 17:15:58Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
+// $Id: Mesh_cell_criteria_3.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -81,4 +81,3 @@ private:
 
 
 #endif // CGAL_MESH_CELL_CRITERIA_3_H
-

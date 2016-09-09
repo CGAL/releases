@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_traits.h $
-// $Id: Filtered_rational_traits.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_traits.h $
+// $Id: Filtered_rational_traits.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -132,7 +132,7 @@
 
 //std::cout << "UCName of " << f << " and " << fp << std::endl;
 
-                                CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+                                namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
                                 template <class Filter_traits_t, template<class Fn> class Rational_traits = internal::Rational_traits_base>
                                 class Filtered_rational_traits
@@ -299,6 +299,6 @@
                                         Exact_to_interval_converter efc_;
                                 };
 
-                                CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+                                } } } //namespace CGAL::POLYNOMIAL::internal
 //#undef DF_UNARY_CONSTUCTION
 #endif

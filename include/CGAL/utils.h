@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/utils.h $
-// $Id: utils.h 53015 2009-11-13 09:50:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/utils.h $
+// $Id: utils.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 
 #include <CGAL/number_type_basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // use Min
 template< class T >
@@ -57,6 +57,6 @@ inline bool is_valid( const T& x ) {
   return Is_valid< T >()( x );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_UTILS_H

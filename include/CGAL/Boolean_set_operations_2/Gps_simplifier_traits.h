@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
-// $Id: Gps_simplifier_traits.h 50373 2009-07-05 14:44:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
+// $Id: Gps_simplifier_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Boolean_set_operations_2/Gps_traits_decorator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Gps_simplifier_curve_data
 {
@@ -471,6 +471,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

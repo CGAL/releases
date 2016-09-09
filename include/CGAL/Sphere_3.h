@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Sphere_3.h $
-// $Id: Sphere_3.h 50492 2009-07-09 08:20:52Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Sphere_3.h $
+// $Id: Sphere_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -31,7 +31,7 @@
 #include <CGAL/representation_tags.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class Sphere_3 : public R_::Kernel_base::Sphere_3
@@ -344,6 +344,6 @@ operator>>(std::istream& is, Sphere_3<R>& c)
   return extract(is, c, typename R::Kernel_tag() );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SPHERE_3_H

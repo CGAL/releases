@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
-// $Id: Parameterizer_traits_3.h 48225 2009-02-26 11:05:12Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
+// $Id: Parameterizer_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -24,7 +24,7 @@
 #include <CGAL/Kernel/global_functions.h>
 #include <CGAL/surface_mesh_parameterization_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// The class Parameterizer_traits_3
@@ -229,6 +229,6 @@ private:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_PARAMETERIZER_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/Triangulation_vertex_base_with_id_2.h $
-// $Id: Triangulation_vertex_base_with_id_2.h 36383 2007-02-16 11:34:18Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/Triangulation_vertex_base_with_id_2.h $
+// $Id: Triangulation_vertex_base_with_id_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -22,7 +22,7 @@
 
 #include <CGAL/Triangulation_vertex_base_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename GT,
            typename Vb = Triangulation_vertex_base_2<GT> >
@@ -57,6 +57,6 @@ public:
   int&       id()       { return _id; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_VERTEX_BASE_WITH_ID_2_H

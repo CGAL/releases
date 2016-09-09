@@ -30,14 +30,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/Real.cpp $
- * $Id: Real.cpp 41714 2008-01-20 20:24:20Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/Real.cpp $
+ * $Id: Real.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include <ctype.h>
 #include <CGAL/CORE/Real.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 const Real& Real::getZero() {
   static Real Zero(0);
@@ -265,4 +265,4 @@ std::istream& operator >>(std::istream& i, Real& x) {
   return i;
 }//operator >> (std::istream&, Real&)
 
-CORE_END_NAMESPACE
+} //namespace CORE

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Exact_spherical_kernel_3.h $
-// $Id: Exact_spherical_kernel_3.h 44381 2008-07-24 09:26:28Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_3/include/CGAL/Exact_spherical_kernel_3.h $
+// $Id: Exact_spherical_kernel_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -27,33 +27,27 @@
 #include <CGAL/Algebraic_kernel_for_spheres_2_3.h>
 #include <CGAL/Spherical_kernel_3.h>
 
-/*
-TODO: CORRECT THE MAKE_ROOT_OF_2 of GMPq GMPz
+
 #ifdef CGAL_USE_GMP
 #  include <CGAL/Gmpq.h>
 #else
-*/
 #  include <CGAL/MP_Float.h>
 #  include <CGAL/Quotient.h>
-/*
 #endif
-*/
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-/*
+
 #ifdef CGAL_USE_GMP
   typedef CGAL::Gmpq                                           NT1;
 #else
-*/
   typedef CGAL::Quotient<CGAL::MP_Float>                       NT1;
-/*
 #endif
-*/
+
   typedef CGAL::Cartesian<NT1>                                 Linear_k1;
   typedef CGAL::Algebraic_kernel_for_spheres_2_3<NT1>          Algebraic_k1;
   typedef CGAL::Spherical_kernel_3<Linear_k1,Algebraic_k1>     Exact_spherical_kernel_3;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_EXACT_SPHERICAL_3_KERNEL_H

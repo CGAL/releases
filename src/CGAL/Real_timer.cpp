@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/src/CGAL/Real_timer.cpp $
-// $Id: Real_timer.cpp 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Profiling_tools/src/CGAL/Real_timer.cpp $
+// $Id: Real_timer.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -37,7 +37,7 @@
 #  include <sys/time.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Static member variable for Real_timer
 // =====================================
@@ -106,4 +106,4 @@ double Real_timer::precision() const {
     return prec;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

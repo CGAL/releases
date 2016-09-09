@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 56866 2010-06-18 09:38:50Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 57385 2010-07-08 09:04:57Z sloriot $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -36,7 +36,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Gt, class Tds_ = Default >
 class Regular_triangulation_3
@@ -65,6 +65,7 @@ public:
   typedef typename Tr_Base::Facet               Facet;
   typedef typename Tr_Base::Edge                Edge;
 
+  typedef typename Tr_Base::size_type           size_type;
   typedef typename Tr_Base::Locate_type         Locate_type;
   typedef typename Tr_Base::Cell_iterator       Cell_iterator;
   typedef typename Tr_Base::Facet_iterator      Facet_iterator;
@@ -115,6 +116,17 @@ public:
   using Tr_Base::mirror_index;
   using Tr_Base::orientation;
   using Tr_Base::coplanar_orientation;
+  using Tr_Base::adjacent_vertices;
+  using Tr_Base::construct_segment;
+  using Tr_Base::incident_facets;
+  using Tr_Base::insert_in_conflict;
+  using Tr_Base::is_infinite;
+  using Tr_Base::is_valid_finite;
+  using Tr_Base::locate;
+  using Tr_Base::side_of_segment;
+  using Tr_Base::side_of_edge;
+  using Tr_Base::find_conflicts;
+  using Tr_Base::is_valid;
 
   Regular_triangulation_3(const Gt & gt = Gt())
     : Tr_Base(gt), hidden_point_visitor(this)
@@ -136,10 +148,10 @@ public:
   }
 
   template < class InputIterator >
-  int
+  std::ptrdiff_t
   insert(InputIterator first, InputIterator last)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
 
     std::vector<Weighted_point> points(first, last);
     spatial_sort (points.begin(), points.end(), geom_traits());
@@ -157,7 +169,6 @@ public:
 
         hint = v == Vertex_handle() ? c : v->cell();
     }
-
     return number_of_vertices() - n;
   }
 
@@ -274,9 +285,9 @@ public:
   void remove (Vertex_handle v);
 
   template < typename InputIterator >
-  int remove(InputIterator first, InputIterator beyond)
+  size_type remove(InputIterator first, InputIterator beyond)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
     while (first != beyond) {
       remove (*first);
       ++first;
@@ -284,7 +295,13 @@ public:
     return n - number_of_vertices();
   }
 
+  // DISPLACEMENT
   Vertex_handle move_point(Vertex_handle v, const Weighted_point & p);
+
+  // Displacement works only for Regular triangulation
+  // without hidden points at any time
+  Vertex_handle move_if_no_collision(Vertex_handle v, const Weighted_point & p);
+  Vertex_handle move(Vertex_handle v, const Weighted_point & p);
 
 protected:
 
@@ -378,7 +395,7 @@ public:
 
   bool is_valid(bool verbose = false, int level = 0) const;
 
-private:
+protected:
   bool
   less_power_distance(const Bare_point &p,
 		      const Weighted_point &q,
@@ -671,6 +688,9 @@ private:
   template < class RegularTriangulation_3 >
   class Vertex_remover;
 
+  template < class RegularTriangulation_3 >
+  class Vertex_inserter;
+
   Hidden_point_visitor hidden_point_visitor;
 };
 
@@ -783,7 +803,7 @@ dual(Cell_handle c, int i) const
     in = i;
   }
   // n now denotes a finite cell, either c or c->neighbor(i)
-  unsigned char ind[3] = {(in+1)&3,(in+2)&3,(in+3)&3};
+  int ind[3] = {(in+1)&3,(in+2)&3,(in+3)&3};
   if ( (in&1) == 1 )
       std::swap(ind[0], ind[1]);
   const Weighted_point& p = n->vertex(ind[0])->point();
@@ -1232,6 +1252,39 @@ private:
   std::vector<Point> hidden;
 };
 
+// The displacement method works only
+// on regular triangulation without hidden points at any time
+// the vertex inserter is used only
+// for the purpose of displacements
+template <class Gt, class Tds >
+template <class RegularTriangulation_3>
+class Regular_triangulation_3<Gt, Tds>::Vertex_inserter {
+  typedef RegularTriangulation_3 Regular;
+public:
+  typedef Nullptr_t Hidden_points_iterator;
+
+  Vertex_inserter(Regular &tmp_) : tmp(tmp_) {}
+
+  Regular &tmp;
+
+  void add_hidden_points(Cell_handle) {}
+  Hidden_points_iterator hidden_points_begin() { return NULL; }
+  Hidden_points_iterator hidden_points_end() { return NULL; }
+
+  Vertex_handle insert(const Weighted_point& p,
+		       Locate_type lt, Cell_handle c, int li, int lj) {
+    return tmp.insert(p, lt, c, li, lj);
+  }
+
+  Vertex_handle insert(const Weighted_point& p, Cell_handle c) {
+    return tmp.insert(p, c);
+  }
+
+  Vertex_handle insert(const Weighted_point& p) {
+    return tmp.insert(p);
+  }
+};
+
 template < class Gt, class Tds >
 void
 Regular_triangulation_3<Gt,Tds>::
@@ -1277,6 +1330,34 @@ move_point(Vertex_handle v, const Weighted_point & p)
     if (dimension() <= 0)
         return insert(p);
     return insert(p, old_neighbor->cell());
+}
+
+// Displacement works only for Regular triangulation
+// without hidden points at any time
+template < class Gt, class Tds >
+typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
+Regular_triangulation_3<Gt,Tds>::
+move_if_no_collision(Vertex_handle v, const Weighted_point &p)
+{
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Vertex_inserter<Self> inserter (*this);
+  Vertex_handle res = Tr_Base::move_if_no_collision(v,p,remover,inserter);
+
+  CGAL_triangulation_expensive_postcondition(is_valid());	
+  return res;
+}
+
+template <class Gt, class Tds >
+typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
+Regular_triangulation_3<Gt,Tds>::
+move(Vertex_handle v, const Weighted_point &p) {
+  CGAL_triangulation_precondition(!is_infinite(v));
+  if(v->point() == p) return v;
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Vertex_inserter<Self> inserter (*this);
+  return Tr_Base::move(v,p,remover,inserter);
 }
 
 template < class Gt, class Tds >
@@ -1367,7 +1448,7 @@ is_valid(bool verbose, int level) const
   return true;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

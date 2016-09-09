@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/centroid.h $
-// $Id: centroid.h 56724 2010-06-14 07:01:34Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/include/CGAL/centroid.h $
+// $Id: centroid.h 56702 2010-06-11 07:41:10Z stayeb $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -39,7 +39,7 @@
 // TODO : Grep for "barycenter" and "centroid" in CGAL to check existing usages.
 // TODO : Add barycentric_coordinates() (to the kernel, this time).
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -938,6 +938,6 @@ centroid(InputIterator begin, InputIterator end)
   return CGAL::centroid(begin, end, K());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

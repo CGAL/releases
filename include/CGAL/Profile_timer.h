@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/include/CGAL/Profile_timer.h $
-// $Id: Profile_timer.h 47821 2009-01-26 12:47:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Profiling_tools/include/CGAL/Profile_timer.h $
+// $Id: Profile_timer.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 
@@ -40,7 +40,7 @@
 #include <string>
 #include <CGAL/Timer.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Profile_timer
 {
@@ -75,6 +75,6 @@ private:
 #  define CGAL_TIME_PROFILER(NAME)
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PROFILE_TIMER_H

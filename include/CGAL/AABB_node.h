@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_node.h $
-// $Id: AABB_node.h 51129 2009-08-07 18:57:08Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_node.h $
+// $Id: AABB_node.h 56934 2010-06-21 15:38:26Z afabri $
 //
 //
 // Author(s) : Camille Wormser, Pierre Alliez, Stephane Tayeb
@@ -63,7 +63,7 @@ public:
   template<typename ConstPrimitiveIterator>
   void expand(ConstPrimitiveIterator first,
               ConstPrimitiveIterator beyond,
-              const int range);
+              const std::size_t range);
 
   /**
    * @brief General traversal query
@@ -78,7 +78,7 @@ public:
   template<class Traversal_traits, class Query>
   void traversal(const Query& query,
                  Traversal_traits& traits,
-                 const int nb_primitives) const;
+                 const std::size_t nb_primitives) const;
 
 private:
   typedef AABBTraits AABB_traits;
@@ -123,7 +123,7 @@ template<typename ConstPrimitiveIterator>
 void
 AABB_node<Tr>::expand(ConstPrimitiveIterator first,
                       ConstPrimitiveIterator beyond,
-                      const int range)
+                      const std::size_t range)
 {
   m_bbox = AABB_traits().compute_bbox_object()(first, beyond);
 
@@ -142,7 +142,7 @@ AABB_node<Tr>::expand(ConstPrimitiveIterator first,
     right_child().expand(first+1, beyond, 2);
     break;
   default:
-    const int new_range = range/2;
+    const std::size_t new_range = range/2;
     m_p_left_child = static_cast<Node*>(this) + 1;
     m_p_right_child = static_cast<Node*>(this) + new_range;
     left_child().expand(first, first + new_range, new_range);
@@ -156,7 +156,7 @@ template<class Traversal_traits, class Query>
 void
 AABB_node<Tr>::traversal(const Query& query,
                          Traversal_traits& traits,
-                         const int nb_primitives) const
+                         const std::size_t nb_primitives) const
 {
   // Recursive traversal
   switch(nb_primitives)
@@ -194,4 +194,3 @@ AABB_node<Tr>::traversal(const Query& query,
 } // end namespace CGAL
 
 #endif // CGAL_AABB_NODE_H
-

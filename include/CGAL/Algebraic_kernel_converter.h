@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_converter.h $
-// $Id: Algebraic_kernel_converter.h 33727 2006-08-25 09:02:22Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_converter.h $
+// $Id: Algebraic_kernel_converter.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Constantinos Tsirogiannis
 
@@ -27,7 +27,7 @@
 
 #include <CGAL/NT_converter.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // TODO :
 // - FT converter ?
@@ -61,6 +61,6 @@ public:
 	}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_CONVERTER_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/convexity_check_2.h $
-// $Id: convexity_check_2.h 31401 2006-06-02 13:11:51Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/convexity_check_2.h $
+// $Id: convexity_check_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // returns true, if the point elements in [|first|,|last|) form a 
 // counterclockwise oriented strongly convex polygon. Strongly means, 
@@ -122,9 +122,8 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                                          Kernel());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Convex_hull_2/convexity_check_2_impl.h>
 
 #endif // CGAL_CONVEXITY_CHECK_2_H
-

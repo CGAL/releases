@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_diagram_on_surface_2.h $
-// $Id: Envelope_diagram_on_surface_2.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_diagram_on_surface_2.h $
+// $Id: Envelope_diagram_on_surface_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -30,7 +30,7 @@
 
 #include <CGAL/Envelope_3/Envelope_pm_dcel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * Representation of an envelope diagram (a minimization diagram or a
@@ -190,6 +190,6 @@ class is_arrangement_2<
 // };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

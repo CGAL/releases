@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Tools/Log.h $
-// $Id: Log.h 41622 2008-01-14 22:01:20Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Tools/Log.h $
+// $Id: Log.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,7 +26,7 @@
 #include <fstream>
 #include <ios>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Log
 {
@@ -150,5 +150,5 @@ struct Set_log_state{
   Log::Level old_level_;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif

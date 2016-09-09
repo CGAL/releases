@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/intersections_d.h $
-// $Id: intersections_d.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/intersections_d.h $
+// $Id: intersections_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel
@@ -26,7 +26,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Actually, we should better list the compilers which are inferior, i.e.
 // the others, which need the additional useless code.
@@ -354,6 +354,5 @@ template <class R>
 inline bool do_intersect(const Hyperplane_d<R>& h, const Segment_d<R>& s)
 { return do_intersect(s,h); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_INTERSECTIONS_D_H
-

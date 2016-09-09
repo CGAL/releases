@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
-// $Id: Active_objects_vector.h 40530 2007-10-04 11:14:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
+// $Id: Active_objects_vector.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -35,7 +35,7 @@
 #include <CGAL/iterator.h>
 #include <boost/iterator/transform_iterator.hpp>
 
-CGAL_KINETIC_BEGIN_NAMESPACE;
+namespace CGAL { namespace Kinetic {
 
 //! Holds a set of moving points and creates notifications when changes occur.
 /*!  This container holds a set of objects of a particular type. It
@@ -68,7 +68,7 @@ protected:
   typedef Active_objects_vector<Value_t> This;
   typedef std::pair<Key, Value_t> Storage_item;
   typedef std::vector<Storage_item > Storage;
-  CGAL_KINETIC_MULTILISTENER1(IS_EDITING);
+  CGAL_KINETIC_MULTILISTENER1(IS_EDITING)
   
 public:
 
@@ -359,5 +359,5 @@ inline std::istream &operator>>(std::istream &in, Active_objects_vector<V> &v) {
   return v.read(in);
 }
 
-CGAL_KINETIC_END_NAMESPACE;
+} } //namespace CGAL::Kinetic
 #endif

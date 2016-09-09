@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
-// $Id: generic_copy_OFF.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
+// $Id: generic_copy_OFF.h 57089 2010-06-25 07:35:33Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -30,7 +30,7 @@
 #include <CGAL/IO/File_scanner_OFF.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Writer>
 void
@@ -72,11 +72,11 @@ generic_copy_OFF( File_scanner_OFF& scanner,
     for ( i = 0; i < scanner.size_of_facets(); i++) {
         if ( ! in)
             return;
-        Integer32 no;
+        std::size_t no;
         scanner.scan_facet( no, i);
         writer.write_facet_begin( no);
         for ( int j = 0; j < no; j++) {
-            Integer32 index;
+          std::size_t index;
             scanner.scan_facet_vertex_index( index, i);
             writer.write_facet_vertex_index( index);
         }
@@ -96,6 +96,6 @@ generic_copy_OFF( std::istream& in, std::ostream& out, Writer& writer,
     generic_copy_OFF( scanner, out, writer);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_GENERIC_COPY_OFF_H //
 // EOF //

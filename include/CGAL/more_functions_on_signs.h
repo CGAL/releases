@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/more_functions_on_signs.h $
-// $Id: more_functions_on_signs.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/more_functions_on_signs.h $
+// $Id: more_functions_on_signs.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,7 +24,7 @@
 
 #include <CGAL/enum.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 inline
 Sign
 sign_of_first_root(const Sign &sb, const Sign &sc)
@@ -58,6 +58,6 @@ sign_of_second_root(const Sign &sb, const Sign &sc)
   return sc;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MORE_FUNCTIONS_ON_SIGNS_H

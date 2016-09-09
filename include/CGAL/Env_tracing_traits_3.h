@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Env_tracing_traits_3.h $
-// $Id: Env_tracing_traits_3.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Env_tracing_traits_3.h $
+// $Id: Env_tracing_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Ophir Setter          <ophir.setter@post.tau.ac.il>
@@ -41,7 +41,7 @@
 #include <CGAL/number_utils.h> 
 #include <CGAL/Envelope_3/Envelope_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class The traits class
@@ -261,6 +261,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

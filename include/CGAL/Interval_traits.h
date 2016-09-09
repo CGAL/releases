@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Interval_traits.h $
-// $Id: Interval_traits.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interval_support/include/CGAL/Interval_traits.h $
+// $Id: Interval_traits.h 56704 2010-06-11 08:05:45Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -53,37 +53,38 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal{
 
-template<typename T> struct Interval_traits_base{
-    
-    typedef Interval_traits_base<T> Self; 
-    typedef T                  Interval; 
-    typedef CGAL::Null_functor    Bound; 
-    typedef CGAL::Tag_false    Is_interval; 
-    typedef CGAL::Tag_false    With_empty_interval; 
-
-    typedef CGAL::Null_functor Lower;
-    typedef CGAL::Null_functor Upper; 
-    typedef CGAL::Null_functor Width; 
-    typedef CGAL::Null_functor Median;  
-    typedef CGAL::Null_functor Norm; 
-    typedef CGAL::Null_functor Empty;
-    typedef CGAL::Null_functor Singleton;
-    typedef CGAL::Null_functor In;
-    typedef CGAL::Null_functor Zero_in;
-    typedef CGAL::Null_functor Equal;
-    typedef CGAL::Null_functor Overlap;
-    typedef CGAL::Null_functor Subset;
-    typedef CGAL::Null_functor Proper_Subset;
-    typedef CGAL::Null_functor Intersection;
-    typedef CGAL::Null_functor Hull;
+template<typename T> class Interval_traits_base{
+public:
+  typedef Interval_traits_base<T> Self; 
+  typedef T                  Type;
+  // typedef T                  Interval; 
+  typedef CGAL::Tag_false    Is_interval; 
+  typedef CGAL::Tag_false    With_empty_interval; 
+  
+  typedef CGAL::Null_functor Lower;
+  typedef CGAL::Null_functor Upper; 
+  typedef CGAL::Null_functor Width; 
+  typedef CGAL::Null_functor Median;  
+  typedef CGAL::Null_functor Norm; 
+  typedef CGAL::Null_functor Empty;
+  typedef CGAL::Null_functor Singleton;
+  typedef CGAL::Null_functor In;
+  typedef CGAL::Null_functor Zero_in;
+  typedef CGAL::Null_functor Equal;
+  typedef CGAL::Null_functor Overlap;
+  typedef CGAL::Null_functor Subset;
+  typedef CGAL::Null_functor Proper_Subset;
+  typedef CGAL::Null_functor Intersection;
+  typedef CGAL::Null_functor Hull;
 };
 }
 
-template <typename T> struct Interval_traits: public internal::Interval_traits_base<T>{};
+template <typename T> class Interval_traits : public internal::Interval_traits_base<T>{};
+
 class Exception_intersection_is_empty{}; 
 
 // function returning type Bound 
@@ -207,6 +208,6 @@ hull(Interval interval1, Interval interval2) {
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_INTERVAL_TRAITS_H

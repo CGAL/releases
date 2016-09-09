@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/cgal_types.h $
-// $Id: cgal_types.h 40214 2007-09-05 15:46:47Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/cgal_types.h $
+// $Id: cgal_types.h 56421 2010-05-22 06:39:46Z ophirset $
 //
 //
 //
@@ -36,7 +36,6 @@
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/Arr_conic_traits_2.h>
-#include <CGAL/CORE_algebraic_number_traits.h>
 #include <CGAL/Bbox_2.h>
 
 #include <CGAL/Arr_trapezoid_ric_point_location.h>
@@ -209,6 +208,10 @@ typedef CGAL::Arr_landmarks_point_location<Pol_arr>
 
 // Conics
 
+#ifdef CGAL_USE_CORE
+
+#include <CGAL/CORE_algebraic_number_traits.h>
+
 typedef CGAL::CORE_algebraic_number_traits            Nt_traits;
 typedef Nt_traits::Rational                           Rational;
 typedef Nt_traits::Algebraic                          Algebraic;
@@ -258,6 +261,7 @@ typedef CGAL::Arr_walk_along_line_point_location<Conic_arr>
 typedef CGAL::Arr_landmarks_point_location<Conic_arr>
  Conic_lanmarks_point_location;
 
+#endif
 
 
 

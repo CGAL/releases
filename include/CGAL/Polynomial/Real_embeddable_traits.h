@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Real_embeddable_traits.h $
-// $Id: Real_embeddable_traits.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Real_embeddable_traits.h $
+// $Id: Real_embeddable_traits.h 57390 2010-07-08 10:37:04Z hemmer $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -29,7 +29,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 template< class Polynomial , class TAG> class Real_embeddable_traits_poly_base;
@@ -111,11 +111,11 @@ public:
 } // namespace internal
 
 template <typename NT>
-struct Real_embeddable_traits<Polynomial<NT> > 
+class Real_embeddable_traits<Polynomial<NT> > 
   :public internal::Real_embeddable_traits_poly_base<
   Polynomial<NT>,
   typename Real_embeddable_traits<typename internal::Innermost_coefficient_type<NT>::Type>::Is_real_embeddable>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POLYNOMIAL_REAL_EMBEDDABLE_TRAITS_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL:  $
-// $Id:  $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -76,7 +76,7 @@ public:
       angle = angle - i * f * atan(sqrt(dist-pow(c_radius,2))/c_radius);
     }
     else
-      angle = angle - f * M_PI/2.;
+      angle = angle - f * CGAL_PI/2.;
     return IpeVector((current_pt.x()+c_radius*cos(angle)),(current_pt.y()+c_radius*sin(angle)));
   }      
 

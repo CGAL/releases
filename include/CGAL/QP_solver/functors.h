@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/functors.h $
-// $Id: functors.h 46451 2008-10-23 14:31:10Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/functors.h $
+// $Id: functors.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr 
@@ -28,7 +28,7 @@
 #include <functional>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ==================
 // class declarations
@@ -267,7 +267,7 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_SOLVER_FUNCTORS_H
 

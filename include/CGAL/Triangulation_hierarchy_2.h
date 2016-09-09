@@ -1,4 +1,4 @@
-// Copyright (c) 1998  INRIA Sophia-Antipolis (France).
+// Copyright (c) 1998-2010  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
-// $Id: Triangulation_hierarchy_2.h 53845 2010-01-27 16:43:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
+// $Id: Triangulation_hierarchy_2.h 56938 2010-06-21 16:12:59Z afabri $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -29,7 +29,7 @@
 #include <boost/random/geometric_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // parameterization of the  hierarchy
 //const float Triangulation_hierarchy_2__ratio    = 30.0;
@@ -92,7 +92,7 @@ public:
   // CHECKING
   bool is_valid(bool verbose = false, int level = 0) const;
 
-  // INSERT REMOVE
+  // INSERT REMOVE MOVE
   Vertex_handle insert(const Point &p, Face_handle start = Face_handle() );
   Vertex_handle insert(const Point& p,
 		       Locate_type lt,
@@ -100,9 +100,9 @@ public:
   Vertex_handle push_back(const Point &p);
  
   template < class InputIterator >
-  int insert(InputIterator first, InputIterator last)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last)
   {
-      int n = this->number_of_vertices();
+    std::ptrdiff_t n = this->number_of_vertices();
 
       std::vector<Point> points (first, last);
       CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
@@ -130,8 +130,8 @@ public:
               prev = v;
           }
       }
-
-      return this->number_of_vertices() - n;
+      std::ptrdiff_t m = this->number_of_vertices();
+      return m - n;
   }
 
   void remove_degree_3(Vertex_handle  v);
@@ -139,6 +139,35 @@ public:
   void remove_second(Vertex_handle v);
   void remove(Vertex_handle  v);
 
+  Vertex_handle move_if_no_collision(Vertex_handle v, const Point &p);
+  Vertex_handle move(Vertex_handle v, const Point &p);
+
+protected: // some internal methods
+
+  // INSERT REMOVE DISPLACEMENT
+  // GIVING NEW FACES
+
+  template <class OutputItFaces>
+  Vertex_handle insert_and_give_new_faces(const Point  &p, 
+                                          OutputItFaces fit,
+                                          Face_handle start = Face_handle() );
+
+  template <class OutputItFaces>
+  Vertex_handle insert_and_give_new_faces(const Point& p,
+                                          Locate_type lt,
+                                          Face_handle loc, int li, 
+                                          OutputItFaces fit);
+
+  template <class OutputItFaces>
+  void remove_and_give_new_faces(Vertex_handle v, 
+                                 OutputItFaces fit);
+	
+  template <class OutputItFaces>
+  Vertex_handle move_if_no_collision_and_give_new_faces(Vertex_handle v, 
+                                                        const Point &p, OutputItFaces fit);	
+
+public:
+	
   //LOCATE
   Face_handle
   locate(const Point& p,
@@ -430,7 +459,6 @@ insert(const Point& p,
   return first;
 }
 
-
 template <class Tr>
 inline
 typename Triangulation_hierarchy_2<Tr>::Vertex_handle
@@ -456,6 +484,24 @@ remove(Vertex_handle v )
 }
 
 template <class Tr>
+template <class OutputItFaces>
+void
+Triangulation_hierarchy_2<Tr>::
+remove_and_give_new_faces(Vertex_handle v, OutputItFaces fit)
+{
+  Vertex_handle u=v->up();
+  int l = 0 ;
+  while(1){
+    if(l==0) hierarchy[l++]->remove_and_give_new_faces(v, fit);
+    else hierarchy[l++]->remove(v);
+    if (u == Vertex_handle()) break; 
+    if (l >= Triangulation_hierarchy_2__maxlevel) break;
+    v=u; u=v->up();
+  }	
+}
+
+
+template <class Tr>
 inline void 
 Triangulation_hierarchy_2<Tr>::
 remove_degree_3(Vertex_handle v )
@@ -479,6 +525,125 @@ remove_second(Vertex_handle v )
   remove(v);
 }
 
+template <class Tr>
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle
+Triangulation_hierarchy_2<Tr>::
+move_if_no_collision(Vertex_handle v, const Point &p) {
+  Vertex_handle u=v->up(), norm = v;
+  int l = 0 ;
+  while(1) {
+    Vertex_handle w = hierarchy[l++]->move_if_no_collision(v, p);
+    if(w != v) return w;
+    if (u == Vertex_handle()) break; 
+    if (l >= Triangulation_hierarchy_2__maxlevel) break;
+    v=u; u=v->up();
+  }
+  return norm;
+}
+
+template <class Tr>
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle
+Triangulation_hierarchy_2<Tr>::
+move(Vertex_handle v, const Point &p) {
+  CGAL_triangulation_precondition(!this->is_infinite(v));
+  Vertex_handle w = move_if_no_collision(v,p);
+  if(w != v) {
+    remove(v);
+    return w;
+  }
+  return v;
+}
+
+template <class Tr>
+template <class OutputItFaces>
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle 
+Triangulation_hierarchy_2<Tr>::
+move_if_no_collision_and_give_new_faces(Vertex_handle v, const Point &p, 
+                                        OutputItFaces oif)
+{
+  Vertex_handle u=v->up(), norm = v;
+  int l = 0 ;
+  while(1){
+    Vertex_handle w;
+    if(l == 0) 
+      w = 
+        hierarchy[l++]->move_if_no_collision_and_give_new_faces(v, p, oif);
+    else w = hierarchy[l++]->move_if_no_collision(v, p);
+
+    if(w != v) return w;
+
+    if (u == Vertex_handle()) break; 
+    if (l >= Triangulation_hierarchy_2__maxlevel) break;
+    v=u; u=v->up();
+  }
+  return norm;
+}
+
+template < class Tr >
+template < class OutputItFaces >
+inline
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle 
+Triangulation_hierarchy_2<Tr>::insert_and_give_new_faces(const Point  &p, 
+                                                         OutputItFaces oif,
+                                                         Face_handle loc)
+{
+  int vertex_level = random_level();
+  Locate_type lt;
+  int i;
+  // locate using hierarchy
+  Face_handle positions[Triangulation_hierarchy_2__maxlevel];
+  locate_in_all(p,lt,i,loc,positions);
+  Vertex_handle vertex=
+    hierarchy[0]->Tr_Base::insert_and_give_new_faces(p,lt,positions[0],i,oif);
+  Vertex_handle previous=vertex;
+  Vertex_handle first = vertex;
+      
+  int level  = 1;
+  while (level <= vertex_level ){
+    vertex=hierarchy[level]->Tr_Base::insert(p,positions[level]);
+    vertex->set_down(previous);// link with level above
+    previous->set_up(vertex);
+    previous=vertex;
+    level++;
+  }
+  return first;
+}
+		
+template < class Tr >
+template < class OutputItFaces >
+inline
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle 
+Triangulation_hierarchy_2<Tr>::
+insert_and_give_new_faces(const Point  &p,
+                          Locate_type lt,
+                          Face_handle loc,
+                          int li, 
+                          OutputItFaces oif)
+{
+  int vertex_level = random_level();
+  //insert at level 0
+  Vertex_handle vertex=hierarchy[0]->Tr_Base::insert(p,lt,loc,li,oif);
+  Vertex_handle previous=vertex;
+  Vertex_handle first = vertex;
+
+  if (vertex_level > 0) {
+    // locate using hierarchy
+    Locate_type ltt;
+    int lii;
+    Face_handle positions[Triangulation_hierarchy_2__maxlevel];
+    locate_in_all(p,ltt,lii,loc,positions);
+    //insert in higher levels
+    int level  = 1;
+    while (level <= vertex_level ){
+      vertex=hierarchy[level]->Tr_Base::insert(p,positions[level]);
+      vertex->set_down(previous);// link with level above
+      previous->set_up(vertex);
+      previous=vertex;
+      level++;
+    }
+  }
+  return first;
+}
 
 template <class Tr>
 typename Triangulation_hierarchy_2<Tr>::Face_handle 
@@ -573,7 +738,6 @@ random_level()
 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_HIERARCHY_2_H
-

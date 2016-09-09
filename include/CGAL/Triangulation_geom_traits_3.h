@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_geom_traits_3.h $
-// $Id: Triangulation_geom_traits_3.h 51045 2009-08-04 13:36:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Triangulation_geom_traits_3.h $
+// $Id: Triangulation_geom_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -28,7 +28,7 @@
 
 #include <CGAL/triangulation_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Repres >
 class Triangulation_geom_traits_3 : public Repres
@@ -74,6 +74,6 @@ public:
   typedef typename Rep::Compare_distance_3         Compare_distance_3;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_GEOM_TRAITS_3_H

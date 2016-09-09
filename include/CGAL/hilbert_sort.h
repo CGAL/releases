@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Spatial_sorting/include/CGAL/hilbert_sort.h $
-// $Id: hilbert_sort.h 53867 2010-01-28 12:18:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_sorting/include/CGAL/hilbert_sort.h $
+// $Id: hilbert_sort.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Christophe Delage
 
@@ -30,7 +30,7 @@
 
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -76,6 +76,6 @@ void hilbert_sort (RandomAccessIterator begin, RandomAccessIterator end)
     hilbert_sort (begin, end, Kernel());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif//CGAL_HILBERT_SORT_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
-// $Id: Bounding_box_3.h 48222 2009-02-26 10:48:53Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
+// $Id: Bounding_box_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -25,7 +25,7 @@
 #include <CGAL/box_intersection_d.h>
 #include <CGAL/Box_intersection_d/box_limits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Extended_tag, typename Kernel> class Bounding_box_3;
 
@@ -92,5 +92,5 @@ public:
   }	  
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_BOUNDING_BOX_3_H

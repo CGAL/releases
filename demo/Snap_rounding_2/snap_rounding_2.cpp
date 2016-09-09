@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2.cpp $
-// $Id: snap_rounding_2.cpp 50251 2009-07-01 07:24:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2.cpp $
+// $Id: snap_rounding_2.cpp 57467 2010-07-12 10:02:56Z glisse $
 //
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -238,7 +238,7 @@ public slots:
     if ( s.isEmpty() )
         return;
     seg_list.clear();
-    std::ifstream in(s);
+    std::ifstream in(s.ascii());
     CGAL::set_ascii_mode(in);
     int number_of_segments = 0,i;
     CGAL::Segment_data<Rep> seg;
@@ -286,7 +286,7 @@ public slots:
                                   "Cgal files (*.cgal)", this );
     if ( !fileName.isNull() ) {
       // got a file name
-      std::ofstream out(fileName);
+      std::ofstream out(fileName.ascii());
       CGAL::set_ascii_mode(out);
       out << seg_list.size() << std::endl << prec << std::endl;
       std::list<Segment_2>::const_iterator it = seg_list.begin();

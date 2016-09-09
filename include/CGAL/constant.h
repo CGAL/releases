@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/constant.h $
-// $Id: constant.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/constant.h $
+// $Id: constant.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -23,7 +23,7 @@
 
 #include <CGAL/config.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The function constant<T, int i>() returns a const reference to T(i).
 // TODO : is it worth documenting ?
@@ -37,6 +37,6 @@ constant()
   return t;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONSTANT_H

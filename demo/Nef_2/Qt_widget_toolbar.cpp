@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/demo/Nef_2/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 45459 2008-09-09 22:29:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/demo/Nef_2/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 55721 2010-04-24 09:25:11Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -81,7 +81,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
         &input_line, SLOT(stateChanged(int)));
   connect(but[3], SIGNAL(stateChanged(int)),
         &input_polygon, SLOT(stateChanged(int)));
-};
+}
 
 #include "Qt_widget_toolbar.moc"
 

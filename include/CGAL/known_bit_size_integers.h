@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/known_bit_size_integers.h $
-// $Id: known_bit_size_integers.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/known_bit_size_integers.h $
+// $Id: known_bit_size_integers.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
@@ -27,7 +27,7 @@
 #include <CGAL/number_type_basic.h>
 #include <boost/mpl/if.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -85,6 +85,6 @@ typedef internal::USizeofSelect<4>::Type  UInteger32;
 
 // 64 integer types are defined for other platforms in CGAL/long_long.h
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KNOWN_BIT_SIZE_INTEGERS_H

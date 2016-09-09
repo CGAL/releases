@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/iostream/src/CGAL/Color.cpp $
-// $Id: Color.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/iostream/src/CGAL/Color.cpp $
+// $Id: Color.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Hervé Brönnimann
@@ -24,7 +24,7 @@
 #include <CGAL/IO/Color.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 const Color BLACK  = Color(0, 0, 0);
 const Color WHITE  = Color(255, 255, 255);
@@ -41,5 +41,5 @@ const Color RED    = Color(255, 0, 0);
 const Color ORANGE = Color(235, 150, 0);
 const Color YELLOW = Color(255, 255, 0);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 

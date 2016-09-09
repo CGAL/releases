@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
-// $Id: create_straight_skeleton_2.h 50476 2009-07-08 16:04:50Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
+// $Id: create_straight_skeleton_2.h 57866 2010-08-09 10:00:17Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //

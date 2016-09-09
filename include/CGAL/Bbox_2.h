@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Bbox_2.h $
-// $Id: Bbox_2.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Bbox_2.h $
+// $Id: Bbox_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Andreas Fabri
 
@@ -29,7 +29,7 @@
 #include <CGAL/Dimension.h>
 #include <CGAL/array.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename T >
 struct Simple_cartesian;
@@ -194,6 +194,6 @@ operator>>(std::istream &is, Bbox_2 &b)
     return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BBOX_2_H

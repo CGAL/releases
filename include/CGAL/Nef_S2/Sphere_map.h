@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
-// $Id: Sphere_map.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
+// $Id: Sphere_map.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -37,7 +37,7 @@
 #include<boost/optional.hpp>
 #include<boost/none.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename HE>
 class move_edge_around_svertex {
@@ -571,7 +571,5 @@ pointer_update(const Sphere_map<K, I, M>& D)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SPHERE_MAP_H
-
-

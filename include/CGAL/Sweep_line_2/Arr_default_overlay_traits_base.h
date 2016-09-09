@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_default_overlay_traits_base.h $
-// $Id: Arr_default_overlay_traits_base.h 44258 2008-07-17 09:58:05Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_default_overlay_traits_base.h $
+// $Id: Arr_default_overlay_traits_base.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #ifndef CGAL_ARR_DEFAULT_OVERLAY_TRAITS_BASE_H
 #define CGAL_ARR_DEFAULT_OVERLAY_TRAITS_BASE_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class
@@ -137,6 +137,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

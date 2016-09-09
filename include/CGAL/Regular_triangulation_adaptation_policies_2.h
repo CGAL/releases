@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/include/CGAL/Regular_triangulation_adaptation_policies_2.h $
-// $Id: Regular_triangulation_adaptation_policies_2.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/include/CGAL/Regular_triangulation_adaptation_policies_2.h $
+// $Id: Regular_triangulation_adaptation_policies_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -28,7 +28,7 @@
 
 #include <CGAL/Identity_policy_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //=========================================================================
 //=========================================================================
@@ -67,6 +67,6 @@ struct Regular_triangulation_caching_degeneracy_removal_policy_2
 //=========================================================================
 //=========================================================================
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_ADAPTATION_POLICIES_2_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/filtered_function_node_bases.h $
-// $Id: filtered_function_node_bases.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/filtered_function_node_bases.h $
+// $Id: filtered_function_node_bases.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,7 +26,7 @@
 #include <CGAL/Polynomial/internal/interval_arithmetic.h>
 #include <iostream>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 #ifndef NDEBUG
 int function_handles_created=0;
 int function_handles_exact=0;
@@ -235,5 +235,5 @@ protected:
   EF fe_;
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

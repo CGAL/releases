@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/gmpxx.h $
-// $Id: gmpxx.h 44360 2008-07-23 14:36:49Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/gmpxx.h $
+// $Id: gmpxx.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -47,7 +47,7 @@
 #include <CGAL/mpq_class.h>
 #include <CGAL/gmpxx_coercion_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < typename T, typename U >
@@ -58,6 +58,6 @@ template < typename T, typename U >
 class Real_embeddable_traits< ::__gmp_expr<T,U> >
     : public Real_embeddable_traits< ::__gmp_expr<T,T> >{};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_GMPXX_H

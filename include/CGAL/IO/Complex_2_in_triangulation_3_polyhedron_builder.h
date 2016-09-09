@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_polyhedron_builder.h $
-// $Id: Complex_2_in_triangulation_3_polyhedron_builder.h 51028 2009-08-03 10:57:57Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_polyhedron_builder.h $
+// $Id: Complex_2_in_triangulation_3_polyhedron_builder.h 53957 2010-02-01 12:55:28Z spion $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -181,4 +181,3 @@ public:
 } // end namespace CGAL
 
 #endif  // CGAL_IO_COMPLEX_2_IN_TRIANGULATION_3_POLYHEDRON_BUILDER_H
-

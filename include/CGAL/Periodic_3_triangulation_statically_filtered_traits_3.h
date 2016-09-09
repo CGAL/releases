@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 52312 2009-10-14 18:53:15Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 58159 2010-08-19 11:58:49Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -41,19 +41,13 @@
 // TODO :
 // - add more predicates :
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The K_base argument is supposed to provide exact primitives.
 template < typename Traits >
 class Periodic_3_triangulation_statically_filtered_traits_3 : public Traits
 {
   typedef Periodic_3_triangulation_statically_filtered_traits_3<Traits> Self;
-
-#ifndef CGAL_CFG_MATCHING_BUG_6
-  using Traits::_domain;
-  using Traits::_domain_e;
-  using Traits::_domain_f;
-#endif
 
 public:
 
@@ -63,13 +57,15 @@ public:
     Side_of_oriented_sphere_3;
 
   Orientation_3 orientation_3_object() const {
-    return Orientation_3(&_domain,&_domain_e,&_domain_f);
+    return Orientation_3(&this->_domain,&this->_domain_e,&this->_domain_f);
   }
   Side_of_oriented_sphere_3  side_of_oriented_sphere_3_object() const {
-    return Side_of_oriented_sphere_3(&_domain,&_domain_e,&_domain_f);
+    return Side_of_oriented_sphere_3(&this->_domain,
+                                     &this->_domain_e,
+                                     &this->_domain_f);
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_STATICALLY_FILTERED_TRAITS_3_H

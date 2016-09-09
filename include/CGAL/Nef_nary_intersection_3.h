@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_nary_intersection_3.h $
-// $Id: Nef_nary_intersection_3.h 47255 2008-12-06 21:31:59Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_nary_intersection_3.h $
+// $Id: Nef_nary_intersection_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Peter Hachenberger
@@ -22,7 +22,7 @@
 
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Polyhedron>
 class Nef_nary_intersection_3 {
@@ -63,5 +63,5 @@ class Nef_nary_intersection_3 {
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_NEF_NARY_INTERSECTION_3_H

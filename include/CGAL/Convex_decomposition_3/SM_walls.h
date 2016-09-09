@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/SM_walls.h $ 
+// $Id: SM_walls.h 57191 2010-06-29 12:36:00Z lrineau $
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #define CGAL_NEF_DEBUG 227
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename SMap>
 class SM_walls : SM_decorator<SMap> {
@@ -56,6 +56,15 @@ class SM_walls : SM_decorator<SMap> {
   typedef typename Base::SFace_cycle_iterator
     SFace_cycle_iterator;
   
+  using Base::new_svertex;
+  using Base::link_as_face_cycle;
+  using Base::link_as_isolated_vertex;
+  using Base::unlink_as_isolated_vertex;
+  using Base::new_shalfedge_pair;
+  using Base::unlink_as_loop;
+  using Base::is_isolated;
+  using Base::is_sm_boundary_object;
+
  public:
   SM_walls(Sphere_map* M) : Base(M) {
 //   SM_decorator SD(sphere_map());
@@ -448,14 +457,16 @@ class SM_walls : SM_decorator<SMap> {
 
     if(is_isolated(sv1)) {
       split_sface = false;
-      if(!is_sm_boundary_object(sv1))
+      if(!is_sm_boundary_object(sv1)) {
 	CGAL_NEF_TRACEN( "error " << sv1->point() << "at " << sv1->source()->point() );
+      }
       unlink_as_isolated_vertex(sv1);
     }
     if(is_isolated(sv2)) {
       split_sface = false;
-      if(!is_sm_boundary_object(sv2))
+      if(!is_sm_boundary_object(sv2)) {
 	CGAL_NEF_TRACEN( "error " << sv2->point() << "at " << sv2->source()->point() );
+      }
       unlink_as_isolated_vertex(sv2);
     }
 
@@ -573,5 +584,5 @@ class SM_walls : SM_decorator<SMap> {
   }    
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_CD3_SM_WALLS_H

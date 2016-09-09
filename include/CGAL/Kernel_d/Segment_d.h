@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
-// $Id: Segment_d.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
+// $Id: Segment_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel
@@ -29,7 +29,7 @@
 #include <CGAL/Kernel_d/Ray_d.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R> std::istream& operator>>
   (std::istream&, Segment_d<R>&);
@@ -245,7 +245,6 @@ $O(|s.dimension()|)$. The space requirement is $O(|s.dimension()|)$.
 }*/
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SEGMENT_D_H
 //----------------------- end of file ----------------------------------
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Triangulation_sizing_field.h $
-// $Id: Triangulation_sizing_field.h 56552 2010-06-03 09:57:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Triangulation_sizing_field.h $
+// $Id: Triangulation_sizing_field.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -32,7 +32,7 @@
 
 #include <boost/iterator/transform_iterator.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3
 {
@@ -251,6 +251,6 @@ interpolate_on_facet_vertices(const Point_3& p, const CCell_handle& cell) const
 } // end namespace Mesh_3
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_TRIANGULATION_SIZING_FIELD_H

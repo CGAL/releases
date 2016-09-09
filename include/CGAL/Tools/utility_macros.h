@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Tools/utility_macros.h $
-// $Id: utility_macros.h 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Tools/utility_macros.h $
+// $Id: utility_macros.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,21 +23,21 @@
 #define CGAL_UTILITY_MACROS_H
 
 #define CGAL_SUBSCRIPT(type, expr) type& operator[](unsigned int i){ expr;} \
-  const type& operator[](unsigned int i) const { expr;} 
+  const type& operator[](unsigned int i) const { expr;}
 
 #define CGAL_COPY_CONSTRUCTOR(TC) TC(const TC &o){copy_from(o);}\
-  TC& operator=(const TC &o) {copy_from(o); return *this;}  
+  TC& operator=(const TC &o) {copy_from(o); return *this;}
 
 // 
-#define CGAL_GET(type, name, expr) const type & name() const{expr;} 
-#define CGAL_GETOBJECT(UC, lc, expr) const UC& lc##_object() const {expr;} 
-#define CGAL_GETNR(type, name, expr) type name() const{expr;} 
+#define CGAL_GET(type, name, expr) const type & name() const{expr;}
+#define CGAL_GETOBJECT(UC, lc, expr) const UC& lc##_object() const {expr;}
+#define CGAL_GETNR(type, name, expr) type name() const{expr;}
 //#define CGAL_GET(type, name, expr) typename boost::call_traits<type>::param_type name() const {expr;}
 
-#define CGAL_IS(name, expr) bool is_##name() const {expr;} 
-#define CGAL_SET_IS(name, expr) void set_is_##name(bool tf) {expr;} 
+#define CGAL_IS(name, expr) bool is_##name() const {expr;}
+#define CGAL_SET_IS(name, expr) void set_is_##name(bool tf) {expr;}
 
-#define CGAL_SET(type, name, expr) void set_##name(const type &k) {expr;} 
+#define CGAL_SET(type, name, expr) void set_##name(const type &k) {expr;}
 
 #define CGAL_GETSET(type, name, var)		\
   CGAL_GET(type, name, return var)              \
@@ -46,7 +46,8 @@
 #define CGAL_OUTPUT(type)						\
   inline std::ostream& operator<<(std::ostream&out, const type &t){	\
     return t.write(out);						\
-  }
+  }                                                                     \
+  CGAL_REQUIRE_SEMICOLON_NAMESPACE
 
 #define CGAL_OUTPUT1(type)						\
   template <class A>							\
@@ -69,7 +70,6 @@
   uc_name##_consts lc_name##s() const {                                 \
     return uc_name##_consts(const_it_type(bexpr), const_it_type(eexpr)); \
   }
-
 
 #define CGAL_CONST_ITERATOR(uc_name, lc_name, it_type, bexpr, eexpr)	\
   typedef boost::iterator_range< it_type > uc_name##s;                  \
@@ -113,10 +113,10 @@
 
 
 #define CGAL_INSERT(ucname, expr)					\
-  void insert(ucname##_key k, const ucname &m) {expr;} 
+  void insert(ucname##_key k, const ucname &m) {expr;}
 
 #define CGAL_INSERTNK(ucname, expr)			\
-  void insert(const ucname &m) {expr;} 
+  void insert(const ucname &m) {expr;}
 
 #define CGAL_SWAP(type)				\
   inline void swap(type &a, type &b) {		\
@@ -133,7 +133,7 @@
 template <class A, class B>			\
  inline void swap(type<A,B> &a, type<A,B> &b) {	\
     a.swap_with(b);				\
-  }
+}
 
 #define CGAL_ISWAP(name)			\
   std::swap(name, o.name)
@@ -159,7 +159,7 @@ template <class A, class B>			\
   }									\
   bool operator<=(const This &o) const {				\
     return compare(o) != CGAL::LARGER;					\
-  } 
+  }
 
 #define CGAL_COMPARISONS_COMPARE bool operator==(const This &o) const { \
     return compare(o)==0;						\
@@ -178,7 +178,8 @@ template <class A, class B>			\
   }									\
   bool operator<=(const This &o) const {				\
     return compare(o) <= 0;                                             \
-  } 
+  }
+
 
 
 #define CGAL_COMPARISONS1(field) bool operator==(const This &o) const { \
@@ -198,7 +199,8 @@ template <class A, class B>			\
   }									\
   bool operator<=(const This &o) const {				\
     return (field<= o.field);						\
-  } 
+  }
+
 
 
 
@@ -223,7 +225,8 @@ template <class A, class B>			\
   }									\
   bool operator<=(const This &o) const {				\
     return !operator>(o);						\
-  } 
+  }
+
 
 #define CGAL_COMPARISONS3(a, b, c)					\
   bool operator==(const This &o) const {				\
@@ -252,6 +255,7 @@ template <class A, class B>			\
   bool operator<=(const This &o) const {				\
     return !operator>(o);						\
   }
+
 
 #define CGAL_REAL_EMBEDDABLE_BODY					\
   class Abs								\
@@ -333,11 +337,11 @@ template <class A, class B>			\
   static const bool is_modulo= false;					\
   static const bool traps = false;					\
   static const bool tinyness_before =false;				\
-  static const float_round_style round_stype = round_toward_zero	\
+  static const float_round_style round_stype = round_toward_zero;	\
     
 
 #define CGAL_REAL_EMBEDDABLE1(name)					\
-  CGAL_BEGIN_NAMESPACE							\
+  namespace CGAL {							\
   template <class T>							\
   class Real_embeddable_traits< name<T> >				\
     : public INTERN_RET::Real_embeddable_traits_base<name<T>, Tag_true>{ \
@@ -345,11 +349,11 @@ template <class A, class B>			\
     typedef name<T>  Type;						\
     CGAL_REAL_EMBEDDABLE_BODY;						\
   };									\
-  CGAL_END_NAMESPACE							
+  } //namespace CGAL							
 
 
 #define CGAL_REAL_EMBEDDABLE2(name)					\
-  CGAL_BEGIN_NAMESPACE							\
+  namespace CGAL {							\
   template <class T, class A>						\
   class Real_embeddable_traits< name<T, A> >				\
     : public INTERN_RET::Real_embeddable_traits_base< name<T, A>, Tag_true>{ \
@@ -357,7 +361,7 @@ template <class A, class B>			\
     typedef name<T, A>  Type;						\
     CGAL_REAL_EMBEDDABLE_BODY;						\
   };									\
-  CGAL_END_NAMESPACE							
+  } //namespace CGAL							
 
 
 #define CGAL_HAS_INFINITY1(name)					\
@@ -376,7 +380,7 @@ template <class A, class B>			\
 
 
 #define CGAL_REAL_EMBEDABLE2(name)					\
-  CGAL_BEGIN_NAMESPACE							\
+  namespace CGAL {							\
   template <class T,class U>						\
   class Real_embeddable_traits< name<T, U> >				\
     : public INTERN_RET::Real_embeddable_traits_base< name<T, U> , Tag_true>{ \
@@ -384,7 +388,7 @@ template <class A, class B>			\
     typedef name<T, U>  Type;						\
     CGAL_REAL_EMBEDDABLE_BODY						\
   };									\
-  CGAL_END_NAMESPACE							
+  } //namespace CGAL							
 
 #define CGAL_HAS_INFINITY2(name)					\
   namespace std								\
@@ -399,4 +403,3 @@ template <class A, class B>			\
   }
 
 #endif
-

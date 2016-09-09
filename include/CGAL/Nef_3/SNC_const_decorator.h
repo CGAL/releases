@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
-// $Id: SNC_const_decorator.h 43843 2008-06-27 11:39:02Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
+// $Id: SNC_const_decorator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -35,7 +35,7 @@
 #define CGAL_NEF_DEBUG 191
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename S> class SM_const_decorator;
 
@@ -652,6 +652,5 @@ visit_shell_objects(SFace_const_handle f, Visitor& V) const
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_CONST_DECORATOR_H
-

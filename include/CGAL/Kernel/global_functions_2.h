@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
-// $Id: global_functions_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: global_functions_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -33,7 +33,7 @@
 #include <CGAL/Kernel/global_functions_internal_2.h>
 #include <CGAL/Kernel/mpl.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class K >
 typename K::Boolean
@@ -992,6 +992,6 @@ y_equal(const Point_2<K> &p, const Point_2<K> &q)
   return internal::y_equal(p, q, K());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_KERNEL_GLOBAL_FUNCTIONS_2_H

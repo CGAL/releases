@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
-// $Id: Regular_triangulation_ftC3.h 52320 2009-10-15 08:27:22Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
+// $Id: Regular_triangulation_ftC3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -23,7 +23,7 @@
 // This file contains the low level cartesian predicates
 // used by the 3D regular triangulation.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // return minus the sign of the 5x5 determinant [P,Q,R,S,T]
 // where column [P] = transpose[px,py,pz,p^2 -wp,1]
@@ -155,6 +155,6 @@ power_testC3(const FT &pwt, const FT &qwt)
     return CGAL_NTS compare(qwt, pwt);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_FTC3_H

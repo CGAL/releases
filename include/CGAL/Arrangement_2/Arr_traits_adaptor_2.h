@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
-// $Id: Arr_traits_adaptor_2.h 52295 2009-10-14 08:19:52Z efif $
-// $Date: 2009-10-14 10:19:52 +0200 (Wed, 14 Oct 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $Id: Arr_traits_adaptor_2.h 57002 2010-06-23 08:00:41Z efif $
+// $Date: 2010-06-23 10:00:41 +0200 (Wed, 23 Jun 2010) $
 // 
 //
 // Author(s)     : Ron Wein             <wein@post.tau.ac.il>s
@@ -31,13 +31,16 @@
 /*! \file
  * Definitions of the adaptor classes for the arrangement traits class.
  */
+
+#include <list>
+
 #include <CGAL/config.h>
 #include <CGAL/tags.h>
 #include <CGAL/Arr_enums.h>
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2_dispatching.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A traits-class adaptor that extends the basic traits-class interface.
@@ -48,22 +51,23 @@ class Arr_traits_basic_adaptor_2 : public ArrangementBasicTraits_
 public:
 
   // Traits-class geometric types.
-  typedef ArrangementBasicTraits_               Base;
-  typedef Arr_traits_basic_adaptor_2<Base>      Self;
-  typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
-  typedef typename Base::Point_2                Point_2;
+  typedef ArrangementBasicTraits_                   Base;
+  typedef Arr_traits_basic_adaptor_2<Base>          Self;
+  typedef typename Base::X_monotone_curve_2         X_monotone_curve_2;
+  typedef typename Base::Point_2                    Point_2;
 
   // Tags.
-  typedef typename Base::Has_left_category      Has_left_category;
+  typedef typename Base::Has_left_category          Has_left_category;
+  typedef typename Base::Has_do_intersect_category  Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Base >::Tag 
-                                                Arr_left_side_category;
+                                                    Arr_left_side_category;
   typedef typename internal::Arr_complete_bottom_side_tag< Base >::Tag 
-                                                Arr_bottom_side_category;
+                                                    Arr_bottom_side_category;
   typedef typename internal::Arr_complete_top_side_tag< Base >::Tag 
-                                                Arr_top_side_category;
+                                                    Arr_top_side_category;
   typedef typename internal::Arr_complete_right_side_tag< Base >::Tag 
-                                                Arr_right_side_category;
+                                                    Arr_right_side_category;
 
 protected:
 
@@ -258,6 +262,72 @@ public:
   Compare_y_at_x_left_2 compare_y_at_x_left_2_object () const
   {
     return Compare_y_at_x_left_2(this);
+  }
+
+  /*! A functor that determines whether two x-monotone curves intersect.
+   */
+  class Do_intersect_2 {
+  public:
+    /*!
+     * Determine whether two x-monotone curves intersect.
+     * \param xcv1 the first curve.
+     * \param xcv2 the second curve.
+     * \return true if xcv1 and xcv2 intersect false otherwise.
+     */
+    bool operator() (const X_monotone_curve_2& xcv1,
+                     const X_monotone_curve_2& xcv2) const 
+    {
+      // The function is implemented based on the Has_do_intersect category.
+      // If the category indicates that "do_intersect" is available, it calls
+      // the function with same name defined in the base class. Otherwise, it 
+      // uses the intersection construction to implement this predicate.
+      return _do_intersect_imp (xcv1, xcv2, Has_do_intersect_category());
+    }
+
+  protected:
+    //! The base traits.
+    const Self* m_self;
+
+    /*! Constructor.
+     * \param self The traits adaptor class. It must be passed, to handle
+     *             non stateless traits objects, (which stores data).
+     * The constructor is declared private to allow only the functor
+     * obtaining function, which is a member of the nesting class,
+     * constructing it.
+     */
+    Do_intersect_2 (const Self * self) : m_self (self) {}
+
+    //! Allow its functor obtaining function calling the private constructor.
+    friend class Arr_traits_basic_adaptor_2<Base>;
+    
+    /*!
+     * Implementation of the operator() in case the HasDoIntersect tag is true.
+     */
+    bool _do_intersect_imp (const X_monotone_curve_2& xcv1,
+                            const X_monotone_curve_2& xcv2,
+                            Tag_true) const
+    {
+      const Base* base = m_self;
+      return (base->do_intersect_2_object() (xcv1, xcv2));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasDoIntersect tag is false.
+     */
+    bool _do_intersect_imp (const X_monotone_curve_2& xcv1,
+                            const X_monotone_curve_2& xcv2,
+                            Tag_false) const
+    {
+      std::list<CGAL::Object> intersections;
+      m_self->intersect_2_object()(xcv1, xcv2, back_inserter(intersections));
+      return !intersections.empty();
+    }
+  };
+
+  /*! Obtain a Compare_y_at_x_left_2 function object. */
+  Do_intersect_2 do_intersect_2_object () const
+  {
+    return Do_intersect_2(this);
   }
 
   //@}
@@ -1780,22 +1850,23 @@ public:
   typedef ArrangementTraits_                             Base_traits_2;
   typedef Arr_traits_basic_adaptor_2<ArrangementTraits_> Base;
 
-  typedef typename Base_traits_2::Curve_2                Curve_2;
-  typedef typename Base::X_monotone_curve_2              X_monotone_curve_2;
-  typedef typename Base::Point_2                         Point_2;
+  typedef typename Base_traits_2::Curve_2              Curve_2;
+  typedef typename Base::X_monotone_curve_2            X_monotone_curve_2;
+  typedef typename Base::Point_2                       Point_2;
 
   // Tags.
-  typedef typename Base::Has_left_category               Has_left_category;
-  typedef typename Base::Has_merge_category              Has_merge_category;
+  typedef typename Base::Has_left_category             Has_left_category;
+  typedef typename Base::Has_merge_category            Has_merge_category;
+  typedef typename Base::Has_do_intersect_category     Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Base >::Tag
-                                                         Arr_left_side_category;
+                                                       Arr_left_side_category;
   typedef typename internal::Arr_complete_bottom_side_tag< Base >::Tag 
-                                                         Arr_bottom_side_category;
+                                                       Arr_bottom_side_category;
   typedef typename internal::Arr_complete_top_side_tag< Base >::Tag 
-                                                         Arr_top_side_category;
+                                                       Arr_top_side_category;
   typedef typename internal::Arr_complete_right_side_tag< Base >::Tag 
-                                                         Arr_right_side_category;
+                                                       Arr_right_side_category;
 
   /// \name Construction.
   //@{
@@ -1953,6 +2024,6 @@ public:
   //@}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

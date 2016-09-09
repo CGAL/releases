@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Transform_iterator.h $
-// $Id: Transform_iterator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/Transform_iterator.h $
+// $Id: Transform_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -26,10 +26,10 @@
 
 namespace std {
   struct _Unchecked_iterator_tag;
-};
+}
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class OutputIterator, class Operation >
 struct Transform_iterator {
@@ -80,6 +80,6 @@ query_circulator_or_iterator(
   const Transform_iterator< OutputIterator, Operation >&)
 { return Iterator_tag(); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRANSFORM_ITERATOR_H

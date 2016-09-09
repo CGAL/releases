@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_overlay_traits_2.h $
-// $Id: Arr_overlay_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_overlay_traits_2.h $
+// $Id: Arr_overlay_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include <CGAL/Object.h>
 #include <CGAL/Arr_tags.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A meta-traits class that stores a red or a blue halfedge handle with every
@@ -76,6 +76,9 @@ public:
   typedef typename Traits_2::Intersect_2            Base_intersect_2;
   typedef typename Traits_2::Split_2                Base_split_2;
   typedef typename Traits_2::Equal_2                Base_equal_2;
+
+  typedef typename Traits_2::Has_do_intersect_category
+                                                    Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Traits_2 >::Tag
                                                     Arr_left_side_category;
@@ -1134,6 +1137,6 @@ public:
   
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

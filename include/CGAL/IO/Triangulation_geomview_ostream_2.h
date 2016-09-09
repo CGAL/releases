@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/IO/Triangulation_geomview_ostream_2.h $
-// $Id: Triangulation_geomview_ostream_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/IO/Triangulation_geomview_ostream_2.h $
+// $Id: Triangulation_geomview_ostream_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -23,7 +23,7 @@
 #include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/Triangulation_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // There are 2 drawing functions for triangulations : depending on the wired
 // mode of the Geomview_stream, we draw either the edges or the faces.
@@ -113,6 +113,6 @@ operator<<( Geomview_stream &gv, const Triangulation_2<GT,TDS> &T)
     return gv;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_TRIANGULATION_GEOMVIEW_OSTREAM_2_H

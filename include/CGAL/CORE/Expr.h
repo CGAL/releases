@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/Expr.h $
- * $Id: Expr.h 37555 2007-03-27 11:33:02Z afabri $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/Expr.h $
+ * $Id: Expr.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_EXPR_H_
@@ -40,7 +40,7 @@
 
 #include <CGAL/CORE/ExprRep.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 /// \class Expr Expr.h
 /// \brief Expr is a class of Expression in Level 3
@@ -544,5 +544,5 @@ inline Expr radical(const NT& n, int m) {
 // because otherwise VC++.net2003 can't compile Expr.cpp
 #include <CGAL/CORE/poly/Poly.tcc>
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_EXPR_H_

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Degeneracy_tester_binders.h $
-// $Id: Degeneracy_tester_binders.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Degeneracy_tester_binders.h $
+// $Id: Degeneracy_tester_binders.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -22,9 +22,9 @@
 
 #include <CGAL/Voronoi_diagram_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_VORONOI_DIAGRAM_2_BEGIN_NAMESPACE
+namespace VoronoiDiagram_2 { namespace Internal {
 
 //=======================================================================
 
@@ -74,8 +74,8 @@ private:
 
 //=======================================================================
 
-CGAL_VORONOI_DIAGRAM_2_END_NAMESPACE
+} } //namespace VoronoiDiagram_2::Internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_VORONOI_DIAGRAM_2_DEGENERACY_TESTER_BINDERS_H

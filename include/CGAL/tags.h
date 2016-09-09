@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 36014 2007-02-02 08:37:35Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/tags.h $
+// $Id: tags.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,7 +27,7 @@
 
 #include <CGAL/IO/io_tags.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Void {};
 
@@ -80,6 +80,6 @@ inline
 void
 assert_equal_types( const T&, const T&) {}
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TAGS_H

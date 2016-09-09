@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader_doubles.h $
-// $Id: Dxf_reader_doubles.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader_doubles.h $
+// $Id: Dxf_reader_doubles.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
 
@@ -36,7 +36,7 @@
 #include <map>
 #include <CGAL/array.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 class Dxf_reader_doubles {
@@ -238,6 +238,6 @@ void operator()(std::istream& is, Polygons& polygons, Circles& circles)
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_DXF_READER_DOUBLES_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_optimization_return_code.h $
-// $Id: Mesh_optimization_return_code.h 53276 2009-12-03 16:12:56Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_optimization_return_code.h $
+// $Id: Mesh_optimization_return_code.h 56840 2010-06-17 14:02:02Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -24,10 +24,11 @@
 #ifndef CGAL_MESH_OPTIMIZATION_RETURN_CODE_H
 #define CGAL_MESH_OPTIMIZATION_RETURN_CODE_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum Mesh_optimization_return_code
 {
+  MESH_OPTIMIZATION_UNKNOWN_ERROR=-1,
   BOUND_REACHED=0,
   TIME_LIMIT_REACHED,
   CANT_IMPROVE_ANYMORE,
@@ -36,6 +37,6 @@ enum Mesh_optimization_return_code
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_OPTIMIZATION_RETURN_CODE_H

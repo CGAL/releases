@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/One_root_number.h $
-// $Id: One_root_number.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/One_root_number.h $
+// $Id: One_root_number.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein        <wein@post.tau.ac.il>
@@ -26,7 +26,7 @@
  */
 #include <CGAL/Interval_arithmetic.h> 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * Representation of a one-root number - that is, a number of the form
@@ -527,6 +527,6 @@ CGAL::Comparison_result compare (const _One_root_number<NT, FL>& x,
     return (EQUAL);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

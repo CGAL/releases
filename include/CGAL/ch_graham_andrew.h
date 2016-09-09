@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_graham_andrew.h $
-// $Id: ch_graham_andrew.h 31312 2006-05-29 09:01:56Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/ch_graham_andrew.h $
+// $Id: ch_graham_andrew.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,7 +25,7 @@
 #include <iterator>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // computes the sorted sequence of extreme points which are not left 
 // of $pq$ and reports this sequence in a range starting at |result|,
@@ -105,9 +105,8 @@ ch_upper_hull_scan( InputIterator  first,
                     OutputIterator result,
                     const Traits&  ch_traits);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Convex_hull_2/ch_graham_andrew_impl.h>
 
 #endif // CGAL_CH_GRAHAM_ANDREW_H
-

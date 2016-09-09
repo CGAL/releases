@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
-// $Id: Delaunay_mesher_2.h 45712 2008-09-24 08:58:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
+// $Id: Delaunay_mesher_2.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -260,7 +260,7 @@ public:
   bool is_refinement_done ()
   {
     return faces_level.is_algorithm_done();  
-  };
+  }
 
   bool
   step_by_step_refine_mesh()

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/Unbounded_direction.h $
-// $Id: Unbounded_direction.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/Unbounded_direction.h $
+// $Id: Unbounded_direction.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -23,7 +23,7 @@
 #ifndef CGAL_QP_SOLVER_UNBOUNDED_DIRECTION_H
 #define CGAL_QP_SOLVER_UNBOUNDED_DIRECTION_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < typename Q, typename ET, typename Tags >
 ET QP_solver<Q, ET, Tags>::unbounded_direction_value(int i) const
 {
@@ -35,7 +35,7 @@ ET QP_solver<Q, ET, Tags>::unbounded_direction_value(int i) const
    return et0;
  }
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_SOLVER_UNBOUNDED_DIRECTION_H
 

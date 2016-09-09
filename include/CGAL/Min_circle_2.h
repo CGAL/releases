@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_circle_2/include/CGAL/Min_circle_2.h $
-// $Id: Min_circle_2.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_circle_2/include/CGAL/Min_circle_2.h $
+// $Id: Min_circle_2.h 58183 2010-08-20 10:19:36Z lrineau $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -28,7 +28,7 @@
 #  include <algorithm>
 #  include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declaration
 // =================
@@ -113,7 +113,7 @@ class Min_circle_2 {
     // private data members
     Traits       tco;                           // traits class object
     std::list<Point>  points;                   // doubly linked list of points
-    int          n_support_points;              // number of support points
+  std::size_t         n_support_points;              // number of support points
     Point*       support_points;                // array of support points
     
 
@@ -132,14 +132,14 @@ class Min_circle_2 {
     // -------------------------------
     // #points and #support points
     inline
-    int
+    std::size_t
     number_of_points( ) const
     {
         return( points.size());
     }
     
     inline
-    int
+    std::size_t
     number_of_support_points( ) const
     {
         return( n_support_points);
@@ -192,10 +192,9 @@ class Min_circle_2 {
     // random access for support points
     inline
     const Point&
-    support_point( int i) const
+    support_point( std::size_t i) const
     {
-        CGAL_optimisation_precondition( (i >= 0) &&
-                                        (i <  number_of_support_points()));
+        CGAL_optimisation_precondition(i <  number_of_support_points());
         return( support_points[ i]);
     }
     // circle
@@ -260,12 +259,11 @@ class Min_circle_2 {
             tco.circle.set( );
             break;
           default:
-            CGAL_optimisation_assertion( ( n_support_points >= 0) &&
-                                         ( n_support_points <= 3) ); }
+            CGAL_optimisation_assertion( n_support_points <= 3 ); }
     }
 
     void
-    mc( const Point_iterator& last, int n_sp)
+    mc( const Point_iterator& last, std::size_t n_sp)
     {
         // compute circle through support points
         n_support_points = n_sp;
@@ -581,7 +579,7 @@ template < class Traits_ >
 std::istream&
 operator >> ( std::istream& is,       Min_circle_2<Traits_>& mc);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Min_circle_2/Min_circle_2_impl.h>
 

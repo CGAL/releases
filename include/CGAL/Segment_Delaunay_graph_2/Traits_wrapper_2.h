@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_wrapper_2.h $
-// $Id: Traits_wrapper_2.h 37424 2007-03-23 19:02:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_wrapper_2.h $
+// $Id: Traits_wrapper_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Gt_base>
 class Segment_Delaunay_graph_traits_wrapper_2 : public Gt_base
@@ -38,6 +38,6 @@ public:
   Segment_Delaunay_graph_traits_wrapper_2(const Gt_base&) {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_TRAITS_WRAPPER_2_H

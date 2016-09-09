@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/modular_gcd_utcf_algorithm_M.h $
-// $Id: modular_gcd_utcf_algorithm_M.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/modular_gcd_utcf_algorithm_M.h $
+// $Id: modular_gcd_utcf_algorithm_M.h 55812 2010-04-28 12:31:42Z hemmer $
 //
 //
 // Author(s)     :  Dominik Huelse <dominik.huelse@gmx.de>
@@ -97,7 +97,7 @@ Polynomial<NT> modular_gcd_utcf_algorithm_M(
     }
     if(FF1.degree() == 0 || FF2.degree() == 0){
         Poly result;
-        result = CGAL::gcd(FF1.content(),FF2.content());
+        result = Poly(CGAL::gcd(FF1.content(),FF2.content()));
         return CGAL::canonicalize(result);
     }
         

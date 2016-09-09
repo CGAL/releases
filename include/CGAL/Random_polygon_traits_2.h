@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/Random_polygon_traits_2.h $
-// $Id: Random_polygon_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/Random_polygon_traits_2.h $
+// $Id: Random_polygon_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #ifndef CGAL_RANDOM_POLYGON_TRAITS_2_H
 #define CGAL_RANDOM_POLYGON_TRAITS_2_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------//
 //                          Random_polygon_traits_2
@@ -49,7 +49,6 @@ class Random_polygon_traits_2
     { return Orientation_2(); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RANDOM_POLYGON_TRAITS_2_H
-

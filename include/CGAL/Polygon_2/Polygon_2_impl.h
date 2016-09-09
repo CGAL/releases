@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
-// $Id: Polygon_2_impl.h 50252 2009-07-01 07:27:31Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: Polygon_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -25,7 +25,7 @@
 //                          operator==
 //-----------------------------------------------------------------------//
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace i_polygon {
 template <class Equal_2, class Point_2>
@@ -155,4 +155,4 @@ transform(const Transformation& t, const Polygon_2<Traits_P,Container_P>& p)
   return result;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

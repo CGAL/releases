@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/number_type_basic.h $
-// $Id: number_type_basic.h 44867 2008-08-11 12:31:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/number_type_basic.h $
+// $Id: number_type_basic.h 56782 2010-06-16 08:22:01Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -47,6 +47,8 @@
 // basic tools needed in several files
 #include <boost/type_traits/is_same.hpp>
 #include <functional>
+
+#include <CGAL/Quotient_fwd.h>
 
 #include <CGAL/Kernel/mpl.h>      // First_if_different
 #include <CGAL/known_bit_size_integers.h>

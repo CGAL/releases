@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
+// $Id: Polynomial_type.h 56960 2010-06-22 09:26:00Z afabri $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -44,7 +44,7 @@ typename CGAL::internal::Innermost_coefficient_type<T>::Type , 2>::Type
 #include <sstream>
 #include <CGAL/Polynomial/misc.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class NT> class Polynomial;
 template <class NT> class Scalar_factor_traits;
@@ -276,7 +276,7 @@ public:
       { coeff(0) = NT(a0); reduce(); simplify_coefficients(); } 
           
     //! construct the constant polynomial a0
-    Polynomial(const NT& a0)
+    explicit Polynomial(const NT& a0)
       : Base(Rep(1, &a0))
       { reduce(); simplify_coefficients(); }
       
@@ -368,7 +368,7 @@ public:
     /*! The degree of the zero polynomial is 0.
      *  The degree of an undefined polynomial is -1.
      */
-    int degree() const { return this->ptr()->coeff.size()-1; } 
+  int degree() const { return static_cast<int>(this->ptr()->coeff.size())-1; } 
 
     //! const access to the coefficient of x^i
     const NT& operator[](unsigned int i) const {
@@ -552,7 +552,7 @@ public:
       CGAL_precondition(degree() >= 0);
       CGAL_precondition(p2.degree() >= 0);
 
-      if (is_identical(p2)) return CGAL::EQUAL;
+      if (this->is_identical(p2)) return CGAL::EQUAL;
 
       int d1 = degree();
       int d2 = p2.degree();
@@ -1412,7 +1412,7 @@ inline static void swallow(std::istream &is, char d) {
 template <class NT>
 Polynomial<NT> Polynomial<NT>::input_ascii(std::istream &is) {
   char c;
-  int degr = -1, i;
+  int degr = -1, i=0;
 
   internal::swallow(is, 'P');
   internal::swallow(is, '[');
@@ -1449,7 +1449,7 @@ struct Needs_parens_as_product<Polynomial<COEFF> >{
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #undef CGAL_icoeff
 #undef CGAL_int

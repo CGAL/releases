@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
-// $Id: SNC_io_parser.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
+// $Id: SNC_io_parser.h 57134 2010-06-28 08:27:08Z afabri $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -38,7 +38,7 @@
 #define CGAL_NEF_DEBUG 293
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename T>
 class moreLeft : public T {
@@ -919,7 +919,7 @@ public:
   std::vector<SHalfedge_iterator> SEdge_of;
   std::vector<SHalfloop_iterator> SLoop_of;
   std::vector<SFace_iterator>     SFace_of;
-  long i,vn,en,fn,cn,sen,sln,sfn;
+  std::size_t i,vn,en,fn,cn,sen,sln,sfn;
 
 public:
   SNC_io_parser(std::istream& is, SNC_structure& W);
@@ -2040,6 +2040,5 @@ void SNC_io_parser<EW>::add_infi_box() {
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_IO_PARSER_H
-

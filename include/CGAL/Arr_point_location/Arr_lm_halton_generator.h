@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement_2/include/CGAL/Arr_point_location/Arr_lm_halton_generator.h,v $
-// $Revision: 44498 $ $Date: 2008-07-28 07:46:17 +0200 (Mon, 28 Jul 2008) $
+// $Revision: 56667 $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
 // $Name:  $
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -26,7 +26,7 @@
 
 #include <CGAL/Arr_point_location/Arr_lm_generator_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A generator for the landmarks point-locatoion class, which uses a
@@ -181,6 +181,6 @@ protected:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

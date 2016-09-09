@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
-// $Id: Sweep_line_2_utils.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
+// $Id: Sweep_line_2_utils.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -34,7 +34,7 @@
 #include <algorithm>
 #include <CGAL/Arr_enums.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Subdivide a range of input curves into x-monotone objects.
@@ -195,6 +195,6 @@ void prepare_for_sweep (Arrangement& arr,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

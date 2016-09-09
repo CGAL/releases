@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/determinant.h $
-// $Id: determinant.h 53196 2009-11-26 10:07:09Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/determinant.h $
+// $Id: determinant.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -24,7 +24,7 @@
 #ifndef CGAL_POLYNOMIAL_DETERMINANT_H
 #define CGAL_POLYNOMIAL_DETERMINANT_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #include <CGAL/basic.h>
 
@@ -359,6 +359,6 @@ namespace internal {
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_DETERMINANT_H

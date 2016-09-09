@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
-// $Id: HalfedgeDS_default.h 48908 2009-04-26 14:03:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
+// $Id: HalfedgeDS_default.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/HalfedgeDS_list.h>
 #include <CGAL/memory.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
 
@@ -66,6 +66,6 @@ struct HalfedgeDS_default {
 
 #endif // CGAL_CFG_NO_TMPL_IN_TMPL_PARAM //
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HALFEDGEDS_DEFAULT_H //
 // EOF //

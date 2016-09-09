@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/IO/Gps_iostream.h $
-// $Id: Gps_iostream.h 52831 2009-11-01 10:57:26Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/IO/Gps_iostream.h $
+// $Id: Gps_iostream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -26,7 +26,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/General_polygon_set_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Traits>
 std::ostream & operator<< (std::ostream& os,
@@ -46,6 +46,6 @@ std::ostream & operator<< (std::ostream& os,
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

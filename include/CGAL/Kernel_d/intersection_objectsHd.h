@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsHd.h $
-// $Id: intersection_objectsHd.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsHd.h $
+// $Id: intersection_objectsHd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : ?
@@ -25,7 +25,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Manpage{Line_line_intersectionHd}{R}{intersecting two lines}}*/
 
@@ -140,9 +140,8 @@ not degenerate.}*/
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Kernel_d/intersection_objects_d.h>
 
 #endif //CGAL_INTERSECTION_OBJECTSHD_H
-

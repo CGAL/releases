@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
-// $Id: PM_io_parser.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
+// $Id: PM_io_parser.h 56962 2010-06-22 09:38:32Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Nef_2/Object_index.h>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions outfile=PM_io_parser.man }*/
 /*{\Manpage {PM_io_parser}{PMDEC}{IO of plane maps}{IO}}*/
@@ -64,6 +64,17 @@ class PM_io_parser : public PMDEC
   using Base::new_vertex;
   using Base::new_face;
   using Base::new_halfedge_pair_without_vertices;
+  using Base::is_isolated;
+  using Base::face;
+  using Base::mark;
+  using Base::point;
+  using Base::twin;
+  using Base::previous;
+  using Base::next;
+  using Base::source;
+  using Base::target;
+  using Base::out_edges;
+  using Base::halfedge;
 
   std::istream& in;
   std::ostream& out;
@@ -76,7 +87,7 @@ class PM_io_parser : public PMDEC
   std::vector<Halfedge_handle>  Halfedge_of;
   std::vector<Face_handle>      Face_of;
   // object mapping for input
-  int vn,en,fn,i;
+  std::size_t vn,en,fn,i;
   // the number of objects
 
 
@@ -387,6 +398,5 @@ void PM_io_parser<PMDEC>::dump(const PMDEC& D, std::ostream& os)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_PM_IO_PARSER_H
-

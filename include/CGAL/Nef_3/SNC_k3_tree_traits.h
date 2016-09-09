@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_k3_tree_traits.h $
-// $Id: SNC_k3_tree_traits.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_k3_tree_traits.h $
+// $Id: SNC_k3_tree_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #define CGAL_NEF_DEBUG 503
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <typename Kernel, typename Coordinate>
@@ -628,7 +628,6 @@ Side_of_plane<SNC_decorator>::operator()
   //#endif
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NEF_SNC_K3_TREE_TRAITS_H
-

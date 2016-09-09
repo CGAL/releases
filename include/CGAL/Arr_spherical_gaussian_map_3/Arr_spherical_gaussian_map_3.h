@@ -11,10 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
-// $Id: Arr_spherical_gaussian_map_3.h 53400 2009-12-13 13:51:07Z naamamay $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
+// $Id: Arr_spherical_gaussian_map_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
-// Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
+// Author(s): Efi Fogel         <efif@post.tau.ac.il>
+//            Naama mayer       <naamamay@post.tau.ac.il>
 
 #ifndef CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_H
 #define CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_H
@@ -47,7 +48,7 @@
 #endif
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // #define CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG 1
 
@@ -407,6 +408,6 @@ public:
   friend class CGAL::Arr_sgm_initializer<Self>;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

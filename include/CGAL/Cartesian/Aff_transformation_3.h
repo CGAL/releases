@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h $
-// $Id: Aff_transformation_3.h 32871 2006-08-01 12:09:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h $
+// $Id: Aff_transformation_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -27,7 +27,7 @@
 #include <cmath>
 #include <CGAL/Handle_for_virtual.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Identity_transformation;
 template <class R> class Aff_transformation_rep_baseC3;
@@ -35,13 +35,13 @@ template <class R> class Aff_transformation_repC3;
 template <class R> class Translation_repC3;
 template <class R> class Scaling_repC3;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Cartesian/Aff_transformation_rep_3.h>
 #include <CGAL/Cartesian/Translation_rep_3.h>
 #include <CGAL/Cartesian/Scaling_rep_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class Aff_transformationC3
@@ -57,6 +57,8 @@ class Aff_transformationC3
   typedef typename R_::Direction_3          Direction_3;
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+  
+  using Handle_for_virtual<Aff_t_base>::initialize_with;
 public:
   typedef R_                               R;
 
@@ -189,6 +191,6 @@ std::ostream &operator<<(std::ostream &os,
 }
 #endif // CGAL_NO_OSTREAM_INSERT_AFF_TRANSFORMATIONC3
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_AFF_TRANSFORMATION_3_H

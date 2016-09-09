@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
-// $Id: Arr_vertical_decomposition_2.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
+// $Id: Arr_vertical_decomposition_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 
@@ -26,7 +26,7 @@
 #include <boost/mpl/if.hpp>
 #include <boost/type_traits.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Perform a vertical decomposition of an arrangement, by performing a
@@ -142,6 +142,6 @@ decompose(const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
-// $Id: SNC_FM_decorator.h 48906 2009-04-26 13:33:57Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
+// $Id: SNC_FM_decorator.h 57193 2010-06-29 12:38:52Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 31
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //--------------------------------------------------------------------------
 /* We introduce a template that is a point that refers to a vertex.
@@ -346,7 +346,7 @@ public:
 
   typedef CGAL::Halffacet_geometry<Point_3,Plane_3,Vertex_handle> 
     Halffacet_geometry;
-
+  using Base::debug; using Base::link_as_facet_cycle; using Base::info; using Base::link_as_interior_loop;
 protected:
   Halffacet_handle f_;
 public:
@@ -597,9 +597,10 @@ create_facet_objects(const Plane_3& plane_supporting_facet,
     From[Segments.begin()] = *eit;
     epred=eit;
     ++eit;
-    if(eit != SHalfedges.end()) 
+    if(eit != SHalfedges.end()) {
       CGAL_NEF_TRACEN("test " << std::endl << "  " << debug(*epred) 
 	     << std::endl << "  " << debug(*eit));
+    }
     if(eit != SHalfedges.end() && 
        (*epred)->source()->source() ==(*eit)->next()->source()->source() &&  
        (*eit)->source()->source() == (*epred)->next()->source()->source())
@@ -645,7 +646,5 @@ create_facet_objects(const Plane_3& plane_supporting_facet,
   CGAL_NEF_TRACEN("exit FM");
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_FM_DECORATOR_H
-
-

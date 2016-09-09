@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/sweep_observer.h $
-// $Id: sweep_observer.h 29549 2006-03-16 14:02:34Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/sweep_observer.h $
+// $Id: sweep_observer.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -222,4 +222,3 @@ actions via its visualization methods.}*/
 } // namespace CGAL
 
 #endif // CGAL_SWEEP_OBSERVER_H
-

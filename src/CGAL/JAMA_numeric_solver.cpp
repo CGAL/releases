@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGAL/JAMA_numeric_solver.cpp $
-// $Id: JAMA_numeric_solver.cpp 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGAL/JAMA_numeric_solver.cpp $
+// $Id: JAMA_numeric_solver.cpp 57003 2010-06-23 08:30:32Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,7 +33,7 @@
 
 //#include <iomanip>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 #if CGAL_HAVE_TNT
 //static const double max_error_value =0.00005;
 
@@ -78,7 +78,7 @@ void jama_polynomial_compute_roots(const double *begin, const double *end,
 double lb, double ub,
 std::vector<double> &roots)
 {
-    int degree= end-begin-1;
+  std::size_t degree= end-begin-1;
     switch( degree) {
         case -1:
         case 0:
@@ -104,7 +104,7 @@ void jama_polynomial_compute_cleaned_roots(const double *begin, const double *en
 double lb, double ub,
 std::vector<double> &roots)
 {
-    int degree= end-begin-1;
+  std::size_t degree= end-begin-1;
     switch( degree) {
         case -1:
         case 0:
@@ -125,4 +125,4 @@ std::vector<double> &roots)
 }
 
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal

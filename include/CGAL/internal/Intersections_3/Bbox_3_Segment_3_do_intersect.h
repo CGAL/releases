@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Segment_3_do_intersect.h $
-// $Id: Bbox_3_Segment_3_do_intersect.h 53496 2009-12-18 15:12:59Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Segment_3_do_intersect.h $
+// $Id: Bbox_3_Segment_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez, Stephane Tayeb
@@ -28,7 +28,7 @@
 
 // inspired from http://cag.csail.mit.edu/~amy/papers/box-jgt.pdf
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -167,6 +167,6 @@ bool do_intersect(const CGAL::Bbox_3& bbox,
   return typename K::Do_intersect_3()(segment, bbox);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_INTERNAL_INTERSECTIONS_3_BBOX_3_SEGMENT_3_DO_INTERSECT_H

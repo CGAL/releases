@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
-// $Id: Cached_degeneracy_testers.h 50434 2009-07-07 16:04:31Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
+// $Id: Cached_degeneracy_testers.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -29,9 +29,9 @@
 #include <CGAL/Edge_hash_function.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_VORONOI_DIAGRAM_2_BEGIN_NAMESPACE
+namespace VoronoiDiagram_2 { namespace Internal {
 
 //=========================================================================
 //=========================================================================
@@ -462,8 +462,8 @@ class Cached_face_rejector<Identity_face_rejector<DG>,Tag_true>
 //=========================================================================
 //=========================================================================
 
-CGAL_VORONOI_DIAGRAM_2_END_NAMESPACE
+} } //namespace VoronoiDiagram_2::Internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_VORONOI_DIAGRAM_2_CACHED_DEGENERACY_TESTERS_H

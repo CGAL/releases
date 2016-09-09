@@ -36,8 +36,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/Timer.h $
- * $Id: Timer.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/Timer.h $
+ * $Id: Timer.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_TIMER_H_
@@ -46,7 +46,7 @@
 #include <CGAL/CORE/Impl.h>
 #include <ctime>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 class Timer {
 private:
@@ -73,6 +73,5 @@ public:
   }
 };
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_TIMER_H_
-

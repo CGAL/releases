@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h $
-// $Id: Sphere_d.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h $
+// $Id: Sphere_d.h 56991 2010-06-22 16:17:33Z afabri $
 // 
 //
 // Author(s)     : Michael Seel
@@ -28,7 +28,7 @@
 #include <vector>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R> class Sphere_d;
 template <class R> bool equal_as_sets(const Sphere_d<R>&, const Sphere_d<R>&);
@@ -135,7 +135,7 @@ Sphere_d(const Self& c) : Base(c) {}
 
 int dimension() const 
 /*{\Mop returns the dimension of |\Mvar|.}*/
-{ return ptr()->P.size() - 1; }
+  { return static_cast<int>(ptr()->P.size()) - 1; }
 
 Point_d point(int i) const
 /*{\Mop returns the $i$-th defining point. \precond $0 \le i \le |dim|$.}*/
@@ -309,7 +309,7 @@ operator>>(std::istream& is, CGAL::Sphere_d<R>& s)
     if (!(is >> p)) return is;
     V[d] = p; 
   }
-  s = Sphere_d<R>(V.size()-1, V.begin(), V.end() );
+  s = Sphere_d<R>(static_cast<int>(V.size())-1, V.begin(), V.end() );
   return is;
 }
 
@@ -331,8 +331,7 @@ center. We may tentatively assume that $c_d = 1$, solve the
 corresponding linear system, and then define the center.
 */
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SPHERE_D_H
 //----------------------- end of file ----------------------------------
-

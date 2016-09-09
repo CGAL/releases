@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
-// $Id: Bounding_box_2.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
+// $Id: Bounding_box_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 
 #include<CGAL/Box_intersection_d/Box_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // template<typename T, typename K> class Bounding_box_2;
 
@@ -69,9 +69,10 @@ class Bounding_box_2<Tag_false,Kernel>
   
  public:
 
+  using Box::extend;
   using Box::min_coord;
   using Box::max_coord;
-
+  
   template<typename Vertex_iterator>
     Bounding_box_2(Vertex_iterator begin, Vertex_iterator end) {
     SFT p[2];
@@ -111,5 +112,5 @@ class Bounding_box_2<Tag_false,Kernel>
     
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_BOUNDING_BOX_D_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH3.h $
-// $Id: Aff_transformationH3.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH3.h $
+// $Id: Aff_transformationH3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,7 +27,7 @@
 #include <CGAL/Handle_for_virtual.h>
 #include <CGAL/determinant.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // forward declaration
 template < class R >
@@ -293,6 +293,8 @@ class Aff_transformationH3
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
+  typedef  Handle_for_virtual< Aff_transformation_rep_baseH3<R_> > Base;
+  using Base::initialize_with;
 public:
   typedef R_                R;
 
@@ -889,6 +891,6 @@ operator<< ( std::ostream & out,
  << "| "<< RT0   <<' '<< RT0   <<' '<< RT0   <<' '<< r.t33 << " |\n";
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_AFF_TRANSFORMATIONH3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
-// $Id: demo_tab.h 41314 2007-12-24 16:43:18Z guyzucke $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
+// $Id: demo_tab.h 57467 2010-07-12 10:02:56Z glisse $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -27,6 +27,7 @@
  *  the differences is in the traits classes.
  */
 
+#include <stddef.h>
 #include <math.h>
 #include <limits>
 
@@ -2385,9 +2386,11 @@ private:
   std::vector<Arr_pol_point_2> points;
 };
 
+
 //////////////////////////////////////////////////////////////////////////////
 /*!
  */
+#ifdef CGAL_USE_CORE
 class Conic_tab_traits
 {
 public:
@@ -3039,9 +3042,12 @@ public:
   /*! counter for the number of points */
   int num_points;
 };
+#endif
 
 typedef Qt_widget_demo_tab<Segment_tab_traits>       Qt_widget_segment_tab;
 typedef Qt_widget_demo_tab<Polyline_tab_traits>      Qt_widget_polyline_tab;
+#ifdef CGAL_USE_CORE
 typedef Qt_widget_demo_tab<Conic_tab_traits>         Qt_widget_conic_tab;
+#endif
 
 #endif //DEMO_TAB_H

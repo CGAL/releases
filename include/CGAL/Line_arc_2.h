@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Line_arc_2.h $
-// $Id: Line_arc_2.h 46608 2008-10-31 17:08:32Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Line_arc_2.h $
+// $Id: Line_arc_2.h 58156 2010-08-19 10:51:24Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck, Pedro Machado
 
@@ -25,7 +25,7 @@
 #ifndef CGAL_LINE_ARC_2_H
 #define CGAL_LINE_ARC_2_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class CircularKernel> 
 class Line_arc_2 
@@ -185,145 +185,8 @@ operator!=(const Line_arc_2<CircularKernel> &p,
     return is;
   }
 
-template < class CK >
-struct Filtered_bbox_circular_kernel_2;
 
-template < typename CK >
-class Line_arc_2 < Filtered_bbox_circular_kernel_2 < CK > > {
-
-	  typedef Filtered_bbox_circular_kernel_2 < CK >         BK;
-    typedef Line_arc_2< BK >                               Self;
-    typedef typename CK::FT                                FT;
-    typedef typename CK::RT                                RT;
-    typedef typename CK::Point_2                           Point_2;
-    typedef typename BK::Line_2                            Line_2;
-    typedef typename CK::Segment_2                         Segment_2;
-    typedef typename CK::Circle_2                          Circle_2;
-    typedef typename BK::Circular_arc_point_2            Circular_arc_point_2;
-    typedef typename CK::Line_arc_2                        Rline_arc_2;
-    typedef typename CK::Root_of_2                         Root_of_2;
-
-
-public:
-    typedef BK                       R; 
-    typedef Line_arc_2<BK>           Rep;
-
-    const Rep& rep() const
-    {
-      return *this;
-    }
-
-    Rep& rep()
-    {
-      return *this;
-    }
-
-                ///////////Construction/////////////
-
-    		Line_arc_2(){}
-
-    		Line_arc_2(const Line_2 &support, 
-                       		        const Circle_2 &l1, const bool b_l1,
-                       		        const Circle_2 &l2, const bool b_l2)
-    		: P_arc(support,l1,b_l1,l2,b_l2), bb(NULL)
-    		{}
-
-    
-    		Line_arc_2(const Line_2 &support, 
-		       		        const Line_2 &l1,
-		       		        const Line_2 &l2)
-    		: P_arc(support,l1,l2), bb(NULL)
-    		{}
-
-		Line_arc_2(const Line_2 &support,
-                 		        const Circular_arc_point_2 &begin,
-                 		        const Circular_arc_point_2 &end)
-    		: P_arc(support, begin.point(), end.point()) , bb(NULL)
-		{}
-
-
-    		Line_arc_2(const Segment_2 &s)
-    		: P_arc(s) , bb(NULL)
-    		{}
-
-    
-    		Line_arc_2(const Point_2 &p1,
-                 		     const Point_2 &p2)
-    		: P_arc(p1,p2) , bb(NULL)
-    		{}
-
-  
-		Line_arc_2(const Rline_arc_2 &a)
-    		: P_arc(a) , bb(NULL)
-		{}
-
-	  Line_arc_2(const Line_arc_2 &c) : P_arc(c.P_arc)
-	  {
-		  if(c.bb) bb = new Bbox_2(*(c.bb));
-			else bb = NULL;	
-		}
-		
-	  ~Line_arc_2() { if(bb) delete bb; }
-
-
-		//////////Predicates//////////
-
-		bool is_vertical() const
-		{ return P_arc.is_vertical();}
-
-		//////////Accessors///////////
-
-		const Rline_arc_2& arc () const
-			{ return P_arc ;}
-  
-		///Interface of the inner arc/// 
-
-    typename Qualified_result_of<typename BK::Construct_circular_min_vertex_2,Self>::type
-	  left() const
-	    {return typename BK::Construct_circular_min_vertex_2()(*this);}
-                
-    typename Qualified_result_of<typename BK::Construct_circular_max_vertex_2,Self>::type
-    right() const
-	    {return typename BK::Construct_circular_max_vertex_2()(*this);}
-
-    typename Qualified_result_of<typename BK::Construct_circular_source_vertex_2,Self>::type
-    source() const
-      {return typename BK::Construct_circular_source_vertex_2()(*this);}
-	      
-    typename Qualified_result_of<typename BK::Construct_circular_target_vertex_2,Self>::type
-    target() const
-      {return typename BK::Construct_circular_target_vertex_2()(*this);}
-		
-		Line_2
-    supporting_line() const
-		  { return P_arc.supporting_line();}
-
-    Bbox_2 bbox() const
-    {
-      if(bb==NULL)
-        bb=new Bbox_2(P_arc.bbox());
-      return *bb;
-    }
-
-			
-		///Specific check used for bbox construction///
-		
-		bool has_no_bbox() const
-		{ return (bb==NULL);}
-		
-	  bool equal_ref(const Line_arc_2 &c) const
-    {
-      return CGAL::identical(P_arc, c.P_arc);      
-    }
-		
-	private:
-
-		Rline_arc_2 P_arc;
-		mutable Bbox_2 *bb;
-
-};
-
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_LINE_ARC_2_H
 

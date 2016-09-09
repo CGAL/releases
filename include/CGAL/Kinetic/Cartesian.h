@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Cartesian.h $
-// $Id: Cartesian.h 35789 2007-01-24 17:23:52Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Cartesian.h $
+// $Id: Cartesian.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/Kinetic/basic.h>
 #include <CGAL/Kinetic/internal/Kernel/Cartesian_kinetic_kernel_base.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! A kinetic kernel using cartesian coordinates
 /*!  It takes a PolynomialKernel as a template parameter. The
@@ -43,7 +43,7 @@ public:
   Cartesian(){}
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 
 //#include <CGAL/Kinetic_internals/kernel_undefs.h>
 #endif

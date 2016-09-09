@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/algorithm.h $
-// $Id: algorithm.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/algorithm.h $
+// $Id: algorithm.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -30,7 +30,7 @@
 #include <algorithm>
 #include <iosfwd>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // copy_n is usually in the STL as well, but not in the official
 // standard. We provide our own copy_n.  It is planned for C++0x.
@@ -305,6 +305,6 @@ output_range(std::ostream& os,
     return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ALGORITHM_H

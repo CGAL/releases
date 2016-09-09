@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 54700 2010-03-11 14:13:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 57014 2010-06-23 13:29:04Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -24,7 +24,7 @@
 #include <CGAL/Constraint_hierarchy_2.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Tr the base triangulation class 
 // Tr has to be Constrained or Constrained_Delaunay
@@ -76,6 +76,11 @@ public:
   using Triangulation::ccw;
   using Triangulation::number_of_vertices;
   using Triangulation::vertices_begin;
+  using Triangulation::locate;
+  using Triangulation::includes_edge;
+  using Triangulation::mark_constraint;
+  using Triangulation::find_intersected_faces;
+  using Triangulation::triangulate_hole;
 
 protected:
   Constraint_hierarchy hierarchy;
@@ -130,7 +135,7 @@ public:
 
   void insert_constraint(Vertex_handle va, Vertex_handle vb);
 //   template < class InputIterator >
-//   int insert(InputIterator first, InputIterator last);
+//   std::ptrdiff_t insert(InputIterator first, InputIterator last);
   Vertex_handle push_back(const Point& a);
   void          push_back(const Constraint& c);
   
@@ -200,12 +205,12 @@ public:
 public:
   template < class InputIterator >
 #if defined(_MSC_VER)
-    int insert(InputIterator first, InputIterator last, int i = 0)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last, int i = 0)
 #else
-    int insert(InputIterator first, InputIterator last) 
+    std::ptrdiff_t insert(InputIterator first, InputIterator last) 
 #endif
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
 
     std::vector<Point> points (first, last);
 
@@ -644,9 +649,6 @@ vertices_in_constraint_end(Vertex_handle va, Vertex_handle vb)
   return  hierarchy.vertices_in_constraint_end(va,vb);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_CONSTRAINED_TRIANGULATION_PLUS_2_H
-
-
-

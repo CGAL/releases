@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: DirectionH2.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: DirectionH2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -26,7 +26,7 @@
 
 #include <CGAL/array.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class DirectionH2
@@ -99,11 +99,11 @@ bool
 DirectionH2<R>::operator!=( const DirectionH2<R>& d) const
 { return !(*this == d); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Homogeneous/predicates_on_directionsH2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R >
 CGAL_KERNEL_INLINE
@@ -111,6 +111,6 @@ typename DirectionH2<R>::Vector_2
 DirectionH2<R>::to_vector() const
 { return Vector_2(dx(), dy()); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_DIRECTION_2_H

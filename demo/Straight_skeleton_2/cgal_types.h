@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Straight_skeleton_2/demo/Straight_skeleton_2/cgal_types.h $
-// $Id: cgal_types.h 50832 2009-07-24 17:20:12Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/demo/Straight_skeleton_2/cgal_types.h $
+// $Id: cgal_types.h 57866 2010-08-09 10:00:17Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -23,7 +23,6 @@
 #include <CGAL/Polygon_2.h>
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Exact_predicates_exact_constructions_kernel_with_sqrt.h>
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
@@ -37,7 +36,6 @@
 namespace demo
 {
 
-//typedef CGAL::Exact_predicates_exact_constructions_kernel_with_sqrt K;
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Polygon_2<K>            CGAL_Polygon ;

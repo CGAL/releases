@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_traits_3.h $
-// $Id: Periodic_3_triangulation_traits_3.h 49167 2009-05-06 14:41:16Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_traits_3.h $
+// $Id: Periodic_3_triangulation_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico.Kruithof@sophia.inria.fr>
@@ -26,7 +26,7 @@
 #include <CGAL/triangulation_assertions.h>
 
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template < class K, class Predicate_ >
   class Traits_with_offsets_adaptor {
@@ -244,13 +244,13 @@ protected:
 template < typename K, typename Off = CGAL::Periodic_3_offset_3 >
 class Periodic_3_triangulation_traits_3;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // Partial specialization for Filtered_kernel<CK>.
 #include <CGAL/Periodic_3_triangulation_filtered_traits_3.h>
 #include <CGAL/Filtered_kernel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This declaration is needed to break the cyclic dependency.
 template < typename K >
@@ -270,6 +270,6 @@ class Periodic_3_triangulation_traits_3
   : public Periodic_3_triangulation_traits_base_3<K, Off>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_TRAITS_3_H

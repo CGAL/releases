@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_widget_2_core.cpp $
-// $Id: Kinetic_Qt_widget_2_core.cpp 39103 2007-06-15 20:42:44Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_widget_2_core.cpp $
+// $Id: Kinetic_Qt_widget_2_core.cpp 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 
 #include "Kinetic_Qt_widget_2_core.moc"
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 void Qt_widget_2_core::redraw() {
   lock();
   clear();
@@ -40,4 +40,4 @@ Qt_widget_2_core::Qt_widget_2_core(QMainWindow *parent): ::CGAL::Qt_widget(paren
   //drawable_=NULL;
   is_drawn_=false;
 }
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal

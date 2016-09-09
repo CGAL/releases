@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Triangulation_helpers.h $
-// $Id: Triangulation_helpers.h 52258 2009-10-09 15:09:23Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Triangulation_helpers.h $
+// $Id: Triangulation_helpers.h 57256 2010-07-01 08:27:03Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -26,7 +26,7 @@
 
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3 {
   
@@ -77,7 +77,6 @@ private:
    * Returns true if \c v is well_oriented on each cell of \c cell_tos
    */
   bool well_oriented(const Tr& tr,
-                     const Vertex_handle& v,
                      const Cell_vector& cell_tos) const;
 };
   
@@ -111,7 +110,7 @@ no_topological_change(const Tr& tr,
   
   Cell_vector cells_tos;
   tr.incident_cells(v0, std::back_inserter(cells_tos));
-  if(!well_oriented(tr, v0, cells_tos)) 
+  if(!well_oriented(tr, cells_tos)) 
   {
     // Reset (restore) v0
     v0->set_point(fp);
@@ -171,7 +170,6 @@ template<typename Tr>
 bool
 Triangulation_helpers<Tr>::
 well_oriented(const Tr& tr,
-              const Vertex_handle& v,
               const Cell_vector& cells_tos) const
 {
   typename Cell_vector::const_iterator it = cells_tos.begin();
@@ -202,6 +200,6 @@ well_oriented(const Tr& tr,
 
 } // end namespace Mesh_3 
   
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_TRIANGULATION_HELPERS_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Triangulation_face_base_with_edges_2.h $
-// $Id: Triangulation_face_base_with_edges_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Triangulation_face_base_with_edges_2.h $
+// $Id: Triangulation_face_base_with_edges_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -29,7 +29,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < class Gt,
@@ -145,6 +145,6 @@ protected:
 
 
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif // CGAL_TRIANGULATION_FACE_BASE_WITH_EDGES_2_H

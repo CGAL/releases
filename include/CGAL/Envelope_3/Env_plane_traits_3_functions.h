@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
-// $Id: Env_plane_traits_3_functions.h 50370 2009-07-05 13:22:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
+// $Id: Env_plane_traits_3_functions.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -22,7 +22,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Object.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class K>
 Object plane_half_plane_proj_intersection(const typename K::Plane_3 &h1, 
@@ -199,6 +199,6 @@ Object ray_under_linear_constraint(const typename K::Ray_2&  ray,
 }
  
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

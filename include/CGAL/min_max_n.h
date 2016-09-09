@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/min_max_n.h $
-// $Id: min_max_n.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/min_max_n.h $
+// $Id: min_max_n.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -23,7 +23,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // min_n() and max_n() functions similar to std::min() and std::max(),
 // but which allow more than 2 arguments.
@@ -109,6 +109,6 @@ max_n(const T& t0, const T& t1, const T& t2, const T& t3, const T& t4,
       const T& t5, const T& t6, const T& t7)
 { return (std::max)(t0, max_n(t1, t2, t3, t4, t5, t6, t7)); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MIN_MAX_N_H

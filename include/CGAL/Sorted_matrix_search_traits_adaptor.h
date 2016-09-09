@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
-// $Id: Sorted_matrix_search_traits_adaptor.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
+// $Id: Sorted_matrix_search_traits_adaptor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -20,7 +20,7 @@
 #ifndef CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 #define CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H 1
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class FeasibilityTest_, class Matrix_ >
 class Sorted_matrix_search_traits_adaptor {
@@ -63,10 +63,9 @@ sorted_matrix_search_traits_adaptor(FeasibilityTest f, const Matrix&)
   return Traits(f);
 } // sorted_matrix_search_traits_adaptor( ... )
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

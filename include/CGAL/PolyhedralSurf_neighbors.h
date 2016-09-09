@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
-// $Id: PolyhedralSurf_neighbors.h 39640 2007-08-01 14:06:29Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $Id: PolyhedralSurf_neighbors.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_POLYHEDRALSURF_NEIGHBORS_H_
@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //---------------------------------------------------------------------------
 //T_Gate : element of the priority queue. A gate is a halfedge and a
@@ -293,6 +293,6 @@ reset_is_visited_map(std::vector<Vertex_const_handle> &vces)
   for (;itb != ite; itb++) is_visited_map[*itb] = false;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

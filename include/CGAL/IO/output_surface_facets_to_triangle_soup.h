@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_reconstruction_points_3/include/CGAL/IO/output_surface_facets_to_triangle_soup.h $
-// $Id: output_surface_facets_to_triangle_soup.h 49454 2009-05-18 15:42:15Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/IO/output_surface_facets_to_triangle_soup.h $
+// $Id: output_surface_facets_to_triangle_soup.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez
 
@@ -23,7 +23,7 @@
 #include <CGAL/IO/Complex_2_in_triangulation_3_polyhedron_builder.h>
 #include <CGAL/value_type_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Gets reconstructed surface out of a SurfaceMeshComplex_2InTriangulation_3 object.
@@ -70,6 +70,6 @@ output_surface_facets_to_triangle_soup(
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_OUTPUT_SURFACE_FACETS_TO_TRIANGLE_SOUP_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Dynamic_matrix.h $
-// $Id: Dynamic_matrix.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/Dynamic_matrix.h $
+// $Id: Dynamic_matrix.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -24,7 +24,7 @@
 #include <utility>
 #include <CGAL/Optimisation/assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Matrix >
 class Dynamic_matrix
@@ -116,10 +116,9 @@ Dynamic_matrix< Matrix >
 dynamic_matrix( const Matrix& m)
 { return Dynamic_matrix< Matrix >( m); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_DYNAMIC_MATRIX_H)
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

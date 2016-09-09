@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
-// $Id: HalfedgeDS_const_decorator.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
+// $Id: HalfedgeDS_const_decorator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #include <vector>
 #include <CGAL/IO/Verbose_ostream.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class p_HDS >
 class HalfedgeDS_const_decorator
@@ -75,6 +75,22 @@ public:
     typedef typename HDS::Supports_face_halfedge  Supports_face_halfedge;
 
     typedef typename HDS::Supports_removal        Supports_removal;
+
+
+    using HalfedgeDS_items_decorator<p_HDS>::insert_tip;
+    using HalfedgeDS_items_decorator<p_HDS>::get_prev;
+    using HalfedgeDS_items_decorator<p_HDS>::set_prev;
+    using HalfedgeDS_items_decorator<p_HDS>::get_face;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face;
+    using HalfedgeDS_items_decorator<p_HDS>::get_vertex;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex;
+    using HalfedgeDS_items_decorator<p_HDS>::get_vertex_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::get_face_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex_in_vertex_loop;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face_in_face_loop;
+    using HalfedgeDS_items_decorator<p_HDS>::insert_halfedge;
 
 protected:
     typedef typename Vertex::Base                 VBase;
@@ -354,7 +370,7 @@ is_valid( bool verb, int level) const {
     return valid;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HALFEDGEDS_CONST_DECORATOR_H //
 // EOF //

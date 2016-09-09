@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/PolygonGraphicsItem.h $
-// $Id: PolygonGraphicsItem.h 47039 2008-11-26 09:07:41Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/PolygonGraphicsItem.h $
+// $Id: PolygonGraphicsItem.h 58018 2010-08-12 13:49:43Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -114,9 +114,6 @@ PolygonGraphicsItem<P>::PolygonGraphicsItem(P * p_)
      draw_edges(true), draw_vertices(true)   
 {
   setVerticesPen(QPen(::Qt::red, 3.));
-  if(poly->size() == 0){
-    this->hide();
-  }
   updateBoundingBox();
   setZValue(3);
 }
@@ -181,11 +178,6 @@ template <typename P>
 void 
 PolygonGraphicsItem<P>::modelChanged()
 {
-  if((poly->size() == 0) ){
-    this->hide();
-  } else if((poly->size() > 0) && (! this->isVisible())){
-    this->show();
-  }
   updateBoundingBox();
   update();
 }

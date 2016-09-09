@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_eddy_impl.h $
-// $Id: ch_eddy_impl.h 56865 2010-06-18 09:11:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_eddy_impl.h $
+// $Id: ch_eddy_impl.h 56898 2010-06-20 21:48:20Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <boost/bind.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class List, class ListIterator, class Traits>
 void
@@ -135,6 +135,6 @@ ch_eddy(InputIterator first, InputIterator last,
   return std::copy( L.begin(), w, result );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CH_EDDY_C

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
-// $Id: SM_triangulator.h 46617 2008-11-02 20:34:48Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
+// $Id: SM_triangulator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -38,7 +38,7 @@
 #ifndef CGAL_USE_LEDA
 #define LEDA_MEMORY(t) 
 #endif
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Decorator_, typename IT, typename INFO>
 struct SM_subdivision {
@@ -670,8 +670,6 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #undef CGAL_USING
 #endif //CGAL_SM_TRIANGULATOR_H
-
-

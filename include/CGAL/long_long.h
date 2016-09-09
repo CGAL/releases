@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/long_long.h $
-// $Id: long_long.h 44789 2008-08-05 13:42:15Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/long_long.h $
+// $Id: long_long.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -30,7 +30,7 @@
 
 #include <CGAL/number_type_basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<> class Algebraic_structure_traits< long long int >
   : public Algebraic_structure_traits_base< long long int,
@@ -86,7 +86,7 @@ typedef  unsigned long long int  UInteger64;
 #define CGAL_HAS_INTEGER64
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Interval_nt.h>
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/Exact_simulation_traits.h $
-// $Id: Exact_simulation_traits.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Exact_simulation_traits.h $
+// $Id: Exact_simulation_traits.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -36,7 +36,7 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 //#include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 struct Exact_simulation_traits {
   typedef Exact_simulation_traits This;
@@ -100,5 +100,5 @@ protected:
   Kinetic_kernel kk_;
   Function_kernel fk_;
 };
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: Segment_Delaunay_graph_2.h 48908 2009-04-26 14:03:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: Segment_Delaunay_graph_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -35,10 +35,10 @@
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Segment_Delaunay_graph_storage_traits_2.h>
 #include <CGAL/Segment_Delaunay_graph_vertex_base_2.h>
+#include <CGAL/Segment_Delaunay_graph_face_base_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
-#include <CGAL/Triangulation_face_base_2.h>
 
-#include <CGAL/in_place_edge_list.h>
+#include <CGAL/Segment_Delaunay_graph_2/in_place_edge_list.h>
 #include <CGAL/Segment_Delaunay_graph_2/edge_list.h>
 #include <CGAL/Segment_Delaunay_graph_2/Traits_wrapper_2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
@@ -61,9 +61,9 @@
 */
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 namespace Internal {
 
@@ -74,7 +74,7 @@ namespace Internal {
   struct Which_list<E,Tag_true>
   {
     typedef E                           Edge;
-    typedef In_place_edge_list<Edge>    List;
+    typedef In_place_edge_list_for_sdg<Edge>    List;
   };
 
   // do not use the in-place edge list
@@ -138,7 +138,7 @@ namespace Internal {
 
 } // namespace Internal
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
 
 template<class Gt, class ST, class STag, class D_S, class LTag >
@@ -150,7 +150,7 @@ template<class Gt,
 	 class ST = Segment_Delaunay_graph_storage_traits_2<Gt>,
 	 class D_S = Triangulation_data_structure_2 < 
                 Segment_Delaunay_graph_vertex_base_2<ST>,
-                Triangulation_face_base_2<Gt> >,
+                Segment_Delaunay_graph_face_base_2<Gt> >,
 	 class LTag = Tag_false >
 class Segment_Delaunay_graph_2
   : private Triangulation_2<
@@ -265,6 +265,9 @@ protected:
   Point_container pc_;
   Input_sites_container isc_;
   Storage_traits st_;
+#ifdef CGAL_SDG_NO_FACE_MAP
+  std::vector<Face_handle> fhc_;
+#endif
 
 protected:
   // MORE LOCAL TYPES
@@ -356,7 +359,8 @@ public:
 
   using Delaunay_graph::cw;
   using Delaunay_graph::ccw;
-
+  using Delaunay_graph::delete_vertex;
+  using Delaunay_graph::delete_face;
 public:
   // TRAVERSAL OF THE DUAL GRAPH
   //----------------------------
@@ -1087,7 +1091,24 @@ protected:
 
   inline Edge sym_edge(const Face_handle& f, int i) const {
     Face_handle f_sym = f->neighbor(i);
+#ifdef CGAL_SDG_ALTERNATE_SYMEDGE_IMPLEMENTATION_BY_AF
+    int count = ( f_sym->neighbor(0) == f );
+    int i_sym = 0;
+    if ( f_sym->neighbor(1) == f ) {
+      ++count;
+      i_sym = 1;
+    }
+    if ( f_sym->neighbor(2) == f ) {
+      ++count;
+      i_sym = 2;
+    }
+    if ( count == 1 ) {
+      return Edge(f_sym, i_sym);
+    }
+    return Edge(f_sym, f_sym->index( f->vertex(i) ));
+#else
     return Edge(  f_sym, f_sym->index( this->_tds.mirror_vertex(f, i) )  );
+#endif
   }
 
   Edge flip(Face_handle& f, int i) {
@@ -1221,8 +1242,12 @@ protected:
 
   void expand_conflict_region(const Face_handle& f, const Site_2& t,
 			      const Storage_site_2& ss,
+#ifdef CGAL_SDG_NO_FACE_MAP
+			      List& l,
+#else
 			      List& l, Face_map& fm,
 			      std::map<Face_handle,Sign>& sign_map,
+#endif
 			      Triple<bool, Vertex_handle,
 			      Arrangement_type>& vcross);
 
@@ -1230,8 +1255,12 @@ protected:
   Vertex_list   add_bogus_vertices(List& l);
   void          remove_bogus_vertices(Vertex_list& vl);
 
+#ifdef CGAL_SDG_NO_FACE_MAP
+  void retriangulate_conflict_region(Vertex_handle v, List& l);
+#else
   void retriangulate_conflict_region(Vertex_handle v, List& l,
 				     Face_map& fm);
+#endif
 
 
 protected:
@@ -1324,6 +1353,18 @@ protected:
   inline
   Sign incircle(const Storage_site_2 &t1, const Storage_site_2 &t2,
 		const Storage_site_2 &t3, const Storage_site_2 &q) const {
+#ifdef CGAL_PROFILE_SDG_DUMP_INCIRCLE
+    typedef typename Geom_traits::FT  FT;
+    if ( !Algebraic_structure_traits<FT>::Is_exact::value ) {
+      std::ofstream ofs("incircle.cin", std::ios_base::app);
+      ofs.precision(16);
+      ofs << t1.site() << " ";
+      ofs << t2.site() << " ";
+      ofs << t3.site() << " ";
+      ofs <<  q.site() << std::endl;
+      ofs.close();
+    }
+#endif
     return geom_traits().vertex_conflict_2_object()(t1.site(),
 						    t2.site(),
 						    t3.site(),
@@ -1516,6 +1557,18 @@ protected:
   inline
   Sign incircle(const Site_2 &t1, const Site_2 &t2,
 		const Site_2 &t3, const Site_2 &q) const {
+#ifdef CGAL_PROFILE_SDG_DUMP_INCIRCLE
+    typedef typename Geom_traits::FT  FT;
+    if ( !Algebraic_structure_traits<FT>::Is_exact::value ) {
+      std::ofstream ofs("incircle.cin", std::ios_base::app);
+      ofs.precision(16);
+      ofs << t1 << " ";
+      ofs << t2 << " ";
+      ofs << t3 << " ";
+      ofs <<  q << std::endl;
+      ofs.close();
+    }
+#endif
     return geom_traits().vertex_conflict_2_object()(t1, t2, t3, q);
   }
 
@@ -1711,7 +1764,7 @@ std::ostream& operator<<(std::ostream& os,
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #include <CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h>

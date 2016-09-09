@@ -32,7 +32,7 @@
  * Email: exact@cs.nyu.edu
  *
  * $Source: /home/exact/cvsroot/exact/corelib/inc/CORE/Promote.h,v $
- * $Revision: 37060 $ $Date: 2007-03-13 19:10:39 +0100 (Tue, 13 Mar 2007) $
+ * $Revision: 56668 $ $Date: 2010-06-09 10:45:58 +0200 (Wed, 09 Jun 2010) $
  ***************************************************************************/
 
 #ifndef __PROMOTE_H__
@@ -40,7 +40,7 @@
 
 #include <CGAL/CORE/Impl.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 /// hasExactDivision()
 ///   CHECKING if NT has exact division
@@ -152,7 +152,6 @@ DEFINE_MAX_TYPE(BigFloat, Expr, Expr)
 
 DEFINE_MAX_TYPE(BigRat, Expr, Expr)
 
-CORE_END_NAMESPACE
+} //namespace CORE
 
 #endif //__PROMOTE_H__
-

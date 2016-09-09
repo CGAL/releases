@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 53116 2009-11-20 12:36:02Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
+// $Id: intersection_3_1_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -24,7 +24,7 @@
 
 #include <CGAL/wmult.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -523,7 +523,7 @@ intersection(const typename K::Line_3 &line,
     typedef typename K::Direction_3 Direction_3;
     const Point_3 &linepoint = line.point();
     const Direction_3 &linedir = line.direction();
-    return intersection_bl(box,
+    return intersection_bl<K>(box,
         CGAL::to_double(linepoint.x()),
         CGAL::to_double(linepoint.y()),
         CGAL::to_double(linepoint.z()),
@@ -556,7 +556,7 @@ intersection(const typename K::Ray_3 &ray,
     typedef typename K::Direction_3 Direction_3;
     const Point_3 &linepoint = ray.source();
     const Direction_3 &linedir = ray.direction();
-    return intersection_bl(box,
+    return intersection_bl<K>(box,
         CGAL::to_double(linepoint.x()),
         CGAL::to_double(linepoint.y()),
         CGAL::to_double(linepoint.z()),
@@ -590,7 +590,7 @@ intersection(const typename K::Segment_3 &seg,
     typedef typename K::Vector_3 Vector_3;
     const Point_3 &linepoint = seg.source();
     const Vector_3 &diffvec = seg.target()-linepoint;
-    return intersection_bl(box,
+    return intersection_bl<K>(box,
         CGAL::to_double(linepoint.x()),
         CGAL::to_double(linepoint.y()),
         CGAL::to_double(linepoint.z()),
@@ -1093,4 +1093,4 @@ do_intersect(const Plane_3<K> &p,
   return typename K::Do_intersect_3()(p, s);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

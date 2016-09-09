@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
-// $Id: Sphere_3.h 50112 2009-06-26 14:15:56Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
+// $Id: Sphere_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -28,7 +28,7 @@
 #include <CGAL/Interval_nt.h>
 #include <boost/tuple/tuple.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class SphereC3
@@ -106,17 +106,17 @@ public:
 
   const Point_3 & center() const
   {
-      return get(base).get<0>();
+      return get(base).template get<0>();
   }
   const FT & squared_radius() const
   {
       // Returns the square of the radius (instead of the radius itself,
       // which would require square roots)
-      return get(base).get<1>();
+      return get(base).template get<1>();
   }
   Orientation orientation() const
   {
-      return get(base).get<2>();
+      return get(base).template get<2>();
   }
 
   // A circle is degenerate if its (squared) radius is null or negative
@@ -286,6 +286,6 @@ SphereC3<R>::opposite() const
                                CGAL::opposite(orientation()) );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_SPHERE_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Combine_with_halfspace.h $
-// $Id: Combine_with_halfspace.h 49082 2009-05-03 11:32:35Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Combine_with_halfspace.h $
+// $Id: Combine_with_halfspace.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -36,7 +36,7 @@
 #define CGAL_NEF_DEBUG 19
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Map, typename SNC_point_locator>
 class Combine_with_halfspace : public SNC_decorator<Map> { 
@@ -168,6 +168,5 @@ class Combine_with_halfspace : public SNC_decorator<Map> {
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_COMBINE_WITH_HALFSPACE_H
-

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial_type_generator.h $
-// $Id: Polynomial_type_generator.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial_type_generator.h $
+// $Id: Polynomial_type_generator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -26,7 +26,7 @@
 
 #include <CGAL/Polynomial_traits_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class T, int d>
 struct Polynomial_type_generator
@@ -40,6 +40,6 @@ public:
 template <class T>
 struct Polynomial_type_generator<T,0>{ typedef T Type; };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_GENERATOR_H

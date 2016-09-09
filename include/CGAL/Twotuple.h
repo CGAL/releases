@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Twotuple.h $
-// $Id: Twotuple.h 44546 2008-07-28 16:49:46Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Twotuple.h $
+// $Id: Twotuple.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -26,7 +26,7 @@
 
 #ifndef CGAL_NO_DEPRECATED_CODE
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class T >
 struct Twotuple
@@ -42,7 +42,7 @@ struct Twotuple
   {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NO_DEPRECATED_CODE
 

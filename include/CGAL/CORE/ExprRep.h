@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/ExprRep.h $
- * $Id: ExprRep.h 41739 2008-01-20 23:09:58Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/ExprRep.h $
+ * $Id: ExprRep.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_EXPRREP_H_
@@ -42,7 +42,7 @@
 #include <CGAL/CORE/Filter.h>
 #include <CGAL/CORE/poly/Sturm.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 #ifdef CORE_DEBUG_BOUND
 // These counters are incremented each time each bound is recognized as equal
@@ -1309,5 +1309,5 @@ inline BigFloat ExprRep::BigFloatValue() {
   return getAppValue().BigFloatValue();
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_EXPRREP_H_

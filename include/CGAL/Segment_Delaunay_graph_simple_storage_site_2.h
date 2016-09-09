@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_storage_site_2.h $
-// $Id: Segment_Delaunay_graph_simple_storage_site_2.h 46222 2008-10-13 09:56:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_storage_site_2.h $
+// $Id: Segment_Delaunay_graph_simple_storage_site_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -27,17 +27,17 @@
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
   /** A Site is either a point or a segment or a point defined as the
       intersection of two non-parallel segments (if defined)
    */
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 template<class STraits> class Construct_storage_site_2;
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
 
 template <class STraits>
@@ -213,6 +213,6 @@ protected:
 
 //-------------------------------------------------------------------------
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_SIMPLE_STORAGE_SITE_H

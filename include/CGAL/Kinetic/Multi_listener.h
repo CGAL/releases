@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Multi_listener.h $
-// $Id: Multi_listener.h 42714 2008-04-01 18:03:41Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Multi_listener.h $
+// $Id: Multi_listener.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,7 +21,7 @@
 #ifndef CGAL_TOOLS_MULTI_LISTENER_BASE_H
 #define CGAL_TOOLS_MULTI_LISTENER_BASE_H
 #include <CGAL/basic.h>
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! This is a variant of Listener which supports more than one object receiving notifications
 /*!
@@ -137,7 +137,7 @@ private:							\
   };                                                                    \
 public:                                                                 \
  typedef CGAL::Kinetic::Multi_listener_base<Listener_core> Listener;    \
- friend class CGAL::Kinetic::Multi_listener_base<Listener_core>;                       \
+ friend class CGAL::Kinetic::Multi_listener_base<Listener_core>;        \
 private:                                                                \
  void new_listener(Listener *sk) {                                      \
    listeners_.push_back(sk);                                            \
@@ -226,10 +226,12 @@ private:                                                                \
  }                                                                      \
  std::vector<Listener*> listeners_;
 
-#define CGAL_KINETIC_MULTINOTIFY(field) for(typename std::vector<Listener*>::iterator it= listeners_.begin(); it != listeners_.end(); ++it){ \
+#define CGAL_KINETIC_MULTINOTIFY(field) do {                            \
+  for(typename std::vector<Listener*>::iterator it= listeners_.begin(); it != listeners_.end(); ++it){ \
     (*it)->new_notification(Listener::field);				\
-  }
+  }} while (false)
 
-#define CGAL_KINETIC_MULTILISTENER_DESTRUCTOR CGAL_assertion(listeners_.empty());
-CGAL_KINETIC_END_NAMESPACE
+#define CGAL_KINETIC_MULTILISTENER_DESTRUCTOR CGAL_assertion(listeners_.empty())
+
+} } //namespace CGAL::Kinetic
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h $
-// $Id: SNC_sphere_map.h 29399 2006-03-11 18:34:06Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h $
+// $Id: SNC_sphere_map.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -35,7 +35,7 @@
 #include <CGAL/Nef_2/debug.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K, typename I, typename M> class SNC_structure;
 
@@ -134,7 +134,7 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
 
   typedef Vertex_handle       Constructor_parameter;
   typedef Vertex_const_handle Constructor_const_parameter;
-
+  using Base::init_range; // AF add CR
  public:
   SNC_sphere_map(bool construct=false) : Base(), destruct(construct) {
     if(!construct) return;
@@ -228,7 +228,7 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    { CGAL_assertion_msg(0,"not impl."); return Object_handle(); }
   };
 
   class SFace_cycle_const_iterator : public Object_const_iterator 
@@ -259,7 +259,7 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
     operator Object_handle() const { return Ibase::operator*(); }
     const Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    { CGAL_assertion_msg(0,"not impl."); return Object_handle(); }
   };
 
   SFace_cycle_const_iterator sface_cycles_begin(SFace_const_handle f) const
@@ -438,6 +438,6 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
 };  // SNC_sphere_map
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //  CGAL_SNC_SPHERE_MAP_H

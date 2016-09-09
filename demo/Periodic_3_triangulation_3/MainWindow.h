@@ -4,7 +4,8 @@
 #include <QTimer>
 #include "Scene.h"
 
-#include <QtAssistant/QAssistantClient>
+#include <QProcess>
+#include <QTextStream>
 
 class MainWindow : public QMainWindow
 {
@@ -12,18 +13,12 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  MainWindow(QWidget* parent = 0) {
+  MainWindow(QWidget* = 0) {
     ui = new Ui::MainWindow;
     ui->setupUi(this);
     s = new Scene(ui);
 
-    QString loc = QLibraryInfo::location(QLibraryInfo::BinariesPath);
-    assistantClient = new QAssistantClient(loc, this);
-    QStringList arguments;
-    arguments << "-profile"
-	      << QCoreApplication::applicationDirPath() + QDir::separator()
-      + QString("documentation/Periodic_3_triangulation_3.adp");
-    assistantClient->setArguments(arguments);
+    process = new QProcess(this);
 
     // QGLViewer drawing signals
     connect(ui->viewer, SIGNAL(viewerInitialized()), s, SLOT(init()));
@@ -102,28 +97,44 @@ public:
             this, SLOT(about_CGAL()));
     connect(ui->actionAbout, SIGNAL(triggered()),
             this, SLOT(about()));
-
   }
 
   ~MainWindow() {
     delete(ui);
     delete(s);
-    delete(assistantClient);
+    process->close();
+    delete(process);
   }
 
 public slots:
   void help() {
-    QString loc = QCoreApplication::applicationDirPath() + QDir::separator()
-      + QString("documentation/index.html");
-    assistantClient->showPage(loc);
+    QString app = QLibraryInfo::location(QLibraryInfo::BinariesPath)
+      + QDir::separator();
+#if !defined(Q_OS_MAC)
+    app += QString("assistant");
+#else
+    app += QString("Assistant.app/Contents/MacOS/Assistant");
+#endif
+
+    QStringList args;
+    QString help_path = QCoreApplication::applicationDirPath()
+      + QDir::separator()
+      + QString("./Periodic_3_triangulation_3.qhc");
+    args << QString("-collectionFile") << help_path;
+    process->start(app, args);
+    if (!process->waitForStarted()) {
+      QMessageBox::critical(this, tr("Remote Control"),
+	  tr("Could not start Qt Assistant from %1.").arg(app));
+      return;
+    }
   }
-  
+
   void about() {
-    showFileBox("About the demo...","resources/about.html");
+    showFileBox("About the demo...",":/cgal/help/resources/about.html");
   }
 
   void about_CGAL() {
-    showFileBox("About CGAL...","resources/about_CGAL.html");
+    showFileBox("About CGAL...",":/cgal/help/resources/about_CGAL.html");
   }
 
 private:
@@ -144,6 +155,6 @@ public:
   QTimer* timer;
 
 private:
-  QAssistantClient *assistantClient;
+  QProcess* process;
 };
 

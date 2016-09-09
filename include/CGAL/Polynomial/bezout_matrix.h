@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
-// $Id: bezout_matrix.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
+// $Id: bezout_matrix.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer
@@ -38,7 +38,7 @@
 //#include <CGAL/Linear_algebra.h>
 //#include <CGAL/number_type_utils.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -608,7 +608,7 @@ polynomial_subresultant_matrix(typename Polynomial_traits_d::Polynomial_d f,
 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 

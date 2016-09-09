@@ -1,4 +1,3 @@
-
 // Copyright (c) 1999-2004,2006-2009   INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
@@ -12,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
-// $Id: Periodic_3_Delaunay_triangulation_3.h 53767 2010-01-25 14:08:56Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
+// $Id: Periodic_3_Delaunay_triangulation_3.h 57081 2010-06-24 16:24:54Z afabri $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -33,7 +32,7 @@
 #include <CGAL/Periodic_3_triangulation_remove_traits_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Gt,
             class Tds = Triangulation_data_structure_3 <
@@ -132,6 +131,21 @@ public:
   using Base::point;
 #endif
 
+  // For strict-ansi compliance
+  using Base::adjacent_vertices;
+  using Base::combine_offsets;
+  using Base::get_offset;
+  using Base::get_original_vertex;
+  using Base::get_location_offset;
+  using Base::get_neighbor_offset;
+  using Base::incident_edges;
+  using Base::incident_facets;
+  using Base::incident_cells;
+  using Base::is_valid_conflict;
+  using Base::locate;
+  using Base::periodic_point;
+  using Base::segment;
+
 public:
   /** @name Creation */ //@{
   Periodic_3_Delaunay_triangulation_3(
@@ -169,10 +183,10 @@ public:
   }
 
   template < class InputIterator >
-  int insert(InputIterator first, InputIterator last,
+  std::ptrdiff_t insert(InputIterator first, InputIterator last,
       bool is_large_point_set = false) {
     if (first == last) return 0;
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
     // The heuristic discards the existing triangulation so it can only be
     // applied to empty triangulations.
     if (n!=0) is_large_point_set = false;
@@ -190,7 +204,10 @@ public:
 	if (pbegin == points.end()) return number_of_vertices() - n;
       }
 
-    spatial_sort (pbegin, points.end(), geom_traits());
+    // Use Geom_traits::K for efficiency: spatial_sort creates a lot
+    // of copies of the traits but does not need the domain that is
+    // stored in it.
+    spatial_sort (pbegin, points.end(), typename Geom_traits::K());
 
     Conflict_tester tester(*pbegin,this);
     Point_hider hider;
@@ -223,6 +240,16 @@ public:
 public:
   /** @name Removal */ //@{
   void remove(Vertex_handle v);
+
+  template < typename InputIterator >
+  std::ptrdiff_t remove(InputIterator first, InputIterator beyond) {
+    std::size_t n = number_of_vertices();
+    while (first != beyond) {
+      remove(*first);
+      ++first;
+    }
+    return n - number_of_vertices();
+  }
   //@}
 
 public:
@@ -301,8 +328,8 @@ public:
   OutputIterator vertices_in_conflict(const Point&p, Cell_handle c,
       OutputIterator res) const;
 
-  bool is_Gabriel(Cell_handle c, int i) const;
-  bool is_Gabriel(Cell_handle c, int i, int j) const;
+  bool is_Gabriel(const Cell_handle c, int i) const;
+  bool is_Gabriel(const Cell_handle c, int i, int j) const;
   bool is_Gabriel(const Facet& f)const {
     return is_Gabriel(f.first, f.second);
   }
@@ -458,21 +485,20 @@ public:
   template <class OutputIterator>
   OutputIterator dual(Cell_handle c, int i, int j,
       OutputIterator points) const {
-    std::vector<Facet> facets;
-    Facet_circulator fstart = incident_facets(c, i, j);
+    Cell_circulator cstart = incident_cells(c, i, j);
 
     Offset offv = periodic_point(c,i).second;
     Vertex_handle v = c->vertex(i);
 
-    Facet_circulator fcit = fstart;
+    Cell_circulator ccit = cstart;
     do {
-      Point dual_orig = periodic_circumcenter(fcit->first).first;
-      int idx = fcit->first->index(v);
-      Offset off = periodic_point(fcit->first,idx).second;
+      Point dual_orig = periodic_circumcenter(ccit).first;
+      int idx = ccit->index(v);
+      Offset off = periodic_point(ccit,idx).second;
       Point dual = point(std::make_pair(dual_orig,-off+offv));
       *points++ = dual;
-      ++fcit;
-    } while (fcit != fstart);
+      ++ccit;
+    } while (ccit != cstart);
     return points;
   }
 
@@ -547,6 +573,7 @@ public:
   // square roots and thus cannot be done without changing the
   // Traits concept.
 
+  // TODO: reuse the centroid computation from the PCA package
   Point dual_centroid(Vertex_handle v) const {
     std::list<Edge> edges;
     incident_edges(v, std::back_inserter(edges));
@@ -606,8 +633,11 @@ public:
   bool is_valid(Cell_handle c, bool verbose = false, int level = 0) const;
   //@}
 
-private:
+protected:
+  // Protected, because inheritors(e.g. periodic triangulation for meshing) 
+  // of the class Periodic_3_Delaunay_triangulation_3 use this class
   class Conflict_tester;
+private:
   class Point_hider;
 
 #ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
@@ -687,7 +717,8 @@ Periodic_3_Delaunay_triangulation_3<GT,Tds>::nearest_vertex(const Point& p,
   int li, lj;
   Cell_handle c = locate(p, lt, li, lj, start);
   if (lt == Base::VERTEX) return c->vertex(li);
-  Offset o = combine_offsets(Offset(),get_location_offset(p,Offset(),c));
+  const Conflict_tester tester(p, this);
+  Offset o = combine_offsets(Offset(),get_location_offset(tester,c));
 
   // - start with the closest vertex from the located cell.
   // - repeatedly take the nearest of its incident vertices if any
@@ -761,12 +792,11 @@ Periodic_3_Delaunay_triangulation_3<GT,Tds>::nearest_vertex_in_cell(
 
 // ############################################################################
 
-
+// TODO: reintroduce the commented lines.
 template < class Gt, class Tds >
 typename Periodic_3_Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
 Periodic_3_Delaunay_triangulation_3<Gt,Tds>::
 move_point(Vertex_handle v, const Point & p) {
-  //CGAL_triangulation_precondition(! is_infinite(v));
   CGAL_triangulation_expensive_precondition(is_vertex(v));
   // Remember an incident vertex to restart
   // the point location after the removal.
@@ -877,10 +907,10 @@ _side_of_sphere(const Cell_handle &c, const Point &q,
         p1 = c->vertex(1)->point(),
         p2 = c->vertex(2)->point(),
         p3 = c->vertex(3)->point();
-  Offset o0 = get_offset(c,0),
-        o1 = get_offset(c,1),
-        o2 = get_offset(c,2),
-        o3 = get_offset(c,3),
+  Offset o0 = this->get_offset(c,0),
+        o1 = this->get_offset(c,1),
+        o2 = this->get_offset(c,2),
+        o3 = this->get_offset(c,3),
         oq = offset;
 
   Oriented_side os = ON_NEGATIVE_SIDE;
@@ -935,9 +965,8 @@ _side_of_sphere(const Cell_handle &c, const Point &q,
 
 template < class Gt, class Tds >
 bool Periodic_3_Delaunay_triangulation_3<Gt,Tds>::
-is_Gabriel(Cell_handle c, int i) const {
+is_Gabriel(const Cell_handle c, int i) const {
   CGAL_triangulation_precondition(number_of_vertices() != 0);
-
   typename Geom_traits::Side_of_bounded_sphere_3
     side_of_bounded_sphere =
     geom_traits().side_of_bounded_sphere_3_object();
@@ -955,13 +984,13 @@ is_Gabriel(Cell_handle c, int i) const {
   int in = neighbor->index(c);
 
   if (side_of_bounded_sphere(
-          c->vertex(vertex_triple_index(i,0))->point(),
-	  c->vertex(vertex_triple_index(i,1))->point(),
-	  c->vertex(vertex_triple_index(i,2))->point(),
+          neighbor->vertex(vertex_triple_index(in,0))->point(),
+	  neighbor->vertex(vertex_triple_index(in,1))->point(),
+	  neighbor->vertex(vertex_triple_index(in,2))->point(),
           neighbor->vertex(in)->point(),
-          get_offset(c,vertex_triple_index(i,0)),
-          get_offset(c,vertex_triple_index(i,1)),
-          get_offset(c,vertex_triple_index(i,2)),
+          get_offset(neighbor,vertex_triple_index(in,0)),
+          get_offset(neighbor,vertex_triple_index(in,1)),
+          get_offset(neighbor,vertex_triple_index(in,2)),
           get_offset(neighbor, in) ) == ON_BOUNDED_SIDE )
     return false;
   
@@ -970,7 +999,7 @@ is_Gabriel(Cell_handle c, int i) const {
 
 template < class Gt, class Tds >
 bool Periodic_3_Delaunay_triangulation_3<Gt,Tds>::
-is_Gabriel(Cell_handle c, int i, int j) const {
+is_Gabriel(const Cell_handle c, int i, int j) const {
   typename Geom_traits::Side_of_bounded_sphere_3
     side_of_bounded_sphere =
     geom_traits().side_of_bounded_sphere_3_object();
@@ -978,17 +1007,21 @@ is_Gabriel(Cell_handle c, int i, int j) const {
   Facet_circulator fcirc = incident_facets(c,i,j),
     fdone(fcirc);
   Vertex_handle v1 = c->vertex(i);
-  Offset off1 = int_to_off(c->offset(i));
   Vertex_handle v2 = c->vertex(j);
-  Offset off2 = int_to_off(c->offset(j));
   do {
     // test whether the vertex of cc opposite to *fcirc
     // is inside the sphere defined by the edge e = (s, i,j)
-    Cell_handle cc = (*fcirc).first;
-    int ii = (*fcirc).second;
-    Offset off3 = int_to_off(cc->offset(ii));
-    if (side_of_bounded_sphere( v1->point(), v2->point(), cc->vertex(ii)->point(), off1, off2, off3)  
-	== ON_BOUNDED_SIDE ) return false;
+    // It is necessary to fetch the offsets from the current cell.
+    Cell_handle cc = fcirc->first;
+    int i1 = cc->index(v1);
+    int i2 = cc->index(v2);
+    int i3 = fcirc->second;
+    Offset off1 = int_to_off(cc->offset(i1));
+    Offset off2 = int_to_off(cc->offset(i2));
+    Offset off3 = int_to_off(cc->offset(i3));
+    if (side_of_bounded_sphere(
+	    v1->point(), v2->point(), cc->vertex(fcirc->second)->point(),
+	    off1, off2, off3) == ON_BOUNDED_SIDE ) return false;
   } while(++fcirc != fdone);
   return true;
 }
@@ -1068,6 +1101,7 @@ class Periodic_3_Delaunay_triangulation_3<GT,Tds>::Conflict_tester
   // a point, and an offset
   const Self *t;
   Point p;
+  // stores the offset of a point in 27-cover
   mutable Offset o;
 
 public:
@@ -1202,6 +1236,6 @@ struct Periodic_3_Delaunay_triangulation_3<GT,Tds>::Vertex_remover
 };
 #endif //CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_DELAUNAY_TRIANGULATION_3_H

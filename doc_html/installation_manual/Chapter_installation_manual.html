@@ -54,11 +54,11 @@ Ideally, installing <span class="textsc">Cgal</span>amounts to:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.6                                # go to CGAL directory
+  cd  CGAL-3.7                                # go to CGAL directory
   cmake .                                     # configure CGAL
   make                                        # build the CGAL libraries
   cd examples/Straight_skeleton_2             # go to an example directory
-  cmake -DCGAL_DIR=$HOME/CGAL-3.6 .           # configure the examples
+  cmake -DCGAL_DIR=$HOME/CGAL-3.7 .           # configure the examples
   make                                        # build the examples 
 </pre>
 <P>
@@ -82,7 +82,7 @@ e.g. for numeric solvers, or visualization.
 <P>
 
 In order to build the <span class="textsc">Cgal</span> libraries, you need a C<TT>++</TT> compiler.  
-<span class="textsc">Cgal</span>&nbsp;3.6 is supported for the following compilers/operating systems:
+<span class="textsc">Cgal</span>&nbsp;3.7 is supported for the following compilers/operating systems:
 <P>
 
 <CENTER>
@@ -97,10 +97,10 @@ In order to build the <span class="textsc">Cgal</span> libraries, you need a C<T
 <B>operating system</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;3.4, 4.0, 4.1, 4.2, 4.3, 4.4 <A HREF="#Footnote_10"><SUP>10</SUP></A>
+<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;3.4 or later <A HREF="#Footnote_10"><SUP>10</SUP></A>
     
     <TD class="math" ALIGN=LEFT NOWRAP>
-Solaris 2.6+ / Linux 2.x / MacOS X
+Linux / MacOS X
       
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
@@ -109,17 +109,13 @@ Solaris 2.6+ / Linux 2.x / MacOS X
 <span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4<A HREF="#Footnote_11"><SUP>11</SUP></A>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">MS</span>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;8.0, 9.0 (<span class="textsc">Visual Studio 2005 and 2008</span>) <A HREF="#Footnote_12"><SUP>12</SUP></A>
+<span class="textsc">MS</span>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;9.0, 10.0 (<span class="textsc">Visual Studio 2008 and 2010</span>) <A HREF="#Footnote_12"><SUP>12</SUP></A>
     
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4/Vista<A HREF="#Footnote_11"><SUP>11</SUP></A>
+<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4/Vista/7<A HREF="#Footnote_11"><SUP>11</SUP></A>
 </TABLE>
 
 </CENTER>
-<P>
-
-Note that neither prerelease versions nor repository snapshots of
-<TT>GCC</TT> are supported.
 <P>
 
 <a name="Subsection_2.2"></a>
@@ -129,8 +125,7 @@ Note that neither prerelease versions nor repository snapshots of
 In order to configure, build and install the <span class="textsc">Cgal</span> libraries, examples and
 demos, you need CMake, a cross-platform ``makefile generator''.
 If CMake is not installed already you can obtain it from <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A>.
-CMake version&nbsp;2.4-patch-8 or higher is required, but we recommend
-using CMake version&nbsp;2.6 or higher.
+CMake version&nbsp;2.6.2 or higher is required.
 <P>
 
 <a name="Subsection_2.3"></a>
@@ -140,7 +135,7 @@ using CMake version&nbsp;2.6 or higher.
 binaries. Version 1.34.1 (or higher) is needed. In case
 the <span class="textsc">Boost</span> libraries are not installed on your system already, you
 can obtain them from <A HREF="http://www.boost.org/"><TT>http://www.boost.org/</TT></A>. For Windows you can download an
-installer from <A HREF="http://www.boostpro.com/products/free"><TT>http://www.boostpro.com/products/free</TT></A>.
+installer from <A HREF="http://www.boostpro.com/download/"><TT>http://www.boostpro.com/download/</TT></A>.
 Since <TT>Boost.Thread</TT> is required, make sure to either install the precompiled 
 <I>static</I> binaries for your compiler or to build <TT>libboost-thread</TT>.
 <P>
@@ -181,7 +176,7 @@ edition for this library.
 Most demos use Nokia's cross-plaform GUI toolkits Qt3 or Qt4.
 In case Qt is not yet installed on your system, you can download 
 it from <A HREF="http://qt.nokia.com"><TT>http://qt.nokia.com</TT></A>. Qt4 is only supported for versions greater or equal to
-4.2.1.
+4.3.0.
 <P>
 
 Some 3D demos use the libQGLViewer, which is a 3D widget for Qt4.
@@ -210,29 +205,34 @@ supported by the <span class="textsc">Taucs</span> project, we provide a precomp
 <span class="textsc">Taucs</span>.
 <P>
 
-The Algebraic Kernel package uses the library <span class="textsc">Rs</span> to perform real solving
+The Algebraic Kernel package uses the library RS to perform real solving
 on univariate polynomials. It can be downloaded from <A HREF="http://www.loria.fr/equipes/vegas/rs/"><TT>http://www.loria.fr/equipes/vegas/rs/</TT></A>.
+<P>
+
+One example from the 3D Skin Surface Meshing package uses the <span class="textsc">ESBTL</span> templates library. This library is used to import data from a PDB
+file as CGAL points or weighted points. It can be downloaded from
+<A HREF="http://esbtl.sourceforge.net/"><TT>http://esbtl.sourceforge.net/</TT></A>.
 <P>
 
 <a name="Section_3"></a>
         
-<A NAME="sec:gettingcgal"></A><h2>3&nbsp;&nbsp;&nbsp;Downloading CGAL</h2>
+<A NAME="sec:gettingcgal"></A><h2>3&nbsp;&nbsp;&nbsp;Downloading <span class="textsc">Cgal</span></h2>
 <P>
 
 The <span class="textsc">Cgal</span> library can be downloaded from  <A HREF="http://www.cgal.org/download.html"><TT>http://www.cgal.org/download.html</TT></A>.
 <P>
 
-After you have downloaded the file <TT>CGAL-3.6.tar.gz</TT> containing the
+After you have downloaded the file <TT>CGAL-3.7.tar.gz</TT> containing the
 <span class="textsc">Cgal</span> sources, you have to unpack it. Under a Unix-like shell, use the
 command:
 <P>
 
 <pre class="Verbatim">
-      tar xzf CGAL-3.6.tar.gz
+      tar xzf CGAL-3.7.tar.gz
 </pre>
 <P>
 
-When you are on Windows you may download and run the <TT>CGAL-3.6-Setup.exe</TT>. It is a
+When you are on Windows you may download and run the <TT>CGAL-3.7-Setup.exe</TT>. It is a
 self extracting executable that installs the <span class="textsc">Cgal</span> source, and that allows
 you to select and download some precompiled third party libraries.
 <P>
@@ -312,8 +312,8 @@ dealing with algebraic numbers. <span class="textsc">Core</span> is not part of 
 own license.
 <P>
 
-The only documentation shipped with CGAL sources is the present
-installation manual. The CGAL manual must be downloaded separately from
+The only documentation shipped with <span class="textsc">Cgal</span> sources is the present
+installation manual. The <span class="textsc">Cgal</span> manual must be downloaded separately from
 <A HREF="http://www.cgal.org/download.html"><TT>http://www.cgal.org/download.html</TT></A>.
 <P>
 
@@ -324,7 +324,7 @@ for the Computer Graphics community. OpenNL is not part of <span class="textsc">
 
 <a name="Section_4"></a>
         
-<h2>4&nbsp;&nbsp;&nbsp;Configuring CGAL</h2>
+<h2>4&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span></h2>
 <P>
 
 Before building <span class="textsc">Cgal</span> you have to choose the compiler/linker, 
@@ -334,7 +334,7 @@ which <span class="textsc">Cgal</span> libraries you want to build. Gathering
 all this information is called <I>configuration</I>.
 <P>
 
-For CGAL-3.6, the configuration is generated with CMake, a
+For CGAL-3.7, the configuration is generated with CMake, a
 cross-platform build system.  This manual explains only those features of
 CMake which are needed in order to build <span class="textsc">Cgal</span>. Please refer to the CMake 
 documentation at <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A> for further details.
@@ -354,7 +354,7 @@ argument the root directory of <span class="textsc">Cgal</span>. For example:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.6
+  cd  CGAL-3.7
   cmake-gui . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -383,7 +383,7 @@ Alternatively, you can run the command-line tool called
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.6
+  cd  CGAL-3.7
   cmake . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -414,7 +414,7 @@ build files). For example, the following generates solution files for use in Vis
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.6
+  cd CGAL-3.7
   cmake -G&quot;Visual Studio 9 2008&quot; . 
 </pre>
 <P>
@@ -426,7 +426,7 @@ specify the desired compiler in the call to CMake, as in this example:
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.6
+  cd CGAL-3.7
   cmake -DCMAKE_CXX_COMPILER:FILEPATH=g++-3.4 . 
 </pre>
 <P>
@@ -534,17 +534,8 @@ Qt4 and OpenGL
 Utilities to read and write image files                    
     <TD class="math" ALIGN=LEFT NOWRAP>
 OpenGL, ZLib, VTK (optional)
-  <TR>
-    <TD class="math" ALIGN=LEFT NOWRAP>
-</I><TT><I>CGAL_PDB</I></TT><I>     
-    <TD class="math" ALIGN=LEFT NOWRAP>
-</I><TT><I>WITH_CGAL_PDB</I></TT><I>     
-    <TD class="math" ALIGN=LEFT NOWRAP>
-<I>CGAL::PDB</I> used to manipulate </I><TT><I>PDB</I></TT><I> files      
-    <TD class="math" ALIGN=LEFT NOWRAP>
-</I>none
 </TABLE>
-
+</I>
 </CENTER>
 <P>
 
@@ -552,7 +543,7 @@ If you turn off the configuration of a library, you can still configure it manua
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.6/src/CGALQt4 
+  cd CGAL-3.7/src/CGALQt4 
   cmake . # configures only the CGAL_Qt4 library
 </pre>
 <P>
@@ -623,12 +614,12 @@ You can, for example, generate subdirectories <TT>CGAL-x.y</TT><TT>/cmake/platfo
 <P>
 
 <pre class="Verbatim">
-mkdir CGAL-3.6/cmake/platforms/debug
-cd CGAL-3.6/cmake/platforms/debug
+mkdir CGAL-3.7/cmake/platforms/debug
+cd CGAL-3.7/cmake/platforms/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../../..
 
-mkdir CGAL-3.6/cmake/platforms/release
-cd CGAL-3.6/cmake/platforms/release
+mkdir CGAL-3.7/cmake/platforms/release
+cd CGAL-3.7/cmake/platforms/release
 cmake -DCMAKE_BUILD_TYPE=Release ../../..
 </pre>
 <P>
@@ -651,7 +642,7 @@ succeeding build step as follows:
 
 <pre class="Verbatim">
 
-cd CGAL-3.6
+cd CGAL-3.7
 
 # build all the selected libraries at once
 
@@ -760,7 +751,7 @@ installation in a <span class="textsc">Unix</span>-like environment:
 
 <pre class="Verbatim">
 
-cd CGAL-3.6
+cd CGAL-3.7
 
 cmake .      # configure
 make         # compile
@@ -786,7 +777,7 @@ variable explicitly <I>at the configuration time</I> and not when executing the 
 <P>
 
 The file <TT>CGALConfig.cmake</TT> is installed by default in
-<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.6</TT>.
+<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.7</TT>.
 <P>
 
 <a name="Section_7"></a>
@@ -808,8 +799,8 @@ to indicate the location of that config file in the CMake variable
 
 <pre class="Verbatim">
 
-cd CGAL-3.6/examples/Straight_skeleton_2
-cmake -DCGAL_DIR=$HOME/CGAL-3.6 .
+cd CGAL-3.7/examples/Straight_skeleton_2
+cmake -DCGAL_DIR=$HOME/CGAL-3.7 .
 make
 
 </pre>
@@ -858,13 +849,13 @@ controlling variable right up front:
 
 <pre class="Verbatim">
 
-cd CGAL-3.6
+cd CGAL-3.7
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-g .
 
-cd CGAL-3.6/examples/Straight_skeleton_2
+cd CGAL-3.7/examples/Straight_skeleton_2
 
-cmake -DCGAL_DIR=CGAL-3.6 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
+cmake -DCGAL_DIR=CGAL-3.7 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
 
 </pre>
 
@@ -923,11 +914,6 @@ ON
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>WITH_CGAL_ImageIO</TT> 
-    <TD class="math" ALIGN=LEFT NOWRAP>
-ON
-  <TR>
-    <TD class="math" ALIGN=LEFT NOWRAP>
-<TT>WITH_CGAL_PDB</TT>     
     <TD class="math" ALIGN=LEFT NOWRAP>
 ON
 </TABLE>
@@ -1860,16 +1846,16 @@ CMake
 <P>
 
 As said before, only the <span class="textsc">Cgal</span> univariate algebraic kernel depends on the
-library <span class="textsc">Rs</span>. As the algebraic kernel is not compiled as a part of the <span class="textsc">Cgal</span>
+library RS. As the algebraic kernel is not compiled as a part of the <span class="textsc">Cgal</span>
 library, this library is not detected nor configured at installation time.
 <P>
 
-CMake will try to find <span class="textsc">Rs</span> in the standard header and library
+CMake will try to find RS in the standard header and library
 directories. When it is not automatically detected, the locations of the
 headers and library files must be specified using environment variables.
 <P>
 
-<span class="textsc">Rs</span> needs <span class="textsc">Gmp</span>&nbsp;4.2 or later and <span class="textsc">Mpfi</span>&nbsp;1.3.4 or later. The variables
+RS needs <span class="textsc">Gmp</span>&nbsp;4.2 or later and <span class="textsc">Mpfi</span>&nbsp;1.3.4 or later. The variables
 related to the latter library may also need to be defined.
 <P>
 
@@ -1914,6 +1900,41 @@ Environment
 <TT>RS_LIBRARIES</TT>        
     <TD class="math" ALIGN=LEFT NOWRAP>
 Full pathname of the compiled rs library              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+</TABLE>
+<P>
+
+<h4>ESBTL library</h4>
+<P>
+
+One skin surface example requires the ESBTL library in order to read PDB files.
+<P>
+
+If ESBTL is not automatically found, setting the <TT>ESBTL_INC_DIR</TT> 
+environment variable is sufficient.
+<P>
+
+<TABLE CELLSPACING=5  BORDER=2>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Variable</B>                    
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Description</B>                                         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>ESBTL_INC_DIR</TT>     
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the <TT>ESBTL/default.h</TT> file 
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>ESBTL_INCLUDE_DIR</TT>     
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the <TT>ESBTL/default.h</TT> file 
     <TD class="math" ALIGN=LEFT NOWRAP>
 CMake
 </TABLE>
@@ -2006,7 +2027,6 @@ cmake -DWITH_examples=false
 -- Configuring CGALimageIO. Set WITH_CGALimageIO to FALSE to unselect it.
 -- Could NOT find ZLIB
 -- CGAL-ImageIO needs ZLib and OpenGL, cannot be configured.
--- Configuring CGALPDB. Set WITH_CGALPDB to FALSE to unselect it.
 -- Configuring CGALQt. Set WITH_CGALQt to FALSE to unselect it.
 -- CGAL-Qt3 needs Qt3, cannot be configured.
 -- Configuring CGALQt4. Set WITH_CGALQt4 to FALSE to unselect it.
@@ -2028,7 +2048,7 @@ cmake -DWITH_examples=false
 -- uic executable:     C:/Work/Downloaded/Libraries/qt-win-opensource-src-4.4.1/bin/uic.exe
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.6/cmake/platforms/a
+-- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.7/cmake/platforms/a
 </pre>
 <P>
 
@@ -2041,7 +2061,7 @@ A number of boolean flags are used to workaround compiler bugs and
 limitations. They all  start
 with the prefix <TT>CGAL_CFG</TT>. These flags are used to work
 around compiler bugs and limitations. For example, the flag
-<TT>CGAL_CFG_NO_LONG_LONG</TT> denotes that the compiler does not
+<TT>CGAL_CFG_NO_CPP0X_LONG_LONG</TT> denotes that the compiler does not
 know the type <TT>long long</TT>.
 <P>
 
@@ -2105,7 +2125,7 @@ the CGAL and CGALCore libraries.
 <A HREF="http://msdn.microsoft.com/visualc/"><TT>http://msdn.microsoft.com/visualc/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_12">&nbsp;<SUP>12</SUP>&nbsp;</A><TD VALIGN=TOP>
-<A HREF="http://developer.intel.com/software/products/compilers/"><TT>http://developer.intel.com/software/products/compilers/</TT></A>
+<A HREF="http://software.intel.com/en-us/intel-compilers/"><TT>http://software.intel.com/en-us/intel-compilers/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A><TD VALIGN=TOP>
 <A HREF="http://www.cs.nyu.edu/exact/"><TT>http://www.cs.nyu.edu/exact/</TT></A>
@@ -2137,6 +2157,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href=http://www.cgal.org target=_top>CGAL Open Source Project</a>.
 Separate Build.
-29 June 2010.</SMALL>
+23 August 2010.</SMALL>
 </div>
 </body>  </html>

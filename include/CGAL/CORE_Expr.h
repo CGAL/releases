@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: CORE_Expr.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/CORE_Expr.h $
+// $Id: CORE_Expr.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -30,7 +30,7 @@
 #include <utility>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <> class Algebraic_structure_traits< CORE::Expr >
   : public Algebraic_structure_traits_base< CORE::Expr,
@@ -179,7 +179,7 @@ template <> class Real_embeddable_traits< CORE::Expr >
     };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 //since types are included by CORE_coercion_traits.h:
 #include <CGAL/CORE_Expr.h>

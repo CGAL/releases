@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
-// $Id: File_header_extended_OFF.cpp 39778 2007-08-08 15:59:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
+// $Id: File_header_extended_OFF.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -32,7 +32,7 @@
 #include <algorithm>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 bool File_header_extended_OFF::
 is_POL()  const {
@@ -191,5 +191,5 @@ std::istream& operator>>( std::istream& in, File_header_extended_OFF& h) {
 #undef CGAL_IN
 #undef CGAL_INBOOL
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 // EOF //

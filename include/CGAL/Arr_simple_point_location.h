@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_simple_point_location.h $
-// $Id: Arr_simple_point_location.h 35622 2006-12-25 08:56:47Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_simple_point_location.h $
+// $Id: Arr_simple_point_location.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -26,7 +26,7 @@
 
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A class that answers point-location and vertical ray-shooting queries
@@ -164,7 +164,7 @@ protected:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // The member-function definitions can be found under:
 #include <CGAL/Arr_point_location/Arr_simple_point_location_impl.h>

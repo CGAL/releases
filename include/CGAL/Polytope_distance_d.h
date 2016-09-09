@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
-// $Id: Polytope_distance_d.h 46466 2008-10-24 11:49:19Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
+// $Id: Polytope_distance_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -32,7 +32,7 @@
 #include <CGAL/QP_solver/QP_full_filtered_pricing.h>
 #include <CGAL/QP_solver/QP_full_exact_pricing.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // To determine the polytope distance, we set up the following QP:
 // 
@@ -962,7 +962,7 @@ operator >> ( std::istream& is,
   return( is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYTOPE_DISTANCE_D_H
 

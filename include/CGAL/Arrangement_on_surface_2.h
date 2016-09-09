@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
-// $Id: Arrangement_on_surface_2.h 53164 2009-11-24 15:55:41Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
+// $Id: Arrangement_on_surface_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -48,7 +48,7 @@
 #include <vector>
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arrangement_on_surface_2
  * The arrangement class, representing 2-dimensional subdivisions induced on
@@ -3061,11 +3061,10 @@ bool do_intersect (Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
                    const Curve& c);
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // The function definitions can be found under:
 #include <CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h>
 #include <CGAL/Arrangement_2/Arrangement_on_surface_2_global.h>
 
 #endif
-

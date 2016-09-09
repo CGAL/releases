@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_euclidean_traits_3.h $
-// $Id: Alpha_shape_euclidean_traits_3.h 50408 2009-07-06 20:26:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_euclidean_traits_3.h $
+// $Id: Alpha_shape_euclidean_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -20,12 +20,12 @@
 #ifndef CGAL_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H
 #define CGAL_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class K>
 class Alpha_shape_euclidean_traits_3 : public K {};
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H

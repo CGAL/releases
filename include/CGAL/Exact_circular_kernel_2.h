@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
-// $Id: Exact_circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
+// $Id: Exact_circular_kernel_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -29,34 +29,34 @@
 #include <CGAL/Algebraic_kernel_for_circles_2_2.h>
 #include <CGAL/Circular_kernel_2.h>
 
-/*
-TODO: CORRECT THE MAKE_ROOT_OF_2 of GMPq GMPz
+
+//TODO: CORRECT THE MAKE_ROOT_OF_2 of GMPq GMPz
 #ifdef CGAL_USE_GMP
 #  include <CGAL/Gmpq.h>
 #else
-*/
+
 #  include <CGAL/MP_Float.h>
 #  include <CGAL/Quotient.h>
-/*
+
 #endif
-*/
+
 
 // maybe it is better to change to the bbox filtered one
 //#include <CGAL/Lazy_circular_kernel_2.h>
 #include <CGAL/Filtered_bbox_circular_kernel_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
-/*
+
 #ifdef CGAL_USE_GMP
   typedef CGAL::Gmpq                                           NT1;
 #else
-*/
+
   typedef Quotient<MP_Float>                       NT1;
-/*
+
 #endif
-*/
+
   typedef Cartesian<NT1>                                 Linear_k1;
   typedef Algebraic_kernel_for_circles_2_2<NT1>          Algebraic_k1;
   typedef Circular_kernel_2<Linear_k1, Algebraic_k1>     CK1;
@@ -73,6 +73,6 @@ namespace internal {
 
 typedef Filtered_bbox_circular_kernel_2<internal::CK1>   Exact_circular_kernel_2;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_EXACT_CIRCULAR_2_KERNEL_H

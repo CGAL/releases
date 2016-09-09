@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/CoreAux.h $
- * $Id: CoreAux.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/CoreAux.h $
+ * $Id: CoreAux.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_COREAUX_H_
@@ -38,7 +38,7 @@
 #include <fstream>
 #include "CGAL/CORE/Impl.h"
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 #ifndef LONG_BIT // such as in Linux
   #define LONG_BIT (sizeof(long) * 8)
@@ -178,6 +178,5 @@ inline void core_debug(std::string msg){
 }
 
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_COREAUX_H_
-

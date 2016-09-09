@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
-// $Id: Parameterization_mesh_patch_3.h 49877 2009-06-11 08:38:15Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
+// $Id: Parameterization_mesh_patch_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -32,7 +32,7 @@
 
 #include <CGAL/surface_mesh_parameterization_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Parameterization_mesh_patch_3 is a Decorator class to "virtually" cut a patch
@@ -1078,7 +1078,6 @@ private:
 }; // Parameterization_mesh_patch_3
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SURFACE_MESH_PARAMETERIZATION_MESH_PATCH_3_H
-

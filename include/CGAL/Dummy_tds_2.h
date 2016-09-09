@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Dummy_tds_2.h $
-// $Id: Dummy_tds_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Dummy_tds_2.h $
+// $Id: Dummy_tds_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -22,7 +22,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Dummy TDS which provides all types that a vertex_base or cell_base can use.
 struct Dummy_tds_2 {
@@ -45,6 +45,6 @@ struct Dummy_tds_2 {
   typedef std::size_t size_type;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_DUMMY_TDS_2_H

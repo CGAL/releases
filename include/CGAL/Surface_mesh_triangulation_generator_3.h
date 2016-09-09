@@ -11,17 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesh_triangulation_generator_3.h $
-// $Id: Surface_mesh_triangulation_generator_3.h 37876 2007-04-03 13:59:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesh_triangulation_generator_3.h $
+// $Id: Surface_mesh_triangulation_generator_3.h 57079 2010-06-24 16:08:07Z lrineau $
 //
 // Author(s)     : Laurent Rineau
 
 #ifndef CGAL_SURFACE_MESH_TRIANGULATION_GENERATOR_3_H
 #define CGAL_SURFACE_MESH_TRIANGULATION_GENERATOR_3_H
-
-#ifndef CGAL_SURFACE_MESHER_TEST
-#  warning This header is not documented.
-#endif
 
 #include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>

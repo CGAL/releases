@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/BGL/include/CGAL/boost/graph/properties.h $
-// $Id: properties.h 54363 2010-03-01 10:35:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/properties.h $
+// $Id: properties.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -26,7 +26,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum vertex_is_border_t      { vertex_is_border } ;
 enum vertex_point_t          { vertex_point     } ;
@@ -34,6 +34,6 @@ enum vertex_external_index_t { vertex_external_index } ;
 enum edge_is_border_t        { edge_is_border   } ;
 enum edge_external_index_t   { edge_external_index } ;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BOOST_GRAPH_BGL_PROPERTIES_H

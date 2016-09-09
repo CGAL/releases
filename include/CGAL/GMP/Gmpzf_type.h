@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
-// $Id: Gmpzf_type.h 53126 2009-11-20 16:58:58Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
+// $Id: Gmpzf_type.h 56916 2010-06-21 13:07:07Z afabri $
 //
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -24,7 +24,7 @@
 // includes
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <gmp.h>
+#include <CGAL/gmp.h>
 #include <mpfr.h>
 #include <CGAL/Quotient.h>
 #include <CGAL/GMP/Gmpz_type.h>
@@ -35,7 +35,7 @@
 #include <string>
 #include <utility>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //internal fwd
 class Gmpzf;
@@ -582,6 +582,6 @@ inline Gmpzf max BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpzf& x,const Gmpzf& y)
   return (x>=y)?x:y; 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_GMPZF_TYPE_H

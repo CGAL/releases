@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
-// $Id: Partitioned_polygon_2.h 45989 2008-10-01 19:40:41Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
+// $Id: Partitioned_polygon_2.h 56064 2010-05-10 07:25:16Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -117,7 +117,7 @@ public:
        _left_turn(Traits().left_turn_2_object())
    {
       for (; first != beyond; first++) {
-         push_back(Vertex(*first));
+         this->push_back(Vertex(*first));
       }
    }
 

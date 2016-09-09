@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/min_dihedral_angle.h $
-// $Id: min_dihedral_angle.h 53309 2009-12-07 09:15:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/min_dihedral_angle.h $
+// $Id: min_dihedral_angle.h 56231 2010-05-14 09:46:02Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -90,7 +90,7 @@ minimum_dihedral_angle(
     * FT(180) / FT(CGAL_PI));
   
   return CGAL::abs(result);
-};
+}
   
   
 template <typename K>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 56321 2010-05-18 09:17:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -44,7 +44,7 @@
 #include <boost/optional.hpp>
 #include <boost/none.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename HE>
 struct move_shalfedge_around_facet {
@@ -380,7 +380,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    {  return Object_handle(); }
   };
 
   class SFace_cycle_const_iterator : public Object_const_iterator 
@@ -411,7 +411,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     const Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    { return Object_handle(); }
   };
 
 
@@ -432,7 +432,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    {  return Object_handle(); }
   };
 
   class Shell_entry_const_iterator : public Object_const_iterator 
@@ -452,7 +452,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { this->CGAL_nef_assertion_msg(0,"not impl."); return Object_handle(); }
+    {  return Object_handle(); }
   };
 
   typedef CircFromIt<SHalfedge_const_iterator, 
@@ -1493,5 +1493,5 @@ pointer_update(const SNC_structure<Kernel,Items,Mark>& D)
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SNC_STRUCTURE_H

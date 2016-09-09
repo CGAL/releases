@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/BigFloatRep.h $
- * $Id: BigFloatRep.h 37563 2007-03-27 13:28:17Z afabri $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/BigFloatRep.h $
+ * $Id: BigFloatRep.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_BIGFLOATREP_H_
@@ -39,7 +39,7 @@
 #include <CGAL/CORE/CoreDefs.h>
 #include <CGAL/CORE/extLong.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 //  forward reference
 class BigFloat;
@@ -442,5 +442,5 @@ inline void BigFloatRep::dump() const {
   std::cout << " -- End of BFRep " << this << " -- " << std::endl;
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_BIGFLOATREP_H_

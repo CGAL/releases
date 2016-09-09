@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
-// $Id: SM_checker.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
+// $Id: SM_checker.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Nef_S2/SM_const_decorator.h>
 
 #define CGAL_USING(t) typedef typename Base::t t
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions outfile=SM_checker.man }*/
 /*{\Manpage {SM_checker}{PMCDEC,GEOM}{Plane map checking}{}}*/
@@ -250,8 +250,7 @@ The input and output is mainly triggered by an IO Decorator which
 has the control over the IO format and does some basic parsing when
 reading input.
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #undef CGAL_USING
 #endif // CGAL_SM_CHECKER_H
-

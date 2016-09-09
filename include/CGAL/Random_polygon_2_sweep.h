@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/Random_polygon_2_sweep.h $
-// $Id: Random_polygon_2_sweep.h 31423 2006-06-04 15:39:42Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/Random_polygon_2_sweep.h $
+// $Id: Random_polygon_2_sweep.h 57110 2010-06-25 14:12:43Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -508,7 +508,7 @@ sweep(Tree *tree)
 // ----- End of implementation of i_generator_polygon functions. -----
 
 template <class Iterator, class PolygonTraits>
-std::pair<int,int>
+std::pair<std::ptrdiff_t,std::ptrdiff_t>
 check_simple_polygon(Iterator points_begin, Iterator points_end,
                      const PolygonTraits& polygon_traits)
 {
@@ -520,7 +520,7 @@ check_simple_polygon(Iterator points_begin, Iterator points_end,
     Tree tree(&vertex_data);
     vertex_data.init(&tree);
     vertex_data.sweep(&tree);
-    std::pair<int,int> result;
+    std::pair<std::ptrdiff_t, std::ptrdiff_t> result;
     if (vertex_data.is_simple_result) {
         result.first = result.second = -1;
 	return result;
@@ -540,7 +540,7 @@ template <class Iterator, class PolygonTraits>
 void make_simple_polygon(Iterator points_begin, Iterator points_end,
                          const PolygonTraits& polygon_traits)
 {
-    std::pair<int,int> swap_interval;
+  std::pair<std::ptrdiff_t,std::ptrdiff_t> swap_interval;
 
 #if defined(CGAL_POLY_GENERATOR_DEBUG)
     Iterator it;

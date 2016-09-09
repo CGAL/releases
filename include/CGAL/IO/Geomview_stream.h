@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Geomview/include/CGAL/IO/Geomview_stream.h $
-// $Id: Geomview_stream.h 39778 2007-08-08 15:59:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Geomview/include/CGAL/IO/Geomview_stream.h $
+// $Id: Geomview_stream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -37,7 +37,7 @@
 #include <iterator>
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Geomview_stream {
 public:
@@ -588,6 +588,6 @@ operator>>(Geomview_stream &gv, Point_3<R> &point)
 }
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_GEOMVIEW_STREAM_H

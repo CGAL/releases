@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_iterators.h $
-// $Id: Param_mesh_patch_iterators.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_iterators.h $
+// $Id: Param_mesh_patch_iterators.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -26,7 +26,7 @@
 
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// The class Param_mesh_patch_vertex_list is the type of
@@ -159,7 +159,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_PARAM_MESH_PATCH_ITERATORS_H
-

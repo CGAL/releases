@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2004  Utrecht University (The Netherlands),
+// Copyright (c) 1997-2010  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/include/CGAL/config.h $
-// $Id: config.h 53268 2009-12-03 10:16:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/include/CGAL/config.h $
+// $Id: config.h 57084 2010-06-24 16:57:37Z lrineau $
 // 
 //
 // Author(s)     : Wieger Wesselink 
@@ -39,18 +39,27 @@
 #include <CGAL/version.h>
 
 //----------------------------------------------------------------------//
-//             include platform specific workaround flags (CGAL_CFG_...)
+//  platform specific workaround flags (CGAL_CFG_...)
 //----------------------------------------------------------------------//
 
 #include <CGAL/compiler_config.h>
 
 //----------------------------------------------------------------------//
-//        auto-link the CGAL library on platforms that support it
+//  Enable C++0x features with GCC -std=c++0x (even when not specified at build time)
 //----------------------------------------------------------------------//
+
+#if defined __GNUC__ && defined __GXX_EXPERIMENTAL_CXX0X__
+#  include <CGAL/internal/gcc_cpp0x.h>
+#endif
+
+//----------------------------------------------------------------------//
+//  auto-link the CGAL library on platforms that support it
+//----------------------------------------------------------------------//
+
 #include <CGAL/auto_link/CGAL.h>
 
 //----------------------------------------------------------------------//
-//             do some post processing for the flags
+//  do some post processing for the flags
 //----------------------------------------------------------------------//
 
 #ifdef CGAL_CFG_NO_STL
@@ -61,8 +70,11 @@
 // It only works for public releases.
 #define CGAL_VERSION_NUMBER(x,y,z) (1000001 + 10000*x + 100*y + 10*z) * 1000
 
-#define CGAL_BEGIN_NAMESPACE namespace CGAL {
+#ifndef CGAL_NO_DEPRECATED_CODE
+#define CGAL_BEGIN_NAMESPACE  namespace CGAL { 
 #define CGAL_END_NAMESPACE }
+#endif
+
 
 #ifndef CGAL_CFG_NO_CPP0X_LONG_LONG
 #  define CGAL_USE_LONG_LONG
@@ -135,7 +147,7 @@
 #ifdef __SUNPRO_CC
 #  include <iterator>
 #  ifdef _RWSTD_NO_CLASS_PARTIAL_SPEC
-#    warning "CGAL does not support SunPRO with the old Rogue Wave STL: use STLPort."
+#    error "CGAL does not support SunPRO with the old Rogue Wave STL: use STLPort."
 #  endif
 
 // Sun CC has an issue with templates that means overloading
@@ -180,13 +192,6 @@ using std::max;
 #endif
 
 //-------------------------------------------------------------------//
-// Is CORE usable ?
-#ifdef CGAL_USE_GMP
-#  define CGAL_USE_CORE CGAL_USE_GMP
-#endif
-
-
-//-------------------------------------------------------------------//
 // Is Geomview usable ?
 #if !defined(_MSC_VER) && !defined(__MINGW32__)
 #  define CGAL_USE_GEOMVIEW
@@ -228,17 +233,17 @@ using std::max;
 // If CGAL_HAS_THREADS is not defined, then CGAL code assumes
 // it can do any thread-unsafe things (like using static variables).
 #if !defined CGAL_HAS_THREADS && !defined CGAL_HAS_NO_THREADS
-  #if defined BOOST_HAS_THREADS || defined _OPENMP
-  #  define CGAL_HAS_THREADS
-  #endif
+#  if defined BOOST_HAS_THREADS || defined _OPENMP
+#    define CGAL_HAS_THREADS
+#  endif
 #endif
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Typedef for the type of NULL.
 typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONFIG_H

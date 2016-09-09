@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/demo/Matrix_search/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/demo/Matrix_search/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 55756 2010-04-26 12:46:09Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -70,7 +70,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
         &pointbut, SLOT(stateChanged(int)));
   connect(but[2], SIGNAL(stateChanged(int)),
         &move_deletebut, SLOT(stateChanged(int)));
-};
+}
 
 #include "Qt_widget_toolbar.moc"
 

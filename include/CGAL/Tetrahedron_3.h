@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -30,7 +30,7 @@
 #include <CGAL/Bbox_3.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class Tetrahedron_3 : public R_::Kernel_base::Tetrahedron_3
@@ -182,6 +182,6 @@ operator>>(std::istream &is, Tetrahedron_3<R> &t)
     return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_TETRAHEDRON_3_H

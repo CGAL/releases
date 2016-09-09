@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
-// $Id: Snap_rounding_kd_2.h 44500 2008-07-28 06:10:18Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: Snap_rounding_kd_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -27,7 +27,7 @@
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/utility.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Traits, class SAVED_OBJECT>
 class My_point : public Traits::Point_2 {
@@ -485,6 +485,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

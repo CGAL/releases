@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_overlay_2.h $
-// $Id: Arr_overlay_2.h 53548 2009-12-29 16:05:35Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_overlay_2.h $
+// $Id: Arr_overlay_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -37,7 +37,7 @@
 #include <boost/static_assert.hpp>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Compute the overlay of two input arrangements.
@@ -220,6 +220,6 @@ void overlay (const Arrangement_on_surface_2<GeomTraitsA, TopTraitsA>& arr1,
   overlay (arr1, arr2, arr_res, ovl_traits);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

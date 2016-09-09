@@ -3,6 +3,7 @@
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2010 GeometryFactory Sarl (France)
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 52284 2009-10-13 08:34:43Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 57753 2010-08-03 14:24:59Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -27,7 +28,12 @@
 // Generic functions calling the kernel functor.
 // See comments in CGAL/Kernel/global_functions_internal_3.h.
 
-CGAL_BEGIN_NAMESPACE
+#include <CGAL/basic.h>
+#include <boost/utility/enable_if.hpp>
+#include "boost/mpl/equal_to.hpp"
+#include <boost/mpl/integral_c.hpp>
+
+namespace CGAL {
 
 namespace internal {
 
@@ -312,6 +318,25 @@ compare_dihedral_angle(const typename K::Vector_3& ab1,
                        const K& k)
 {
   return k.compare_dihedral_angle_3_object()(ab1, ac1, ad1, cosine);
+}
+
+template <class K, class T1, class T2, class T3, class T4>
+inline
+typename boost::enable_if<
+  boost::mpl::equal_to<boost::mpl::integral_c<int,
+                                              Ambient_dimension<T1>::type::value>,
+                       boost::mpl::integral_c<int, 3> >,
+  typename K::Comparison_result>
+::type
+  // boost::mpl::equal_to<typename Ambient_dimension<T1>::type,
+  //                      boost::mpl::int_<3> >,
+  // typename K::Comparison_result>::type
+compare_distance(const T1 &o1,
+                 const T2 &o2,
+                 const T3 &o3,
+                 const T4 &o4, const K& k)
+{
+  return k.compare_distance_3_object()(o1, o2, o3, o4);
 }
 
 template < class K >
@@ -928,6 +953,6 @@ lexicographically_xyz_smaller_or_equal(const typename K::Point_3 &p,
 
 } // namespace internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_KERNEL_GLOBAL_FUNCTIONS_INTERNAL_3_H

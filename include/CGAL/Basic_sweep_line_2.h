@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Basic_sweep_line_2.h $
-// $Id: Basic_sweep_line_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Basic_sweep_line_2.h $
+// $Id: Basic_sweep_line_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -68,7 +68,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Basic_Sweep_line_2 
  * A class that implements the sweep line algorithm for general x-monotone
@@ -328,25 +328,25 @@ public:
   /*! Get an iterator for the first event in event queue. */
   Event_queue_iterator event_queue_begin()
   {
-    return (m_queue.begin());
+    return (m_queue->begin());
   }
 
   /*! Get a past-the-end iterator for the events in the in event queue. */
   Event_queue_iterator event_queue_end()
   {
-    return (m_queue.end());
+    return (m_queue->end());
   }
 
    /*! Get the event queue size. */
   unsigned int event_queue_size() const
   {
-    return (m_queue.size());
+    return (m_queue->size());
   }
 
   /*! Check if the event queue is empty. */
   bool is_event_queue_empty() const
   {
-    return (m_queue.empty());
+    return (m_queue->empty());
   }
 
   /*! 
@@ -588,7 +588,7 @@ protected:
   #include <CGAL/Sweep_line_2/Sweep_line_2_debug.h>
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h>
 

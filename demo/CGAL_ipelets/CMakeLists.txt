@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 2.4.5)
 
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
 #path where to build libraries
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY .build/ipelets)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
 find_package(CGAL QUIET COMPONENTS Core )
-option( WITH_IPE_7 "Use the version 7 of Ipe" OFF )
+set( IPE_VERSION "AUTODETECT" CACHE STRING "The version of Ipe. Only 6 and 7 are supported.")
 
 if ( CGAL_FOUND )
   include( ${CGAL_USE_FILE} )

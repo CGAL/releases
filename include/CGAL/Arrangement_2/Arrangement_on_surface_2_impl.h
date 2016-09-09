@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: Arrangement_on_surface_2_impl.h 52004 2009-09-23 13:09:15Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
+// $Id: Arrangement_on_surface_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -43,7 +43,7 @@
 #include <CGAL/Arr_topology_traits/Sign_of_path.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Default constructor.
@@ -5168,6 +5168,6 @@ _are_curves_ordered_cw_around_vertrex (Vertex_const_handle v) const
   return (true);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

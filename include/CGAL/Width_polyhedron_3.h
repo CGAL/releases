@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Width_3/include/CGAL/Width_polyhedron_3.h $
-// $Id: Width_polyhedron_3.h 41561 2008-01-12 21:24:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Width_3/include/CGAL/Width_polyhedron_3.h $
+// $Id: Width_polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -27,7 +27,7 @@
 #include <map>
 #include <CGAL/width_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 
@@ -214,6 +214,6 @@ class Data_access {
 
 } // namespace Width_3_internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //WIDTH_POLYHEDRON_3_H

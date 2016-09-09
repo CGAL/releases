@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/bounding_box.h $
-// $Id: bounding_box.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/include/CGAL/bounding_box.h $
+// $Id: bounding_box.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -26,7 +26,7 @@
 #include <CGAL/Dimension.h>
 #include <CGAL/Kernel/Dimension_utils.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // TODO :
 // - Add support for more types of objects.
@@ -145,6 +145,6 @@ bounding_box(ForwardIterator f, ForwardIterator l)
   return bounding_box(f, l, Kernel());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BOUNDING_BOX_H

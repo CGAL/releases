@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/src/CGAL/Interval_arithmetic.cpp $
-// $Id: Interval_arithmetic.cpp 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/src/CGAL/Interval_arithmetic.cpp $
+// $Id: Interval_arithmetic.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/FPU.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #ifdef CGAL_CFG_DENORMALS_COMPILE_BUG
 // For compilers which bug on denormalized values at compile time.
@@ -53,4 +53,4 @@ int dummy_symbol_for_stopping_VC_linker_warning;
 } // namespace
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

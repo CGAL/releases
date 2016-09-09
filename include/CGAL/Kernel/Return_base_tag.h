@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/Return_base_tag.h $
-// $Id: Return_base_tag.h 33348 2006-08-16 14:56:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/Return_base_tag.h $
+// $Id: Return_base_tag.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -36,10 +36,10 @@
 // will be available in C++.
 // In the mean time, this should be a mostly/hopefully internal hack.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Return_base_tag {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

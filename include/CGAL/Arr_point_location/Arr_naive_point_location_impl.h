@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_naive_point_location_impl.h $
-// $Id: Arr_naive_point_location_impl.h 35350 2006-11-29 12:31:07Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_naive_point_location_impl.h $
+// $Id: Arr_naive_point_location_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Locate the arrangement feature containing the given point.
@@ -112,6 +112,6 @@ Object Arr_naive_point_location<Arrangement>::locate (const Point_2& p) const
   return (CGAL::make_object (f_inner));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

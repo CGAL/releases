@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_C2.h $
-// $Id: Voronoi_vertex_C2.h 35201 2006-11-16 12:42:59Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_C2.h $
+// $Id: Voronoi_vertex_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,13 +24,17 @@
 
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
+
 #include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_ring_C2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h>
+
+#ifdef CGAL_SDG_USE_OLD_INCIRCLE
 #include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h>
+#endif // CGAL_SDG_USE_OLD_INCIRCLE
 
+namespace CGAL {
 
-CGAL_BEGIN_NAMESPACE
-
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 namespace Internal {
 
@@ -45,7 +49,11 @@ namespace Internal {
   template<class K>
   struct Which_Voronoi_vertex_base_C2<K,Field_with_sqrt_tag>
   {
-    typedef Voronoi_vertex_sqrt_field_C2<K>    Base;
+#ifdef CGAL_SDG_USE_OLD_INCIRCLE
+    typedef Voronoi_vertex_sqrt_field_C2<K>        Base;
+#else
+    typedef Voronoi_vertex_sqrt_field_new_C2<K>    Base;
+#endif // CGAL_SDG_USE_OLD_INCIRCLE
   };
 } // namespace Internal
 
@@ -67,9 +75,9 @@ public:
 };
 
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 

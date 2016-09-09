@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Heap_pointer_event_queue.h $
-// $Id: Heap_pointer_event_queue.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Heap_pointer_event_queue.h $
+// $Id: Heap_pointer_event_queue.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -31,7 +31,7 @@
 #include <CGAL/Kinetic/internal/infinity_or_max.h>
 #include <algorithm>
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class Priority>
 class Heap_pointer_event_queue_item_handle;
@@ -70,7 +70,7 @@ private:
   Priority time_;
 };
 
-CGAL_OUTPUT1(Heap_pointer_event_queue_item);
+CGAL_OUTPUT1(Heap_pointer_event_queue_item)
 
 
 template <class Priority>
@@ -87,7 +87,7 @@ public:
   Heap_pointer_event_queue_item_handle(const P&p): P(p){}
 };
 
-CGAL_OUTPUT1(Heap_pointer_event_queue_item_handle);
+CGAL_OUTPUT1(Heap_pointer_event_queue_item_handle)
 
 // The how a dummy item is stored in the ::Heap_pointer_event_queue
 /*
@@ -177,9 +177,9 @@ protected:
   Event event_;
 };
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 template <class Priority> class Bin_pointer_event_queue;
 
@@ -646,5 +646,5 @@ std::ostream &operator<<(std::ostream &out, const Heap_pointer_event_queue<D, IN
 }
 
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

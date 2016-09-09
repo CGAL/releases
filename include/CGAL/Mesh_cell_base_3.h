@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
-// $Id: Mesh_cell_base_3.h 52813 2009-10-30 08:06:37Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
+// $Id: Mesh_cell_base_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -66,7 +66,7 @@ public:
     : Base()
     , subdomain_index_()
     , sliver_value_(FT(0.))
-    , sliver_cache_validity_(false) { };
+    , sliver_cache_validity_(false) {}
   
   Mesh_cell_base_3 (Vertex_handle v0,
                     Vertex_handle v1,
@@ -75,7 +75,7 @@ public:
     : Base (v0, v1, v2, v3)
     , subdomain_index_() 
     , sliver_value_(FT(0.))
-    , sliver_cache_validity_(false) { };
+    , sliver_cache_validity_(false) {}
   
   Mesh_cell_base_3 (Vertex_handle v0,
                     Vertex_handle v1,
@@ -88,20 +88,19 @@ public:
     : Base (v0, v1, v2, v3, n0, n1, n2, n3)
     , subdomain_index_()
     , sliver_value_(FT(0.))
-    , sliver_cache_validity_(false) { };
+    , sliver_cache_validity_(false) {}
   
   // Destructor
-  virtual ~Mesh_cell_base_3() { };
+  virtual ~Mesh_cell_base_3() {}
   
   // Default copy constructor and assignment operator are ok
   
   // Returns the index of the cell of the input complex that contains the cell
-  Subdomain_index subdomain_index() const { return subdomain_index_; };
+  Subdomain_index subdomain_index() const { return subdomain_index_; }
   
   // Sets the index of the cell of the input complex that contains the cell
   void set_subdomain_index(const Subdomain_index& index)
-  { subdomain_index_ = index; };
-  
+  { subdomain_index_ = index; }  
   
   void set_sliver_value(const FT& value)
   { 

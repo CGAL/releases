@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
-// $Id: Default_simulator.h 45855 2008-09-29 16:59:08Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
+// $Id: Default_simulator.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -27,7 +27,7 @@
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Multi_listener.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE;
+namespace CGAL { namespace Kinetic {
 
 #ifdef CGAL_KINETIC_CHECK_EXPENSIVE
 #ifndef CGAL_KINETIC_DISABLE_AUDITING
@@ -645,7 +645,7 @@ protected:
     typedef enum {}
       Notification_type;
       };*/
-  CGAL_KINETIC_MULTILISTENER2(HAS_AUDIT_TIME, DIRECTION_OF_TIME);
+  CGAL_KINETIC_MULTILISTENER2(HAS_AUDIT_TIME, DIRECTION_OF_TIME)
 
 protected:
   Queue queue_;
@@ -730,8 +730,8 @@ void Default_simulator<S, PQ>::audit_all_kdss()
 
 
 
-CGAL_OUTPUT2(Default_simulator);
+CGAL_OUTPUT2(Default_simulator)
 
 
-CGAL_KINETIC_END_NAMESPACE;
+} } //namespace CGAL::Kinetic
 #endif

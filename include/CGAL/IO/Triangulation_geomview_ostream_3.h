@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/IO/Triangulation_geomview_ostream_3.h $
-// $Id: Triangulation_geomview_ostream_3.h 51045 2009-08-04 13:36:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/IO/Triangulation_geomview_ostream_3.h $
+// $Id: Triangulation_geomview_ostream_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -28,7 +28,7 @@
 // - Use the stream color instead of built-in constant/random.
 // - If interfaces were more similar, we could think of sharing 2d and 3d ?
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This one is to show the edges of a 3D triangulation.
 template < class GT, class TDS >
@@ -92,6 +92,6 @@ operator<<( Geomview_stream &gv, const Triangulation_3<GT,TDS> &T)
     return gv;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_TRIANGULATION_GEOMVIEW_OSTREAM_3_H

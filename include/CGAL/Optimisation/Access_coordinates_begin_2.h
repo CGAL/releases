@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h $
-// $Id: Access_coordinates_begin_2.h 36740 2007-03-01 16:52:45Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h $
+// $Id: Access_coordinates_begin_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -26,7 +26,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declarations
 // ==================
@@ -123,7 +123,7 @@ class Access_coordinates_begin_2 {
     operator() ( const Point& p) const { return Coordinate_iterator( p); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_OPTIMISATION_ACCESS_COORDINATES_BEGIN_2_H
 

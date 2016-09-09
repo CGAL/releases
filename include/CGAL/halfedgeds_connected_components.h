@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/halfedgeds_connected_components.h $
-// $Id: halfedgeds_connected_components.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/HalfedgeDS/include/CGAL/halfedgeds_connected_components.h $
+// $Id: halfedgeds_connected_components.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/iterator.h>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class HDS, class Output_iterator, 
           class Halfedge_iterator, class Halfedge_handle>
@@ -85,6 +85,6 @@ halfedgeds_connected_components( HDS& hds) {
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HALFEDGEDS_CONNECTED_COMPONENTS_H //
 // EOF //

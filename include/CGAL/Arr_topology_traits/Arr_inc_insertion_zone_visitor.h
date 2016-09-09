@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_inc_insertion_zone_visitor.h $
-// $Id: Arr_inc_insertion_zone_visitor.h 52295 2009-10-14 08:19:52Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_inc_insertion_zone_visitor.h $
+// $Id: Arr_inc_insertion_zone_visitor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -28,7 +28,7 @@
 #include <CGAL/Arr_accessor.h>
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A visitor class for Arrangement_zone_2, which performs incremental 
@@ -444,6 +444,6 @@ _split_edge (Halfedge_handle he, const Point_2& p,
     arr_access.split_edge_ex (he, p, sub_cv2, sub_cv1);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

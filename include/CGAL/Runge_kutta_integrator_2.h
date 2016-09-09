@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_lines_2/include/CGAL/Runge_kutta_integrator_2.h $
-// $Id: Runge_kutta_integrator_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_lines_2/include/CGAL/Runge_kutta_integrator_2.h $
+// $Id: Runge_kutta_integrator_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/Euler_integrator_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The class Runge_kutta_integrator_2 is a model of the concept Integrator
 template <class VectorField_2>
@@ -135,6 +135,6 @@ typename Runge_kutta_integrator_2<VectorField_2>::Point_2 Runge_kutta_integrator
   return runge_kutta_integrator_2(p, vector_field_2, default_integration_step, v, index);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

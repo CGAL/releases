@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/make_skin_surface_mesh_3.h $
-// $Id: make_skin_surface_mesh_3.h 36161 2007-02-09 21:25:43Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/make_skin_surface_mesh_3.h $
+// $Id: make_skin_surface_mesh_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -28,7 +28,7 @@
 
 #include <CGAL/make_union_of_balls_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class WP_iterator,
 	  class Polyhedron_3>
@@ -59,6 +59,6 @@ void make_skin_surface_mesh_3(Polyhedron_3 &p,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MAKE_SKIN_SURFACE_MESH_3_H

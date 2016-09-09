@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Ray_2_Segment_2_intersection.h $
-// $Id: Ray_2_Segment_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_2/include/CGAL/Ray_2_Segment_2_intersection.h $
+// $Id: Ray_2_Segment_2_intersection.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -34,7 +34,7 @@
 #include <CGAL/Line_2_Line_2_intersection.h>
 #include <CGAL/Object.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -299,6 +299,6 @@ intersection(const Ray_2<K> &ray, const Segment_2<K> &seg)
   return Intersect()(ray, seg);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

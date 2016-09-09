@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_handle.h $
-// $Id: SoQt_handle.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_handle.h $
+// $Id: SoQt_handle.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -37,7 +37,7 @@ void intrusive_ptr_release(SoNode *n)
 }
 
 
-CGAL_BEGIN_NAMESPACE;
+namespace CGAL {;
 
 //! A reference counting pointer for storing pointers to Inventor objects.
 /*!  Inventor objects already have reference counts built in, so I
@@ -55,5 +55,5 @@ public:
   SoQt_handle(): P(){}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif

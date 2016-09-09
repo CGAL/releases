@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
-// $Id: Convex_hull_traits_3.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
+// $Id: Convex_hull_traits_3.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -276,5 +276,3 @@ class Convex_hull_traits_3
 } // namespace CGAL
 
 #endif // CGAL_CONVEX_HULL_TRAITS_3_H
-
-

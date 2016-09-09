@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial.h $
-// $Id: Polynomial.h 47254 2008-12-06 21:18:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial.h $
+// $Id: Polynomial.h 55923 2010-05-05 14:19:26Z hemmer $
 // 
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -65,6 +65,7 @@
 #include <CGAL/Polynomial/Modular_traits.h>
 #include <CGAL/Polynomial/Coercion_traits.h>
 #include <CGAL/Polynomial/Chinese_remainder_traits.h>
+#include <CGAL/Polynomial/Get_arithmetic_kernel.h>
 
 // TODO: Are these still includes necessary?
 #include <CGAL/Polynomial/polynomial_gcd.h> // used above for Algebraic_structure_traits<Poly...>::Gcd

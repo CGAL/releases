@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h $
-// $Id: internal_functions_on_roots_and_polynomials_2_2.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h $
+// $Id: internal_functions_on_roots_and_polynomials_2_2.h 53957 2010-02-01 12:55:28Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -233,4 +233,3 @@ namespace CGAL {
 } // namespace CGAL
 
 #endif //  CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_FUNCTIONS_ON_ROOTS_AND_POLYNOMIALS_2_H
-

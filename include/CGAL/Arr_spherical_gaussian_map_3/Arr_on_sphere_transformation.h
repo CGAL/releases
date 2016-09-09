@@ -11,15 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_on_sphere_transformation.h $
-// $Id: Arr_on_sphere_transformation.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_on_sphere_transformation.h $
+// $Id: Arr_on_sphere_transformation.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Naama mayer         <naamamay@post.tau.ac.il>
 
 #ifndef CGAL_ARR_ON_SPHERE_TRANSFORMATION_H
 #define CGAL_ARR_ON_SPHERE_TRANSFORMATION_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /* This function rotates the face when the arrangement is sgm */
 
@@ -32,6 +32,6 @@ class Arr_on_sphere_transformation
 	}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

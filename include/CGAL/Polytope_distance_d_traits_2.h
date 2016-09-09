@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d_traits_2.h $
-// $Id: Polytope_distance_d_traits_2.h 37875 2007-04-03 13:33:08Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d_traits_2.h $
+// $Id: Polytope_distance_d_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -29,7 +29,7 @@
 #  include <CGAL/Optimisation/Access_coordinates_begin_2.h>
 #  include <CGAL/Optimisation/Construct_point_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declaration
 // =================
@@ -83,7 +83,7 @@ class Polytope_distance_d_traits_2 {
         { return Construct_point_d(); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYTOPE_DISTANCE_D_TRAITS_2_H
 

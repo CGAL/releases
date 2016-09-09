@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Circle_segment_2.h $
-// $Id: Circle_segment_2.h 48386 2009-03-12 16:56:41Z guyzucke $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Circle_segment_2.h $
+// $Id: Circle_segment_2.h 56732 2010-06-14 11:29:12Z efif $
 // 
 //
 // Author(s)     : Ron Wein        <wein@post.tau.ac.il>
@@ -31,7 +31,7 @@
 #include <map>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Forward declaration:
 template <class NumberType_, bool Filter_> class _One_root_point_2;
@@ -704,18 +704,18 @@ operator<< (std::ostream& os,
 {
   if (c.orientation() == COLLINEAR)
   {
-    os<< "segment: " << c.source() << " -> " << c.target() << std::endl;
+    os<< "segment: " << c.source() << " -> " << c.target();
   }
   else
   {
     if(!c.is_full())
     {
       os << "circular arc: " << c.supporting_circle() << ' '
-         << c.source() << " -> " << c.target() << std::endl;
+         << c.source() << " -> " << c.target();
     }
     else
     {
-      os << "circular arc: " << c.supporting_circle()<<std::endl;
+      os << "circular arc: " << c.supporting_circle();
     }
   }
 
@@ -2454,10 +2454,10 @@ operator<< (std::ostream& os,
   if (! arc.is_linear())
     os << "(" << arc.supporting_circle() << ") ";
 
-  os << "[" << arc.source() << " --> " << arc.target() << "]" << std::endl;
+  os << "[" << arc.source() << " --> " << arc.target() << "]";
   return (os);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

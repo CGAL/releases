@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
-// $Id: triangulate_power_diagram_3.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
+// $Id: triangulate_power_diagram_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -30,7 +30,7 @@
 
 #include <CGAL/Union_find.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < 
@@ -113,18 +113,7 @@ private:
                    typename Union_find_anchor::handle> Simplex_UF_map;
                    
 public:
-  Power_diagram_triangulator_3(
-			       Regular const &regular,
-			       Triangulated_mixed_complex &triangulated_mixed_complex, 
-			       bool verbose)
-    : regular(regular),
-      _tmc(triangulated_mixed_complex),
-      triangulation_incr_builder(triangulated_mixed_complex), 
-      compute_anchor_obj(regular),
-      verbose(verbose) {
 
-    build();
-  }
 
   Power_diagram_triangulator_3(
 			       Regular &regular,
@@ -795,6 +784,6 @@ triangulate_power_diagram_3(RegularTriangulation_3 const &regular,
   triangulate_power_diagram_3(regular, tmc, observer, verbose);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATE_POWER_DIAGRAM_3_H

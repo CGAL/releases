@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
+// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
@@ -35,7 +35,7 @@
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_enums.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #define CGAL_X_MINUS_1_Y_0      0
 #define CGAL_X_MINUS_8_Y_6      1
@@ -65,6 +65,7 @@ public:
   // Category tags:
   typedef Tag_true                              Has_left_category;
   typedef Tag_true                              Has_merge_category;
+  typedef Tag_false                             Has_do_intersect_category;
 
   typedef Arr_identified_side_tag               Arr_left_side_category;
   typedef Arr_contracted_side_tag               Arr_bottom_side_category;
@@ -2761,6 +2762,10 @@ protected:
   // For some reason compilation under Windows fails without the qualifier
   typedef CGAL::Arr_extended_direction_3<Kernel>    Arr_extended_direction_3;
 
+  using Base::x_sign;
+  using Base::y_sign;
+  using Base::z_sign;
+
   /*! Indicates whether the arc is x-monotone */
   bool m_is_x_monotone;
   
@@ -3113,6 +3118,6 @@ operator>>(InputStream & is,
   return is;
 }  
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

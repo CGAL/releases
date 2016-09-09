@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/demo/Spatial_searching/spatial_searching_toolbar.cpp $
-// $Id: spatial_searching_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/demo/Spatial_searching/spatial_searching_toolbar.cpp $
+// $Id: spatial_searching_toolbar.cpp 55725 2010-04-24 09:33:47Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -95,7 +95,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
   connect(but[4], SIGNAL(stateChanged(int)),
         &edit_layer, SLOT(stateChanged(int)));
   but[1]->toggle();
-};
+}
 
 #include "spatial_searching_toolbar.moc"
 

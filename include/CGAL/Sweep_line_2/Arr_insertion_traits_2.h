@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_traits_2.h $
-// $Id: Arr_insertion_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_traits_2.h $
+// $Id: Arr_insertion_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -27,7 +27,7 @@
 
 #include <CGAL/Sweep_line_2/Arr_basic_insertion_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A meta-traits class that stores a halfedge handle with every x-monotone
@@ -40,9 +40,8 @@ class Arr_insertion_traits_2 :
 {
 public:
 
-  typedef Traits_                                     Traits_2;
-  typedef Arr_basic_insertion_traits_2<Traits_,
-                                       Arrangement_>  Base;
+  typedef Traits_                                               Traits_2;
+  typedef Arr_basic_insertion_traits_2<Traits_, Arrangement_>   Base;
 
   typedef typename Traits_2::Intersect_2              Base_intersect_2;
   typedef typename Traits_2::Split_2                  Base_split_2;
@@ -53,15 +52,16 @@ public:
   typedef typename Base::Point_2                      Point_2;
 
   typedef typename Base::Has_left_category            Has_left_category;
+  typedef typename Base::Has_do_intersect_category    Has_do_intersect_category;
 
   // should be ok, as basic_insertion (=Base) completes incomplete tags
-  typedef typename Base::Arr_left_side_category            Arr_left_side_category;
-  typedef typename Base::Arr_bottom_side_category          Arr_bottom_side_category;
-  typedef typename Base::Arr_top_side_category             Arr_top_side_category;
-  typedef typename Base::Arr_right_side_category           Arr_right_side_category;
+  typedef typename Base::Arr_left_side_category       Arr_left_side_category;
+  typedef typename Base::Arr_bottom_side_category     Arr_bottom_side_category;
+  typedef typename Base::Arr_top_side_category        Arr_top_side_category;
+  typedef typename Base::Arr_right_side_category      Arr_right_side_category;
 
   /* Insertion is implemented as sweep-line visitor. The sweep-line algorithm
-   * never never performs merging of curves. Therefore, AreMergeable_2 and
+   * never performs merging of curves. Therefore, AreMergeable_2 and
    * Merge_2 are not needed either.
    */
   typedef Tag_false                                   Has_merge_category;
@@ -190,6 +190,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

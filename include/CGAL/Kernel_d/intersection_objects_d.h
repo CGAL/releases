@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objects_d.h $
-// $Id: intersection_objects_d.h 36185 2007-02-11 22:27:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objects_d.h $
+// $Id: intersection_objects_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : ?
@@ -24,7 +24,7 @@
 #ifndef CGAL_INTERSECTION_OBJECTS_D_H
 #define CGAL_INTERSECTION_OBJECTS_D_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R>
 class Line_d_Line_d_pair {
@@ -670,6 +670,6 @@ Segment_d_Hyperplane_d_pair<R>::intersection(Segment_d& s)
   s = _s; return true;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_INTERSECTION_OBJECTS_D_H

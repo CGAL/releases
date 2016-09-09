@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/uncertain_functions_on_signs.h $
-// $Id: uncertain_functions_on_signs.h 44225 2008-07-16 16:10:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/uncertain_functions_on_signs.h $
+// $Id: uncertain_functions_on_signs.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,7 +25,7 @@
 #include <CGAL/enum.h>
 #include <CGAL/Uncertain.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class RT >
 Uncertain<Sign>
@@ -142,7 +142,7 @@ sign_a_plus_b_x_sqrt_e_plus_c_x_sqrt_f_plus_d_sqrt_e_x_f(const RT &a,
 }
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_UNCERTAIN_FUNCTIONS_ON_SIGNS_H

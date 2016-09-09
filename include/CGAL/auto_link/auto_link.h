@@ -21,8 +21,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 56829 2010-06-17 09:13:20Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: auto_link.h 56832 2010-06-17 09:43:01Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactory.com)
 /*************************************************************************
@@ -343,4 +343,3 @@ CGAL_LIB_RT_OPT:     A suffix that indicates the runtime library used,
 #if defined(CGAL_LIB_FULL_NAME)
 #  undef CGAL_LIB_FULL_NAME
 #endif
-

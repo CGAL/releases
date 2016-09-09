@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Ray_3.h $
-// $Id: Ray_3.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Ray_3.h $
+// $Id: Ray_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -30,7 +30,7 @@
 #include <CGAL/representation_tags.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class Ray_3 : public R_::Kernel_base::Ray_3
@@ -238,6 +238,6 @@ operator>>(std::istream& is, Ray_3<R>& r)
   return extract(is, r, typename R::Kernel_tag() );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RAY_3_H

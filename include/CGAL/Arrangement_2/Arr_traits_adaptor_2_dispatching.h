@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2_dispatching.h $
-// $Id: Arr_traits_adaptor_2_dispatching.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2_dispatching.h $
+// $Id: Arr_traits_adaptor_2_dispatching.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Eric Berberich    <ericb@post.tau.ac.il>
@@ -34,7 +34,7 @@
  * Definition of the dispatching tags and classes for the traits adaptor
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //! tag to specify to use a dummy implementation
 struct Arr_use_dummy_tag {};
@@ -773,8 +773,6 @@ public:
 
 } // namespace internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ARR_TRAITS_ADAPTOR_2_DISPATCHING_H
-
-

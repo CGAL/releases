@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Predicate_constructions_C2.h $
-// $Id: Predicate_constructions_C2.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Predicate_constructions_C2.h $
+// $Id: Predicate_constructions_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,9 +24,9 @@
 
 #include <CGAL/Apollonius_graph_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_APOLLONIUS_GRAPH_2_BEGIN_NAMESPACE
+namespace ApolloniusGraph_2 {
 
 template< class K >
 class Inverted_weighted_point_2
@@ -293,7 +293,7 @@ public:
     : Bitangent_line(FT(0), FT(0), FT(0), FT(0), vr.b(), vr.c2(),
 		     vr.delta(), vr.d(), FT(0), FT(0), FT(0)), _gamma(vr.c())
     {
-      store(vr.dxp(), vr.dyp(), vr.dwp());
+      this->store(vr.dxp(), vr.dyp(), vr.dwp());
     }
 
   Voronoi_circle_2(const Bitangent_line& bl)
@@ -355,8 +355,8 @@ public:
     }
 };
 
-CGAL_APOLLONIUS_GRAPH_2_END_NAMESPACE
+} //namespace ApolloniusGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_APOLLONIUS_GRAPH_2_PREDICATE_CONSTRUCTIONS_2_H

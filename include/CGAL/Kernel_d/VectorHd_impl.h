@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/VectorHd_impl.h $
-// $Id: VectorHd_impl.h 35126 2006-11-10 13:36:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/VectorHd_impl.h $
+// $Id: VectorHd_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_VECTORHD_C
 #define CGAL_VECTORHD_C
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointHd PointHd2
 
 template <class RT,class LA>
@@ -66,6 +66,5 @@ std::ostream& operator<<(std::ostream& O, const VectorHd<RT,LA>& v)
 { v.ptr()->print(O,"VectorHd"); return O; } 
 
 #undef PointHd
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_VECTORHD_C
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_extended_dcel.h $
-// $Id: Arr_extended_dcel.h 33059 2006-08-06 10:15:34Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_extended_dcel.h $
+// $Id: Arr_extended_dcel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein    <wein@post.tau.ac.il>
@@ -27,7 +27,7 @@
 
 #include <CGAL/Arr_dcel_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class
@@ -278,6 +278,6 @@ public:
   {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif 

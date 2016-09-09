@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
-// $Id: ch_jarvis_impl.h 56865 2010-06-18 09:11:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
+// $Id: ch_jarvis_impl.h 56898 2010-06-20 21:48:20Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <boost/bind.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class ForwardIterator, class OutputIterator, 
           class Point, class Traits>
@@ -114,6 +114,6 @@ ch_jarvis(ForwardIterator first, ForwardIterator last,
   return ch_jarvis_march( first, last, *start, *start, result, ch_traits);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CH_JARVIS_C

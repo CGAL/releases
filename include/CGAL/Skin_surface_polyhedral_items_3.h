@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
-// $Id: Skin_surface_polyhedral_items_3.h 35895 2007-01-28 21:31:37Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
+// $Id: Skin_surface_polyhedral_items_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -23,7 +23,7 @@
 #include <CGAL/HalfedgeDS_face_base.h>
 #include <CGAL/Polyhedron_items_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Refs, class SkinSurface3>
 struct Skin_Surface_polyhedral_face : public CGAL::HalfedgeDS_face_base<Refs> {
@@ -44,6 +44,6 @@ struct Skin_surface_polyhedral_items_3 : public Polyhedron_items_3 {
   };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SKIN_SURFACE_POLYHEDRAL_ITEMS_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_2/include/CGAL/Env_default_diagram_1.h $
-// $Id: Env_default_diagram_1.h 51064 2009-08-05 12:43:39Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_2/include/CGAL/Env_default_diagram_1.h $
+// $Id: Env_default_diagram_1.h 57112 2010-06-25 15:05:05Z afabri $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A minimization (or a maximization) diagram that represents the lower (or the
@@ -41,7 +41,7 @@ public:
   typedef std::list<X_monotone_curve_2>             Curve_container;
   typedef typename Curve_container::iterator        Curve_iterator;
   typedef typename Curve_container::const_iterator  Curve_const_iterator;
-  typedef unsigned int                              Size;
+  typedef std::size_t                               Size;
 
   /*!
    * Representation of a diagram vertex, which stores the point it represents
@@ -461,6 +461,6 @@ private:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

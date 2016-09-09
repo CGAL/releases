@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: Clusters.h 54880 2010-03-23 15:03:16Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 54879 2010-03-23 14:59:11Z lrineau $
 // 
 //
 // Author(s)     : Laurent Rineau

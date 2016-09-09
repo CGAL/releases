@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
-// $Id: Polygon_2_edge_iterator.h 45787 2008-09-25 19:15:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
+// $Id: Polygon_2_edge_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -27,7 +27,7 @@
 #include <iterator>
 #include <CGAL/circulator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_, class Container_> class Polygon_2;
 
@@ -191,6 +191,6 @@ value_type(const Polygon_2_edge_iterator<Traits_,Container_>&)
 // { return a+n; }
 //--------------------------------------------------------------------//
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

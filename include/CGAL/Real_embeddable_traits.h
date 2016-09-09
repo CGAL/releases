@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Real_embeddable_traits.h $
-// $Id: Real_embeddable_traits.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Real_embeddable_traits.h $
+// $Id: Real_embeddable_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -26,7 +26,7 @@
 
 #include <CGAL/number_type_basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace INTERN_RET {
 
@@ -175,6 +175,6 @@ template< class Type_ >
 class Real_embeddable_traits 
   : public INTERN_RET::Real_embeddable_traits_base<Type_,CGAL::Tag_false> {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_REAL_EMBEDDABLE_TRAITS_H

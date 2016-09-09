@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_sphere_d/include/CGAL/Min_sphere_annulus_d_traits_d.h $
-// $Id: Min_sphere_annulus_d_traits_d.h 37871 2007-04-03 13:14:58Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_sphere_d/include/CGAL/Min_sphere_annulus_d_traits_d.h $
+// $Id: Min_sphere_annulus_d_traits_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -29,7 +29,7 @@
 #  include <CGAL/Optimisation/Access_coordinates_begin_d.h>
 #  include <CGAL/Optimisation/Construct_point_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declaration
 // =================
@@ -81,7 +81,7 @@ class Min_sphere_annulus_d_traits_d {
         { return Construct_point_d(); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MIN_SPHERE_ANULUS_D_TRAITS_D_H
 

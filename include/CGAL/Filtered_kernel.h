@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
-// $Id: Filtered_kernel.h 53184 2009-11-25 14:42:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
+// $Id: Filtered_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -45,7 +45,7 @@
 //   so maybe they should not be passed as template parameter, but use a
 //   traits-like mechanism ?
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // CK = eventually rebound construction kernel (gets Point_2 from).
 // Exact_kernel = exact kernel called when needed by the filter.
@@ -130,6 +130,6 @@ struct Filtered_kernel
 	       UseStaticFilters >
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_FILTERED_KERNEL_H

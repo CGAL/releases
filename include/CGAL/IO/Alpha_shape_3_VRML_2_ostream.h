@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Inventor/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
-// $Id: Alpha_shape_3_VRML_2_ostream.h 35701 2007-01-10 19:09:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Inventor/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
+// $Id: Alpha_shape_3_VRML_2_ostream.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Andreas Fabri
 
@@ -27,7 +27,7 @@
 #include <CGAL/IO/VRML_2_ostream.h>
 
 #ifdef CGAL_ALPHA_SHAPE_3_H
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Dt >
 VRML_2_ostream&
@@ -96,7 +96,7 @@ operator<<(VRML_2_ostream& os,
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_ALPHA_SHAPE_3_H
 
 #endif CGAL_ALPHA_SHAPE_3_VRML_2_OSTREAM_H

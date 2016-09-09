@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
-// $Id: Monge_via_jet_fitting.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
+// $Id: Monge_via_jet_fitting.h 58218 2010-08-23 08:33:17Z lrineau $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_MONGE_VIA_JET_FITTING_H_
@@ -27,7 +27,7 @@
 #include <math.h>
 #include <utility>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 inline
 unsigned int fact(unsigned int n){
@@ -93,7 +93,7 @@ public:
  
   //if d>=2, number of coeffs = (d+1)(d+2)/2 -4. 
   //we remove cst, linear and the xy coeff which vanish
-  void set_up(int degree);
+  void set_up(std::size_t degree);
   //switch min-max ppal curv/dir wrt a given normal orientation.
   // if given_normal.monge_normal < 0 then change the orientation
   // if z=g(x,y) in the basis (d1,d2,n) then in the basis (d2,d1,-n)
@@ -165,7 +165,7 @@ public:
   //Preconditionning is computed, M and Z are filled
  template <class InputIterator>
   void fill_matrix(InputIterator begin, InputIterator end,
-		   int d, LAMatrix& M, LAVector& Z);
+		   std::size_t d, LAMatrix& M, LAVector& Z);
   //A is computed, solving MA=Z in the ls sense, the solution A is stored in Z
   //Preconditionning is needed
   void solve_linear_system(LAMatrix &M, LAVector& Z);
@@ -177,7 +177,7 @@ public:
   void compute_Monge_basis(const FT* A, Monge_form& monge_form);
 
   //if deg_monge >=3 then 3rd (and 4th) order info are computed
-  void compute_Monge_coefficients(FT* A, int dprime, 
+  void compute_Monge_coefficients(FT* A, std::size_t dprime, 
 				  Monge_form& monge_form);
 
   //for a trihedron (v1,v2,v3) switches v1 to -v1 if det(v1,v2,v3) < 0
@@ -202,7 +202,7 @@ public:
 template < class DataKernel, class LocalKernel, class SvdTraits>  
   void Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::
   Monge_form::
-  set_up(int degree) {
+set_up(std::size_t degree) {
   if ( degree >= 2 ) std::fill_n(back_inserter(m_coefficients),
 				 (degree+1)*(degree+2)/2-4, 0.);
 }
@@ -287,10 +287,10 @@ template <class InputIterator>
   // precondition: on the degrees, jet and monge
   CGAL_precondition( (d >=1) && (dprime >= 1) 
 		     && (dprime <= 4) && (dprime <= d) );
-  this->deg = d;
-  this->deg_monge = dprime;
-  this->nb_d_jet_coeff = (d+1)*(d+2)/2;
-  this->nb_input_pts = end - begin;
+  this->deg = static_cast<int>(d);
+  this->deg_monge = static_cast<int>(dprime);
+  this->nb_d_jet_coeff = static_cast<int>((d+1)*(d+2)/2);
+  this->nb_input_pts = static_cast<int>(end - begin);
   // precondition: solvable ls system
   CGAL_precondition( nb_input_pts >= nb_d_jet_coeff );
 
@@ -386,7 +386,7 @@ template < class DataKernel, class LocalKernel, class SvdTraits>
 template <class InputIterator>
 void Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::
 fill_matrix(InputIterator begin, InputIterator end,
-	    int d, LAMatrix &M, LAVector& Z)
+	    std::size_t d, LAMatrix &M, LAVector& Z)
 {
   //origin of fitting coord system = first input data point
   Point_3 point0 = D2L_converter(*begin);
@@ -422,9 +422,16 @@ fill_matrix(InputIterator begin, InputIterator end,
     y = itb->y();
     //  Z[line_count] = itb->z();
     Z.set(line_count,itb->z());
-    for (int k=0; k <= d; k++) for (int i=0; i<=k; i++)
-      M.set(line_count, k*(k+1)/2+i, std::pow(x,k-i)*std::pow(y,i)
-		/(fact(i)*fact(k-i)*std::pow(this->preconditionning,k)));
+    for (std::size_t k=0; k <= d; k++) {
+      for (std::size_t i=0; i<=k; i++) {
+        M.set(line_count, k*(k+1)/2+i,
+              std::pow(x,static_cast<double>(k-i))
+              * std::pow(y,static_cast<double>(i))
+              /( fact(i) *
+                 fact(k-i)
+                 *std::pow(this->preconditionning,static_cast<double>(k))));
+      }
+    }
     line_count++;
   }
 }
@@ -533,7 +540,7 @@ compute_Monge_basis(const FT* A, Monge_form& monge_form)
 
 template < class DataKernel, class LocalKernel, class SvdTraits>  
 void Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::
-compute_Monge_coefficients(FT* A, int dprime, 
+compute_Monge_coefficients(FT* A, std::size_t dprime, 
 			   Monge_form& monge_form)
 {
   //One has the equation w=J_A(u,v) of the fitted surface S 
@@ -757,9 +764,6 @@ switch_to_direct_orientation(Vector_3& v1, const Vector_3& v2,
 //   return out_stream;
 // }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_MONGE_VIA_JET_FITTING_H_
-
-
-

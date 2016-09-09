@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd_impl.h $
-// $Id: HyperplaneCd_impl.h 41339 2007-12-27 16:15:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd_impl.h $
+// $Id: HyperplaneCd_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_HYPERPLANECD_C
 #define CGAL_HYPERPLANECD_C
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class FT, class LA>
 VectorCd<FT,LA>  HyperplaneCd<FT,LA>::
@@ -100,7 +100,5 @@ template <class FT, class LA>
 std::ostream& operator<<(std::ostream& O, const HyperplaneCd<FT,LA>& h)
 { h.ptr()->print(O,"HyperplaneCd"); return O; } 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HYPERPLANECD_C
-
-

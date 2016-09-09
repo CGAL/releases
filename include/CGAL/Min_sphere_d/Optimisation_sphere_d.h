@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_sphere_d/include/CGAL/Min_sphere_d/Optimisation_sphere_d.h $
-// $Id: Optimisation_sphere_d.h 41363 2007-12-30 15:20:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_sphere_d/include/CGAL/Min_sphere_d/Optimisation_sphere_d.h $
+// $Id: Optimisation_sphere_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
@@ -21,7 +21,7 @@
 #ifndef CGAL_OPTIMISATION_SPHERE_D_H
 #define CGAL_OPTIMISATION_SPHERE_D_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declarations
 // ==================
@@ -35,7 +35,7 @@ class Optimisation_sphere_d<Homogeneous_tag, FT, RT, PT, Traits>;
 template <class FT, class RT, class PT, class Traits>
 class Optimisation_sphere_d<Cartesian_tag, FT, RT, PT, Traits>;
     
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
     // Class interfaces and implementation
     // ==================================
@@ -47,7 +47,7 @@ CGAL_END_NAMESPACE
     #include <CGAL/Optimisation/assertions.h>
 
 
-    CGAL_BEGIN_NAMESPACE
+    namespace CGAL {
 
     // Cartesian version
     // -----------------
@@ -595,11 +595,10 @@ CGAL_END_NAMESPACE
         
     };
 
-     CGAL_END_NAMESPACE
+     } //namespace CGAL
 
     #endif // CGAL_OPTIMISATION_SPHERE_D_H
 
 
 
     // ===== EOF ==================================================================
-

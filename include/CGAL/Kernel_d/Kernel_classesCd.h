@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Kernel_classesCd.h $
-// $Id: Kernel_classesCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Kernel_classesCd.h $
+// $Id: Kernel_classesCd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #ifndef CGAL_KERNEL_CLASSESCD_H
 #define CGAL_KERNEL_CLASSESCD_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename FT, typename LA> class PointCd2;
 template <typename FT, typename LA> class VectorCd;
@@ -32,6 +32,6 @@ template <typename FT, typename LA> class DirectionCd;
 template <typename FT, typename LA> class HyperplaneCd;
 template <typename FT, typename LA> class Aff_transformationCd;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_KERNEL_CLASSESCD_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
-// $Id: Delaunay_mesh_size_criteria_2.h 45810 2008-09-26 13:46:54Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
+// $Id: Delaunay_mesh_size_criteria_2.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -39,13 +39,13 @@ public:
 
   Delaunay_mesh_size_criteria_2(const double aspect_bound = 0.125, 
                                 const double size_bound = 0)
-    : Base(aspect_bound), sizebound(size_bound) {};
+    : Base(aspect_bound), sizebound(size_bound) {}
 
   inline
-  double size_bound() const { return sizebound; };
+  double size_bound() const { return sizebound; }
 
   inline
-  void set_size_bound(const double sb) { sizebound = sb; };
+  void set_size_bound(const double sb) { sizebound = sb; }
 
   // first: squared_minimum_sine
   // second: size
@@ -54,7 +54,7 @@ public:
     typedef std::pair<double, double> Base;
 
     Quality() : Base() {};
-    Quality(double _sine, double _size) : Base(_sine, _size) {};
+    Quality(double _sine, double _size) : Base(_sine, _size) {}
 
     const double& size() const { return second; }
     const double& sine() const { return first; }
@@ -90,7 +90,7 @@ public:
 
     Is_bad(const double aspect_bound,
 	   const double size_bound)
-      : Base::Is_bad(aspect_bound), squared_size_bound(size_bound * size_bound) {};
+      : Base::Is_bad(aspect_bound), squared_size_bound(size_bound * size_bound) {}
 
     Mesh_2::Face_badness operator()(const Quality q) const
     {

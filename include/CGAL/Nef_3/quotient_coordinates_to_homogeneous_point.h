@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/quotient_coordinates_to_homogeneous_point.h $
-// $Id: quotient_coordinates_to_homogeneous_point.h 29753 2006-03-24 13:07:38Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/quotient_coordinates_to_homogeneous_point.h $
+// $Id: quotient_coordinates_to_homogeneous_point.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -20,7 +20,7 @@
 #ifndef CGAL_NEF_QUOTIENT_COORDINATES_TO_HOMOGENEOUS_POINT_H
 #define CGAL_NEF_QUOTIENT_COORDINATES_TO_HOMOGENEOUS_POINT_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Homogeneous>
 typename Homogeneous::Point_3
@@ -46,6 +46,6 @@ quotient_coordinates_to_homogeneous_point(
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NEF_QUOTIENT_COORDINATES_TO_HOMOGENEOUS_POINT_H

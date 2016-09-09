@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/square_free_factorize.h $
-// $Id: square_free_factorize.h 55809 2010-04-28 11:28:40Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/square_free_factorize.h $
+// $Id: square_free_factorize.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     :  Michael Hemmer
@@ -26,7 +26,7 @@
 #include <CGAL/Polynomial/misc.h>
 #include <CGAL/Polynomial/Polynomial_type.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 namespace internal {
 
 // square-free factorization
@@ -84,18 +84,19 @@ inline int square_free_factorize
 {
     typedef Polynomial<Coeff> POLY;
     typedef Polynomial_traits_d< POLY > PT;
+    typedef typename PT::Construct_polynomial Construct_polynomial;
     typedef typename PT::Univariate_content_up_to_constant_factor Ucont_utcf;
     typedef typename PT::Integral_division_up_to_constant_factor  Idiv_utcf;
     
     if (typename PT::Total_degree()(poly) == 0){return 0;}
    
     Coeff ucont_utcf = Ucont_utcf()(poly); 
-    POLY  regular_poly = Idiv_utcf()(poly,ucont_utcf);
+    POLY  regular_poly = Idiv_utcf()(poly,Construct_polynomial()(ucont_utcf));
 
     int result = square_free_factorize_for_regular_polynomial( 
             regular_poly, factors, multiplicities);
 
-    if (typename PT::Total_degree()(ucont_utcf) > 0){
+    if (CGAL::total_degree(ucont_utcf) > 0){
         typedef std::vector< Coeff > Factors_uc;
         typedef std::vector< int > Multiplicities_uc;
         Factors_uc factors_uc;
@@ -106,7 +107,7 @@ inline int square_free_factorize
         
         for( typename Factors_uc::iterator it = factors_uc.begin(); 
              it != factors_uc.end(); ++it ){
-            *factors++ = POLY(*it);
+          *factors++ = Construct_polynomial()(*it);
         }
         for( Multiplicities_uc::iterator it = multiplicities_uc.begin();
              it != multiplicities_uc.end(); ++it ){
@@ -179,7 +180,7 @@ inline int square_free_factorize_for_regular_polynomial_
     if (typename PT::Total_degree()(p) == 0) return 0;
 
     POLY a = CGAL::canonicalize(p);
-    POLY b = diff(a);
+    POLY b = CGAL::differentiate(a);
     POLY c = CGAL::internal::gcd_utcf_(a, b);
 
     if (c == Coeff(1)) {
@@ -205,7 +206,7 @@ inline int square_free_factorize_for_regular_polynomial_
     sdiv(w, sfactor); 
     sdiv(y, sfactor);
 
-    POLY  z = y - diff(w);
+    POLY  z = y - CGAL::differentiate(w);
     POLY g;
 
     while (!z.is_zero()) {
@@ -225,7 +226,7 @@ inline int square_free_factorize_for_regular_polynomial_
         sdiv(w, sfactor); 
         sdiv(y, sfactor);
        
-        z = y - diff(w);
+        z = y - CGAL::differentiate(w);
     }
 
     *factors = w;
@@ -261,7 +262,7 @@ inline int square_free_factorize_for_regular_polynomial_
     if (typename PT::Total_degree()(p) == 0) return 0;
     POLY a = CGAL::canonicalize(p);
 
-    POLY b = diff(a);  
+    POLY b = CGAL::differentiate(a);  
     POLY c = CGAL::gcd(a, b);
    
     if (c == Coeff(1)) {
@@ -271,7 +272,7 @@ inline int square_free_factorize_for_regular_polynomial_
     }
 
     int i = 1, n = 0;
-    POLY w = a/c, y = b/c, z = y - diff(w), g;
+    POLY w = a/c, y = b/c, z = y - CGAL::differentiate(w), g;
     while (!z.is_zero()) {
         g = CGAL::gcd(w, z);
         if (g.degree() > 0) {
@@ -282,7 +283,7 @@ inline int square_free_factorize_for_regular_polynomial_
         i++;
         w /= g;
         y = z/g;
-        z = y - diff(w);
+        z = y - CGAL::differentiate(w);
     }
     *factors = w;
     *multiplicities++ = i;
@@ -353,6 +354,6 @@ int filtered_square_free_factorize_utcf( const Polynomial<Coeff>& p,
 }
 
 } // namespace internal
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_SQUARE_FREE_FACTORIZATION_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
-// $Id: Qt_triangulation_2.h 39365 2007-07-10 22:09:27Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
+// $Id: Qt_triangulation_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,7 +26,7 @@
 #include <CGAL/Kinetic/internal/tds_2_helpers.h>
 #include <CGAL/Kinetic/Delaunay_triangulation_recent_edges_visitor_2.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! This class draws a Kinetic_Delaunay_2 triangulation to a Qt_gui_2.
 /*!  The most recently created edges are colored green and the other
@@ -124,5 +124,5 @@ protected:
   typename KDel::Handle kdel_;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

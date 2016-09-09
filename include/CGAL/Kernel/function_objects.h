@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/function_objects.h $
-// $Id: function_objects.h 56955 2010-06-22 07:22:56Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/function_objects.h $
+// $Id: function_objects.h 57236 2010-06-30 12:19:54Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -34,7 +34,7 @@
 #include <CGAL/intersection_3.h>
 #include <CGAL/Kernel/Return_base_tag.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CommonKernelFunctors {
 
@@ -291,6 +291,50 @@ namespace CommonKernelFunctors {
         else
           return LARGER;
         }
+    }
+  };
+
+  template <typename K>
+  class Compare_squared_distance_2
+  {
+    typedef typename K::FT                 FT;
+  public:
+    typedef typename K::Comparison_result  result_type;
+
+    template <class T1, class T2>
+    result_type
+    operator()(const T1& p, const T2& q, const FT& d2) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), d2);
+    }
+
+    template <class T1, class T2, class T3, class T4>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
+    }
+  };
+
+  template <typename K>
+  class Compare_squared_distance_3
+  {
+    typedef typename K::FT                 FT;
+  public:
+    typedef typename K::Comparison_result  result_type;
+
+    template <class T1, class T2>
+    result_type
+    operator()(const T1& p, const T2& q, const FT& d2) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), d2);
+    }
+
+    template <class T1, class T2, class T3, class T4>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
   };
 
@@ -2717,6 +2761,6 @@ namespace CommonKernelFunctors {
     qrt_or_not<typename CommonKernelFunctors::Construct_vertex_3<K>,false>
   {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KERNEL_FUNCTION_OBJECTS_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
-// $Id: Lloyd_move.h 53918 2010-01-29 17:23:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
+// $Id: Lloyd_move.h 57306 2010-07-02 15:13:57Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -29,7 +29,7 @@
 
 #include <string>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3 {
 
@@ -191,9 +191,6 @@ private:
                                   const Sizing_field& sizing_field) const
   {
     CGAL_precondition(c3t3.in_dimension(v) == 2);
-    
-    typename Gt::Construct_vector_3 vector =
-      Gt().construct_vector_3_object();
     
     // get all surface delaunay ball point
     std::vector<Point_3> points = extract_lloyd_boundary_points(v,c3t3);
@@ -542,6 +539,6 @@ private:
 } // end namespace Mesh_3 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_LLOYD_MOVE_H

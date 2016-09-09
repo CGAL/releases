@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
-// $Id: Delaunay_d.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
+// $Id: Delaunay_d.h 58180 2010-08-20 09:56:19Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -85,7 +85,7 @@ the furthest site triangulation.
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Convex_hull_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename R_, typename Lifted_R_ = R_>
 class Delaunay_d : public Convex_hull_d<Lifted_R_>
@@ -93,11 +93,21 @@ class Delaunay_d : public Convex_hull_d<Lifted_R_>
 typedef Delaunay_d<R_,Lifted_R_> Self;
 typedef Convex_hull_d<Lifted_R_> Base;
 
-using Base::origin_simplex_;
+  using Base::origin_simplex_;
 
 public:
 
-using Base::dcur;
+  using Base::associate_vertex_with_simplex;
+  using Base::dcur;
+  using Base::hyperplane_supporting;
+  using Base::visited_mark;
+  using Base::is_bounded_simplex;
+  using Base::is_unbounded_simplex;
+  using Base::clear_visited_marks;
+  using Base::is_dimension_jump;
+  using Base::point_of_simplex;
+  using Base::point_of_facet;
+  using Base::vertex_of_facet;
 
 /*{\Mgeneralization Convex_hull_d<Lifted_R>}*/
 
@@ -200,10 +210,11 @@ public:
       bool cocirc = DT->is_S_cocircular();
       // Note [Sylvain,2007-03-08] : I added some parentheses to fix a warning,
       // I hope I got the logic right.
+      // Note: I have add a new pair of parentheses. Laurent Rineau, 2010/08/20
       while ( base() != DT->simplices_end() &&
-              !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
-                 ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
-                 DT->type_of(base()) == tf ) ) {
+              !( ( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                   ( !cocirc && DT->is_unbounded_simplex(base()) ) )
+                 && DT->type_of(base()) == tf ) ) {
          Base_iterator::operator++();
       }
     }
@@ -219,10 +230,11 @@ public:
         Base_iterator::operator++();
       // Note [Sylvain,2007-03-08] : I added some parentheses to fix a warning,
       // I hope I got the logic right.
+      // Note: I have add a new pair of parentheses. Laurent Rineau, 2010/08/20
       } while ( base() != DT->simplices_end() &&
-                !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
-                   ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
-                   DT->type_of(base()) == tf ) );
+                !( ( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                     ( !cocirc && DT->is_unbounded_simplex(base()) ) 
+                     ) && DT->type_of(base()) == tf ) );
       return *this; 
     }
     Simplex_iterator  operator++(int) 
@@ -815,7 +827,7 @@ locate(const Point_d& x) const
   }
   // lift(p) is not a dimension jump
   std::list<Simplex_handle> candidates;
-  int dummy1 = 0; 
+  std::size_t dummy1 = 0; 
   int loc = -1; // intialization is important
   Simplex_handle f;
   this -> visibility_search(origin_simplex_,lp,candidates,dummy1,loc,f);
@@ -848,7 +860,7 @@ nearest_neighbor(const Point_d& x) const
     candidates = all_simplices(NEAREST);
   else {
     // lift(x) is not a dimension jump
-    int dummy1 = 0; 
+    std::size_t dummy1 = 0; 
     int location = -1;
     typename Base::Facet_handle f;
     this -> visibility_search(origin_simplex_,lp,candidates,dummy1,location,f);
@@ -1043,7 +1055,5 @@ all_points() const
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_DELAUNAY_D_H
-
-

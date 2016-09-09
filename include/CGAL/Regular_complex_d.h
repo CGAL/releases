@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
-// $Id: Regular_complex_d.h 41666 2008-01-17 21:59:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
+// $Id: Regular_complex_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -45,7 +45,7 @@
 #endif
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R> class RC_simplex_d;
 template <class R> class RC_vertex_d;
@@ -567,8 +567,8 @@ intersection of any two simplices is a facet of both.}*/
 
 typedef size_t Size_type;
 
-Size_type number_of_vertices() const  { return this->_vertices.size();}
-Size_type number_of_simplices() const  { return this->_simplices.size();}
+Size_type number_of_vertices() const  { return this->vertices_.size();}
+Size_type number_of_simplices() const  { return this->simplices_.size();}
 
 void print_statistics(std::ostream& os = std::cout) const
 { 
@@ -728,6 +728,5 @@ of simplices.  }*/
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_REGULAR_COMPLEX_D_H
-

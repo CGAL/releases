@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Subdivision_method_3/include/CGAL/Subdivision_method_3.h $
-// $Id: Subdivision_method_3.h 36333 2007-02-15 21:22:58Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Subdivision_method_3/include/CGAL/Subdivision_method_3.h $
+// $Id: Subdivision_method_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -35,31 +35,10 @@
 #include <CGAL/Subdivision_method_impl_3.h>
 #include <CGAL/Subdivision_mask_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ======================================================================
 namespace Subdivision_method_3 {
-  //
-  template <class Polyhedron>
-  void CatmullClark_subdivision(Polyhedron& p, int step = 1) {
-    PQQ(p, CatmullClark_mask_3<Polyhedron>(), step);
-  }
-  //
-  template <class Polyhedron>
-  void Loop_subdivision(Polyhedron& p, int step = 1) {
-    PTQ(p, Loop_mask_3<Polyhedron>() , step);
-  }
-  //
-  template <class Polyhedron>
-  void DooSabin_subdivision(Polyhedron& p, int step = 1) {
-    DQQ(p, DooSabin_mask_3<Polyhedron>(), step);
-  }
-  //
-  template <class Polyhedron>
-  void Sqrt3_subdivision(Polyhedron& p, int step = 1) {
-    Sqrt3(p, Sqrt3_mask_3<Polyhedron>(), step);
-  }
-
   // 
   template <class Polyhedron, template <typename> class Mask>
   void PQQ(Polyhedron& p, Mask<Polyhedron> mask, int step = 1) {
@@ -80,8 +59,29 @@ namespace Subdivision_method_3 {
   void Sqrt3(Polyhedron& p, Mask<Polyhedron> mask, int step = 1) {
     for (int i = 0; i < step; i++) Private::Sqrt3_1step(p, mask);
   }  
+
+  //
+  template <class Polyhedron>
+  void CatmullClark_subdivision(Polyhedron& p, int step = 1) {
+    PQQ(p, CatmullClark_mask_3<Polyhedron>(), step);
+  }
+  //
+  template <class Polyhedron>
+  void Loop_subdivision(Polyhedron& p, int step = 1) {
+    PTQ(p, Loop_mask_3<Polyhedron>() , step);
+  }
+  //
+  template <class Polyhedron>
+  void DooSabin_subdivision(Polyhedron& p, int step = 1) {
+    DQQ(p, DooSabin_mask_3<Polyhedron>(), step);
+  }
+  //
+  template <class Polyhedron>
+  void Sqrt3_subdivision(Polyhedron& p, int step = 1) {
+    Sqrt3(p, Sqrt3_mask_3<Polyhedron>(), step);
+  }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_POLYHEDRON_SUBDIVISION_H_01292002

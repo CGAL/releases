@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_full_filtered_pricing.h $
-// $Id: QP_full_filtered_pricing.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_full_filtered_pricing.h $
+// $Id: QP_full_filtered_pricing.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -26,7 +26,7 @@
 // includes
 #include <CGAL/QP_solver/QP__filtered_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =================
 // class declaration
@@ -201,7 +201,7 @@ pricing_helper(int& direction, Tag_false ) // bounds for variables
 		this->vout() << "mu_" << j << " [NT]: " << mu << std::endl;
 	    }
 	    // from pricing strategy base class
-	    price_dantzig (j, mu, this->nt0, min_j, min_mu, direction);
+	    this->price_dantzig (j, mu, this->nt0, min_j, min_mu, direction);
 	}
     }
 
@@ -252,7 +252,7 @@ pricing_helper(int& direction, Tag_false ) // bounds for variables
     return min_j;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_FULL_FILTERED_PRICING_H
 

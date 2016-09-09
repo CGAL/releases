@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
-// $Id: Nef_polyhedron_S2.h 44152 2008-07-14 18:57:14Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -43,7 +43,7 @@
 #define CGAL_NEF_DEBUG 53
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K, typename I, typename Mk, typename M> class Nef_polyhedron_S2;
 template <typename K, typename I, typename Mk, typename M> class Nef_polyhedron_S2_rep;
@@ -100,6 +100,8 @@ template <typename Kernel_, typename Items_ = SM_items, typename Mark_ = bool,
 class Nef_polyhedron_S2 : public Handle_for< Nef_polyhedron_S2_rep<Kernel_,Items_,Mark_,Map_> >, 
 			  public Nef_polyhedron_S2_rep<Kernel_,Items_,Mark_,Map_>::Const_decorator { 
   
+  using Nef_polyhedron_S2_rep<Kernel_,Items_,Mark_,Map_>::Const_decorator::set_sm;
+
 public:
   /*{\Mtypes 7}*/
   typedef Items_                                              Items;
@@ -719,7 +721,5 @@ std::istream& operator>>
 #  pragma warning(pop)
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_NEF_POLYHEDRON_S2_H
-
-

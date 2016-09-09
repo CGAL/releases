@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Extremal_polygon_traits_2.h $
-// $Id: Extremal_polygon_traits_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/Extremal_polygon_traits_2.h $
+// $Id: Extremal_polygon_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -26,7 +26,7 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < class K_ >
 struct Extremal_polygon_area_traits_2 {
   typedef          K_                                K;
@@ -139,13 +139,13 @@ protected:
   K k;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #include <CGAL/Optimisation/assertions.h>
 #include <cmath>
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_real.h>
 #endif // CGAL_USE_LEDA
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class K_ >
 struct Extremal_polygon_perimeter_traits_2 {
@@ -353,10 +353,9 @@ maximum_perimeter_inscribed_k_gon(
     points_begin, points_end, k, o);
 } // maximum_perimeter_inscribed_k_gon( ... )
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_EXTREMAL_POLYGON_TRAITS_2_H)
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_empty_visitor.h $
-// $Id: Sweep_line_empty_visitor.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_empty_visitor.h $
+// $Id: Sweep_line_empty_visitor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -28,7 +28,7 @@
 #include <CGAL/Sweep_line_2/Sweep_line_event.h>
 #include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * An empty sweep-line visitor that does nothing. It is used as a base-class
@@ -205,13 +205,13 @@ public:
   /*! Get the first subcurve in the status line. */
   Status_line_iterator status_line_begin()
   {
-    return (_sweep_line()->status_line_begin());
+    return (this->_sweep_line()->status_line_begin());
   }
 
   /*! Get a past-the-end iterator for the subcurves in the status line. */
   Status_line_iterator status_line_end()
   {
-    return (_sweep_line()->status_line_end());
+    return (this->_sweep_line()->status_line_end());
   }
 
   /*! Get the position of the given subcurve in the status line. */
@@ -223,25 +223,25 @@ public:
   /*! Get the number of subcurves in the status line. */
   unsigned status_line_size() const
   {
-    return (_sweep_line()->status_line_size());
+    return (this->_sweep_line()->status_line_size());
   }
 
   /*! Check if the status line is empty. */
   bool is_status_line_empty() const
   {
-    return (_sweep_line()->is_status_line_empty());
+    return (this->_sweep_line()->is_status_line_empty());
   }
 
   /*! Deallocate the given event. */
   void deallocate_event (Event* e)
   {
-    _sweep_line()->deallocate_event(e);
+    this->_sweep_line()->deallocate_event(e);
   }
 
   /*! Stop the sweep-line process. */
   void stop_sweep()
   {
-    _sweep_line()->stop_sweep();
+    this->_sweep_line()->stop_sweep();
   }
 
   /*! Get the sweep-line object. */
@@ -253,13 +253,13 @@ public:
   /*! Get the current event. */
   Event* current_event()
   {
-    return (_sweep_line()->current_event());
+    return (this->_sweep_line()->current_event());
   }
 
   /*! Get the geometry-traits class. */
   const Traits_2 * traits ()
   {
-    return (_sweep_line()->traits());
+    return (this->_sweep_line()->traits());
   }
 
 private:
@@ -269,8 +269,13 @@ private:
   {
     return (reinterpret_cast<Sweep_line*>(m_sweep_line));
   }
+
+  const Sweep_line* _sweep_line () const
+  {
+    return (reinterpret_cast<const Sweep_line*>(m_sweep_line));
+  }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

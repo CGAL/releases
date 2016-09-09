@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/include/CGAL/predicates/in_smallest_orthogonalcircle_ftC2.h $
-// $Id: in_smallest_orthogonalcircle_ftC2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/include/CGAL/predicates/in_smallest_orthogonalcircle_ftC2.h $
+// $Id: in_smallest_orthogonalcircle_ftC2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/enum.h>
 
 //-------------------------------------------------------------------
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 //-------------------------------------------------------------------
 
 template< class FT >
@@ -46,7 +46,7 @@ in_smallest_orthogonalcircleC2(const FT &px, const FT &py, const FT  &pw,
 }
 
 //-------------------------------------------------------------------
-CGAL_END_NAMESPACE
+} //namespace CGAL
 //-------------------------------------------------------------------
 
 #endif //CGAL_IN_SMALLEST_ORTHOGONALCIRCLEC2_H

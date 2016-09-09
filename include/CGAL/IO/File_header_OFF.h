@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_header_OFF.h $
-// $Id: File_header_OFF.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_header_OFF.h $
+// $Id: File_header_OFF.h 56979 2010-06-22 13:15:46Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -28,19 +28,19 @@
 #include <CGAL/IO/File_header_extended_OFF.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Info structure for OFF file headers
 // ===================================
 class File_header_OFF : public File_header_extended_OFF {
 private:
     // Publicly accessible file informations.
-    int  n_vertices;
-    int  n_facets;
+    std::size_t  n_vertices;
+  std::size_t n_facets;
     bool m_skel;        // SKEL format instead of OFF.
     bool m_binary;      // OFF in binary format.
     bool m_no_comments; // no comments in output.
-    int  m_offset;      // index offset for vertices, usually 0.
+  std::size_t  m_offset;      // index offset for vertices, usually 0.
 
     // Publicly accessible but not that well supported file informations.
     bool m_colors;      // COFF detected.
@@ -58,23 +58,23 @@ public:
     File_header_OFF( bool binary, bool noc, bool skel,
                      bool verbose = false);
     //File_header_OFF( int v, int h, int f, bool verbose = false);
-    File_header_OFF( int v, int h, int f,
+    File_header_OFF( std::size_t v, std::size_t h, std::size_t f,
                      bool binary, bool noc, bool skel,
                      bool verbose = false);
     File_header_OFF( const File_header_extended_OFF& ext_header);
     File_header_OFF( const File_header_extended_OFF& ext_header,
                      bool binary, bool noc, bool skel);
-    File_header_OFF( int v, int h, int f,
+    File_header_OFF( std::size_t v, std::size_t h, std::size_t f,
                      const File_header_extended_OFF& ext_header);
-    File_header_OFF( int v, int h, int f,
+    File_header_OFF( std::size_t v, std::size_t h, std::size_t f,
                      const File_header_extended_OFF& ext_header,
                      bool binary, bool noc, bool skel);
 
     Self& operator= ( const Base& base) { (Base&)(*this) = base;
                                           return *this;
                                         }
-    int  size_of_vertices()   const { return n_vertices; }
-    int  size_of_facets()     const { return n_facets; }
+    std::size_t  size_of_vertices()   const { return n_vertices; }
+    std::size_t  size_of_facets()     const { return n_facets; }
 
     bool skel()               const { return m_skel; }   // SKEL format.
     bool off()                const { return ! m_skel; } // OFF format.
@@ -83,7 +83,7 @@ public:
     bool no_comments()        const { return m_no_comments; }
     bool comments()           const { return ! m_no_comments; }
 
-    int  index_offset()       const { return m_offset; }
+    std::size_t  index_offset()       const { return m_offset; }
     bool has_colors()         const { return m_colors; } // COFF detected.
     bool has_normals()        const { return m_normals;} // NOFF format.
     bool is_homogeneous()     const { return m_tag4; }   // 4OFF detected.
@@ -92,13 +92,13 @@ public:
                            // dimension for nOFF (will not be supported).
     int  dimension()          const { return m_dim; }
 
-    void set_vertices( int n)       { n_vertices = n; }
-    void set_facets( int n)         { n_facets   = n; }
+    void set_vertices( std::size_t n)       { n_vertices = n; }
+    void set_facets( std::size_t n)         { n_facets   = n; }
 
     void set_skel( bool b)          { m_skel        = b; }
     void set_binary( bool b)        { m_binary      = b; }
     void set_no_comments( bool b)   { m_no_comments = b; }
-    void set_index_offset( int i)   { m_offset      = i; }
+    void set_index_offset( std::size_t i)   { m_offset      = i; }
 
     void set_colors( bool b)        { m_colors      = b; }
     void set_normals( bool b)       { m_normals     = b;}
@@ -114,6 +114,6 @@ std::ostream& operator<<( std::ostream& out, const File_header_OFF& h);
 // Scan header. Marks streams badbit if not in SKEL format nor in OFF.
 std::istream& operator>>( std::istream& in, File_header_OFF& h);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_FILE_HEADER_OFF_H //
 // EOF //

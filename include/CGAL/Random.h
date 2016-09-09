@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Random_numbers/include/CGAL/Random.h $
-// $Id: Random.h 46871 2008-11-13 14:40:48Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Random_numbers/include/CGAL/Random.h $
+// $Id: Random.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Sylvain Pion
@@ -27,7 +27,7 @@
 #include <utility>
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Random {
   public:
@@ -88,7 +88,7 @@ class Random {
 // ================
 extern  Random  default_random;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // ============================================================================
 
@@ -97,7 +97,7 @@ CGAL_END_NAMESPACE
 // includes
 #  include <cstdlib>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // operations
 inline
@@ -135,7 +135,7 @@ operator () ( int upper)
     return( get_int( 0, upper));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RANDOM_H
 

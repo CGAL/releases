@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_dag.h $
-// $Id: Td_dag.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_dag.h $
+// $Id: Td_dag.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -33,7 +33,7 @@
 #include <list>
 #include <functional>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class T>
 class Td_dag_base : public Handle
@@ -436,7 +436,7 @@ template<class T> std::ostream& operator<<(std::ostream&  out,
   return out ;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
 

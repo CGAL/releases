@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/comparator_profiler.h $
-// $Id: comparator_profiler.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/comparator_profiler.h $
+// $Id: comparator_profiler.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,9 +24,9 @@
 
 #include <CGAL/Apollonius_graph_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_APOLLONIUS_GRAPH_2_BEGIN_NAMESPACE
+namespace ApolloniusGraph_2 {
 
 class comparator_profiler
 {
@@ -158,8 +158,8 @@ unsigned long comparator_profiler::counter_rr_e = 0;
 unsigned long comparator_profiler::counter_rr_r0 = 0;
 //unsigned long comparator_profiler::counter_rr_jneg = 0;
 
-CGAL_APOLLONIUS_GRAPH_2_END_NAMESPACE
+} //namespace ApolloniusGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_COMPARATOR_PROFILER_H

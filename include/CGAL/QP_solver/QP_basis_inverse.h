@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
-// $Id: QP_basis_inverse.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
+// $Id: QP_basis_inverse.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -27,7 +27,7 @@
 #include <CGAL/IO/Verbose_ostream.h>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
                     
 // =================
 // class declaration
@@ -1126,7 +1126,7 @@ update_entry( ET& entry, const ET& d_new, const ET& y, const ET& d_old) const
     entry = CGAL::integral_division(entry, d_old);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/QP_solver/QP_basis_inverse_impl.h>
 

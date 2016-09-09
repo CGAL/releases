@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_solver_bounds_impl.h $
-// $Id: QP_solver_bounds_impl.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solver_bounds_impl.h $
+// $Id: QP_solver_bounds_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -20,7 +20,7 @@
 //                 Franz Wessendorp
 //                 Kaspar Fischer
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename Q, typename ET, typename Tags >
 bool QP_solver<Q, ET, Tags>::has_finite_lower_bound(int i) const
@@ -93,6 +93,6 @@ QP_solver<Q, ET, Tags>::upper_bnd(int i) const
     return Bnd(true, false, ET(0));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // ===== EOF ==================================================================

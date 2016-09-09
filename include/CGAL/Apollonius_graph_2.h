@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
-// $Id: Apollonius_graph_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 56942 2010-06-21 16:37:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -47,7 +47,7 @@
 #include <CGAL/Concatenate_iterator.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 namespace internal {
@@ -320,7 +320,7 @@ public:
   size_type number_of_hidden_sites() const {
     //    if ( !Vertex::StoreHidden ) { return 0; }
 
-    int n_hidden(0);
+    size_type n_hidden(0);
     for (Finite_vertices_iterator vit = finite_vertices_begin();
 	 vit != finite_vertices_end(); ++vit) {
       n_hidden += vit->number_of_hidden_sites();
@@ -475,7 +475,7 @@ public:
   // INSERTION
   //----------
   template< class Input_iterator >
-  unsigned int insert(Input_iterator first, Input_iterator beyond) {
+  size_type insert(Input_iterator first, Input_iterator beyond) {
     // copy to a local container
     Site_list wp_list;
     for (Input_iterator it = first; it != beyond; ++it) {
@@ -493,7 +493,7 @@ public:
     }
 
     // store how many sites where in the range
-    unsigned int num = wp_list.size();
+    size_type num = wp_list.size();
 
     // clear the local container
     wp_list.clear();
@@ -1328,7 +1328,7 @@ std::istream& operator>>(std::istream& is,
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h>
 

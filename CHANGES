@@ -1,5 +1,114 @@
 Release notes of CGAL.
 
+----------------------------- Release 3.7 ----------------------------------
+
+CGAL 3.7 offers the following improvements and new functionality : 
+
+1 General 
+
+  - The configuration of CGAL libraries now requires CMake>=2.6.
+
+  - Changes in the set of supported platforms:
+
+    - GNU g++ 4.5 supported (with or without the compilation option
+      -std=c++0x).
+
+    - Initial support for the option -strict-ansi of the Intel Compiler 11.
+      The CGAL libraries compile with that option, and most CGAL headers
+      have been fixed. The packages "3D Boolean Operations on Nef
+      Polyhedra" (Nef_3), "Convex Decomposition of Polyhedra"
+      (Convex_decomposition_3), and "3D Minkowski Sum of Polyhedra"
+      (Minkowski_sum_3) are known to still fail to compile with that
+      compiler flag.
+
+    - The Microsoft Windows Visual C++ compiler 2010 (VC10), that was
+      experimentally supported by CGAL-3.6.1, is now fully supported. Note
+      that CMake>=2.8.2 is required for that support.
+
+    - The Microsoft Windows Visual C++ compiler 2005 (VC8) is no longer
+      supported by the CGAL project since CGAL-3.7.
+
+    - With Microsoft Windows Visual C++ (VC9 and VC10), the optional
+      dependencies Gmp, Mpfr, Blas, Lapack, Taucs no longer use Boost-style
+      name mangling. Only one variant is now provided by the CGAL Windows
+      installer (release, with dynamic runtime).
+
+  - Some demos now require a version of Qt4 >= 4.3.
+
+  - CGAL_PDB is no longer provided with CGAL. An alternative solution for
+    people interested in reading PDB files is to use ESBTL
+    (http://esbtl.sourceforge.net/).
+
+  - Fix issues of the CGAL wrappers around the CORE library, on 64 bits
+    platforms.
+
+
+2 Triangulations and Delaunay Triangulations
+
+2.1 2D Triangulations
+
+  - The Delaunay and regular 2D triangulations now use a symbolic
+    perturbation to choose a particular triangulation in co-circular cases.
+
+  - The return type of the template member function 
+    insert(It beg, It end), taking an iterator range of points,
+    has been changed from int to std::ptrdiff_t
+
+  - Classes Triangulation_euclidean_traits_xy_3, Triangulation_euclidean_traits_yz_3
+    and Triangulation_euclidean_traits_xz_3 are now model of the concept 
+    ConstrainedTriangulationTraits_2. They can be used with and without intersection
+    of constraints.
+
+
+2.2 3D Triangulations
+   
+  - The return type of the template member function 
+    insert(It beg, It end), taking an iterator range of points,
+    has been changed from int to std::ptrdiff_t
+
+
+2.3 2D and 3D Alpha Shapes
+  
+  - The type int in the API has been changed to std::size_t
+    so that CGAL can deal with large data sets (64 bit addresses)
+
+
+3 Mesh Generation
+
+3.1 2D Mesh Generation
+
+  - The execution of the 2D mesh generator is now deterministic (same at
+    each run).
+
+
+3.2 3D Mesh Generation
+
+  - The efficiency of the 3D mesh generator has been improved (the number
+    of calls to the oracle per inserted vertex has globally decrease).
+    This is achieved through a slight change of the mesh generator strategy
+    which implies that a surface component that is not detected at the
+    surface mesher level will never be discovered by chance, owing to the
+    refinement of some terahedra, as it could happen before.
+    Please note that defining the macro
+    CGAL_MESH_3_USE_OLD_SURFACE_RESTRICTED_DELAUNAY_UPDATE switches back to
+    the old behavior.
+
+  - A demo program is now available.
+
+
+3.3 Surface Reconstruction from Point Sets
+
+  - Improved performance and minor bug fix
+
+
+4 Spatial Searching and Sorting
+ 	
+4.1 2D Range and Neighbor Search
+  
+  - The type int in the API has been changed to std::size_t
+    so that CGAL can deal with large data sets (64 bit addresses)
+
+
 ----------------------------- Release 3.6.1 --------------------------------
 CGAL 3.6.1 is a bug-fixes release. The following has been changed
 since CGAL-3.6:
@@ -94,7 +203,7 @@ CGAL 3.6 offers the following improvements and new functionality :
     compare and approximate real roots of univariate polynomials and
     bivariate polynomial systems. It includes models of the univariate
     algebraic kernel concept, based on the library RS (available only on
-    Linux and MacOS for the moment).
+    Linux, MacOS and Solaris for the moment).
 
 3.2 Number Types
 
@@ -163,8 +272,6 @@ CGAL 3.6 offers the following improvements and new functionality :
   - The package can now be used with the 3D Alpha Shapes package to compute 
     periodic alpha shapes. 
 
-  - Fixed bug in the triangulation hierarchy for periodic triangulations.
-
 6.4 3D Alpha shapes
 
   - The class Weighted_alpha_shape_euclidean_traits_3 is deprecated, the class
@@ -208,33 +315,6 @@ CGAL 3.6 offers the following improvements and new functionality :
 
   - Add support for version 7 of Ipe.
 
-
------------------------------ Release 3.5.1 --------------------------------
-The following has been changed since release 3.5.
-
-
-1 Documentation
-
-  - Fixes in the documentation.
-
-  - Fixes to the bibliographic references.
-
-
-2 Windows installer
-
-  - The Windows installer of CGAL-3.5.1 fixes an issue with downloading of
-    precompiled binaries of the external library TAUCS.
-
-
-3 Bug fixes in the following CGAL packages
-
-  - AABB tree:
-    - Fix a linker issue in do_intersect(Bbox_3,Bbox_3).
-    - Fix compilation issue in do_intersect(Bbox_3,Ray_3) when using the
-      parameters in this order.
-
-  - 3D Mesh Generation:
-    - Fix a bug in initial points construction of a polyhedral surface.
 
 
 ----------------------------- Release 3.5 ----------------------------------

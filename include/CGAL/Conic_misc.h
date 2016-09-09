@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Conic_2/include/CGAL/Conic_misc.h $
-// $Id: Conic_misc.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Conic_2/include/CGAL/Conic_misc.h $
+// $Id: Conic_misc.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -27,7 +27,7 @@
 #include <cmath>
 #include <CGAL/kernel_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R>
 class Conic_2;
@@ -153,7 +153,7 @@ int solve_cubic (NT c3, NT c2, NT c1, NT c0,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONIC_MISC_H
 

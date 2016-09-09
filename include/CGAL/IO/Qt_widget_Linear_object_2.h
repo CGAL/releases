@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Linear_object_2.h $
-// $Id: Qt_widget_Linear_object_2.h 40062 2007-08-27 20:55:45Z ophirset $
-// $Date: 2007-08-27 22:55:45 +0200 (Mon, 27 Aug 2007) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Linear_object_2.h $
+// $Id: Qt_widget_Linear_object_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/Arr_linear_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Export a polyline to a window stream 
@@ -49,6 +49,6 @@ Qt_widget & operator<<(Qt_widget & ws, const Arr_linear_object_2<K> & o)
   return ws;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

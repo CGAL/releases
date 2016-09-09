@@ -5,7 +5,7 @@
 # ${CMAKE_BINARY_DIR} or ${CMAKE_BINARY_DIR}.
 project(CGAL)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.5 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0 FATAL_ERROR)
 
 # This allows else(), endif(), etc... (without repeating the expression)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
@@ -20,6 +20,7 @@ endif( COMMAND cmake_policy )
 #
 #--------------------------------------------------------------------------------------------------
 
+set(CGAL_SOURCE_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 # 
 # Read and parse CGAL version number from VERSION file
@@ -48,8 +49,32 @@ message( STATUS "CGAL_MAJOR_VERSION=${CGAL_MAJOR_VERSION}" )
 message( STATUS "CGAL_MINOR_VERSION=${CGAL_MINOR_VERSION}" )
 message( STATUS "CGAL_BUILD_VERSION=${CGAL_BUILD_VERSION}" )
 
-set( CGAL_SONAME_VERSION "5"     CACHE STRING "soname-version" )
-set( CGAL_SOVERSION      "5.0.0" CACHE STRING "soversion" )
+# SONAME, SOVERSION
+#
+# The rule is that each new release or bug fix release should increse the soversion.
+#
+# SOVERSION is $(SONAME_VERSION).$(SOVERSION_MINOR).$(SOVERSION_RELEASE)
+#
+# - If the binary interface of libraries do not change from previous release
+#   (example: most bug fix releases), increase SOVERSION_RELEASE (this third number).
+# - If the binary interface is changed, but remains compatible with
+#   previous release (example: only addition of new functions), then increase
+#   SOVERSION_MINOR (second number) and set SOVERSION_RELEASE to 0.
+# - If the binary interface is changed in an incompatible way to previous
+#   release, then increase the SONAME_VERSION, and set the two other
+#   numbers to 0.
+# 
+# SOVERSION history: 
+#   CGAL<=3.5  : (unversionned)
+#   CGAL-3.5   : 4.0.0
+#   CGAL-3.5.1 : 4.0.1
+#   CGAL-3.5   : 5.0.0
+#   CGAL-3.6.1 : 5.0.0 (should have been 5.0.1)
+#   CGAL-3.7  :  6.0.0 (certainly: some types have been turned from int to
+#                       std::size_t, which is different on some platforms)
+
+set( CGAL_SONAME_VERSION "6"     CACHE STRING "soname-version" )
+set( CGAL_SOVERSION      "6.0.0" CACHE STRING "soversion" )
 
 mark_as_advanced(CGAL_SONAME_VERSION)
 mark_as_advanced(CGAL_SOVERSION)
@@ -57,20 +82,17 @@ mark_as_advanced(CGAL_SOVERSION)
 message( STATUS "CGAL_SONAME_VERSION=${CGAL_SONAME_VERSION}" )
 message( STATUS "CGAL_SOVERSION     =${CGAL_SOVERSION}" )
 
+
+
+
 set( CGAL_BUILDING_LIBS TRUE )
 
 set( CGAL_VERSION_DIR     CGAL-${CGAL_VERSION} )
 set( CGAL_MODULES_REL_DIR cmake/modules )
 set( CGAL_MODULES_DIR     ${CMAKE_SOURCE_DIR}/${CGAL_MODULES_REL_DIR} )
 
-# Where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
-set(CGAL_CMAKE_MODULE_PATH ${CGAL_MODULES_DIR} )
-
-
-set(ORIGINAL_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} )
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CGAL_CMAKE_MODULE_PATH} )
-
+include(${CGAL_MODULES_DIR}/CGAL_Macros.cmake)
+cgal_setup_module_path()
 
 message( STATUS "CGAL_REFERENCE_CACHE_DIR=${CGAL_REFERENCE_CACHE_DIR}" )
 
@@ -79,7 +101,7 @@ if ( RUNNING_CGAL_AUTO_TEST )
     if ( EXISTS ${CGAL_REFERENCE_CACHE_DIR} )
       if ( EXISTS ${CGAL_REFERENCE_CACHE_DIR}/CMakeCache.txt )
         message( STATUS "Loading reference cache from ${CGAL_REFERENCE_CACHE_DIR}" )
-        load_cache( ${CGAL_REFERENCE_CACHE_DIR} )
+        load_cache( ${CGAL_REFERENCE_CACHE_DIR} EXCLUDE CGAL_Core_LIBRARY )
       endif()
     endif()
   endif()
@@ -96,7 +118,7 @@ message( STATUS "System: ${CMAKE_SYSTEM_NAME}" )
 
 # The base name of all CGAL libraries (including "CGAL" itself. That
 # variables can be used by foreach() loops that deal with library variables.
-set(ALL_CGAL_LIBRARIES CGAL CGAL_Core CGAL_ImageIO CGAL_PDB CGAL_Qt3 CGAL_Qt4 CACHE INTERNAL "Name of all CGAL libraries.")
+set(ALL_CGAL_LIBRARIES CGAL CGAL_Core CGAL_ImageIO CGAL_Qt3 CGAL_Qt4 CACHE INTERNAL "Name of all CGAL libraries.")
 
 #--------------------------------------------------------------------------------------------------
 #
@@ -212,11 +234,6 @@ cache_set(CGAL_Qt4_3RD_PARTY_INCLUDE_DIRS   "" )
 cache_set(CGAL_Qt4_3RD_PARTY_LIBRARIES      "" )
 cache_set(CGAL_Qt4_3RD_PARTY_LIBRARIES_DIRS "" ) 
 
-cache_set(CGAL_PDB_3RD_PARTY_DEFINITIONS    "" )
-cache_set(CGAL_PDB_3RD_PARTY_INCLUDE_DIRS   "" )
-cache_set(CGAL_PDB_3RD_PARTY_LIBRARIES      "" )
-cache_set(CGAL_PDB_3RD_PARTY_LIBRARIES_DIRS "" ) 
-
 include(CGAL_SetupDependencies)
 
 #--------------------------------------------------------------------------------------------------
@@ -272,6 +289,9 @@ add_config_flag( CGAL_USE_MPFR )
 add_config_flag( CGAL_USE_GMPXX )
 add_config_flag( CGAL_USE_LEDA )
 
+set(CGAL_USE_CORE ${CGAL_USE_GMP})
+add_config_flag( CGAL_USE_CORE )
+
 if ( RUNNING_CGAL_AUTO_TEST AND MSVC )
   file( APPEND "${CMAKE_BINARY_DIR}/include/CGAL/compiler_config.h" "#include <CGAL/Testsuite/vc_debug_hook.h>\n\n" )
 endif()
@@ -285,14 +305,6 @@ endif()
 set ( CGAL_INSTALL_INC_DIR "include" CACHE STRING "The folder where CGAL header files will be installed, relative to CMAKE_INSTALL_PREFIX" )
 set ( CGAL_INSTALL_LIB_DIR "lib"     CACHE STRING "The folder where CGAL libraries will be installed, relative to CMAKE_INSTALL_PREFIX" )
 
-if ( NOT DEFINED CGAL_SOURCE_INSTALL )
-  if ( WIN32 AND NOT UNIX AND NOT CYGWIN AND NOT CGAL_WIN32_CMAKE_ON_CYGWIN )
-    set ( CGAL_SOURCE_INSTALL TRUE )
-  else()
-    set ( CGAL_SOURCE_INSTALL FALSE )
-  endif()  
-endif()
-
 if ( CGAL_WIN32_CMAKE_ON_CYGWIN )
   exec_program(cygpath ARGS -w ${CMAKE_INSTALL_PREFIX} OUTPUT_VARIABLE CMAKE_INSTALL_PREFIX2 )
   file ( TO_CMAKE_PATH ${CMAKE_INSTALL_PREFIX2} CMAKE_INSTALL_PREFIX )
@@ -300,39 +312,22 @@ endif()
 
 message( STATUS "CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}" )
 
-if ( CGAL_SOURCE_INSTALL )
 
-  set ( CGAL_INSTALL_BIN_DIR "script"  CACHE STRING "The folder where CGAL user-side scripts will be installed, relative to CMAKE_INSTALL_PREFIX" )
-  
-  set ( CGAL_INSTALL_CMAKE_DIR "${CGAL_MODULES_REL_DIR}"  
-        CACHE STRING "The folder where CGAL CMake modules will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
-      
-  set ( CGAL_INSTALL_ROOT_DIR "."  
-        CACHE STRING "The folder where CGAL documentation and license files will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
-      
-  set ( CGAL_INSTALL_DOC_DIR "${CGAL_INSTALL_ROOT_DIR}" ) 
-  
-else()
+set ( CGAL_INSTALL_BIN_DIR    "bin"                     
+  CACHE STRING "The folder where CGAL user-side scripts will be installed, relative to CMAKE_INSTALL_PREFIX" 
+  )
 
-  set ( CGAL_INSTALL_BIN_DIR    "bin"                     
-        CACHE STRING "The folder where CGAL user-side scripts will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
-      
-  set ( CGAL_INSTALL_CMAKE_DIR "${CGAL_INSTALL_LIB_DIR}/CGAL"
-        CACHE STRING "The folder where CGAL CMake modules will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
-      
-  set ( CGAL_INSTALL_DOC_DIR "share/doc/${CGAL_VERSION_DIR}"  
-        CACHE STRING "The folder where CGAL documentation and license files will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
+set ( CGAL_INSTALL_CMAKE_DIR "${CGAL_INSTALL_LIB_DIR}/CGAL"
+  CACHE STRING "The folder where CGAL CMake modules will be installed, relative to CMAKE_INSTALL_PREFIX" 
+  )
 
-  set ( CGAL_INSTALL_MAN_DIR "share/man/man1"  
-        CACHE STRING "The folder where manual pages for CGAL scripts will be installed, relative to CMAKE_INSTALL_PREFIX" 
-      )
+set ( CGAL_INSTALL_DOC_DIR "share/doc/${CGAL_VERSION_DIR}"  
+  CACHE STRING "The folder where CGAL documentation and license files will be installed, relative to CMAKE_INSTALL_PREFIX" 
+  )
 
-endif()
+set ( CGAL_INSTALL_MAN_DIR "share/man/man1"  
+  CACHE STRING "The folder where manual pages for CGAL scripts will be installed, relative to CMAKE_INSTALL_PREFIX" 
+  )
 
 #--------------------------------------------------------------------------------------------------
 #
@@ -354,7 +349,6 @@ add_subdirectory(src)
 cache_get(CGAL_LIBRARY)
 cache_get(CGAL_Core_LIBRARY)
 cache_get(CGAL_ImageIO_LIBRARY)
-cache_get(CGAL_PDB_LIBRARY)
 cache_get(CGAL_Qt3_LIBRARY)
 cache_get(CGAL_Qt4_LIBRARY)
 
@@ -382,11 +376,6 @@ cache_get(CGAL_Qt4_3RD_PARTY_DEFINITIONS   )
 cache_get(CGAL_Qt4_3RD_PARTY_INCLUDE_DIRS  )
 cache_get(CGAL_Qt4_3RD_PARTY_LIBRARIES     )
 cache_get(CGAL_Qt4_3RD_PARTY_LIBRARIES_DIRS) 
-
-cache_get(CGAL_PDB_3RD_PARTY_DEFINITIONS   )
-cache_get(CGAL_PDB_3RD_PARTY_INCLUDE_DIRS  )
-cache_get(CGAL_PDB_3RD_PARTY_LIBRARIES     )
-cache_get(CGAL_PDB_3RD_PARTY_LIBRARIES_DIRS) 
 
 hide_variable(EXECUTABLE_OUTPUT_PATH)
 hide_variable(LIBRARY_OUTPUT_PATH)
@@ -436,7 +425,7 @@ endif()
 
 if ( TAUCS_IN_AUXILIARY )
   install(DIRECTORY auxiliary/taucs/include/ DESTINATION ${CGAL_INSTALL_INC_DIR} )
-  install(DIRECTORY auxiliary/tacus/lib/     DESTINATION ${CGAL_INSTALL_LIB_DIR} )
+  install(DIRECTORY auxiliary/taucs/lib/     DESTINATION ${CGAL_INSTALL_LIB_DIR} )
 endif()
 
 if ( ZLIB_IN_AUXILIARY )
@@ -445,16 +434,11 @@ if ( ZLIB_IN_AUXILIARY )
 endif()
 
 
-if ( CGAL_SOURCE_INSTALL )
-  install(FILES ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake DESTINATION ${CGAL_INSTALL_ROOT_DIR} )
-  install(FILES     CMakeLists.txt                          DESTINATION ${CGAL_INSTALL_ROOT_DIR} )
-  install(DIRECTORY auxiliary                               DESTINATION ${CGAL_INSTALL_ROOT_DIR} )
-  install(DIRECTORY src                                     DESTINATION ${CGAL_INSTALL_ROOT_DIR} )
-else()
-  install(FILES ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
+install(FILES ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
+
+if ( WIN32 AND NOT UNIX AND NOT CYGWIN AND NOT CGAL_WIN32_CMAKE_ON_CYGWIN )
   install(FILES auxiliary/cgal_create_cmake_script.1 DESTINATION ${CGAL_INSTALL_MAN_DIR} )
 endif()
-
 
 #--------------------------------------------------------------------------------------------------
 #

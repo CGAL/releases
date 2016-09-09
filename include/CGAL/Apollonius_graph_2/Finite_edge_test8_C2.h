@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test8_C2.h $
-// $Id: Finite_edge_test8_C2.h 48558 2009-03-27 14:12:03Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test8_C2.h $
+// $Id: Finite_edge_test8_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -26,9 +26,9 @@
 #include <CGAL/Apollonius_graph_2/Oriented_side_of_bisector_C2.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_APOLLONIUS_GRAPH_2_BEGIN_NAMESPACE
+namespace ApolloniusGraph_2 {
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
@@ -749,8 +749,8 @@ public:
 
 //--------------------------------------------------------------------
 
-CGAL_APOLLONIUS_GRAPH_2_END_NAMESPACE
+} //namespace ApolloniusGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_APOLLONIUS_GRAPH_2_FINITE_EDGE_TEST8_C2_H

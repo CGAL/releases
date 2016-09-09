@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/Object_handle.h $
-// $Id: Object_handle.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Object_handle.h $
+// $Id: Object_handle.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,10 +27,10 @@
 
 #include <CGAL/Object.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 typedef Object Object_handle;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_OBJECT_HANDLE_H

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/support/test_BLAS.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/support/test_BLAS.cpp $
 //
 // Author(s)     : Laurent Saboret
 
@@ -27,7 +27,6 @@
 #endif
 
 #include <iostream>
-#include <cassert>
 
 extern "C" {
   // Fortran interface (taken from www.netlib.org/clapack)...
@@ -77,9 +76,11 @@ int main()
   int ld = 1;
 
   CGAL::BLAS::dgemm(S,S, &n,&n,&n, &alpha, &A,&ld, &B,&ld, &beta, &C,&ld);
-  assert(C == 97.0);
-
-  std::cout << "ok for BLAS" << std::endl;
-
-  return 0;
+  if(C == 97.0) {
+    std::cout << "ok for BLAS" << std::endl;
+    return 0;
+  }
+  else {
+    return 1;
+  }
 }

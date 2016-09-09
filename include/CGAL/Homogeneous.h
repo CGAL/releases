@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Homogeneous.h $
-// $Id: Homogeneous.h 51161 2009-08-10 15:57:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous.h $
+// $Id: Homogeneous.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -29,7 +29,7 @@
 #include <CGAL/Kernel/Type_equality_wrapper.h>
 #include <CGAL/Quotient.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename RT_, typename FT_, typename Kernel >
 struct Homogeneous_base_ref_count
@@ -55,6 +55,6 @@ struct Homogeneous
                 Homogeneous<RT_, FT_> >
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_H

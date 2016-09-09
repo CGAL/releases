@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/demo/Nef_S2/nef_S2.cpp $
-// $Id: nef_S2.cpp 45908 2008-10-01 08:08:24Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/demo/Nef_S2/nef_S2.cpp $
+// $Id: nef_S2.cpp 53922 2010-01-29 19:03:07Z spion $
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>

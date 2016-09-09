@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h 47370 2008-12-10 23:05:46Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: SM_overlayer.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -39,7 +39,7 @@
 #define LEDA_MEMORY(t) 
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Decorator_, typename I>
 struct SMO_from_segs {
@@ -426,6 +426,33 @@ public:
   /*{\Mtypemember the mark of sphere map objects.}*/
 
   typedef typename Base::GenPtr GenPtr;
+
+
+  using Base::info;
+  using Base::set_first_out_edge;
+  using Base::first_out_edge;
+  using Base::last_out_edge;
+  using Base::out_edges;
+  using Base::link_as_loop;
+  using Base::link_as_face_cycle;
+  using Base::link_as_prev_next_pair;
+  using Base::link_as_isolated_vertex;
+  using Base::is_isolated;
+  using Base::set_source;
+  using Base::set_face;
+  using Base::delete_vertex_only;
+  using Base::delete_face_only;
+  using Base::delete_edge_pair;
+  using Base::delete_edge_pair_only;
+  using Base::is_sm_boundary_object;
+  using Base::undo_sm_boundary_object;
+  using Base::store_sm_boundary_object;
+  using Base::clear_face_cycle_entries;
+  using Base::is_closed_at_source;
+  using Base::has_outdeg_two;
+  using Base::convert_edge_to_loop;
+  using Base::merge_edge_pairs_at_target;
+
 
   /*{\Mgeneralization SM_decorator}*/
 
@@ -2304,6 +2331,6 @@ typedef CGAL::generic_sweep<NHS_traits> Negative_halfsphere_sweep;
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SM_OVERLAYER_H

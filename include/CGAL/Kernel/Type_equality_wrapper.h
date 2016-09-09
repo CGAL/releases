@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/Type_equality_wrapper.h $
-// $Id: Type_equality_wrapper.h 46388 2008-10-21 12:29:38Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/Type_equality_wrapper.h $
+// $Id: Type_equality_wrapper.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -26,7 +26,7 @@
 
 #include <CGAL/user_classes.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This is a kernel wrapper which provides the type equality between
 // Kernel::Point_2 and CGAL::Point_2<Kernel>, by deriving from
@@ -48,6 +48,6 @@ struct Type_equality_wrapper
     typedef CGAL::Aff_transformation_3<Kernel_>      Aff_transformation_3;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KERNEL_TYPE_EQUALITY_WRAPPER_H

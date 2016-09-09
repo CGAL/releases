@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Hash_map/include/CGAL/Handle_hash_function.h $
-// $Id: Handle_hash_function.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Hash_map/include/CGAL/Handle_hash_function.h $
+// $Id: Handle_hash_function.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/basic.h>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Handle_hash_function {
     typedef std::size_t result_type;
@@ -39,8 +39,7 @@ struct Handle_hash_function {
     } 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HANDLE_HASH_FUNCTION_H
 // EOF
-

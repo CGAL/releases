@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits_functions.h $
-// $Id: Td_traits_functions.h 40209 2007-09-05 14:41:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits_functions.h $
+// $Id: Td_traits_functions.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -20,7 +20,7 @@
 #include <CGAL/Arr_point_location/Td_traits.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits,class X_curve_plus>
 const typename Td_traits<Traits,X_curve_plus>::Point&
@@ -76,4 +76,4 @@ template <class Traits,class X_curve_plus>
 typename Td_traits<Traits,X_curve_plus>::X_curve *
 Td_traits<Traits,X_curve_plus>::CURVE_AT_INFINITY = 0;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

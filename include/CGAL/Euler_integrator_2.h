@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_lines_2/include/CGAL/Euler_integrator_2.h $
-// $Id: Euler_integrator_2.h 37186 2007-03-17 09:27:09Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_lines_2/include/CGAL/Euler_integrator_2.h $
+// $Id: Euler_integrator_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -23,7 +23,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The class Euler_integrator_2 is a model of the concept Integrator
 template <class VectorField_2>
@@ -116,6 +116,6 @@ Euler_integrator_2<Vector_field>::operator()
   return euler_integrator(p, vector_field_2, default_integration_step,index);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/implicit_to_labeled_function_wrapper.h $
-// $Id: implicit_to_labeled_function_wrapper.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/implicit_to_labeled_function_wrapper.h $
+// $Id: implicit_to_labeled_function_wrapper.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -52,12 +52,12 @@ public:
 
   /// Constructor
   Implicit_to_labeled_function_wrapper(Function_& f)
-    : r_f_(f) { };
+    : r_f_(f) {}
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Implicit_to_labeled_function_wrapper() { };
+  ~Implicit_to_labeled_function_wrapper() {}
 
   /// Operator ()
   return_type operator()(const Point_3& p, const bool = true) const
@@ -95,12 +95,12 @@ public:
 
   /// Constructor
   Implicit_vector_to_labeled_function_wrapper(const std::vector<Function_*>& v)
-    : function_vector_(v) { };
+    : function_vector_(v) {}
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Implicit_vector_to_labeled_function_wrapper() { };
+  ~Implicit_vector_to_labeled_function_wrapper() {}
 
   /// Operator ()
   return_type operator()(const Point_3& p, const bool = true) const

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
-// $Id: pierce_rectangles_2.h 56908 2010-06-21 10:05:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
+// $Id: pierce_rectangles_2.h 56910 2010-06-21 10:40:54Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -33,7 +33,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //!!! STL-extensions
 template < class T >
@@ -644,8 +644,8 @@ three_cover_points(
   return o;
 
 } // three_cover_points(d, o, ok)
-CGAL_END_NAMESPACE
-CGAL_BEGIN_NAMESPACE
+} //namespace CGAL
+namespace CGAL {
 template < class OutputIterator, class Traits >
 OutputIterator
 four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
@@ -1020,7 +1020,7 @@ struct Four_covering_algorithm {
   { return four_cover_points(d, o, ok); }
 }; // class Four_covering_algorithm
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

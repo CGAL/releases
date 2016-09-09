@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
-// $Id: PM_overlayer.h 39791 2007-08-09 09:48:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
+// $Id: PM_overlayer.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -33,7 +33,7 @@
 #define LEDA_MEMORY(t) 
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename PMD, typename I, typename DA>
 struct PMO_from_segs {
@@ -283,6 +283,31 @@ public:
   using Base::number_of_faces;
   using Base::new_vertex;
   using Base::new_face;
+  using Base::target;
+  using Base::source;
+  using Base::point;
+  using Base::next;
+  using Base::previous;
+  using Base::twin;
+  using Base::info;
+  using Base::link_as_outer_face_cycle;
+  using Base::link_as_isolated_vertex;
+  using Base::link_as_hole;
+  using Base::face;
+  using Base::set_face;
+  using Base::is_isolated;
+  using Base::first_out_edge;
+  using Base::halfedge;
+  using Base::clear_face_cycle_entries;
+  using Base::is_closed_at_source;
+  using Base::delete_halfedge_pair;
+  using Base::delete_face;
+  using Base::set_halfedge;
+  using Base::set_hole;
+  using Base::delete_vertex_only;
+  using Base::set_isolated_vertex;
+  using Base::has_outdeg_two;
+  using Base::merge_halfedge_pairs_at_target;
 
   // C++ is really friendly:
   #define USECMARK(t) const Mark& mark(t h) const { return Base::mark(h); }
@@ -856,6 +881,5 @@ void assert_type_precondition() const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_PM_OVERLAYER_H
-

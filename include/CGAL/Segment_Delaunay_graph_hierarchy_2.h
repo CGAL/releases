@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_hierarchy_2.h $
-// $Id: Segment_Delaunay_graph_hierarchy_2.h 53867 2010-01-28 12:18:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_hierarchy_2.h $
+// $Id: Segment_Delaunay_graph_hierarchy_2.h 56966 2010-06-22 10:15:50Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -35,10 +35,10 @@
 #include <CGAL/Triangulation_data_structure_2.h>
 #include <CGAL/Segment_Delaunay_graph_vertex_base_2.h>
 #include <CGAL/Segment_Delaunay_graph_hierarchy_vertex_base_2.h>
-#include <CGAL/Triangulation_face_base_2.h>
+#include <CGAL/Segment_Delaunay_graph_face_base_2.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
@@ -63,7 +63,7 @@ template < class Gt,
 	   class D_S = Triangulation_data_structure_2<
               Segment_Delaunay_graph_hierarchy_vertex_base_2<
 		Segment_Delaunay_graph_vertex_base_2<ST> >,
-              Triangulation_face_base_2<Gt> >,
+              Segment_Delaunay_graph_face_base_2<Gt> >,
 	   class LTag = Tag_false>
 class Segment_Delaunay_graph_hierarchy_2
   : public Segment_Delaunay_graph_2<Gt,ST,D_S,LTag>
@@ -106,7 +106,18 @@ protected:
   typedef typename Base::Handle_map                Handle_map;
   typedef typename Base::Point_handle_pair         Point_handle_pair;
 
+  using Base::merge_info;
+  using Base::same_segments;
+  using Base::is_degenerate_segment;
+  using Base::convert_info;
+  using Base::second_endpoint_of_segment;
+  using Base::split_storage_site;
+  using Base::first_endpoint_of_segment;
+  using Base::incircle;
+
 public:
+  using Base::is_infinite;
+
   typedef typename Base::Point_container           Point_container;
   typedef typename Base::size_type                 size_type;
 
@@ -434,9 +445,9 @@ protected:
     return (std::min)(die(), (int)sdg_hierarchy_2__maxlevel)-1;
   }
 
-  size_type find_level(Vertex_handle v) const {
+  int find_level(Vertex_handle v) const {
     CGAL_precondition( v != Vertex_handle() );
-    size_type level = 0;
+    int level = 0;
     Vertex_handle vertex = v;
     while ( vertex->up() != Vertex_handle() ) {
       vertex = vertex->up();
@@ -447,11 +458,11 @@ protected:
   }
 
   Vertex_handle
-  vertex_at_level(const Vertex_handle& v, size_type k) const
+  vertex_at_level(const Vertex_handle& v, int k) const
   {
     CGAL_precondition( k <= sdg_hierarchy_2__maxlevel );
 
-    size_type level = 0;
+    int level = 0;
     Vertex_handle v_at_level = v;
     while ( level < k ) {
       v_at_level = v_at_level->up();
@@ -485,11 +496,10 @@ std::ostream& operator<<(std::ostream& os,
 }
 			 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #include <CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h>
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_HIERARCHY_2_H
-

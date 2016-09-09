@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformation_d.h $
-// $Id: Aff_transformation_d.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformation_d.h $
+// $Id: Aff_transformation_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -25,7 +25,7 @@
 
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class pR>
 class Aff_transformation_d : public pR::Aff_transformation_d_base
@@ -72,5 +72,5 @@ class Aff_transformation_d : public pR::Aff_transformation_d_base
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_AFF_TRANSFORMATION_D_H

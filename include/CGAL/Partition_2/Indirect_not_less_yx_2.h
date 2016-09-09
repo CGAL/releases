@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Indirect_not_less_yx_2.h $
-// $Id: Indirect_not_less_yx_2.h 31311 2006-05-29 08:30:22Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Partition_2/include/CGAL/Partition_2/Indirect_not_less_yx_2.h $
+// $Id: Indirect_not_less_yx_2.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -43,4 +43,3 @@ class Indirect_not_less_yx_2
 }
 
 #endif // CGAL_INDIRECT_NOT_LESS_YX_2_H
-

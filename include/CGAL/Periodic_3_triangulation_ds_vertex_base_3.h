@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
-// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 51548 2009-08-27 09:33:40Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
+// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -25,7 +25,7 @@
 #include <CGAL/internal/Dummy_tds_3.h>
 #include <CGAL/Periodic_3_offset_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename TDS = void >
 class Periodic_3_triangulation_ds_vertex_base_3
@@ -120,6 +120,6 @@ public:
   };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_DS_VERTEX_BASE_3_H

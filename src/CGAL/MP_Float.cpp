@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/src/CGAL/MP_Float.cpp $
-// $Id: MP_Float.cpp 47204 2008-12-03 14:43:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/src/CGAL/MP_Float.cpp $
+// $Id: MP_Float.cpp 57004 2010-06-23 08:32:08Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -25,7 +25,7 @@
 #include <functional>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 using std::pair;
 
@@ -339,7 +339,7 @@ to_double_exp(const MP_Float &b)
     return std::make_pair(0.0, 0);
 
   exponent_type exp = b.max_exp();
-  int steps = (std::min)(limbs_per_double, b.v.size());
+  int steps = static_cast<int>((std::min)(limbs_per_double, b.v.size()));
   double d_exp_1 = std::ldexp(1.0, - static_cast<int>(log_limb));
   double d_exp   = 1.0;
   double d = 0;
@@ -363,7 +363,7 @@ to_interval_exp(const MP_Float &b)
     return std::make_pair(pair<double, double>(0, 0), 0);
 
   exponent_type exp = b.max_exp();
-  int steps = (std::min)(limbs_per_double, b.v.size());
+  int steps = static_cast<int>((std::min)(limbs_per_double, b.v.size()));
   double d_exp_1 = std::ldexp(1.0, - (int) log_limb);
   double d_exp   = 1.0;
 
@@ -524,4 +524,4 @@ operator>> (std::istream & is, MP_Float &b)
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

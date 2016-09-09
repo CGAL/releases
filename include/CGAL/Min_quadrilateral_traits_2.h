@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
-// $Id: Min_quadrilateral_traits_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
+// $Id: Min_quadrilateral_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -31,7 +31,7 @@
 #include <functional>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Optimisation {
   template < class Kernel_ >
@@ -412,11 +412,10 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_MIN_QUADRILATERAL_TRAITS_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

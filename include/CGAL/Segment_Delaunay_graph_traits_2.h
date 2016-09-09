@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_traits_2.h $
-// $Id: Segment_Delaunay_graph_traits_2.h 40259 2007-09-07 09:52:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_traits_2.h $
+// $Id: Segment_Delaunay_graph_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -31,16 +31,30 @@
 #include <CGAL/Segment_Delaunay_graph_filtered_traits_2.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------
 // the Traits classes
 //-----------------------------------------------------------------------
 
 // this traits class does support intersecting segments
-template<class R, class MTag = Field_tag>
+
+// the following definition is okay when giving Field_with_sqrt_tag
+// for all other tags I need a specialization
+template<class R,
+	 class MTag =
+	 typename Algebraic_structure_traits<typename R::FT>::Algebraic_category
+	 /*Field_tag*/>
 struct Segment_Delaunay_graph_traits_2
   : public Segment_Delaunay_graph_traits_base_2<R,MTag,Tag_true> {};
+
+template<class R>
+struct Segment_Delaunay_graph_traits_2<R,Field_with_kth_root_tag>
+  : public Segment_Delaunay_graph_traits_base_2<R,Field_with_sqrt_tag,Tag_true> {};
+
+template<class R>
+struct Segment_Delaunay_graph_traits_2<R,Field_with_root_of_tag>
+  : public Segment_Delaunay_graph_traits_base_2<R,Field_with_sqrt_tag,Tag_true> {};
 
 template<class R>
 struct Segment_Delaunay_graph_traits_2<R,Field_tag>
@@ -92,7 +106,10 @@ struct Segment_Delaunay_graph_traits_2<Filtered_kernel<R>,Field_with_sqrt_tag>
 //=========================================================================
 
 // this traits class does NOT support intersecting segments
-template<class R, class MTag = Integral_domain_without_division_tag>
+template<class R,
+	 class MTag = 
+	 typename Algebraic_structure_traits<typename R::FT>::Algebraic_category
+	 /*Integral_domain_without_division_tag*/>
 struct Segment_Delaunay_graph_traits_without_intersections_2
   : public Segment_Delaunay_graph_traits_base_2<R,MTag,Tag_false> {};
 
@@ -144,6 +161,6 @@ Segment_Delaunay_graph_traits_without_intersections_2<Filtered_kernel<R>,
 					    Field_with_sqrt_tag>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_TRAITS_2_H

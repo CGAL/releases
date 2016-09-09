@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/mesh_union_of_balls_3.h $
-// $Id: mesh_union_of_balls_3.h 35895 2007-01-28 21:31:37Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/mesh_union_of_balls_3.h $
+// $Id: mesh_union_of_balls_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -22,7 +22,7 @@
 
 #include <CGAL/mesh_skin_surface_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class UnionOfBalls_3, class Polyhedron>
 void mesh_union_of_balls_3(UnionOfBalls_3 const &union_of_balls, Polyhedron &p)
@@ -30,6 +30,6 @@ void mesh_union_of_balls_3(UnionOfBalls_3 const &union_of_balls, Polyhedron &p)
   union_of_balls.mesh_surface_3(p);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_UNION_OF_BALLS_3_H

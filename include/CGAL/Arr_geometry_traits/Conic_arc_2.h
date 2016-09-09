@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 51304 2009-08-17 15:37:20Z mkerber $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
+// $Id: Conic_arc_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -30,7 +30,7 @@
 
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /*!
@@ -1864,6 +1864,6 @@ operator<< (std::ostream& os,
   return (os);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

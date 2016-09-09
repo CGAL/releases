@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Cartesian_kernel/include/CGAL/Cartesian.h $
-// $Id: Cartesian.h 51161 2009-08-10 15:57:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian.h $
+// $Id: Cartesian.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -28,7 +28,7 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/Kernel/Type_equality_wrapper.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename FT_, typename Kernel_ >
 struct Cartesian_base_ref_count
@@ -60,6 +60,6 @@ struct Cartesian
                 Cartesian<FT_> >
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_H

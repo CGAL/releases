@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/iterator_tools.h $
-// $Id: iterator_tools.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/iterator_tools.h $
+// $Id: iterator_tools.h 57193 2010-06-29 12:38:52Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -22,7 +22,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/circulator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Iter, typename Move> 
 class CircFromIt : public Iter {
@@ -39,7 +39,7 @@ public:
 // OPERATIONS Forward Category
 // ---------------------------
 
-    bool operator==( Nullptr_t p ) const {
+    bool operator==( Nullptr_t CGAL_assertion_code(p) ) const {
       CGAL_assertion( p == NULL );
       return Iter::operator==( Iter(NULL) );
     }
@@ -106,5 +106,5 @@ template <class H>
 std::string PH(H h)
 { if (h == H()) return "nil"; return h->debug(); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_ITERATORTOOLS_H

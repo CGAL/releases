@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/leda_bigfloat_interval.h $
-// $Id: leda_bigfloat_interval.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_bigfloat_interval.h $
+// $Id: leda_bigfloat_interval.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -44,8 +44,9 @@
 #include <CGAL/leda_bigfloat.h>
 #include <CGAL/Interval_traits.h>
 #include <CGAL/Bigfloat_interval_traits.h>
+#include <CGAL/ipower.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 namespace internal {
 
 struct Rounding_for_leda_bigfloat {
@@ -139,7 +140,7 @@ public:
 };
 
 } // namespace internal
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace boost {
 namespace numeric {
@@ -159,7 +160,7 @@ std::ostream& operator <<
 }//namespace numeric
 }//namespace boost
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 typedef boost::numeric::interval
 < leda::bigfloat,
@@ -219,12 +220,12 @@ public:
 
 
 // Coercion traits:
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short      ,leda_bigfloat_interval);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int        ,leda_bigfloat_interval);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long       ,leda_bigfloat_interval);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float      ,leda_bigfloat_interval);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double     ,leda_bigfloat_interval);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(::leda::bigfloat   ,leda_bigfloat_interval);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short      ,leda_bigfloat_interval)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int        ,leda_bigfloat_interval)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long       ,leda_bigfloat_interval)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float      ,leda_bigfloat_interval)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double     ,leda_bigfloat_interval)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(::leda::bigfloat   ,leda_bigfloat_interval)
 
 template <>
 struct Coercion_traits< leda_bigfloat_interval , ::leda::integer >{
@@ -305,6 +306,7 @@ template <> struct Coercion_traits< ::leda::real, leda_bigfloat_interval >
 
 template<>
 class Interval_traits<leda_bigfloat_interval>
+  :public internal::Interval_traits_base<leda_bigfloat_interval>
 {
 public: 
     typedef Interval_traits<leda_bigfloat_interval> Self; 
@@ -416,42 +418,49 @@ template<>
 class Bigfloat_interval_traits<leda_bigfloat_interval>
     :public Interval_traits<leda_bigfloat_interval> 
 {
-    
+  typedef leda_bigfloat_interval NT;
+  typedef leda::bigfloat BF; 
 public:
-    typedef Bigfloat_interval_traits<leda_bigfloat_interval> Self;
-    typedef leda_bigfloat_interval NT;
-    typedef leda::bigfloat BF;
-
-    struct Get_significant_bits : public std::unary_function<NT,long>{
-
-        long operator()( NT x) const {
-            leda::bigfloat lower = x.lower();
-            leda::bigfloat upper = x.upper();
-
-            leda::integer lower_m = lower.get_significant();
-            leda::integer upper_m = upper.get_significant();
-             
-            leda::integer lower_exp = lower.get_exponent();
-            leda::integer upper_exp = upper.get_exponent();
-             
-            long shift = (upper_exp - lower_exp).to_long();
-            if(shift >= 0 ) upper_m = (upper_m <<  shift);
-            else            lower_m = (lower_m << -shift);
-             
-            //CGAL_postcondition(lower_m.length() == upper_m.length());
-             
-            leda::integer err = lower_m-upper_m; 
-             
-            return std::max(lower_m.length()-err.length(),0);
-             
-        }
-    };
+  typedef Bigfloat_interval_traits<leda_bigfloat_interval> Self;
+  typedef CGAL::Tag_true Is_bigfloat_interval; 
   
-    struct Set_precision : public std::unary_function<long,long> {
-        long operator()( long prec ) const {
-            return BF::set_precision(prec); 
-        }
-    };
+
+//   struct Get_significant_bits : public std::unary_function<NT,long>{
+//         long operator()( NT x) const {
+//             CGAL_precondition(!Singleton()(x));
+//             leda::bigfloat lower = x.lower();
+//             leda::bigfloat upper = x.upper();
+//             leda::integer lower_m = lower.get_significant();
+//             leda::integer upper_m = upper.get_significant();
+//             leda::integer lower_exp = lower.get_exponent();
+//             leda::integer upper_exp = upper.get_exponent();
+//             long shift = (upper_exp - lower_exp).to_long();
+//             if(shift >= 0 ) upper_m = (upper_m <<  shift);
+//             else            lower_m = (lower_m << -shift);
+//             //CGAL_postcondition(lower_m.length() == upper_m.length());
+//             leda::integer err = upper_m - lower_m; 
+//             std::cout <<"LEDA: " << lower_m << " " << err << " " << std::endl; 
+//             return CGAL::abs(lower_m.length()-err.length());
+//         }
+//     };
+
+    
+  struct Relative_precision: public std::unary_function<NT,long>{
+    long operator()(const NT& x) const {
+      CGAL_precondition(!Singleton()(x));
+      CGAL_precondition(!CGAL::zero_in(x));
+
+      leda::bigfloat w = Width()(x);
+      w = leda::div(w,Lower()(x),Get_precision()(),leda::TO_P_INF); 
+      return -leda::ilog2(w).to_long();
+    }
+  };
+  
+  struct Set_precision : public std::unary_function<long,long> {
+    long operator()( long prec ) const {
+      return BF::set_precision(prec); 
+    }
+  };
      
     struct Get_precision {
         // type for the \c AdaptableGenerator concept.
@@ -476,6 +485,6 @@ leda_bigfloat_interval inline ipower(const leda_bigfloat_interval& x, int i ){
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_USE_LEDA
 #endif //  CGAL_LEDA_BIGFLOAT_INTERVAL_H

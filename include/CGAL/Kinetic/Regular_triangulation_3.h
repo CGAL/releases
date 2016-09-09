@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -40,7 +40,7 @@
 #endif                          // initialize a member
 
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class KD>
 class Regular_3_pop_event: public Delaunay_event_base_3<KD, typename KD::Root_stack>
@@ -249,9 +249,9 @@ struct Regular_triangulation_3_types
 
 };
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 /*!
   redundant_cells_ maps each cell with redundant points to the ids of the points in that cell
@@ -435,7 +435,7 @@ protected:
   typedef internal::Delaunay_triangulation_base_3<Base_traits, Delaunay_visitor> KDel;
 
   CGAL_KINETIC_DECLARE_LISTENERS(typename TraitsT::Simulator,
-				 typename Traits::Active_points_3_table);
+				 typename Traits::Active_points_3_table)
 
 public:
   
@@ -1205,7 +1205,7 @@ std::ostream &operator<<(std::ostream &out, const Regular_triangulation_3<Traits
 }
 
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

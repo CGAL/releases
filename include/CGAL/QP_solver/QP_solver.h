@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_solver.h $
-// $Id: QP_solver.h 46451 2008-10-23 14:31:10Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solver.h $
+// $Id: QP_solver.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -48,7 +48,7 @@
 #include <numeric>
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ==================
 // class declarations
@@ -1976,7 +1976,7 @@ compute__x_B_S( Tag_false /*has_equalities_only_and_full_rank*/,
        
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/QP_solver/Unbounded_direction.h>
 #include <CGAL/QP_solver/QP_solver_nonstandardform_impl.h>

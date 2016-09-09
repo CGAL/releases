@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_annulus_d/include/CGAL/Min_annulus_d.h $
-// $Id: Min_annulus_d.h 46189 2008-10-09 09:42:37Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_annulus_d/include/CGAL/Min_annulus_d.h $
+// $Id: Min_annulus_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -78,7 +78,7 @@
 // the objective function involves terms p^Tp that might not be exactly
 // computed -> document all this!!!
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace MA_detail {
 
@@ -865,7 +865,7 @@ operator >> ( std::istream& is, CGAL::Min_annulus_d<Traits_>& min_annulus)
   return( is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MIN_ANNULUS_D_H
 

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/make_piecewise_smooth_surface_mesh.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/make_piecewise_smooth_surface_mesh.h $
 // $Id: make_piecewise_smooth_surface_mesh.h 38638 2007-05-11 14:09:56Z lrineau $
 //
 // Author(s)     : Laurent Rineau

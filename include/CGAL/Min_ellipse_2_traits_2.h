@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2_traits_2.h $
-// $Id: Min_ellipse_2_traits_2.h 41625 2008-01-14 23:00:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2_traits_2.h $
+// $Id: Min_ellipse_2_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -22,7 +22,7 @@
 
 #include <CGAL/Min_ellipse_2/Optimisation_ellipse_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declarations
 // ==================
@@ -55,7 +55,7 @@ private:
     // Min_ellipse_2_traits_2( Min_ellipse_2_traits_2<K> const&);
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MIN_ELLIPSE_2_TRAITS_2_H
 

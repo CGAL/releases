@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
-// $Id: SNC_constructor.h 45119 2008-08-23 17:26:43Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
+// $Id: SNC_constructor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de> 
@@ -43,7 +43,7 @@
 #define CGAL_NEF_DEBUG 43
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Infi_box, typename Vertex_handle>
 struct Frame_point_lt {
@@ -1858,6 +1858,8 @@ class SNC_constructor<SNC_indexed_items, SNC_structure_>
 
   typedef typename SNC_structure::Mark      Mark;
 
+  using Base::create_from_plane;
+
   public:
   SNC_constructor( SNC_structure& W) : Base(W) {}
 
@@ -2156,6 +2158,5 @@ class SNC_constructor<SNC_indexed_items, SNC_structure_>
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_CONSTRUCTOR_H
-

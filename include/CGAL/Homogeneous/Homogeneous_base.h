@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
-// $Id: Homogeneous_base.h 56795 2010-06-16 13:05:02Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
+// $Id: Homogeneous_base.h 56758 2010-06-14 20:29:51Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -73,7 +73,7 @@
 
 #include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename RT_, typename FT_, typename K_ >
 struct Homogeneous_base
@@ -157,6 +157,6 @@ struct Homogeneous_base
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_BASE_H

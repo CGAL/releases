@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h 49918 2009-06-15 13:09:47Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -36,7 +36,7 @@
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/Polyhedron_traits_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class VertexBase>
 class I_Polyhedron_vertex  : public VertexBase  {
@@ -1532,6 +1532,6 @@ public:
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYHEDRON_3_H //

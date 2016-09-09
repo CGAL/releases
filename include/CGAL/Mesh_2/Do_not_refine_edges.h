@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Do_not_refine_edges.h $
-// $Id: Do_not_refine_edges.h 50048 2009-06-24 14:12:12Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Mesh_2/Do_not_refine_edges.h $
+// $Id: Do_not_refine_edges.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -82,7 +82,7 @@ public:
       if(fh->is_constrained(i) && !is_locally_conform(this->tr, fh, i, p))
       {
         return CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
-      };
+      }
     }
 
     return NO_CONFLICT;

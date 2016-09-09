@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_BigRat.h $
-// $Id: CORE_BigRat.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/CORE_BigRat.h $
+// $Id: CORE_BigRat.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -34,7 +34,7 @@
   #define CGAL_CORE_DENOMINATOR(X) (denominator((X)))
 //#else
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //
 // Algebraic structure traits
@@ -85,6 +85,7 @@ template <> class Real_embeddable_traits< CORE::BigRat >
                                             const Type& y ) const {
           return CGAL::sign( ::CORE::cmp(x,y));
         }
+        CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT(Type,Comparison_result)
     };
 
     class To_double
@@ -222,7 +223,7 @@ public:
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 //since types are included by CORE_coercion_traits.h:
 #include <CGAL/CORE_Expr.h>

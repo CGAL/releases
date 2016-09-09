@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/ConstrainedTriangulationGraphicsItem.h $
-// $Id: ConstrainedTriangulationGraphicsItem.h 45856 2008-09-29 17:26:00Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/ConstrainedTriangulationGraphicsItem.h $
+// $Id: ConstrainedTriangulationGraphicsItem.h 56058 2010-05-10 07:06:42Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -108,7 +108,7 @@ ConstrainedTriangulationGraphicsItem<T>::operator()(typename T::Face_handle fh)
       }
     }
     if(this->visibleVertices()) {
-      paintOneVertex(fh->vertex(i)->point());
+      this->paintOneVertex(fh->vertex(i)->point());
     }
   }
 }

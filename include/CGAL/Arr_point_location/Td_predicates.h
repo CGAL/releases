@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
-// $Id: Td_predicates.h 39880 2007-08-16 14:43:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
+// $Id: Td_predicates.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -24,7 +24,7 @@
 
 #include <functional>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Td_traits> class Trapezoidal_decomposition_2;
 
@@ -73,6 +73,6 @@ struct Trapezoid_handle_less : public std::binary_function<_Tp, _Tp, bool>
 };
 /* Return if two trapezoids are the same */
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_TD_PREDICATES_H

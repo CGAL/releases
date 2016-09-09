@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 40677 2007-10-20 20:51:59Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 58128 2010-08-18 08:43:31Z sloriot $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -85,7 +85,7 @@ private:
   Node_handle 
   create_leaf_node(Point_container& c) const
   {
-    Node_handle nh = nodes.emplace(c.size(), Node::LEAF);
+    Node_handle nh = nodes.emplace(static_cast<unsigned int>(c.size()), Node::LEAF);
 
     nh->data = c.begin();
     return nh;
@@ -182,12 +182,16 @@ public:
     std::copy(first, beyond, std::back_inserter(pts));
   }
 
+  bool empty() const {
+    return pts.empty();
+  }
+  
   void 
   build() const
   {
     const Point_d& p = *pts.begin();
     typename SearchTraits::Construct_cartesian_const_iterator_d ccci;
-    int dim = std::distance(ccci(p), ccci(p,0)); 
+    int dim = static_cast<int>(std::distance(ccci(p), ccci(p,0))); 
 
     data.reserve(pts.size());
     for(unsigned int i = 0; i < pts.size(); i++){
@@ -217,7 +221,13 @@ public:
       built_ = false;
     }
   }
-
+  
+  void clear()
+  {
+    invalidate_built();
+    pts.clear();
+  }
+  
   void
   insert(const Point_d& p)
   {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
-// $Id: nearest_neighbor_delaunay_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
+// $Id: nearest_neighbor_delaunay_2.h 57100 2010-06-25 09:45:35Z afabri $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -31,7 +31,7 @@
 #include <stack>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 
@@ -99,10 +99,11 @@ template<class Dt, class OutputIterator>
 OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, int k, OutputIterator res)
 {
   typedef typename Dt::Geom_traits                    Gt;
+  typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
 
-   int n = delau.number_of_vertices();
+   size_type n = delau.number_of_vertices();
 
    if ( k <= 0 ) return res;
    if ( n <= k ) { // return all finite vertices ...
@@ -146,10 +147,11 @@ template<class Dt, class OutputIterator>
 OutputIterator  nearest_neighbors(const Dt& delau, typename Dt::Vertex_handle v, int k, OutputIterator res)
 {  
   typedef typename Dt::Geom_traits                    Gt;
+  typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
 
-   int n = delau.number_of_vertices();
+   size_type n = delau.number_of_vertices();
 
    if ( k <= 0 ) return res;
    if ( n <= k ) { // return all (finite) vertices ...
@@ -188,6 +190,7 @@ template<class Dt, class T2>
 void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k, std::list<T2>& res) 
 {  
   typedef typename Dt::Geom_traits                    Gt;
+  typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
   typedef typename Dt::Vertex_circulator              Vertex_circulator;
@@ -197,7 +200,7 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
   typedef typename Gt::Compute_squared_distance_2     Compute_squared_distance_2;   
   typedef Unique_hash_map<Vertex_handle, Numb_type>         MAP_TYPE;
 
-  int n = delau.number_of_vertices();
+  size_type n = delau.number_of_vertices();
    
   if ( k <= 0 ) return;
   if ( n <= k ) { 
@@ -255,8 +258,6 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
 } 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-
-

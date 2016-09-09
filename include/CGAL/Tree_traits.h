@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/SearchStructures/include/CGAL/Tree_traits.h $
-// $Id: Tree_traits.h 41371 2007-12-30 16:55:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/include/CGAL/Tree_traits.h $
+// $Id: Tree_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -25,7 +25,7 @@
 // (e.g. Range_tree_d.h and Segment_tree_d.h).
 // Any other interface must at least provide the interface of this class.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Interface as it is expected for one layer of a Range Tree
 template<class C_Data, class C_Window, class C_Key,          
@@ -80,6 +80,6 @@ class tree_interval_traits{
     {return  C_Compare()(key1, key2);} 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

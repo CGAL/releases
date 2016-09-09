@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
-// $Id: QP_functions_impl.h 46451 2008-10-23 14:31:10Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
+// $Id: QP_functions_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -26,7 +26,7 @@
 #include <CGAL/QP_models.h>
 #include <CGAL/QP_solution.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace QP_functions_detail {
   // test whether the system is of the form A x == b (equations only)
@@ -424,6 +424,6 @@ Quadratic_program_solution<ET> solve_nonnegative_linear_program
     solve_program(lp, dummy, Tag_true(), Tag_true(), options);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_FUNCTIONS_IMPL_H

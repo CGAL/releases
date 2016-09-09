@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/gmpxx_coercion_traits.h $
-// $Id: gmpxx_coercion_traits.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/gmpxx_coercion_traits.h $
+// $Id: gmpxx_coercion_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -34,7 +34,7 @@
 #include <gmpxx.h>
 #include <mpfr.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //mpz_class internal coercions:
 //self for mpz_class / mpq_class
@@ -105,7 +105,7 @@ template <class U, class T>
 struct Coercion_traits< int , ::__gmp_expr< T , U> >
     :public Coercion_traits< ::__gmp_expr< T , U>, int >{};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_GMPXX_COERCION_TRAITS_H 1
 //EOF

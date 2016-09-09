@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
-// $Id: Normalizing.h 43821 2008-06-27 10:04:22Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
+// $Id: Normalizing.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -33,7 +33,7 @@
 #include <CGAL/leda_rational.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Homogeneous_tag;
 class Cartesian_tag;
@@ -370,5 +370,5 @@ CGAL::Sphere_circle<R> normalized(const CGAL::Sphere_circle<R>& c) {
    return Normalizing<typename R::Kernel_tag>::normalized(c);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_NORMALIZING_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH3.h $
-// $Id: PointH3.h 42834 2008-04-10 14:41:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH3.h $
+// $Id: PointH3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -30,7 +30,7 @@
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/logical.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class PointH3
@@ -201,6 +201,6 @@ typename R::Point_3
 PointH3<R>::transform(const typename PointH3<R>::Aff_transformation_3& t) const
 { return t.transform(static_cast<const Point_3&>(*this)); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_POINT_3_H

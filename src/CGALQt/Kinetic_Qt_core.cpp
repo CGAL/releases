@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_core.cpp $
-// $Id: Kinetic_Qt_core.cpp 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_core.cpp $
+// $Id: Kinetic_Qt_core.cpp 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 
 #include "Kinetic_Qt_core.moc"
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 Qt_core::Qt_core() {
   //playable_=NULL;
@@ -75,4 +75,4 @@ void Qt_core::slower_button() {
   mode_=SLOWER;
   CGAL_KINETIC_NOTIFY(LAST_BUTTON_PRESSED);
 }
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal

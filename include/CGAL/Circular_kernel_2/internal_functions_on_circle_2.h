@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
-// $Id: internal_functions_on_circle_2.h 46419 2008-10-22 13:32:25Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
+// $Id: internal_functions_on_circle_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -25,7 +25,7 @@
 #ifndef CGAL_CIRCULAR_KERNEL_INTERNAL_FUNCTIONS_ON_CIRCLE_2_H
 #define CGAL_CIRCULAR_KERNEL_INTERNAL_FUNCTIONS_ON_CIRCLE_2_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // temporary function : where to put it, if we want to keep it ?
 template< class CK>
@@ -189,6 +189,6 @@ namespace CircularFunctors {
 
 } // namespace CircularFunctors
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULAR_KERNEL_INTERNAL_FUNCTIONS_ON_CIRCLE_2_H

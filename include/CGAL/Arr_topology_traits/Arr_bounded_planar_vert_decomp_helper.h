@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h $
-// $Id: Arr_bounded_planar_vert_decomp_helper.h 40867 2007-11-13 14:53:47Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h $
+// $Id: Arr_bounded_planar_vert_decomp_helper.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -24,7 +24,7 @@
  * Definition of the Arr_bounded_planar_vert_decomp_helper class-template.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #include <CGAL/Sweep_line_empty_visitor.h>
 
@@ -101,6 +101,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

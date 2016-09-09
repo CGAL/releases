@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/kernel_to_kernel.h $
-// $Id: kernel_to_kernel.h 33222 2006-08-10 15:14:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/kernel_to_kernel.h $
+// $Id: kernel_to_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -34,7 +34,7 @@
 #endif
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class NumberType>
 struct Cartesian_double_to_Homogeneous
@@ -102,6 +102,6 @@ struct Cartesian_float_to_H_double_int
 };
 #endif // CGAL_USE_LEDA
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KERNEL_TO_KERNEL_H

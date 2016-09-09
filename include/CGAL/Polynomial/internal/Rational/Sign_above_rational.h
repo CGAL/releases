@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_above_rational.h $
-// $Id: Sign_above_rational.h 35772 2007-01-22 18:36:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_above_rational.h $
+// $Id: Sign_above_rational.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 
 #include <CGAL/Polynomial/basic.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 template <class Kernel>
 CGAL::Sign sign_above(const typename Kernel::Function &p,
 		      const typename Kernel::NT &nt, const Kernel &k)
@@ -31,7 +31,7 @@ CGAL::Sign sign_above(const typename Kernel::Function &p,
   // to make sure this is not called in vain
   CGAL_precondition( false );
   // to avoid warning
-  return 0;
+  return CGAL::ZERO;
 }
 
 
@@ -65,5 +65,5 @@ public:
 protected:
   Kernel k_;
 };
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

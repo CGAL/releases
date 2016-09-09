@@ -11,15 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Labels.h $
-// $Id: Labels.h 37897 2007-04-03 18:34:02Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Labels.h $
+// $Id: Labels.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
 #ifndef CGAL_MINKOWSKI_SUM_LABELS_H
 #define CGAL_MINKOWSKI_SUM_LABELS_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A label for endpoints of Minkowski-sum curves.
@@ -282,6 +282,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

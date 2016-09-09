@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/all_furthest_neighbors_2.h $
-// $Id: all_furthest_neighbors_2.h 48716 2009-04-08 11:40:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/all_furthest_neighbors_2.h $
+// $Id: all_furthest_neighbors_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <boost/bind.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < class Operation, class RandomAccessIC >
 class All_furthest_neighbor_matrix
 : public Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
@@ -72,9 +72,9 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #include <iterator>
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class RandomAccessIC,
            class OutputIterator,
@@ -190,10 +190,9 @@ all_furthest_neighbors( RandomAccessIC points_begin,
                         OutputIterator o)
 { return all_furthest_neighbors_2( points_begin, points_end, o); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------
-

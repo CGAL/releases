@@ -12,15 +12,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/Polynomial.h $
-// $Id: Polynomial.h 37034 2007-03-12 17:34:47Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Polynomial.h $
+// $Id: Polynomial.h 56962 2010-06-22 09:38:32Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 
-#ifndef CGAL_POLYNOMIAL_H
-#define CGAL_POLYNOMIAL_H
+#ifndef CGAL_NEF_2_POLYNOMIAL_H
+#define CGAL_NEF_2_POLYNOMIAL_H
 
 #include <CGAL/basic.h>
 #include <CGAL/kernel_assertions.h>
@@ -36,7 +36,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Nef {
 
@@ -324,7 +324,7 @@ template <class pNT> class Polynomial :
   /*{\Mop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return this->ptr()->coeff.size()-1; } 
+  { return  static_cast<int>(this->ptr()->coeff.size())-1; } 
   /*{\Mop the degree of the polynomial.}*/
 
   const NT& operator[](unsigned int i) const 
@@ -658,7 +658,7 @@ class Polynomial<int> :
   /*{\Xop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return this->ptr()->coeff.size()-1; } 
+  { return static_cast<int>(this->ptr()->coeff.size())-1; } 
   /*{\Xop the degree of the polynomial.}*/
 
   const int& operator[](unsigned int i) const 
@@ -959,7 +959,7 @@ determines the sign for the limit process $x \rightarrow \infty$.
   /*{\Xop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return this->ptr()->coeff.size()-1; } 
+  { return static_cast<int>(this->ptr()->coeff.size())-1; } 
   /*{\Xop the degree of the polynomial.}*/
 
   const double& operator[](unsigned int i) const 
@@ -1969,7 +1969,7 @@ using Nef::is_finite;
 using Nef::is_valid;
 using Nef::gcd;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 
@@ -1979,7 +1979,4 @@ CGAL_END_NAMESPACE
 
 
 
-#endif  // CGAL_POLYNOMIAL_H
-
-
-
+#endif  // CGAL_NEF_2_POLYNOMIAL_H

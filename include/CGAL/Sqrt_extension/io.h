@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Sqrt_extension/io.h $
-// $Id: io.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Sqrt_extension/io.h $
+// $Id: io.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/Sqrt_extension/Sqrt_extension_type.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template<class NT, class ROOT>
@@ -164,6 +164,6 @@ std::istream& operator >> (std::istream& is, Sqrt_extension<NT,ROOT>& ext) {
     return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

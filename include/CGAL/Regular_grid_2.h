@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
-// $Id: Regular_grid_2.h 37186 2007-03-17 09:27:09Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
+// $Id: Regular_grid_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/Cartesian.h>
 #include "streamlines_assertions.h"
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The class  Regular_grid_2 provides a rectangular visualization
 // domain, with a vector field defined on a regular grid, and also a
@@ -221,6 +221,6 @@ Regular_grid_2<StreamLinesTraits_2>::get_integration_step() const
   return 1.0;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

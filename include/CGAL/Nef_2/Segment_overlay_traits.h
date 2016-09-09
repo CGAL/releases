@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h $
-// $Id: Segment_overlay_traits.h 43817 2008-06-27 10:02:41Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h $
+// $Id: Segment_overlay_traits.h 56962 2010-06-22 09:38:32Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -107,7 +107,7 @@ public:
        return s;
     
      s = K.orientation(s2,K.target(s1));
-     if (s==0) return ( is1 - is2 );
+     if (s==0) return static_cast<int>( is1 - is2 );
      // overlapping segments are not equal
      return s;
    }
@@ -1136,4 +1136,3 @@ static const char* const sweepversion = "STL segment overlay sweep";
 
 #include <CGAL/generic_sweep.h>
 #endif // CGAL_SEGMENT_OVERLAY_TRAITS_H
-

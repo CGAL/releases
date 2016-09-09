@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
-// $Id: Hyperbola_segment_2.h 29348 2006-03-10 11:47:40Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
+// $Id: Hyperbola_segment_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,7 +24,7 @@
 
 #include <CGAL/Hyperbola_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Gt >
 class Hyperbola_segment_2 : public Hyperbola_2< Gt >
@@ -35,6 +35,9 @@ public:
   typedef typename Base::Point_2              Point_2;
   typedef typename Base::Segment_2                Segment_2;
   typedef typename Base::FT                       FT;
+
+  using Base::t;
+  using Base::f;
 
 #if 0
   typedef CGAL::Hyperbola_2<Point,Weight>         Base;
@@ -189,6 +192,6 @@ Stream& operator<<(Stream &s, const Hyperbola_segment_2<Gt>& H)
   return s;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HYPERBOLA_SEGMENT_2_H

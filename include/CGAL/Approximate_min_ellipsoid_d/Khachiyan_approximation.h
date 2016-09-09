@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h $
 // $Id: Khachiyan_approximation.h 36397 2007-02-16 15:56:11Z gaertner $
 // 
 //

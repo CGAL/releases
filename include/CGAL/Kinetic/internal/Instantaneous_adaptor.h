@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Instantaneous_adaptor.h $
-// $Id: Instantaneous_adaptor.h 44363 2008-07-23 15:07:16Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Instantaneous_adaptor.h $
+// $Id: Instantaneous_adaptor.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/Kinetic/basic.h>
 #include <functional>
 
-CGAL_KINETIC_BEGIN_NAMESPACE;
+namespace CGAL { namespace Kinetic {
 
 //! An object to help convert between moving objects and their static representations to wrap a predicate.
 /*!  A ref counted pointer is stored to the part of the
@@ -165,5 +165,5 @@ protected:
   Kinetic_predicate kpred_;
 };
 
-CGAL_KINETIC_END_NAMESPACE;
+} } //namespace CGAL::Kinetic
 #endif

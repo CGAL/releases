@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_vert_decomp_sl_visitor.h $
-// $Id: Arr_vert_decomp_sl_visitor.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_vert_decomp_sl_visitor.h $
+// $Id: Arr_vert_decomp_sl_visitor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -24,7 +24,7 @@
  * Definition of the Arr_vert_decomp_sl_visitor class-template.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #include <CGAL/Object.h>
 
@@ -323,6 +323,6 @@ void Arr_vert_decomp_sl_visitor<Hlpr, OutIt>::after_sweep ()
   return;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Circulator_project.h $
-// $Id: Circulator_project.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Circulator_project.h $
+// $Id: Circulator_project.h 57192 2010-06-29 12:37:23Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,7 +28,7 @@
 
 #include <CGAL/circulator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class C,
            class Fct,
@@ -63,7 +63,7 @@ public:
     return &(fct(*nt));
   }
 
-  bool operator==( Nullptr_t p) const {
+  bool operator==( Nullptr_t CGAL_assertion_code(p) ) const {
     CGAL_assertion( p == 0);
     return ( nt == 0);
   }
@@ -131,6 +131,6 @@ inline
 Circulator_project<C,Fct,Ref,Ptr>
 operator+( Dist n, Circulator_project<C,Fct,Ref,Ptr> i) { return i += n; }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CIRCULATOR_PROJECT_H //
 // EOF //

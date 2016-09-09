@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Consolidated_curve_data_aux.h $
-// $Id: Consolidated_curve_data_aux.h 33081 2006-08-07 07:46:37Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Consolidated_curve_data_aux.h $
+// $Id: Consolidated_curve_data_aux.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * Arr_consolidated_curve_data_traits_2<Traits,Data> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * Representation of a set of data objects (without duplicates), using a
@@ -195,7 +195,6 @@ struct _Consolidate_unique_lists
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

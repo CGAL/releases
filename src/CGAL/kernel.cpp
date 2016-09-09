@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/src/CGAL/kernel.cpp $
-// $Id: kernel.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/src/CGAL/kernel.cpp $
+// $Id: kernel.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -24,7 +24,7 @@
 #include <CGAL/Origin.h>
 #include <CGAL/aff_transformation_tags.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 Translation             TRANSLATION;
 Rotation                ROTATION;
@@ -35,4 +35,4 @@ Identity_transformation IDENTITY;
 const Origin      ORIGIN = Origin();
 const Null_vector NULL_VECTOR = Null_vector();
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

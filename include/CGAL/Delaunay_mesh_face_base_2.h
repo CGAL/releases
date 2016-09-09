@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
-// $Id: Delaunay_mesh_face_base_2.h 32702 2006-07-25 09:25:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
+// $Id: Delaunay_mesh_face_base_2.h 56288 2010-05-17 14:05:54Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -43,12 +43,12 @@ protected:
   bool in_domain;
 
 public:
-  Delaunay_mesh_face_base_2(): Fb(), in_domain(false) {};
+  Delaunay_mesh_face_base_2(): Fb(), in_domain(false) {}
 
   Delaunay_mesh_face_base_2(Vertex_handle v0, 
 			    Vertex_handle v1, 
 			    Vertex_handle v2)
-    : Fb(v0,v1,v2), in_domain(false) {};
+    : Fb(v0,v1,v2), in_domain(false) {}
 
   Delaunay_mesh_face_base_2(Vertex_handle v0, 
 			    Vertex_handle v1, 
@@ -56,23 +56,23 @@ public:
 			    Face_handle n0, 
 			    Face_handle n1, 
 			    Face_handle n2)
-    : Fb(v0,v1,v2,n0,n1,n2), in_domain(false) {};
+    : Fb(v0,v1,v2,n0,n1,n2), in_domain(false) {}
 
   inline
-  bool is_in_domain() const { return in_domain; };
+  bool is_in_domain() const { return in_domain; }
 
   inline
-  void set_in_domain(const bool b) { in_domain=b; };
-
-  /** compatibility with CGAL-3.2 */
-  inline
-  bool is_marked() const { return in_domain; };
+  void set_in_domain(const bool b) { in_domain=b; }
 
   /** compatibility with CGAL-3.2 */
   inline
-  void set_marked(const bool b) { in_domain=b; };
+  bool is_marked() const { return in_domain; }
+
+  /** compatibility with CGAL-3.2 */
+  inline
+  void set_marked(const bool b) { in_domain=b; }
 };
 
-}; // namespace CGAL
+} // namespace CGAL
 
 #endif

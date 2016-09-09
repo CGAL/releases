@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
-// $Id: Env_triangle_traits_3.h 50370 2009-07-05 13:22:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
+// $Id: Env_triangle_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -33,7 +33,7 @@
 
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Kernel_> class Env_triangle_3;
 
@@ -1660,6 +1660,6 @@ InputStream& operator>> (InputStream& is, Env_triangle_3<Kernel>& tri)
   return (is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif 

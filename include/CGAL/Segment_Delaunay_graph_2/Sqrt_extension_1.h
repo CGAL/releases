@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h $
-// $Id: Sqrt_extension_1.h 45641 2008-09-18 16:32:35Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h $
+// $Id: Sqrt_extension_1.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class NT>
 class Sqrt_extension_1;
@@ -216,7 +216,7 @@ operator-(const Sqrt_extension_1<NT>& x, const Sqrt_extension_1<NT>& y)
 //=============================================================
 
 template <class NT> 
-struct Algebraic_structure_traits<Sqrt_extension_1<NT> >
+class Algebraic_structure_traits<Sqrt_extension_1<NT> >
     :public Algebraic_structure_traits_base<Sqrt_extension_1<NT>,CGAL::Integral_domain_without_division_tag>{
     // I haven't found division 
 private:
@@ -227,7 +227,7 @@ public:
 };
 
 template<class NT>
-struct Real_embeddable_traits<Sqrt_extension_1<NT> >{
+class Real_embeddable_traits<Sqrt_extension_1<NT> >{
 private:
     typedef Real_embeddable_traits<NT> RET_NT;
 public:
@@ -297,7 +297,7 @@ operator<<(Stream& os, const Sqrt_extension_1<NT>& x)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 

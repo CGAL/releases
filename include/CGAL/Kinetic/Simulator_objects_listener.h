@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Simulator_objects_listener.h $
-// $Id: Simulator_objects_listener.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Simulator_objects_listener.h $
+// $Id: Simulator_objects_listener.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,7 +22,7 @@
 #define CGAL_KINETIC_NOTIFICATION_HELPERS_H
 #include <CGAL/Kinetic/basic.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! A helper function to handle the simulator reversing time.
 /*!  This helper is only useful if you are implementing a variant on a
@@ -61,5 +61,5 @@ class Simulator_objects_listener: public Simulator_listener
         MOT *t_;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

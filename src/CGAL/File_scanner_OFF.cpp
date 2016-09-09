@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/src/CGAL/File_scanner_OFF.cpp $
-// $Id: File_scanner_OFF.cpp 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/src/CGAL/File_scanner_OFF.cpp $
+// $Id: File_scanner_OFF.cpp 56979 2010-06-22 13:15:46Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -27,11 +27,11 @@
 #include <CGAL/IO/binary_file_io.h>
 #include <CGAL/IO/File_scanner_OFF.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 void
 File_scanner_OFF::
-skip_to_next_vertex( int current_vertex) {
+skip_to_next_vertex( std::size_t current_vertex) {
     CGAL_assertion( current_vertex < size_of_vertices());
     if ( binary()) {
         float f;
@@ -94,7 +94,7 @@ skip_to_next_vertex( int current_vertex) {
 
 void
 File_scanner_OFF::
-skip_to_next_facet( int current_facet) {
+skip_to_next_facet( std::size_t current_facet) {
     // Take care of trailing informations like color triples.
     if ( binary()) {
         Integer32 k;
@@ -120,5 +120,5 @@ skip_to_next_facet( int current_facet) {
     }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 // EOF //

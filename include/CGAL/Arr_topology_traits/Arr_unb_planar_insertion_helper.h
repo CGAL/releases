@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_insertion_helper.h $
-// $Id: Arr_unb_planar_insertion_helper.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_insertion_helper.h $
+// $Id: Arr_unb_planar_insertion_helper.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include <CGAL/Sweep_line_2/Arr_construction_sl_visitor.h>
 #include <CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_unb_planar_insertion_helper
  * A helper class for the insertion sweep-line visitors, suitable
@@ -224,6 +224,6 @@ before_handle_event (Event* event)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

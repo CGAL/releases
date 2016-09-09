@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron_IO/include/CGAL/IO/print_VRML_1.h $
-// $Id: print_VRML_1.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/print_VRML_1.h $
+// $Id: print_VRML_1.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -22,7 +22,7 @@
 
 #include <CGAL/IO/Polyhedron_VRML_1_ostream.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Polyhedron>
 void print_polyhedron_VRML_1( std::ostream& out, const Polyhedron& P) {
@@ -45,6 +45,6 @@ print_VRML_1( std::ostream& out,
     os << P;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_PRINT_VRML_1_H //
 // EOF //

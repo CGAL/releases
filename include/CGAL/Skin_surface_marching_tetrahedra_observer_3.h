@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Skin_surface_marching_tetrahedra_observer_3.h $
-// $Id: Skin_surface_marching_tetrahedra_observer_3.h 37748 2007-04-02 07:55:15Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Skin_surface_marching_tetrahedra_observer_3.h $
+// $Id: Skin_surface_marching_tetrahedra_observer_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -24,7 +24,7 @@
 #include <CGAL/Marching_tetrahedra_observer_default_3.h>
 #include <CGAL/Skin_surface_polyhedral_items_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Vertex_iterator,
 	  class Cell_iterator,
@@ -83,6 +83,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SKIN_SURFACE_MARCHING_TETRAHEDRA_OBSERVER_3_H

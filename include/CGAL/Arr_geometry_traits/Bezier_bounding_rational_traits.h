@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
-// $Id: Bezier_bounding_rational_traits.h 44415 2008-07-25 09:08:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
+// $Id: Bezier_bounding_rational_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Iddo Hanniel <iddoh@cs.technion.ac.il>
@@ -33,7 +33,7 @@
 #include <list>
 #include <math.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \struct _Bez_point_bound
  * Representation of a bounding interval for a point on a Bezier curve.
@@ -1509,6 +1509,6 @@ private:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_BEZIER_BOUNDING_RATIONAL_TRAITS_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
-// $Id: Constrained_triangulation_2.h 53845 2010-01-27 16:43:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: Constrained_triangulation_2.h 57014 2010-06-23 13:29:04Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean-Daniel Boissonnat
@@ -31,7 +31,7 @@
 #include <CGAL/intersections.h>
 #include <CGAL/squared_distance_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct No_intersection_tag{};
 struct Exact_intersections_tag{}; // to be used with an exact number type
@@ -54,6 +54,7 @@ public:
   typedef typename Triangulation::Vertex Vertex;
   typedef typename Triangulation::Vertex_handle Vertex_handle;
   typedef typename Triangulation::Face_handle Face_handle;
+  typedef typename Triangulation::size_type size_type;
   typedef typename Triangulation::Locate_type Locate_type;
   typedef typename Triangulation::All_faces_iterator All_faces_iterator;
   typedef typename Triangulation::Face_circulator Face_circulator;
@@ -70,6 +71,20 @@ public:
   using Triangulation::all_faces_begin;
   using Triangulation::all_faces_end;
   using Triangulation::side_of_oriented_circle;
+  using Triangulation::is_infinite;
+  using Triangulation::collinear_between;
+  using Triangulation::incident_edges;
+  using Triangulation::test_dim_down;
+  using Triangulation::make_hole;
+  using Triangulation::fill_hole;
+  using Triangulation::delete_vertex;
+  using Triangulation::delete_face;
+  using Triangulation::create_face;
+  using Triangulation::incident_faces;
+  using Triangulation::locate;
+  using Triangulation::includes_edge;
+  using Triangulation::remove_first;
+  using Triangulation::remove_second;
 #endif
 
   typedef Gt                                 Geom_traits;
@@ -129,7 +144,7 @@ public:
 		       int li );
   Vertex_handle push_back(const Point& a);
 //   template < class InputIterator >
-//   int insert(InputIterator first, InputIterator last);
+//   std::ptrdiff_t insert(InputIterator first, InputIterator last);
  
   void insert_constraint(const Point& a, const Point& b);
   void insert_constraint(Vertex_handle va, Vertex_handle  vb);
@@ -240,12 +255,12 @@ public:
   // the int parameter is a work around for VC7 to compile
   template < class InputIterator >
 #if defined(_MSC_VER)
-   int insert(InputIterator first, InputIterator last, int i = 0)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last, int i = 0)
 #else
-   int insert(InputIterator first, InputIterator last) 
+    std::ptrdiff_t insert(InputIterator first, InputIterator last) 
 #endif
     {
-      int n = number_of_vertices(); 
+      size_type n = number_of_vertices(); 
 
       std::vector<Point> points (first, last);
       CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
@@ -1219,6 +1234,6 @@ limit_intersection(const Gt& gt,
   return i;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_CONSTRAINED_TRIANGULATION_2_H

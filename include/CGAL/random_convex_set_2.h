@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/random_convex_set_2.h $
-// $Id: random_convex_set_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/random_convex_set_2.h $
+// $Id: random_convex_set_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -32,7 +32,7 @@
 #include <CGAL/Random_convex_set_traits_2.h>
 #include <CGAL/centroid.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class OutputIterator, class Point_generator, class Traits >
 OutputIterator
@@ -119,6 +119,6 @@ random_convex_set_2( int n,
 
 } // random_convex_set_2( n, o, pg, t)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_RANDOM_CONVEX_SET_2_H)

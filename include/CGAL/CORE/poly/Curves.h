@@ -62,8 +62,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/poly/Curves.h $
- * $Id: Curves.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/poly/Curves.h $
+ * $Id: Curves.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 
@@ -74,7 +74,7 @@
 #include <list>
 #include "CGAL/CORE/poly/Poly.h"
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 // ==================================================
 // Curve Class
@@ -519,7 +519,7 @@ void showIntervals(char* s, BFVecInterval &vI);
 #include <CGAL/CORE/poly/Curves.tcc>
 
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif
 /*************************************************************************** */
 // END

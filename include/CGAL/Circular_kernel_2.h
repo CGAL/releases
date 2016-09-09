@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2.h $
-// $Id: Circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2.h $
+// $Id: Circular_kernel_2.h 58156 2010-08-19 10:51:24Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -41,16 +41,16 @@
 
 #include <CGAL/Circular_kernel_2/function_objects_on_circle_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
 template < class CircularKernel, class LinearKernelBase, class AlgebraicKernel >
 struct Circular_kernel_base_ref_count: public LinearKernelBase
 {
-  typedef internal::Circular_arc_2<CircularKernel>         Circular_arc_2;
-  typedef internal::Circular_arc_point_2<CircularKernel>   Circular_arc_point_2;
-  typedef internal::Line_arc_2<CircularKernel>             Line_arc_2;
+  typedef internal::Circular_arc_2_base<CircularKernel>         Circular_arc_2;
+  typedef internal::Circular_arc_point_2_base<CircularKernel>   Circular_arc_point_2;
+  typedef internal::Line_arc_2_base<CircularKernel>             Line_arc_2;
   typedef LinearKernelBase                              Linear_kernel;
   typedef AlgebraicKernel                               Algebraic_kernel;
   typedef typename Algebraic_kernel::Root_of_2            Root_of_2;
@@ -66,7 +66,12 @@ struct Circular_kernel_base_ref_count: public LinearKernelBase
   struct Handle { typedef Handle_for<T>    type; };
 
   template < typename Kernel2 >
-  struct Base { typedef Circular_kernel_base_ref_count<Kernel2, LinearKernelBase, AlgebraicKernel>  Type; };  
+  struct Base { 
+    typedef typename LinearKernelBase::template Base<Kernel2>::Type ReboundLK;
+    typedef Circular_kernel_base_ref_count<Kernel2, 
+                                           ReboundLK,
+                                           AlgebraicKernel>  Type; 
+  };
 
   #define CGAL_Circular_Kernel_pred(Y,Z) \
     typedef CircularFunctors::Y<CircularKernel> Y; \
@@ -93,8 +98,14 @@ struct Circular_kernel_2
         >,
        Circular_kernel_2<LinearKernel,AlgebraicKernel>
      >
-{};
+{
+  // for Lazy hexagons/bbox kernels
+  // Please remove this if you consider it to be sloppy
+  struct Circular_tag{};
+  typedef Circular_tag Definition_tag;
+  //  
+};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULAR_KERNEL_2_H

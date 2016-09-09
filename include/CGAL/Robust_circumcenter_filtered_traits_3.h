@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_reconstruction_points_3/include/CGAL/Robust_circumcenter_filtered_traits_3.h $
-// $Id: Robust_circumcenter_filtered_traits_3.h 51895 2009-09-10 16:34:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/Robust_circumcenter_filtered_traits_3.h $
+// $Id: Robust_circumcenter_filtered_traits_3.h 51869 2009-09-07 17:10:06Z lsaboret $
 //
 //
 // Author(s)     : Stéphane Tayeb

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_rational_arc_traits_2.h $
-// $Id: Arr_rational_arc_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_rational_arc_traits_2.h $
+// $Id: Arr_rational_arc_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -28,7 +28,7 @@
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_geometry_traits/Rational_arc_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A traits class for maintaining an arrangement of bounded arcs (segments) of
@@ -46,30 +46,31 @@ class Arr_rational_arc_traits_2
 {
 public:
 
-  typedef Alg_kernel_                                   Alg_kernel;
-  typedef Nt_traits_                                    Nt_traits;
+  typedef Alg_kernel_                             Alg_kernel;
+  typedef Nt_traits_                              Nt_traits;
 
-  typedef typename Alg_kernel::FT                       Algebraic;
+  typedef typename Alg_kernel::FT                 Algebraic;
 
-  typedef typename Nt_traits::Integer                   Integer;
+  typedef typename Nt_traits::Integer             Integer;
 
   // Category tags:
-  typedef Tag_true                                      Has_left_category;
-  typedef Tag_true                                      Has_merge_category;
+  typedef Tag_true                                Has_left_category;
+  typedef Tag_true                                Has_merge_category;
+  typedef Tag_false                               Has_do_intersect_category;
 
-  typedef Arr_open_side_tag                             Arr_left_side_category;
-  typedef Arr_open_side_tag                             Arr_bottom_side_category;
-  typedef Arr_open_side_tag                             Arr_top_side_category;
-  typedef Arr_open_side_tag                             Arr_right_side_category;
+  typedef Arr_open_side_tag                       Arr_left_side_category;
+  typedef Arr_open_side_tag                       Arr_bottom_side_category;
+  typedef Arr_open_side_tag                       Arr_top_side_category;
+  typedef Arr_open_side_tag                       Arr_right_side_category;
 
   // Traits objects:
-  typedef _Rational_arc_2<Alg_kernel, Nt_traits>        Curve_2;
+  typedef _Rational_arc_2<Alg_kernel, Nt_traits>  Curve_2;
   typedef _Continuous_rational_arc_2<Alg_kernel, Nt_traits>
-                                                        X_monotone_curve_2;
-  typedef typename Alg_kernel::Point_2                  Point_2;
-  typedef unsigned int                                  Multiplicity;
+                                                  X_monotone_curve_2;
+  typedef typename Alg_kernel::Point_2            Point_2;
+  typedef unsigned int                            Multiplicity;
 
-  typedef typename Curve_2::Rat_vector                  Rat_vector;
+  typedef typename Curve_2::Rat_vector            Rat_vector;
 
 public:
 
@@ -755,6 +756,6 @@ public:
   //@}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

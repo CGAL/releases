@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Double_with_infinity.h $
-// $Id: Double_with_infinity.h 33416 2006-08-18 21:03:47Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Double_with_infinity.h $
+// $Id: Double_with_infinity.h 56668 2010-06-09 08:45:58Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #define CGAL_POLYNOMIAL_INTERNAL_WRAPPED_DOUBLE_H
 #include <CGAL/Polynomial/basic.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
  template <bool S, bool Q>
   struct Double_with_infinity_default {
@@ -67,7 +67,7 @@ protected:
   double d_;
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 
 namespace std {
   template <>
@@ -78,15 +78,15 @@ namespace std {
     static const bool has_infinity=true;
     static double infinity() throw() {return (std::numeric_limits<double>::max)();}
   };
-};
+}
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 inline double to_double(CGAL_POLYNOMIAL_NS::internal::Double_with_infinity d) {
   return to_double(static_cast<double>(d));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
   
 #endif

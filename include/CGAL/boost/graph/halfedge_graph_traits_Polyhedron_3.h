@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/halfedge_graph_traits_Polyhedron_3.h $
-// $Id: halfedge_graph_traits_Polyhedron_3.h 43252 2008-05-21 17:13:31Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/halfedge_graph_traits_Polyhedron_3.h $
+// $Id: halfedge_graph_traits_Polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -44,7 +44,7 @@
 // hence the const_cast<> used below in the functions implementation.
 //
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //
 // Const versions
@@ -187,7 +187,7 @@ next_edge_cw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_des
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #undef CGAL_HDS_
 

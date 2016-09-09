@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
-// $Id: Iso_box_d.h 46239 2008-10-13 13:18:11Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
+// $Id: Iso_box_d.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Authors       : Hans Tangelder <hanst@cs.uu.nl>, Michael Hoffmann
@@ -407,4 +407,3 @@ operator!=(const Iso_box_d<Kernel>& b1, Iso_box_d<Kernel>& b2)
 } // namespace CGAL
 
 #endif // CGAL_ISO_BOX_D_H
-

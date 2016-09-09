@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_window_2.cpp $
-// $Id: Kinetic_Qt_window_2.cpp 35759 2007-01-18 23:26:44Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_window_2.cpp $
+// $Id: Kinetic_Qt_window_2.cpp 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Kinetic/IO/internal/pixmaps.h>
 #include "Kinetic_Qt_window_2.moc"
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
         
 Qt_window_2::Qt_window_2(int xmin, int xmax, int ymin, int ymax) {
   widget_= new Qt_widget_2_core(this);
@@ -120,4 +120,4 @@ Qt_window_2::Qt_window_2(int xmin, int xmax, int ymin, int ymax) {
 
 
 }
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal

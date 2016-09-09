@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/config/testfiles/CGAL_CFG_NO_LOGICAL_OPERATORS_ALTERNATIVES.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_NO_LOGICAL_OPERATORS_ALTERNATIVES.cpp $
 // $Id: CGAL_CFG_NO_LOGICAL_OPERATORS_ALTERNATIVES.cpp 52586 2009-10-16 09:15:46Z lrineau $
 //
 // Author(s)     : Laurent Rineau

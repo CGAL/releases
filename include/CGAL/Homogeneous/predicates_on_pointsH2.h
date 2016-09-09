@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/predicates_on_pointsH2.h $
-// $Id: predicates_on_pointsH2.h 32839 2006-07-31 16:22:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/predicates_on_pointsH2.h $
+// $Id: predicates_on_pointsH2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,7 +27,7 @@
 
 #include <CGAL/Homogeneous/PointH2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R>
 CGAL_KERNEL_INLINE
@@ -75,6 +75,6 @@ compare_deltax_deltay(const PointH2<R>& p,
 }
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PREDICATES_ON_POINTSH2_H

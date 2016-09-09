@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/convex_hull_traits_2.h $
-// $Id: convex_hull_traits_2.h 41433 2008-01-03 19:02:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/convex_hull_traits_2.h $
+// $Id: convex_hull_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -28,7 +28,7 @@
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/distance_predicates_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class K_>
 class Convex_hull_traits_2 : public K_
@@ -75,6 +75,6 @@ template <class K>
 class convex_hull_traits_2 : public Convex_hull_traits_2<K>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONVEX_HULL_TRAITS_2_H

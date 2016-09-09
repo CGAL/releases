@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_storage_traits_with_info_2.h $
-// $Id: Segment_Delaunay_graph_storage_traits_with_info_2.h 32899 2006-08-02 10:20:33Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_storage_traits_with_info_2.h $
+// $Id: Segment_Delaunay_graph_storage_traits_with_info_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -25,7 +25,7 @@
 #include <CGAL/Segment_Delaunay_graph_storage_site_with_info_2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Construct_storage_site_with_info_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Gt, typename Info_, class Converter, class Merger>
 class Segment_Delaunay_graph_storage_traits_with_info_2
@@ -83,6 +83,6 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_STORAGE_TRAITS_WITH_INFO_2_H

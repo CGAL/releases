@@ -8,8 +8,8 @@
  *
  * Zilin Du, 2003
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/GmpIO.cpp $
- * $Id: GmpIO.cpp 37454 2007-03-24 23:21:40Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/GmpIO.cpp $
+ * $Id: GmpIO.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 /* Auxiliary functions for C++-style input of GMP types. 
@@ -41,7 +41,7 @@ MA 02110-1301, USA. */
 
 using namespace std;
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 int
 __gmp_istream_set_base (istream &i, char &c, bool &zero, bool &showbase)
@@ -255,4 +255,4 @@ io_write (ostream &o, mpq_srcptr q)
   return o << mpq_get_str (0, 10, q);
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE

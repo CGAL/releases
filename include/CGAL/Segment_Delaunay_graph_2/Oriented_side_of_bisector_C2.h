@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
-// $Id: Oriented_side_of_bisector_C2.h 45094 2008-08-22 16:10:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
+// $Id: Oriented_side_of_bisector_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -27,9 +27,9 @@
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
@@ -60,6 +60,11 @@ public:
   typedef typename Base::Point_2            Point_2;
   typedef typename Base::Segment_2          Segment_2;
 
+  using Base::compute_supporting_line;
+  using Base::compute_perpendicular;
+  using Base::opposite_line;
+  using Base::oriented_side_of_line;
+  using Base::compute_squared_distance;
 private:
   bool is_endpoint(const Site_2& p, const Site_2& s) const
   {
@@ -312,9 +317,9 @@ public:
   }
 };
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_ORIENTED_SIDE_OF_BISECTOR_C2_H

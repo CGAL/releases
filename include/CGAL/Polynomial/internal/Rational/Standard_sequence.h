@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Standard_sequence.h $
-// $Id: Standard_sequence.h 35193 2006-11-16 08:54:12Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Standard_sequence.h $
+// $Id: Standard_sequence.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 //#include <CGAL/Polynomial/utilities.h>
 //#include <CGAL/Polynomial/Rational/Sturm_sequence.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 template<class Sturm_sequence_t>
 class Standard_sequence : public Sturm_sequence_t
@@ -92,5 +92,5 @@ class Standard_sequence_k
 };
 #endif
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif                                            // CGAL_STANDARD_SEQUENCE_H

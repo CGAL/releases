@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.h $
 // $Id: snap_rounding_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
 //
 //

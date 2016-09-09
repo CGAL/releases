@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/kdtree/include/CGAL/kdtree_d.h $
-// $Id: kdtree_d.h 41729 2008-01-20 22:22:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/kdtree/include/CGAL/kdtree_d.h $
+// $Id: kdtree_d.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sariel Har-Peled (sariel@math.tau.ac.il)
@@ -27,7 +27,7 @@
 #include <list>
 using std::list; // to avoid compiler crash on MSVC++
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*=======================================================================
  * Kdtree_interface -
@@ -1054,6 +1054,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  /* CGAL_KDTREE_D_H */

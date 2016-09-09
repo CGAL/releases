@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Gmpz.h $
-// $Id: Gmpz.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Gmpz.h $
+// $Id: Gmpz.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -39,7 +39,7 @@
 #include <CGAL/Root_of_traits.h>
 #include <CGAL/Modular_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Gmpq;
 
@@ -120,7 +120,6 @@ public:
 template <> class Real_embeddable_traits< Gmpz >
     : public INTERN_RET::Real_embeddable_traits_base< Gmpz , CGAL::Tag_true > {
 public:
-  
     class Sgn
         : public std::unary_function< Type, ::CGAL::Sign > {
     public:
@@ -214,7 +213,7 @@ class Modular_traits< Gmpz > {
     };    
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

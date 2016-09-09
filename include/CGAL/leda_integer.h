@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/leda_integer.h $
-// $Id: leda_integer.h 46989 2008-11-23 14:08:51Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_integer.h $
+// $Id: leda_integer.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Michael Hemmer
@@ -45,7 +45,19 @@
 #include <CGAL/Residue.h>
 #include <CGAL/Modular_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
+
+
+template<>
+struct Root_of_traits<leda::integer>: public 
+internal::Root_of_traits_helper<leda::integer,
+    Euclidean_ring_tag>{
+  typedef leda::rational RootOf_1;
+  typedef leda::rational Root_of_1;
+};
+
+
+
 
 template <> class Algebraic_structure_traits< leda_integer >
   : public Algebraic_structure_traits_base< leda_integer,
@@ -266,7 +278,7 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // Unary + is missing for leda::integer
 namespace leda {

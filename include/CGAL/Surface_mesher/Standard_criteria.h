@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Standard_criteria.h $
-// $Id: Standard_criteria.h 43499 2008-06-06 12:28:14Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesher/Standard_criteria.h $
+// $Id: Standard_criteria.h 56235 2010-05-14 10:03:19Z afabri $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent Rineau
@@ -119,7 +119,7 @@ namespace CGAL {
     Quality angle_min() const { return std::asin (std::sqrt(B)); }
 
     inline
-    void set_bound(const Quality b) { B = b; };
+    void set_bound(const Quality b) { B = b; }
 
     inline
     void set_angle_min(const FT angle_min) {
@@ -130,7 +130,7 @@ namespace CGAL {
         B = std::sin (CGAL_PI * CGAL::to_double(angle_min) / 180);
         B = B * B;
       }
-    };
+    }
 
     bool is_bad (const Facet& fh, Quality& q) const {
       CGAL_assertion (fh.first->is_facet_on_surface (fh.second));
@@ -197,7 +197,7 @@ namespace CGAL {
     Quality bound() const { return std::sqrt (B); }
 
     inline
-    void set_bound(const Quality b) { B = b * b; };
+    void set_bound(const Quality b) { B = b * b; }
 
 
     bool is_bad (const Facet& fh, Quality& q) const {
@@ -254,7 +254,7 @@ namespace CGAL {
     Quality bound() const { return CGAL::sqrt (B); }
 
     inline
-    void set_bound(const Quality b) { B = b * b; };
+    void set_bound(const Quality b) { B = b * b; }
 
 
     bool is_bad (const Facet& fh, Quality& q) const {
@@ -298,7 +298,7 @@ namespace CGAL {
     Quality bound() const { return std::sqrt (B); }
 
     inline
-    void set_bound(const Quality b) { B = b * b; };
+    void set_bound(const Quality b) { B = b * b; }
 
 
     bool is_bad (const Facet& fh, Quality& q) const {
@@ -334,4 +334,3 @@ namespace CGAL {
 
 
 #endif  // end CGAL_SURFACE_MESHER_STANDARD_CRITERIA_H
-

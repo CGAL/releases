@@ -28,14 +28,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/CoreAux.cpp $
- * $Id: CoreAux.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/CoreAux.cpp $
+ * $Id: CoreAux.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include "CGAL/CORE/CoreAux.h"
 #include <gmp.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 ////////////////////////////////////////////////////////////
 //  More useful functions to implement:
@@ -209,4 +209,4 @@ void core_error(std::string msg, std::string file, int lineno, bool err) {
 }
 
 
-CORE_END_NAMESPACE
+} //namespace CORE

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
-// $Id: Taucs_vector.h 48225 2009-02-26 11:05:12Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
+// $Id: Taucs_vector.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -21,7 +21,7 @@
 #ifndef CGAL_TAUCS_VECTOR
 #define CGAL_TAUCS_VECTOR
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// The class Taucs_vector
@@ -114,6 +114,6 @@ private:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TAUCS_VECTOR

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGAL/KDS_Log.cpp $
-// $Id: KDS_Log.cpp 39014 2007-06-10 23:05:03Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGAL/KDS_Log.cpp $
+// $Id: KDS_Log.cpp 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,10 +22,10 @@
 #include <CGAL/Tools/Log.h>
 #include <CGAL/Kinetic/internal/debug_counters.h>
 #include <iostream>
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 Log::State Log::state_;
-CGAL_END_NAMESPACE
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+} //namespace CGAL
+namespace CGAL { namespace Kinetic { namespace internal {
 
   unsigned int function_degeneracies__=0;
   unsigned int zero_certificates__=0;
@@ -39,4 +39,4 @@ CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
     if (audit_failures__ != 0) out << "Audit failures " << audit_failures__ << std::endl;
   }
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal

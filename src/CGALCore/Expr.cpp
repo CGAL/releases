@@ -29,14 +29,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/Expr.cpp $
- * $Id: Expr.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/Expr.cpp $
+ * $Id: Expr.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include <CGAL/CORE/Expr.h>
 #include <cmath>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 #ifdef CORE_DEBUG_BOUND
 unsigned int BFMSS_counter = 0;
@@ -1148,4 +1148,4 @@ void BinOpRep::debugTree(int level, int indent, int depthLimit) const {
   second->debugTree(level, indent + 2, depthLimit - 1);
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE

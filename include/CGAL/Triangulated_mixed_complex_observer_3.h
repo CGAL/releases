@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Triangulated_mixed_complex_observer_3.h $
-// $Id: Triangulated_mixed_complex_observer_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Triangulated_mixed_complex_observer_3.h $
+// $Id: Triangulated_mixed_complex_observer_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -23,7 +23,7 @@
 #include <CGAL/Skin_surface_quadratic_surface_3.h>
 #include <CGAL/Triangulation_simplex_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class T>
 struct SS_Dereference_type {
@@ -210,6 +210,6 @@ public:
   R2S_converter r2s_converter;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATED_MIXED_COMPLEX_OBSERVER_3

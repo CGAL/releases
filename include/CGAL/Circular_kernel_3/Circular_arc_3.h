@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
-// $Id: Circular_arc_3.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
+// $Id: Circular_arc_3.h 56265 2010-05-16 16:50:24Z lrineau $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -56,7 +56,7 @@ namespace CGAL {
     public:
 
       const Sphere_3& reference_sphere(){
-        return get_ref_sphere(get(base).get<0>());
+        return get_ref_sphere(get(base).template get<0>());
       };
 
         
@@ -225,17 +225,17 @@ namespace CGAL {
 
       const Circle_3& supporting_circle() const 
       {
-        return get(base).get<0>();
+        return get(base).template get<0>();
       }
 
       const Circular_arc_point_3& source() const 
       {
-        return get(base).get<1>();
+        return get(base).template get<1>();
       }
 
       const Circular_arc_point_3& target() const 
       {
-        return get(base).get<2>();
+        return get(base).template get<2>();
       }
 
       Plane_3 supporting_plane() const {

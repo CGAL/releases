@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/Virtual_Voronoi_diagram_2.h $
-// $Id: Virtual_Voronoi_diagram_2.h 45453 2008-09-09 21:35:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/Virtual_Voronoi_diagram_2.h $
+// $Id: Virtual_Voronoi_diagram_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -30,7 +30,7 @@
 #include <CGAL/IO/Qt_widget_Voronoi_diagram_halfedge_2.h>
 #include <CGAL/IO/Qt_widget_power_diagram_halfedge_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 struct Virtual_Voronoi_diagram_2
@@ -506,7 +506,7 @@ class Concrete_Apollonius_diagram_2
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_VIRTUAL_VORONOI_DIAGRAM_2_H

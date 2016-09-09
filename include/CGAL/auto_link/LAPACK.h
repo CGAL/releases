@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/include/CGAL/auto_link/LAPACK.h $
-// $Id: LAPACK.h 51536 2009-08-26 16:41:22Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/include/CGAL/auto_link/LAPACK.h $
+// $Id: LAPACK.h 57943 2010-08-10 15:48:56Z lrineau $
 //
 // Author(s)     : Laurent Saboret
 
@@ -54,6 +54,7 @@
 #include <CGAL/auto_link/auto_link.h>
 
 #define CGAL_LIB_NAME vcf2c
+#define CGAL_AUTO_LINK_NOMANGLE
 #include <CGAL/auto_link/auto_link.h>
 
 // ATLAS provides BLAS and LAPACK standard Fortran interface
@@ -75,12 +76,15 @@
 //        - Tested with VC++ 8.0 and 9.0.
 
 #define CGAL_LIB_NAME clapack
+#define CGAL_AUTO_LINK_NOMANGLE
 #include <CGAL/auto_link/auto_link.h>
 
 #define CGAL_LIB_NAME blas
+#define CGAL_AUTO_LINK_NOMANGLE
 #include <CGAL/auto_link/auto_link.h>
 
 #define CGAL_LIB_NAME vcf2c
+#define CGAL_AUTO_LINK_NOMANGLE
 #include <CGAL/auto_link/auto_link.h>
 
 // CLAPACK provides LAPACK standard Fortran interface.
@@ -96,4 +100,3 @@
 #endif // CGAL_NO_AUTOLINK_LAPACK && CGAL_NO_AUTOLINK
 
 #endif // CGAL_AUTO_LINK_LAPACK_H
-

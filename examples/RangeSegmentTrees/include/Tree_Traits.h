@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/SearchStructures/examples/RangeSegmentTrees/include/Tree_Traits.h $
-// $Id: Tree_Traits.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/examples/RangeSegmentTrees/include/Tree_Traits.h $
+// $Id: Tree_Traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -23,7 +23,7 @@
 #include <functional>
 #include <utility>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Tree_traits_1{
  public:
@@ -395,7 +395,7 @@ class Tree_traits_4{
   typedef C_Key_4 key_4;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Nested_iterator.h $
-// $Id: Nested_iterator.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Nested_iterator.h $
+// $Id: Nested_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -33,7 +33,7 @@
 #  pragma warning(disable:4396)
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class It>
 struct Nested_iterator_traits
@@ -149,12 +149,12 @@ public:
 
   Self& operator++()
   {
-    if ( nested_it_ != end( this->base() ) ) {
+    if ( nested_it_ != this->end( this->base() ) ) {
       ++nested_it_;
-      if ( nested_it_ == end( this->base() ) ) {
+      if ( nested_it_ == this->end( this->base() ) ) {
 	Filter_base_iterator::operator++();
 	if ( !this->is_end() ) {
-	  nested_it_ = begin( this->base() );
+	  nested_it_ = this->begin( this->base() );
 	}
       }
     } 
@@ -175,7 +175,7 @@ public:
       nested_it_ = this->end(this->base());
       --nested_it_;
     } else {
-      if ( nested_it_ != begin( this->base() ) ) {
+      if ( nested_it_ != this->begin( this->base() ) ) {
 	--nested_it_;
       } else {
 	Filter_base_iterator::operator--();
@@ -244,7 +244,7 @@ bool operator!=(const Nested_iterator<Base_it,Traits>& it1,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

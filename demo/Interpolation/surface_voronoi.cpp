@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/demo/Interpolation/surface_voronoi.cpp $
-// $Id: surface_voronoi.cpp 44910 2008-08-12 12:58:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/demo/Interpolation/surface_voronoi.cpp $
+// $Id: surface_voronoi.cpp 56241 2010-05-14 12:43:04Z afabri $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -54,7 +54,7 @@ int main()
 #include <iostream>
 #include <utility>
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Voronoi_intersection_2_traits_3<K> Gt;
 typedef CGAL::Regular_triangulation_2<Gt>        Regular_triangulation;

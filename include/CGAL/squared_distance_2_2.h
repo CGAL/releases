@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Distance_2/include/CGAL/squared_distance_2_2.h $
-// $Id: squared_distance_2_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Distance_2/include/CGAL/squared_distance_2_2.h $
+// $Id: squared_distance_2_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -38,7 +38,7 @@
 #include <CGAL/squared_distance_utils.h>
 #include <CGAL/squared_distance_2_1.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -568,6 +568,6 @@ squared_distance(const Triangle_2<K> &triangle1,
   return internal::squared_distance(triangle1, triangle2, K());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

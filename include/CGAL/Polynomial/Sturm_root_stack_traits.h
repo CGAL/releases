@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/Sturm_root_stack_traits.h $
-// $Id: Sturm_root_stack_traits.h 35777 2007-01-23 17:02:20Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/Sturm_root_stack_traits.h $
+// $Id: Sturm_root_stack_traits.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,7 +30,7 @@
 #include <CGAL/Polynomial/internal/Rational/Subresultant_Sturm_sequence.h>
 #include <CGAL/Polynomial/internal/Rational/Sturm_root_counter.h>
 
-CGAL_POLYNOMIAL_BEGIN_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL {
 
 template<class Polynomial>
 class Sturm_root_stack_traits
@@ -73,5 +73,5 @@ public:
   }
 };
 
-CGAL_POLYNOMIAL_END_NAMESPACE
+} } //namespace CGAL::POLYNOMIAL
 #endif                                            // CGAL_POLYNOMIAL_STURM_ROOT_ENUMERATOR_TRAITS_H

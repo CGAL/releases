@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/is_reflex_sedge.h $
+// $Id: is_reflex_sedge.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #define CGAL_NEF_DEBUG 239
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*
   int is_reflex_edge(Halfedge_handle e) {    
@@ -164,5 +164,5 @@ int is_reflex_sedge(typename SNC_structure::SHalfedge_handle se,
   return result;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CD3_IS_REFLEX_SEDGE_H

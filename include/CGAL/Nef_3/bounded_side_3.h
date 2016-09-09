@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/bounded_side_3.h $
-// $Id: bounded_side_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/bounded_side_3.h $
+// $Id: bounded_side_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #define CGAL_NEF_DEBUG 17
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Point_2, class Point_3> 
 Point_2 point_3_get_x_y_point_2(Point_3 p) {
@@ -103,7 +103,7 @@ Bounded_side bounded_side_3(IteratorForward first,
   return side;  
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #ifdef WRONG_IMPLEMENTATION
 /* The following code is wrong since Proyector_.. structures must not return

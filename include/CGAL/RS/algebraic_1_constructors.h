@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_constructors.h $
-// $Id: algebraic_1_constructors.h 54417 2010-03-03 08:31:52Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_constructors.h $
+// $Id: algebraic_1_constructors.h 54367 2010-03-01 13:22:30Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 
@@ -146,7 +146,7 @@ Algebraic_1::Algebraic_1(mpfr_srcptr src){
         mpfi_set_fr(mpfi(),r.fr());
         CGAL_assertion(mpfr_equal_p(r.fr(),&mpfi()->left)!=0);
         CGAL_assertion(mpfr_equal_p(r.fr(),&mpfi()->right)!=0);
-        RS_polynomial_1 *rsp=new RS_polynomial_1(r.to_fraction().mpq());
+        RS_polynomial_1 *rsp=new RS_polynomial_1(Gmpq(r).mpq());
         set_pol(*rsp);
         set_nr(0);
         set_lefteval(CGAL::NEGATIVE);
@@ -188,7 +188,7 @@ Algebraic_1::Algebraic_1(const Gmpfr &r){
         mpfi_set_fr(mpfi(),r.fr());
         CGAL_assertion(mpfr_equal_p(r.fr(),&mpfi()->left)!=0);
         CGAL_assertion(mpfr_equal_p(r.fr(),&mpfi()->right)!=0);
-        RS_polynomial_1 *rsp=new RS_polynomial_1(r.to_fraction().mpq());
+        RS_polynomial_1 *rsp=new RS_polynomial_1(Gmpq(r).mpq());
         set_pol(*rsp);
         set_nr(0);
         set_lefteval(CGAL::NEGATIVE);

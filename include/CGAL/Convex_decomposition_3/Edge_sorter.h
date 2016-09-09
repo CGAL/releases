@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Edge_sorter.h $
+// $Id: Edge_sorter.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 547
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename Halfedge_handle, typename Point_comparison>
 class Compare_halfedges_in_reflex_edge_sorter
@@ -272,5 +272,5 @@ template<typename Nef_, typename FTComparison, typename Container>
   }
 };
   
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_CD3_EDGE_SORTER_H

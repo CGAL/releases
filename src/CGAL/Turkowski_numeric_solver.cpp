@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
-// $Id: Turkowski_numeric_solver.cpp 36638 2007-02-27 22:45:58Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
+// $Id: Turkowski_numeric_solver.cpp 57003 2010-06-23 08:30:32Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -49,7 +49,7 @@
 #include <cmath>
 #include <iomanip>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 # define FLOAT double
 
@@ -362,7 +362,7 @@ static void Turkowski_polynomial_compute_roots_t(const double *begin,
     cc[i]=std::numeric_limits<double>::infinity();
   }
 
-  FindPolynomialRoots(begin, rp, cp, cc, numc-1, 10*numc, 40);
+  FindPolynomialRoots(begin, rp, cp, cc, static_cast<long>(numc)-1, 10*static_cast<long>(numc), 40);
 
   /*if (CLEAN) {
     lb-= .000005;
@@ -393,7 +393,7 @@ void Turkowski_polynomial_compute_roots(const double *begin, const double *end,
 					std::vector<double> &roots)
 {
 
-  int degree= end-begin-1;
+  std::size_t degree= end-begin-1;
   switch( degree) {
   case -1:
   case 0:
@@ -426,7 +426,7 @@ void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const doubl
 						double lb, double ub,
 						std::vector<double> &roots)
 {
-  int degree= end-begin-1;
+  std::size_t degree= end-begin-1;
   switch( degree) {
   case -1:
   case 0:
@@ -458,4 +458,4 @@ void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const doubl
 }
 
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal

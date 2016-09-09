@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/function_objects_on_roots_and_polynomials_2_2.h $
-// $Id: function_objects_on_roots_and_polynomials_2_2.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/function_objects_on_roots_and_polynomials_2_2.h $
+// $Id: function_objects_on_roots_and_polynomials_2_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -29,7 +29,7 @@
 #include <CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomial_1_2_and_2_2.h>
 #include <CGAL/Algebraic_kernel_for_circles/internal_functions_comparison_root_for_circles_2_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace AlgebraicFunctors {
   
@@ -221,6 +221,6 @@ namespace AlgebraicFunctors {
 
 } // namespace AlgebraicFunctors
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_FUNCTION_OBJECTS_ON_ROOTS_AND_POLYNOMIALS_2_H

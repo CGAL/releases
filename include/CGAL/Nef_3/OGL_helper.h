@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
-// $Id: OGL_helper.h 44713 2008-08-01 15:38:58Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
+// $Id: OGL_helper.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -51,7 +51,7 @@
 #endif
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace OGL {
 
@@ -665,5 +665,5 @@ namespace OGL {
 
 } // namespace OGL
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_NEF_OPENGL_HELPER_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_3/include/CGAL/Spherical_kernel_intersections.h $
-// $Id: Spherical_kernel_intersections.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_3/include/CGAL/Spherical_kernel_intersections.h $
+// $Id: Spherical_kernel_intersections.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -32,7 +32,7 @@
 #include <CGAL/Circular_arc_point_3.h>
 #include <CGAL/Object.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #define CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(A,B) \
 template < class OutputIterator, class K > \
@@ -99,6 +99,6 @@ CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(Circular_arc_3, Plan
 CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(Circular_arc_3, Line_arc_3)
 CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(Line_arc_3, Circular_arc_3)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SPHERICAL_KERNEL_INTERNAL_FUNCTIONS_ON_INTERSECTION_3_H

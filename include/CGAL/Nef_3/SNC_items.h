@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_items.h $
-// $Id: SNC_items.h 43272 2008-05-22 15:04:20Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_items.h $
+// $Id: SNC_items.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel        <seel@mpi-sb.mpg.de>
@@ -34,7 +34,7 @@
 #define CGAL_NEF_DEBUG 83
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K, typename I, typename M> class SNC_sphere_map;
 template <typename R> class SM_decorator;
@@ -52,5 +52,5 @@ class SNC_items {
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_ITEMS_H

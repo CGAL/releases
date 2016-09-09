@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 49255 2009-05-09 15:11:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Quotient.h $
+// $Id: Quotient.h 57388 2010-07-08 10:10:35Z glisse $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -43,7 +43,7 @@
 
 #include <boost/operators.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #define CGAL_int(T)    typename First_if_different<int,    T>::Type
 #define CGAL_double(T) typename First_if_different<double, T>::Type
@@ -130,9 +130,6 @@ class Quotient
      : num(std::forward<T1>(n)), den(std::forward<T2>(d))
   { CGAL_postcondition( den != 0 ); }
 
-  Quotient(Quotient && q)
-    : num(std::move(q.num)), den(std::move(q.den)) {}
-
   Quotient(NT && n)
     : num(std::move(n)), den(1) {}
 
@@ -140,13 +137,6 @@ class Quotient
   {
     num = std::move(n);
     den = 1;
-    return *this;
-  }
-
-  Quotient& operator=(Quotient && q)
-  {
-    num = std::move(q.num);
-    den = std::move(q.den);
     return *this;
   }
 #endif
@@ -868,6 +858,6 @@ public:
     };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_QUOTIENT_H

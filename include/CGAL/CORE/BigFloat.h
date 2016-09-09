@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/BigFloat.h $
- * $Id: BigFloat.h 37563 2007-03-27 13:28:17Z afabri $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/BigFloat.h $
+ * $Id: BigFloat.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_BIGFLOAT_H_
@@ -36,7 +36,7 @@
 
 #include <CGAL/CORE/BigFloatRep.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 class Expr;
 
@@ -616,5 +616,5 @@ inline BigFloat gcd(const BigFloat& a, const BigFloat& b) {
 inline BigRat::BigRat(const BigFloat& f) : RCBigRat(new BigRatRep()){
   *this = f.BigRatValue();
 }
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_BIGFLOAT_H_

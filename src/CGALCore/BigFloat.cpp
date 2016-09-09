@@ -36,15 +36,15 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/BigFloat.cpp $
- * $Id: BigFloat.cpp 41714 2008-01-20 20:24:20Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/BigFloat.cpp $
+ * $Id: BigFloat.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include <ctype.h>
 #include <CGAL/CORE/BigFloat.h>
 #include <CGAL/CORE/Expr.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 
 ////////////////////////////////////////////////////////////
@@ -1283,4 +1283,4 @@ BigFloat root(const BigFloat& x, unsigned long k,
   }
 }//root
 
-CORE_END_NAMESPACE
+} //namespace CORE

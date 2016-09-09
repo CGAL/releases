@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/point_set_processing_assertions.h $
-// $Id: point_set_processing_assertions.h 52183 2009-10-07 13:16:13Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/point_set_processing_assertions.h $
+// $Id: point_set_processing_assertions.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sven Schoenherr, Laurent Saboret
@@ -361,5 +361,3 @@
 #  define CGAL_point_set_processing_expensive_exactness_warning_code(CODE) CODE
 #  define CGAL_point_set_processing_expensive_exactness_warnings 1
 #endif // CGAL_POINT_SET_PROCESSING_NO_WARNINGS
-
-

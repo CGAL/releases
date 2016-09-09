@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Triangulation_incremental_builder_3.h $
-// $Id: Triangulation_incremental_builder_3.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Triangulation_incremental_builder_3.h $
+// $Id: Triangulation_incremental_builder_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -27,7 +27,7 @@
 #include <list>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Triangulation_3 >
 class Triangulation_incremental_builder_3 {
@@ -239,6 +239,6 @@ Triangulation_incremental_builder_3< TDS_ >::construct_infinite_cells() {
   CGAL_assertion(ch_edges.empty());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TDS_INCREMENTAL_BUILDER_3_H //

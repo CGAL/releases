@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/global_parameters.h $
-// $Id: global_parameters.h 56552 2010-06-03 09:57:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/global_parameters.h $
+// $Id: global_parameters.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -30,7 +30,7 @@
 #include <boost/parameter.hpp>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace parameters {
 
@@ -69,6 +69,6 @@ BOOST_PARAMETER_NAME( (convergence, tag) convergence_)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_GLOBAL_PARAMETERS_H

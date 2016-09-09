@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
+// $Id: bipartite_nary_union_sorted_combined.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -35,7 +35,7 @@
 #include <CGAL/Nef_nary_union_3.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #ifdef CGAL_NEF_NARY_UNION_L1_SORT
 template<typename Point_3>
@@ -108,7 +108,7 @@ bipartite_nary_union_sorted_combined(Nef_polyhedron& N0,
   typedef typename PQ::iterator PQ_iterator;
 
   GM_list GM0;
-  int shells = N0.number_of_volumes();
+  std::size_t shells = N0.number_of_volumes();
   Volume_const_iterator c0;
   for(c0 = ++N0.volumes_begin(); 
       c0 != N0.volumes_end(); ++c0) {
@@ -173,8 +173,11 @@ bipartite_nary_union_sorted_combined(Nef_polyhedron& N0,
   for(fci = N0.halffacets_begin();
       fci != N0.halffacets_end(); ++fci) {
     if(fci->is_twin()) continue;  
-    if(fci->incident_volume() !=
-       fci->twin()->incident_volume()) continue;
+    if( fci->incident_volume() != fci->twin()->incident_volume() &&
+        ( fci->incident_volume()->mark() || fci->twin()->incident_volume()->mark() )) 
+	{
+		continue;
+	}
     SHalfedge_const_handle se(fci->facet_cycles_begin());
     GM0.push_back(std::make_pair(Gaussian_map(fci), 
 				 se->source()->source()->point()));    
@@ -182,8 +185,11 @@ bipartite_nary_union_sorted_combined(Nef_polyhedron& N0,
   for(fci = N1.halffacets_begin();
       fci != N1.halffacets_end(); ++fci) {
     if(fci->is_twin()) continue;  
-    if(fci->incident_volume() !=
-       fci->twin()->incident_volume()) continue;
+    if( fci->incident_volume() != fci->twin()->incident_volume() &&
+        ( fci->incident_volume()->mark() || fci->twin()->incident_volume()->mark() )) 
+	{
+		continue;
+	}
     SHalfedge_const_handle se(fci->facet_cycles_begin());
     GM1.push_back(std::make_pair(Gaussian_map(fci), 
 				 se->source()->source()->point()));    
@@ -220,5 +226,5 @@ bipartite_nary_union_sorted_combined(Nef_polyhedron& N0,
   return nary_union.get_union();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_MS3_BIPARTITE_NARY_UNION_SORTED_COMBINED_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/point_generators_3.h $
-// $Id: point_generators_3.h 39778 2007-08-08 15:59:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/point_generators_3.h $
+// $Id: point_generators_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -27,7 +27,7 @@
 #include <CGAL/point_generators_2.h>
 #include <CGAL/number_type_basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class P, class Creator = 
                    Creator_uniform_3<typename Kernel_traits<P>::Kernel::RT,P> >
@@ -38,7 +38,7 @@ public:
     Random_points_in_sphere_3( double r = 1, Random& rnd = default_random)
         // g is an input iterator creating points of type `P' uniformly
         // distributed in the open sphere with radius r, i.e. |`*g'| < r .
-        // Three random numbers are needed from `rnd' for each point.
+        // Three random numbers are needed from `rnd' for each point
     : Random_generator_base<P>( r, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
@@ -55,18 +55,16 @@ template < class P, class Creator >
 void
 Random_points_in_sphere_3<P,Creator>::
 generate_point() {
-   typedef typename Creator::argument_type T;
-   do {
-       Creator creator;
-       this->d_item =
-	    creator( T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
-                     T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
-                     T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)));
-   } 
-   while (CGAL::to_double(this->d_item.x() * this->d_item.x() +
-			  this->d_item.y() * this->d_item.y() +
-                          this->d_item.z() * this->d_item.z()) >=
-		          this->d_range * this->d_range);
+  // A strip between z and z+dz has an area independant of z
+    typedef typename Creator::argument_type T;
+    double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
+    double z     = 2 * this->_rnd.get_double() - 1.0;
+    double r     = std::sqrt( 1 - z * z);
+    r *= std::pow( this->_rnd.get_double() , 1.0/3.0 );  
+    Creator creator;
+    this->d_item = creator( T(this->d_range * r * std::cos(alpha)),
+                            T(this->d_range * r * std::sin(alpha)),
+                            T(this->d_range * z));
 }
 
 
@@ -78,8 +76,8 @@ public:
     typedef Random_points_on_sphere_3<P,Creator> This;
     Random_points_on_sphere_3( double r = 1, Random& rnd = default_random)
         // g is an input iterator creating points of type `P' uniformly
-        // distributed on the circle with radius r, i.e. |`*g'| == r . A
-        // single random number is needed from `rnd' for each point.
+        // distributed on the sphere with radius r, i.e. |`*g'| == r . A
+        // two random numbers are needed from `rnd' for each point.
     : Random_generator_base<P>( r, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
@@ -96,6 +94,7 @@ template < class P, class Creator >
 void
 Random_points_on_sphere_3<P,Creator>::
 generate_point() {
+  // A strip between z and z+dz has an area independant of z
     typedef typename Creator::argument_type T;
     double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
     double z     = 2 * this->_rnd.get_double() - 1.0;
@@ -194,7 +193,7 @@ points_on_cube_grid_3( double a, std::size_t n, OutputIterator o)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POINT_GENERATORS_3_H //
 // EOF //

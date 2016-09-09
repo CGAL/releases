@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/IO/Nef_polyhedron_iostream_3.h $
-// $Id: Nef_polyhedron_iostream_3.h 38348 2007-04-19 17:29:45Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/IO/Nef_polyhedron_iostream_3.h $
+// $Id: Nef_polyhedron_iostream_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Nef_3/SNC_io_parser.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Kernel, typename Items, typename Mark>
 std::ostream& operator<<
@@ -50,6 +50,6 @@ std::istream& operator>>
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_NEF_POLYHEDRON_IOSTREAM_3_H

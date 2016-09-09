@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Delage_traits/Apollonius_graph_mixed_filtered_traits_2.h $
-// $Id: Apollonius_graph_mixed_filtered_traits_2.h 50028 2009-06-23 08:54:54Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Delage_traits/Apollonius_graph_mixed_filtered_traits_2.h $
+// $Id: Apollonius_graph_mixed_filtered_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -36,7 +36,7 @@
 #include <CGAL/number_utils_classes.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 //-----------------------------------------------------------------------
@@ -408,7 +408,7 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_APOLLONIUS_GRAPH_UNCERTAIN_FILTERED_TRAITS_2_H

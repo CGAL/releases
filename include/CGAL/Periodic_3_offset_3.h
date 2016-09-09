@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_offset_3.h $
-// $Id: Periodic_3_offset_3.h 50129 2009-06-27 12:27:12Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_offset_3.h $
+// $Id: Periodic_3_offset_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico.Kruithof@sophia.inria.fr>
@@ -25,7 +25,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Cartesian.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 class Periodic_3_offset_3 {
   template <class K2>
@@ -136,6 +136,6 @@ inline std::istream
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_OFFSET_H

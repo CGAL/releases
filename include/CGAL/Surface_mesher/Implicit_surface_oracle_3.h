@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
-// $Id: Implicit_surface_oracle_3.h 47824 2009-01-26 15:22:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
+// $Id: Implicit_surface_oracle_3.h 56293 2010-05-17 14:19:22Z afabri $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent RINEAU
@@ -49,7 +49,7 @@ namespace CGAL {
 #ifdef  BOOST_MPL_CFG_NO_HAS_XXX
 #  error "BOOST_MPL_HAS_XXX_TRAIT_DEF is needed!"
 #else
-   BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(has_set_on_surface, Set_on_surface_tag, true);
+   BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(has_set_on_surface, Set_on_surface_tag, true)
 #endif
 
   namespace Surface_mesher {
@@ -303,7 +303,7 @@ namespace CGAL {
         }
         else
           return Object();
-      }; // end operator()(Surface_3, Line_3)
+      } // end operator()(Surface_3, Line_3)
 
       // debug function
       std::string debug_point(const Surface_3& surface,

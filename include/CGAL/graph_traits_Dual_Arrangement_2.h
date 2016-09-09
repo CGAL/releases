@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Dual_Arrangement_2.h $
-// $Id: graph_traits_Dual_Arrangement_2.h 48358 2009-03-11 14:28:13Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Dual_Arrangement_2.h $
+// $Id: graph_traits_Dual_Arrangement_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include <CGAL/Arrangement_on_surface_2.h>
 #include <CGAL/Arrangement_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Forward declaration.
 template <class Type> class Dual;
@@ -415,7 +415,7 @@ public:
   {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <boost/graph/graph_concepts.hpp>
 #include <boost/iterator/counting_iterator.hpp>
@@ -501,9 +501,9 @@ class graph_traits<CGAL::Dual<CGAL::Arrangement_2<Traits_, Dcel_> > > :
       typename CGAL::Arrangement_2<Traits_, Dcel_>::Topology_traits> > >
 {};
 
-}; // namespace boost
+} // namespace boost
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Functions required by the IncidenceGraph concept:
 // -------------------------------------------------
@@ -739,6 +739,6 @@ edges (const CGAL::Dual<CGAL::
   return std::make_pair (darr.edges_begin(), darr.edges_end());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

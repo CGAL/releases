@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
-// $Id: Periodic_3_triangulation_ds_cell_base_3.h 51548 2009-08-27 09:33:40Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
+// $Id: Periodic_3_triangulation_ds_cell_base_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -29,19 +29,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/internal/Dummy_tds_3.h>
 
-
-#define _off0() (off&7)
-#define _off1() ((off>>3)&7)
-#define _off2() ((off>>6)&7)
-#define _off3() ((off>>9)&7)
-
-#define set_off0(i) off = ((off&4088) | (i));
-#define set_off1(i) off = ((off&4039) | ((i)<<3));
-#define set_off2(i) off = ((off&3647) | ((i)<<6));
-#define set_off3(i) off = ((off&511 ) | ((i)<<9));
-
-
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename TDS = void >
 class Periodic_3_triangulation_ds_cell_base_3
@@ -111,15 +99,6 @@ public:
       if (v == V[3]) { i = 3; return true; }
       return false;
     }
-
-//   bool has_vertex(const Vertex_handle& v, const unsigned &offset, int & i) const
-//     {
-//       if ((v == V[0]) && (offset == _off0())) { i = 0; return true; }
-//       if ((v == V[1]) && (offset == _off1())) { i = 1; return true; }
-//       if ((v == V[2]) && (offset == _off2())) { i = 2; return true; }
-//       if ((v == V[3]) && (offset == _off3())) { i = 3; return true; }
-//       return false;
-//     }
 
   int index(const Vertex_handle& v) const
   {
@@ -209,15 +188,25 @@ public:
 
   void set_offsets(int o0,int o1,int o2,int o3) {
     off = 0;
-    int off0[3] = {(o0>>2)&1,(o0>>1)&1,(o0&1)};
-    int off1[3] = {(o1>>2)&1,(o1>>1)&1,(o1&1)};
-    int off2[3] = {(o2>>2)&1,(o2>>1)&1,(o2&1)};
-    int off3[3] = {(o3>>2)&1,(o3>>1)&1,(o3&1)};
+    unsigned int off0[3] = {(o0>>2)&1,(o0>>1)&1,(o0&1)};
+    unsigned int off1[3] = {(o1>>2)&1,(o1>>1)&1,(o1&1)};
+    unsigned int off2[3] = {(o2>>2)&1,(o2>>1)&1,(o2&1)};
+    unsigned int off3[3] = {(o3>>2)&1,(o3>>1)&1,(o3&1)};
     for (int i=0; i<3; i++) {
-      set_off0( (_off0()<<1) + off0[i]);
-      set_off1( (_off1()<<1) + off1[i]);
-      set_off2( (_off2()<<1) + off2[i]);
-      set_off3( (_off3()<<1) + off3[i]);
+      unsigned int _off0 = (off&7);
+      unsigned int _off1 = ((off>>3)&7);
+      unsigned int _off2 = ((off>>6)&7);
+      unsigned int _off3 = ((off>>9)&7);
+
+      _off0 = ( (_off0<<1) + off0[i]);
+      _off1 = ( (_off1<<1) + off1[i]);
+      _off2 = ( (_off2<<1) + off2[i]);
+      _off3 = ( (_off3<<1) + off3[i]);
+
+      off = ((off&4088) | (_off0));
+      off = ((off&4039) | ((_off1)<<3));
+      off = ((off&3647) | ((_off2)<<6));
+      off = ((off&511 ) | ((_off3)<<9));
     }
   }
  
@@ -318,6 +307,6 @@ public:
   };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_DS_CELL_BASE_3_H

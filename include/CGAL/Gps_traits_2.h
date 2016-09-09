@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/Gps_traits_2.h $
-// $Id: Gps_traits_2.h 52796 2009-10-29 15:14:06Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Gps_traits_2.h $
+// $Id: Gps_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/Boolean_set_operations_2/Gps_polygon_validation.h>
 #include <CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Arr_traits,
           typename General_polygon_t = General_polygon_2<Arr_traits> >
@@ -168,6 +168,6 @@ public:
   Is_unbounded construct_is_unbounded_object() { return Is_unbounded(); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

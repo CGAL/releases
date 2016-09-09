@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry.h $
-// $Id: Sphere_geometry.h 35146 2006-11-13 13:43:37Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry.h $
+// $Id: Sphere_geometry.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-inf.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 113
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R> class Sphere_point;
 template <class R> class Sphere_segment;
@@ -37,7 +37,7 @@ template <class R> class Sphere_triangle;
 template <class R> class Sphere_circle;
 template <class R> class Sphere_direction;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Nef_S2/Sphere_point.h>
 #include <CGAL/Nef_S2/Sphere_circle.h>
@@ -46,7 +46,7 @@ CGAL_END_NAMESPACE
 #include <CGAL/Nef_S2/Sphere_triangle.h>
 #include <CGAL/Nef_S2/sphere_predicates.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename R_>
 struct Positive_halfsphere_geometry {
@@ -138,6 +138,10 @@ struct Negative_halfsphere_geometry :
 typedef Positive_halfsphere_geometry<R> Base;
 typedef typename Base::Point_2   Point_2;
 typedef typename Base::Segment_2 Segment_2;
+
+  using Base::xz_pi_half_rotate;
+  using Base::zx_pi_half_rotate;
+  using Base::xy_pi_half_rotate;
 
 Negative_halfsphere_geometry() : Base() {}
 Negative_halfsphere_geometry(int check_sphere) : Base(check_sphere) {}
@@ -251,6 +255,5 @@ get_negative_halfsphere_geometry(int a) const {
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SPHERE_GEOMETRY_H
-

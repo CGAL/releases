@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Inventor/include/CGAL/IO/Inventor_ostream.h $
-// $Id: Inventor_ostream.h 47017 2008-11-25 10:24:36Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Inventor/include/CGAL/IO/Inventor_ostream.h $
+// $Id: Inventor_ostream.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
@@ -33,7 +33,7 @@
 // output operators could be shared if they use the following
 // base class, which is common for both output streams.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Inventor_ostream_base {
 private:
@@ -84,7 +84,7 @@ private:
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_INVENTOR_OSTREAM_H
 
 
@@ -92,7 +92,7 @@ CGAL_END_NAMESPACE
 #ifndef CGAL_INVENTOR_TETRAHEDRON_3
 #define CGAL_INVENTOR_TETRAHEDRON_3
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R >
 Inventor_ostream&
@@ -128,7 +128,7 @@ operator<<(Inventor_ostream& os,
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_INVENTOR_TETRAHEDRON_3
 #endif // CGAL_TETRAHEDRON_3_H

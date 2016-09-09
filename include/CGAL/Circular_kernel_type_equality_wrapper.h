@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
-// $Id: Circular_kernel_type_equality_wrapper.h 44373 2008-07-23 17:13:44Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
+// $Id: Circular_kernel_type_equality_wrapper.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -34,7 +34,7 @@
 #include <CGAL/Root_of_2.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This is a kernel wrapper which provides the type equality between
 // Kernel::Point_2 and CGAL::Point_2<Kernel>, by deriving from
@@ -58,6 +58,6 @@ struct Circular_kernel_type_equality_wrapper
     //typedef Root_of_2<Kernel>                    Root_of_2;   
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULAR_KERNEL_TYPE_EQUALITY_WRAPPER_H

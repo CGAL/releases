@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_constructors.h $
-// $Id: polynomial_1_constructors.h 54380 2010-03-01 16:07:43Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_constructors.h $
+// $Id: polynomial_1_constructors.h 54367 2010-03-01 13:22:30Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 

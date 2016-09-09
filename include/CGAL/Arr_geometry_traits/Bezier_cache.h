@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
-// $Id: Bezier_cache.h 53323 2009-12-08 12:49:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
+// $Id: Bezier_cache.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -28,7 +28,7 @@
 #include <map>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class _Bezier_cache
  * Stores all cached intersection points and vertical tangency points.
@@ -865,6 +865,6 @@ _Bezier_cache<NtTraits>::_compute_resultant
   return (det);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

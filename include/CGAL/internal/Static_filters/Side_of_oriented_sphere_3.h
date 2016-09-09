@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_sphere_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_sphere_3.h $
 // $Id: Side_of_oriented_sphere_3.h 52326 2009-10-15 11:29:38Z spion $
 // 
 //

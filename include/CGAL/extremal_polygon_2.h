@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
-// $Id: extremal_polygon_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -30,7 +30,7 @@
 #include <algorithm>
 #include <CGAL/Extremal_polygon_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //!!! This will eventually be integrated into function_objects.h
 template < class Array, class Index, class Element >
@@ -742,6 +742,6 @@ CGAL_maximum_inscribed_k_gon_2(
   return o;
 } // CGAL_maximum_inscribed_k_gon_2( ... )
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_EXTREMAL_POLYGON_2_H)

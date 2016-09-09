@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
-// $Id: Sphere_geometry_OGL.h 46266 2008-10-14 11:02:44Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -39,7 +39,7 @@
 #define CGAL_NEF_LGREY CGAL::Color(170,170,200)
 #define CGAL_NEF_DGREY CGAL::Color(30,30,50)
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 namespace OGL {
 
 struct Gen_object {
@@ -787,7 +787,7 @@ class NefS2_to_UnitSphere
 };
 
 } // OGL
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 
@@ -820,4 +820,3 @@ std::ostream& operator<<(std::ostream& os,
 
 
 #endif //CGAL_SPHERE_GEOMETRY_OGL_H
-

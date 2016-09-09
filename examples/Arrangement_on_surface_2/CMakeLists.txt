@@ -24,6 +24,8 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "Bezier_curves.cpp" )
   create_single_source_cgal_program( "aggregated_insertion.cpp" )
+  create_single_source_cgal_program( "algebraic_curves.cpp" )
+  create_single_source_cgal_program( "algebraic_segments.cpp" )
   create_single_source_cgal_program( "batched_point_location.cpp" )
   create_single_source_cgal_program( "bgl_dual_adapter.cpp" )
   create_single_source_cgal_program( "bgl_primal_adapter.cpp" )

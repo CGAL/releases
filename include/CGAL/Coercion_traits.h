@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h 47295 2008-12-09 10:05:42Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $Id: Coercion_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -132,7 +132,7 @@ CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( NT, NT )
         };                                                              \
     };    
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 namespace INTERN_CT{ 
@@ -236,6 +236,6 @@ template<class A , class B>
 struct Coercion_traits :public Coercion_traits_for_level<A,B,CTL_TOP>{};
 
  
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //NiX_COERCION_TRAITS_H

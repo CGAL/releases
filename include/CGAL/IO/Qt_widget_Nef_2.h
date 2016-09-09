@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/include/CGAL/IO/Qt_widget_Nef_2.h $
-// $Id: Qt_widget_Nef_2.h 32795 2006-07-30 16:38:54Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Qt_widget/include/CGAL/IO/Qt_widget_Nef_2.h $
+// $Id: Qt_widget_Nef_2.h 54696 2010-03-11 13:46:27Z hemmer $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -55,7 +55,7 @@ d_to_q(double x)
 
       { mantissa *= width; // shift double mantissa
         mantissa = std::modf(mantissa, &intpart);
-        num *= shift_pow;
+        num *= (long)shift_pow;
         num += (long)intpart;
         exponent -= shift;
       }

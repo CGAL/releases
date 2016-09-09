@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
-// $Id: Snap_rounding_2.h 50484 2009-07-08 20:30:58Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -32,7 +32,7 @@
 #include <CGAL/Iterator_project.h>
 #include <CGAL/function_objects.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum SEG_Direction {SEG_UP_RIGHT,SEG_UP_LEFT,SEG_DOWN_RIGHT,SEG_DOWN_LEFT,
                 SEG_UP,SEG_DOWN,SEG_LEFT,SEG_RIGHT,SEG_POINT_SEG};
@@ -479,8 +479,8 @@ operator()(const Hot_pixel * h1, const Hot_pixel * h2) const
   Compare_x_2 compare_x = m_gt.compare_x_2_object();
   Compare_y_2 compare_y = m_gt.compare_y_2_object();
   
-  Comparison_result cx = compare_x(h1.get_center(), h2.get_center());
-  Comparison_result cy = compare_y(h1.get_center(), h2.get_center());
+  Comparison_result cx = compare_x(h1->get_center(), h2->get_center());
+  Comparison_result cy = compare_y(h1->get_center(), h2->get_center());
 
   return(cx == SMALLER || cx == EQUAL && cy == SMALLER);
 }
@@ -777,6 +777,6 @@ void snap_rounding_2(InputIterator begin,
 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

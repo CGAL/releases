@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_reconstruction_points_3/include/CGAL/Peak_memory_sizer.h $
-// $Id: Peak_memory_sizer.h 52585 2009-10-16 08:50:48Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/Peak_memory_sizer.h $
+// $Id: Peak_memory_sizer.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Laurent Saboret
 //                 (based on Memory_sizer.h by Sylvain Pion and Andreas Fabri)
@@ -31,7 +31,7 @@
 #include <cfloat>
 #include <climits>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Peak_memory_sizer extends Memory_sizer with new memory statistics.
@@ -187,6 +187,6 @@ private:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PEAK_MEMORY_SIZER_H

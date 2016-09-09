@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 53827 2010-01-27 14:35:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 57364 2010-07-07 11:26:48Z stayeb $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -35,7 +35,7 @@
 #  error "The old remove() code has been removed.  Please report any issue you may have with the current one."
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Gt,
            class Tds_ = Default,
@@ -90,6 +90,7 @@ public:
 
   typedef typename Tr_Base::All_cells_iterator       All_cells_iterator;
 
+  typedef typename Tr_Base::size_type size_type;
   typedef typename Tr_Base::Locate_type Locate_type;
 
 
@@ -115,6 +116,16 @@ public:
   using Tr_Base::coplanar;
   using Tr_Base::coplanar_orientation;
   using Tr_Base::orientation;
+  using Tr_Base::adjacent_vertices;
+  using Tr_Base::construct_segment;
+  using Tr_Base::incident_facets;
+  using Tr_Base::insert_in_conflict;
+  using Tr_Base::is_infinite;
+  using Tr_Base::is_valid_finite;
+  using Tr_Base::locate;
+  using Tr_Base::side_of_edge;
+  using Tr_Base::side_of_segment;
+  using Tr_Base::find_conflicts;
 #endif
 
 protected:
@@ -193,11 +204,10 @@ public:
   }
 
   template < class InputIterator >
-  int
+  std::ptrdiff_t
   insert(InputIterator first, InputIterator last)
   {
-    int n = number_of_vertices();
-
+    size_type n = number_of_vertices();
     std::vector<Point> points (first, last);
     spatial_sort (points.begin(), points.end(), geom_traits());
 
@@ -218,8 +228,30 @@ public:
 
   Vertex_handle insert(const Point & p, Locate_type lt,
 	               Cell_handle c, int li, int);
+	
+public: // internal methods
+	
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point  &p, 
+                                          OutputItCells fit,
+                                          Cell_handle start = Cell_handle() );
+		
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point& p,
+                                          OutputItCells fit,
+                                          Vertex_handle hint);
 
-  Vertex_handle move_point(Vertex_handle v, const Point & p);
+  template <class OutputItCells>
+  Vertex_handle insert_and_give_new_cells(const Point& p,
+                                          Locate_type lt,
+                                          Cell_handle c, int li, int lj, 
+                                          OutputItCells fit); 
+
+public:	
+	
+#ifndef CGAL_NO_DEPRECATED_CODE
+  CGAL_DEPRECATED Vertex_handle move_point(Vertex_handle v, const Point & p);
+#endif  
 
   template <class OutputIteratorBoundaryFacets,
             class OutputIteratorCells,
@@ -317,18 +349,35 @@ public:
       return std::copy(vertices.begin(), vertices.end(), res);
   }
 
+  // REMOVE
   void remove(Vertex_handle v);
 
+  // return new cells (internal)
+  template <class OutputItCells>
+  void remove_and_give_new_cells(Vertex_handle v, 
+                                 OutputItCells fit);
+
   template < typename InputIterator >
-  int remove(InputIterator first, InputIterator beyond)
+  size_type remove(InputIterator first, InputIterator beyond)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
     while (first != beyond) {
       remove(*first);
       ++first;
     }
     return n - number_of_vertices();
   }
+
+  // MOVE
+  Vertex_handle move_if_no_collision(Vertex_handle v, const Point &p);
+
+  Vertex_handle move(Vertex_handle v, const Point &p);
+
+  // return new cells (internal)
+  template <class OutputItCells>
+  Vertex_handle move_if_no_collision_and_give_new_cells(Vertex_handle v, 
+                                                        const Point &p, 
+                                                        OutputItCells fit);
 
 private:
 
@@ -368,6 +417,9 @@ public:
   bool is_Gabriel(const Facet& f)const ;
   bool is_Gabriel(const Edge& e) const;
 
+  bool is_delaunay_after_displacement(Vertex_handle v, 
+                                      const Point &p) const;
+
 // Dual functions
   Point dual(Cell_handle c) const;
 
@@ -396,7 +448,7 @@ public:
       return os;
     }
 
-private:
+protected:
 
   Vertex_handle
   nearest_vertex(const Point &p, Vertex_handle v, Vertex_handle w) const
@@ -489,6 +541,9 @@ private:
   template < class DelaunayTriangulation_3 >
   class Vertex_remover;
 
+  template < class DelaunayTriangulation_3 >
+  class Vertex_inserter;
+
   friend class Perturbation_order;
   friend class Conflict_tester_3;
   friend class Conflict_tester_2;
@@ -534,6 +589,98 @@ insert(const Point & p, Locate_type lt, Cell_handle c, int li, int lj)
 }
 
 template < class Gt, class Tds >
+template <class OutputItCells>
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle 
+Delaunay_triangulation_3<Gt,Tds>::
+insert_and_give_new_cells(const Point  &p, 
+                          OutputItCells fit,
+                          Cell_handle start)
+{
+  Vertex_handle v = insert(p, start);
+  int dimension = this->dimension();
+  if(dimension == 3) this->incident_cells(v, fit);
+  else if(dimension == 2)
+  {
+    Cell_handle c = v->cell(), end = c;
+    do {
+      *fit++ = c;
+      int i = c->index(v);
+      c = c->neighbor((i+1)%3);
+    } while(c != end);			
+  } 
+  else if(dimension == 1)
+  {
+    Cell_handle c = v->cell();
+    *fit++ = c;
+    *fit++ = c->neighbor((~(c->index(v)))&1);
+  }
+  else *fit++ = v->cell(); // dimension = 0
+  return v;		
+}
+
+template < class Gt, class Tds >	
+template <class OutputItCells>
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle 
+Delaunay_triangulation_3<Gt,Tds>::
+insert_and_give_new_cells(const Point& p,
+                          OutputItCells fit,
+                          Vertex_handle hint)
+{
+  Vertex_handle v = insert(p, hint);
+  int dimension = this->dimension();
+  if(dimension == 3) this->incident_cells(v, fit);
+  else if(dimension == 2)
+  {
+    Cell_handle c = v->cell(), end = c;
+    do {
+      *fit++ = c;
+      int i = c->index(v);
+      c = c->neighbor((i+1)%3);
+    } while(c != end);			
+  } 
+  else if(dimension == 1)
+  {
+    Cell_handle c = v->cell();
+    *fit++ = c;
+    *fit++ = c->neighbor((~(c->index(v)))&1);
+  }
+  else *fit++ = v->cell(); // dimension = 0
+  return v;
+}
+
+template < class Gt, class Tds >
+template <class OutputItCells>
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle 
+Delaunay_triangulation_3<Gt,Tds>::
+insert_and_give_new_cells(const Point& p,
+                          Locate_type lt,
+                          Cell_handle c, int li, int lj, 
+                          OutputItCells fit)
+{
+  Vertex_handle v = insert(p, lt, c, li, lj);
+  int dimension = this->dimension();
+  if(dimension == 3) this->incident_cells(v, fit);
+  else if(dimension == 2)
+  {
+    Cell_handle c = v->cell(), end = c;
+    do {
+      *fit++ = c;
+      int i = c->index(v);
+      c = c->neighbor((i+1)%3);
+    } while(c != end);			
+  } 
+  else if(dimension == 1)
+  {
+    Cell_handle c = v->cell();
+    *fit++ = c;
+    *fit++ = c->neighbor((~(c->index(v)))&1);
+  }
+  else *fit++ = v->cell(); // dimension = 0		 
+  return v;
+}
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+template < class Gt, class Tds >
 typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_3<Gt,Tds>::
 move_point(Vertex_handle v, const Point & p)
@@ -555,6 +702,7 @@ move_point(Vertex_handle v, const Point & p)
 	return insert(p);
     return insert(p, old_neighbor->cell());
 }
+#endif
 
 template <class Gt, class Tds >
 template <class DelaunayTriangulation_3>
@@ -577,6 +725,35 @@ public:
   }
 };
 
+template <class Gt, class Tds >
+template <class DelaunayTriangulation_3>
+class Delaunay_triangulation_3<Gt, Tds>::Vertex_inserter {
+  typedef DelaunayTriangulation_3 Delaunay;
+public:
+  typedef Nullptr_t Hidden_points_iterator;
+
+  Vertex_inserter(Delaunay &tmp_) : tmp(tmp_) {}
+
+  Delaunay &tmp;
+
+  void add_hidden_points(Cell_handle) {}
+  Hidden_points_iterator hidden_points_begin() { return NULL; }
+  Hidden_points_iterator hidden_points_end() { return NULL; }
+
+  Vertex_handle insert(const Point& p,
+		       Locate_type lt, Cell_handle c, int li, int lj) {
+    return tmp.insert(p, lt, c, li, lj);
+  }
+
+  Vertex_handle insert(const Point& p, Cell_handle c) {
+    return tmp.insert(p, c);
+  }
+
+  Vertex_handle insert(const Point& p) {
+    return tmp.insert(p);
+  }
+};
+
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_3<Gt,Tds>::
@@ -587,6 +764,63 @@ remove(Vertex_handle v)
   Tr_Base::remove(v,remover);
 
   CGAL_triangulation_expensive_postcondition(is_valid());
+}
+
+template < class Gt, class Tds >
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_3<Gt,Tds>::
+move_if_no_collision(Vertex_handle v, const Point &p)
+{
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Vertex_inserter<Self> inserter (*this);
+  Vertex_handle res = Tr_Base::move_if_no_collision(v,p,remover,inserter);
+
+  CGAL_triangulation_expensive_postcondition(is_valid());	
+	return res;
+}
+
+template <class Gt, class Tds >
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_3<Gt,Tds>::
+move(Vertex_handle v, const Point &p) {
+  CGAL_triangulation_precondition(!is_infinite(v));
+  if(v->point() == p) return v;
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Vertex_inserter<Self> inserter (*this);
+	return Tr_Base::move(v,p,remover,inserter);
+}
+
+template < class Gt, class Tds >
+template <class OutputItCells>
+void
+Delaunay_triangulation_3<Gt,Tds>::
+remove_and_give_new_cells(Vertex_handle v, OutputItCells fit)
+{
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Tr_Base::remove_and_give_new_cells(v,remover,fit);
+
+  CGAL_triangulation_expensive_postcondition(is_valid());
+}
+
+template < class Gt, class Tds >
+template <class OutputItCells>
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_3<Gt,Tds>::
+move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point &p,
+  OutputItCells fit)
+{
+  Self tmp;
+  Vertex_remover<Self> remover (tmp);
+  Vertex_inserter<Self> inserter (*this);
+  Vertex_handle res = 
+    Tr_Base::move_if_no_collision_and_give_new_cells(v,p,
+      remover,inserter,fit);
+
+  CGAL_triangulation_expensive_postcondition(is_valid());	
+	return res;
 }
 
 template < class Gt, class Tds >
@@ -878,6 +1112,75 @@ nearest_vertex(const Point& p, Cell_handle start) const
     return nearest;
 }
 
+// This is not a fast version.
+// The optimized version needs an int for book-keeping in 
+// tds() so as to avoiding the need to clear
+// the tds marker in each cell (which is an unsigned char)
+// Also the visitor in TDS could be more clever.
+// The Delaunay triangulation which filters displacements
+// will do these optimizations. 
+template <class Gt, class Tds >
+bool 
+Delaunay_triangulation_3<Gt,Tds>::
+is_delaunay_after_displacement(Vertex_handle v, const Point &p) const
+{
+  CGAL_triangulation_precondition(!this->is_infinite(v));	
+  CGAL_triangulation_precondition(this->dimension() == 2);	
+  CGAL_triangulation_precondition(!this->test_dim_down(v));
+	if(v->point() == p) return true;
+  Point ant = v->point();
+  v->set_point(p);
+
+  std::size_t size;
+
+  // are incident cells well-oriented
+  std::vector<Cell_handle> cells;
+  cells.reserve(64);
+  this->incident_cells(v, std::back_inserter(cells));
+  size = cells.size();
+  for(std::size_t i=0; i<size; i++)
+  {
+    Cell_handle c = cells[i];
+    if(this->is_infinite(c)) continue;
+    if(this->orientation(c->vertex(0)->point(), c->vertex(1)->point(), 
+                         c->vertex(2)->point(), c->vertex(3)->point()) 
+       != POSITIVE)
+    {
+      v->set_point(ant);
+      return false;
+    } 
+  }
+
+  // are incident bi-cells Delaunay?	
+  std::vector<Facet> facets;
+  facets.reserve(128);	
+  this->incident_facets(v, std::back_inserter(facets));
+  size = facets.size();
+  for(std::size_t i=0; i<size; i++)
+  {
+    const Facet &f = facets[i];
+    Cell_handle c = f.first;
+    int j = f.second;
+    Cell_handle cj = c->neighbor(j);
+    int mj = this->mirror_index(c, j);
+    Vertex_handle h1 = c->vertex(j);
+    if(this->is_infinite(h1)) {
+      if(this->side_of_sphere(c, cj->vertex(mj)->point(), true) 
+         != ON_UNBOUNDED_SIDE) {
+        v->set_point(ant);
+        return false;
+      }
+    } else {
+      if(this->side_of_sphere(cj, h1->point(), true) != ON_UNBOUNDED_SIDE) {
+        v->set_point(ant);
+        return false;
+      }
+    }
+  }
+		
+  v->set_point(ant);
+  return true;
+}
 
 template < class Gt, class Tds >
 bool
@@ -992,9 +1295,13 @@ dual(Cell_handle c, int i) const
     in = i;
   }
   // n now denotes a finite cell, either c or c->neighbor(i)
-  unsigned char ind[3] = {(in+1)&3,(in+2)&3,(in+3)&3};
+  int ind[3] = {(in+1)&3,(in+2)&3,(in+3)&3};
   if ( (in&1) == 1 )
       std::swap(ind[0], ind[1]);
+  // in=0: 1 2 3
+  // in=1: 3 2 0
+  // in=2: 3 0 1
+  // in=3: 1 0 2
   const Point& p = n->vertex(ind[0])->point();
   const Point& q = n->vertex(ind[1])->point();
   const Point& r = n->vertex(ind[2])->point();
@@ -1155,7 +1462,7 @@ is_valid(Cell_handle c, bool verbose, int level) const
   return true;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/internal/Delaunay_triangulation_hierarchy_3.h>
 

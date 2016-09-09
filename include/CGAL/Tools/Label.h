@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Tools/Label.h $
-// $Id: Label.h 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Tools/Label.h $
+// $Id: Label.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -25,7 +25,7 @@
 #include <iostream>
 #include <sstream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //! A type which provides opaque, typed identifiers.
 /*!
@@ -78,6 +78,6 @@ public:
 
 CGAL_OUTPUT1(Label)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

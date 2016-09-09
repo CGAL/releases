@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
-// $Id: GUI_base.h 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
+// $Id: GUI_base.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Listener.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 //! This is a base class for implementing GUIs for kinetic simulations
 /*!  Use this if you need to implement your on GUI. See Qt_gui_2 for a
   simple example of using it.
@@ -328,5 +328,5 @@ protected:
   //Listener *drawable_;
   bool processing_;
 };
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/assertions_behaviour.h $
-// $Id: assertions_behaviour.h 46983 2008-11-21 16:42:02Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/assertions_behaviour.h $
+// $Id: assertions_behaviour.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr
@@ -26,7 +26,7 @@
 #ifndef CGAL_ASSERTIONS_BEHAVIOUR_H
 #define CGAL_ASSERTIONS_BEHAVIOUR_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum Failure_behaviour { ABORT, EXIT, EXIT_WITH_SUCCESS, CONTINUE,
                          THROW_EXCEPTION };
@@ -54,6 +54,6 @@ set_error_behaviour(Failure_behaviour eb);
 Failure_behaviour
 set_warning_behaviour(Failure_behaviour eb);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ASSERTIONS_BEHAVIOUR_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Union_of_balls_3.h $
-// $Id: Union_of_balls_3.h 38263 2007-04-18 08:57:53Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Union_of_balls_3.h $
+// $Id: Union_of_balls_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -23,7 +23,7 @@
 #include <CGAL/Skin_surface_base_3.h>
 #include <CGAL/triangulate_power_diagram_3.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template <class MixedComplexTraits_3> 
 class Union_of_balls_3 : public Skin_surface_base_3<MixedComplexTraits_3> {
@@ -112,6 +112,6 @@ Union_of_balls_3(WP_iterator begin, WP_iterator end,
 }
   
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_UNION_OF_BALLS_3_H

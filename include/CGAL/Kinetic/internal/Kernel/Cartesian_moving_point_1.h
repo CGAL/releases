@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_1.h $
-// $Id: Cartesian_moving_point_1.h 36907 2007-03-08 01:47:03Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_1.h $
+// $Id: Cartesian_moving_point_1.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/Kinetic/basic.h>
 #include <iostream>
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE;
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class Coordinate_t>
 class Cartesian_moving_point_1
@@ -139,9 +139,9 @@ inline std::istream &operator>>(std::istream &out,
 }
 
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 /*template <>
   template <class Coord, class SK>
@@ -159,5 +159,5 @@ CGAL_KINETIC_BEGIN_NAMESPACE
   arg.y()(P::time()));
   }
   };*/
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

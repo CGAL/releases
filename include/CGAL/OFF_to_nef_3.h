@@ -36,7 +36,7 @@
 #include<CGAL/leda_rational.h>
 #endif // CGAL_USE_LEDA
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Homogeneous_tag;
 class Cartesian_tag;
@@ -83,7 +83,7 @@ class number_type_converter_nef_3<Cartesian_tag, Kernel> {
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // NUMBER_TYPE_CONVERTER_NEF_3_H
 
 // --- end preliminary number type converter -------------------
@@ -101,7 +101,7 @@ CGAL_END_NAMESPACE
 #include <CGAL/Timer.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Nef_3>
 std::size_t
@@ -138,7 +138,7 @@ OFF_to_nef_3 (std::istream &i_st, Nef_3 &nef_union, bool verb=false)
    // input: description of polyhedron in object file format (OFF)
    // with cartesian double coordinates
    Scan_OFF scan (i_st);
-   int NOV = scan.size_of_vertices();
+   std::size_t NOV = scan.size_of_vertices();
 
    // read and store vertices
    Scan_point_set V_scan;
@@ -229,5 +229,5 @@ OFF_to_nef_3 (std::istream &i_st, Nef_3 &nef_union, bool verb=false)
    return discarded_facets;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_OFF_TO_NEF_3_H

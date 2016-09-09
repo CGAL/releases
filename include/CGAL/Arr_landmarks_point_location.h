@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_landmarks_point_location.h $
-// $Id: Arr_landmarks_point_location.h 51066 2009-08-05 12:57:00Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_landmarks_point_location.h $
+// $Id: Arr_landmarks_point_location.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -30,7 +30,7 @@
 #include <CGAL/Arr_point_location/Arr_lm_vertices_generator.h>
 #include <set>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_landmarks_point_location
  * A class that answers point-location queries on an arrangement using the
@@ -318,7 +318,7 @@ protected:
                                  bool& cv_is_contained_in_seg) const;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // The member-function definitions can be found under:
 #include <CGAL/Arr_point_location/Arr_landmarks_pl_impl.h>

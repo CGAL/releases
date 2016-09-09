@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_reconstruction_points_3/include/CGAL/k_nearest_neighbor.h $
-// $Id: k_nearest_neighbor.h 48209 2009-02-25 15:00:22Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/k_nearest_neighbor.h $
+// $Id: k_nearest_neighbor.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -23,7 +23,7 @@
 #include <CGAL/Search_traits_vertex_handle_3.h>
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Wrapper around Orthogonal_k_neighbor_search for Triangulation_3 Vertex_handles.
@@ -92,7 +92,6 @@ public:
 }; // K_nearest_neighbor
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_K_NEIGHBOR_NEIGHBOR_H
-

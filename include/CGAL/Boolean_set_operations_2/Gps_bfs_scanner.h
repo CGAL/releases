@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
-// $Id: Gps_bfs_scanner.h 48113 2009-02-17 16:21:43Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
+// $Id: Gps_bfs_scanner.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -24,7 +24,7 @@
 #include <queue>
 #include <stack>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arrangement_, class Visitor_>
 class Gps_bfs_scanner
@@ -42,7 +42,7 @@ class Gps_bfs_scanner
 protected:
   Visitor*                     m_visitor;
   std::queue<Inner_ccb_iterator>   m_holes;
-  std::stack<Ccb_halfedge_circulator>  m_ccb_stcak;
+  std::stack<Ccb_halfedge_circulator>  m_ccb_stack;
 
 public:
 
@@ -74,10 +74,10 @@ public:
   void scan(Ccb_halfedge_circulator ccb)
   {
     _scan(ccb);
-    while(!m_ccb_stcak.empty())
+    while(!m_ccb_stack.empty())
     {
-      Ccb_halfedge_circulator curr_ccb = m_ccb_stcak.top();
-      m_ccb_stcak.pop();
+      Ccb_halfedge_circulator curr_ccb = m_ccb_stack.top();
+      m_ccb_stack.pop();
       _scan(curr_ccb);
     }
 
@@ -98,7 +98,7 @@ public:
         m_visitor->discovered_face(he->face(), new_f, he); 
         
         //scan(he->twin());
-        m_ccb_stcak.push(he->twin());
+        m_ccb_stack.push(he->twin());
       }
       ++ccb_circ;
     }
@@ -116,6 +116,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

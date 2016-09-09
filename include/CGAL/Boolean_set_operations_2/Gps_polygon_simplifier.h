@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
-// $Id: Gps_polygon_simplifier.h 48139 2009-02-19 11:00:00Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
+// $Id: Gps_polygon_simplifier.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -33,7 +33,7 @@
 #include <CGAL/Arr_accessor.h>
 #include <CGAL/iterator.h> 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arrangement_>
 class Gps_polygon_simplifier
@@ -148,6 +148,6 @@ public:
   }
 
 };
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_predicate.h $
-// $Id: Filtered_predicate.h 51161 2009-08-10 15:57:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Filtered_predicate.h $
+// $Id: Filtered_predicate.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -27,7 +27,7 @@
 #include <CGAL/Uncertain.h>
 #include <CGAL/Profile_counter.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This template class is a wrapper that implements the filtering for any
 // predicate (dynamic filters with IA).
@@ -414,6 +414,6 @@ Filtered_predicate<EP,AP,C2E,C2A,Protection>::
 
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_FILTERED_PREDICATE_H

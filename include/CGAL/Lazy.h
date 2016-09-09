@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 52580 2009-10-16 08:13:23Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -38,7 +38,7 @@
 #  include <boost/thread/tss.hpp>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename AT, typename ET, typename EFT, typename E2A> class Lazy;
 
@@ -204,7 +204,7 @@ public:
 
   typedef AT_ AT;
 
-  AT at;
+  mutable AT at;
   mutable ET *et;
 
   Lazy_rep ()
@@ -263,7 +263,7 @@ public:
 #endif
 
   bool is_lazy() const { return et == NULL; }
-  virtual void update_exact() = 0;
+  virtual void update_exact() const = 0;
   virtual ~Lazy_rep() { delete et; }
 };
 
@@ -280,7 +280,7 @@ class Lazy_rep_0 : public Lazy_rep<AT, ET, E2A>
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET();
   }
@@ -316,14 +316,14 @@ class Lazy_rep_1
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
+  mutable L1 l1_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_)));
     this->at = E2A()(*(this->et));
@@ -363,15 +363,15 @@ class Lazy_rep_2
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
+  mutable L1 l1_;
+  mutable L2 l2_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_)));
     this->at = E2A()(*(this->et));
@@ -414,16 +414,16 @@ class Lazy_rep_3
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_)));
@@ -473,17 +473,17 @@ class Lazy_rep_4
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
-  L4 l4_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
+  mutable L4 l4_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_), CGAL::exact(l4_)));
@@ -537,18 +537,18 @@ class Lazy_rep_5
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
-  L4 l4_;
-  L5 l5_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
+  mutable L4 l4_;
+  mutable L5 l5_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_), CGAL::exact(l4_),
@@ -606,19 +606,19 @@ class Lazy_rep_6
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
-  L4 l4_;
-  L5 l5_;
-  L6 l6_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
+  mutable L4 l4_;
+  mutable L5 l5_;
+  mutable L6 l6_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_), CGAL::exact(l4_),
@@ -679,20 +679,20 @@ class Lazy_rep_7
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
-  L4 l4_;
-  L5 l5_;
-  L6 l6_;
-  L7 l7_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
+  mutable L4 l4_;
+  mutable L5 l5_;
+  mutable L6 l6_;
+  mutable L7 l7_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_), CGAL::exact(l4_),
@@ -758,21 +758,21 @@ class Lazy_rep_8
   typedef typename EC::result_type ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
-  L3 l3_;
-  L4 l4_;
-  L5 l5_;
-  L6 l6_;
-  L7 l7_;
-  L8 l8_;
+  mutable L1 l1_;
+  mutable L2 l2_;
+  mutable L3 l3_;
+  mutable L4 l4_;
+  mutable L5 l5_;
+  mutable L6 l6_;
+  mutable L7 l7_;
+  mutable L8 l8_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET(ec()(CGAL::exact(l1_), CGAL::exact(l2_),
                            CGAL::exact(l3_), CGAL::exact(l4_),
@@ -894,14 +894,14 @@ class Lazy_rep_with_vector_1
   typedef std::vector<Object> ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
+  mutable L1 l1_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const 
   {
 // TODO : This looks really unfinished...
     std::vector<Object> vec;
@@ -946,15 +946,15 @@ class Lazy_rep_with_vector_2
   typedef std::vector<Object> ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
+  mutable L1 l1_;
+  mutable L2 l2_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET();
     this->et->reserve(this->at.size());
@@ -996,15 +996,15 @@ class Lazy_rep_2_1
   typedef typename R1::ET ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
+  mutable L1 l1_;
+  mutable L2 l2_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET();
     ec()(CGAL::exact(l1_), CGAL::exact(l2_), *(this->et));
@@ -1048,15 +1048,15 @@ class Lazy_rep_2_2
   typedef std::pair<typename R1::ET, typename R2::ET> ET;
   typedef Lazy_rep<AT, ET, E2A> Base;
 
-  L1 l1_;
-  L2 l2_;
+  mutable L1 l1_;
+  mutable L2 l2_;
 
   const EC& ec() const { return *this; }
 
 public:
 
   void
-  update_exact()
+  update_exact() const
   {
     this->et = new ET();
     ec()(CGAL::exact(l1_), CGAL::exact(l2_), this->et->first, this->et->second );
@@ -1850,6 +1850,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_LAZY_H

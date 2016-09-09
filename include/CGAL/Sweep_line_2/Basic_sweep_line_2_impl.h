@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
-// $Id: Basic_sweep_line_2_impl.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
+// $Id: Basic_sweep_line_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman  <baruchzu@post.tau.ac.il>
@@ -27,7 +27,7 @@
  * Member-function definitions for the Basic_sweep_line_2 class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Constructor.
@@ -811,6 +811,6 @@ _push_event (const X_monotone_curve_2& cv, Arr_curve_end ind,
   return (std::make_pair(e, !exist));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

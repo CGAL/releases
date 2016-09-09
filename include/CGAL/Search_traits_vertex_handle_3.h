@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/Search_traits_vertex_handle_3.h $
-// $Id: Search_traits_vertex_handle_3.h 48163 2009-02-20 13:17:26Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/Search_traits_vertex_handle_3.h $
+// $Id: Search_traits_vertex_handle_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -21,7 +21,7 @@
 
 #include <CGAL/Search_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// A Point_vertex_handle_3 objects wraps either
@@ -182,7 +182,6 @@ class Search_traits_vertex_handle_3
 {};
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEARCH_TRAITS_VERTEX_HANDLE_3_H
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/qt_layer.cpp $
-// $Id: qt_layer.cpp 45453 2008-09-09 21:35:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/qt_layer.cpp $
+// $Id: qt_layer.cpp 56421 2010-05-22 06:39:46Z ophirset $
 //
 //
 //
@@ -64,12 +64,14 @@ void Qt_layer::draw()
     }
    case CONIC_TRAITS:
     {
+#ifdef CGAL_USE_CORE
      Qt_widget_demo_tab<Conic_tab_traits> *w_demo_p =
        static_cast<Qt_widget_demo_tab<Conic_tab_traits> *>
        (myBar->currentPage());
      w_demo_p->lock();
      w_demo_p->draw();
      w_demo_p->unlock();
+#endif
      break;
     }
   }

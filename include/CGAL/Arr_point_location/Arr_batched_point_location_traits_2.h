@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_batched_point_location_traits_2.h $
-// $Id: Arr_batched_point_location_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_batched_point_location_traits_2.h $
+// $Id: Arr_batched_point_location_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -28,7 +28,7 @@
 
 #include <CGAL/Arr_tags.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A traits-class decorator for the use of the batched point-location process.
@@ -58,6 +58,9 @@ public:
                                                     Base_compare_y_at_x_right_2;
   typedef typename Base_traits_2::Equal_2           Base_equal_2;
   typedef typename Base_traits_2::Is_vertical_2     Base_is_vertical_2;
+
+  typedef typename Base_traits_2::Has_do_intersect_category
+                                                    Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Base_traits_2 >::Tag 
                                                     Arr_left_side_category;
@@ -774,6 +777,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

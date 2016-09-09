@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
-// $Id: Surface_mesher.h 49147 2009-05-05 14:10:13Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
+// $Id: Surface_mesher.h 53957 2010-02-01 12:55:28Z spion $
 //
 //
 // Author(s) : Steve Oudot,
@@ -791,4 +791,3 @@ namespace CGAL {
 
 
 #endif // CGAL_SURFACE_MESHER_SURFACE_MESHER_H
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
-// $Id: random_simplify_point_set.h 49943 2009-06-17 07:49:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
+// $Id: random_simplify_point_set.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Laurent Saboret
 
@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Randomly deletes a user-specified fraction of the input points.
@@ -112,7 +112,6 @@ random_simplify_point_set(
 /// @endcond
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RANDOM_SIMPLIFY_POINT_SET_H
-

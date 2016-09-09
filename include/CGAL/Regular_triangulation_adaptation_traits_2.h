@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/include/CGAL/Regular_triangulation_adaptation_traits_2.h $
-// $Id: Regular_triangulation_adaptation_traits_2.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/include/CGAL/Regular_triangulation_adaptation_traits_2.h $
+// $Id: Regular_triangulation_adaptation_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -27,7 +27,7 @@
 #include <CGAL/Voronoi_diagram_2/Construct_dual_points.h>
 #include <CGAL/Voronoi_diagram_2/Adaptation_traits_functors.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class RT2>
 struct Regular_triangulation_adaptation_traits_2
@@ -43,6 +43,6 @@ struct Regular_triangulation_adaptation_traits_2
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_ADAPTATION_TRAITS_2_H

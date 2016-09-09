@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_with_history_2.h $
-// $Id: Arrangement_on_surface_with_history_2.h 53548 2009-12-29 16:05:35Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_with_history_2.h $
+// $Id: Arrangement_on_surface_with_history_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein         <wein@post.tau.ac.il>
@@ -35,7 +35,7 @@
 
 #include <set>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A class representing planar subdivisions induced by a set of arbitrary
@@ -983,7 +983,7 @@ overlay (const Arrangement_on_surface_with_history_2<GeomTraits, TopTraits1>&
   res._overlay (arr1, arr2, ovl_traits);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // The function definitions can be found under:
 #include <CGAL/Arrangement_2/Arr_on_surface_with_history_2_impl.h>

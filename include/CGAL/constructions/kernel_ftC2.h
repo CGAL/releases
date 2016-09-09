@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 42900 2008-04-15 15:13:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr, Herve Bronnimann, Sylvain Pion
@@ -26,7 +26,7 @@
 
 #include <CGAL/determinant.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class FT >
 CGAL_KERNEL_INLINE
@@ -416,6 +416,6 @@ scaled_distance_to_lineC2( const FT &px, const FT &py,
   return determinant<FT>(px-rx, py-ry, qx-rx, qy-ry);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONSTRUCTIONS_KERNEL_FTC2_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Delage_traits/Infinite_edge_conflict_2.h $
-// $Id: Infinite_edge_conflict_2.h 50086 2009-06-26 07:18:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Delage_traits/Infinite_edge_conflict_2.h $
+// $Id: Infinite_edge_conflict_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
@@ -25,9 +25,9 @@
 
 #include <CGAL/Apollonius_graph_2/Delage_traits/Edge_conflict_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_APOLLONIUS_GRAPH_2_BEGIN_NAMESPACE
+namespace ApolloniusGraph_2 {
 
 //-----------------------------------------------------------------------
 //                   Infinite edge interior conflict
@@ -39,6 +39,8 @@ class Infinite_edge_interior_conflict_new_2
 {
 private:
   typedef Edge_conflict_2<K,Method_tag>              Base;
+  using Base::edge_conflict_test;
+
 public:
   typedef Weighted_point_inverter_2<K>               Weighted_point_inverter;
   typedef typename Base::Inverted_weighted_point     Inverted_weighted_point;
@@ -60,8 +62,8 @@ public:
 };
 
 
-CGAL_APOLLONIUS_GRAPH_2_END_NAMESPACE
+} //namespace ApolloniusGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_APOLLONIUS_GRAPH_2_INFINITE_EDGE_CONFLICT_2_H

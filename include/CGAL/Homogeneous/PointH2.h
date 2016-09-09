@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH2.h $
-// $Id: PointH2.h 42834 2008-04-10 14:41:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH2.h $
+// $Id: PointH2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -31,7 +31,7 @@
 #include <boost/mpl/logical.hpp>
 #include <boost/utility.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class PointH2
@@ -149,6 +149,6 @@ typename PointH2<R>::Direction_2
 PointH2<R>::direction() const
 { return typename PointH2<R>::Direction_2(*this); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_POINT_2_H

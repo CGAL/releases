@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Triangle_3.h $
-// $Id: Triangle_3.h 56955 2010-06-22 07:22:56Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Triangle_3.h $
+// $Id: Triangle_3.h 56954 2010-06-22 07:17:59Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -30,7 +30,7 @@
 #include <CGAL/Bbox_3.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class Triangle_3 : public R_::Kernel_base::Triangle_3
@@ -148,6 +148,6 @@ operator>>(std::istream &is, Triangle_3<R> &t)
     return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGLE_3_H

@@ -29,14 +29,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/RealRep.h $
- * $Id: RealRep.h 28567 2006-02-16 14:30:13Z lsaboret $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/RealRep.h $
+ * $Id: RealRep.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 #ifndef _CORE_REALREP_H_
 #define _CORE_REALREP_H_
 #include "BigFloat.h"
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 class Real;
 
@@ -509,6 +509,5 @@ inline std::string RealBigFloat::toString(long prec, bool sci) const {
   return ker.toString(prec, sci);
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_REALREP_H_
-

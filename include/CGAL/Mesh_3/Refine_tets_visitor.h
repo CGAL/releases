@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Refine_tets_visitor.h $
-// $Id: Refine_tets_visitor.h 50446 2009-07-08 09:00:25Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Refine_tets_visitor.h $
+// $Id: Refine_tets_visitor.h 56873 2010-06-18 13:06:08Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -46,7 +46,7 @@ namespace Mesh_3 {
 
       Refine_facets_visitor(Refine_tets* refine_tets_,
 			    Previous_visitor* p)
-        : refine_tets(refine_tets_), previous(p)
+        : refine_tets(refine_tets_), previous(p), active_(false)
       {
       }
 
@@ -58,12 +58,14 @@ namespace Mesh_3 {
                             const P&,
                             Zone& zone) 
       {
-        refine_tets->before_insertion_handle_cells_in_conflict_zone(zone);
+        if ( active_ )
+          refine_tets->before_insertion_handle_cells_in_conflict_zone(zone);
       }
 
       void after_insertion(const Vertex_handle& v)
       {
-	refine_tets->update_star(v);
+        if ( active_ )
+          refine_tets->update_star(v);
       }
 
       template <typename E, typename P, typename Z>
@@ -74,12 +76,25 @@ namespace Mesh_3 {
         return *previous;
       }
       
+      void activate()
+      {
+        active_=true;
+      }
+      
+      bool is_active() const
+      {
+        return active_;
+      }
+      
+    private:
+      bool active_;
+      
     }; // end class Refine_facets_visitor
 
-  }; // end namespace Mesh_3::tets
+  } // end namespace Mesh_3::tets
 
-}; // end namespace Mesh_3
+} // end namespace Mesh_3
 
-}; // end namespace CGAL
+} // end namespace CGAL
 
 #endif // CGAL_MESH_3_REFINE_TETS_VISITOR_H

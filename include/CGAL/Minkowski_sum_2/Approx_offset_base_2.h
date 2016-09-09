@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
-// $Id: Approx_offset_base_2.h 50287 2009-07-01 15:04:34Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
+// $Id: Approx_offset_base_2.h 56765 2010-06-15 12:56:47Z efif $
 //
 // Author(s)     : Ron Wein       <wein@post.tau.ac.il>
 //                 Andreas Fabri  <Andreas.Fabri@geometryfactory.com>
 //                 Laurent Rineau <Laurent.Rineau@geometryfactory.com>
+//                 Efi Fogel      <efif@post.tau.ac.il>
 
 #ifndef CGAL_APPROXIMATED_OFFSET_BASE_H
 #define CGAL_APPROXIMATED_OFFSET_BASE_H
@@ -27,7 +28,7 @@
 #include <CGAL/Minkowski_sum_2/Labels.h>
 #include <CGAL/Minkowski_sum_2/Arr_labeled_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A base class for approximating the offset of a given polygon by a given
@@ -478,81 +479,79 @@ protected:
         }
       }
 
-      if (curr == first)
-      {
+      if (curr == first) {
         // This is the first edge we visit -- store op1 for future use.
         first_op = op1;
       }
-      else
-      {
+      else {
+        CGAL::Orientation orient = f_orient (*prev, *curr, *next);
+        if (orient == CGAL::COLLINEAR) {
+          /* If the orientation is collinear, figure out whether it's a 180
+           * turn. If so, assume that it is an antena that generates
+           * a positive spike, and treat it as a left turn.
+           * A complete solution would need to distinguish between positive
+           * and negative spikes, and treat them as left and right turns,
+           * respectively.
+           */
+          typename Kernel::Compare_x_2 f_comp_x = ker.compare_x_2_object();
+          Comparison_result res1, res2;
+          res1 = f_comp_x(*prev, *curr);
+          if (res1 != CGAL::EQUAL)
+            res2 = f_comp_x(*curr, *next);
+          else {
+            typename Kernel::Compare_y_2 f_comp_y = ker.compare_y_2_object();
+            res1 = f_comp_y(*prev, *curr);
+            res2 = f_comp_y(*curr, *next);
+          }
+          if (res1 != res2) orient = CGAL::LEFT_TURN;
+        }
+        
         // Connect the offset target point of the previous edge to the
         // offset source of the current edge.
-        CGAL::Orientation     orient = f_orient (*prev, *curr, *next);
-
-        if (orient == CGAL::LEFT_TURN)
-        {
+        if (orient == CGAL::LEFT_TURN) {
           // Connect prev_op and op1 with a circular arc, whose supporting
           // circle is (x1, x2) with radius r.
           arc = Curve_2 (*curr, r, CGAL::COUNTERCLOCKWISE,
                          Tr_point_2 (prev_op.x(), prev_op.y()),
                          Tr_point_2 (op1.x(), op1.y()));
 
-          // Subdivide the arc into x-monotone subarcs and insert them to the
+          // Subdivide the arc into x-monotone subarcs and insert them into the
           // convolution cycle.
           xobjs.clear();
           f_make_x_monotone (arc, std::back_inserter(xobjs));
-
-          for (xobj_it = xobjs.begin(); xobj_it != xobjs.end(); ++xobj_it)
-          {
+          for (xobj_it = xobjs.begin(); xobj_it != xobjs.end(); ++xobj_it) {
             assign_success = CGAL::assign (xarc, *xobj_it);
             CGAL_assertion (assign_success);
-
-            *oi = Labeled_curve_2 (xarc,
-                                   X_curve_label (xarc.is_directed_right(),
-                                                  cycle_id,
-                                                  curve_index));
-            ++oi;
-            curve_index++;
+            *oi++ = Labeled_curve_2 (xarc,
+                                     X_curve_label (xarc.is_directed_right(),
+                                                    cycle_id, curve_index++));
           }
         }
-        else if (orient == CGAL::RIGHT_TURN)
-        {
+        else if (orient == CGAL::RIGHT_TURN) {
           // In case the current angle between the previous and the current
           // edge is larger than pi/2, it not necessary to connect prev_op
           // and op1 by a circular arc (as the case above): it is sufficient
           // to shortcut the circular arc using a segment, whose sole purpose
           // is to guarantee the continuity of the convolution cycle (we know
-          // this segment will not be part of the output offset or inet).
+          // this segment will not be part of the output offset or inset).
           seg_short = X_monotone_curve_2(prev_op, op1);
 
           dir_right_short = (f_comp_xy (prev_op, op1) == CGAL::SMALLER);
-          *oi = Labeled_curve_2 (seg_short,
-                                 X_curve_label (dir_right_short,
-                                                cycle_id,
-                                                curve_index));
-          oi++;
-          curve_index++;
+          *oi++ = Labeled_curve_2 (seg_short,
+                                   X_curve_label (dir_right_short,
+                                                  cycle_id, curve_index++));
         }
       }
 
       // Append the offset segment(s) to the convolution cycle.
       CGAL_assertion (n_segments == 1 || n_segments == 2);
-
-      *oi = Labeled_curve_2 (seg1,
-                             X_curve_label (dir_right1,
-                                            cycle_id,
-                                            curve_index));
-      oi++;
-      curve_index++;
+      *oi++ = Labeled_curve_2 (seg1, X_curve_label (dir_right1,
+                                                    cycle_id, curve_index++));
 
       if (n_segments == 2)
       {
-        *oi = Labeled_curve_2 (seg2,
-                               X_curve_label (dir_right2,
-                                              cycle_id,
-                                              curve_index));
-        ++oi;
-        curve_index++;
+        *oi++ = Labeled_curve_2 (seg2, X_curve_label (dir_right2,
+                                                      cycle_id, curve_index++));
       }
     
       // Proceed to the next polygon vertex.
@@ -570,8 +569,6 @@ protected:
 
     // Subdivide the arc into x-monotone subarcs and insert them to the
     // convolution cycle.
-    bool           is_last;
-
     xobjs.clear();
     f_make_x_monotone (arc, std::back_inserter(xobjs));
 
@@ -582,14 +579,11 @@ protected:
       CGAL_assertion (assign_success);
       
       ++xobj_it;
-      is_last = (xobj_it == xobjs.end());
+      bool is_last = (xobj_it == xobjs.end());
 
-      *oi = Labeled_curve_2 (xarc,
-                             X_curve_label (xarc.is_directed_right(),
-                                            cycle_id,
-                                            curve_index,
-                                            is_last));
-      curve_index++;
+      *oi++ = Labeled_curve_2 (xarc,
+                               X_curve_label (xarc.is_directed_right(),
+                                              cycle_id, curve_index++, is_last));
     }
 
     return (oi);
@@ -597,7 +591,6 @@ protected:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

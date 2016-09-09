@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Cache.h $
-// $Id: Cache.h 37883 2007-04-03 16:07:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Cache.h $
+// $Id: Cache.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
 //
@@ -29,7 +29,7 @@
 
 #include <map>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \brief The Cache serves as a constructor for an object of type Output from
  * a object of type Input.
@@ -160,6 +160,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

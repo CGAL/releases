@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
-// $Id: Sign_Sturm_sequence.h 42809 2008-04-09 13:09:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
+// $Id: Sign_Sturm_sequence.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -25,7 +25,7 @@
 #include <CGAL/Polynomial/internal/Sign_variations_counter.h>
 #include <vector>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 template<class Sturm_sequence_t>
 class Sign_Sturm_sequence : public Sturm_sequence_t
@@ -113,5 +113,5 @@ class Sign_Sturm_sequence : public Sturm_sequence_t
         Polynomial pder_, q_;
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif                                            // CGAL_SIGN_STURM_SEQUENCE_H

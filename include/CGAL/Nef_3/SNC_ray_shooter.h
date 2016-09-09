@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_ray_shooter.h $
-// $Id: SNC_ray_shooter.h 43845 2008-06-27 11:40:00Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_ray_shooter.h $
+// $Id: SNC_ray_shooter.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -41,7 +41,7 @@
 #define CGAL_NEF_DEBUG 37
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ----------------------------------------------------------------------------
 // SNC_ray_shooting
@@ -219,8 +219,6 @@ public:
 
 }; // SNC_ray_shooter
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SNC_RAY_SHOOTER_H
-
-

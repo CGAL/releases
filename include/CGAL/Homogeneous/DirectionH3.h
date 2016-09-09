@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
-// $Id: DirectionH3.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
+// $Id: DirectionH3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,8 +25,9 @@
 #define CGAL_HOMOGENEOUS_DIRECTION_3_H
 
 #include <CGAL/array.h>
+#include <CGAL/Handle_for.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class DirectionH3
@@ -128,6 +129,6 @@ cross_product( const DirectionH3<R>& d1,
                const DirectionH3<R>& d2)
 { return cross_product(d1.to_vector(),d2.to_vector()).direction(); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_DIRECTION_3_H

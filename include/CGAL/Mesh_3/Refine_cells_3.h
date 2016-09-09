@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
+// $Id: Refine_cells_3.h 56883 2010-06-18 16:16:50Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -99,7 +99,7 @@ public:
                  C3T3& c3t3) ;
   
   // Destructor
-  virtual ~Refine_cells_3() { };
+  virtual ~Refine_cells_3() { }
   
   // Get a reference on triangulation
   Tr& triangulation_ref_impl() { return r_tr_; }
@@ -116,7 +116,7 @@ public:
     //    last_vertex_index_ = Index(cell->subdomain_index());
     // NB : dual() is optimized when the cell base class has circumcenter()
     return r_tr_.dual(cell);
-  };
+  }
   
   // Returns the conflicts zone
   Zone conflicts_zone_impl(const Point& point, const Cell_handle& cell) const;
@@ -125,11 +125,16 @@ public:
   void before_insertion_impl(const Cell_handle&, const Point&, Zone& zone)
   {
     before_insertion_handle_cells_in_conflict_zone(zone);
-  };
+  }
   
   // Job to do after insertion
-  void after_insertion_impl(const Vertex_handle& v) { update_star(v); };
-  
+  void after_insertion_impl(const Vertex_handle& v)
+#ifndef CGAL_MESH_3_USE_OLD_SURFACE_RESTRICTED_DELAUNAY_UPDATE
+  { update_star_self(v); }
+#else
+  { update_star(v); }
+#endif
+
   // Insertion implementation ; returns the inserted vertex
   Vertex_handle insert_impl(const Point& p, const Zone& zone);
   
@@ -155,10 +160,19 @@ public:
   }
 #endif
   
+#ifdef CGAL_MESH_3_MESHER_STATUS_ACTIVATED
+  std::size_t queue_size() const { return this->size(); }
+#endif
   
 private:
   /// Adds \c cell to the refinement queue if needed
   void treat_new_cell(const Cell_handle& cell);
+  
+  /// Computes badness and add to queue if needed
+  void compute_badness(const Cell_handle& cell);
+  
+  // Updates cells incident to vertex, and add them to queue if needed
+  void update_star_self(const Vertex_handle& vertex);
   
   /// Set \c cell to domain, with subdomain index \c index
   void set_cell_in_domain(const Cell_handle& cell,
@@ -180,6 +194,11 @@ private:
     // Set dimension of v: v is inside volume by construction, so dimension=3
     v->set_dimension(3);
   }
+  
+  /// Get mirror facet
+  Facet mirror_facet(const Facet& f) const { return r_tr_.mirror_facet(f); };
+  Facet mirror_facet(const Cell_handle& c, const int i) const
+  { return mirror_facet(std::make_pair(c,i)); }
   
 private:
   /// The triangulation
@@ -278,7 +297,7 @@ before_insertion_handle_cells_in_conflict_zone(Zone& zone)
   for ( ; cit != zone.cells.end() ; ++cit )
   {
     // Remove cell from refinement queue
-    remove_element(*cit);
+    this->remove_element(*cit);
     
     // Remove cell from complex
     remove_cell_from_domain(*cit);
@@ -311,6 +330,56 @@ update_star(const Vertex_handle& vertex)
   }
 }
 
+  
+template<class Tr, class Cr, class MD, class C3T3_, class P_, class C_>
+void
+Refine_cells_3<Tr,Cr,MD,C3T3_,P_,C_>::
+update_star_self(const Vertex_handle& vertex)
+{
+  typedef std::vector<Cell_handle> Cells;
+  typedef typename Cells::iterator Cell_iterator;
+  
+  // Get the star of v
+  Cells incident_cells;
+  r_tr_.incident_cells(vertex, std::back_inserter(incident_cells));
+  
+  // Get subdomain index
+  Subdomain_index cells_subdomain = r_oracle_.subdomain_index(vertex->index());
+  
+  // Restore surface & domain
+  for( Cell_iterator cell_it = incident_cells.begin();
+      cell_it != incident_cells.end();
+      ++cell_it )
+  {
+    CGAL_assertion(!r_tr_.is_infinite(*cell_it));
+    
+    // Restore surface
+    const int& k = (*cell_it)->index(vertex);
+    const Facet mirror_f = mirror_facet(*cell_it,k);
+    const Cell_handle& neighbor_cell = mirror_f.first;
+    const int& neighb_k = mirror_f.second;
+    
+    if ( neighbor_cell->is_facet_on_surface(neighb_k) )
+    {
+      // Facet(*cell_it,k) is on surface
+      (*cell_it)->set_surface_index(
+        k,neighbor_cell->surface_index(neighb_k));
+
+      (*cell_it)->set_facet_surface_center(
+        k,neighbor_cell->get_facet_surface_center(neighb_k));
+
+      (*cell_it)->set_facet_surface_center_index(
+        k,neighbor_cell->get_facet_surface_center_index(neighb_k));
+    }
+    
+    // Set subdomain index
+    set_cell_in_domain(*cell_it, cells_subdomain);
+    
+    // Add to queue
+    compute_badness(*cell_it);
+  }
+}
+
 
 template<class Tr, class Cr, class MD, class C3T3_, class P_, class C_>
 void
@@ -326,19 +395,26 @@ treat_new_cell(const Cell_handle& cell)
     set_cell_in_domain(cell, *subdomain);
     
     // Add to refinement queue if needed
-    const Cell_badness badness = r_criteria_(cell);
-    if( badness.is_initialized() )
-    {
-      add_bad_element(cell, *badness);
-    }
+    compute_badness(cell);
   }
   else
   {
     remove_cell_from_domain(cell);
   }
-  
 }
+  
 
+template<class Tr, class Cr, class MD, class C3T3_, class P_, class C_>
+void
+Refine_cells_3<Tr,Cr,MD,C3T3_,P_,C_>::
+compute_badness(const Cell_handle& cell)
+{
+  const Cell_badness badness = r_criteria_(cell);
+  if( badness.is_initialized() )
+  {
+    this->add_bad_element(cell, *badness);
+  }
+}
 
 template<class Tr, class Cr, class MD, class C3T3_, class P_, class C_>
 typename Refine_cells_3<Tr,Cr,MD,C3T3_,P_,C_>::Vertex_handle
@@ -365,9 +441,6 @@ insert_impl(const Point& point,
   
   return v;
 }
-
-
-
 
 }  // end namespace Mesh_3
 

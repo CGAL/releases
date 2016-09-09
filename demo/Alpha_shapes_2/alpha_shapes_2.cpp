@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.cpp $
-// $Id: alpha_shapes_2.cpp 45367 2008-09-08 09:22:06Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.cpp $
+// $Id: alpha_shapes_2.cpp 57467 2010-07-12 10:02:56Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -403,7 +403,7 @@ private slots:
       QFileDialog::getSaveFileName( "triangulation.cgal",
 				    "Cgal files (*.cgal)", this );
     if ( !fileName.isNull() ) {                 // got a file name
-      std::ofstream out(fileName);
+      std::ofstream out(fileName.ascii());
       CGAL::set_ascii_mode(out);
       out << tr1 << std::endl;
     }
@@ -418,7 +418,7 @@ private slots:
     tr1.clear();
     A.clear();
     L.clear();
-    std::ifstream in(s);
+    std::ifstream in(s.ascii());
     CGAL::set_ascii_mode(in);
     in >> tr1;
     Vertex_iterator it = tr1.vertices_begin();

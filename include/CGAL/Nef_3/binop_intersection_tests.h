@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/binop_intersection_tests.h $
-// $Id: binop_intersection_tests.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/binop_intersection_tests.h $
+// $Id: binop_intersection_tests.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Meyer  <ameyer@mpi-sb.mpg.de>
@@ -25,7 +25,7 @@
 #include <iostream>
 #include <CGAL/Timer.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class SNC_decorator>
 struct binop_intersection_test_segment_tree {
@@ -186,6 +186,6 @@ struct binop_intersection_test_segment_tree {
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

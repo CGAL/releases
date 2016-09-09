@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
-// $Id: Sweep_line_event.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
+// $Id: Sweep_line_event.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tali Zvi        <talizvi@post.tau.ac.il>,
@@ -30,7 +30,7 @@
 #include <list>
 #include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Sweep_line_event
  *
@@ -588,6 +588,6 @@ public:
   } 
 #endif // CGAL_SL_VERBOSE
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

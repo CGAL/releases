@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
-// $Id: Straight_skeleton_vertex_base_2.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
+// $Id: Straight_skeleton_vertex_base_2.h 57866 2010-08-09 10:00:17Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //

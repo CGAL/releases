@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_circulator.h $
-// $Id: Polygon_2_edge_circulator.h 45787 2008-09-25 19:15:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_circulator.h $
+// $Id: Polygon_2_edge_circulator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -29,7 +29,7 @@
 #include <CGAL/Polygon_2/Polygon_2_vertex_circulator.h>
 #include <CGAL/Polygon_2/polygon_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class _Traits, class _Container> class Polygon_2;
 
@@ -132,7 +132,7 @@ class Polygon_2_const_edge_circulator {
     operator+(difference_type n) const
     {
       return Polygon_2_const_edge_circulator<_Traits, _Container>(
-        this->container, first_vertex + n);
+        first_vertex + n);
     }
 
     Polygon_2_const_edge_circulator<_Traits, _Container>&
@@ -145,7 +145,7 @@ class Polygon_2_const_edge_circulator {
     operator-(difference_type n) const
     {
       return Polygon_2_const_edge_circulator<_Traits, _Container>(
-        this->container, first_vertex - n);
+        first_vertex - n);
     }
 
     difference_type
@@ -158,7 +158,7 @@ class Polygon_2_const_edge_circulator {
     Segment_2 operator[](int n) const
     {
       return *Polygon_2_const_edge_circulator<_Traits, _Container>(
-        this->container, first_vertex+n);
+        first_vertex+n);
     }
 
     bool operator<(
@@ -219,6 +219,6 @@ value_type(const Polygon_2_const_edge_circulator<_Traits,_Container>&)
 // { return a+n; }
 //--------------------------------------------------------------------//
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

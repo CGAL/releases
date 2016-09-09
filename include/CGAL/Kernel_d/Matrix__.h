@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
-// $Id: Matrix__.h 41674 2008-01-18 10:20:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
+// $Id: Matrix__.h 56991 2010-06-22 16:17:33Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -221,7 +221,7 @@ void range_initialize(RAIterator first, RAIterator last,
                       std::random_access_iterator_tag) 
 { typedef typename std::iterator_traits<RAIterator>::value_type value_type;
   typedef typename value_type::const_iterator const_iterator;
-  dn_ = last-first;
+  dn_ = static_cast<int>(last-first);
   if (dn_ == 0) { dm_=0; v_=0; return; }
   dm_ = first->dimension(); 
   if (dm_ > 0) { 

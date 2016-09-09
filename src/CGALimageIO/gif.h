@@ -14,7 +14,7 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/CGALimageIO/src/CGALimageIO/gif.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/CGALimageIO/src/CGALimageIO/gif.h $
 // $Id: gif.h 41804 2008-01-24 14:42:03Z lrineau $
 //
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_lines_2/include/CGAL/Triangular_field_2.h $
-// $Id: Triangular_field_2.h 41685 2008-01-18 20:19:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_lines_2/include/CGAL/Triangular_field_2.h $
+// $Id: Triangular_field_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -34,7 +34,7 @@
 
 #include <CGAL/Triangulation_face_base_with_info_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class StreamLinesTraits_2>
 class Triangular_field_2
@@ -222,6 +222,6 @@ Triangular_field_2<StreamLinesTraits_2>::get_integration_step() const
   return 1.0;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

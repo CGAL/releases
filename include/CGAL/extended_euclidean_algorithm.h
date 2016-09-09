@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/extended_euclidean_algorithm.h $
-// $Id: extended_euclidean_algorithm.h 42664 2008-03-31 12:43:38Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/extended_euclidean_algorithm.h $
+// $Id: extended_euclidean_algorithm.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Hemmer, Dominik Hülse
 //
@@ -25,7 +25,7 @@
 #include <CGAL/basic.h>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // EEA computing the normalized gcd
 // Modern Computer Algebra (Hardcover)
@@ -72,6 +72,6 @@ AS extended_euclidean_algorithm(const AS& f, const AS& g, AS& s_, AS& t_){
     return h; 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // NiX_EXTENDED_EUCLIDEAN_ALGORITHM_H //

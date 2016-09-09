@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Cartesian/MatrixC33.h $
-// $Id: MatrixC33.h 50078 2009-06-25 15:12:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_simplification/include/CGAL/Cartesian/MatrixC33.h $
+// $Id: MatrixC33.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -25,7 +25,7 @@
 
 #include <boost/optional/optional.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class MatrixC33 
@@ -250,7 +250,7 @@ boost::optional< MatrixC33<R> > inverse_matrix ( MatrixC33<R> const& m )
   return rInverse ;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_MATRIXC33_H //
 // EOF //

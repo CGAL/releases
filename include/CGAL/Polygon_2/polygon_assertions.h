@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
-// $Id: polygon_assertions.h 52183 2009-10-07 13:16:13Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
+// $Id: polygon_assertions.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sven Schoenherr
@@ -363,5 +363,3 @@
 #  define CGAL_polygon_expensive_exactness_warning_code(CODE) CODE
 #  define CGAL_polygon_expensive_exactness_warnings 1
 #endif // CGAL_POLYGON_NO_WARNINGS
-
-

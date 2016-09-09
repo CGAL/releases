@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_2/include/CGAL/range_search_delaunay_2.h $
-// $Id: range_search_delaunay_2.h 29694 2006-03-22 16:11:11Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_2/include/CGAL/range_search_delaunay_2.h $
+// $Id: range_search_delaunay_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -30,7 +30,7 @@
 #include <stack>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // was 
 // std::map<typename Dt::Vertex *,int, std::less<typename Dt::Vertex *> >
@@ -445,6 +445,6 @@ OutputIterator range_search(Dt& delau,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

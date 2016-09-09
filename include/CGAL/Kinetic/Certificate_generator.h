@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Certificate_generator.h $
-// $Id: Certificate_generator.h 42710 2008-04-01 18:01:39Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Certificate_generator.h $
+// $Id: Certificate_generator.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,7 +22,7 @@
 #define CGAL_KINETIC_IO_KERNEL_CERTIFICATE_GENERATOR_H
 #include <CGAL/Kinetic/basic.h>
 //#include <CGAL/Kinetic/internal/Kernel/Certificate.h>
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 template <class KK_t, class Generator>
 struct Certificate_generator {
   typedef typename KK_t::Certificate result_type;
@@ -139,6 +139,6 @@ protected:
   typename KK_t::Function_kernel fk_;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 
 #endif

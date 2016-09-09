@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
-// $Id: Polygon_2_algorithms_impl.h 39249 2007-06-27 13:52:53Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
+// $Id: Polygon_2_algorithms_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -28,7 +28,7 @@
 #include <set>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 //-----------------------------------------------------------------------//
@@ -436,5 +436,4 @@ Orientation orientation_2(ForwardIterator first,
   return traits.orientation_2_object()(*prev, *i, *next);
 }
 
-CGAL_END_NAMESPACE
-
+} //namespace CGAL

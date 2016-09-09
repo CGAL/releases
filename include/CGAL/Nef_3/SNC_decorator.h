@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
-// $Id: SNC_decorator.h 56321 2010-05-18 09:17:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
+// $Id: SNC_decorator.h 57134 2010-06-28 08:27:08Z afabri $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -39,7 +39,7 @@
 #define CGAL_NEF_DEBUG 19
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Map>
 class SNC_decorator : public SNC_const_decorator<Map> { 
@@ -634,14 +634,14 @@ class SNC_decorator : public SNC_const_decorator<Map> {
     verr << "begin CGAL::SNC_decorator<...>::is_valid( verb=true, "
       "level = " << level << "):" << std::endl;
     
-    int max = number_of_vertices() 
+    std::size_t max = number_of_vertices() 
       + number_of_halfedges() 
       + number_of_halffacets() 
       + number_of_volumes()
       + 2 * sncp()->number_of_shalfedges()
       + sncp()->number_of_shalfloops()
       + sncp()->number_of_sfaces();
-    int count = 0;
+    std::size_t count = 0;
 
     bool valid = true;
     Vertex_iterator vi;
@@ -988,6 +988,5 @@ visit_shell_objects(SFace_handle f, Visitor& V) const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_DECORATOR_H
-

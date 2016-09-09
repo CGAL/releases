@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_zone_2_impl.h $
-// $Id: Arrangement_zone_2_impl.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_zone_2_impl.h $
+// $Id: Arrangement_zone_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -26,7 +26,7 @@
  * Member-function definitions for the Arrangement_zone_2 class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Initialize the zone-computation process with a given curve and an object
@@ -1533,6 +1533,6 @@ bool Arrangement_zone_2<Arrangement,ZoneVisitor>::_zone_in_overlap ()
   return (false);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

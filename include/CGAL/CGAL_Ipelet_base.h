@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base.h $
-// $Id: CGAL_Ipelet_base.h 53550 2009-12-29 16:46:19Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base.h $
+// $Id: CGAL_Ipelet_base.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -24,4 +24,3 @@
 #else
 #include <CGAL/CGAL_Ipelet_base_v6.h>
 #endif
-

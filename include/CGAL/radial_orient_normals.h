@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/radial_orient_normals.h $
-// $Id: radial_orient_normals.h 49943 2009-06-17 07:49:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/radial_orient_normals.h $
+// $Id: radial_orient_normals.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Laurent Saboret
 
@@ -23,11 +23,8 @@
 #include <CGAL/point_set_processing_assertions.h>
 
 #include <math.h>
-#ifndef M_PI
-  #define M_PI       3.14159265358979323846
-#endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Radial orientation of the [first, beyond) range of points.
@@ -110,7 +107,7 @@ radial_orient_normals(
       it->normal() = vec2;
 
       // Is orientation robust?
-      bool oriented = (std::abs(dot) > std::cos(80.*M_PI/180.)); // robust iff angle < 80 degrees
+      bool oriented = (std::abs(dot) > std::cos(80.*CGAL_PI/180.)); // robust iff angle < 80 degrees
       if (oriented)
         oriented_points.push_back(*it);
       else
@@ -169,7 +166,6 @@ radial_orient_normals(
 /// @endcond
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RADIAL_ORIENT_NORMALS_H
-

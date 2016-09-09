@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Curve_data_aux.h $
-// $Id: Curve_data_aux.h 40377 2007-09-19 11:05:08Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Curve_data_aux.h $
+// $Id: Curve_data_aux.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * Definition of auxiliary classes for the Arr_curve_data_traits_2<> template.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \struct A simple merge functor.
@@ -113,7 +113,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

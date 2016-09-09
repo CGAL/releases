@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
 
-// $Id: predicates_on_weighted_points_cartesian_3.h 51045 2009-08-04 13:36:15Z spion $
+// $Id: predicates_on_weighted_points_cartesian_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/determinant.h>
 #include <CGAL/enum.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class FT >
 Comparison_result
@@ -277,7 +277,7 @@ does_simplex_intersect_weighted_dual_supportC3(
 }
 
 //-------------------------------------------------------------------
-CGAL_END_NAMESPACE
+} //namespace CGAL
 //-------------------------------------------------------------------
 
 #endif //CGAL_PREDICATES_ON_WEIGHTED_POINTS_CARTESIAN_3

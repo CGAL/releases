@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
-// $Id: Arr_trapezoid_ric_pl_impl.h 50002 2009-06-21 10:29:39Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
+// $Id: Arr_trapezoid_ric_pl_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -32,7 +32,7 @@
 	#define CGAL_TRAP_PRINT_DEBUG(expr)
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Locate the arrangement feature containing the given point.
@@ -289,6 +289,6 @@ _check_isolated_for_vertical_ray_shoot (Halfedge_const_handle halfedge_found,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

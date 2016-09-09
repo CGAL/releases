@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/Inexact_simulation_traits.h $
-// $Id: Inexact_simulation_traits.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Inexact_simulation_traits.h $
+// $Id: Inexact_simulation_traits.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -34,7 +34,7 @@
 #include <CGAL/Kinetic/Default_simulator.h>
 #include <CGAL/Kinetic/Heap_pointer_event_queue.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 struct Inexact_simulation_traits {
   typedef Inexact_simulation_traits This;
@@ -93,5 +93,5 @@ protected:
   Kinetic_kernel kk_;
   Function_kernel fk_;
 };
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
-// $Id: Apollonius_graph_hierarchy_2_impl.h 53904 2010-01-29 14:23:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
+// $Id: Apollonius_graph_hierarchy_2_impl.h 56942 2010-06-21 16:37:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,7 +24,7 @@
 // class implementation
 //---------------------
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Gt, class Agds, class LTag>
 void
@@ -197,7 +197,7 @@ insert(const Site_2 &p)
     return first;
   }
 
-  int n_hidden = 0;
+  std::size_t n_hidden = 0;
 
   // locate the nearest neighbor using hierarchy
   nearest_neighbor(p.point(), vnear);
@@ -268,7 +268,7 @@ insert(const Site_2 &p)
   n_hidden = v_hidden.size();
 
   if ( n_hidden != 0 ) {
-    int n_non_hidden = this->number_of_vertices() - n_hidden;
+    std::size_t n_non_hidden = this->number_of_vertices() - n_hidden;
     if ( n_non_hidden < 2 ) {
       for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
 	hierarchy[i]->clear();
@@ -547,7 +547,7 @@ file_output(std::ostream& os) const
   delete[] V_down;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_APOLLONIUS_GRAPH_HIERARCHY_2_IMPL_H

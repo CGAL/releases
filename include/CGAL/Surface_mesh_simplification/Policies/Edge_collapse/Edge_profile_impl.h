@@ -10,15 +10,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
-// $Id: Edge_profile_impl.h 56870 2010-06-18 10:24:30Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
+// $Id: Edge_profile_impl.h 56898 2010-06-20 21:48:20Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_EDGE_PROFILE_IMPL_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_EDGE_PROFILE_IMPL_H 1
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Surface_mesh_simplification
 {
@@ -196,7 +196,7 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
     if ( v2 != mV1 )
     {
       mLink.push_back(v2) ;
-      bool lInserted = lCollected.insert(vertex_idx[v2]).second ;
+      CGAL_assertion_code( bool lInserted = ) lCollected.insert(vertex_idx[v2]).second ;
       CGAL_assertion(lInserted);
     }
       
@@ -243,9 +243,8 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
 
 } // namespace Surface_mesh_simplification
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_EDGE_PROFILE_IMPL_H
 // EOF //
  
-

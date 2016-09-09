@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/CORE_BigFloat.h $
-// $Id: CORE_BigFloat.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/CORE_BigFloat.h $
+// $Id: CORE_BigFloat.h 58141 2010-08-18 13:08:04Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -29,20 +29,21 @@
 #include <CGAL/Interval_traits.h> 
 #include <CGAL/Bigfloat_interval_traits.h> 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ######### Interval_traits 
 
 template<> 
 class Interval_traits<CORE::BigFloat> 
     : public internal::Interval_traits_base<CORE::BigFloat>{
-
-public: 
-    
-    typedef Interval_traits<CORE::BigFloat> Self; 
     typedef CORE::BigFloat Interval;
+public: 
+    typedef Interval_traits<CORE::BigFloat> Self; 
+    typedef CORE::BigFloat Type;
     typedef CORE::BigFloat Bound;
     typedef CGAL::Tag_true Is_interval; 
+    typedef CGAL::Tag_true Is_bigfloat_interval; 
+  
  
     struct Lower :public std::unary_function<Interval,Bound>{
         Bound operator() ( Interval x ) const {   
@@ -137,14 +138,14 @@ public:
    
     struct Hull :public std::binary_function<Interval,Interval,Interval>{
 
-/* for debugging
-        void print_bf(CORE::BigFloat bf, std::string s) const {
-
-            std::cout << s << ".m()=" << bf.m() << ","
-                      << s << ".err()=" << bf.err() << ","
-                      << s << ".exp()=" << bf.exp() << ","
-                      << "td=" << bf << std::endl;
-        }
+      // for debugging
+/*      void print_bf(CORE::BigFloat bf, std::string s) const {
+        
+        std::cout << s << ".m()=" << bf.m() << ","
+                  << s << ".err()=" << bf.err() << ","
+                  << s << ".exp()=" << bf.exp() << ","
+                  << "td=" << bf << std::endl;
+      }
 */
 
         Interval operator() ( Interval x, Interval y ) const {
@@ -190,7 +191,7 @@ public:
                 long shift = ::CORE::bitLength(err.m()) - digits_long + 1 ; 
                 //std::cout << "shift " << shift<< std::endl;
                 long new_err = ((err.m()+err.err()) >> shift).longValue()+1; 
-                err = CORE::BigFloat(0,new_err,0) * CORE::BigFloat::exp2(err.exp()*14+shift);
+                err = CORE::BigFloat(0,new_err,0) * CORE::BigFloat::exp2(err.exp()*CORE::CHUNK_BIT+shift);
             }else{           
                 err = CORE::BigFloat(0,err.m().longValue()+err.err(),err.exp());
             }
@@ -202,8 +203,8 @@ public:
             if(mid.exp() > err.exp()) {
                 long mid_err = mid.err();
                 CORE::BigInt mid_m = mid.m();
-                mid_err = mid_err << (mid.exp()-err.exp())*14;
-                mid_m = mid_m << (mid.exp()-err.exp())*14;
+                mid_err = mid_err << (mid.exp()-err.exp())*CORE::CHUNK_BIT;
+                mid_m = mid_m << (mid.exp()-err.exp())*CORE::CHUNK_BIT;
                 mid = CORE::BigFloat(mid_m,mid_err,err.exp());
                 //print_bf(mid,"corr_mid");
             }
@@ -245,7 +246,8 @@ public:
 // ########### Bigfloat_interval_traits 
 
 
-template<typename BFI> long get_significant_bits(BFI bfi);
+// template<typename BFI> long relative_precision(BFI bfi);
+namespace internal{
 
 CORE::BigFloat 
 inline 
@@ -254,7 +256,7 @@ round(const CORE::BigFloat& x, long rel_prec = CORE::defRelPrec.toLong() ){
 
     // since there is not rel prec defined if Zero_in(x)
     if (x.isZeroIn()) return x; 
-    if (CGAL::get_significant_bits(x) <= rel_prec) return x;
+    // if (CGAL::get_significant_bits(x) <= rel_prec) return x;
    
 // if 1 
 //    CORE::BigFloat xr;
@@ -270,46 +272,70 @@ round(const CORE::BigFloat& x, long rel_prec = CORE::defRelPrec.toLong() ){
     long         err = x.err();
     long         exp = x.exp(); 
    
-    long shift = ::CORE::bitLength(m) - rel_prec - 1;
-    if( shift > 0 ){    Integer new_m   = m >> shift ; 
-        if(err == 0){        xr = BF(new_m,1,0)*BF::exp2(exp*14+shift);
-        }else{        xr = BF(new_m,2,0)*BF::exp2(exp*14+shift);
-        }
+
+//    std::cout <<"(" << m << "+-" <<err << ")*2^"<<(CORE::CHUNK_BIT*exp) << std::endl; 
+//    if (err != 0) 
+//      std::cout <<"current prec: " <<  CGAL::relative_precision(x) << std::endl;
+//    else 
+//      std::cout <<"current prec: " << " SINGLETON " << std::endl;
+//    std::cout <<"desired prec: " << rel_prec << std::endl; 
+//    std::cout <<"bitLength: " << CORE::bitLength(m) << std::endl; 
+//    long shift = ::CORE::bitLength(m) - rel_prec - 1;
+   
+    long shift ;
+    if (err == 0)
+      shift = ::CORE::bitLength(m) - rel_prec - 3;
+    else      
+      shift = CGAL::relative_precision(x) - rel_prec -1; 
+    
+    if( shift > 0 ){    
+      m   >>= shift ; 
+      err >>= shift; 
+      xr = BF(m,err+1,0)*BF::exp2(exp*CORE::CHUNK_BIT+shift);     
     }else{    // noting to do
         xr = x; 
     }
-// endif     
 
-    CGAL_postcondition(CGAL::get_significant_bits(xr) - rel_prec >= 0); 
-    CGAL_postcondition(CGAL::get_significant_bits(xr) - rel_prec <= 32);   
+//    std::cout <<"(" <<m << "+-" <<err+1 << ")*2^"<<(CORE::CHUNK_BIT*exp) << std::endl; 
+//    if (xr.err() != 0) 
+//      std::cout <<"current prec: " <<  CGAL::relative_precision(xr) << std::endl;
+//    else 
+//      std::cout <<"current prec: " << " SINGLETON "<< std::endl;
+//    std::cout <<"desired prec: " << rel_prec << std::endl; 
+    
+// endif     
+    CGAL_postcondition(singleton(xr) || CGAL::relative_precision(xr) - rel_prec >= 0); 
+    CGAL_postcondition(singleton(xr) || CGAL::relative_precision(xr) - rel_prec <= 32);   
     CGAL_postcondition(BF(xr.m()-xr.err(),0,xr.exp()) <= BF(x.m()-x.err(),0,x.exp()));
     CGAL_postcondition(BF(xr.m()+xr.err(),0,xr.exp()) >= BF(x.m()+x.err(),0,x.exp()));
     return xr;     
+}
 }
 
 template<> class Bigfloat_interval_traits<CORE::BigFloat> 
 :public Interval_traits<CORE::BigFloat>
 {
-public:
+
     typedef CORE::BigFloat NT;
     typedef CORE::BigFloat BF;
-
-    typedef Bigfloat_interval_traits<NT> Self;
-
-    // How about retuning 
-    struct Get_significant_bits {
+public:
+  typedef Bigfloat_interval_traits<NT> Self;
+  
+   struct Relative_precision {
         // type for the \c AdaptableUnaryFunction concept.
         typedef NT  argument_type;
         // type for the \c AdaptableUnaryFunction concept.
         typedef long  result_type;
 
-        long operator()( NT x) const {       
-            if(x.err() == 0 ) {            
-                return ::CORE::bitLength(x.m()); 
-            }
-            else {            
-                return ::CORE::bitLength(x.m()) - ::CORE::bitLength(x.err());
-            }  
+        long operator()( NT x) const { 
+          CGAL_precondition(!Singleton()(x));
+          CGAL_precondition(!CGAL::zero_in(x));
+          
+          x = x.abs();
+          NT w = Width()(x);
+          w /= ::CORE::BigFloat(x.m()-x.err(),0,x.exp());    
+          w = w.abs();
+          return -(CORE::ceilLg(w.m()+w.err())+w.exp()*CORE::CHUNK_BIT);
         }
     };
        
@@ -360,7 +386,7 @@ template <> class Algebraic_structure_traits< CORE::BigFloat >
             CGAL_precondition(::CORE::defRelPrec.toLong() > 0);
             CGAL_precondition(x > 0);
             
-            Type a = CGAL::round(x, ::CORE::defRelPrec.toLong()*2);
+            Type a = CGAL::internal::round(x, ::CORE::defRelPrec.toLong()*2);
             CGAL_postcondition(a > 0); 
 
             Type tmp1 = 
@@ -472,24 +498,24 @@ template <> class Real_embeddable_traits< CORE::BigFloat >
                         
             double lb,ub;
            
-            Type x_lower = CGAL::lower(CGAL::round(CGAL::lower(x),52));
-            Type x_upper = CGAL::upper(CGAL::round(CGAL::upper(x),52));
+            Type x_lower = CGAL::lower(CGAL::internal::round(CGAL::lower(x),50));
+            Type x_upper = CGAL::upper(CGAL::internal::round(CGAL::upper(x),50));
             
-            // since matissa has 52 bits only, conversion to double is exact 
+            // since matissa has 50 bits only, conversion to double is exact 
             lb = x_lower.doubleValue();
             CGAL_postcondition(lb == x_lower);
             ub = x_upper.doubleValue();
             CGAL_postcondition(ub == x_upper);             
             
             std::pair<double, double> result(lb,ub);
-            CGAL_postcondition( result.first <=  CORE::Expr(CGAL::lower(x)));
+            CGAL_postcondition( result.first  <=  CORE::Expr(CGAL::lower(x)));
             CGAL_postcondition( result.second >=  CORE::Expr(CGAL::upper(x)));
             return result;      
         }
     };
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 //since types are included by CORE_coercion_traits.h:
 #include <CGAL/CORE_Expr.h>

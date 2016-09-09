@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
-// $Id: Env_divide_and_conquer_2.h 49260 2009-05-09 18:12:12Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
+// $Id: Env_divide_and_conquer_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -27,7 +27,7 @@
 #include <vector>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A class implementing the divide-and-conquer algorithm for computing the
@@ -367,9 +367,8 @@ protected:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h>
 
 #endif
-

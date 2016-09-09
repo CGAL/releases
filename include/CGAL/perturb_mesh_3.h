@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/perturb_mesh_3.h $
-// $Id: perturb_mesh_3.h 53413 2009-12-15 13:19:38Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/perturb_mesh_3.h $
+// $Id: perturb_mesh_3.h 57300 2010-07-02 13:01:58Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -29,13 +29,9 @@
 #include <CGAL/Mesh_3/sliver_criteria.h>
 #include <CGAL/Mesh_3/Sliver_perturber.h>
 #include <CGAL/Mesh_optimization_return_code.h>
+#include <CGAL/Mesh_3/parameters_defaults.h>
 
-CGAL_BEGIN_NAMESPACE
-
-namespace parameters { namespace default_values {
-  const double perturb_sliver_bound = 0.;
-} } // end namespace parameters::default_values
-
+namespace CGAL {
 
 BOOST_PARAMETER_FUNCTION(
   (Mesh_optimization_return_code),
@@ -74,10 +70,10 @@ perturb_mesh_3_impl(C3T3& c3t3,
   // Build perturber
   Perturber perturber(c3t3,domain);
   
-  perturber.add_perturbation(new Sq_radius(40,0.02));
-  perturber.add_perturbation(new Volume(40,0.02));
-  perturber.add_perturbation(new Dihedral_angle(40,0.02));
-  perturber.add_perturbation(new Li_random(100,0.05));
+  perturber.add_perturbation(new Sq_radius(40,0.05));
+  perturber.add_perturbation(new Volume(40,0.05));
+  perturber.add_perturbation(new Dihedral_angle(40,0.05));
+  perturber.add_perturbation(new Li_random(100,0.15));
 
   // Set max time
   perturber.set_time_limit(time_limit);
@@ -91,7 +87,7 @@ perturb_mesh_3_impl(C3T3& c3t3,
   
   
   
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_PERTURB_MESH_3_H

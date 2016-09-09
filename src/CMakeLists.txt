@@ -11,11 +11,17 @@ macro( configure_component DIR COMPONENT )
   endif()
 endmacro()
 
+if(COMMAND unset)
+  # Workaround: WITH_CGAL_Core can have been loaded from an old reference
+  # cache Then remove it from the cache, and re-add it only if CGAL_Core
+  # can be configured.
+  unset(WITH_CGAL_Core CACHE)
+endif()
+
 if(NOT CGAL_NO_CORE)
   configure_component( CGALCore    Core    )
 endif(NOT CGAL_NO_CORE)
 
 configure_component( CGALimageIO ImageIO )
-configure_component( CGALPDB     PDB     )
 configure_component( CGALQt      Qt3     )
 configure_component( CGALQt4     Qt4     )

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/src/CGAL/assertions.cpp $
-// $Id: assertions.cpp 46983 2008-11-21 16:42:02Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/src/CGAL/assertions.cpp $
+// $Id: assertions.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schönherr
@@ -29,7 +29,7 @@
 #include <cstdlib>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace {
 
@@ -218,4 +218,4 @@ set_warning_behaviour(Failure_behaviour eb)
     return result;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

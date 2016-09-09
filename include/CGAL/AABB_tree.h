@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: AABB_tree.h 51966 2009-09-18 12:49:03Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_tree.h $
+// $Id: AABB_tree.h 57383 2010-07-08 07:35:44Z stayeb $
 //
 //
 // Author(s) : Camille Wormser, Pierre Alliez, Stephane Tayeb
@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <iterator>
+#include <boost/optional.hpp>
 #include <CGAL/AABB_node.h>
 #include <CGAL/AABB_search_tree.h>
 

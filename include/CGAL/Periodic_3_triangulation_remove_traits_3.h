@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_remove_traits_3.h $
-// $Id: Periodic_3_triangulation_remove_traits_3.h 49139 2009-05-05 11:38:34Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_remove_traits_3.h $
+// $Id: Periodic_3_triangulation_remove_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Manuel Caroli <Manuel.Caroli@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Periodic_3_offset_3.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template < class Traits_, class Predicate_ >
 class Point_offset_adaptor {
@@ -128,6 +128,6 @@ public:
   PT _pt;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_REMOVE_TRAITS_3_H

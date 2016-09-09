@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
-// $Id: Trapezoidal_decomposition_2_iostream.h 40209 2007-09-05 14:41:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
+// $Id: Trapezoidal_decomposition_2_iostream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -23,7 +23,7 @@
 #include <CGAL/Arr_point_location/Trapezoidal_decomposition_2.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Traits>
 std::ostream& operator<<(
@@ -270,6 +270,6 @@ std::ostream& operator<<(std::ostream &out,const Td_X_trapezoid<Traits>& t)
   return out;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_TRAPEZOIDAL_DECOMPOSITION_2_IOSTREAM_H

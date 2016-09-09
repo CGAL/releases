@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/periodic_3_triangulation_3_io.h $
-// $Id: periodic_3_triangulation_3_io.h 50852 2009-07-27 11:19:44Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/periodic_3_triangulation_3_io.h $
+// $Id: periodic_3_triangulation_3_io.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Manuel Caroli <Manuel.Caroli@sophia.inria.fr>
@@ -135,4 +135,3 @@ Stream& draw_dual_to_off(Stream &os) {
 #endif
 
 #endif //CGAL_PERIODIC_3_TRIANGULATION_3_IO_H
-

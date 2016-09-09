@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Coercion_traits.h $
-// $Id: Coercion_traits.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Coercion_traits.h $
+// $Id: Coercion_traits.h 57390 2010-07-08 10:37:04Z hemmer $
 //
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -40,20 +40,20 @@
 
 #include <CGAL/Polynomial/misc.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal{
 
 // A has less variables than B
 template <typename A, typename B, bool less >
-class  Coercion_traits_for_polynomial_comp_d
+struct Coercion_traits_for_polynomial_comp_d
   :public Coercion_traits_for_polynomial_comp_d< B, A , false >{};
 
 // Polynomial<A> has more variables than B 
 template <typename A, typename B >
-class  Coercion_traits_for_polynomial_comp_d< Polynomial<A>, B , false>{
+struct Coercion_traits_for_polynomial_comp_d< Polynomial<A>, B , false>{
   typedef Coercion_traits<A,B> CT;
-public:
+
     typedef CGAL::Tag_true  Are_explicit_interoperable;
     typedef CGAL::Tag_false Are_implicit_interoperable;
 
@@ -74,14 +74,14 @@ public:
 
 // number of variables is different 
 template <typename A, typename B, int a, int b>
-class  Coercion_traits_for_polynomial_equal_d
+struct Coercion_traits_for_polynomial_equal_d
   :public Coercion_traits_for_polynomial_comp_d <A,B, a < b >{};
 
 // number of variables is equal and at least one.
 template <class A,class B, int d>
-class Coercion_traits_for_polynomial_equal_d<Polynomial<A>, Polynomial<B>, d, d >{
+struct Coercion_traits_for_polynomial_equal_d<Polynomial<A>, Polynomial<B>, d, d >{
     typedef Coercion_traits<A,B> CT;            
-public:
+
     typedef CGAL::Tag_true  Are_explicit_interoperable;
     typedef CGAL::Tag_false Are_implicit_interoperable;
     typedef Polynomial<typename CT::Type> Type;
@@ -102,22 +102,22 @@ public:
 
 // determine number of variables in each polynomial
 template <typename A, typename B>
-class Coercion_traits_for_polynomial
+struct Coercion_traits_for_polynomial
   : public Coercion_traits_for_polynomial_equal_d
    < A , B , Dimension<A>::value, Dimension<B>::value >{};
 
 }// namespace internal 
 
 template <class A,class B>
-class Coercion_traits_for_level< Polynomial<A> , Polynomial<B>, CTL_POLYNOMIAL >
+struct Coercion_traits_for_level< Polynomial<A> , Polynomial<B>, CTL_POLYNOMIAL >
   :public internal::Coercion_traits_for_polynomial< Polynomial<A>, Polynomial<B> >
 {};
 template <class A,class B>
-class Coercion_traits_for_level< Polynomial<A> , B , CTL_POLYNOMIAL >
+struct Coercion_traits_for_level< Polynomial<A> , B , CTL_POLYNOMIAL >
   :public internal::Coercion_traits_for_polynomial< Polynomial<A>, B >
 {};
 template <class A,class B>
-class Coercion_traits_for_level< A , Polynomial<B> , CTL_POLYNOMIAL >
+struct Coercion_traits_for_level< A , Polynomial<B> , CTL_POLYNOMIAL >
   :public internal::Coercion_traits_for_polynomial< A , Polynomial<B> >
 {};
 
@@ -132,9 +132,9 @@ class Coercion_traits_for_level< A , Polynomial<B> , CTL_POLYNOMIAL >
 // class this part should be adapted, using a Polynomial_traits 
 // and the nesting_depth 
 template <class A,class B>
-class Coercion_traits_for_level<Polynomial<A>, Polynomial<B>, CTL_POLYNOMIAL >{
+struct Coercion_traits_for_level<Polynomial<A>, Polynomial<B>, CTL_POLYNOMIAL >{
     typedef Coercion_traits<A,B> CT;            
-public:
+
     typedef CGAL::Tag_true  Are_explicit_interoperable;
     typedef CGAL::Tag_false Are_implicit_interoperable;
     typedef Polynomial<typename CT::Type> Type;
@@ -154,9 +154,9 @@ public:
 };
         
 template <class A,class B>
-class Coercion_traits_for_level<Polynomial<A>,B ,CTL_POLYNOMIAL >{
+struct Coercion_traits_for_level<Polynomial<A>,B ,CTL_POLYNOMIAL >{
     typedef Coercion_traits<A,B> CT;
-public:
+
     typedef CGAL::Tag_true  Are_explicit_interoperable;
     typedef CGAL::Tag_false Are_implicit_interoperable;
 
@@ -175,7 +175,7 @@ public:
     };                                                        
 }; 
 template <class A,class B> 
-class Coercion_traits_for_level<B,Polynomial<A>,CTL_POLYNOMIAL  >
+struct Coercion_traits_for_level<B,Polynomial<A>,CTL_POLYNOMIAL  >
     :public Coercion_traits_for_level<Polynomial<A>,B,CTL_POLYNOMIAL >
 {};
 
@@ -183,6 +183,6 @@ class Coercion_traits_for_level<B,Polynomial<A>,CTL_POLYNOMIAL  >
 
 // COERCION_TRAITS END
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_COERCION_TRAITS_H

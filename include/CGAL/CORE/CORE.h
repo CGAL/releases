@@ -28,8 +28,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/CORE.h $
- * $Id: CORE.h 48277 2009-02-28 10:07:47Z glisse $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/CORE.h $
+ * $Id: CORE.h 53957 2010-02-01 12:55:28Z spion $
  ***************************************************************************/
 
 #ifndef _CORE_CORE_H_
@@ -68,5 +68,3 @@ typedef long machine_long;
 #endif
 
 #endif // _CORE_CORE_H_
-
-

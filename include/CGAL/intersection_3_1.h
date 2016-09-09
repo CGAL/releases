@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_3/include/CGAL/intersection_3_1.h $
-// $Id: intersection_3_1.h 45211 2008-08-29 14:33:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/intersection_3_1.h $
+// $Id: intersection_3_1.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -27,7 +27,7 @@
 #include <CGAL/Object.h>
 #include <CGAL/bbox_intersection_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R>
 Object
@@ -324,7 +324,7 @@ do_intersect(const Iso_cuboid_3<R> &j, const Segment_3<R> &s)
 	return ! CGAL::intersection(s, j).empty();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Intersections_3/intersection_3_1_impl.h>
 

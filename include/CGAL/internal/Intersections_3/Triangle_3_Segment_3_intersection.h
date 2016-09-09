@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/internal/Intersections_3/Triangle_3_Segment_3_intersection.h $
-// $Id: Triangle_3_Segment_3_intersection.h 53496 2009-12-18 15:12:59Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/internal/Intersections_3/Triangle_3_Segment_3_intersection.h $
+// $Id: Triangle_3_Segment_3_intersection.h 57465 2010-07-12 06:34:17Z sloriot $
 //
 //
 // Author(s)     :  Laurent Rineau, Stephane Tayeb
@@ -154,6 +154,8 @@ t3s3_intersection_collinear_aux(const typename K::Point_3& a,
   typename K::Collinear_are_ordered_along_line_3 collinear_ordered =
     k.collinear_are_ordered_along_line_3_object();
 
+  typename K::Equal_3 equals = k.equal_3_object();
+ 
   // possible orders: [p,a,b,q], [p,a,q,b], [a,p,b,q], [a,p,q,b]
   if ( collinear_ordered(p,a,q) )
   {
@@ -161,13 +163,17 @@ t3s3_intersection_collinear_aux(const typename K::Point_3& a,
     if ( collinear_ordered(p,b,q) )
       return make_object(segment(a,b));
     else
-      return make_object(segment(a,q));
+      return equals(a,q)?
+             make_object(a):
+             make_object(segment(a,q));
   }
   else
   {
     // p is after a
     if ( collinear_ordered(p,b,q) )
-      return make_object(segment(p,b));
+      return equals(p,b)?
+             make_object(p):
+             make_object(segment(p,b));
     else
       return make_object(segment(p,q));
   }
@@ -198,13 +204,6 @@ intersection_coplanar(const typename K::Triangle_3 &t,
 
   typename K::Collinear_are_ordered_along_line_3 collinear_ordered =
     k.collinear_are_ordered_along_line_3_object();
-
-  typename K::Construct_line_3 line =
-    k.construct_line_3_object();
-
-  typename K::Construct_segment_3 segment =
-  k.construct_segment_3_object();
-
 
   const Point_3 & p = point_on(s,0);
   const Point_3 & q = point_on(s,1);

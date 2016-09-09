@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/polyhedron_3_to_nef_3.h $
-// $Id: polyhedron_3_to_nef_3.h 39613 2007-07-31 11:41:47Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/polyhedron_3_to_nef_3.h $
+// $Id: polyhedron_3_to_nef_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #define CGAL_NEF_DEBUG 29
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Node, class Object>
 struct Project_vertex_point {
@@ -306,7 +306,6 @@ void polyhedron_3_to_nef_3(Polyhedron_& P, SNC_structure& S)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_NEF_POLYHEDRON_3_TO_NEF_3_H
-

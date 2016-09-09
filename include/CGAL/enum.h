@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 44129 2008-07-12 21:09:38Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/enum.h $
+// $Id: enum.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -29,7 +29,7 @@
 
 // If you add/change one type here, please update Is_a_predicate.h as well.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum  Sign
 {
@@ -115,6 +115,6 @@ T enum_cast(const U& u)
 
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ENUM_H

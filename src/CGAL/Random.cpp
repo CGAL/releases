@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Random_numbers/src/CGAL/Random.cpp $
-// $Id: Random.cpp 47078 2008-11-27 15:32:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Random_numbers/src/CGAL/Random.cpp $
+// $Id: Random.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
@@ -24,7 +24,7 @@
 #include <CGAL/Random.h>
 #include <ctime>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class implementation (continued)
 // ================================
@@ -78,4 +78,4 @@ Random::restore_state( const Random::State& state)
 // ================
 Random  default_random;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL

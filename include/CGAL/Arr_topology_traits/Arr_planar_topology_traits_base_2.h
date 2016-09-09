@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
-// $Id: Arr_planar_topology_traits_base_2.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
+// $Id: Arr_planar_topology_traits_base_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -43,7 +43,7 @@
 #include <CGAL/Sweep_line_2/Arr_vert_decomp_sl_visitor.h>
 #include <CGAL/Arr_point_location/Arr_batched_point_location_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_planar_topology_traits_base_2
  * A base topology-traits class that encapsulates the embedding of 2D
@@ -486,6 +486,6 @@ is_in_face(const Face *f, const Point_2& p, const Vertex *v) const
   return ((n_ray_intersections % 2) != 0);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

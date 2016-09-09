@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_bykat.h $
-// $Id: ch_bykat.h 31312 2006-05-29 09:01:56Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/ch_bykat.h $
+// $Id: ch_bykat.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // same as |convex_hull_2(first,last,result)|. {\sc traits}: 
 // uses |Traits::Point_2|, |Traits::Less_signed_distance_to_line_2|,
@@ -67,9 +67,8 @@ ch_bykat_with_threshold(InputIterator first, InputIterator last,
     return ch_bykat_with_threshold( first, last, result, Kernel());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Convex_hull_2/ch_bykat_impl.h>
 
 #endif // CGAL_CH_BYKAT_H
-

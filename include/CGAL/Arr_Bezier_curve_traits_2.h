@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
-// $Id: Arr_Bezier_curve_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
+// $Id: Arr_Bezier_curve_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // 
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -33,7 +33,7 @@
 #include <CGAL/Arr_geometry_traits/Bezier_cache.h>
 #include <CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A traits class for maintaining an arrangement of Bezier curves with
@@ -76,6 +76,7 @@ public:
   // Category tags:
   typedef Tag_true                               Has_left_category;
   typedef Tag_true                               Has_merge_category;
+  typedef Tag_false                              Has_do_intersect_category;
 
   typedef Arr_oblivious_side_tag                 Arr_left_side_category;
   typedef Arr_oblivious_side_tag                 Arr_bottom_side_category;
@@ -807,6 +808,6 @@ public:
   //@}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

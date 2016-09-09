@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/basic.h $
-// $Id: basic.h 39015 2007-06-10 23:46:47Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/basic.h $
+// $Id: basic.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -49,37 +49,21 @@
 #endif
 
 
-
-#define CGAL_KINETIC_BEGIN_NAMESPACE CGAL_BEGIN_NAMESPACE \
-namespace Kinetic \
-{ \
-
-    #define CGAL_KINETIC_END_NAMESPACE } \
-CGAL_END_NAMESPACE
-
-#define CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE CGAL_KINETIC_BEGIN_NAMESPACE \
-namespace internal \
-{ \
-
-    #define CGAL_KINETIC_END_INTERNAL_NAMESPACE } \
-CGAL_KINETIC_END_NAMESPACE
-
-
 #ifdef CGAL_USE_GMP
 #include <CGAL/Gmpq.h>
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 typedef CGAL::Gmpq Default_field_nt;
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #else
 #include <CGAL/MP_Float.h>
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 typedef CGAL::MP_Float Default_field_nt;
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 
 #include <CGAL/Tools/Log.h>
 

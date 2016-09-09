@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 51444 2009-08-24 15:00:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: function_objects.h 57753 2010-08-03 14:24:59Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -29,7 +29,7 @@
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/predicates/sign_of_determinant.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace HomogeneousKernelFunctors {
 
@@ -647,20 +647,12 @@ namespace HomogeneousKernelFunctors {
 
       return CGAL_NTS sign(dosd);
     }
-  };
 
-  template <typename K>
-  class Compare_squared_distance_2
-  {
-    typedef typename K::Point_2            Point_2;
-    typedef typename K::FT                 FT;
-  public:
-    typedef typename K::Comparison_result  result_type;
-
+    template <class T1, class T2, class T3, class T4>
     result_type
-    operator()(const Point_2& p, const Point_2& q, const FT& d2) const
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
     {
-      return CGAL_NTS compare(squared_distance(p, q), d2);
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
   };
 
@@ -700,24 +692,10 @@ namespace HomogeneousKernelFunctors {
 
       return CGAL_NTS sign(dosd);
     }
-  };
 
-  template <typename K>
-  class Compare_squared_distance_3
-  {
-    typedef typename K::Point_3            Point_3;
-    typedef typename K::FT                 FT;
-  public:
-    typedef typename K::Comparison_result  result_type;
-
+    template <class T1, class T2, class T3, class T4>
     result_type
-    operator()(const Point_3& p, const Point_3& q, const FT& d2) const
-    {
-      return CGAL_NTS compare(squared_distance(p, q), d2);
-    }
-
-    result_type
-    operator()(const Point_3& p, const Point_3& q, const Point_3& r, const Point_3& s) const
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
     {
       return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
@@ -4482,8 +4460,6 @@ namespace HomogeneousKernelFunctors {
       const RT& thy = t.hy();
       const RT& thw = t.hw();
 
-      CGAL_kernel_precondition( ! collinear(q,r,s) );
-
       // compute sign of      |qx  qy  qx^2+qy^2  1 |   | a b c d |
       //                      |      --  r  --      | = | e f g h |
       //     determinant      |      --  s  --      | = | i j k l |
@@ -4531,7 +4507,7 @@ namespace HomogeneousKernelFunctors {
 	        const Point_3& s, const Point_3& t) const
     {
       typedef typename K::RT RT;
-      CGAL_kernel_precondition( !coplanar(p,q,r,s) );
+
       const RT & phx = p.hx();
       const RT & phy = p.hy();
       const RT & phz = p.hz();
@@ -4574,6 +4550,6 @@ namespace HomogeneousKernelFunctors {
 
 } // namespace HomogeneousKernelFunctors
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_FUNCTION_OBJECTS_H

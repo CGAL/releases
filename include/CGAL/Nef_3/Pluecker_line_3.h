@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h $
-// $Id: Pluecker_line_3.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h $
+// $Id: Pluecker_line_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 61
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Manpage{Pluecker_line_3}{R}{Straight lines in 3-space}{pl}}*/  
 
@@ -351,6 +351,5 @@ struct Pluecker_line_lt {
   { return CGAL::Pluecker_line_3<Tag,R>::cmp(l1,l2)<0; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_PLUECKER_LINE_3_H
-

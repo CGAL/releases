@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2.cpp $
-// $Id: boolean_operations_2.cpp 50989 2009-07-31 00:18:31Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2.cpp $
+// $Id: boolean_operations_2.cpp 57467 2010-07-12 10:02:56Z glisse $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -160,7 +160,7 @@ void Qt_layer_show_ch::draw()
   widget->get_painter().setRasterOp(old_rasterop);
   widget->setFilled (false);
   widget->unlock(); // widget have to be unlocked when finished drawing
-};
+}
 
 /* The QMainWindow class provides a main application window,
  *  with a menu bar, dock windows (e.g. for toolbars), and a status bar
@@ -419,10 +419,10 @@ MyWindow::MyWindow(int w, int h) :
   red_set.clear();
   blue_set.clear();
   res_set.clear();
-};
+}
 
 
-void MyWindow::something_changed(){current_state++;};
+void MyWindow::something_changed(){current_state++;}
 /*not necessary if rado toggle is not const
   void change_grp_color(int color) {
   if (color == 1)
@@ -512,7 +512,7 @@ void MyWindow::open_dxf_file()
     return;
   file_name=s;
 
-  std::ifstream in_file(s);
+  std::ifstream in_file(s.ascii());
   if (!in_file.is_open())
     {
       QMessageBox::warning( widget,"Open","Can't open file");
@@ -606,7 +606,7 @@ void MyWindow::open_linear_polygon_file()
     return;
   file_name=s;
 
-  std::ifstream in_file(s);
+  std::ifstream in_file(s.ascii());
   if (!in_file.is_open())
     {
       QMessageBox::warning( widget,"Open","Can't open file");

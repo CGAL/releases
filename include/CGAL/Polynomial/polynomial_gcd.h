@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
-// $Id: polynomial_gcd.h 55605 2010-04-21 10:05:02Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
+// $Id: polynomial_gcd.h 55928 2010-05-05 15:19:28Z hemmer $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -212,7 +212,6 @@ gcd_utcf_modularizable_algebra_(
         ::CGAL::Tag_true, 
         Integral_domain_tag tag){
     return modular_gcd_utcf(p1, p2, tag);
-//    return modular_gcd_utcf_with_wang(p1, p2);
 }
 template <class NT> Polynomial<NT> inline
 gcd_utcf_modularizable_algebra_( 
@@ -479,11 +478,11 @@ Polynomial<NT> pseudo_gcdex(
     // handle trivial cases
     if (x.is_zero()) {
         if (y.is_zero()) CGAL_error_msg("gcdex(0,0) is undefined");
-        xf = NT(0); yf = NT(1); vf = y.unit_part();
+        xf = POLY(0); yf = POLY(1); vf = y.unit_part();
         return y / vf;
     }
     if (y.is_zero()) {
-        xf = NT(1); yf = NT(0); vf = x.unit_part();
+        xf = POLY(1); yf = POLY(0); vf = x.unit_part();
         return x / vf;
     }
     bool swapped = x.degree() < y.degree();

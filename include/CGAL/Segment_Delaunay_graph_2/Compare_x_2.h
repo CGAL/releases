@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Compare_x_2.h $
-// $Id: Compare_x_2.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Compare_x_2.h $
+// $Id: Compare_x_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -23,9 +23,9 @@
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 //-----------------------------------------------------------------------
 //                           compare x
@@ -45,6 +45,13 @@ private:
 
 public:
 
+  inline
+  result_type operator()(const Point_2& p, const Point_2& q) const
+  {
+    return Kernel_compare_x_2()( p, q );
+  }
+
+  inline
   result_type operator()(const Site_2& p, const Site_2& q) const
   {
     CGAL_precondition( p.is_point() && q.is_point() );
@@ -52,9 +59,9 @@ public:
   }
 };
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif //  CGAL_SEGMENT_DELAUNAY_GRAPH_2_COMPARE_X_2_H

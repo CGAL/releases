@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Line_arc_3.h $
-// $Id: Line_arc_3.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Line_arc_3.h $
+// $Id: Line_arc_3.h 56265 2010-05-16 16:50:24Z lrineau $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -145,17 +145,17 @@ namespace CGAL {
 
       const Line_3& supporting_line() const 
       {
-        return get(base).get<0>();
+        return get(base).template get<0>();
       }
 
       const Circular_arc_point_3& source() const 
       {
-        return get(base).get<1>();
+        return get(base).template get<1>();
       }
 
       const Circular_arc_point_3& target() const 
       {
-        return get(base).get<2>();
+        return get(base).template get<2>();
       }
 
       const Circular_arc_point_3& lower_xyz_extremity() const

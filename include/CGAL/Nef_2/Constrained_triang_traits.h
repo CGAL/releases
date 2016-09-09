@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
-// $Id: Constrained_triang_traits.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
+// $Id: Constrained_triang_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -36,7 +36,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Do_nothing {
 Do_nothing() {}
@@ -71,11 +71,29 @@ public:
   typedef typename Base::Halfedge_around_vertex_circulator
           Halfedge_around_vertex_circulator;
 
+
+  using Base::point;
+  using Base::is_isolated;
+  using Base::first_out_edge;
+  using Base::last_out_edge;
+  using Base::source;
+  using Base::target;
+  using Base::twin;
+  using Base::next;
+  using Base::previous;
+  using Base::cyclic_adj_succ;
+  using Base::cyclic_adj_pred;
+  using Base::delete_vertex;
+  using Base::make_first_out_edge;
+
   class lt_edges_in_sweepline : public PMDEC
   {  const Point& p;
      const Halfedge_handle& e_bottom;
      const Halfedge_handle& e_top;
      const GEOMETRY& K;
+    using PMDEC::point;
+    using PMDEC::source;
+    using PMDEC::target;
   public:
   lt_edges_in_sweepline(const Point& pi, 
      const Halfedge_handle& e1, const Halfedge_handle& e2, 
@@ -114,6 +132,8 @@ public:
   class lt_pnts_xy : public PMDEC
   { const GEOMETRY& K;
   public:
+    using PMDEC::point;
+
    lt_pnts_xy(const PMDEC& D, const GEOMETRY& k) : PMDEC(D), K(k) {}
    lt_pnts_xy(const lt_pnts_xy& lt) : PMDEC(lt), K(lt.K) {}
    int operator()(const Vertex_handle& v1, const Vertex_handle& v2) const
@@ -403,11 +423,10 @@ public:
 
 }; // Constrained_triang_traits<PMDEC,GEOM,NEWEDGE>
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)
 #endif
 
 #endif // CGAL_PM_CONSTR_TRIANG_TRAITS_H
-

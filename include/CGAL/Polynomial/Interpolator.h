@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Interpolator.h $
-// $Id: Interpolator.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Interpolator.h $
+// $Id: Interpolator.h 56960 2010-06-22 09:26:00Z afabri $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -20,7 +20,7 @@
 #ifndef CGAL_POLYNOMIAL_INTERPOLATE_H
 #define CGAL_POLYNOMIAL_INTERPOLATE_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 namespace internal {
 
 // Class for interpolation of univariate or multivariate polynomials. 
@@ -104,7 +104,7 @@ public:
     yvals.push_back(point.second);
         
     Coeff num, den;
-    int k = xvals.size() - 1; 
+    int k = static_cast<int>(xvals.size()) - 1; 
     if(k == 0){
       b.push_back(yvals[0]);
     }else{
@@ -122,13 +122,13 @@ public:
     if (xvals.size() == 0) return Polynomial_d(0);
     // TODO: compute new interpolant from old interpolant ?
     if(!valid)
-      interpolant = eval_newton_poly(xvals.size()-1);
+      interpolant = eval_newton_poly(static_cast<int>(xvals.size())-1);
     return interpolant; 
   }
     
 };
 
 } // namespace internal
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_INTERPOLATE_H 

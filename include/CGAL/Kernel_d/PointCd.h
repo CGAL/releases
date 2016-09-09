@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/PointCd.h $
-// $Id: PointCd.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/PointCd.h $
+// $Id: PointCd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel
@@ -27,7 +27,7 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Kernel_d/Tuple_d.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointCd PointCd2
 
 template <class FT, class LA> class PointCd;
@@ -182,7 +182,6 @@ FT z()  const { return cartesian(2); }
 }; // PointCd
 
 #undef PointCd
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POINTCDXXX_H 
 //----------------------- end of file ----------------------------------
-

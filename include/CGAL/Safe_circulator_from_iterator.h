@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circulator/include/CGAL/Safe_circulator_from_iterator.h $
-// $Id: Safe_circulator_from_iterator.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circulator/include/CGAL/Safe_circulator_from_iterator.h $
+// $Id: Safe_circulator_from_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -31,7 +31,7 @@
 
 #include "boost/optional.hpp"
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // Note: Tt, Ss, and Dd are here for backwards compatibility, they are
@@ -210,7 +210,7 @@ operator+( D n, const
     return tmp += Dist(n);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULATOR_H //
 // EOF //

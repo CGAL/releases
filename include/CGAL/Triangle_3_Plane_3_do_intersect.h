@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/Triangle_3_Plane_3_do_intersect.h $
-// $Id: Triangle_3_Plane_3_do_intersect.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/Triangle_3_Plane_3_do_intersect.h $
+// $Id: Triangle_3_Plane_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -21,7 +21,7 @@
 #ifndef CGAL_TRIANGLE_3_PLANE_3_DO_INTERSECT_H
 #define CGAL_TRIANGLE_3_PLANE_3_DO_INTERSECT_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -97,6 +97,6 @@ inline bool do_intersect(const Plane_3<K>    &h,
 */
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_TRIANGLE_3_PLANE_3_DO_INTERSECT_H

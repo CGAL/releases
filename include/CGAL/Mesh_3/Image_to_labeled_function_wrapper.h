@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
-// $Id: Image_to_labeled_function_wrapper.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
+// $Id: Image_to_labeled_function_wrapper.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -56,12 +56,12 @@ public:
 
   /// Constructor
   Image_to_labeled_function_wrapper(const Image_& image)
-    : r_im_(image) { };
+    : r_im_(image) {}
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Image_to_labeled_function_wrapper() { };
+  ~Image_to_labeled_function_wrapper() {}
 
   /**
    * Returns an int corresponding to the label at point \c p

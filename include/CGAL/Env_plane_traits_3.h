@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
-// $Id: Env_plane_traits_3.h 51989 2009-09-21 10:55:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
+// $Id: Env_plane_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -29,7 +29,7 @@
 #include <CGAL/Envelope_3/Envelope_base.h>
 #include <CGAL/Envelope_3/Env_plane_traits_3_functions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Kernel_>
 class Env_plane_traits_3 : public Arr_linear_traits_2<Kernel_>
@@ -484,6 +484,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

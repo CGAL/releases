@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
-// $Id: SM_decorator.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
+// $Id: SM_decorator.h 57135 2010-06-28 08:28:04Z afabri $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -35,7 +35,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/IO/Verbose_ostream.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions print_title=yes }*/ 
 /*{\Moptions outfile=SM_decorator.man }*/
@@ -622,7 +622,7 @@ SHalfedge_handle new_shalfedge_pair_at_source
   return e1;
 }
 
-void delete_edge_pair_at_source(SHalfedge_handle e) const
+void delete_edge_pair_at_source(SHalfedge_handle e)
 /*{\Mop deletes |e| and its twin and maintains the adjacency at its 
   source.}*/
 { remove_from_adj_list_at_source(e);
@@ -826,8 +826,8 @@ bool is_valid( Unique_hash_map<SVertex_handle,bool>& sv_hash,
     
   bool valid = true;
 
-  int count = 0;
-  int max = 2 * number_of_svertices() 
+  std::size_t count = 0;
+  std::size_t max = 2 * number_of_svertices() 
     + 2 * number_of_shalfedges()
     + number_of_sfaces()
     + 2;
@@ -958,7 +958,5 @@ void check_integrity_and_topological_planarity(bool faces=true) const {
 }; // SM_decorator
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SM_DECORATOR_H
-
-

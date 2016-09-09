@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 39470 2007-07-23 14:54:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
+// $Id: natural_neighbor_coordinates_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Raphaelle Chaine
@@ -24,7 +24,7 @@
 
 #include <iostream> //TO DO : to remove
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ====================== Geometric Traits utilities =========================================
 // === Declarations
@@ -367,6 +367,6 @@ construct_circumcenter(const typename DT::Facet &f,const typename DT::Geom_trait
      Q); 
 }
  
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NATURAL_NEIGHBORS_3_H

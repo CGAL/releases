@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
-// $Id: surface_neighbors_3.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
+// $Id: surface_neighbors_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -29,7 +29,7 @@
 // the function object Project_vertex_iterator_to_point
 #include <CGAL/surface_neighbor_coordinates_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //without Delaunay filtering
 template <class OutputIterator, class InputIterator, class Kernel>
@@ -261,6 +261,6 @@ surface_neighbors_3(const Dt& dt,
 			     p, out, traits);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SURFACE_NEIGHBORS_3_H

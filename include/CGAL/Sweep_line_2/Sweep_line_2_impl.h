@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_impl.h $
-// $Id: Sweep_line_2_impl.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_impl.h $
+// $Id: Sweep_line_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -26,7 +26,7 @@
  * Member-function definitions of the Sweep_line_2 class-template.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Initialize the data structures for the sweep-line algorithm.
@@ -567,8 +567,8 @@ _create_intersection_point (const Point_2& xp,
 {
   // insert the event and check if an event at this point already exists.   
   const std::pair<Event*, bool>& pair_res = 
-    _push_event (xp, Base_event::DEFAULT,
-                 ARR_INTERIOR, ARR_INTERIOR);
+    this->_push_event (xp, Base_event::DEFAULT,
+                       ARR_INTERIOR, ARR_INTERIOR);
     
   Event *e = pair_res.first;
   if(pair_res.second)    
@@ -757,7 +757,7 @@ void Sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::_handle_overlap
       this->m_traits->construct_max_vertex_2_object()(overlap_cv);
 
     const std::pair<Event*, bool>& pair_res =
-      _push_event (end_overlap, Base_event::OVERLAP, ps_x_r, ps_y_r);
+      this->_push_event (end_overlap, Base_event::OVERLAP, ps_x_r, ps_y_r);
 
     right_end = pair_res.first;
   }
@@ -889,6 +889,6 @@ _fix_finished_overlap_subcurve (Subcurve* sc)
   _fix_finished_overlap_subcurve(orig_sc_2);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

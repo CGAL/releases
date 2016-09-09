@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 49877 2009-06-11 08:38:15Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
+// $Id: Fixed_border_parameterizer_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -32,7 +32,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // ------------------------------------------------------------------------------------
@@ -133,6 +133,11 @@ private:
     // SparseLinearAlgebraTraits_d subtypes:
     typedef typename Sparse_LA::Vector      Vector;
     typedef typename Sparse_LA::Matrix      Matrix;
+
+protected:
+    // Using statements needed for derived class
+    using Base::compute_angle_rad;
+    using Base::cotangent;
 
 // Public operations
 public:
@@ -617,7 +622,6 @@ is_one_to_one_mapping(const Adaptor& mesh,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_FIXED_BORDER_PARAMETERIZER_3_H
-

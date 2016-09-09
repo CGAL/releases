@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h 46265 2008-10-14 10:43:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,7 +24,7 @@
 
 #include <CGAL/Parabola_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Qt {
   template <typename K> class PainterOstream;
@@ -39,6 +39,9 @@ class Parabola_segment_2 : public Parabola_2< Gt >
   typedef typename Base::Point_2          Point_2;
   typedef typename Base::Segment_2        Segment_2;
   typedef typename Base::Line_2           Line_2;
+
+  using Base::t;
+  using Base::f;
 
 protected:
   Point_2 p1, p2;
@@ -169,6 +172,6 @@ Stream& operator<<(Stream &s, const Parabola_segment_2<Gt> &P)
   return s;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PARABOLA_SEGMENT_2_H

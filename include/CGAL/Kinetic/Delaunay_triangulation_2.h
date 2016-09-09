@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 49231 2009-05-08 09:24:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -34,7 +34,7 @@
 #include <CGAL/Kinetic/Event_base.h>
 #include <CGAL/Kinetic/Delaunay_triangulation_default_traits_2.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 //#ifdef NDEBUG
 #define CGAL_DELAUNAY_2_DEBUG(x)
 /*#else
@@ -152,7 +152,7 @@ public:
   typedef typename CGAL::Kinetic::Active_objects_batch_listener_helper<typename Moving_point_table::Listener, This> Moving_point_table_listener;
   friend class CGAL::Kinetic::Active_objects_batch_listener_helper<typename Moving_point_table::Listener, This>;*/
   CGAL_KINETIC_DECLARE_BATCH_LISTENERS(typename Simulator,
-				       typename Moving_point_table);
+				       typename Moving_point_table)
 
   /*struct Compare_edges{
     bool operator()(const Edge &a, const Edge &b) const {
@@ -1174,5 +1174,5 @@ void Delaunay_triangulation_2<Sim, Del, W, T>::audit() const
 
   }
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

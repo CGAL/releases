@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/normal_vector_newell_3.h $
-// $Id: normal_vector_newell_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/normal_vector_newell_3.h $
+// $Id: normal_vector_newell_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #define CGAL_NEF_DEBUG 79
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Handle, class Vector>
 CGAL_MEDIUM_INLINE
@@ -89,6 +89,6 @@ void normal_vector_newell_3( IC first, IC last, Vector& n )
     CGAL_NEF_TRACEN("newell normal vector "<<n);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NORMAL_VECTOR_NEWELL_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
-// $Id: Min_sphere_d.h 41418 2008-01-03 14:50:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
+// $Id: Min_sphere_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
@@ -41,7 +41,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class Traits>
@@ -452,11 +452,10 @@ template < class Traits >
 std::istream&
 operator >> ( std::istream& is, Min_sphere_d<Traits> & ms);
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Min_sphere_d/Min_sphere_d_impl.h>
 
 #endif // CGAL_MIN_SPHERE_D_H
 
 // ===== EOF ==================================================================
-

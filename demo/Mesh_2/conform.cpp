@@ -12,31 +12,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/demo/Mesh_2/conform.cpp $
-// $Id: conform.cpp 45454 2008-09-09 21:42:42Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/demo/Mesh_2/conform.cpp $
+// $Id: conform.cpp 56242 2010-05-14 13:58:58Z afabri $
 //
 //
 // Author(s)     : Laurent Rineau
-
-#include <CGAL/basic.h>
-
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 
-#include <CGAL/Simple_cartesian.h>
-#include <CGAL/Filtered_kernel.h>
-
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
-
 #include <CGAL/Triangulation_conformer_2.h>
 #include <CGAL/IO/File_poly.h>
 
-typedef CGAL::Simple_cartesian<double> K1;
-typedef CGAL::Filtered_kernel<K1> K2;
-struct K : public K2 {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Triangulation_vertex_base_2<K> Vb;
 typedef CGAL::Constrained_triangulation_face_base_2<K> Fb;
@@ -97,7 +89,7 @@ int main(int argc, char** argv)
     {
       usage(argv);
       return 1;
-    };
+    }
   std::ifstream input(argv[arg_count]);
   if(input)
     {
@@ -140,5 +132,5 @@ int main(int argc, char** argv)
       return 1;
     }
   return 0;
-};
+}
 

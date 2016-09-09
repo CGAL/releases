@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Weighted_point.h $
-// $Id: Weighted_point.h 53693 2010-01-20 15:15:09Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Weighted_point.h $
+// $Id: Weighted_point.h 53691 2010-01-20 15:12:13Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec

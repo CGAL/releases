@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h $
-// $Id: Constraint_hierarchy_2.h 53428 2009-12-15 16:41:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h $
+// $Id: Constraint_hierarchy_2.h 56918 2010-06-21 13:19:03Z afabri $
 // 
 //
 // Author(s)     : Olivier Billet, Mariette Yvinec
@@ -27,7 +27,7 @@
 #include <CGAL/Iterator_project.h>
 #include <CGAL/triangulation_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // T               is expected to be Vertex_handle
 // Data            is intended to store info on a Vertex
@@ -44,6 +44,19 @@ public:
   typedef typename std::list<T>::iterator               H_vertex_it;
   typedef typename std::list<H_constraint>::iterator    H_constraint_it;
 
+  struct Pair_compare {
+    bool operator()(const H_edge& e1, const H_edge& e2) const {
+      if(e1.first->point() < e2.first->point()) {
+        return true;
+      } else if(e1.first->point() == e2.first->point() && 
+                e1.second->point() < e2.second->point()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   class H_context {
     friend class Constraint_hierarchy_2<T,Data>;
   private:
@@ -53,14 +66,16 @@ public:
     H_vertex_it    vertices_begin() { return enclosing->begin();}
     H_vertex_it    current() {return pos;}
     H_vertex_it    vertices_end() {return enclosing->end();}
-    int number_of_vertices() {return enclosing->size();}
+    std::size_t number_of_vertices() {return enclosing->size();}
   };                                           
   typedef std::list<H_context>                 H_context_list;
   typedef typename std::list<H_context>::iterator       H_context_iterator;
 
   typedef std::map<T, Data>                             H_vertex_map;
-  typedef std::map<H_constraint, H_vertex_list*>        H_c_to_sc_map;
-  typedef std::map<H_edge,   H_context_list* >          H_sc_to_c_map;
+  typedef std::map<H_constraint, H_vertex_list*, 
+                   Pair_compare>                        H_c_to_sc_map;
+  typedef std::map<H_edge,   H_context_list*, 
+                   Pair_compare >                       H_sc_to_c_map;
 
   typedef typename H_c_to_sc_map::const_iterator        H_c_iterator;
   typedef typename H_sc_to_c_map::const_iterator        H_sc_iterator;
@@ -99,11 +114,11 @@ public:
   void oriented_end(T va, T vb, T& vc) const;
 
   H_context context(T va, T vb);
-  int number_of_enclosing_constraints(T va, T vb);
+  std::size_t number_of_enclosing_constraints(T va, T vb);
   H_context_iterator contexts_begin(T va, T vb);
   H_context_iterator contexts_end(T va, T vb);
-  int number_of_constraints() { return c_to_sc_map.size();}
-  int number_of_subconstraints() {return sc_to_c_map.size();}
+  std::size_t number_of_constraints() { return c_to_sc_map.size();}
+  std::size_t number_of_subconstraints() {return sc_to_c_map.size();}
   
 
   // insert/remove
@@ -323,7 +338,7 @@ context(T va, T vb)
 }
 
 template <class T, class Data>
-int 
+std::size_t 
 Constraint_hierarchy_2<T,Data>::
 number_of_enclosing_constraints(T va, T vb)
 {
@@ -625,7 +640,7 @@ typename Constraint_hierarchy_2<T,Data>::H_edge
 Constraint_hierarchy_2<T,Data>::
 make_edge(T va, T vb) const
 {
-   return (va<vb) ? H_edge(va,vb) : H_edge(vb,va);
+  return (va->point()<vb->point()) ? H_edge(va,vb) : H_edge(vb,va);
 }
 
 template <class T, class Data>
@@ -739,5 +754,5 @@ print() const
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CONSTRAINT_HIERARCHY_2_H

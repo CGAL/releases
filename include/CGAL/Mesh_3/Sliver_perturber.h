@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
-// $Id: Sliver_perturber.h 56551 2010-06-03 09:11:44Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
+// $Id: Sliver_perturber.h 57304 2010-07-02 14:51:18Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -41,6 +41,7 @@
 #include <CGAL/Mesh_3/C3T3_helpers.h>
 #include <CGAL/Mesh_optimization_return_code.h>
 #include <CGAL/Timer.h>
+#include <CGAL/Mesh_3/Null_perturber_visitor.h>
 
 #include <boost/pending/relaxed_heap.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -48,11 +49,14 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3 {
   
-template <typename C3T3, typename MeshDomain, typename SliverCriterion>
+template < typename C3T3,
+           typename MeshDomain,
+           typename SliverCriterion,
+           typename Visitor_ = Null_perturber_visitor<C3T3> >
 class Sliver_perturber
 {
   typedef typename C3T3::Triangulation  Tr;
@@ -73,9 +77,116 @@ class Sliver_perturber
   // Helper
   typedef class C3T3_helpers<C3T3,MeshDomain> C3T3_helpers;
   
+  // Visitor
+  // Should define
+  //  - bound_reached(FT bound)
+  //  - end_of_perturbation_iteration(std::size_t vertices_left)
+  typedef Visitor_ Visitor;
+  
+private:
   // Relaxed heap
-  class PVertex;
-  class PVertex_id;
+  // -----------------------------------
+  // Private classes
+  // -----------------------------------
+  /**
+   * @class PVertex
+   * Vertex with associated perturbation datas
+   */
+  class PVertex
+  {
+  public:
+    typedef unsigned int id_type;
+    
+    /// Constructor
+    PVertex(const Vertex_handle& vh, id_type id)
+    : vertex_handle_(vh)
+    , incident_sliver_nb_(0)
+    , min_value_(SliverCriterion::max_value)
+    , try_nb_(0)
+    , p_perturbation_(NULL)
+    , id_(id) { }
+    
+    /// Associated vertex
+    const Vertex_handle& vertex() const { return vertex_handle_; }
+    void set_vertex(const Vertex_handle& vh) { vertex_handle_ = vh; }
+    
+    /// Incident slivers number
+    unsigned int sliver_nb() const { return incident_sliver_nb_; }
+    void set_sliver_nb(const unsigned int n) { incident_sliver_nb_ = n; }
+    
+    /// Current perturbation
+    const Perturbation* perturbation() const { return p_perturbation_; }
+    void set_perturbation(const Perturbation* p) { p_perturbation_ = p; }
+    
+    /// Is perturbable
+    bool is_perturbable() const
+    {
+      return ( (NULL != perturbation()) && (sliver_nb() != 0) );
+    }
+    
+    /// Min sliver value
+    const FT& min_value() const { return min_value_; }
+    void set_min_value(const FT& min_value) { min_value_ = min_value; }
+    
+    /// Try nb
+    const unsigned int& try_nb() const { return try_nb_; }
+    void set_try_nb(const unsigned int& try_nb) { try_nb_ = try_nb; }
+    void increment_try_nb() { ++try_nb_; }
+    
+    /// Id
+    id_type id() const { return id_; }
+    
+    /// Operators
+    bool operator==(const PVertex& pv) const { return ( id() == pv.id() ); }
+    
+    bool operator<(const PVertex& pv) const
+    { 
+      // vertex type (smallest-interior first)
+      if ( vertex()->in_dimension() != pv.vertex()->in_dimension() )
+        return vertex()->in_dimension() > pv.vertex()->in_dimension();
+      // nb incident slivers (smallest first)
+      else if ( sliver_nb() != pv.sliver_nb() )
+        return sliver_nb() < pv.sliver_nb();
+      // min angle (smallest first)      
+      else if ( min_value() != pv.min_value() )
+        return min_value() < pv.min_value();
+      // try nb (smallest first)
+      else if ( try_nb() != pv.try_nb() )
+        return try_nb() < pv.try_nb();
+      // perturbation type (smallest first)
+      else if ( perturbation() != pv.perturbation() )
+        return *perturbation() < *pv.perturbation();
+      else
+        return true; // all characteristics are the same!
+    }
+    
+  private:
+    /// Private datas
+    Vertex_handle vertex_handle_;
+    unsigned int incident_sliver_nb_;
+    FT min_value_;
+    unsigned int try_nb_;
+    const Perturbation* p_perturbation_;
+    id_type id_;
+  };
+  
+  
+  /**
+   * @class PVertex_id
+   * relaxed heap
+   */
+  class PVertex_id : 
+  public boost::put_get_helper<typename PVertex::id_type, PVertex_id>
+  {
+  public:
+    typedef boost::readable_property_map_tag category;
+    typedef typename PVertex::id_type value_type;
+    typedef typename PVertex::id_type reference;
+    typedef PVertex key_type;
+    
+    value_type operator[] (const key_type& pv) const { return pv.id(); }
+  };
+  
   typedef std::less<PVertex> less_PVertex;
   typedef boost::relaxed_heap<PVertex, less_PVertex, PVertex_id> PQueue; 
   
@@ -85,7 +196,7 @@ public:
    */
   Sliver_perturber(C3T3& c3t3,
                    const MeshDomain& domain,
-                   const SliverCriterion& criterion = SliverCriterion() );
+                   const SliverCriterion& criterion = SliverCriterion());
   
   /**
    * @brief Launch perturbation
@@ -98,7 +209,8 @@ public:
    */
   Mesh_optimization_return_code
   operator()(const FT& sliver_bound = SliverCriterion::max_value,
-             const FT& delta = FT(1.));
+             const FT& delta = FT(1.),
+             Visitor visitor = Visitor());
   
   /**
    * Adds a perturbation at the end of the perturbation queue
@@ -117,7 +229,7 @@ private:
   /**
    * One step perturbation: tries to achieve sliver_bound quality in the mesh
    */
-  bool perturb(const FT& sliver_bound, PQueue& pqueue) const;  
+  bool perturb(const FT& sliver_bound, PQueue& pqueue, Visitor& v) const;  
   
   /**
    * Builds priority queue. It will contain all vertices that have quality below
@@ -190,112 +302,6 @@ private:
   
 private:
   // -----------------------------------
-  // Private classes
-  // -----------------------------------
-  /**
-   * @class PVertex
-   *
-   * Vertex with associated perturbation datas
-   */
-  class PVertex
-  {
-  public:
-    typedef unsigned int id_type;
-    
-    /// Constructor
-    PVertex(const Vertex_handle& vh, id_type id)
-      : vertex_handle_(vh)
-      , incident_sliver_nb_(0)
-      , min_value_(SliverCriterion::max_value)
-      , try_nb_(0)
-      , p_perturbation_(NULL)
-      , id_(id) { }
-    
-    /// Associated vertex
-    const Vertex_handle& vertex() const { return vertex_handle_; }
-    void set_vertex(const Vertex_handle& vh) { vertex_handle_ = vh; }
-    
-    /// Incident slivers number
-    unsigned int sliver_nb() const { return incident_sliver_nb_; }
-    void set_sliver_nb(const unsigned int n) { incident_sliver_nb_ = n; }
-    
-    /// Current perturbation
-    const Perturbation* perturbation() const { return p_perturbation_; }
-    void set_perturbation(const Perturbation* p) { p_perturbation_ = p; }
-    
-    /// Is perturbable
-    bool is_perturbable() const
-    {
-      return ( (NULL != perturbation()) && (sliver_nb() != 0) );
-    }
-    
-    /// Min sliver value
-    const FT& min_value() const { return min_value_; }
-    void set_min_value(const FT& min_value) { min_value_ = min_value; }
-    
-    /// Try nb
-    const unsigned int& try_nb() const { return try_nb_; }
-    void set_try_nb(const unsigned int& try_nb) { try_nb_ = try_nb; }
-    void increment_try_nb() { ++try_nb_; }
-    
-    /// Id
-    id_type id() const { return id_; }
-    
-    /// Operators
-    bool operator==(const PVertex& pv) const { return ( id() == pv.id() ); }
-    
-    bool operator<(const PVertex& pv) const
-    { 
-      // vertex type (smallest-interior first)
-      if ( vertex()->in_dimension() != pv.vertex()->in_dimension() )
-        return vertex()->in_dimension() > pv.vertex()->in_dimension();
-      // nb incident slivers (smallest first)
-      else if ( sliver_nb() != pv.sliver_nb() )
-        return sliver_nb() < pv.sliver_nb();
-      // min angle (smallest first)      
-      else if ( min_value() != pv.min_value() )
-        return min_value() < pv.min_value();
-      // try nb (smallest first)
-      else if ( try_nb() != pv.try_nb() )
-        return try_nb() < pv.try_nb();
-      // perturbation type (smallest first)
-      else if ( perturbation() != pv.perturbation() )
-        return *perturbation() < *pv.perturbation();
-      else
-        return true; // all characteristics are the same!
-    }
-    
-  private:
-    /// Private datas
-    Vertex_handle vertex_handle_;
-    unsigned int incident_sliver_nb_;
-    FT min_value_;
-    unsigned int try_nb_;
-    const Perturbation* p_perturbation_;
-    id_type id_;
-  };
-  
-  
-  /**
-   * @class PVertex_id
-   *
-   * relaxed heap
-   */
-  class PVertex_id : 
-  public boost::put_get_helper<typename PVertex::id_type, PVertex_id>
-  {
-  public:
-    typedef boost::readable_property_map_tag category;
-    typedef typename PVertex::id_type value_type;
-    typedef typename PVertex::id_type reference;
-    typedef PVertex key_type;
-    
-    value_type operator[] (const key_type& pv) const { return pv.id(); }
-  };
-  
-  
-private:
-  // -----------------------------------
   // Private data
   // -----------------------------------
   C3T3& c3t3_;
@@ -320,8 +326,8 @@ private:
   
   
   
-template <typename C3T3, typename Md, typename Sc>
-Sliver_perturber<C3T3,Md,Sc>::
+template <typename C3T3, typename Md, typename Sc, typename V_>
+Sliver_perturber<C3T3,Md,Sc,V_>::
 Sliver_perturber(C3T3& c3t3,
                  const Md& domain,
                  const Sc& criterion)
@@ -338,10 +344,10 @@ Sliver_perturber(C3T3& c3t3,
   
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 Mesh_optimization_return_code
-Sliver_perturber<C3T3,Md,Sc>::
-operator()(const FT& sliver_bound, const FT& delta)
+Sliver_perturber<C3T3,Md,Sc,V_>::
+operator()(const FT& sliver_bound, const FT& delta, Visitor visitor)
 {
   // Reset sliver value cache
   helper_.reset_cache();
@@ -374,7 +380,10 @@ operator()(const FT& sliver_bound, const FT& delta)
     // reset_perturbation_counters is not const
     reset_perturbation_counters();
 #endif     
-    perturbation_ok = perturb(current_bound, pqueue);
+    perturbation_ok = perturb(current_bound, pqueue, visitor);
+    
+    visitor.bound_reached(current_bound);
+    
     current_bound += delta;
     if ( (current_bound >= sliver_bound)
         && (current_bound < sliver_bound + delta) )
@@ -404,9 +413,9 @@ operator()(const FT& sliver_bound, const FT& delta)
 
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 add_perturbation(Perturbation* perturbation)
 {
   if ( !perturbation_vector_.empty() )
@@ -428,10 +437,10 @@ add_perturbation(Perturbation* perturbation)
 // -----------------------------------
 // Private methods
 // -----------------------------------  
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 bool 
-Sliver_perturber<C3T3,Md,Sc>::
-perturb(const FT& sliver_bound, PQueue& pqueue) const
+Sliver_perturber<C3T3,Md,Sc,V_>::
+perturb(const FT& sliver_bound, PQueue& pqueue, Visitor& visitor) const
 {
 #ifdef CGAL_MESH_3_PERTURBER_HIGH_VERBOSITY
   CGAL::Timer timer;
@@ -527,6 +536,7 @@ perturb(const FT& sliver_bound, PQueue& pqueue) const
     
     // Update pqueue in every cases, because pv was poped
     pqueue_size += update_priority_queue(pv, pqueue);
+    visitor.end_of_perturbation_iteration(pqueue_size);
     
 #ifdef CGAL_MESH_3_PERTURBER_HIGH_VERBOSITY
     ++iteration_nb;
@@ -568,9 +578,9 @@ perturb(const FT& sliver_bound, PQueue& pqueue) const
   
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 int
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 build_priority_queue(const FT& sliver_bound, PQueue& pqueue) const
 {
   CGAL_precondition(pqueue.empty());
@@ -601,9 +611,9 @@ build_priority_queue(const FT& sliver_bound, PQueue& pqueue) const
   
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 int
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 update_priority_queue(const Vertex_vector& vertices,
                       const FT& sliver_bound,
                       PQueue& pqueue) const
@@ -622,9 +632,9 @@ update_priority_queue(const Vertex_vector& vertices,
 
 
 
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 int
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 update_priority_queue(const PVertex& pv, PQueue& pqueue) const
 {
   if ( pqueue.contains(pv) )
@@ -653,9 +663,9 @@ update_priority_queue(const PVertex& pv, PQueue& pqueue) const
 }
 
 
-template <typename C3T3, typename Md, typename Sc>
-typename Sliver_perturber<C3T3,Md,Sc>::PVertex
-Sliver_perturber<C3T3,Md,Sc>::
+template <typename C3T3, typename Md, typename Sc, typename V_>
+typename Sliver_perturber<C3T3,Md,Sc,V_>::PVertex
+Sliver_perturber<C3T3,Md,Sc,V_>::
 make_pvertex(const Vertex_handle& vh,
              const FT& sliver_bound,
              const typename PVertex::id_type& pv_id) const
@@ -670,22 +680,22 @@ make_pvertex(const Vertex_handle& vh,
 
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 update_pvertex(PVertex& pv, const FT& sliver_bound) const
 {
   Cell_vector slivers =
     helper_.incident_slivers(pv.vertex(), sliver_criterion_, sliver_bound);
   
-  pv.set_sliver_nb(slivers.size());
+  pv.set_sliver_nb(static_cast<unsigned int>(slivers.size()));
   pv.set_min_value(helper_.min_sliver_value(slivers, sliver_criterion_));
 }
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 update_bad_vertices(Vertex_vector& bad_vertices,
                     const FT& sliver_bound) const
 {
@@ -705,9 +715,9 @@ update_bad_vertices(Vertex_vector& bad_vertices,
 }
   
   
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 initialize_vertices_id() const
 {
   namespace bl = boost::lambda;
@@ -719,9 +729,9 @@ initialize_vertices_id() const
   
   
 #ifdef CGAL_MESH_3_PERTURBER_VERBOSE
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 print_perturbations_statistics() const
 {
   int total_perturbation_nb = 0;
@@ -750,9 +760,9 @@ print_perturbations_statistics() const
   
   
 
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 print_final_perturbations_statistics() const
 {
   int total_perturbation_nb = 0;
@@ -781,9 +791,9 @@ print_final_perturbations_statistics() const
   
   
 
-template <typename C3T3, typename Md, typename Sc>
+template <typename C3T3, typename Md, typename Sc, typename V_>
 void
-Sliver_perturber<C3T3,Md,Sc>::
+Sliver_perturber<C3T3,Md,Sc,V_>::
 reset_perturbation_counters()
 {
   typename Perturbation_vector::iterator it = perturbation_vector_.begin();
@@ -800,6 +810,6 @@ reset_perturbation_counters()
 } // end namespace Mesh_3
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_SLIVERS_PERTURBER_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/ID_support_handler.h $ 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/ID_support_handler.h $ 
+// $Id: ID_support_handler.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :     Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #define CGAL_NEF_DEBUG 131
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename Items, typename Decorator>
 class ID_support_handler {
@@ -43,7 +43,7 @@ class ID_support_handler {
  public:
   ID_support_handler() {}
 
-  int& get_hash(int) { return 0; }
+  int get_hash(int) { return 0; }
   template<typename Handle> void initialize_hash(Handle h) {}
   void initialize_hash(int i) {}
   void handle_support(SVertex_handle , 
@@ -424,5 +424,5 @@ class ID_support_handler<SNC_indexed_items, Decorator> {
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_ID_SUPPORT_HANDLER

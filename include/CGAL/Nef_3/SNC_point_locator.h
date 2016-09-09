@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
-// $Id: SNC_point_locator.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $Id: SNC_point_locator.h 57193 2010-06-29 12:38:52Z lrineau $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -59,13 +59,14 @@
 // #define CGAL_NEF_CLOG(t) std::clog <<" "<<t<<std::endl; std::clog.flush()
 #define CGAL_NEF_CLOG(t)
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename SNC_decorator>
 class SNC_point_locator
 {
  public:
   class Intersection_call_back;
+  typedef SNC_decorator Base;
   typedef SNC_point_locator<SNC_decorator> Self;
   typedef typename SNC_decorator::Decorator_traits Decorator_traits;
   typedef typename SNC_decorator::SNC_structure SNC_structure;
@@ -91,6 +92,7 @@ public:
   typedef typename Decorator_traits::Vertex_iterator Vertex_iterator;
   typedef typename Decorator_traits::Halfedge_iterator Halfedge_iterator;
   typedef typename Decorator_traits::Halffacet_iterator Halffacet_iterator;
+
 
   const char* version() { return version_; }
 
@@ -214,6 +216,7 @@ public:
 
   //  typedef typename SNC_candidate_provider::Objects_around_box Objects_around_box;
 
+  using Base::get_visible_facet;
 public:
   SNC_point_locator_by_spatial_subdivision() : 
     initialized(false), candidate_provider(0) {}
@@ -305,7 +308,7 @@ public:
 
   virtual void initialize(SNC_structure* W) {
 #ifdef CGAL_NEF_LIST_OF_TRIANGLES
-    set_snc(*W);
+    this->set_snc(*W);
     candidate_provider = new SNC_candidate_provider(W);
 #else // CGAL_NEF_LIST_OF_TRIANGLES
     CGAL_NEF_TIMER(ct_t.start());
@@ -317,7 +320,7 @@ public:
 #endif
     CGAL_assertion( W != NULL);
 //    (Base) *this = SNC_decorator(*W);
-	set_snc(*W);
+    this->set_snc(*W);
     Object_list objects;
     Vertex_iterator v;
     Halfedge_iterator e;
@@ -625,7 +628,7 @@ public:
           if( is.does_intersect_internally( ray, f, q, true) ) {
             _CGAL_NEF_TRACEN("ray intersects facet on "<<q);
             _CGAL_NEF_TRACEN("prev. intersection? "<<hit);
-            if( hit) _CGAL_NEF_TRACEN("prev. intersection on "<<eor);
+            if( hit) { _CGAL_NEF_TRACEN("prev. intersection on "<<eor); }
             if( hit && !has_smaller_distance_to_point( ray.source(), q, eor))
 	      continue;
             _CGAL_NEF_TRACEN("is the intersection point on the current cell? "<<
@@ -1381,6 +1384,5 @@ private:
 };
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_NEF_SNC_POINT_LOCATOR_H
-

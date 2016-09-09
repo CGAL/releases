@@ -10,21 +10,21 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Null_matrix.h $
-// $Id: Null_matrix.h 50078 2009-06-25 15:12:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_simplification/include/CGAL/Null_matrix.h $
+// $Id: Null_matrix.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_NULL_MATRIX_H
 #define CGAL_NULL_MATRIX_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Null_matrix {};
 
 static const Null_matrix NULL_MATRIX = Null_matrix() ;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NULL_MATRIX_H //
 

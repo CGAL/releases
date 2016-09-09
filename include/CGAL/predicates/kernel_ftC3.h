@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
-// $Id: kernel_ftC3.h 47867 2009-02-02 13:09:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
+// $Id: kernel_ftC3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -28,7 +28,7 @@
 #include <CGAL/predicates/kernel_ftC2.h>
 #include <CGAL/constructions/kernel_ftC3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class FT >
 inline
@@ -532,6 +532,6 @@ has_smaller_signed_dist_to_planeC3(
 	    prx, pry, prz, px, py, pz, qx, qy, qz) == SMALLER;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PREDICATES_KERNEL_FTC3_H

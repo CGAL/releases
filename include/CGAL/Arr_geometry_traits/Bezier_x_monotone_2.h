@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: Bezier_x_monotone_2.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: Bezier_x_monotone_2.h 57724 2010-08-02 14:53:10Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -30,7 +30,7 @@
 #include <CGAL/Arr_geometry_traits/Bezier_cache.h>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * Representation of an x-monotone Bezier subcurve, specified by a Bezier curve
@@ -712,9 +712,14 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
     (const Point_2& p,
      Bezier_cache& cache) const
 {
+
+  if (p.identical(_ps)) {
+    return EQUAL;
+  }
+  
   // First check whether p has the same x-coordinate as one of the endpoints.
   const Comparison_result  res1 = p.compare_x (_ps, cache);
-  
+
   if (res1 == EQUAL)
   {
     // In this case both points must be exact.
@@ -733,6 +738,10 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
     return (CGAL::compare (p.y(), _ps.y()));
   }
   
+  if (p.identical(_pt)) {
+    return EQUAL;
+  }
+
   const Comparison_result  res2 = p.compare_x (_pt, cache);
   
   if (res2 == EQUAL)
@@ -2671,6 +2680,6 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_exact_vertical_position
   return (EQUAL);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

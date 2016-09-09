@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_move_point.cpp $
-// $Id: Qt_widget_move_point.cpp 45379 2008-09-08 13:10:50Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_move_point.cpp $
+// $Id: Qt_widget_move_point.cpp 55707 2010-04-24 08:52:06Z glisse $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -22,8 +22,8 @@
 
 #include "Qt_widget_move_point.h"
 
-void Qt_widget_movepoint_helper::delete_point() { delete_pointi(); };
-void Qt_widget_movepoint_helper::move_point() { move_pointi(); };
+void Qt_widget_movepoint_helper::delete_point() { delete_pointi(); }
+void Qt_widget_movepoint_helper::move_point() { move_pointi(); }
 void Qt_widget_movepoint_helper::stateChanged(int i){
   if(i==2)
     activate();

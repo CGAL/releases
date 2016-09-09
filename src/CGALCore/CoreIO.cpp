@@ -24,14 +24,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/CoreIO.cpp $
- * $Id: CoreIO.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/CoreIO.cpp $
+ * $Id: CoreIO.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include <CGAL/CORE/BigFloatRep.h>
 #include <CGAL/CORE/BigFloat.h>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 void core_io_error_handler(const char *f, const char *m) {
   std::cout << "\n error_handler";
@@ -453,5 +453,5 @@ void BigFloat::write_to_file2(std::ostream& out, int base, int charsPerLine) {
 }
 */
 
-CORE_END_NAMESPACE
+} //namespace CORE
 

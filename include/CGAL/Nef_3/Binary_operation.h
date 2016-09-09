@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/Binary_operation.h $ 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Binary_operation.h $ 
+// $Id: Binary_operation.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -41,7 +41,7 @@
 #define CGAL_NEF_DEBUG 19
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #if defined (CGAL_NEF3_TIMER_OVERLAY) || defined(CGAL_NEF3_TIMER_INTERSECTION)
 CGAL::Timer timer_overlay;
@@ -656,6 +656,5 @@ class Binary_operation : public CGAL::SNC_decorator<Map> {
     }
 
   };
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_NEF_BINARY_OPERATION_H
-

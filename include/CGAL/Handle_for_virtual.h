@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Handle_for_virtual.h $
-// $Id: Handle_for_virtual.h 45176 2008-08-27 15:36:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Handle_for_virtual.h $
+// $Id: Handle_for_virtual.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,8 +27,9 @@
 
 #include <CGAL/basic.h>
 #include <typeinfo>
+#include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Ref_counted_virtual
 {
@@ -65,6 +66,8 @@ class Handle_for_virtual
 {
   public:
 
+    typedef std::ptrdiff_t Id_type ;
+    
     Handle_for_virtual(const RefCounted& rc)
     {
       ptr = new RefCounted(rc);
@@ -118,13 +121,10 @@ class Handle_for_virtual
 	ptr = new T(rc);
     }
 
-    bool
-    identical( const Handle_for_virtual& h) const
-    { return ptr == h.ptr; }
+    Id_type id() const { return Ptr() - static_cast<RefCounted const*>(0); }
+    
+    bool identical( const Handle_for_virtual& h) const { return Ptr() == h.Ptr(); }
 
-    long int
-    id() const
-    { return reinterpret_cast<long int>(&*ptr); }
 
     void
     swap(Handle_for_virtual & h)
@@ -174,6 +174,9 @@ protected:
     RefCounted * ptr;
 };
 
-CGAL_END_NAMESPACE
+template <class RefCounted>
+inline bool identical(const Handle_for_virtual<RefCounted> &h1, const Handle_for_virtual<RefCounted> &h2) { return h1.identical(h2); }
+
+} //namespace CGAL
 
 #endif // CGAL_HANDLE_FOR_VIRTUAL_H

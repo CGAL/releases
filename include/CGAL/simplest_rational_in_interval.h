@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: simplest_rational_in_interval.h 41708 2008-01-20 18:47:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: simplest_rational_in_interval.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
@@ -29,7 +29,7 @@
 #include <climits>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /* simplest_rational_in_interval(x,y) returns the rational number with
      the smallest denominator in the interval [x,y].  See Knuth,
@@ -106,6 +106,6 @@ simplest_rational_in_interval(double x, double y) {
   return Compose()(r_numerator, r_denominator);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SIMPLEST_RATIONAL_IN_INTERVAL_H

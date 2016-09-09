@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
-// $Id: Delaunay_mesh_criteria_2.h 34923 2006-10-25 15:41:37Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
+// $Id: Delaunay_mesh_criteria_2.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -31,15 +31,15 @@ class Delaunay_mesh_criteria_2
 public:
   typedef typename Tr::Face_handle Face_handle;
 
-  Delaunay_mesh_criteria_2(const double bound = 0.125) : B(bound) {};
+  Delaunay_mesh_criteria_2(const double bound = 0.125) : B(bound) {}
 
   typedef double Quality;
 
   inline
-  double bound() const { return B; };
+  double bound() const { return B; }
 
   inline 
-  void set_bound(const double bound) { B = bound; };
+  void set_bound(const double bound) { B = bound; }
 
   class Is_bad
   {
@@ -48,7 +48,7 @@ public:
   public:
     typedef typename Tr::Point Point_2;
       
-    Is_bad(const double bound) : B(bound) {};
+    Is_bad(const double bound) : B(bound) {}
       
     Mesh_2::Face_badness operator()(const Quality q) const
     {
@@ -103,13 +103,13 @@ public:
 	  q = area/(a*b);
 
       return operator()(q);
-    };
+    }
   };
 
   Is_bad is_bad_object() const
     { return Is_bad(B); }
 };
 
-}; // end namespace CGAL
+} // end namespace CGAL
 
 #endif

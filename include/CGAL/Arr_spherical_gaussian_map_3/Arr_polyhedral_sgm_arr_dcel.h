@@ -11,18 +11,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_arr_dcel.h $
-// $Id: Arr_polyhedral_sgm_arr_dcel.h 50602 2009-07-14 14:39:28Z naamamay $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_arr_dcel.h $
+// $Id: Arr_polyhedral_sgm_arr_dcel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
-// Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
+// Author(s): Efi Fogel         <efif@post.tau.ac.il>
+//            Naama mayer       <naamamay@post.tau.ac.il>
 
 #ifndef CGAL_ARR_POLYHEDRAL_SGM_ARR_DCEL_H
 #define CGAL_ARR_POLYHEDRAL_SGM_ARR_DCEL_H
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! Extend the arrangement vertex */
 template <class Point_2>
@@ -115,6 +116,6 @@ public:
   Arr_polyhedral_sgm_arr_dcel() {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/demo/Triangulation_3/Triangulation_3_remove_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/demo/Triangulation_3/Triangulation_3_remove_demo.cpp $
 // $Id: Triangulation_3_remove_demo.cpp 52881 2009-11-05 12:29:42Z spion $
 //
 //

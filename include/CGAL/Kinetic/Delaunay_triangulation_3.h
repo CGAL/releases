@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 40530 2007-10-04 11:14:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -45,7 +45,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class Traits>
 struct Delaunay_triangulation_3_types
@@ -64,9 +64,9 @@ struct Delaunay_triangulation_3_types
 
 };
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! A 3D kinetic Delaunay triangulation.
 template <class TraitsT,
@@ -125,7 +125,7 @@ private:
   typedef internal::Delaunay_triangulation_base_3<Base_traits, Visitor> KDel;
 
   CGAL_KINETIC_DECLARE_LISTENERS(typename TraitsT::Simulator,
-				 typename TraitsT::Active_points_3_table);
+				 typename TraitsT::Active_points_3_table)
 
 public:
   //! Initialize it.
@@ -205,7 +205,7 @@ public:
 
  
 
-  CGAL_KINETIC_LISTENER1(TRIANGULATION);
+  CGAL_KINETIC_LISTENER1(TRIANGULATION)
 
  void on_geometry_changed() {
     CGAL_KINETIC_NOTIFY(TRIANGULATION);
@@ -214,7 +214,7 @@ public:
   KDel kdel_;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/PainterOstream.h $
-// $Id: PainterOstream.h 46265 2008-10-14 10:43:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/PainterOstream.h $
+// $Id: PainterOstream.h 55437 2010-04-13 09:47:42Z nicokruithof $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -46,53 +46,60 @@ class PainterOstream {
 private:
   QPainter* qp;
   Converter<K> convert;
+  typedef typename K::Point_2 Point_2;
+  typedef typename K::Segment_2 Segment_2;
+  typedef typename K::Ray_2 Ray_2;
+  typedef typename K::Line_2 Line_2;
+  typedef typename K::Triangle_2 Triangle_2;
+  typedef typename K::Iso_rectangle_2 Iso_rectangle_2;
+  typedef typename K::Circle_2 Circle_2;
   
 public:
   PainterOstream(QPainter* p, QRectF rect = QRectF())
     : qp(p), convert(rect)
   {}
 
-  PainterOstream& operator<<(const Point_2<K>& p)
+  PainterOstream& operator<<(const Point_2& p)
   {
     qp->drawPoint(convert(p));
     return *this;
   }
   
-  PainterOstream& operator<<(const Segment_2<K>& s)
+  PainterOstream& operator<<(const Segment_2& s)
   {
     qp->drawLine(convert(s.source()), convert(s.target()));
     return *this;
   }
   
   
-  PainterOstream& operator<<(const Ray_2<K>& r)
+  PainterOstream& operator<<(const Ray_2& r)
   {
     qp->drawLine(convert(r));
     return *this;
   }
 
   
-  PainterOstream& operator<<(const Line_2<K>& l)
+  PainterOstream& operator<<(const Line_2& l)
   {
     qp->drawLine(convert(l));
     return *this;
   }
 
 
-  PainterOstream& operator<<(const Triangle_2<K>& t)
+  PainterOstream& operator<<(const Triangle_2& t)
   {
     qp->drawPolygon(convert(t));
     return *this;
   }
 
-  PainterOstream& operator<<(const Iso_rectangle_2<K>& r)
+  PainterOstream& operator<<(const Iso_rectangle_2& r)
   {
     qp->drawRect(convert(r));
     return *this;
   }
 
 
-  PainterOstream& operator<<(const Circle_2<K>& c)
+  PainterOstream& operator<<(const Circle_2& c)
   {
     qp->drawEllipse(convert(c.bbox()));
     return *this;
@@ -134,17 +141,17 @@ public:
 
   PainterOstream& operator<<(const Line_arc_2<K>& arc)
   {
-    (*this) << Segment_2<K>(Point_2<K>(to_double(arc.source().x()), to_double(arc.source().y())),
-			    Point_2<K>(to_double(arc.target().x()), to_double(arc.target().y())));
+    (*this) << Segment_2(Point_2(to_double(arc.source().x()), to_double(arc.source().y())),
+			 Point_2(to_double(arc.target().x()), to_double(arc.target().y())));
      return *this;
   }
 
-  void draw_parabola_segment(const  Point_2<K>& center, const Line_2<K>& line, 
-			     const  Point_2<K>& source, const Point_2<K>& target)
+  void draw_parabola_segment(const  Point_2& center, const Line_2& line, 
+			     const  Point_2& source, const Point_2& target)
   {
-    const Point_2<K> proj_source = line.projection(source);
-    const Point_2<K> proj_target = line.projection(target);
-    const Point_2<K> intersection = circumcenter(proj_source,
+    const Point_2 proj_source = line.projection(source);
+    const Point_2 proj_target = line.projection(target);
+    const Point_2 intersection = circumcenter(proj_source,
 						 proj_target,
 						 center);
     // Property: "intersection" is the intersection of the two tangent

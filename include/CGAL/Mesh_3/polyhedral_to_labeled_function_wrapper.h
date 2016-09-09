@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
-// $Id: polyhedral_to_labeled_function_wrapper.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
+// $Id: polyhedral_to_labeled_function_wrapper.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -93,12 +93,12 @@ public:
     , first_level_(first_level)
   {
     tree_->accelerate_distance_queries();
-  };
+  }
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Polyhedral_to_labeled_function_wrapper() {  };
+  ~Polyhedral_to_labeled_function_wrapper() {}
 
   /// Operator ()
   return_type operator()(const Point_3& p, bool use_cache=false) const
@@ -210,12 +210,12 @@ public:
     , hint_(p.facets_begin()->halfedge()->vertex()->point())
   {
     tree_->accelerate_distance_queries();
-  };
+  }
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Polyhedral_tolerance_to_labeled_function_wrapper() {  };
+  ~Polyhedral_tolerance_to_labeled_function_wrapper() {}
 
   /// Operator ()
   return_type operator()(const Point_3& p, bool use_cache=false) const
@@ -286,12 +286,12 @@ public:
     , hint_(p.facets_begin()->halfedge()->vertex()->point())
   {
     tree_->accelerate_distance_queries();
-  };
+  }
 
   // Default copy constructor and assignment operator are ok
 
   /// Destructor
-  ~Polyhedral_edge_tolerance_to_labeled_function_wrapper() {  };
+  ~Polyhedral_edge_tolerance_to_labeled_function_wrapper() {}
 
   /// Operator ()
   return_type operator()(const Point_3& p, bool use_cache=false) const

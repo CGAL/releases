@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2.h $
-// $Id: Polygon_2.h 41437 2008-01-03 19:13:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2.h $
+// $Id: Polygon_2.h 56945 2010-06-21 16:52:36Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -40,7 +40,7 @@
 #include <CGAL/Polygon_2/Polygon_2_edge_iterator.h>
 #include <CGAL/Polygon_2/Polygon_2_edge_circulator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_P, class Container_P
         = std::vector<typename Traits_P::Point_2> >
@@ -332,7 +332,7 @@ class Polygon_2 {
     //             Miscellaneous
     //--------------------------------------------------------
 
-    int size() const
+  std::size_t size() const
       { return d_container.size(); }
 
     bool is_empty() const
@@ -385,11 +385,11 @@ std::ostream
 //                         implementation
 //-----------------------------------------------------------------------//
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Polygon_2/Polygon_2_impl.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_P, class Container1_P, class Container2_P>
 inline
@@ -400,6 +400,6 @@ operator!=(const Polygon_2<Traits_P,Container1_P> &x,
   return !(x==y);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

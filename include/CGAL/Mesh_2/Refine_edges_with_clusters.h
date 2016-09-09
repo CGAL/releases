@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
-// $Id: Refine_edges_with_clusters.h 41764 2008-01-22 14:01:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: Refine_edges_with_clusters.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -166,7 +166,8 @@ public:
         const Face_handle& fh = eit->first;
         const int& i = eit->second;
 
-        if(fh->is_constrained(i) && !is_locally_conform(this->tr, fh, i, p))
+        if(fh->is_constrained(i) && 
+           !this->is_locally_conform(this->tr, fh, i, p))
           {
 	    const Vertex_handle& v1 = fh->vertex( this->tr.cw (i));
 	    const Vertex_handle& v2 = fh->vertex( this->tr.ccw(i));
@@ -180,7 +181,7 @@ public:
               (!v1_has_a_cluster && !v2_has_a_cluster) )
             {
               // two clusters or no cluster
-              add_constrained_edge_to_be_conformed(v1, v2);
+              this->add_constrained_edge_to_be_conformed(v1, v2);
 	      //	      status = CONF//CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
             }
           else
@@ -198,12 +199,12 @@ public:
 
               if( this->imperatively || !ca.is_reduced() ||
                   ca.rmin >=  sq_r_of_p_parent)
-		add_constrained_edge_to_be_conformed(v1,v2);
+		this->add_constrained_edge_to_be_conformed(v1,v2);
 	      else
 		status = CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
             }
           }
-      }; // after here edges encroached by p are in the list of edges to
+      }  // after here edges encroached by p are in the list of edges to
          // be conformed.
 
     return status;

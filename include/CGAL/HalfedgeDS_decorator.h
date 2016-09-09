@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/HalfedgeDS_decorator.h $
-// $Id: HalfedgeDS_decorator.h 49918 2009-06-15 13:09:47Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/HalfedgeDS/include/CGAL/HalfedgeDS_decorator.h $
+// $Id: HalfedgeDS_decorator.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -33,7 +33,7 @@
 #include <map>
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class p_HDS >
 class HalfedgeDS_decorator : public HalfedgeDS_items_decorator<p_HDS> {
@@ -41,6 +41,7 @@ class HalfedgeDS_decorator : public HalfedgeDS_items_decorator<p_HDS> {
 // TYPES (inherited from Items_decorator, but have to be repeated)
 // ---------------------------------------------------------------
 public:
+
     typedef p_HDS                                 HDS;
     typedef p_HDS                                 HalfedgeDS;
     typedef typename HDS::Traits                  Traits;
@@ -79,6 +80,27 @@ public:
     typedef typename HDS::Supports_face_halfedge  Supports_face_halfedge;
 
     typedef typename HDS::Supports_removal        Supports_removal;
+
+
+    using HalfedgeDS_items_decorator<p_HDS>::find_prev;
+    using HalfedgeDS_items_decorator<p_HDS>::get_prev;
+    using HalfedgeDS_items_decorator<p_HDS>::set_prev;
+    using HalfedgeDS_items_decorator<p_HDS>::get_face;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face;
+    using HalfedgeDS_items_decorator<p_HDS>::get_vertex;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex;
+    using HalfedgeDS_items_decorator<p_HDS>::get_vertex_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::get_face_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::set_vertex_in_vertex_loop;
+    using HalfedgeDS_items_decorator<p_HDS>::set_face_in_face_loop;
+    using HalfedgeDS_items_decorator<p_HDS>::insert_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::remove_halfedge;
+    using HalfedgeDS_items_decorator<p_HDS>::find_prev_around_vertex;
+    using HalfedgeDS_items_decorator<p_HDS>::remove_tip;
+    using HalfedgeDS_items_decorator<p_HDS>::close_tip;
+    using HalfedgeDS_items_decorator<p_HDS>::insert_tip;
 
 protected:
     typedef typename Vertex::Base                 VBase;
@@ -1106,7 +1128,7 @@ inside_out( Tag_true) {
     }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HALFEDGEDS_DECORATOR_H //
 // EOF //

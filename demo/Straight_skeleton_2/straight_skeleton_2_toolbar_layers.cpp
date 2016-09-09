@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar_layers.cpp $
-// $Id: straight_skeleton_2_toolbar_layers.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar_layers.cpp $
+// $Id: straight_skeleton_2_toolbar_layers.cpp 57866 2010-08-09 10:00:17Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //

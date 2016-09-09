@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
-// $Id: ch_graham_andrew_impl.h 45040 2008-08-20 09:52:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
+// $Id: ch_graham_andrew_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -31,7 +31,7 @@
 #include <vector>
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class BidirectionalIterator, class OutputIterator, class Traits>
 OutputIterator
@@ -312,6 +312,6 @@ ch_upper_hull_scan( InputIterator  first,
   return res.to_output_iterator();
   #endif // no postconditions ...
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CH_GRAHAM_ANDREW_C

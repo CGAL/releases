@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron_IO/demo/Polyhedron_IO/viewpoint2off.cpp $
-// $Id: viewpoint2off.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/demo/Polyhedron_IO/viewpoint2off.cpp $
+// $Id: viewpoint2off.cpp 57016 2010-06-23 13:41:30Z afabri $
 //
 //
 // Author(s)     : Lutz Kettner
@@ -38,7 +38,7 @@ using namespace std;
 typedef  CGAL::Cartesian<float>                 Kernel;
 typedef  Kernel::Point_3                        Point;
 typedef  vector<Point>                          Point_vector;
-typedef  vector<int>                            Facet;
+typedef  vector<std::size_t>                            Facet;
 typedef  vector<Facet>                          Facet_vector;
 
 bool  verbose      = false;

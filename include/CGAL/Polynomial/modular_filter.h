@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/modular_filter.h $
-// $Id: modular_filter.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/modular_filter.h $
+// $Id: modular_filter.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -32,7 +32,7 @@
 #include <CGAL/Polynomial/prs_resultant.h>
 #include <CGAL/Modular_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
     template <class NT> inline
@@ -86,8 +86,8 @@ namespace internal {
     }
    
     template <class NT> inline
-    bool may_have_common_factor_(const Polynomial<NT>& p1,
-                                 const Polynomial<NT>& p2,
+    bool may_have_common_factor_(const Polynomial<NT>& ,
+                                 const Polynomial<NT>& ,
                                  ::CGAL::Tag_false) {return true;}
     
 /*! \ingroup CGAL_polynomial_utils
@@ -180,6 +180,6 @@ bool may_have_multiple_factor( const Polynomial<NT>& P ) {
 }
 
 } //namespace internal
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_MODULAR_FILTER_H

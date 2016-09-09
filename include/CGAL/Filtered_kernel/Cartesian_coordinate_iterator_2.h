@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
-// $Id: Cartesian_coordinate_iterator_2.h 53155 2009-11-24 14:08:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
+// $Id: Cartesian_coordinate_iterator_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -25,7 +25,7 @@
 #include <iterator>
 #include <boost/variant.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This class should go away.
 // It is now only used by the Filtered_kernel.
@@ -145,6 +145,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_COORDINATE_ITERATOR_2_H

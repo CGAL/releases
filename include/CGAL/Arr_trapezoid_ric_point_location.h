@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
-// $Id: Arr_trapezoid_ric_point_location.h 50777 2009-07-23 12:12:44Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
+// $Id: Arr_trapezoid_ric_point_location.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -30,7 +30,7 @@
 #include <CGAL/Arr_point_location/Td_traits.h>
 #include <CGAL/Arr_observer.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class
@@ -381,7 +381,7 @@ protected:
                               const Point_2& p, bool shoot_up) const;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // The member-function definitions can be found under:
 #include <CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h>

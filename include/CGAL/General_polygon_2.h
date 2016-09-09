@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/General_polygon_2.h $
-// $Id: General_polygon_2.h 41418 2008-01-03 14:50:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/General_polygon_2.h $
+// $Id: General_polygon_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/Bbox_2.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arr_traits>
 class General_polygon_2
@@ -215,6 +215,6 @@ std::ostream
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

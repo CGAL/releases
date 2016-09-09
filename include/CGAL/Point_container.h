@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Point_container.h $
-// $Id: Point_container.h 36901 2007-03-07 19:34:29Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Point_container.h $
+// $Id: Point_container.h 56941 2010-06-21 16:22:00Z afabri $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -197,7 +197,7 @@ public:
   }
 
   //  points
-  inline unsigned int 
+  inline std::size_t
   size() const 
   {
     return *m_e - *m_b;
@@ -437,5 +437,3 @@ private:
 } // namespace CGAL
 
 #endif // CGAL_POINT_CONTAINER_H
-
-

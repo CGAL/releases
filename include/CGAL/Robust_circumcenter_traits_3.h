@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Robust_circumcenter_traits_3.h $
-// $Id: Robust_circumcenter_traits_3.h 48258 2009-02-27 14:00:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Robust_circumcenter_traits_3.h $
+// $Id: Robust_circumcenter_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     :  Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -31,7 +31,7 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename K >
 class Robust_construct_weighted_circumcenter_3
@@ -141,6 +141,6 @@ class Robust_weighted_circumcenter_traits_3
   { return Compute_squared_radius_3(); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_ROBUST_CIRCUMCENTER_TRAITS_3_H

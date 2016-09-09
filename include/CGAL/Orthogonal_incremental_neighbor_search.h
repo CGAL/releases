@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
-// $Id: Orthogonal_incremental_neighbor_search.h 36334 2007-02-15 21:24:48Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
+// $Id: Orthogonal_incremental_neighbor_search.h 58140 2010-08-18 12:56:15Z sloriot $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -50,7 +50,14 @@ namespace CGAL {
     typedef std::vector<Node_with_distance*> Node_with_distance_vector;
     typedef std::vector<Point_with_transformed_distance*> Point_with_transformed_distance_vector;
 
-
+    template<class T>
+    struct Object_wrapper
+    {   
+      T object;
+      Object_wrapper(const T& t):object(t){}
+      const T& operator* () const { return object; }
+      const T* operator-> () const { return &object; }
+    };
 
     class Iterator_implementation {
 
@@ -68,8 +75,6 @@ namespace CGAL {
       FT multiplication_factor;
 
       Query_item query_point;
-
-      int total_item_number;
 
       FT distance_to_root;
 
@@ -127,17 +132,19 @@ namespace CGAL {
     
 
       // constructor
-      Iterator_implementation(Tree& tree, Query_item& q, const Distance& tr,
+      Iterator_implementation(Tree& tree,const Query_item& q, const Distance& tr,
 			      FT Eps=FT(0.0), bool search_nearest=true)
 	: number_of_neighbours_computed(0), number_of_internal_nodes_visited(0), 
 	number_of_leaf_nodes_visited(0), number_of_items_visited(0),
 	Orthogonal_distance_instance(tr), multiplication_factor(Orthogonal_distance_instance.transformed_distance(FT(1.0)+Eps)), 
-	query_point(q), total_item_number(tree.size()), search_nearest_neighbour(search_nearest), 
+	query_point(q), search_nearest_neighbour(search_nearest), 
 	PriorityQueue(Priority_higher(search_nearest)), Item_PriorityQueue(Distance_smaller(search_nearest)),
 	reference_count(1)
 	  
 	  
       {
+        if (tree.empty()) return;
+        
         // if (search_nearest) 
 	distance_to_root=
 	  Orthogonal_distance_instance.min_distance_to_rectangle(q,
@@ -172,10 +179,10 @@ namespace CGAL {
       }
 
       // postfix operator
-      Point_with_transformed_distance 
+      Object_wrapper<Point_with_transformed_distance>
       operator++(int) 
       {
-        Point_with_transformed_distance result = *(Item_PriorityQueue.top());
+        Object_wrapper<Point_with_transformed_distance> result( *(Item_PriorityQueue.top()) );
         ++*this;
         return result;
       }
@@ -200,12 +207,12 @@ namespace CGAL {
       //destructor
       ~Iterator_implementation() 
       {
-	while (PriorityQueue.size()>0) {
+	while (!PriorityQueue.empty()) {
 	  Node_with_distance* The_top=PriorityQueue.top();
 	  PriorityQueue.pop();
 	  delete The_top;
 	}
-	while (Item_PriorityQueue.size()>0) {
+	while (!Item_PriorityQueue.empty()) {
 	  Point_with_transformed_distance* The_top=Item_PriorityQueue.top();
 	  Item_PriorityQueue.pop();
 	  delete The_top;
@@ -344,7 +351,7 @@ namespace CGAL {
 
     // constructor
     Orthogonal_incremental_neighbor_search(Tree& tree,  
-					   Query_item& q, FT Eps = FT(0.0), 
+					   const Query_item& q, FT Eps = FT(0.0), 
 					   bool search_nearest=true, const Distance& tr=Distance()) 
       : start(tree,q,tr,Eps,search_nearest),
         past_the_end()
@@ -402,7 +409,7 @@ namespace CGAL {
       }
 
       // constructor
-      iterator(Tree& tree, Query_item& q, const Distance& tr=Distance(), FT eps=FT(0.0), 
+      iterator(Tree& tree,const Query_item& q, const Distance& tr=Distance(), FT eps=FT(0.0), 
 	       bool search_nearest=true)
 	: Ptr_implementation(new Iterator_implementation(tree, q, tr, eps, search_nearest))
 	{}
@@ -419,6 +426,13 @@ namespace CGAL {
       {
 	return *(*Ptr_implementation);
       }
+      
+      // -> operator
+      const Point_with_transformed_distance*
+      operator-> () const 
+      {
+	return &*(*Ptr_implementation);
+      }
 
       // prefix operator
       iterator& 
@@ -429,12 +443,10 @@ namespace CGAL {
       }
 
       // postfix operator
-      iterator 
+      Object_wrapper<Point_with_transformed_distance>
       operator++(int) 
       {
-	iterator tmp(*this);
-	++(*this);
-	return tmp;
+	return (*Ptr_implementation)++;
       }
 
 

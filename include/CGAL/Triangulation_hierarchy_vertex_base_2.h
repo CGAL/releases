@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_vertex_base_2.h $
-// $Id: Triangulation_hierarchy_vertex_base_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_vertex_base_2.h $
+// $Id: Triangulation_hierarchy_vertex_base_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -23,7 +23,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Vbb>
 class Triangulation_hierarchy_vertex_base_2
@@ -65,6 +65,6 @@ public:
   Vertex_handle  _down;  // same vertex one level below
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_2_H

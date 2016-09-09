@@ -1,4 +1,4 @@
-// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// Copyright (c) 1997-2010  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 52854 2009-11-02 23:02:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 56997 2010-06-22 20:44:46Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -43,7 +43,7 @@
 #include <CGAL/IO/File_header_OFF.h>
 #include <CGAL/IO/File_scanner_OFF.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template < class Vb = Triangulation_ds_vertex_base_2<>, 
            class Fb = Triangulation_ds_face_base_2<> >
@@ -59,7 +59,7 @@ class Triangulation_data_structure_2
   friend class Triangulation_ds_face_circulator_2<Tds>;
   friend class Triangulation_ds_edge_circulator_2<Tds>;
   friend class Triangulation_ds_vertex_circulator_2<Tds>;
-                
+
 public:
   typedef Vertex_base                                Vertex;
   typedef Face_base                                  Face;
@@ -231,7 +231,7 @@ public:
   void remove_second(Vertex_handle v);
   void remove_first(Vertex_handle v);
   void remove_dim_down(Vertex_handle v);
-  void dim_2D_1D(Face_handle f, int i);
+  void dim_down(Face_handle f, int i);
 
   Vertex_handle star_hole(List_edges& hole);
   void    star_hole(Vertex_handle v, List_edges& hole);
@@ -321,7 +321,7 @@ private:
 		      int ih, 
 		      std::map< Vh_pair, Edge>& edge_map);
   void reorient_faces();
-  bool dim_2D_1D_precondition(Face_handle f, int i);
+  bool dim_down_precondition(Face_handle f, int i);
 
 public:
   void clear();
@@ -950,40 +950,15 @@ remove_degree_3(Vertex_handle v, Face_handle f)
 } 
 
 template <class Vb, class Fb>
-bool
-Triangulation_data_structure_2<Vb,Fb>::
-dim_2D_1D_precondition(Face_handle f, int i) {
-  if(!is_valid()) return false;
-  if(dimension() != 2) return false;
-  Vertex_handle v = f->vertex(i);
-  std::map< Vertex_handle, unsigned > hash_v;
-  int n_faces = 0;
-  Face_iterator ib = face_iterator_base_begin();
-  for( ; ib != face_iterator_base_end(); ++ib ) {
-    hash_v[ib->vertex(0)]++;
-    hash_v[ib->vertex(1)]++;
-    hash_v[ib->vertex(2)]++; ++n_faces;
-  }
-  int n = 0;
-  Vertex_handle vres[2];
-  Vertex_iterator iv = vertices_begin();
-  for( ; iv != vertices_end(); ++iv ) {
-    if(hash_v[iv] == ((number_of_faces()/2) + 1)) {
-      if(n == 0) vres[n++] = iv;
-      else if((n == 1) && ((iv == v) || (vres[0] == v))) vres[n++] = iv;
-    }
-  }
-  if(n != 2) return false;
-  if(!((vres[0] == v) || (vres[1] == v))) return false;
-  return true;
-}
-
-template <class Vb, class Fb>
 void
 Triangulation_data_structure_2<Vb,Fb>::
-dim_2D_1D(Face_handle f, int i)
+dim_down(Face_handle f, int i)
 {
-  CGAL_triangulation_precondition(dim_2D_1D_precondition(f, i));
+  CGAL_triangulation_expensive_precondition( is_valid() );
+  CGAL_triangulation_precondition( dimension() == 2 );
+  CGAL_triangulation_precondition( number_of_vertices() > 3 );
+  CGAL_triangulation_precondition( degree( f->vertex(i) ) == 
+                                   number_of_vertices()-1 );
 
   Vertex_handle v = f->vertex(i);
   std::list<Face_handle > to_delete;
@@ -2062,7 +2037,7 @@ off_file_input( std::istream& is, bool verbose)
   // create the facets
   for ( i = 0; i < scanner.size_of_facets(); i++) {
     Face_handle fh = create_face();
-    Integer32 no;
+    std::size_t no;
     scanner.scan_facet( no, i);
     if( ! is || no != 3) {
       if ( scanner.verbose()) {
@@ -2076,7 +2051,7 @@ off_file_input( std::istream& is, bool verbose)
     }
 
     for ( int j = 0; j < no; ++j) {
-      Integer32 index;
+      std::size_t index;
       scanner.scan_facet_vertex_index( index, i);
       fh->set_vertex(j, vvh[index]);
       vvh[index]->set_face(fh);
@@ -2154,12 +2129,12 @@ reorient_faces()
   int nf  = std::distance(faces_begin(),faces_end());
 
   while (static_cast<int>(oriented_set.size()) != nf) {
-    while ( oriented_set.find(fit->handle()) != oriented_set.end()){
+    while ( oriented_set.find(fit) != oriented_set.end()){
       ++fit; // find a germ for  non oriented components 
     }
     // orient component
-    oriented_set.insert(fit->handle());
-    st.push(fit->handle());
+    oriented_set.insert(fit);
+    st.push(fit);
     while ( ! st.empty()) {
       Face_handle fh = st.top();
       st.pop();
@@ -2199,6 +2174,6 @@ operator<<(std::ostream& os,
 }
 
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif //CGAL_TRIANGULATION_DATA_STRUCTURE_2_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_akl_toussaint.h $
-// $Id: ch_akl_toussaint.h 31312 2006-05-29 09:01:56Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/ch_akl_toussaint.h $
+// $Id: ch_akl_toussaint.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // same as |convex_hull_2(first,last,result)|.
 // {\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy_2|, 
@@ -48,9 +48,8 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
     return ch_akl_toussaint( first, last, result, Kernel()); 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Convex_hull_2/ch_akl_toussaint_impl.h>
 
 #endif // CGAL_CH_AKL_TOUSSAINT_H
-

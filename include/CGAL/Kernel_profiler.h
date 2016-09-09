@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Kernel_profiler.h $
-// $Id: Kernel_profiler.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Kernel_profiler.h $
+// $Id: Kernel_profiler.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -26,7 +26,7 @@
 #include <CGAL/basic.h>
 #include <typeinfo>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Primitive wrapper which handles the profiling.
 template < typename P >
@@ -130,6 +130,6 @@ struct Kernel_profiler
 #include <CGAL/Kernel/interface_macros.h>
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KERNEL_PROFILER_H

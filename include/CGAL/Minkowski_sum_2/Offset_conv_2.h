@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Offset_conv_2.h $
-// $Id: Offset_conv_2.h 43030 2008-04-26 21:37:02Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Offset_conv_2.h $
+// $Id: Offset_conv_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -22,7 +22,7 @@
 #include <CGAL/Minkowski_sum_2/Union_of_curve_cycles_2.h>
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A class for computing the offset of a given polygon by a given radius
@@ -52,6 +52,7 @@ private:
   typedef Union_of_curve_cycles_2<Labeled_traits_2,
                                   Offset_polygon_2>      Union_2;
 
+  using Base::_offset_polygon;
 public:
 
   /*! Constructor. */
@@ -194,6 +195,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

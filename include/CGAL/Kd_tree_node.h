@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
-// $Id: Kd_tree_node.h 32847 2006-07-31 22:33:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $Id: Kd_tree_node.h 56967 2010-06-22 10:34:02Z afabri $
 // 
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -73,7 +73,7 @@ namespace CGAL {
       : the_node_type(t) 
     {}
 
-    Kd_tree_node(int n_, Node_type t ) 
+    Kd_tree_node(unsigned int n_, Node_type t ) 
       : the_node_type(t), n(n_)
     {}
 
@@ -163,7 +163,7 @@ namespace CGAL {
     }
 	
 
-    unsigned int 
+    std::size_t 
     num_items() 
     {
       if (is_leaf()) return size();
@@ -171,7 +171,7 @@ namespace CGAL {
 	return lower()->num_items() + upper()->num_items();
     }
 
-    unsigned int 
+    std::size_t
     num_nodes() 
     {
       if (is_leaf()) return 1;

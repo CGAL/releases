@@ -17,8 +17,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
-// $Id: Root_for_spheres_2_3.h 46224 2008-10-13 11:22:46Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
+// $Id: Root_for_spheres_2_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -35,7 +35,7 @@
 #include <CGAL/Polynomials_for_line_3.h>
 #include <CGAL/Bbox_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename RT_ >
 class Root_for_spheres_2_3 {
@@ -239,6 +239,6 @@ operator>>(std::istream & is, Root_for_spheres_2_3<RT> &r)
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ROOT_FOR_SPHERES_2_3_H

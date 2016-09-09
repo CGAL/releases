@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_d/include/CGAL/Kernel_d/Cartesian_const_iterator_d.h $
-// $Id: Cartesian_const_iterator_d.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Cartesian_const_iterator_d.h $
+// $Id: Cartesian_const_iterator_d.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Seel, Sylvain Pion
 
@@ -27,7 +27,7 @@
 #include <CGAL/Quotient.h>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Takes an iterator over RT, and make one over FT, by dividing
 // by the last element.
@@ -89,6 +89,6 @@ make_cartesian_const_iterator_end(RT_iterator w)
   return Cartesian_const_iterator_d<RT_iterator>(w, w);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_CONST_ITERATOR_D_H

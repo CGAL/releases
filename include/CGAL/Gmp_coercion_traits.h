@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Gmp_coercion_traits.h $
-// $Id: Gmp_coercion_traits.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Gmp_coercion_traits.h $
+// $Id: Gmp_coercion_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -29,12 +29,13 @@
 #include <CGAL/number_type_basic.h>
 #include <CGAL/GMP/Gmpz_type.h>
 #include <CGAL/GMP/Gmpzf_type.h>
+#include <CGAL/GMP/Gmpfr_type.h>
 #include <CGAL/GMP/Gmpq_type.h>
 #include <CGAL/Coercion_traits.h>
 
 #ifdef CGAL_USE_GMP
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //Gmp internal coercions:
 CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpz)
@@ -43,6 +44,7 @@ CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpq)
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpzf)
 //CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpzf,Gmpzq); // todo
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpq)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpfr,Gmpq)
 
 // The following definitions reflect the interaction of the Gmp number types
 // with the built in types,
@@ -65,7 +67,7 @@ CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpq)
     CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float      ,Gmpq)
     CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double     ,Gmpq)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_USE_GMP

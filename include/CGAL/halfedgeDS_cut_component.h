@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/halfedgeDS_cut_component.h $
-// $Id: halfedgeDS_cut_component.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/HalfedgeDS/include/CGAL/halfedgeDS_cut_component.h $
+// $Id: halfedgeDS_cut_component.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -30,7 +30,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/HalfedgeDS_decorator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < class HDS, class Predicate >
@@ -147,6 +147,6 @@ halfedgeDS_cut_component( HDS&                           hds,
     return hnew;
 }   
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HALFEDGEDS_CUT_COMPONENT_H //
 // EOF //

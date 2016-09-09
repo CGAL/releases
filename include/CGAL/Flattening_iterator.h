@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Flattening_iterator.h $
-// $Id: Flattening_iterator.h 37883 2007-04-03 16:07:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Flattening_iterator.h $
+// $Id: Flattening_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
 
@@ -28,7 +28,7 @@
 
 // LiS2CGAL check whether Nested_iterator in CGAL works in STL_extensions
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! Suppose you have an iterator range and suppose further that
  *  the values in that iterator range are containers and thus
@@ -262,6 +262,6 @@ flattener(InputIterator it);
 #endif // DOXYGEN_RUNNING
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // LiS_FLATTENING_ITERATOR_H

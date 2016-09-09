@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
-// $Id: Gps_agg_op.h 50368 2009-07-05 13:14:14Z efif $ $Date: 2009-07-05 15:14:14 +0200 (Sun, 05 Jul 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
+// $Id: Gps_agg_op.h 56667 2010-06-09 07:37:13Z sloriot $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -44,7 +44,7 @@
 #include <CGAL/Arr_accessor.h>
 #include <CGAL/iterator.h> 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arrangement_, class Bfs_visitor_>
 class Gps_agg_op
@@ -172,6 +172,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

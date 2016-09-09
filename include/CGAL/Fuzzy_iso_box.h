@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
-// $Id: Fuzzy_iso_box.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
+// $Id: Fuzzy_iso_box.h 56967 2010-06-22 10:34:02Z afabri $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -56,7 +56,7 @@ namespace CGAL {
 	  Construct_cartesian_const_iterator_d construct_it;
 	  Cartesian_const_iterator_d begin = construct_it(p),
 	    end = construct_it(p,1);
-	  dim = end - begin;
+	  dim = static_cast<unsigned int>(end - begin);
 
 	  Iso_box_d box = typename SearchTraits::Construct_iso_box_d()(p,q);
 	  Construct_min_vertex_d construct_min_vertex_d;

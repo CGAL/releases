@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_triangulation_pl_functions.h $
-// $Id: Arr_triangulation_pl_functions.h 41629 2008-01-15 09:47:29Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_triangulation_pl_functions.h $
+// $Id: Arr_triangulation_pl_functions.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -32,7 +32,7 @@
 	#define CGAL_TRG_PRINT_DEBUG(expr)
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Locate the arrangement feature containing the given point.
@@ -293,6 +293,6 @@ void Arr_triangulation_point_location<Arrangement_2>
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

@@ -14,24 +14,40 @@
 #include <CGAL/AABB_polyhedron_segment_primitive.h>
 #include <CGAL/AABB_polyhedron_triangle_primitive.h>
 
-class Scene
+#include <QtCore/qglobal.h>
+#include <QGLViewer/manipulatedFrame.h>
+#include <QGLViewer/qglviewer.h>
+
+class Scene : public QObject
 {
+    Q_OBJECT
 public:
     Scene();
-    ~Scene();
+    virtual ~Scene();
 public:
     // types
     typedef CGAL::Bbox_3 Bbox;
-    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Primitive;
-    typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
-    typedef CGAL::AABB_tree<Traits> Facet_tree;
-    typedef Facet_tree::Object_and_primitive_id Object_and_primitive_id;
-    typedef Facet_tree::Primitive_id Primitive_id;
-
+    
+private:
+    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Facet_Primitive;
+    typedef CGAL::AABB_traits<Kernel, Facet_Primitive>                  Facet_Traits;
+    typedef CGAL::AABB_tree<Facet_Traits>                               Facet_tree;
+  
+    typedef CGAL::AABB_polyhedron_segment_primitive<Kernel,Polyhedron>  Edge_Primitive;
+    typedef CGAL::AABB_traits<Kernel, Edge_Primitive>                   Edge_Traits;
+    typedef CGAL::AABB_tree<Edge_Traits>                                Edge_tree;
+    
+    typedef qglviewer::ManipulatedFrame ManipulatedFrame;
+    
+    enum Cut_planes_types {
+        NONE, UNSIGNED_FACETS, SIGNED_FACETS, UNSIGNED_EDGES, CUT_SEGMENTS
+    };
+  
 public:
     void draw(); 
     void update_bbox();
     Bbox bbox() { return m_bbox; }
+    ManipulatedFrame* manipulatedFrame() const { return m_frame; }
 
 private:
     // member data
@@ -39,17 +55,28 @@ private:
     Polyhedron *m_pPolyhedron;
     std::list<Point> m_points;
     std::list<Segment> m_segments;
+    std::vector<Segment> m_cut_segments;
 
     // distance functions (simple 2D arrays)
     Color_ramp m_red_ramp;
     Color_ramp m_blue_ramp;
     Color_ramp m_thermal_ramp;
     FT m_max_distance_function;
-    bool m_view_distance_function;
-    bool m_signed_distance_function;
     typedef std::pair<Point,FT> Point_distance;
     Point_distance m_distance_function[100][100];
+  
+    // frame
+    ManipulatedFrame* m_frame;
+    bool m_view_plane;
+    int m_grid_size;
+    bool m_fast_distance;
 
+    // An aabb_tree indexing polyhedron facets/segments
+    Facet_tree m_facet_tree;
+    Edge_tree m_edge_tree;
+    
+    Cut_planes_types m_cut_plane;
+  
 private:
     // utility functions
     Vector random_vector();
@@ -59,6 +86,19 @@ private:
     Plane random_plane(const Bbox& bbox);
     Segment random_segment(const Bbox& bbox);
     FT random_in(const double a,const double b);
+    Plane frame_plane() const;
+    Aff_transformation frame_transformation() const;
+    FT bbox_diag() const;
+    void build_facet_tree();
+    void build_edge_tree();
+    void clear_internal_data();
+    void update_grid_size();
+    
+    template <typename Tree>
+    void compute_distance_function(const Tree& tree);
+    
+    template <typename Tree>
+    void sign_distance_function(const Tree& tree);
 
 public:
     // file menu
@@ -67,7 +107,10 @@ public:
     // edit menu
     void clear_points() { m_points.clear(); }
     void clear_segments() { m_segments.clear(); }
-    void clear_distance_function() { m_max_distance_function = 0.0; }
+    void clear_cutting_plane();
+    
+    // fast distance setter
+    void set_fast_distance(bool b) { m_fast_distance = b; update_grid_size(); }
 
     // algorithms
     void generate_edge_points(const unsigned int nb_points);
@@ -85,12 +128,13 @@ public:
     void signed_distance_function();
     void unsigned_distance_function();
     void unsigned_distance_function_to_edges();
+    void cut_segment_plane();
 
     // toggle view options
     void toggle_view_points();
     void toggle_view_segments();
     void toggle_view_poyhedron();
-    void toggle_view_distance_function();
+    void toggle_view_plane();
 
     // view options
     bool m_view_points;
@@ -109,7 +153,7 @@ public:
     void bench_distances_vs_nbt();
     void bench_intersections_vs_nbt();
     void benchmark_intersections(const double duration);
-    unsigned int nb_digits(const unsigned int value);
+    std::size_t nb_digits(const std::size_t value);
 
     template <class Query>
     void bench_intersection(Facet_tree& tree,const int function,const double duration,
@@ -133,9 +177,18 @@ public:
     void draw_points();
     void draw_segments();
     void draw_polyhedron();
-    void draw_signed_distance_function();
-    void draw_unsigned_distance_function();
+    void draw_distance_function(const Color_ramp& ramp_pos,
+                                const Color_ramp& ramp_neg) const;
+    void draw_cut_segment_plane() const;
+  
+    // cutting plane activation/deactivation
+    void activate_cutting_plane();
+    void deactivate_cutting_plane();
+  
+public slots:
+    // cutting plane
+    void cutting_plane();
+  
 }; // end class Scene
-
 
 #endif // SCENE_H

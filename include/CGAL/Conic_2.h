@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Conic_2/include/CGAL/Conic_2.h $
-// $Id: Conic_2.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Conic_2/include/CGAL/Conic_2.h $
+// $Id: Conic_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -28,7 +28,7 @@
 #include <CGAL/Conic_misc.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class Optimisation_ellipse_2;
@@ -303,7 +303,7 @@ std::ostream& operator << ( std::ostream& os, const Conic_2<R_>& c)
 }
 #endif // CGAL_NO_OSTREAM_INSERT_CONIC_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONIC_2_H
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Number_type_checker.h $
-// $Id: Number_type_checker.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Number_type_checker.h $
+// $Id: Number_type_checker.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -34,7 +34,7 @@
 // #define CGAL_NT_CHECK_DEBUG(s) std::cerr << s << std::endl
 #define CGAL_NT_CHECK_DEBUG(s)
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -912,6 +912,6 @@ operator>> (std::istream & is, Number_type_checker<NT1, NT2, Cmp> &b)
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NUMBER_TYPE_CHECKER_H

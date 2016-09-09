@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Small_side_angle_bisector_decomposition_2.h $
-// $Id: Small_side_angle_bisector_decomposition_2.h 37991 2007-04-07 09:38:40Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Small_side_angle_bisector_decomposition_2.h $
+// $Id: Small_side_angle_bisector_decomposition_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 //                 (based on an old version by Eyal Flato)
@@ -24,7 +24,7 @@
 #include <vector>
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class
@@ -935,6 +935,6 @@ private:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

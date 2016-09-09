@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_enums.h $
-// $Id: Arr_enums.h 53356 2009-12-09 09:53:05Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_enums.h $
+// $Id: Arr_enums.h 57031 2010-06-23 15:36:12Z efif $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -25,9 +25,10 @@
  * Definition of the enumeration types for the arrangement package.
  */
 
+#include <CGAL/basic.h>
 #include <CGAL/enum.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \enum
  * Selection of a curve end.
@@ -151,31 +152,58 @@ inline
 OutputStream& operator<<(
         OutputStream& os,
         const Arr_parameter_space& ps) {
-    
+  
+  switch (::CGAL::get_mode(os)) {
+  case ::CGAL::IO::PRETTY:
     switch(ps) {
     case CGAL::ARR_LEFT_BOUNDARY:
-        os << "ARR_LEFT_BOUNDARY";
-        break;
+      os << "ARR_LEFT_BOUNDARY";
+      break;
     case CGAL::ARR_RIGHT_BOUNDARY:
-        os << "ARR_RIGHT_BOUNDARY";
-        break;
+      os << "ARR_RIGHT_BOUNDARY";
+      break;
     case CGAL::ARR_BOTTOM_BOUNDARY:
-        os << "ARR_BOTTOM_BOUNDARY";
-        break;
+      os << "ARR_BOTTOM_BOUNDARY";
+      break;
     case CGAL::ARR_TOP_BOUNDARY:
-        os << "ARR_TOP_BOUNDARY";
-        break;
+      os << "ARR_TOP_BOUNDARY";
+      break;
     case CGAL::ARR_INTERIOR:
-        os << "ARR_INTERIOR";
-        break;
+      os << "ARR_INTERIOR";
+      break;
     default:
-        CGAL_error_msg("bogus parameter space");
+      CGAL_error_msg("bogus parameter space");
     }
-    return os;
+    break;
+  case ::CGAL::IO::BINARY:
+    std::cerr << "BINARY format not yet implemented" << std::endl;
+    break;
+  default:
+    os << static_cast< int >(ps);
+  }
+  
+  return os;
 }
 
 
-CGAL_END_NAMESPACE
+//! \brief reads parameter space
+template< class InputStream >
+inline
+InputStream& operator>>(
+    InputStream& is,
+    Arr_parameter_space& ps) {
+
+  CGAL_precondition(CGAL::is_ascii(is));
+
+  int i;
+  is >> i;
+  ps = static_cast< Arr_parameter_space >(i);
+  
+  return is;
+  
+}
+
+
+} //namespace CGAL
 
 #endif
-

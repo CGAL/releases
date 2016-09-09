@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_scan_OFF.h $
-// $Id: Polyhedron_scan_OFF.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_scan_OFF.h $
+// $Id: Polyhedron_scan_OFF.h 57142 2010-06-28 10:55:25Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #include <iostream>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class HDS>
 class Polyhedron_scan_OFF :  public Modifier_base<HDS> {
@@ -79,7 +79,7 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
     typedef typename Traits::Point_3 Point;
 
     // read in all vertices
-    int  i;
+    std::size_t  i;
     for ( i = 0; i < scanner.size_of_vertices(); i++) {
         Point p;
         file_scan_vertex( scanner, p);
@@ -95,7 +95,7 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
     // read in all facets
     for ( i = 0; i < scanner.size_of_facets(); i++) {
         B.begin_facet();
-        Integer32 no;
+        std::size_t no;
         scanner.scan_facet( no, i);
         if( ! m_in || B.error() || no < 3) {
             if ( scanner.verbose()) {
@@ -108,8 +108,8 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
             m_in.clear( std::ios::badbit);
             return;
         }
-        for ( int j = 0; j < no; j++) {
-            Integer32 index;
+        for ( std::size_t j = 0; j < no; j++) {
+            std::size_t index;
             scanner.scan_facet_vertex_index( index, i);
             B.add_vertex_to_facet( index);
         }
@@ -138,6 +138,6 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
     B.end_surface();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_POLYHEDRON_SCAN_OFF_H //
 // EOF //

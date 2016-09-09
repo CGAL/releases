@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
-// $Id: Voronoi_intersection_2_traits_3.h 41436 2008-01-03 19:07:39Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
+// $Id: Voronoi_intersection_2_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -27,7 +27,7 @@
 #include <CGAL/constructions/constructions_for_voronoi_intersection_cartesian_2_3.h>
 #include <CGAL/function_objects.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits>
 class Orientation_with_normal_plane_2_3
@@ -548,6 +548,6 @@ plane_intersected_bisector_3(const Point &a, const Vector& n,
   return Line(Point(x1,y1,z1), Point(x2,y2,z2));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_VORONOI_INTERSECTION_2_TRAITS_3_H

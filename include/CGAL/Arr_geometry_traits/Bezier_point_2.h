@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_point_2.h $
-// $Id: Bezier_point_2.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_point_2.h $
+// $Id: Bezier_point_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -31,7 +31,7 @@
 #include <list>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class _Bezier_point_2
  * Representation of a point on a Bezier curve. The point has algebraic
@@ -1679,6 +1679,6 @@ void _Bezier_point_2_rep<RatKer, AlgKer, NtTrt, BndTrt>::_make_exact
   CGAL_error();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

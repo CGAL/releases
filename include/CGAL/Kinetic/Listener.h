@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/Listener.h $
-// $Id: Listener.h 53046 2009-11-16 12:05:02Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Listener.h $
+// $Id: Listener.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,7 +22,7 @@
 #define CGAL_TOOLS_LISTENER_BASE_H
 #include <CGAL/Kinetic/basic.h>
 #include <boost/utility.hpp>
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! This is the base class for all listener objects.
 /*!  An object which wishes to provide runtime notifications to other
@@ -233,7 +233,7 @@ private:							\
 
 #define CGAL_KINETIC_NOTIFY(field) if (listener_!= NULL) listener_->new_notification(Listener::field)
 
-#define CGAL_KINETIC_LISTENER_DESTRUCTOR CGAL_assertion(listener_==NULL);
+#define CGAL_KINETIC_LISTENER_DESTRUCTOR CGAL_assertion(listener_==NULL)
 
 
 #define CGAL_KINETIC_LISTENER_BASICS(Name, KDS)		\
@@ -274,7 +274,7 @@ private:						\
       else {								\
       }									\
     }									\
-  };								\
+  };                                                                    \
   friend class Notifier##_listener;					\
   Notifier##_listener listener_##Notifier##_;
 
@@ -286,5 +286,5 @@ private:						\
   
 
   
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
-// $Id: Td_X_trapezoid.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
+// $Id: Td_X_trapezoid.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -32,7 +32,7 @@
 #define CGAL_TD_INLINE inline
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * Implementation of a pseudo-trapezoid as two curves(top,bottom)
@@ -697,6 +697,6 @@ class Td_X_trapezoid : public Handle
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

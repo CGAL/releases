@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron_IO/include/CGAL/IO/print_wavefront.h $
-// $Id: print_wavefront.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/print_wavefront.h $
+// $Id: print_wavefront.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -25,7 +25,7 @@
 #include <CGAL/Polyhedron_3.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Polyhedron>
 void print_polyhedron_wavefront( std::ostream& out, const Polyhedron& P) {
@@ -48,7 +48,6 @@ print_wavefront( std::ostream& out,
     generic_print_polyhedron( out, P, writer);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_PRINT_WAVEFRONT_H //
 // EOF //
-

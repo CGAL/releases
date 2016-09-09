@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/src/CGAL/File_writer_inventor.cpp $
-// $Id: File_writer_inventor.cpp 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/src/CGAL/File_writer_inventor.cpp $
+// $Id: File_writer_inventor.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
 #include <CGAL/IO/File_writer_inventor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 void
 File_writer_inventor::
@@ -59,5 +59,5 @@ write_footer() const {
              "} #Separator" << std::endl;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 // EOF //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL:  $
-// $Id:   $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -22,7 +22,7 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/CGAL_Ipelet_base.h> 
 #include <CGAL/linear_least_squares_fitting_2.h>
-
+#include <boost/utility.hpp>
 
 namespace CGAL_pca{
 
@@ -75,8 +75,8 @@ void pcaIpelet::protected_run(int fn)
   for (std::list<Polygon_2>::iterator it=poly_list.begin();it!=poly_list.end();++it)
     if (it->size()==3){
       tri_list.push_back(Kernel::Triangle_2(*(it->vertices_begin()),
-                                            *++(it->vertices_begin()),
-                                            *++(++(it->vertices_begin()))
+                                            *boost::next(it->vertices_begin()),
+                                            *boost::next(it->vertices_begin(),2)
                                             ));
     }
     else{

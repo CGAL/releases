@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_jarvis.h $
-// $Id: ch_jarvis.h 31312 2006-05-29 09:01:56Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/ch_jarvis.h $
+// $Id: ch_jarvis.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,7 +25,7 @@
 #include <iterator>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // generates the counterclockwise ordered subsequence of
 // extreme points between |start_p| and |stop_p| of the points in the
@@ -81,15 +81,8 @@ ch_jarvis(ForwardIterator first, ForwardIterator last, OutputIterator  result)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Convex_hull_2/ch_jarvis_impl.h>
 
 #endif // CGAL_CH_JARVIS_H
-
-
-
-
-
-
-

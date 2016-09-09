@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/SNC_external_structure.h $
-// $Id: SNC_external_structure.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_external_structure.h $
+// $Id: SNC_external_structure.h 57193 2010-06-29 12:38:52Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de> 
@@ -39,7 +39,7 @@
 #define CGAL_NEF_DEBUG 43
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct int_lt {
   bool operator()(const int& i1, const int& i2) const { return i1<i2; }
@@ -387,7 +387,7 @@ public:
 	Halfedge_handle e2 = *itl;
 	while(normalized(e1->vector()) != normalized(-e2->vector())) {
 	  ++itl;
-	  make_twins(e1,*itl);
+	  this->make_twins(e1,*itl);
 	  e1 = e2;
 	  ++itl;
 	  e2 = *itl;
@@ -395,7 +395,7 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	make_twins(e1,e2);
+	this->make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
 	// discard temporary sphere_point ?
@@ -414,7 +414,7 @@ public:
 	Halfedge_handle e2 = *itl;
 	while(normalized(e1->vector()) != normalized(-e2->vector())) {
 	  ++itl;
-	  make_twins(e1,*itl);
+	  this->make_twins(e1,*itl);
 	  e1 = e2;
 	  ++itl;
 	  e2 = *itl;
@@ -422,7 +422,7 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	make_twins(e1,e2);
+	this->make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
 	// discard temporary sphere_point ?
@@ -817,7 +817,7 @@ public:
       if( !CGAL::assign(sfc, o) || ShellSf[sfc] != i) {
 	CGAL_NEF_TRACEN("the shell encloses a volume");
 	CGAL_NEF_TRACEN("sface hit? "<<CGAL::assign(sfc,o));
-	if( CGAL::assign(sfc, o)) CGAL_NEF_TRACEN("sface on another shell? "<<ShellSf[sfc]);
+	if( CGAL::assign(sfc, o)) { CGAL_NEF_TRACEN("sface on another shell? "<<ShellSf[sfc]); }
 	SFace_handle f = MinimalSFace[i];
 	CGAL_assertion( ShellSf[f] == i );
 	if( Closed[i] ) {
@@ -1342,5 +1342,5 @@ public:
   }
 }; 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_EXTERNAL_STRUCTURE_H

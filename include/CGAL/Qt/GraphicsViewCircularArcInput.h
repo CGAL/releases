@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/GraphicsViewCircularArcInput.h $
-// $Id: GraphicsViewCircularArcInput.h 47248 2008-12-05 16:33:34Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/GraphicsViewCircularArcInput.h $
+// $Id: GraphicsViewCircularArcInput.h 58179 2010-08-20 09:50:54Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -77,7 +77,7 @@ private:
 
 template <typename K>
 GraphicsViewCircularArcInput<K>::GraphicsViewCircularArcInput(QObject *parent, QGraphicsScene* s)
-  : GraphicsViewInput(parent), scene_(s), count(0)
+  : GraphicsViewInput(parent), count(0), scene_(s)
 {
   qline = new QGraphicsLineItem();
   qcarc = new CircularArcGraphicsItem<K>();

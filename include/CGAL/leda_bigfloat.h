@@ -1,4 +1,3 @@
-
 // Copyright (c) 1999,2007  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/leda_bigfloat.h $
-// $Id: leda_bigfloat.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_bigfloat.h $
+// $Id: leda_bigfloat.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -40,7 +39,7 @@
 #include <LEDA/numbers/bigfloat.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <> class Algebraic_structure_traits< leda_bigfloat >
   : public Algebraic_structure_traits_base< leda_bigfloat,
@@ -103,7 +102,7 @@ public:
         }
         
         CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( Type, 
-                Comparison_result ); 
+                Comparison_result )
     };
 
     class To_double
@@ -147,7 +146,7 @@ class Is_valid< leda_bigfloat >
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // Unary + is missing for leda::bigfloat
 namespace leda {

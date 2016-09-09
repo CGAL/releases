@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/global_functions_circular_kernel_2.h $
-// $Id: global_functions_circular_kernel_2.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/global_functions_circular_kernel_2.h $
+// $Id: global_functions_circular_kernel_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck, Pedro Machado
 
@@ -33,7 +33,7 @@
 #include <CGAL/Line_arc_2.h>
 #include <CGAL/Circular_kernel_2/internal_functions_on_circle_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class CK>
 Circular_arc_point_2<CK>
@@ -185,6 +185,6 @@ make_xy_monotone(const Line_arc_2<CK> &A, OutputIterator it)
   return CK().make_xy_monotone_2_object()(A, it);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCULAR_KERNEL_GLOBAL_FUNCTIONS_CIRCULAR_KERNEL_2_H

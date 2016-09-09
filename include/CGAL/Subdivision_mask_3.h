@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Subdivision_method_3/include/CGAL/Subdivision_mask_3.h $
-// $Id: Subdivision_mask_3.h 42907 2008-04-15 17:38:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Subdivision_method_3/include/CGAL/Subdivision_mask_3.h $
+// $Id: Subdivision_mask_3.h 57049 2010-06-24 08:52:54Z lrineau $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -27,11 +27,11 @@
 #define CGAL_POLYHEDRON_SUBDIVISION_STENCILS_H_01292002
 
 #include <CGAL/basic.h>
+#include <CGAL/Origin.h>
 
 #include <CGAL/circulator.h>
-#include <CGAL/Vector_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ======================================================================
 /// The stencil of the Primal-Quadrilateral-Quadrisection 
@@ -140,8 +140,8 @@ public:
     Point p1 = edge->vertex()->point();
     Point p2 = edge->opposite()->vertex()->point();
     Point f1, f2;
-    facet_node(edge->facet(), f1);
-    facet_node(edge->opposite()->facet(), f2);
+    this->facet_node(edge->facet(), f1);
+    this->facet_node(edge->opposite()->facet(), f2);
     pt = Point((p1[0]+p2[0]+f1[0]+f2[0])/4,
 	       (p1[1]+p2[1]+f1[1]+f2[1])/4,
 	       (p1[2]+p2[2]+f1[2]+f2[2])/4 );
@@ -149,7 +149,7 @@ public:
   //
   void vertex_node(Vertex_handle vertex, Point& pt) {
     Halfedge_around_vertex_circulator vcir = vertex->vertex_begin();
-    int n = circulator_size(vcir);    
+    int n = static_cast<int>(circulator_size(vcir));    
 
     FT Q[] = {0.0, 0.0, 0.0}, R[] = {0.0, 0.0, 0.0};
     Point& S = vertex->point();
@@ -160,7 +160,7 @@ public:
       R[0] += (S[0]+p2[0])/2;
       R[1] += (S[1]+p2[1])/2;
       R[2] += (S[2]+p2[2])/2;
-      facet_node(vcir->facet(), q);
+      this->facet_node(vcir->facet(), q);
       Q[0] += q[0];      
       Q[1] += q[1];      
       Q[2] += q[2];
@@ -374,6 +374,6 @@ public:
   //void border_node(Halfedge_handle edge, Point& ept, Point& vpt) {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_POLYHEDRON_SUBDIVISION_STENCILS_H_01292002

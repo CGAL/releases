@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_vertex_base_2.h $
-// $Id: Apollonius_graph_vertex_base_2.h 48840 2009-04-21 18:17:32Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_vertex_base_2.h $
+// $Id: Apollonius_graph_vertex_base_2.h 56942 2010-06-21 16:37:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,7 +25,7 @@
 #include <CGAL/Triangulation_ds_vertex_base_2.h>
 #include <CGAL/triangulation_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class AGVB2_Iterator>
 struct Apollonius_graph_vertex_base_nested_iterator_traits
@@ -106,7 +106,7 @@ public:
 
   Face_handle face() const { return Vb::face(); }
 
-  unsigned int number_of_hidden_sites() const {
+  std::size_t number_of_hidden_sites() const {
     return hidden_site_list.size();
   }
 
@@ -148,6 +148,6 @@ private:
   Site_2 _p;
 };
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif // CGAL_APOLLONIUS_GRAPH_VERTEX_BASE_2_H

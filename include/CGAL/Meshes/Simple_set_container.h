@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Meshes/Simple_set_container.h $
-// $Id: Simple_set_container.h 42968 2008-04-21 16:07:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Meshes/Simple_set_container.h $
+// $Id: Simple_set_container.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -72,7 +72,7 @@ namespace CGAL {
       }
     }; // end Simple_set_container
     
-  }; // end namespace Meshes
-}; // end namespace CGAL
+  } // end namespace Meshes
+} // end namespace CGAL
 
 #endif // CGAL_MESHES_SIMPLE_SET_CONTAINER_H

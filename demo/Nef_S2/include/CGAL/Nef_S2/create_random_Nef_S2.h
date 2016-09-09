@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/demo/Nef_S2/include/CGAL/Nef_S2/create_random_Nef_S2.h $
-// $Id: create_random_Nef_S2.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/demo/Nef_S2/include/CGAL/Nef_S2/create_random_Nef_S2.h $
+// $Id: create_random_Nef_S2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Nef_polyhedron_S2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K,typename I,typename M>
 void
@@ -59,5 +59,5 @@ create_random_Nef_S2(Nef_polyhedron_S2<K,I,M>& P, int n=5, int seed=0) {
 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // NEF_POLYHEDRON_S2_CREATE_RANDOM_H

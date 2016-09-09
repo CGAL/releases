@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/tds_2_helpers.h $
-// $Id: tds_2_helpers.h 34916 2006-10-24 18:52:12Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/tds_2_helpers.h $
+// $Id: tds_2_helpers.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,7 +22,7 @@
 #define CGAL_TRIANGULATION_DATA_STRUCTURE_HELPER_2_H
 #include <CGAL/Kinetic/basic.h>
 #include <utility>
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class TDS>
 struct Triangulation_data_structure_helper_2
@@ -73,5 +73,5 @@ struct Triangulation_data_structure_helper_2
 
 
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 #endif

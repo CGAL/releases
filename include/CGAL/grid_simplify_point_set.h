@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
-// $Id: grid_simplify_point_set.h 53392 2009-12-11 15:34:07Z nsalman $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
+// $Id: grid_simplify_point_set.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Nader Salman and Laurent Saboret 
 
@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <cmath>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // ----------------------------------------------------------------------------
@@ -214,7 +214,6 @@ grid_simplify_point_set(
 /// @endcond
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_GRID_SIMPLIFY_POINT_SET_H
-

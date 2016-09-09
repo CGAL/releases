@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_dummy_36.h $
-// $Id: Periodic_3_triangulation_dummy_36.h 50088 2009-06-26 08:25:50Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_dummy_36.h $
+// $Id: Periodic_3_triangulation_dummy_36.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //
 // Author(s)     : Manuel Caroli <Manuel.Caroli@sophia.inria.fr>
@@ -754,4 +754,3 @@ Periodic_3_triangulation_3<GT,TDS>::insert_dummy_points() {
 }
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_DUMMY_36_H
-

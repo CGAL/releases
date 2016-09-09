@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_number.h $
-// $Id: Filtered_number.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_number.h $
+// $Id: Filtered_number.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Polynomial/basic.h>
 #include <CGAL/FPU.h>
 
-CGAL_POLYNOMIAL_BEGIN_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL {
 
 template <class NT_t>
 class Filtered_number
@@ -306,9 +306,9 @@ std::ostream &operator<<(std::ostream &out, const Filtered_number<NT> &a)
 }
 
 
-CGAL_POLYNOMIAL_END_NAMESPACE
+} } //namespace CGAL::POLYNOMIAL
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template <class NT>
 double to_double(const CGAL_POLYNOMIAL_NS::Filtered_number<NT> &a)
 {
@@ -323,7 +323,7 @@ std::pair<double, double> to_interval(const CGAL_POLYNOMIAL_NS::Filtered_number<
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 template <class NT>
 std::ostream &operator<<(std::ostream &out, const CGAL_POLYNOMIAL_NS::Filtered_number<NT> &a)

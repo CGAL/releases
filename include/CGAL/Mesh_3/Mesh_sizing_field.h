@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_sizing_field.h $
-// $Id: Mesh_sizing_field.h 53918 2010-01-29 17:23:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_sizing_field.h $
+// $Id: Mesh_sizing_field.h 57256 2010-07-01 08:27:03Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -25,7 +25,7 @@
 #ifndef CGAL_MESH_3_MESH_SIZING_FIELD_H
 #define CGAL_MESH_3_MESH_SIZING_FIELD_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3
 {
@@ -158,7 +158,7 @@ operator()(const Point_3& p, const Cell_handle& c) const
 template <typename Tr, bool B>
 typename Mesh_sizing_field<Tr,B>::FT
 Mesh_sizing_field<Tr,B>::
-operator()(const Point_3& p, const std::pair<Cell_handle,bool>& c) const
+operator()(const Point_3&, const std::pair<Cell_handle,bool>& c) const
 {
   // Assumes that p is the centroid of c
   const Cell_handle& cell = c.first;
@@ -254,6 +254,6 @@ interpolate_on_facet_vertices(const Point_3& p, const Cell_handle& cell) const
 } // end namespace Mesh_3
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_MESH_SIZING_FIELD_H

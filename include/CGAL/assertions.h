@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/assertions.h $
-// $Id: assertions.h 46984 2008-11-21 16:47:39Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/assertions.h $
+// $Id: assertions.h 58178 2010-08-20 09:49:09Z lrineau $
 //
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr
@@ -28,7 +28,7 @@
 
 // #include <CGAL/assertions_behaviour.h> // for backward compatibility
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // function declarations
 // =====================
@@ -56,7 +56,9 @@ inline bool possibly(Uncertain<bool> c);
 // ----------
 
 #ifdef NDEBUG
-#  define CGAL_NDEBUG
+#  ifndef CGAL_NDEBUG
+#    define CGAL_NDEBUG
+#  endif
 #endif
 
 #ifdef CGAL_NDEBUG
@@ -274,7 +276,7 @@ inline bool possibly(Uncertain<bool> c);
 #define CGAL_error_msg(MSG) ::CGAL::assertion_fail( "", __FILE__, __LINE__, MSG )
 #define CGAL_error()        ::CGAL::assertion_fail( "", __FILE__, __LINE__ )
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // This comes last as it is dependant on the macros to be defined.
 // But the macros need CGAL::possibly().

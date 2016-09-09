@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Spatial_sorting/include/CGAL/spatial_sort.h $
-// $Id: spatial_sort.h 53867 2010-01-28 12:18:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_sorting/include/CGAL/spatial_sort.h $
+// $Id: spatial_sort.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Christophe Delage
 
@@ -32,7 +32,7 @@
 
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -82,6 +82,6 @@ void spatial_sort (RandomAccessIterator begin, RandomAccessIterator end)
     spatial_sort (begin, end, Kernel());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif//CGAL_SPATIAL_SORT_H

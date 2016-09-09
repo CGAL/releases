@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h 56896 2010-06-20 21:18:29Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
+// $Id: Rotation_tree_2.h 56898 2010-06-20 21:48:20Z lrineau $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -49,6 +49,7 @@ public:
    typedef typename internal::vector<Node>::iterator  Self_iterator;
    typedef typename Traits::Point_2                Point_2;
 
+  using  internal::vector< Rotation_tree_node_2<Traits_> >::push_back;
 
    // constructor
    template<class ForwardIterator>

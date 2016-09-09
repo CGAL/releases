@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/voronoi_diagram_2.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/voronoi_diagram_2.cpp $
 // $Id: voronoi_diagram_2.cpp 45459 2008-09-09 22:29:51Z lrineau $
 //
 //

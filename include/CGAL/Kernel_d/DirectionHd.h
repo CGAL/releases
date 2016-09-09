@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h $
-// $Id: DirectionHd.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h $
+// $Id: DirectionHd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel
@@ -31,7 +31,7 @@
 #include <CGAL/Kernel_d/VectorHd.h>
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class RT, class LA> class DirectionHd;
 template <class RT, class LA>
@@ -219,7 +219,6 @@ requirement is $O(|d.dimension()|)$.  }*/
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_DIRECTIONHD_H
 //----------------------- end of file ----------------------------------
-

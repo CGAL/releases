@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
-// $Id: Rectangular_p_center_traits_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h 56820 2010-06-16 20:42:04Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -24,7 +24,7 @@
 #include <CGAL/Iso_rectangle_2.h>
 #include <CGAL/basic_constructions_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class A, class S >
 struct Select : public std::binary_function< A, A, A > {
@@ -63,9 +63,8 @@ struct I_Infinity_distance_2
 {
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const {
-    BOOST_USING_STD_MAX();
-    return max BOOST_PREVENT_MACRO_SUBSTITUTION (CGAL_NTS abs(q1.x() - q2.x()),
-						 CGAL_NTS abs(q1.y() - q2.y()));
+    return (std::max)(CGAL_NTS abs(q1.x() - q2.x()),
+                      CGAL_NTS abs(q1.y() - q2.y()));
   }
 };
 
@@ -77,8 +76,7 @@ struct I_Signed_infinity_distance_2
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
   { 
-    BOOST_USING_STD_MAX();
-    return max BOOST_PREVENT_MACRO_SUBSTITUTION (q1.x() - q2.x(), q1.y() - q2.y()); 
+    return (std::max)(q1.x() - q2.x(), q1.y() - q2.y()); 
   }
 };
 
@@ -86,7 +84,7 @@ template < class R >
 struct I_Construct_point_2_above_right_implicit_point_2 {
   // (p, q, r) |--> (p.x() + r, q.y() + r)
   typedef typename R::FT                     FT;
-  typedef Point_2< Cartesian< FT > >         P;
+  typedef typename R::Point_2                P;
 
   inline P
   operator()(const P& p, const P& q, FT r) const
@@ -97,7 +95,7 @@ template < class R >
 struct I_Construct_point_2_above_left_implicit_point_2 {
   // (p, q, r) |--> (p.x() - r, q.y() + r)
   typedef typename R::FT                     FT;
-  typedef Point_2< Cartesian< FT > >         P;
+  typedef typename R::Point_2                P;
 
   inline P
   operator()(const P& p, const P& q, FT r) const
@@ -108,7 +106,7 @@ template < class R >
 struct I_Construct_point_2_below_left_implicit_point_2 {
   // (p, q, r) |--> (p.x() - r, q.y() - r)
   typedef typename R::FT                     FT;
-  typedef Point_2< Cartesian< FT > >         P;
+  typedef typename R::Point_2                P;
 
   inline P
   operator()(const P& p, const P& q, FT r) const
@@ -119,7 +117,7 @@ template < class R >
 struct I_Construct_point_2_below_right_implicit_point_2 {
   // (p, q, r) |--> (p.x() + r, q.y() - r)
   typedef typename R::FT                     FT;
-  typedef Point_2< Cartesian< FT > >         P;
+  typedef typename R::Point_2                P;
 
   inline P
   operator()(const P& p, const P& q, FT r) const
@@ -329,6 +327,6 @@ construct_bounding_box_union_2(const Rectangle& r1, const Rectangle& r2)
   return construct_bounding_box_union_2(r1, r2, t);
 } // construct_bounding_box_union_2(r1, r2)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_RECTANGULAR_P_CENTER_TRAITS_2_H)

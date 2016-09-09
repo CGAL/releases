@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/marching_tetrahedra_3.h $
-// $Id: marching_tetrahedra_3.h 35560 2006-12-16 14:24:48Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/marching_tetrahedra_3.h $
+// $Id: marching_tetrahedra_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -25,7 +25,7 @@
 #include <CGAL/Cartesian_converter.h>
 #include <CGAL/Marching_tetrahedra_observer_default_3.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 // If TriangulationDataStructure_3 only gets a Cell_handle range
 // it is not possible to derive the Vertex_handle type.
@@ -270,6 +270,6 @@ void marching_tetrahedra_3(
   polyhedron.delegate(builder);
 }
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif // CGAL_MARCHING_TETRAHEDRA_H

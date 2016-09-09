@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 41674 2008-01-18 10:20:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: Vector__.h 56991 2010-06-22 16:17:33Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -167,7 +167,7 @@ Vector_(Forward_iterator first, Forward_iterator last)
   Forward_iterator fit = first;
   while(fit++!=last) d_++;
 #else
-  d_ = std::distance(first, last);
+  d_ = static_cast<int>(std::distance(first, last));
 #endif
   allocate_vec_space(v_,d_);
   iterator it = begin();

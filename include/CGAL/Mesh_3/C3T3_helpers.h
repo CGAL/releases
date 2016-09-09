@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h 56552 2010-06-03 09:57:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: C3T3_helpers.h 57306 2010-07-02 15:13:57Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -824,9 +824,11 @@ update_mesh(const Point_3& new_point,
       
       // reset cache validity
       namespace bl = boost::lambda;
-      std::for_each(conflict_cells.begin(),
-                    conflict_cells.end(),
-                    bl::bind(&Cell::reset_cache_validity, *bl::_1) );
+      for ( typename Cell_vector::iterator cit = conflict_cells.begin(),
+           end = conflict_cells.end() ; cit != end ; ++cit )
+      {
+        (*cit)->reset_cache_validity();
+      }
       
       return std::make_pair(false,old_vertex);
     }
@@ -1083,10 +1085,7 @@ project_on_surface_aux(const Point_3& p,
   
   typename Gt::Construct_scaled_vector_3 scale =
     Gt().construct_scaled_vector_3_object();
-  
-  typename Gt::Construct_translated_point_3 translate =
-    Gt().construct_translated_point_3_object();
-  
+    
   typename Gt::Is_degenerate_3 is_degenerate =
     Gt().is_degenerate_3_object();
   

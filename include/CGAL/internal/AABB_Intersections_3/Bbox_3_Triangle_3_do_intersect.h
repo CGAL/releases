@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/internal/AABB_Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
-// $Id: Bbox_3_Triangle_3_do_intersect.h 53460 2009-12-16 17:03:17Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/internal/AABB_Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
+// $Id: Bbox_3_Triangle_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez
@@ -31,7 +31,7 @@
 // ST: is this include really needed ?
 #include <CGAL/internal/AABB_Intersections_3/Bbox_3_Plane_3_do_intersect.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -192,7 +192,6 @@ namespace internal {
         return ( do_axis_intersect_aux<K,AXE,SIDE>(p_min.y()-j.y(), p_min.z()-j.z(), sides) <= 0
                 || do_axis_intersect_aux<K,AXE,SIDE>(p_max.y()-k.y(), p_max.z()-k.z(), sides) >= 0 );
       }
-      break;
     case 1:
       // t_max >= t_min
       if ( do_axis_intersect_aux<K,AXE,SIDE>(k.x()-j.x(), k.z()-j.z(), sides) >= 0 )
@@ -205,7 +204,6 @@ namespace internal {
         return ( do_axis_intersect_aux<K,AXE,SIDE>(p_min.x()-j.x(), p_min.z()-j.z(), sides) <= 0
                 || do_axis_intersect_aux<K,AXE,SIDE>(p_max.x()-k.x(), p_max.z()-k.z(), sides) >= 0 );
       }
-      break;
     case 2:
       // t_max >= t_min
       if ( do_axis_intersect_aux<K,AXE,SIDE>(k.x()-j.x(), k.y()-j.y(), sides) >= 0 )
@@ -218,7 +216,6 @@ namespace internal {
         return ( do_axis_intersect_aux<K,AXE,SIDE>(p_min.x()-j.x(), p_min.y()-j.y(), sides) <= 0
                 || do_axis_intersect_aux<K,AXE,SIDE>(p_max.x()-k.x(), p_max.y()-k.y(), sides) >= 0 );
       }
-      break;
     default:
       // Should not happen
       CGAL_error();
@@ -262,6 +259,14 @@ namespace internal {
     return true;
   }
 
+  template <class K>
+  bool do_intersect(const CGAL::Bbox_3& bbox,
+                    const typename K::Triangle_3& triangle,
+                    const K& k)
+  {
+    return do_intersect(triangle, bbox, k);
+  }
+
 } // namespace internal
 
 template <class K>
@@ -278,6 +283,6 @@ bool do_intersect(const CGAL::Bbox_3& bbox,
   return typename K::Do_intersect_3()(triangle, bbox);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_INTERNAL_INTERSECTIONS_3_BBOX_3_TRIANGLE_3_DO_INTERSECT_H

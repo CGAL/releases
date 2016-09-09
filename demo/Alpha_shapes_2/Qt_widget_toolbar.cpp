@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 45379 2008-09-08 13:10:50Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 55707 2010-04-24 08:52:06Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -77,6 +77,6 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w, QMainWindow *mw,
 
   but[1]->toggle();
 
-};
+}
 
 #include "Qt_widget_toolbar.moc"

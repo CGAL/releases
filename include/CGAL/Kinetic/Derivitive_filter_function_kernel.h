@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
-// $Id: Derivitive_filter_function_kernel.h 39015 2007-06-10 23:46:47Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
+// $Id: Derivitive_filter_function_kernel.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Polynomial/Numeric_root_stack.h>
 #include <CGAL/Polynomial/internal/numeric_solvers.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 template <class Traits>
 struct Derivitive_filter_function_kernel: public Traits
@@ -80,5 +80,5 @@ struct Derivitive_filter_function_kernel: public Traits
   using Traits::negate_variable_object;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif                                            // inclusion guard

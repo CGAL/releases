@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
-// $Id: Mesh_surface_cell_base_3.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: Mesh_surface_cell_base_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -67,14 +67,14 @@ public:
     : Cb()
     , surface_index_table_()
     , surface_center_table_()
-    , bits_(0) { };
+    , bits_(0) { }
 
   Mesh_surface_cell_base_3(Vertex_handle v0, Vertex_handle v1,
                            Vertex_handle v2, Vertex_handle v3)
     : Cb (v0, v1, v2, v3)
     , surface_index_table_()
     , surface_center_table_()
-    , bits_(0) { };
+    , bits_(0) { }
 
   Mesh_surface_cell_base_3(Vertex_handle v0, Vertex_handle v1,
                            Vertex_handle v2, Vertex_handle v3,
@@ -83,11 +83,11 @@ public:
     : Cb (v0, v1, v2, v3, n0, n1, n2, n3)
     , surface_index_table_()
     , surface_center_table_()
-    , bits_(0) { };
+    , bits_(0) { }
 
 
   /// Destructor
-  ~Mesh_surface_cell_base_3() { };
+  ~Mesh_surface_cell_base_3() { }
 
   // Default copy constructor and assignment operator are ok
 

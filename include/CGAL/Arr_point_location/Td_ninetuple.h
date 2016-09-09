@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_ninetuple.h $
-// $Id: Td_ninetuple.h 39880 2007-08-16 14:43:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_ninetuple.h $
+// $Id: Td_ninetuple.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -20,7 +20,7 @@
 #ifndef CGAL_TD_NINETUPLE_H
 #define CGAL_TD_NINETUPLE_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class F0,class F1,class F2,class F3,class F4,class F5,class F6,
   class F7,class F8>
@@ -52,15 +52,6 @@ public:
   {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-
-
-
-
-
-
-
-
-

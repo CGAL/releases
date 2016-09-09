@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_root_rep.h $
-// $Id: Sturm_root_rep.h 45637 2008-09-18 15:41:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_root_rep.h $
+// $Id: Sturm_root_rep.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,7 +29,7 @@
 //#include <CGAL/Polynomial/internal/Bisection.h>
 
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 //==================
 // the Root class
@@ -926,9 +926,9 @@ operator<<(Stream& os, const Sturm_root_rep<S,I>& r)
   return r.compute_interval();
   }*/
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*template<class S, class I>
   double
@@ -1003,7 +1003,7 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace std
 {

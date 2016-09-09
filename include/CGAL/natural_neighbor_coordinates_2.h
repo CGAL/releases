@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_2.h $
-// $Id: natural_neighbor_coordinates_2.h 44490 2008-07-27 11:54:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_2.h $
+// $Id: natural_neighbor_coordinates_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Frank Da, Julia Floetotto
@@ -26,7 +26,7 @@
 #include <CGAL/number_utils_classes.h>
 #include <CGAL/utility.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // the struct "Project_vertex_output_iterator"
 // is used in the (next two) functions
@@ -154,6 +154,55 @@ natural_neighbor_coordinates_vertex_2(const Dt& dt,
   std::list<Edge> hole;
 
   dt.get_boundary_of_conflicts(p, std::back_inserter(hole), fh);
+
+  // The symbolic perturbation makes that the conflict zone
+  // is too big for the interpolation. As a consequence 
+  // we would have points with lambda = 0 in the output
+  // Therefore we filter them out again 
+  typedef typename std::list<Edge>::iterator Edge_iterator;
+  Edge_iterator it = hole.begin(), nit = it;
+  ++nit;
+  
+  do {
+    Point_2 p0 = it->first->vertex(dt.cw(it->second))->point();
+    Point_2 p1 = it->first->vertex(dt.ccw(it->second))->point();
+    Point_2 p2 = nit->first->vertex(dt.ccw(nit->second))->point();
+    if(dt.geom_traits().side_of_oriented_circle_2_object()(p, p0, p1, p2) 
+       == ON_ORIENTED_BOUNDARY){
+      Face_handle nh = it->first->neighbor(it->second);
+      int ni = nh->index(it->first->vertex(dt.ccw(it->second)));
+      Edge_iterator eit = hole.insert(it, Edge(nh, ni));
+      hole.erase(it);
+      hole.erase(nit);
+      it = eit;
+      nit = it;
+    } else {
+      it = nit;
+    }
+    ++nit;
+  }while (nit != hole.end());
+
+  // now a similar test for the last and first edge
+  
+  nit = hole.begin();
+  do {
+    Point_2 p0 = it->first->vertex(dt.cw(it->second))->point();
+    Point_2 p1 = it->first->vertex(dt.ccw(it->second))->point();
+    Point_2 p2 = nit->first->vertex(dt.ccw(nit->second))->point();
+    if(dt.geom_traits().side_of_oriented_circle_2_object()(p, p0, p1, p2) 
+       == ON_ORIENTED_BOUNDARY){
+      Face_handle nh = it->first->neighbor(it->second);
+      int ni = nh->index(it->first->vertex(dt.ccw(it->second)));
+      Edge_iterator eit = hole.insert(it, Edge(nh, ni));
+      hole.erase(it);
+      hole.erase(nit);
+      it = eit;
+      nit = hole.begin();
+    } else {
+      ++it;
+    }
+  }while (it != hole.end());
+
   return natural_neighbor_coordinates_vertex_2
          (dt, p, out, hole.begin(), hole.end());
 }
@@ -176,6 +225,7 @@ natural_neighbor_coordinates_vertex_2(const Dt& dt,
   typedef typename Traits::Point_2       Point_2;
 
   typedef typename Dt::Vertex_handle     Vertex_handle;
+  typedef typename Dt::Face_handle     Face_handle;
   typedef typename Dt::Face_circulator   Face_circulator;
 
 
@@ -209,13 +259,12 @@ natural_neighbor_coordinates_vertex_2(const Dt& dt,
 	 vor[2] = dt.dual(fc);
 	
 	 area += polygon_area_2(vor.begin(), vor.end(), dt.geom_traits());
-	
+         
 	 vor[1] = vor[2];
        };
      vor[2] =
        dt.geom_traits().construct_circumcenter_2_object()(prev->point(),
 							  current->point(),p);
-
      area += polygon_area_2(vor.begin(), vor.end(), dt.geom_traits());
 
      
@@ -319,6 +368,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NATURAL_NEIGHBOR_COORDINATES_2_H

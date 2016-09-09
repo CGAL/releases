@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/sturm_habicht_sequence.h $
-// $Id: sturm_habicht_sequence.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/sturm_habicht_sequence.h $
+// $Id: sturm_habicht_sequence.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/Polynomial/bezout_matrix.h>
 #include <CGAL/Polynomial/subresultants.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -482,6 +482,6 @@ template<typename Polynomial_traits_d,
       return CGAL::number_of_real_roots(stha.begin(),stha.end());
   }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_STURM_HABICHT

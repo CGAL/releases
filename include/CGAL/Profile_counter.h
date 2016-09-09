@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/include/CGAL/Profile_counter.h $
-// $Id: Profile_counter.h 47566 2008-12-20 17:31:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Profiling_tools/include/CGAL/Profile_counter.h $
+// $Id: Profile_counter.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -54,7 +54,7 @@
 #include <string>
 #include <map>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Profile_counter
 {
@@ -177,6 +177,6 @@ private:
 #  define CGAL_BRANCH_PROFILER_BRANCH_2(NAME) 
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PROFILE_COUNTER_H

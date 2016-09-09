@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/int.h $
-// $Id: int.h 45772 2008-09-25 13:41:17Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/int.h $
+// $Id: int.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -28,7 +28,7 @@
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Modular_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace INTERN_INT {
     template< class Type >
@@ -252,6 +252,6 @@ template <> class Real_embeddable_traits< short int >
 
 // Note : "long long" support is in <CGAL/long_long.h>
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_INT_H

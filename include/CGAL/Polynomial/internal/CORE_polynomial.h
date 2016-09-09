@@ -7,8 +7,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
-// $Id: CORE_polynomial.h 41418 2008-01-03 14:50:13Z spion $ $Date: 2008-01-03 15:50:13 +0100 (Thu, 03 Jan 2008) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
+// $Id: CORE_polynomial.h 56668 2010-06-09 08:45:58Z sloriot $ $Date: 2010-06-09 10:45:58 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/CORE_Expr.h>
 #include <CGAL/CORE_BigRat.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 struct CORE_polynomial {
   typedef CORE::Polynomial<CORE::BigRat> P;
@@ -270,5 +270,5 @@ CORE_polynomial operator*(const CORE_polynomial::NT &a,
   return CORE_polynomial(CORE_polynomial::P(0, &a)*p.core_polynomial());
 }
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

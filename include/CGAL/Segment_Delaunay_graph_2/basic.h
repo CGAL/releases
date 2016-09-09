@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/basic.h $
-// $Id: basic.h 48841 2009-04-21 18:19:46Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/basic.h $
+// $Id: basic.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,11 +24,6 @@
 
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS \
   CGAL::SegmentDelaunayGraph_2
-
-#define CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE \
-  namespace SegmentDelaunayGraph_2 {
-
-#define CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE }
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_BASIC_H

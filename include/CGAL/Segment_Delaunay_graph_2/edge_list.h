@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/edge_list.h $
-// $Id: edge_list.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/edge_list.h $
+// $Id: edge_list.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,7 +25,7 @@
 #include <CGAL/Edge_hash_function.h>
 #include <CGAL/circulator_bases.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 namespace internal {
@@ -125,6 +125,10 @@ namespace internal {
     typedef Edge_list_circulator<List>                  Self;
 
   public:
+    typedef typename Base::pointer     pointer;
+    typedef typename Base::reference   reference;
+
+  public:
     Edge_list_circulator()
       : l_(NULL), c_(List_item::sentinel_edge()) {}
 
@@ -156,31 +160,112 @@ namespace internal {
 
     Self operator++(int) {
       Self tmp(*this);
-      ++tmp;
+      ++(*this);
       return tmp;
     }
 
     Self operator--(int) {
       Self tmp(*this);
-      --tmp;
+      --(*this);
       return tmp;
     }
 
-    typename Base::pointer   operator->() { return &c_; }
-    typename Base::reference operator*() { return c_; }
+    pointer   operator->() { return &c_; }
+    reference operator*() { return c_; }
 
     bool operator==(const Self& other) const {
-      return l_ == other.l_ && c_ == other.c_;
+      CGAL_assertion( l_ == other.l_ );
+      return c_ == other.c_;
     }
 
     bool operator!=(const Self& other) const {
-      return l_ != other.l_ || c_ != other.c_;
+      CGAL_assertion( l_ == other.l_ );
+      return c_ != other.c_;
     }
 
   protected:
     const List* l_;
     //    Edge& c_;
     Edge c_;
+  };
+
+
+  template<class L>
+  class Edge_list_iterator
+  {
+    typedef L                               Edge_list;
+    typedef typename Edge_list::Edge        Edge;
+    typedef Edge_list_iterator<Edge_list>   Self;
+
+  public:
+    typedef Edge*  pointer;
+    typedef Edge&  reference;
+
+  public:
+    Edge_list_iterator() {}
+    
+    Edge_list_iterator(const Edge_list* l, const Edge& e, unsigned int idx)
+      : l(l), e(e), idx(idx) {}
+    
+    Edge_list_iterator(const Self& other)
+    {
+      l = other.l;
+      e = other.e;
+      idx = other.idx;
+    }
+
+    Self& operator=(const Self& other)
+    {
+      l = other.l;
+      e = other.e;
+      idx = other.idx;
+      return *this;
+    }
+
+    // pre-increment
+    Self& operator++() {
+      ++idx;
+      e = l->next(e);
+      return *this;
+    }
+
+    // post-increment
+    Self operator++(int) {
+      Self tmp(*this);
+      ++(*this);
+      return tmp;
+    }
+
+    Self& operator--() {
+      --idx;
+      e = l->previous(e);
+      return *this;
+    }
+
+    Self operator--(int) {
+      Self tmp(*this);
+      --(*this);
+      return tmp;
+    }
+
+    pointer    operator->() { return &e; }
+    reference  operator*()  { return e; }
+
+
+    bool operator==(const Self& other) const {
+      CGAL_assertion( l == other.l );
+      return idx == other.idx;
+    }
+
+    bool operator!=(const Self& other) const {
+      CGAL_assertion( l == other.l );
+      return idx != other.idx;
+    }
+
+  private:
+    const Edge_list* l;
+    Edge e;
+    unsigned int idx;
   };
 
 
@@ -211,6 +296,7 @@ private:
 
 public:
   typedef internal::Edge_list_circulator<Self>  circulator;
+  typedef internal::Edge_list_iterator<Self>    iterator;
 
 private:
   // PRIVATE DATA MEMBERS
@@ -450,6 +536,16 @@ public:
     return circulator(this, start);
   }
 #endif
+  // ACCESS TO ITERATOR
+  //===================
+  iterator begin() const {
+    return iterator(this, front(), 0);
+  }
+
+  iterator end() const {
+    return iterator(this, front(), size());
+  }
+
 
   // MISCELLANEOUS
   //==============
@@ -458,7 +554,7 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_EDGE_LIST_H

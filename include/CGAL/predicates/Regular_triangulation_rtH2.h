@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h $
-// $Id: Regular_triangulation_rtH2.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h $
+// $Id: Regular_triangulation_rtH2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -24,7 +24,7 @@
 // This file contains the low level homogeneous predicates
 // used by the 2D regular triangulation.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class RT>
 Comparison_result
@@ -120,6 +120,6 @@ power_testH2( const RT &phx, const RT &phy, const RT &phw, const RT &pwt,
 				                          ta, dtz, dthw);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_RTH2_H

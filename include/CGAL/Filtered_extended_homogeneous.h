@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
-// $Id: Filtered_extended_homogeneous.h 44806 2008-08-06 13:16:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -55,7 +55,7 @@ std::cout << #c##" " << c##_exception << "/" << c##_total << std::endl
 #define PRINT_STATISTICS(c)
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename RT>
 class SPolynomial {
@@ -1271,7 +1271,7 @@ const char* output_identifier() const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #undef CHECK
 #undef KERNEL_CHECK
@@ -1284,4 +1284,3 @@ CGAL_END_NAMESPACE
 #undef PRINT_CHECK_ENABLED
 
 #endif // CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
-

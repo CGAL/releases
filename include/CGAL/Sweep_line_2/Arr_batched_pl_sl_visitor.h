@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_batched_pl_sl_visitor.h $
-// $Id: Arr_batched_pl_sl_visitor.h 40007 2007-08-23 13:51:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_batched_pl_sl_visitor.h $
+// $Id: Arr_batched_pl_sl_visitor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * Definition of the Arr_batched_pl_sl_visitor class-template.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #include <CGAL/Object.h>
 
@@ -192,6 +192,6 @@ bool Arr_batched_pl_sl_visitor<Hlpr, OutIt>::after_handle_event
   return (true);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

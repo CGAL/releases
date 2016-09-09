@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGALQt/Kinetic_pixmaps.cpp $
-// $Id: Kinetic_pixmaps.cpp 35759 2007-01-18 23:26:44Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/src/CGALQt/Kinetic_pixmaps.cpp $
+// $Id: Kinetic_pixmaps.cpp 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/Kinetic/basic.h>
 #include <CGAL/Kinetic/IO/internal/pixmaps.h>
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 namespace pixmaps {
 #include "Kinetic_play.xpm"
 #include "Kinetic_pause.xpm"
@@ -45,4 +45,4 @@ const char ** reverse_xpm= pixmaps::reverse_xpm;
 const char ** stop_xpm= pixmaps::stop_xpm;
 const char ** print_xpm= pixmaps::print_xpm;
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal

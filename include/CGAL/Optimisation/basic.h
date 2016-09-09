@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Optimisation_basic/include/CGAL/Optimisation/basic.h $
-// $Id: basic.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Optimisation_basic/include/CGAL/Optimisation/basic.h $
+// $Id: basic.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -30,7 +30,7 @@
 #include <CGAL/Optimisation/debug.h>
 #include <CGAL/IO/Verbose_ostream.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Function declarations
 // =====================
@@ -47,8 +47,6 @@ _optimisation_is_valid_fail( CGAL::Verbose_ostream& verr,
     verr << "  object is NOT valid!" << std::endl;
     return false;
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_OPTIMISATION_BASIC_H
-
-

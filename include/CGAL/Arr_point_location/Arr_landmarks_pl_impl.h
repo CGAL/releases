@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_landmarks_pl_impl.h $
-// $Id: Arr_landmarks_pl_impl.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_landmarks_pl_impl.h $
+// $Id: Arr_landmarks_pl_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -26,7 +26,7 @@
  * Arr_landmarks_point_location<Arrangement, Generator> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Locate the arrangement feature containing the given point.
@@ -1087,6 +1087,6 @@ _have_odd_intersections (const X_monotone_curve_2& cv,
   return (left_res != right_res);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

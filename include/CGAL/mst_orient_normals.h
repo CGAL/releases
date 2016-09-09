@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h 52329 2009-10-15 12:08:25Z ggael $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: mst_orient_normals.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
 
@@ -32,9 +32,6 @@
 #include <list>
 #include <climits>
 #include <math.h>
-#ifndef M_PI
-  #define M_PI       3.14159265358979323846
-#endif
 
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 104000
@@ -45,7 +42,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/prim_minimum_spanning_tree.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // ----------------------------------------------------------------------------
@@ -146,11 +143,11 @@ struct Propagate_normal_orientation
     typedef internal::MST_graph<ForwardIterator, NormalPMap, Kernel> MST_graph;
     typedef boost::on_examine_edge event_filter;
 
-    Propagate_normal_orientation(double angle_max = M_PI/2.) ///< max angle to propagate the normal orientation (radians)
+    Propagate_normal_orientation(double angle_max = CGAL_PI/2.) ///< max angle to propagate the normal orientation (radians)
     : m_angle_max(angle_max)
     {
         // Precondition: 0 < angle_max <= PI/2
-        CGAL_point_set_processing_precondition(0 < angle_max && angle_max <= M_PI/2.);
+        CGAL_point_set_processing_precondition(0 < angle_max && angle_max <= CGAL_PI/2.);
     }
 
     template <class Edge>
@@ -671,7 +668,6 @@ mst_orient_normals(
 /// @endcond
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MST_ORIENT_NORMALS_H
-

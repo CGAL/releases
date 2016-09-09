@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Subdivision_method_3/include/CGAL/Subdivision_method_impl_3.h $
-// $Id: Subdivision_method_impl_3.h 36336 2007-02-15 21:27:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Subdivision_method_3/include/CGAL/Subdivision_method_impl_3.h $
+// $Id: Subdivision_method_impl_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -33,7 +33,7 @@
 #include <CGAL/circulator.h>
 #include <CGAL/Polyhedron_decorator_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ======================================================================
 namespace Subdivision_method_3 {
@@ -273,8 +273,8 @@ namespace Subdivision_method_3 {
 
 
   // ======================================================================
-//#define _EULER_DQQ_SPLITTING // should be CGAL_ prefixed
-//#define _EULER_DQQ_TILTING   // Tilting is faster // commented out since unused and not CGAL_ prefixed
+//#define CGAL_EULER_DQQ_SPLITTING
+//#define CGAL_EULER_DQQ_TILTING   // Tilting is faster
   template <class Poly, template <typename> class Mask>
   void DQQ_1step(Poly& p, Mask<Poly> mask) {
 
@@ -314,7 +314,7 @@ namespace Subdivision_method_3 {
     Point* point_buffer = new Point[num_e*2];
 
     //
-#ifdef _EULER_DQQ_SPLITTING
+#ifdef CGAL_EULER_DQQ_SPLITTING
     //
     // Splitting
 
@@ -480,7 +480,7 @@ namespace Subdivision_method_3 {
       p.erase_center_vertex(vh->vertex_begin());
     }
 
-#endif //_EULER_DQQ_SPLITTING
+#endif //CGAL_EULER_DQQ_SPLITTING
 
     delete []point_buffer;
   }
@@ -564,6 +564,6 @@ namespace Subdivision_method_3 {
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_POLYHEDRON_SUBDIVISION_H_01292002

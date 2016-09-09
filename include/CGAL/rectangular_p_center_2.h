@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
-// $Id: rectangular_p_center_2.h 56908 2010-06-21 10:05:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
+// $Id: rectangular_p_center_2.h 56910 2010-06-21 10:40:54Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,7 +28,7 @@
 #include <CGAL/Rectangular_p_center_traits_2.h>
 #include <CGAL/Cartesian_matrix.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Operation,
            class RandomAccessIC_row,
@@ -392,6 +392,6 @@ rectangular_p_center_2(ForwardIterator f,
   return rectangular_p_center_2(f, l, o, r, p, t);
 } // rectangular_p_center_2( ... )
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // ! (CGAL_RECTANGULAR_P_CENTER_2_H)

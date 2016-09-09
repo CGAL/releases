@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/MP_Float.h $
-// $Id: MP_Float.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/MP_Float.h $
+// $Id: MP_Float.h 57363 2010-07-07 10:00:38Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -58,7 +58,7 @@
 //   - nothing
 //   - convert to double, take approximation, compute over double, reconstruct
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class MP_Float;
 
@@ -206,18 +206,6 @@ public:
 
   MP_Float(long double d);
 
-#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
-  MP_Float(MP_Float && m)
-    : v(std::move(m.v)), exp(m.exp) {}
-
-  MP_Float& operator=(MP_Float && m)
-  {
-    clear();
-    swap(m);
-    return *this;
-  }
-#endif
-
   MP_Float operator+() const {
     return *this;
   }
@@ -291,8 +279,7 @@ public:
 
     for (i = v.begin(); i != v.end(); ++i)
     {
-      res += std::ldexp(static_cast<double>(*i),
-                                  static_cast<int>(exp2));
+      res += T(std::ldexp(static_cast<double>(*i),static_cast<int>(exp2)));
       exp2 += log_limb;
     }
 
@@ -857,6 +844,6 @@ CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(MP_Float)
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int, MP_Float)
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MP_FLOAT_H

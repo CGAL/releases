@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Modular_arithmetic/include/CGAL/Residue.h $
-// $Id: Residue.h 53953 2010-02-01 12:18:54Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Modular_arithmetic/include/CGAL/Residue.h $
+// $Id: Residue.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Hemmer
 
@@ -31,7 +31,7 @@
 #include <CGAL/Modular_arithmetic/Residue_type.h>
 #include <CGAL/Coercion_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /*! \brief Specialization of CGAL::NT_traits for \c Residue, which is a model
@@ -49,7 +49,7 @@ CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,CGAL::Residue)
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int  ,CGAL::Residue)
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long ,CGAL::Residue)
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //#ifnedef CGAL_RESIDUE_H 1
  

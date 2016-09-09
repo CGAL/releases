@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
-// $Id: General_polygon_set_2.h 53311 2009-12-07 10:26:37Z efif $ $Date: 2009-12-07 11:26:37 +0100 (Mon, 07 Dec 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
+// $Id: General_polygon_set_2.h 56667 2010-06-09 07:37:13Z sloriot $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -28,15 +28,15 @@
 #include <CGAL/Arrangement_2/Arr_default_planar_topology.h>
 #include <CGAL/Arrangement_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // General_polygon_set_2
 template <class Traits_, class Dcel_ = Gps_default_dcel<Traits_> >
 class General_polygon_set_2 : public General_polygon_set_on_surface_2
-  <Traits_, typename Default_planar_topology<Traits_, Dcel_ >::Traits>
+  <Traits_, typename Default_planar_topology<Traits_, Dcel_>::Traits>
 {
 protected:
-  typedef General_polygon_set_2< Traits_, Dcel_ >         Self;
+  typedef General_polygon_set_2<Traits_, Dcel_>           Self;
   
 public:
   typedef Traits_                                         Traits_2;
@@ -60,8 +60,7 @@ public:
   General_polygon_set_2(Traits_2& tr) : Base(tr)
   {}
 
-  explicit General_polygon_set_2(const Polygon_2& pgn) : 
-    Base(pgn)
+  explicit General_polygon_set_2(const Polygon_2& pgn) : Base(pgn)
   { }
 
   explicit General_polygon_set_2(const Polygon_with_holes_2& pgn_with_holes): 
@@ -86,14 +85,13 @@ public:
 
   inline void join(const Self& ps1, const Self& ps2)
   {
-    Base::join(static_cast<const Base&>(ps1),
-                       static_cast<const Base&>(ps2));
+    Base::join(static_cast<const Base&>(ps1), static_cast<const Base&>(ps2));
   }
 
   inline void symmetric_difference(const Self& ps1, const Self& ps2)
   {
     Base::symmetric_difference(static_cast<const Base&>(ps1),
-                       static_cast<const Base&>(ps2));
+                               static_cast<const Base&>(ps2));
   }
 
   //@{
@@ -117,6 +115,6 @@ public:
   //@}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

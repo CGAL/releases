@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_construction_helper.h $
-// $Id: Arr_spherical_construction_helper.h 41118 2007-12-07 14:25:32Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_construction_helper.h $
+// $Id: Arr_spherical_construction_helper.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -28,7 +28,7 @@
 #include <CGAL/Sweep_line_empty_visitor.h>
 #include <CGAL/Unique_hash_map.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_spherical_construction_helper
  * A helper class for the construction sweep-line visitor, suitable
@@ -290,6 +290,6 @@ public:
   Face_handle top_face() const { return m_spherical_face; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

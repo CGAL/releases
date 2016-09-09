@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/basic_constructionsH3.h $
-// $Id: basic_constructionsH3.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/basic_constructionsH3.h $
+// $Id: basic_constructionsH3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,7 +25,7 @@
 #ifndef CGAL_BASIC_CONSTRUCTIONSH3_H
 #define CGAL_BASIC_CONSTRUCTIONSH3_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R>
 typename R::Point_3
@@ -80,6 +80,6 @@ typename R::FT
 squared_distance( PointH3<R> const& p, PointH3<R> const& q)
 { return (p-q)*(p-q); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BASIC_CONSTRUCTIONSH3_H

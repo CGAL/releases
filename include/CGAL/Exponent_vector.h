@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Exponent_vector.h $
-// $Id: Exponent_vector.h 51274 2009-08-17 07:28:32Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Exponent_vector.h $
+// $Id: Exponent_vector.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -30,7 +30,7 @@
 #include <CGAL/assertions.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 class Exponent_vector :  
@@ -160,7 +160,7 @@ inline std::ostream& operator << (std::ostream& os, const Exponent_vector& ev) {
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace std{
 template <> inline 

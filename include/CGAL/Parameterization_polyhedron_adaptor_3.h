@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
-// $Id: Parameterization_polyhedron_adaptor_3.h 48430 2009-03-18 08:59:29Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
+// $Id: Parameterization_polyhedron_adaptor_3.h 57486 2010-07-13 14:34:21Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -31,7 +31,7 @@
 
 #include <list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Parameterization_polyhedron_adaptor_3 is an adaptor class to access to a Polyhedron
@@ -126,7 +126,7 @@ public:
     class Halfedge_info
     {
     public:
-        typedef typename Polyhedron_3_::Traits::Point_2
+        typedef typename Polyhedron_3_::Traits::Kernel::Point_2
                                             Point_2;
 
     private:
@@ -210,20 +210,20 @@ public:
     //@{
 
     /// Number type to represent coordinates.
-    typedef typename Polyhedron::Traits::FT NT;
+    typedef typename Polyhedron::Traits::Kernel::FT NT;
 
     /// 2D point that represents (u,v) coordinates computed
     /// by parameterization methods. Must provide X() and Y() methods.
-    typedef typename Polyhedron::Traits::Point_2
+    typedef typename Polyhedron::Traits::Kernel::Point_2
                                             Point_2;
     /// 3D point that represents vertices coordinates. Must provide X() and Y() methods.
-    typedef typename Polyhedron::Traits::Point_3
+    typedef typename Polyhedron::Traits::Kernel::Point_3
                                             Point_3;
     /// 2D vector. Must provide X() and Y() methods.
-    typedef typename Polyhedron::Traits::Vector_2
+    typedef typename Polyhedron::Traits::Kernel::Vector_2
                                             Vector_2;
     /// 3D vector. Must provide X() and Y() methods.
-    typedef typename Polyhedron::Traits::Vector_3
+    typedef typename Polyhedron::Traits::Kernel::Vector_3
                                             Vector_3;
 
     /// Opaque type representing a facet of the 3D mesh. No methods are expected.
@@ -1116,7 +1116,6 @@ private:
 }; // Parameterization_polyhedron_adaptor_3
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SURFACE_MESH_PARAMETERIZATION_POLYHEDRON_ADAPTOR3_H
-

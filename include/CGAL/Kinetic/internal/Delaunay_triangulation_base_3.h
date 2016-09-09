@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Delaunay_triangulation_base_3.h $
-// $Id: Delaunay_triangulation_base_3.h 47653 2009-01-05 19:45:21Z drussel $ $Date: 2009-01-05 20:45:21 +0100 (Mon, 05 Jan 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Delaunay_triangulation_base_3.h $
+// $Id: Delaunay_triangulation_base_3.h 56668 2010-06-09 08:45:58Z sloriot $ $Date: 2010-06-09 10:45:58 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -38,7 +38,7 @@
 //extern int too_late__;
 //extern int filtered__;
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 template <class KD, class RS>
 class Delaunay_event_base_3: public Event_base<KD*>
@@ -1389,5 +1389,5 @@ inline std::ostream &operator<<(std::ostream &out,
 }
 
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 #endif

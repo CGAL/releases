@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
-// $Id: generic_print_polyhedron.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
+// $Id: generic_print_polyhedron.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Inverse_index.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Polyhedron, class Writer>
 void
@@ -65,6 +65,6 @@ generic_print_polyhedron( std::ostream&     out,
     writer.write_footer();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_GENERIC_PRINT_POLYHEDRON_H //
 // EOF //

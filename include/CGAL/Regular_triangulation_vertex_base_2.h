@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Regular_triangulation_vertex_base_2.h $
-// $Id: Regular_triangulation_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Regular_triangulation_vertex_base_2.h $
+// $Id: Regular_triangulation_vertex_base_2.h 56742 2010-06-14 13:49:28Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -23,7 +23,7 @@
 
 #include <CGAL/Triangulation_ds_vertex_base_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class GT,
            class Vb = Triangulation_ds_vertex_base_2<> >
@@ -63,7 +63,7 @@ public:
   bool is_hidden() { return _hidden ;}
   void set_point(const Weighted_point & p) { _p = p; }
   const Weighted_point&  point() const { return _p; }
-  //Weighted_point&  point() const { return _p; }
+  Weighted_point&  point() { return _p; }
   bool is_valid(bool /* verbose */ = false, int /* level */ = 0) const
     {return true;}
 };
@@ -88,7 +88,7 @@ operator<<(std::ostream &os,
   return os << static_cast<const Vb&>(v) << v.point();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif //CGAL_REGULAR_TRIANGULATION_VERTEX_BASE_2_H

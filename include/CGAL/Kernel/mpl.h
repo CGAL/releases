@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/mpl.h $
-// $Id: mpl.h 33110 2006-08-07 15:18:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/mpl.h $
+// $Id: mpl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -29,7 +29,7 @@
 // Some tools for basic template metaprogramming.
 // These bits should move to CGAL/mpl.h in STL_Extension, or taken from Boost.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The additionnal int parameter is to obtain different types.
 template < typename A, typename B, int = 0 >
@@ -42,6 +42,6 @@ struct First_if_different<A, A, i> {
   struct Type{};
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

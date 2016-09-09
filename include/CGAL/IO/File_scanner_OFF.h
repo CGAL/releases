@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_scanner_OFF.h $
-// $Id: File_scanner_OFF.h 29581 2006-03-17 15:50:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_scanner_OFF.h $
+// $Id: File_scanner_OFF.h 57144 2010-06-28 10:58:52Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -34,7 +34,7 @@
 #include <CGAL/Point_3.h>
 #include <CGAL/Vector_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class File_scanner_OFF : public File_header_OFF {
     std::istream&  m_in;
@@ -374,52 +374,59 @@ public:
         }
     }
 
-    void skip_to_next_vertex( int current_vertex);
+  void skip_to_next_vertex( std::size_t current_vertex);
 
-    void scan_facet( Integer32& size, int CGAL_assertion_code(current_facet)) {
+  void scan_facet( std::size_t& size, std::size_t CGAL_assertion_code(current_facet)) {
         CGAL_assertion( current_facet < size_of_facets());
-        if ( binary())
-            I_Binary_read_big_endian_integer32( m_in, size);
-        else {
+        if ( binary()){
+          Integer32 i32;
+            I_Binary_read_big_endian_integer32( m_in, i32);
+            size = i32;
+        } else {
             skip_comment();
             m_in >> size;
         }
     }
 
-    void scan_facet_vertex_index( Integer32& index,
-                                  int current_facet) {
-        if ( binary())
-            I_Binary_read_big_endian_integer32( m_in, index);
-        else
-            m_in >> index;
-        if( ! m_in) {
-            if ( verbose()) {
-                std::cerr << " " << std::endl;
-                std::cerr << "File_scanner_OFF::" << std::endl;
-                std::cerr << "scan_facet_vertex_index(): input error:  "
-                             "cannot read OFF file beyond facet "
-                          << current_facet << "." << std::endl;
-            }
-            set_off_header( false);
-            return;
-        }
-        index -= index_offset();
-        if( index < 0 || index >= size_of_vertices()) {
-            m_in.clear( std::ios::badbit);
-            if ( verbose()) {
-                std::cerr << " " << std::endl;
-                std::cerr << "File_scanner_OFF::" << std::endl;
-                std::cerr << "scan_facet_vertex_index(): input error: "
-                             "facet " << current_facet << ": vertex index "
-                          << index + index_offset() << ": is out of range."
-                          << std::endl;
-            }
-            set_off_header( false);
-            return;
-        }
-    }
+  void scan_facet_vertex_index( std::size_t& index,
+                                std::size_t current_facet) {
+    if ( binary()){
+      Integer32 i32;
+      I_Binary_read_big_endian_integer32( m_in, i32);
+      index = i32;
+    } else
+      m_in >> index;
 
-    void skip_to_next_facet( int current_facet);
+    if( m_in.fail()) {
+      if ( verbose()) {
+        std::cerr << " " << std::endl;
+        std::cerr << "File_scanner_OFF::" << std::endl;
+        std::cerr << "scan_facet_vertex_index(): input error:  "
+          "cannot read OFF file beyond facet "
+                  << current_facet << "." << std::endl;
+      }
+      set_off_header( false);
+      return;
+    }
+    bool error  = index < index_offset();
+    index -= index_offset();
+
+    if(error || (index >= size_of_vertices())) {
+      m_in.clear( std::ios::failbit);
+      if ( verbose()) {
+        std::cerr << " " << std::endl;
+        std::cerr << "File_scanner_OFF::" << std::endl;
+        std::cerr << "scan_facet_vertex_index(): input error: "
+          "facet " << current_facet << ": vertex index "
+                  << index + index_offset() << ": is out of range."
+                  << std::endl;
+      }
+      set_off_header( false);
+      return;
+    }
+  }
+
+  void skip_to_next_facet( std::size_t current_facet);
 };
 
 template < class Point> inline
@@ -450,7 +457,7 @@ file_scan_normal( File_scanner_OFF& scanner, Vector& v) {
     return v;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_FILE_SCANNER_OFF_H //
 // EOF //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_exact_bland_pricing.h $
-// $Id: QP_exact_bland_pricing.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_exact_bland_pricing.h $
+// $Id: QP_exact_bland_pricing.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr 
@@ -26,7 +26,7 @@
 // includes
 #include <CGAL/QP_solver/QP_pricing_strategy.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =================
 // class declaration
@@ -157,7 +157,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
 
       const ET mu = this->mu_j(j);
       // from pricing strategy base class
-      price_dantzig (j, mu, this->et0, min_j, min_mu, direction); 
+      this->price_dantzig (j, mu, this->et0, min_j, min_mu, direction); 
       if (min_j >= 0) return j;
     }
   }
@@ -170,7 +170,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_EXACT_BLAND_PRICING_H
 

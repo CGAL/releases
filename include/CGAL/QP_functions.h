@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_functions.h $
-// $Id: QP_functions.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_functions.h $
+// $Id: QP_functions.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -25,7 +25,7 @@
 #include <CGAL/QP_options.h>
 #include <CGAL/QP_solution.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace QP_functions_detail { 
   // internal routine; writes P to out in MPS format
@@ -154,7 +154,7 @@ Quadratic_program_solution<ET> solve_nonnegative_linear_program
 (const NonnegativeLinearProgram &lp, const ET&,
 const Quadratic_program_options& options = Quadratic_program_options());
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/QP_solver/QP_functions_impl.h>
 

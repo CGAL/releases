@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_2.h $
-// $Id: Triangulation_euclidean_traits_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_2.h $
+// $Id: Triangulation_euclidean_traits_2.h 57323 2010-07-05 10:07:39Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -32,7 +32,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Segment_2_Segment_2_intersection.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template < class R >
 class Triangulation_euclidean_traits_2 {
@@ -57,6 +57,12 @@ public:
   typedef typename R::Construct_triangle_2       Construct_triangle_2;
   typedef typename R::Construct_direction_2      Construct_direction_2;
   typedef typename R::Construct_ray_2            Construct_ray_2;
+  
+  //for natural_neighbor_coordinates_2
+  typedef typename R::FT                         FT;
+  typedef typename R::Equal_x_2                  Equal_x_2;
+  typedef typename R::Compute_area_2             Compute_area_2;
+  Compute_area_2 compute_area_2_object () const {return Compute_area_2();}
   
   // for compatibility with previous versions
   typedef Point_2      Point;
@@ -121,6 +127,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif // CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H

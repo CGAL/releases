@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/plane_constructions_3.h $
-// $Id: plane_constructions_3.h 43444 2008-06-04 09:03:30Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/plane_constructions_3.h $
+// $Id: plane_constructions_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -27,7 +27,7 @@
 #include <CGAL/Cartesian/Point_3.h>
 #include <CGAL/constructions/kernel_ftC3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R>
 CGAL_KERNEL_LARGE_INLINE
@@ -56,6 +56,6 @@ plane_from_point_direction(const PointC3<R> &p,
   return PlaneC3<R>(A, B, C, D);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_PLANE_CONSTRUCTIONS_3_H

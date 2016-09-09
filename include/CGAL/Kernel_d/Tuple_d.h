@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
-// $Id: Tuple_d.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
+// $Id: Tuple_d.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Seel
 
@@ -29,7 +29,7 @@
 #include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
 #include <sstream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointCd PointCd2
 #define PointHd PointHd2
 
@@ -279,6 +279,5 @@ int copy_and_count(InputIterator first, InputIterator last,
 
 #undef PointCd
 #undef PointHd
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_TUPLE_D_H
-

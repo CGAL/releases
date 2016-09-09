@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h $
-// $Id: Aff_transformationCd.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h $
+// $Id: Aff_transformationCd.h 56991 2010-06-22 16:17:33Z afabri $
 //
 // Author(s)     : Michael Seel
 
@@ -28,7 +28,7 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/rational_rotation.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class FT, class LA > class Aff_transformationCd;
 template <class FT, class LA > class Aff_transformationCd_rep;
@@ -77,7 +77,7 @@ Aff_transformationCd(const Matrix& M) : Base( Rep(M) )
 
 template <typename Forward_iterator>
 Aff_transformationCd(Scaling, Forward_iterator start, Forward_iterator end) :
-  Base( Rep(std::distance(start,end)-1) )
+  Base( Rep(static_cast<int>(std::distance(start,end))-1) )
 /*{\Mcreate introduces the transformation of $d$-space specified by a
 diagonal matrix with entries |set [start,end)| on the diagonal 
 (a scaling of the space). \precond |set [start,end)| is a vector of 
@@ -209,6 +209,5 @@ std::istream& operator>>(
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_AFF_TRANSFORMATIONCD_H
-

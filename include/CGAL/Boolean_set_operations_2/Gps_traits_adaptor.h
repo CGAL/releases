@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h $
-// $Id: Gps_traits_adaptor.h 50373 2009-07-05 14:44:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h $
+// $Id: Gps_traits_adaptor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -20,7 +20,7 @@
 #ifndef CGAL_GPS_TRAITS_ADAPTOR_H
 #define CGAL_GPS_TRAITS_ADAPTOR_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_>
 class Gps_traits_adaptor : public Traits_
@@ -166,6 +166,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

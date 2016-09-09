@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base_impl.h $
-// $Id: QP__filtered_base_impl.h 46188 2008-10-09 09:42:02Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base_impl.h $
+// $Id: QP__filtered_base_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -20,7 +20,7 @@
 //                 Franz Wessendorp
 //                 Kaspar Fischer
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =============================
 // class implementation (cont'd)
@@ -374,6 +374,6 @@ transition( )
     transition( n, Is_linear());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // ===== EOF ==================================================================

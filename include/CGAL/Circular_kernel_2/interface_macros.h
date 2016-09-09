@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/interface_macros.h $
-// $Id: interface_macros.h 45948 2008-10-01 12:27:57Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/interface_macros.h $
+// $Id: interface_macros.h 55857 2010-04-30 16:41:23Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -32,6 +32,10 @@
 // macros CGAL_Circular_Kernel_pred and CGAL_Circular_Kernel_cons.
 // And they are #undefed at the end of this file.
 
+  CGAL_Circular_Kernel_cons(Compute_squared_radius_2,
+  compute_squared_radius_2_object)
+  CGAL_Circular_Kernel_cons(Construct_center_2,
+  construct_center_2_object)
   CGAL_Circular_Kernel_cons(Get_equation,
   get_equation_object)
   CGAL_Circular_Kernel_cons(Construct_circle_2,

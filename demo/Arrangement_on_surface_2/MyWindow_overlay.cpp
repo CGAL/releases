@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/MyWindow_overlay.cpp $
-// $Id: MyWindow_overlay.cpp 45453 2008-09-09 21:35:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/MyWindow_overlay.cpp $
+// $Id: MyWindow_overlay.cpp 56421 2010-05-22 06:39:46Z ophirset $
 //
 //
 //
@@ -212,6 +212,7 @@ void MyWindow::make_overlay(std::list<int> indexes,
 
     case CONIC_TRAITS:
     {
+#ifdef CGAL_USE_CORE
       if(new_tab)
         add_conic_tab();
       else
@@ -258,6 +259,8 @@ void MyWindow::make_overlay(std::list<int> indexes,
                             w_demo_p_new->bbox.ymax());
 
      w_demo_p_new->setCursor(old);
+#endif
+
      break;
 
     }

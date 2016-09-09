@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
-// $Id: Sweep_line_2_debug.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
+// $Id: Sweep_line_2_debug.h 56733 2010-06-14 11:29:29Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -38,9 +38,8 @@ void Basic_sweep_line_2<Tr, Visit, Crv, Evnt, Alloc>::PrintEventQueue()
   Event_queue_iterator iter = m_queue->begin();
   while ( iter != m_queue->end() )
   {
-    CGAL_SL_DEBUG(std::cout << "Point (" << iter->first << ")" << std::endl;)
-    Event *e = iter->second;
-    e->Print();
+    Event *e = *iter;
+     e->Print();
     ++iter;
   }
   CGAL_SL_DEBUG(std::cout << "--------------------------------" << std::endl;)

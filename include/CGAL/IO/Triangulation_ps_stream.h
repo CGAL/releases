@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/IO/Triangulation_ps_stream.h $
-// $Id: Triangulation_ps_stream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/IO/Triangulation_ps_stream.h $
+// $Id: Triangulation_ps_stream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Carine Bonetto
@@ -23,7 +23,7 @@
 
 
 #ifdef CGAL_TRIANGULATION_2_H
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template <class Gt,class Tds>
 PS_Stream& operator << (PS_Stream& ps, const Triangulation_2<Gt,Tds> &t)
 
@@ -31,12 +31,12 @@ PS_Stream& operator << (PS_Stream& ps, const Triangulation_2<Gt,Tds> &t)
  t.draw_triangulation(ps);
   return ps;
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_TRIANGULATION_2_H
 
 
 #ifdef CGAL_DELAUNAY_TRIANGULATION_2_H
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < class Gt, class Tds >
 PS_Stream& operator << (PS_Stream& ps, 
 			const Delaunay_triangulation_2<Gt,Tds> &t)
@@ -44,11 +44,11 @@ PS_Stream& operator << (PS_Stream& ps,
  t.draw_triangulation(ps);
  return ps; 
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_DELAUNAY_TRIANGULATION_2_H
 
 #ifdef CGAL_CONSTRAINED_TRIANGULATION_2_H
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < class Gt, class Tds>
 PS_Stream& operator<<(PS_Stream& ps,
 		      const Constrained_triangulation_2<Gt,Tds> &t)
@@ -57,12 +57,12 @@ PS_Stream& operator<<(PS_Stream& ps,
  t.draw_triangulation(ps);
  return ps;
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CONSTRAINED_TRIANGULATION_2_H
 
 
 #ifdef CGAL_REGULAR_TRIANGULATION_2_H
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template < class Gt, class Tds >
 PS_Stream& operator << (PS_Stream& ps, 
 			Regular_triangulation_2<Gt,Tds> &t)
@@ -70,7 +70,7 @@ PS_Stream& operator << (PS_Stream& ps,
   t.draw_triangulation(ps);
   return ps;
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_REGULAR_TRIANGULATION_2_H
 
 #endif //CGAL_TRIANGULATION_PS_STREAM
@@ -78,7 +78,3 @@ CGAL_END_NAMESPACE
 
 
 	
-
-
-
-

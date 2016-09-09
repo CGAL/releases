@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Primitive_part_Sturm_sequence.h $
-// $Id: Primitive_part_Sturm_sequence.h 35072 2006-11-06 23:57:15Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Primitive_part_Sturm_sequence.h $
+// $Id: Primitive_part_Sturm_sequence.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,7 +30,7 @@
   that consists monic polynomials.
 */
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 template<class Kernel_t>
 class Primitive_part_Sturm_sequence
 : public Sturm_sequence_base<Kernel_t>
@@ -201,5 +201,5 @@ class Primitive_part_Sturm_sequence
         }
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif                                            // CGAL_POLYNOMIAL_INTERNAL_PRIMITIVE_PART_STURM_SEQUENCE_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/include/CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h $
-// $Id: squared_radius_smallest_orthogonalcircle_ftC2.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/include/CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h $
+// $Id: squared_radius_smallest_orthogonalcircle_ftC2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -24,7 +24,7 @@
 #include <CGAL/enum.h>
 
 //-------------------------------------------------------------------
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 //-------------------------------------------------------------------
 
 template< class FT >
@@ -70,7 +70,7 @@ squared_radius_smallest_orthogonalcircleC2(
 }
 
 //-------------------------------------------------------------------
-CGAL_END_NAMESPACE
+} //namespace CGAL
 //-------------------------------------------------------------------
 
 #endif //CGAL_SQUARED_RADIUS_SMALLEST_ORTHOGONALCIRCLE_ftC2_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Geomview/src/CGAL/Geomview_stream.cpp $
-// $Id: Geomview_stream.cpp 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Geomview/src/CGAL/Geomview_stream.cpp $
+// $Id: Geomview_stream.cpp 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
@@ -38,7 +38,7 @@
 #include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/IO/binary_file_io.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 Geomview_stream::Geomview_stream(const Bbox_3 &bbox,
 				 const char *machine,
@@ -548,15 +548,15 @@ Geomview_stream::get_new_id(const std::string & s)
     return str.str();
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #else
 
 // Add a dummy symbol to prevent warnings of empty translation unit.
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 namespace {
 int dummy;
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_USE_GEOMVIEW

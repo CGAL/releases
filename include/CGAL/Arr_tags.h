@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_tags.h $
-// $Id: Arr_tags.h 53356 2009-12-09 09:53:05Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_tags.h $
+// $Id: Arr_tags.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
@@ -34,7 +34,7 @@
  * Definition of the tags for the arrangement package.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 struct Arr_boundary_side_tag {};
 struct Arr_oblivious_side_tag : public virtual Arr_boundary_side_tag {};
@@ -431,7 +431,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

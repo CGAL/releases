@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Parabola_2.h $
-// $Id: Parabola_2.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Parabola_2.h $
+// $Id: Parabola_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,7 +25,7 @@
 #include <CGAL/determinant.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < class Gt >
@@ -329,6 +329,6 @@ Stream& operator<<(Stream& s, const Parabola_2<Gt> &P)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PARABOLA_2_H

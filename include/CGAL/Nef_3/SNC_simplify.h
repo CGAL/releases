@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
-// $Id: SNC_simplify.h 50723 2009-07-20 13:46:03Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
+// $Id: SNC_simplify.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #define CGAL_NEF_DEBUG 41
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename SNC_structure>
 class SNC_simplify_base : public SNC_decorator<SNC_structure> {
@@ -287,32 +287,6 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
       Vertex_iterator v_next(v);
       ++v_next;
       simplify_redundant_vertex_in_volume(v);
-      v = v_next;
-    }
-    return simplified;
-  }
-
-  bool vertex_on_facet_simplification() {
-    simplified = false;
-
-    Vertex_iterator v = (*this->sncp()).vertices_begin();
-    while( v != (*this->sncp()).vertices_end()) {
-      Vertex_iterator v_next(v);
-      ++v_next;
-      simplify_redundant_vertex_on_facet(v);
-      v = v_next;
-    }
-    return simplified;
-  }
-
-  bool vertex_on_edge_simplification() {
-    simplified = false;
-
-    Vertex_iterator v = (*this->sncp()).vertices_begin();
-    while( v != (*this->sncp()).vertices_end()) {
-      Vertex_iterator v_next(v);
-      ++v_next;
-      simplify_redundant_vertex_on_edge(v);
       v = v_next;
     }
     return simplified;
@@ -723,6 +697,8 @@ class SNC_simplify<SNC_indexed_items, SNC_structure>
   typedef typename SNC_structure::SHalfedge_around_facet_circulator 
                                   SHalfedge_around_facet_circulator;
 
+  using Base::is_part_of_edge;
+
  public:
   SNC_simplify(SNC_structure& sncs) : Base(sncs) {}
 
@@ -773,5 +749,5 @@ class SNC_simplify<SNC_indexed_items, SNC_structure>
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SNC_STRUCTURE_H

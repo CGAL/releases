@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_3/include/CGAL/convex_hull_incremental_3.h $
-// $Id: convex_hull_incremental_3.h 31432 2006-06-05 11:07:27Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_3/include/CGAL/convex_hull_incremental_3.h $
+// $Id: convex_hull_incremental_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra <Stefan.Schirra@mpi-sb.mpg.de>
@@ -26,7 +26,7 @@
 #include <CGAL/Convex_hull_d_to_polyhedron_3.h>
 #include <CGAL/Convex_hull_2/ch_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class InputIterator, class Polyhedron>
 void
@@ -44,6 +44,6 @@ convex_hull_incremental_3(InputIterator first, InputIterator beyond,
   CGAL::convex_hull_d_to_polyhedron_3(CH,P);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CONVEX_HULL_INCREMENTAL_3_H

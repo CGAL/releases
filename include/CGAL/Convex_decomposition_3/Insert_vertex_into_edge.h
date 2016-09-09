@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Insert_vertex_into_edge.h $
+// $Id: Insert_vertex_into_edge.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Nef_3/SNC_constructor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class SNC_structure, class SNC_point_locator>
 class Insert_vertex_into_edge {
@@ -73,5 +73,5 @@ class Insert_vertex_into_edge {
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CD3_INSERT_VERTEX_INTO_EDGE_H

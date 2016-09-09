@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_reconstruction_function.h $
-// $Id: Poisson_reconstruction_function.h 52585 2009-10-16 08:50:48Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_reconstruction_function.h $
+// $Id: Poisson_reconstruction_function.h 58201 2010-08-20 14:34:30Z lrineau $
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
 
@@ -38,7 +38,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Given a set of 3D points with oriented normals sampled on the boundary of a 3D solid,
@@ -195,7 +195,7 @@ public:
   /// - solving for operator() at each vertex of the triangulation with a sparse linear solver,
   /// - and shifting and orienting operator() such that it is 0 at all input points and negative inside the inferred surface.
   ///
-  /// @heading Parameters:
+  /// @commentheading Template parameters:
   /// @param SparseLinearAlgebraTraits_d Symmetric definite positive sparse linear solver.
   /// The default solver is TAUCS Multifrontal Supernodal Cholesky Factorization.
   ///
@@ -262,11 +262,10 @@ public:
   {
     m_hint = m_tr->locate(p,m_hint);
 
-    if(m_hint == NULL)
-      return 1e38;
-
-    if(m_tr->is_infinite(m_hint))
-      return 1e38;
+    if(m_tr->is_infinite(m_hint)) {
+      int i = m_hint->index(m_tr->infinite_vertex());
+      return m_hint->vertex((i+1)&3)->f();
+    }
 
     FT a,b,c,d;
     barycentric_coordinates(p,m_hint,a,b,c,d);
@@ -309,7 +308,7 @@ private:
   /// Poisson reconstruction.
   /// Returns false on error.
   ///
-  /// @heading Parameters:
+  /// @commentheading Template parameters:
   /// @param SparseLinearAlgebraTraits_d Symmetric definite positive sparse linear solver.
   template <class SparseLinearAlgebraTraits_d>
   bool solve_poisson(
@@ -618,7 +617,7 @@ private:
     // sum up areas
     FT area = 0.0;
     const Point& a = voronoi_points[0];
-    unsigned int nb_triangles = voronoi_points.size() - 2;
+    unsigned int nb_triangles = voronoi_points.size() - 1;
     for(unsigned int i=1;i<nb_triangles;i++)
     {
       const Point& b = voronoi_points[i];
@@ -713,7 +712,7 @@ private:
 
   /// Assemble vi's row of the linear system A*X=B
   ///
-  /// @heading Parameters:
+  /// @commentheading Template parameters:
   /// @param SparseLinearAlgebraTraits_d Symmetric definite positive sparse linear solver.
   template <class SparseLinearAlgebraTraits_d>
   void assemble_poisson_row(typename SparseLinearAlgebraTraits_d::Matrix& A,
@@ -722,19 +721,27 @@ private:
                             double lambda)
   {
     // for each vertex vj neighbor of vi
-    std::vector<Vertex_handle> vertices;
-    m_tr->incident_vertices(vi,std::back_inserter(vertices));
+    std::vector<Edge> edges;
+    m_tr->incident_edges(vi,std::back_inserter(edges));
+
     double diagonal = 0.0;
-    for(typename std::vector<Vertex_handle>::iterator it = vertices.begin();
-        it != vertices.end();
+
+  for(typename std::vector<Edge>::iterator it = edges.begin();
+        it != edges.end();
         it++)
     {
-      Vertex_handle vj = *it;
+      Vertex_handle vj = it->first->vertex(it->third);
+      if(vj == vi){
+        vj = it->first->vertex(it->second);
+      }
       if(m_tr->is_infinite(vj))
         continue;
 
       // get corresponding edge
-      Edge edge = sorted_edge(vi,vj);
+      Edge edge( it->first, it->first->index(vi), it->first->index(vj));
+      if(vi->index() < vj->index()){
+        std::swap(edge.second,  edge.third);
+      }
 
       double cij = cotan_geometric(edge);
       if(vj->constrained())
@@ -744,28 +751,14 @@ private:
 
       diagonal += cij;
     }
-
     // diagonal coefficient
     if (vi->type() == Triangulation::INPUT)
       A.set_coef(vi->index(),vi->index(), diagonal + lambda, true /*new*/) ;
     else
       A.set_coef(vi->index(),vi->index(), diagonal, true /*new*/);
+
   }
 
-  Edge sorted_edge(Vertex_handle vi,
-                   Vertex_handle vj)
-  {
-    int i1 = 0;
-    int i2 = 0;
-    Cell_handle cell = NULL;
-    bool success;
-    if(vi->index() > vj->index())
-      success = m_tr->is_edge(vi,vj,cell,i1,i2);
-    else
-      success = m_tr->is_edge(vj,vi,cell,i1,i2);
-    CGAL_surface_reconstruction_points_assertion(success);
-    return Edge(cell,i1,i2);
-  }
 
   /// Computes enlarged geometric bounding sphere of the embedded triangulation.
   Sphere enlarged_bounding_sphere(FT ratio) const
@@ -777,6 +770,6 @@ private:
 }; // end of Poisson_reconstruction_function
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POISSON_RECONSTRUCTION_FUNCTION_H

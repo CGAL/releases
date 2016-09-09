@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_2/include/CGAL/Point_set_2.h $
-// $Id: Point_set_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_2/include/CGAL/Point_set_2.h $
+// $Id: Point_set_2.h 57100 2010-06-25 09:45:35Z afabri $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -32,7 +32,7 @@
 #include <cmath>
 #include <climits>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Gt, class Tds = Triangulation_data_structure_2 <Triangulation_vertex_base_2<Gt> > >
 class  Point_set_2 : public  Delaunay_triangulation_2<Gt,Tds>
@@ -54,6 +54,7 @@ public:
                         
   
   typedef Triangulation_2<Gt,Tds>                           Triangulation;
+  typedef typename Triangulation::size_type                 size_type;
   typedef typename Triangulation::Locate_type               Locate_type;
   typedef typename Triangulation::Face_handle               Face_handle;
   typedef typename Triangulation::Vertex_handle             Vertex_handle;
@@ -79,6 +80,10 @@ public:
   using Base::VERTEX;
   using Base::insert;
   using Base::remove;
+  using Base::locate;
+  using Base::is_infinite;
+  using Base::nearest_vertex;
+  using Base::incident_vertices;
 
    Comparedist                   tr_comparedist;
    Orientation_2                 tr_orientation;  
@@ -171,9 +176,9 @@ public:
    }
    
   template<class OutputIterator>
-  OutputIterator   nearest_neighbors(Point p, int k, OutputIterator res)
+  OutputIterator   nearest_neighbors(Point p, size_type k, OutputIterator res)
   {
-   int n = number_of_vertices();
+   size_type n = number_of_vertices();
 
    if ( k <= 0 ) return res;
    if ( n <= k ) { // return all finite vertices ...
@@ -209,9 +214,9 @@ public:
   }
    
   template<class OutputIterator>  
-  OutputIterator  nearest_neighbors(Vertex_handle v, int k,OutputIterator res)
+  OutputIterator  nearest_neighbors(Vertex_handle v, size_type k,OutputIterator res)
   {  
-   int n = number_of_vertices();
+   size_type n = number_of_vertices();
 
    if ( k <= 0 ) return res;
    if ( n <= k ) { // return all (finite) vertices ...
@@ -230,10 +235,10 @@ public:
 
 
   void nearest_neighbors_list(Vertex_handle v, 
-			      int k, 
+			      size_type k, 
 			      std::list<Vertex_handle>& res) 
   {  
-     int n = number_of_vertices();
+     size_type n = number_of_vertices();
    
      if ( k <= 0 ) return;
      if ( n <= k ) { vertices(std::back_inserter(res)); return; }
@@ -286,9 +291,9 @@ public:
    
   // dfs
   // for marking nodes in search procedures
-  int cur_mark;
+  size_type cur_mark;
    
-  Unique_hash_map<Vertex_handle, int>  mark;
+  Unique_hash_map<Vertex_handle, size_type>  mark;
     
   void init_vertex_marks()
   {
@@ -299,7 +304,7 @@ public:
   void init_dfs()
   {
      cur_mark++; 
-     if (cur_mark == INT_MAX) init_vertex_marks();
+     if (cur_mark == std::numeric_limits<size_type>::max()) init_vertex_marks();
   }
   
   void mark_vertex(Vertex_handle vh)
@@ -435,8 +440,7 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif
-

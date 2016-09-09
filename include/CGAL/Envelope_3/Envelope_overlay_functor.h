@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
-// $Id: Envelope_overlay_functor.h 49793 2009-06-04 10:05:23Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
+// $Id: Envelope_overlay_functor.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class MinimizationDiagram_2>
 class Envelope_overlay_functor
@@ -462,8 +462,6 @@ protected:
   Boundary_cache          traversed_vertices; 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-
-

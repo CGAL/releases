@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
-// $Id: Periodic_3_triangulation_hierarchy_3.h 55889 2010-05-04 12:47:00Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
+// $Id: Periodic_3_triangulation_hierarchy_3.h 57081 2010-06-24 16:24:54Z afabri $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -28,7 +28,7 @@
 #include <boost/random/geometric_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class PTr >
 class Periodic_3_triangulation_hierarchy_3
@@ -109,9 +109,9 @@ public:
       int li, int lj);
 
   template < class InputIterator >
-  int insert(InputIterator first, InputIterator last, bool = false)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last, bool = false)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
 
     std::vector<Point> points (first, last);
     std::random_shuffle (points.begin(), points.end());
@@ -140,6 +140,7 @@ public:
 	    = hierarchy[level]->periodic_copies(v);
 	  for (unsigned int i=0 ; i<vtc.size() ; i++) vtc[i]->set_down(prev);
 	}
+
 	prev->set_up (v);
 	prev = v;
       }
@@ -148,6 +149,16 @@ public:
   }
 
   void remove(Vertex_handle v);
+
+  template < typename InputIterator >
+  std::ptrdiff_t remove(InputIterator first, InputIterator beyond) {
+    size_type n = number_of_vertices();
+    while (first != beyond) {
+      remove(*first);
+      ++first;
+    }
+    return n-number_of_vertices();
+  }
 
   Vertex_handle move_point(Vertex_handle v, const Point & p);
 
@@ -514,6 +525,6 @@ random_level()
   return std::min(die()-1, level_mult_cover);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_HIERARCHY_3_H

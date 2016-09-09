@@ -17,8 +17,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_spheres/include/CGAL/global_functions_on_roots_and_polynomials_1_3.h $
-// $Id: global_functions_on_roots_and_polynomials_1_3.h 46224 2008-10-13 11:22:46Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_spheres/include/CGAL/global_functions_on_roots_and_polynomials_1_3.h $
+// $Id: global_functions_on_roots_and_polynomials_1_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -29,7 +29,7 @@
 #ifndef CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_ROOTS_AND_POLYNOMIALS_1_3_H
 #define CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_ROOTS_AND_POLYNOMIALS_1_3_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class AK >
 inline 
@@ -51,6 +51,6 @@ construct_polynomials_for_line_3(const typename AK::FT& a1,
 			         const typename AK::FT& b3)
 { return AK().construct_polynomials_for_line_3_object()(a1, b1, a2, b2, a3, b3); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_ROOTS_AND_POLYNOMIALS_1_3_H

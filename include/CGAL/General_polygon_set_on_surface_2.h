@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: General_polygon_set_on_surface_2.h 52628 2009-10-20 08:59:26Z lrineau $ $Date: 2009-10-20 10:59:26 +0200 (Tue, 20 Oct 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_on_surface_2.h $
+// $Id: General_polygon_set_on_surface_2.h 57194 2010-06-29 12:47:18Z lrineau $ $Date: 2010-06-29 14:47:18 +0200 (Tue, 29 Jun 2010) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h>
 #include <CGAL/Boolean_set_operations_2/Gps_polygon_validation.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 namespace Boolean_set_operation_2_internal
@@ -149,6 +149,6 @@ private:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_GENERAL_POLYGON_SET_ON_SURFACE_2_H

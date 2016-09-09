@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
-// $Id: mesh_standard_facet_criteria.h 53419 2009-12-15 14:26:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
+// $Id: mesh_standard_facet_criteria.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -44,7 +44,7 @@ namespace details {
         const typename K::FT& c)
   {
     return (std::min)(a, (std::min)(b,c));
-  };
+  }
 
 } // end namespace details
 
@@ -96,7 +96,7 @@ protected:
       B_ = std::sin (CGAL_PI * CGAL::to_double(angle_min) / 180);
       B_ = B_ * B_;
     }
-  };
+  }
 
   virtual Badness do_is_bad (const Facet& f) const
   {
@@ -294,9 +294,9 @@ private:
 
 public:
   /// Constructor
-  Facet_on_surface_criterion() {};
+  Facet_on_surface_criterion() {}
   /// Destructor
-  ~Facet_on_surface_criterion() {};
+  ~Facet_on_surface_criterion() {}
 
 protected:
   virtual void do_accept(Visitor_& v) const
@@ -354,7 +354,7 @@ public:
     : Base(f) {}
 
   // Destructor
-  ~Facet_criterion_visitor() { };
+  ~Facet_criterion_visitor() {}
 
   void visit(const Criterion& criterion)
   {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_criteria.h $
-// $Id: mesh_standard_criteria.h 53504 2009-12-18 17:15:58Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_criteria.h $
+// $Id: mesh_standard_criteria.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -49,7 +49,7 @@ public:
   typedef typename Visitor_::Handle Handle;
 
   /// Destructor
-  virtual ~Abstract_criterion() { };
+  virtual ~Abstract_criterion() {}
 
   void accept(Visitor_& v) const { do_accept(v); }
   Badness is_bad(const Handle& h) const { return do_is_bad(h); }
@@ -92,10 +92,10 @@ public:
   Criterion_visitor(const Handle_& h)
     : handle_(h)
     , badness_()
-    , criterion_counter_(0) { };
+    , criterion_counter_(0) {}
 
   // Destructor
-  ~Criterion_visitor() { };
+  ~Criterion_visitor() {}
 
   Badness badness() const
   {
@@ -152,14 +152,14 @@ class Criteria
 
 public:
   /// Constructor
-  Criteria() { };
+  Criteria() {}
 
   /// Copy constructor
   Criteria(const Self& rhs)
     : criterion_vector_(rhs.criterion_vector_.clone())    { }
 
   /// Destructor
-  ~Criteria() { }; // ptr_vector do the job of criterion deleting
+  ~Criteria() {} // ptr_vector do the job of criterion deleting
 
   /// Add a criterion
   void add(Criterion* criterion)

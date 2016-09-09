@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH2.h $
-// $Id: Aff_transformationH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH2.h $
+// $Id: Aff_transformationH2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,7 +27,7 @@
 #include <CGAL/Handle_for_virtual.h>
 #include <CGAL/rational_rotation.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R>
 class Aff_transformationH2;
@@ -502,6 +502,9 @@ class Aff_transformationH2
   typedef typename R_::Vector_2     Vector_2;
   typedef typename R_::Direction_2  Direction_2;
   typedef typename R_::Line_2       Line_2;
+
+  typedef Handle_for_virtual< Aff_transformation_rep_baseH2<R_> > Base;
+  using Base::initialize_with;
 
 public:
   typedef R_                                    R;
@@ -1050,6 +1053,6 @@ cartesian(int i, int j) const
   return FT(0);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_AFF_TRANSFORMATIONH2_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/long_double.h $
-// $Id: long_double.h 44911 2008-08-12 13:09:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/long_double.h $
+// $Id: long_double.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -35,7 +35,7 @@
 // #include <CGAL/FPU.h>
 #include <CGAL/Interval_nt.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Is_valid moved to top, since used by is_finite
 #ifdef CGAL_CFG_IEEE_754_BUG
@@ -160,6 +160,6 @@ template <> class Real_embeddable_traits< long double >
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_LONG_DOUBLE_H

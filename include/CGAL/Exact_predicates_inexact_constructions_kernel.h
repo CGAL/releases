@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
-// $Id: Exact_predicates_inexact_constructions_kernel.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
+// $Id: Exact_predicates_inexact_constructions_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
@@ -27,11 +27,11 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Filtered_kernel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 typedef Filtered_kernel< Simple_cartesian<double> >
         Exact_predicates_inexact_constructions_kernel;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_EXACT_PREDICATES_INEXACT_CONSTRUCTIONS_KERNEL_H

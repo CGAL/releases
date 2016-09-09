@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
-// $Id: Regular_triangulation_rtH3.h 51045 2009-08-04 13:36:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
+// $Id: Regular_triangulation_rtH3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -25,7 +25,7 @@
 
 #include <CGAL/predicates/Regular_triangulation_ftC3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class RT>
 Oriented_side
@@ -81,6 +81,6 @@ power_testH3(
 // The 2 degenerate are not speed critical, and they are quite boring and error
 // prone to write, so we use the Cartesian version, using FT.
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_RTH3_H

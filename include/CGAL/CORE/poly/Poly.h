@@ -49,8 +49,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/poly/Poly.h $
- * $Id: Poly.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/poly/Poly.h $
+ * $Id: Poly.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef CORE_POLY_H
@@ -60,7 +60,7 @@
 #include <CGAL/CORE/Promote.h>
 #include <vector>
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 using namespace std;
 class Expr;
 // ==================================================
@@ -430,5 +430,5 @@ bool Polynomial<NT>::setCoeff(int i, const NT & cc) {
 // We include this file from CORE/Expr.h, AFTER the definition
 // of class Expr, because otherwise VC++.net2003 can'y compile Expr.cpp
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif

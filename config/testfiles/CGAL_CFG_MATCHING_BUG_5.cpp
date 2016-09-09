@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_5.cpp $
-// $Id: CGAL_CFG_MATCHING_BUG_5.cpp 49022 2009-04-29 20:03:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_5.cpp $
+// $Id: CGAL_CFG_MATCHING_BUG_5.cpp 54955 2010-03-26 17:19:18Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -24,7 +24,9 @@
 //| This flag is set, if a compiler cannot distinguish the signature
 //| of overloaded function templates, which have one template parameter
 //| to be passed explicitely when being called.
-//| This bug appears for example on g++ 3.3 and 3.4.
+//| 
+//| This bug appears for example on g++ 3.3 and 3.4 (but not on more recent
+//| g++ version). This bug appears also on Sun CC 5.90.
 
 template < typename T >
 struct A {};

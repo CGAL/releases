@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
-// $Id: Sqrt_extension_type.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $Id: Sqrt_extension_type.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -37,15 +37,15 @@
 #include <CGAL/number_type_basic.h>
 #include <boost/operators.hpp>
 
-//#define SQRT_EXT_USE_FILTER 1
-#ifdef SQRT_EXT_USE_FILTER
+//#define CGAL_SQRT_EXT_USE_FILTER 1
+#ifdef CGAL_SQRT_EXT_USE_FILTER
   #include <CGAL/Interval_arithmetic.h> 
 #endif
 
 
 #define CGAL_int(T)    typename First_if_different<int,    T>::Type
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class NT_,class ROOT_> class Sqrt_extension;
 template<class NT, class ROOT>
@@ -231,7 +231,7 @@ public:
         if (! is_extended_)
             return CGAL_NTS sign(a0());
 
-#ifdef SQRT_EXT_USE_FILTER
+#ifdef CGAL_SQRT_EXT_USE_FILTER
         const std::pair<double, double>&  x_in = this->to_interval(); 
 
         if (x_in.first > 0)
@@ -409,7 +409,7 @@ compare (const NT& num) const {
     if (! is_extended_)
         return (CGAL::compare (a0_, num));
 
-#ifdef SQRT_EXT_USE_FILTER
+#ifdef CGAL_SQRT_EXT_USE_FILTER
     const std::pair<double, double>&  x_in = this->to_interval(); 
     const std::pair<double, double>&  y_in = CGAL::to_interval (num); 
     
@@ -436,7 +436,7 @@ compare(const Self& y, bool in_same_extension = true ) const
     if (in_same_extension)
         return ((*this) - y).sign();
 
-#ifdef SQRT_EXT_USE_FILTER
+#ifdef CGAL_SQRT_EXT_USE_FILTER
     const std::pair<double, double>&  x_in = this->to_interval(); 
     const std::pair<double, double>&  y_in = y.to_interval(); 
     
@@ -629,7 +629,7 @@ CGAL::Comparison_result compare (
   return x.compare(y,in_same_extension);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #undef CGAL_int
 

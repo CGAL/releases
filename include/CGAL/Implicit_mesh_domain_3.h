@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
-// $Id: Implicit_mesh_domain_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
+// $Id: Implicit_mesh_domain_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -62,10 +62,10 @@ public:
   Implicit_mesh_domain_3(Function& f,
                          const Sphere_3& bounding_sphere,
                          const FT& error_bound = FT(1e-3))
-    : Base(Wrapper(f), bounding_sphere, error_bound)  { };
+    : Base(Wrapper(f), bounding_sphere, error_bound)  {}
 
   /// Destructor
-  virtual ~Implicit_mesh_domain_3() { };
+  virtual ~Implicit_mesh_domain_3() {}
 
 
 private:

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Polygon_convex_decomposition_2.h $
-// $Id: Polygon_convex_decomposition_2.h 37897 2007-04-03 18:34:02Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Polygon_convex_decomposition_2.h $
+// $Id: Polygon_convex_decomposition_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -22,7 +22,7 @@
 #include <CGAL/Minkowski_sum_2/Decomposition_strategy_adapter.h>
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * \class
@@ -81,6 +81,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

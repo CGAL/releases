@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/property_map.h $
-// $Id: property_map.h 51831 2009-09-04 11:38:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/property_map.h $
+// $Id: property_map.h 56305 2010-05-17 16:15:17Z lrineau $
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
 
@@ -179,7 +179,7 @@ struct Nth_of_tuple_property_map
   /// @commentheading Template Parameters:
   /// @param Iter Type convertible to key_type.
   template <class Iter>
-  reference operator[](Iter tuple) const { return (reference) tuple->get<N>(); }
+  reference operator[](Iter tuple) const { return (reference) tuple->template get<N>(); }
 };
 
 /// Free function to create a Nth_of_tuple_property_map property map.

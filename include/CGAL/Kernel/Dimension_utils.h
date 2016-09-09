@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/Dimension_utils.h $
-// $Id: Dimension_utils.h 42943 2008-04-17 14:43:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/Dimension_utils.h $
+// $Id: Dimension_utils.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 
@@ -23,7 +23,7 @@
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/Dimension.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Access {
 
@@ -177,6 +177,6 @@ struct Aff_transformation <K, Dynamic_dimension_tag>
 
 } // namespace Access
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_KERNEL_DIMENSION_UTILS_H

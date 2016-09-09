@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/SearchStructures/include/CGAL/Range_tree_d.h $
-// $Id: Range_tree_d.h 46286 2008-10-15 07:52:05Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/include/CGAL/Range_tree_d.h $
+// $Id: Range_tree_d.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -38,7 +38,7 @@
 // access the data.
 // cf. file Tree_interface.h, class point_interface for the requirements.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class C_Data, class C_Window, class C_Interface>
 class Range_tree_d;
@@ -619,8 +619,5 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_RANGE_TREE_D_H
-
-
-

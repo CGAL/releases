@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_criteria_3.h $
-// $Id: Mesh_criteria_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_criteria_3.h $
+// $Id: Mesh_criteria_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -54,7 +54,7 @@ public:
   Mesh_criteria_3_impl(const Facet_criteria& facet_criteria,
                        const Cell_criteria& cell_criteria)
     : facet_criteria_(facet_criteria)
-    , cell_criteria_(cell_criteria) { };
+    , cell_criteria_(cell_criteria) {}
   
   // This template constructor is not instantiated when named parameters
   // are not used, so Facet_criteria and Cell_criteria construction from FT
@@ -67,8 +67,8 @@ public:
     , cell_criteria_(args[parameters::cell_radius_edge | 0],
                      args[parameters::cell_size | 0] )              { }
   
-  const Facet_criteria& facet_criteria() const { return facet_criteria_; };
-  const Cell_criteria& cell_criteria() const { return cell_criteria_; };
+  const Facet_criteria& facet_criteria() const { return facet_criteria_; }
+  const Cell_criteria& cell_criteria() const { return cell_criteria_; }
   
 private:
   Facet_criteria facet_criteria_;
@@ -97,7 +97,7 @@ public:
   // Constructor
   Mesh_criteria_3(const Facet_criteria& facet_criteria,
                   const Cell_criteria& cell_criteria)
-    : Base(facet_criteria, cell_criteria) { };
+    : Base(facet_criteria, cell_criteria) {}
   
   // For convenient constructor call (see examples)
   BOOST_PARAMETER_CONSTRUCTOR(Mesh_criteria_3, (Base), parameters::tag,

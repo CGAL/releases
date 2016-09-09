@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2_algorithms.h $
-// $Id: Sweep_line_2_algorithms.h 52295 2009-10-14 08:19:52Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2_algorithms.h $
+// $Id: Sweep_line_2_algorithms.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -37,7 +37,7 @@
 #include <CGAL/Arr_circle_segment_traits_2.h>
 #include <CGAL/Arr_linear_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Curve>
 struct Default_arr_traits
@@ -214,6 +214,6 @@ bool do_curves_intersect (CurveInputIterator curves_begin,
   return do_curves_intersect (curves_begin, curves_end, m_traits);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

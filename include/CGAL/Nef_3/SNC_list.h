@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_list.h $
-// $Id: SNC_list.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_list.h $
+// $Id: SNC_list.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #include <CGAL/Nef_S2/SM_list.h>
 #include <CGAL/Unique_hash_map.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Sphere_map>
 class SNC_in_place_list_sm
@@ -767,6 +767,6 @@ pointer_update(const SNC_list<Kernel,Items>& D)
   }
 }
 */
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SNC_LIST_H

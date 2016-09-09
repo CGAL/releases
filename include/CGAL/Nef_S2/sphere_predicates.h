@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
-// $Id: sphere_predicates.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
+// $Id: sphere_predicates.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 for(x = (L).begin(); x != (L).end(); ++x) 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /* |spherical_orientation| takes three points of one hemisphere and
 returns the orientation of $p_3$ with respect to the halfcircle
@@ -405,6 +405,6 @@ intersection(const CGAL::Sphere_circle<R>& c,
   return -1;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SPHERE_PREDICATES_H

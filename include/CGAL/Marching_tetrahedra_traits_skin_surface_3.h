@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Marching_tetrahedra_traits_skin_surface_3.h $
-// $Id: Marching_tetrahedra_traits_skin_surface_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Marching_tetrahedra_traits_skin_surface_3.h $
+// $Id: Marching_tetrahedra_traits_skin_surface_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -24,7 +24,7 @@
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Cartesian_converter.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 /// NGHK: Is the converter needed or do we just use the Cartesian_converter
 template <class SkinSurface_3,
@@ -59,6 +59,6 @@ public:
   const SkinSurface_3 &ss_3;
 };
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif // CGAL_MARCHING_TETRAHEDRA_TRAITS_SKIN_SURFACE_3_H

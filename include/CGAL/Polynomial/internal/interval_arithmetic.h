@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/interval_arithmetic.h $
-// $Id: interval_arithmetic.h 35777 2007-01-23 17:02:20Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/interval_arithmetic.h $
+// $Id: interval_arithmetic.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -34,7 +34,7 @@
 #include <CGAL/double.h>
 #include <CGAL/int.h>
 
-CGAL_POLYNOMIAL_BEGIN_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL {
 //! The class we use for interval arithmetic.
 /*!
   This class is not protected, so the Interval_arithmetic_guard must be used when calculations
@@ -107,7 +107,7 @@ namespace internal
 }
 
 
-CGAL_POLYNOMIAL_END_NAMESPACE
+} } //namespace CGAL::POLYNOMIAL
 
 
 #elif POLYNOMIAL_USE_BOOST_INTERVAL
@@ -119,7 +119,7 @@ Not implemented yet.
 No interval arithmetic support.
 #endif
 
-CGAL_POLYNOMIAL_BEGIN_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL {
 
 inline Extended_sign extended_sign(const Interval_nt &i)
 {
@@ -136,5 +136,5 @@ inline Extended_sign extended_sign(const Interval_nt &i)
 }
 
 
-CGAL_POLYNOMIAL_END_NAMESPACE
+} } //namespace CGAL::POLYNOMIAL
 #endif

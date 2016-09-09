@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
-// $Id: Kd_tree_rectangle.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $Id: Kd_tree_rectangle.h 56971 2010-06-22 11:52:55Z afabri $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -102,8 +102,8 @@ namespace CGAL {
     Kd_tree_rectangle(int d) 
       : dim(d), lower_(new FT[d]), upper_(new FT[d]), max_span_coord_(0)
     {
-      std::fill(lower_, lower_ + dim, 0);
-      std::fill(upper_, upper_ + dim, 0);
+      std::fill(lower_, lower_ + dim, FT(0));
+      std::fill(upper_, upper_ + dim, FT(0));
     }
 
     Kd_tree_rectangle() 

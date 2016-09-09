@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
-// $Id: SNC_SM_overlayer.h 50723 2009-07-20 13:46:03Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
+// $Id: SNC_SM_overlayer.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -40,7 +40,7 @@
 #define LEDA_MEMORY(t) 
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Manpage {SNC_SM_overlayer}{Refs_}{Overlay in the sphere}{O}}*/
 
@@ -222,6 +222,24 @@ class SNC_SM_overlayer<SNC_indexed_items, SM_decorator_>
   typedef typename Base::Sphere_kernel           Sphere_kernel;
 
   typedef typename Map::Infi_box Infi_box;
+
+  using SM_decorator::clear_face_cycle_entries;
+  using SM_decorator::link_as_loop;
+  using SM_decorator::link_as_prev_next_pair;
+  using SM_decorator::is_closed_at_source;
+  using SM_decorator::is_closed_at_target;
+  using SM_decorator::delete_edge_pair;
+  using SM_decorator::set_face;
+  using SM_decorator::is_isolated;
+  using SM_decorator::delete_vertex_only;
+  using SM_decorator::delete_face_only;
+  using SM_decorator::first_out_edge;
+  using SM_decorator::set_first_out_edge;
+  using SM_decorator::has_outdeg_two;
+  using SM_decorator::store_sm_boundary_object;
+  using SM_decorator::is_sm_boundary_object;
+  using SM_decorator::undo_sm_boundary_object;
+  using SM_decorator::delete_edge_pair_only;
 
  public:
   SNC_SM_overlayer(Map* M, 
@@ -455,7 +473,5 @@ class SNC_SM_overlayer<SNC_indexed_items, SM_decorator_>
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SNC_SM_OVERLAYER_H
-
-

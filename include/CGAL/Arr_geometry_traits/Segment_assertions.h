@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Segment_assertions.h $
-// $Id: Segment_assertions.h 40377 2007-09-19 11:05:08Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Segment_assertions.h $
+// $Id: Segment_assertions.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -20,7 +20,7 @@
 #ifndef CGAL_SEGMENT_ASSERTIONS_H
 #define CGAL_SEGMENT_ASSERTIONS_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Traits_>
 class Segment_assertions
@@ -65,6 +65,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

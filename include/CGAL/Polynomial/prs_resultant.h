@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/prs_resultant.h $
-// $Id: prs_resultant.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/prs_resultant.h $
+// $Id: prs_resultant.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -37,7 +37,7 @@
 #ifndef CGAL_POLYNOMIAL_PRS_RESULTANT_H
 #define CGAL_POLYNOMIAL_PRS_RESULTANT_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class NT> inline
 NT prs_resultant_integral_domain(Polynomial<NT> A, Polynomial<NT> B) {
@@ -254,7 +254,7 @@ NT prs_resultant(Polynomial<NT> A, Polynomial<NT> B) {
     return INTERN_PRS_RESULTANT::prs_resultant_(A, B, Algebraic_category());     
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_PRS_RESULTANT_H
 

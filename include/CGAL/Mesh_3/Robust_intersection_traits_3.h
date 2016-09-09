@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Robust_intersection_traits_3.h $
-// $Id: Robust_intersection_traits_3.h 51937 2009-09-14 17:52:01Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Robust_intersection_traits_3.h $
+// $Id: Robust_intersection_traits_3.h 57355 2010-07-07 07:30:34Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -28,7 +28,7 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Mesh_3 {
 
@@ -53,9 +53,6 @@ public:
   template<class T1, class T2>
   Object operator() (const T1& t, const T2& s) const
   {
-    typename K_::Intersect_3 intersection =
-    K_().intersect_3_object();
-    
     // Switch to exact
     To_exact to_exact;
     Back_from_exact back_from_exact;
@@ -94,6 +91,6 @@ struct Robust_intersection_traits_3
 
 } // end namespace Mesh_3
   
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MESH_3_ROBUST_INTERSECTION_TRAITS_3_H

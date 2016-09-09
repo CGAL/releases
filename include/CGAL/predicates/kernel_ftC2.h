@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 44908 2008-08-12 12:43:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)
@@ -30,7 +30,7 @@
 #include <CGAL/predicates/sign_of_determinant.h>
 #include <CGAL/constructions/kernel_ftC2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class FT >
 inline
@@ -606,6 +606,6 @@ side_of_oriented_lineC2(const FT &a, const FT &b, const FT &c,
   return CGAL_NTS sign(a*x+b*y+c);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_PREDICATES_KERNEL_FTC2_H

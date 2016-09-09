@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
-// $Id: Finite_edge_interior_conflict_C2.h 46227 2008-10-13 11:52:58Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
+// $Id: Finite_edge_interior_conflict_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -30,9 +30,9 @@
 #  pragma warning(disable:4800) // complaint about performance where we can't do anything
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace SegmentDelaunayGraph_2 {
 
 //-----------------------------------------------------------------------------
 
@@ -59,6 +59,17 @@ public:
   typedef typename Base::Boolean              Boolean;
 
   typedef typename Base::Homogeneous_point_2  Homogeneous_point_2;
+
+  using Base::opposite_line;  
+  using Base::compute_supporting_line;
+  using Base::oriented_side_of_line;
+  using Base::compare_squared_distances_to_line;
+  using Base::compare_squared_distances_to_lines;
+  using Base::compute_perpendicular;
+  using Base::projection_on_line;
+  using Base::compute_squared_distance;
+
+
 
 private:
   typedef Are_same_points_C2<K>               Are_same_points_2;
@@ -718,9 +729,9 @@ public:
 
 //-----------------------------------------------------------------------------
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #if defined(BOOST_MSVC)

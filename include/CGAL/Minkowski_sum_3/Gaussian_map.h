@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map.h $
+// $Id: Gaussian_map.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #define CGAL_NEF_DEBUG 223
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class K, class Nef, class Mark_ = PointMark<K> >
@@ -403,7 +403,7 @@ class Gaussian_map :
                             << "->" << set->twin()->source()->point());
 	  } 
 	  last = hc->twin()->source();
-	} else CGAL_NEF_TRACEN( "omit " );
+	} else { CGAL_NEF_TRACEN( "omit " ); }
 
 	++hc;
 	etwin = hc->source();
@@ -1223,5 +1223,5 @@ std::ostream& operator<<(std::ostream& out, const CGAL::Gaussian_map<Kernel, Nef
   return out;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_MS3_GAUSSIAN_MAP

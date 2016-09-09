@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
-// $Id: refine_mesh_3.h 55273 2010-04-08 14:26:13Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
+// $Id: refine_mesh_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -51,7 +51,7 @@ namespace CGAL {
       
     public:
       Insert_vertex_in_c3t3(C3T3& c3t3)
-        : r_c3t3_(c3t3) { };
+        : r_c3t3_(c3t3) {}
       
       void operator()(const Vertex& vertex) const
       {
@@ -340,7 +340,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
   // Perturbation
   if ( perturb )
   {
-    double perturb_time_limit = refine_time/2;
+    double perturb_time_limit = refine_time;
     
     if ( perturb.is_time_limit_set() )
       perturb_time_limit = perturb.time_limit();
@@ -354,7 +354,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
   // Exudation
   if ( exude )
   {
-    double exude_time_limit = refine_time/2;
+    double exude_time_limit = refine_time;
     
     if ( exude.is_time_limit_set() )
       exude_time_limit = exude.time_limit();
@@ -364,7 +364,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
                  parameters::sliver_bound = exude.bound());
   }
   
-};
+}
 
 }  // end namespace CGAL
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_3/include/CGAL/IO/alpha_shape_geomview_ostream_3.h $
-// $Id: alpha_shape_geomview_ostream_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_3/include/CGAL/IO/alpha_shape_geomview_ostream_3.h $
+// $Id: alpha_shape_geomview_ostream_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -29,7 +29,7 @@
 // - If interfaces were more similar, we could think of sharing 2d and 3d ?
 
 //-------------------------------------------------------------------
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 //-------------------------------------------------------------------
 
 // This one is to show the edges of a 3D triangulation.
@@ -137,7 +137,7 @@ operator<<( Geomview_stream &gv, Alpha_shape_3<Dt>& A)
 }
 
 //-------------------------------------------------------------------
-CGAL_END_NAMESPACE
+} //namespace CGAL
 //-------------------------------------------------------------------
 
 #endif // CGAL_IO_ALPHA_SHAPE_GEOMVIEW_OSTREAM_3_H

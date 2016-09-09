@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
-// $Id: function_objects.h 52285 2009-10-13 08:35:40Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
+// $Id: function_objects.h 57753 2010-08-03 14:24:59Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -31,7 +31,7 @@
 #include <CGAL/constructions/kernel_ftC3.h>
 #include <CGAL/Cartesian/solve_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CartesianKernelFunctors {
 
@@ -409,20 +409,12 @@ namespace CartesianKernelFunctors {
     {
       return cmp_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
     }
-  };
 
-  template <typename K>
-  class Compare_squared_distance_2
-  {
-    typedef typename K::Point_2            Point_2;
-    typedef typename K::FT                 FT;
-  public:
-    typedef typename K::Comparison_result  result_type;
-
+    template <class T1, class T2, class T3, class T4>
     result_type
-    operator()(const Point_2& p, const Point_2& q, const FT& d2) const
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
     {
-      return CGAL_NTS compare(squared_distance(p, q), d2);
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
   };
 
@@ -440,29 +432,14 @@ namespace CartesianKernelFunctors {
 				 q.x(), q.y(), q.z(),
 				 r.x(), r.y(), r.z());
     }
-  };
 
-  template <typename K>
-  class Compare_squared_distance_3
-  {
-    typedef typename K::Point_3            Point_3;
-    typedef typename K::FT                 FT;
-  public:
-    typedef typename K::Comparison_result  result_type;
-
+    template <class T1, class T2, class T3, class T4>
     result_type
-    operator()(const Point_3& p, const Point_3& q, const FT& d2) const
-    {
-      return CGAL_NTS compare(squared_distance(p, q), d2);
-    } 
-
-    result_type
-    operator()(const Point_3& p, const Point_3& q, const Point_3& r, const Point_3& s) const
+    operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
     {
       return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
   };
-
 
   template <typename K>
   class Compare_squared_radius_3
@@ -4044,6 +4021,6 @@ namespace CartesianKernelFunctors {
 
 } // namespace CartesianKernelFunctors
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_FUNCTION_OBJECTS_H

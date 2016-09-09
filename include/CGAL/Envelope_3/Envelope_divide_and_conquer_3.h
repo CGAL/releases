@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
-// $Id: Envelope_divide_and_conquer_3.h 50517 2009-07-09 20:54:58Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
+// $Id: Envelope_divide_and_conquer_3.h 57099 2010-06-25 09:39:36Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -40,7 +40,7 @@
 #include <CGAL/Envelope_3/set_dividors.h>
 
 #ifdef CGAL_ENVELOPE_USE_BFS_FACE_ORDER
-#include <CGAL/Arr_face_map.h>
+#include <CGAL/Arr_face_index_map.h>
 #include <CGAL/graph_traits_Dual_Arrangement_2.h>
 #include <climits> // Needed because BGL forgot it.
 #include <boost/graph/dijkstra_shortest_paths.hpp>
@@ -77,7 +77,7 @@
 // 1. overlapping surfaces
 // 2. a vertical surface that contributes only edge (or edges) to the envelope
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The algorithm has 5 template parameters:
 // 1. EnvelopeTraits_3        - the geometric traits class
@@ -130,13 +130,14 @@ protected:
     Vertex_handle;
   typedef typename Minimization_diagram_2::Vertex_iterator
     Vertex_iterator;
-  typedef typename Minimization_diagram_2::Inner_ccb_iterator
-    Inner_ccb_iterator;
   typedef typename Minimization_diagram_2::Ccb_halfedge_circulator
     Ccb_halfedge_circulator;
   typedef typename Minimization_diagram_2::Halfedge_around_vertex_circulator
-
     Halfedge_around_vertex_circulator;
+  typedef typename Minimization_diagram_2::Outer_ccb_iterator 
+    Outer_ccb_iterator;
+  typedef typename Minimization_diagram_2::Inner_ccb_iterator 
+    Inner_ccb_iterator;
 
   typedef Arr_observer<Minimization_diagram_2>          Md_observer;
   typedef typename Minimization_diagram_2::Dcel::Dcel_data_iterator
@@ -369,21 +370,43 @@ protected:
             he->twin()->face()->set_no_data();
           }
 
-          Ccb_halfedge_circulator face_hec = f->outer_ccb();
-          Ccb_halfedge_circulator face_hec_begin = face_hec;
-          do 
-          {
-            face_hec->set_is_equal_data_in_face(true);
-            face_hec->set_has_equal_data_in_face(true);
-            face_hec->set_has_equal_data_in_target_and_face(true);
-
-            face_hec->twin()->set_is_equal_data_in_face(false);
-            face_hec->twin()->set_has_equal_data_in_face(false);
-            face_hec->twin()->set_has_equal_data_in_target_and_face(false);
-
-            ++face_hec;
-          } 
-          while(face_hec != face_hec_begin);
+          // init auxiliary data for f and its boundarys. 
+          for(Outer_ccb_iterator ocit = f->outer_ccbs_begin();
+              ocit != f->outer_ccbs_end(); ocit++){
+            Ccb_halfedge_circulator face_hec = *ocit;
+            Ccb_halfedge_circulator face_hec_begin = face_hec;
+            do 
+              {
+                face_hec->set_is_equal_data_in_face(true);
+                face_hec->set_has_equal_data_in_face(true);
+                face_hec->set_has_equal_data_in_target_and_face(true);
+                
+                face_hec->twin()->set_is_equal_data_in_face(false);
+                face_hec->twin()->set_has_equal_data_in_face(false);
+                face_hec->twin()->set_has_equal_data_in_target_and_face(false);
+                
+                ++face_hec;
+              } 
+            while(face_hec != face_hec_begin);
+          }
+          for(Outer_ccb_iterator icit = f->inner_ccbs_begin();
+              icit != f->inner_ccbs_end(); icit++){
+            Ccb_halfedge_circulator face_hec = *icit;
+            Ccb_halfedge_circulator face_hec_begin = face_hec;
+            do 
+              {
+                face_hec->set_is_equal_data_in_face(true);
+                face_hec->set_has_equal_data_in_face(true);
+                face_hec->set_has_equal_data_in_target_and_face(true);
+                
+                face_hec->twin()->set_is_equal_data_in_face(false);
+                face_hec->twin()->set_has_equal_data_in_face(false);
+                face_hec->twin()->set_has_equal_data_in_target_and_face(false);
+                
+                ++face_hec;
+              } 
+            while(face_hec != face_hec_begin);
+          }
         }
       }
       else
@@ -1800,6 +1823,6 @@ protected:
   bool                      m_is_lower;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_ENVELOPE_DIVIDE_AND_CONQUER_3_H

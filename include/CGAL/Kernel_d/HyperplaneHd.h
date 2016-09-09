@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
-// $Id: HyperplaneHd.h 42940 2008-04-17 13:32:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
+// $Id: HyperplaneHd.h 56991 2010-06-22 16:17:33Z afabri $
 // 
 // Author(s)     : Michael Seel
 
@@ -29,7 +29,7 @@
 #include <CGAL/Kernel_d/VectorHd.h> 
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointHd PointHd2
 
 template <class RT, class LA>
@@ -135,7 +135,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
   "hyperplane::construction: dimensions disagree.");
 
   int d = first->dimension();   // we are in $d$ - dimensional space
-  int m = std::distance(first,last); // |P| has $m$ points
+  int m = static_cast<int>(std::distance(first,last)); // |P| has $m$ points
   typename LA::Matrix A(m,d + 1); 
 
   for (int i = 0; i < m; i++) {  /* define $i$-th equation */
@@ -348,8 +348,7 @@ $O(|h.dimension()|)$. coordinate access and |dimension()| take
 constant time.  The space requirement is $O(|h.dimension()|)$.  }*/
 
 #undef PointHd
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_HYPERPLANEHD_H
 
 //----------------------- end of file ----------------------------------
-

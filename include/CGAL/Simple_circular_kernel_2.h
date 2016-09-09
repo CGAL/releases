@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Simple_circular_kernel_2.h $
-// $Id: Simple_circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Simple_circular_kernel_2.h $
+// $Id: Simple_circular_kernel_2.h 56961 2010-06-22 09:37:10Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck, Pedro Machado
 
@@ -41,7 +41,7 @@
 
 #include <CGAL/Circular_kernel_2/function_objects_on_circle_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -90,8 +90,14 @@ struct Circular_kernel_2
   >,
   Circular_kernel_2<LinearKernel,AlgebraicKernel>
   >
-{};
+{
+  // for Lazy hexagons/bbox kernels
+  // Please remove this if you consider it to be sloppy
+  struct Circular_tag{};
+  typedef Circular_tag Definition_tag;
+  //  
+};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SIMPLE_CIRCULAR_KERNEL_2_H

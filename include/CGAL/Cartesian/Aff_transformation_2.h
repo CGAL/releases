@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_2.h $
-// $Id: Aff_transformation_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_2.h $
+// $Id: Aff_transformation_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Lutz Kettner
@@ -27,7 +27,7 @@
 #include <cmath>
 #include <CGAL/Handle_for_virtual.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Identity_transformation;
 template < class R > class Aff_transformation_rep_baseC2;
@@ -36,14 +36,14 @@ template < class R > class Translation_repC2;
 template < class R > class Rotation_repC2;
 template < class R > class Scaling_repC2;
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Cartesian/Aff_transformation_rep_2.h>
 #include <CGAL/Cartesian/Translation_rep_2.h>
 #include <CGAL/Cartesian/Rotation_rep_2.h>
 #include <CGAL/Cartesian/Scaling_rep_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class R_ >
 class Aff_transformationC2
@@ -57,6 +57,8 @@ class Aff_transformationC2
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
+
+  using Handle_for_virtual<Aff_t_base>::initialize_with;
 
 public:
   typedef R_                                R;
@@ -194,6 +196,6 @@ operator<<(std::ostream& os, const Aff_transformationC2<R>& t)
 }
 #endif // CGAL_NO_OSTREAM_INSERT_AFF_TRANSFORMATIONC2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_AFF_TRANSFORMATION_2_H

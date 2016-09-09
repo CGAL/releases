@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $Id: SM_point_locator.h 57193 2010-06-29 12:38:52Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -30,7 +30,7 @@
 #include <CGAL/Nef_2/debug.h>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions print_title=yes }*/ 
 
@@ -103,6 +103,10 @@ public:
                                      SHalfedge_around_svertex_circulator;
   typedef typename Decorator_traits::SHalfedge_around_sface_circulator
                                      SHalfedge_around_sface_circulator;
+
+  using Base::cyclic_adj_succ;
+  using Base::is_isolated;
+  using Base::first_out_edge;
 
   Sphere_segment segment(SHalfedge_handle e) const
   { return Sphere_segment(e->source()->point(), e->twin()->source()->point(), e->circle()); }
@@ -457,8 +461,9 @@ public:
     CGAL_forall_sedges(ei,*this) {
       Sphere_segment se = segment(ei);
       CGAL_NEF_TRACEN("ray_shoot " << s_init);
-      if(s_init)
+      if(s_init) {
 	CGAL_NEF_TRACEN("  " << s.source() << "->" << s.target() << " | " << s.sphere_circle() << " is long " << s.is_long());
+      }
       CGAL_NEF_TRACEN("  " << se.source() << "->" << se.target() << " | " << se.sphere_circle() << " is long " << se.is_long());
 
       // TODO: start-end point of s on se or c
@@ -650,8 +655,5 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SM_POINT_LOCATOR_H
-
-
-

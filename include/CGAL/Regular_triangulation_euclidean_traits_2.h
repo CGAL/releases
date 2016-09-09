@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
-// $Id: Regular_triangulation_euclidean_traits_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
+// $Id: Regular_triangulation_euclidean_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -32,7 +32,7 @@
 #include <CGAL/predicates/Regular_triangulation_rtH2.h>
 #include <CGAL/constructions_on_weighted_points_homogeneous_2.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 // constructions for DUALITY: weighted_circumcenter and radical 
 //  axis
@@ -405,14 +405,14 @@ class Regular_triangulation_euclidean_traits_2
   : public Regular_triangulation_euclidean_traits_base_2<R, W>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // Now specialize for Filtered_kernel<CK>, to get
 // the filtered traits automatically.
 #include <CGAL/Regular_triangulation_filtered_traits_2.h>
 #include <CGAL/Filtered_kernel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This declaration is needed to break the cyclic dependency.
 template < typename K >
@@ -427,6 +427,6 @@ public:
   typedef Filtered_kernel<CK>   Kernel;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_2_H

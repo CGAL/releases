@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/leda_coercion_traits.h $
-// $Id: leda_coercion_traits.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_coercion_traits.h $
+// $Id: leda_coercion_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -43,7 +43,7 @@
 #include <LEDA/numbers/real.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 //LEDA internal coercions:
@@ -129,7 +129,7 @@ template <> struct Coercion_traits< ::leda::rational, ::leda::bigfloat >
     :public Coercion_traits< ::leda::bigfloat , ::leda::rational >{};
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_USE_LEDA
 #endif //CGAL_LEDA_COERCION_TRAITS_H
 //EOF

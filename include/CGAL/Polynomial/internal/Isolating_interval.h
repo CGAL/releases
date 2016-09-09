@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Isolating_interval.h $
-// $Id: Isolating_interval.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Isolating_interval.h $
+// $Id: Isolating_interval.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Polynomial/internal/interval_arithmetic.h>
 #include <iostream>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 //! necessary to support filtered_numbers which I don't like
 template <class NT, class Functor>
@@ -598,11 +598,11 @@ OStream &operator<<(OStream &out, const Isolating_interval<NT> &ii)
   return ii.to_interval();
   }*/
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 
 #ifdef CGAL_POLYNOMIAL_USE_CGAL
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template <class NT>
 std::pair<double, double> to_interval(const typename CGAL_POLYNOMIAL_NS::internal::Isolating_interval<NT> &ii)
 {
@@ -610,6 +610,6 @@ std::pair<double, double> to_interval(const typename CGAL_POLYNOMIAL_NS::interna
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif
 #endif

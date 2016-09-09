@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/IO/Nef_polyhedron_S2_OGLUT_stream.h $
-// $Id: Nef_polyhedron_S2_OGLUT_stream.h 29754 2006-03-24 13:08:31Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/IO/Nef_polyhedron_S2_OGLUT_stream.h $
+// $Id: Nef_polyhedron_S2_OGLUT_stream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Nef_S2/SM_visualizor.h>
 #include <string>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 struct OGLUT_stream { // dummy class
@@ -55,8 +55,6 @@ static CGAL::OGLUT_stream& operator<<(CGAL::OGLUT_stream& ogls,
   return ogls;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NEF_POLYHEDRON_S2_OGLUT_STREAM_H
-
-

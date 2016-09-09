@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 52607 2009-10-19 12:10:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -33,7 +33,7 @@
 #include <CGAL/Lazy.h>
 #include <boost/mpl/if.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Exact_kernel = exact kernel that will be made lazy
 // Kernel = lazy kernel
@@ -275,6 +275,6 @@ struct Lazy_kernel
              Lazy_kernel<Exact_kernel, Approximate_kernel, E2A> >
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_LAZY_KERNEL_H

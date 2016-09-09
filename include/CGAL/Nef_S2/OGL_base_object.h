@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/OGL_base_object.h $
-// $Id: OGL_base_object.h 37332 2007-03-20 20:33:56Z reichel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/OGL_base_object.h $
+// $Id: OGL_base_object.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 
 #include <CGAL/Simple_cartesian.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace OGL {
 
@@ -44,5 +44,5 @@ namespace OGL {
   };
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_OGL_BASE_OBJECT_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Gmpfr.h $
-// $Id: Gmpfr.h 53126 2009-11-20 16:58:58Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Gmpfr.h $
+// $Id: Gmpfr.h 57357 2010-07-07 07:46:35Z hemmer $
 // 
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 
@@ -25,8 +25,9 @@
 namespace CGAL{
 
 template <>
-struct Algebraic_structure_traits<Gmpfr>:
+class Algebraic_structure_traits<Gmpfr>:
 public Algebraic_structure_traits_base<Gmpfr,Field_with_kth_root_tag>{
+public:
 
         typedef Tag_false       Is_exact;
         typedef Tag_true        Is_numerical_sensitive;
@@ -133,7 +134,8 @@ public INTERN_RET::Real_embeddable_traits_base<Gmpfr,CGAL::Tag_true>{
                 inline Comparison_result operator()
                         (const Type &x,const Type &y)const{
                                 return x.compare(y);
-                        };
+                        }; 
+          CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT(Type,Comparison_result)
         };
 
         struct To_double:

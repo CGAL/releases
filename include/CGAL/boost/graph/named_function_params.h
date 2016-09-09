@@ -36,8 +36,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/named_function_params.h $
-// $Id: named_function_params.h 37284 2007-03-19 19:36:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/named_function_params.h $
+// $Id: named_function_params.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -51,7 +51,7 @@
 #include <boost/graph/properties.hpp>
 #include <boost/graph/named_function_params.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
   enum vertex_is_fixed_t             { vertex_is_fixed             } ;  
   enum set_cache_policy_t            { set_cache_policy            } ;
@@ -266,6 +266,6 @@ CGAL_BEGIN_NAMESPACE
     return Dispatcher::const_get_value(p, t2, tag2);
   }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BOOST_GRAPH_NAMED_FUNCTION_PARAMS_HPP

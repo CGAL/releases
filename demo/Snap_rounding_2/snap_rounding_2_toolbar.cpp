@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.cpp $
-// $Id: snap_rounding_2_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.cpp $
+// $Id: snap_rounding_2_toolbar.cpp 55723 2010-04-24 09:30:56Z glisse $
 //
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -65,7 +65,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget * w,
   connect(but[1], SIGNAL(stateChanged(int)),
           &segment_layer, SLOT(stateChanged(int)));
   but[1]->toggle();
-};
+}
 
 #include "snap_rounding_2_toolbar.moc"
 

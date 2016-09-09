@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_adapterC2.h $
-// $Id: Min_circle_2_adapterC2.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_adapterC2.h $
+// $Id: Min_circle_2_adapterC2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -23,7 +23,7 @@
 // includes
 #  include <CGAL/Optimisation/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class declarations
 // ==================
@@ -334,7 +334,7 @@ operator >> ( std::istream& is,
     return( is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_MIN_CIRCLE_2_ADAPTERC2_H
 

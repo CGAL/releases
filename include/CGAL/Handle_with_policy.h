@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Handle_with_policy.h $
-// $Id: Handle_with_policy.h 44351 2008-07-23 13:19:15Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Handle_with_policy.h $
+// $Id: Handle_with_policy.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michael Seel <seel@mpi-inf.mpg.de>
 //                 Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -41,7 +41,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \brief <tt>\#include <CGAL/Handle_with_policy.h></tt> for handles with policy
     parameter for reference counting and union-find strategy. Uses 
@@ -101,7 +101,7 @@ struct Int_t : public Handle_with_policy< Int_rep, Unify > {
     bool operator==( const Int_t<Unify>& i) const {
         bool equal = (value() == i.value());
         if ( equal)
-            unify(i);
+            Base::unify(i);
         return equal;
     }
 };
@@ -160,7 +160,7 @@ struct Int_vt : public Handle_with_policy< Int_vrep<Unify,Alloc>, Unify > {
     bool operator==( const Int_vt<Unify>& i) const {
         bool equal = (value() == i.value());
         if ( equal)
-            unify(i);
+            Base::unify(i);
         return equal;
     }
 };
@@ -179,20 +179,21 @@ class Handle_policy_union_and_reset;
 // ================================
 
 //! the base class for bodies of reference counted representations \c T.
-template <class T>
+template <class T_>
 class Reference_counted {
 public:
-    typedef Reference_counted<T> Self;
-    typedef T*  Rep_pointer;
+    typedef T_                          rep_type;
+    typedef Reference_counted<rep_type> Self;
+    typedef rep_type*                   Rep_pointer;
 private:
     mutable unsigned int count;  // reference counter
-    T                    rep;
+    rep_type             rep;
 public:
     Reference_counted() : count(1) {}
-    Reference_counted( const T& t) : count(1), rep(t) {}
+    Reference_counted( const rep_type& t) : count(1), rep(t) {}
     Reference_counted( const Self& r) : count(1), rep(r.rep) {}
 
-    void clear() { rep = T(); }
+    void clear() { rep = rep_type(); }
     Rep_pointer  base_ptr()  { return &rep; }
     void add_reference()     { ++count; }
     void remove_reference()  { --count; }
@@ -205,27 +206,28 @@ public:
  * Base class for bodies of reference counted representations \c T
  * with a forwarding pointer for identical representations.
  */
-template <class T>
+template <class T_>
 class Reference_counted_with_forwarding {
 public:
-    typedef Reference_counted_with_forwarding<T> Self;
-    typedef T*  Rep_pointer;
+    typedef T_ rep_type;
+    typedef Reference_counted_with_forwarding<rep_type> Self;
+    typedef rep_type*  Rep_pointer;
     friend class Handle_policy_union;
     friend class Handle_policy_union_and_reset;
 private:
     mutable unsigned int count;  // reference counter
     mutable Self*        next;   // forwarding pointer to valid rep or 0
     mutable int          u_size; // union set size incl this rep and its handle
-    mutable T            rep;
+    mutable rep_type     rep;
 public:
     Reference_counted_with_forwarding()
         : count(1), next(0), u_size(2) {}
-    Reference_counted_with_forwarding( const T& t)
+    Reference_counted_with_forwarding( const rep_type& t)
         : count(1), next(0), u_size(2), rep(t) {}
     Reference_counted_with_forwarding( const Self& r)
         : count(1), next(0), u_size(2), rep(r.rep) {}
 
-    void clear() { rep = T(); }
+    void clear() { rep = rep_type(); }
     Rep_pointer  base_ptr()    { return &rep; }
     void add_reference()       { ++count; }
     void remove_reference()    { --count; }
@@ -707,13 +709,17 @@ public:
           has the default \c CGAL_ALLOCATOR(T).
 
 */
-template <class T, 
+template <class T_, 
           class HandlePolicy = Handle_policy_no_union, 
-          class Allocator_ = CGAL_ALLOCATOR(T)>
+          class Allocator_ = CGAL_ALLOCATOR(T_)>
 class Handle_with_policy {
 public:
+
+    //! first template parameter
+    typedef T_ Handled_type;
+
     //! the handle type itself.
-    typedef Handle_with_policy< T, HandlePolicy, Allocator_>    Self;
+    typedef Handle_with_policy< Handled_type, HandlePolicy, Allocator_>    Self;
 
     //! the instantiated model of the \c HandlePolicy concept.
     typedef HandlePolicy                Handle_policy;
@@ -722,10 +728,13 @@ public:
     typedef Allocator_                  Allocator;
 
     enum { is_class_hierarchy  = 
-        ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T>::value };
-    typedef typename Handle_policy::template Rep_bind< T, is_class_hierarchy > Bind;
+        ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, Handled_type>::value };
+        
+    typedef typename Handle_policy::template Rep_bind< Handled_type, is_class_hierarchy > Bind;
+    
     // instantiate Rep_bind to activate compile time check in there
     static Bind bind;
+    
     // Define type that is used for function matching 
     typedef typename ::boost::mpl::if_c< 
          is_class_hierarchy, 
@@ -760,7 +769,7 @@ private:
 
     static Rep* new_rep( const Rep& rep) { 
         BOOST_STATIC_ASSERT( !(
-           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T >::value ));
+           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, Handled_type >::value ));
         Rep* p = allocator.allocate(1);
         allocator.construct(p, rep);
         return p;
@@ -795,7 +804,7 @@ private:
 
     template <class TT>
     Rep* make_from_single_arg( const TT& t, ::CGAL::Tag_false ) {
-        return new_rep( Rep( T(t)));
+        return new_rep( Rep( Handled_type(t)));
     }
     template <class TT>
     Rep* make_from_single_arg( TT t, ::CGAL::Tag_true ) {
@@ -807,10 +816,10 @@ private:
 
 protected:
     //! protected access to the stored representation
-    T*       ptr()       { return static_cast<T*>(Handle_policy::find(*this));}
+    Handled_type*       ptr()       { return static_cast<Handled_type*>(Handle_policy::find(*this));}
     //! protected access to the stored representation
-    const T* ptr() const { 
-        return static_cast<const T*>(Handle_policy::find( *this));
+    const Handled_type* ptr() const { 
+        return static_cast<const Handled_type*>(Handle_policy::find( *this));
     }
 
     //! unify two representations. \pre The two representations describe
@@ -855,7 +864,7 @@ protected:
     //! constructor will work for class hierarchies of representations.
     Handle_with_policy( Rep* p) : ptr_( p) {
         BOOST_STATIC_ASSERT((
-           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T >::value ));
+           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, Handled_type >::value ));
         //Bind bind_; // trigger compile-time check
         //(void)bind_;
 	(void)Bind();
@@ -869,7 +878,7 @@ protected:
     //! the template version with one argument.
     void initialize_with( Rep* p) {
         BOOST_STATIC_ASSERT((
-           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T >::value ));
+           ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, Handled_type >::value ));
         //Bind bind_; // trigger compile-time check
         //(void)bind_;
 	(void)Bind();
@@ -897,7 +906,7 @@ protected:
     void initialize_with( const T1& t1, const T2& t2) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2)));
     }
 
     //! initializes the representation after the constructor from 
@@ -906,7 +915,7 @@ protected:
     void initialize_with( const T1& t1, const T2& t2, const T3& t3) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3)));
     }
 
     //! initializes the representation after the constructor from 
@@ -916,7 +925,7 @@ protected:
                           const T4& t4) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4)));
     }
 
     //! initializes the representation after the constructor from 
@@ -926,7 +935,7 @@ protected:
                           const T4& t4, const T5& t5) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4,t5)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4,t5)));
     }
 
     //! initializes the representation after the constructor from 
@@ -936,7 +945,7 @@ protected:
                           const T4& t4, const T5& t5, const T6& t6) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4,t5,t6)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4,t5,t6)));
     }
 
     //! initializes the representation after the constructor from 
@@ -948,7 +957,7 @@ protected:
                           const T7& t7) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4,t5,t6,t7)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4,t5,t6,t7)));
     }
 
     //! initializes the representation after the constructor from 
@@ -960,7 +969,7 @@ protected:
                           const T7& t7, const T8& t8) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4,t5,t6,t7,t8)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4,t5,t6,t7,t8)));
     }
 
     //! initializes the representation after the constructor from 
@@ -972,7 +981,7 @@ protected:
                           const T7& t7, const T8& t8, const T9& t9) {
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
-        ptr_ = new_rep( Rep( T(t1,t2,t3,t4,t5,t6,t7,t8,t9)));
+        ptr_ = new_rep( Rep( Handled_type(t1,t2,t3,t4,t5,t6,t7,t8,t9)));
     }
 
 public:
@@ -1002,33 +1011,33 @@ public:
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
     template <class T1, class T2>
-    Handle_with_policy( const T1& t1, const T2& t2) : ptr_( new_rep( Rep( T( t1, t2)))) {}
+    Handle_with_policy( const T1& t1, const T2& t2) : ptr_( new_rep( Rep( Handled_type( t1, t2)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
     template <class T1, class T2, class T3>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
     template <class T1, class T2, class T3, class T4>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
     template <class T1, class T2, class T3, class T4, class T5>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4,
             const T5& t5) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4, t5)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4, t5)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
     template <class T1, class T2, class T3, class T4, class T5, class T6>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4,
             const T5& t5, const T6& t6) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4, t5, t6)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4, t5, t6)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
@@ -1036,7 +1045,7 @@ public:
               class T7>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4,
             const T5& t5, const T6& t6, const T7& t7) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4, t5, t6, t7)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4, t5, t6, t7)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
@@ -1044,7 +1053,7 @@ public:
               class T7, class T8>
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4,
             const T5& t5, const T6& t6, const T7& t7, const T8& t8) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4, t5, t6, t7, t8)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4, t5, t6, t7, t8)))) {}
 
     //! forwarding constructor passing its parameters to the representation
     //! constructor.
@@ -1053,7 +1062,7 @@ public:
     Handle_with_policy( const T1& t1, const T2& t2, const T3& t3, const T4& t4,
             const T5& t5, const T6& t6, const T7& t7, const T8& t8,
             const T9& t9) 
-        : ptr_( new_rep( Rep( T( t1, t2, t3, t4, t5, t6, t7, t8, t9)))) {}
+        : ptr_( new_rep( Rep( Handled_type( t1, t2, t3, t4, t5, t6, t7, t8, t9)))) {}
 
     //! destructor, decrements reference count.
     ~Handle_with_policy() {
@@ -1120,7 +1129,8 @@ typename Handle_with_policy<T,Policy,Alloc>::Bind Handle_with_policy<T,Policy,Al
  *  ID numbers have to be fixed throughout an object's lifetime.
  */
 template <class T, class A>
-unsigned long ID_Number(const Handle_with_policy<T, Handle_policy_no_union, A>& h)
+typename Handle_with_policy<T, Handle_policy_no_union, A>::Id_type
+ID_Number(const Handle_with_policy<T, Handle_policy_no_union, A>& h)
     { return h.id(); }
 
 template <class T, class Policy, class Alloc>
@@ -1132,11 +1142,15 @@ typename Handle_with_policy<T, Policy, Alloc>::Rep_allocator
     counted representations.
     Uses \c LEDA_MEMORY if available.
 */
-template <class T, class Allocator_>
-class Handle_with_policy<T, Handle_policy_in_place, Allocator_> {
+template <class T_, class Allocator_>
+class Handle_with_policy<T_, Handle_policy_in_place, Allocator_> {
 public:
+
+    //! first template paramter
+    typedef T_ Handled_type;
+
     //! the handle type itself.
-    typedef Handle_with_policy< T, Handle_policy_in_place, Allocator_>   Self;
+    typedef Handle_with_policy< Handled_type, Handle_policy_in_place, Allocator_>   Self;
 
     //! the model of the \c HandlePolicy concept.
     typedef Handle_policy_in_place                           Handle_policy;
@@ -1145,7 +1159,7 @@ public:
     typedef Allocator_                                Allocator;
 
     //! identify \c T with the internal representation \c Rep.
-    typedef T                                         Rep;
+    typedef Handled_type                              Rep;
 
     //! integer type for identifying a representation.
     typedef std::ptrdiff_t                            Id_type;
@@ -1155,9 +1169,9 @@ private:
 
 protected:
     //! protected access to the stored representation
-    T*       ptr()       { return &rep; }
+    Handled_type*       ptr()       { return &rep; }
     //! protected access to the stored representation
-    const T* ptr() const { return &rep; }
+    const Handled_type* ptr() const { return &rep; }
 
     //! unify two representations, a null op here.
     void unify( const Self&) const {}
@@ -1319,7 +1333,7 @@ public:
 
     //! returns a unique id value. Two handles share their representation
     //! is their id values are identical.
-    Id_type id() const { return reinterpret_cast<Id_type>(this); }
+    Id_type id() const { return ptr() - static_cast<Handled_type const*>(0); }
 
     //! returns \c false since the representation is not shared for
     //! this specialization.
@@ -1346,6 +1360,10 @@ public:
     LEDA_MEMORY( Self)
 #endif
 };
+
+template <class T, class HandlePolicy, class Allocator>
+inline bool identical(const Handle_with_policy<T,HandlePolicy,Allocator> &h1, const Handle_with_policy<T,HandlePolicy,Allocator> &h2) { return h1.is_identical(h2); }
+
 
 /*\brief
  * This class' function call operator test whether one handle's \c id is
@@ -1378,6 +1396,6 @@ public:
 
 //@}
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HANDLE_WITH_POLICY_H

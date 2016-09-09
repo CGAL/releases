@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/demo/Nef_3/include/CGAL/Nef_3/demo_stack.h $
-// $Id: demo_stack.h 45455 2008-09-09 21:46:21Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/demo/Nef_3/include/CGAL/Nef_3/demo_stack.h $
+// $Id: demo_stack.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner
@@ -52,7 +52,7 @@ using std::endl;
 using std::strcmp;
 using std::exit;
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename Kernel>
 class demo_stack {
@@ -595,6 +595,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NEF_DEMO_STACK_H

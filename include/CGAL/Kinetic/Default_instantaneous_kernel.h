@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_instantaneous_kernel.h $
-// $Id: Default_instantaneous_kernel.h 48716 2009-04-08 11:40:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_instantaneous_kernel.h $
+// $Id: Default_instantaneous_kernel.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -41,7 +41,7 @@
 
 #define CGAL_TSO(name) typedef typename Static_kernel::name name
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 template <class CIK>
 class Default_instantaneous_kernel_rep: public Ref_counted<Default_instantaneous_kernel_rep<CIK> >
@@ -384,5 +384,5 @@ protected:
 };
 #undef CGAL_MSA
 #undef CGAL_TSO
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Iterator_list.h $
-// $Id: Iterator_list.h 31311 2006-05-29 08:30:22Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Partition_2/include/CGAL/Partition_2/Iterator_list.h $
+// $Id: Iterator_list.h 56107 2010-05-11 07:12:41Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -36,7 +36,7 @@ public:
 
       for (Iterator current = first; current != beyond; current++)
       {
-         push_back(current);
+         this->push_back(current);
       } 
   }
 };

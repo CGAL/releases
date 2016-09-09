@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/IO/output_surface_facets_to_polyhedron.h $
-// $Id: output_surface_facets_to_polyhedron.h 50174 2009-06-29 13:31:24Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/IO/output_surface_facets_to_polyhedron.h $
+// $Id: output_surface_facets_to_polyhedron.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez
 
@@ -23,7 +23,7 @@
 #include <CGAL/IO/Complex_2_in_triangulation_3_polyhedron_builder.h>
 #include <CGAL/value_type_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Gets reconstructed surface out of a SurfaceMeshComplex_2InTriangulation_3 object.
@@ -54,6 +54,6 @@ output_surface_facets_to_polyhedron(
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_OUTPUT_SURFACE_FACETS_TO_POLYHEDRON_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_construction_subcurve.h $
-// $Id: Arr_construction_subcurve.h 33430 2006-08-20 12:29:57Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_construction_subcurve.h $
+// $Id: Arr_construction_subcurve.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
@@ -27,7 +27,7 @@
 
 #include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arr_construction_subcurve 
  *  
@@ -162,6 +162,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif 

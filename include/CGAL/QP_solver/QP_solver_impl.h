@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
-// $Id: QP_solver_impl.h 46194 2008-10-09 13:07:49Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
+// $Id: QP_solver_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -22,7 +22,7 @@
 
 #include <CGAL/QP_solver/Initialization.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =============================
 // class implementation (cont'd)
@@ -3328,6 +3328,6 @@ get_l() const
     return l;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // ===== EOF ==================================================================

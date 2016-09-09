@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 52609 2009-10-19 14:07:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Interval_nt.h $
+// $Id: Interval_nt.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -41,9 +41,10 @@
 
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Uncertain.h>
+#include <CGAL/Interval_traits.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <bool Protected = true>
 class Interval_nt
@@ -1254,9 +1255,123 @@ struct Coercion_traits_interval_nt<A, Interval_nt<P>, Tag_true>{
     };
 };
 
-
 // COERCION_TRAITS END
 
-CGAL_END_NAMESPACE
+template< bool B >
+class Interval_traits< Interval_nt<B> >
+  : public internal::Interval_traits_base< Interval_nt<B> >  {
+public: 
+  typedef Interval_traits<Interval_nt<B> > Self; 
+  typedef Interval_nt<B> Interval; 
+  typedef double Bound; 
+  typedef CGAL::Tag_false With_empty_interval; 
+  typedef CGAL::Tag_true  Is_interval; 
+
+ struct Construct :public std::binary_function<Bound,Bound,Interval>{
+    Interval operator()( const Bound& l,const Bound& r) const {
+      CGAL_precondition( l < r ); 
+      return Interval(l,r);
+    }
+  };
+
+  struct Lower :public std::unary_function<Interval,Bound>{
+    Bound operator()( const Interval& a ) const {
+      return a.inf();
+    }
+  };
+
+  struct Upper :public std::unary_function<Interval,Bound>{
+    Bound operator()( const Interval& a ) const {
+      return a.sup();
+    }
+  };
+
+  struct Width :public std::unary_function<Interval,Bound>{
+    Bound operator()( const Interval& a ) const {
+      return width(a); 
+    }
+  };
+
+  struct Median :public std::unary_function<Interval,Bound>{
+    Bound operator()( const Interval& a ) const {
+      return (Lower()(a)+Upper()(a))/2.0;
+    }
+  };
+    
+  struct Norm :public std::unary_function<Interval,Bound>{
+    Bound operator()( const Interval& a ) const {
+      return magnitude(a);
+    }
+  };
+
+  struct Singleton :public std::unary_function<Interval,bool>{
+    bool operator()( const Interval& a ) const {
+      return Lower()(a) == Upper()(a);
+    }
+  };
+
+  struct Zero_in :public std::unary_function<Interval,bool>{
+    bool operator()( const Interval& a ) const {
+      return Lower()(a) <= 0  &&  0 <= Upper()(a);
+    }
+  };
+
+  struct In :public std::binary_function<Bound,Interval,bool>{
+    bool operator()( Bound x, const Interval& a ) const {
+      return Lower()(a) <= x && x <= Upper()(a);
+    }
+  };
+
+  struct Equal :public std::binary_function<Interval,Interval,bool>{
+    bool operator()( const Interval& a, const Interval& b ) const {
+      return a.is_same(b);
+    }
+  };
+    
+  struct Overlap :public std::binary_function<Interval,Interval,bool>{
+    bool operator()( const Interval& a, const Interval& b ) const {
+      return a.do_overlap(b);
+    }
+  };
+    
+  struct Subset :public std::binary_function<Interval,Interval,bool>{
+    bool operator()( const Interval& a, const Interval& b ) const {
+      return Lower()(b) <= Lower()(a) && Upper()(a) <= Upper()(b) ;  
+    }
+  };
+    
+  struct Proper_subset :public std::binary_function<Interval,Interval,bool>{
+    bool operator()( const Interval& a, const Interval& b ) const {
+      return Subset()(a,b) && ! Equal()(a,b); 
+    }
+  };
+    
+  struct Hull :public std::binary_function<Interval,Interval,Interval>{
+    Interval operator()( const Interval& a, const Interval& b ) const {
+      BOOST_USING_STD_MAX();
+      BOOST_USING_STD_MIN();
+      return Interval( 
+          std::make_pair(
+              min BOOST_PREVENT_MACRO_SUBSTITUTION (Lower()(a),b.inf()), 
+              max BOOST_PREVENT_MACRO_SUBSTITUTION (Upper()(a),b.sup())));
+    }
+  };
+    
+  
+//  struct Empty is Null_functor 
+  
+  struct Intersection :public std::binary_function<Interval,Interval,Interval>{
+    Interval operator()( const Interval& a, const Interval& b ) const {
+      BOOST_USING_STD_MAX();
+      BOOST_USING_STD_MIN();
+      Bound l(max BOOST_PREVENT_MACRO_SUBSTITUTION (Lower()(a),Lower()(b)));
+      Bound u(min BOOST_PREVENT_MACRO_SUBSTITUTION (Upper()(a),Upper()(b)));
+      if(u < l ) throw Exception_intersection_is_empty();
+      return Construct()(l,u);
+    }
+  };
+};
+
+} //namespace CGAL
 
 #endif // CGAL_INTERVAL_NT_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/PM_checker.h $
-// $Id: PM_checker.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/PM_checker.h $
+// $Id: PM_checker.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Nef_2/PM_const_decorator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions outfile=PM_checker.man }*/
 /*{\Manpage {PM_checker}{PMCDEC,GEOM}{Plane map checking}{}}*/
@@ -280,8 +280,7 @@ check_is_triangulation() const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_PM_CHECKER_H
-

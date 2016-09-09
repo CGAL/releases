@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solution.h $
-// $Id: QP_solution.h 46451 2008-10-23 14:31:10Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solution.h $
+// $Id: QP_solution.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -34,7 +34,7 @@
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // forward references
 template <typename Q, typename ET, typename Tags>
@@ -828,7 +828,7 @@ namespace QP_solution_detail {
     const QP* s;
   };
 }
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/QP_solver/QP_solution_impl.h>
 

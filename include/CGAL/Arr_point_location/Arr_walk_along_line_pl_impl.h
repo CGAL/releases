@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
-// $Id: Arr_walk_along_line_pl_impl.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
+// $Id: Arr_walk_along_line_pl_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -27,7 +27,7 @@
  * Arr_walk_along_line_point_location<Arrangement> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Locate the arrangement feature containing the given point.
@@ -928,6 +928,6 @@ _first_around_vertex (Vertex_const_handle v, bool shoot_up) const
   }
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

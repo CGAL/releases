@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/macros.h $
-// $Id: macros.h 40828 2007-11-07 21:35:42Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/macros.h $
+// $Id: macros.h 56668 2010-06-09 08:45:58Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -28,13 +28,6 @@
   When CGAL is present
 */
 #include <CGAL/basic.h>
-
-#define CGAL_POLYNOMIAL_BEGIN_NAMESPACE CGAL_BEGIN_NAMESPACE \
-namespace POLYNOMIAL \
-{ \
-
-    #define CGAL_POLYNOMIAL_END_NAMESPACE } \
-CGAL_END_NAMESPACE
 
 #define CGAL_POLYNOMIAL_NS CGAL::POLYNOMIAL
 #define CGAL_Polynomial_assertion(x) CGAL_assertion(x)
@@ -60,12 +53,6 @@ CGAL_END_NAMESPACE
   When no CGAL is present
 */
 
-#define CGAL_POLYNOMIAL_BEGIN_NAMESPACE \
-namespace Polynomial \
-{ \
-
-    #define CGAL_POLYNOMIAL_END_NAMESPACE }
-
 #define POLYNOMIAL_NS Polynomial
 
 #include <cassert>
@@ -82,10 +69,4 @@ namespace Polynomial \
 #define CGAL_Polynomial_exactness_precondition(x)
 #endif
 
-#define CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE CGAL_POLYNOMIAL_BEGIN_NAMESPACE \
-namespace internal \
-{ \
-
-    #define CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE } \
-CGAL_POLYNOMIAL_END_NAMESPACE
 #endif

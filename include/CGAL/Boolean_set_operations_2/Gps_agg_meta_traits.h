@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
-// $Id: Gps_agg_meta_traits.h 51988 2009-09-21 10:54:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
+// $Id: Gps_agg_meta_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -26,7 +26,7 @@
 #include <CGAL/Boolean_set_operations_2/Curve_with_halfedge.h>
 #include <CGAL/Boolean_set_operations_2/Point_with_vertex.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arrangement_>
 class Gps_agg_curve_data : public Curve_with_halfedge<Arrangement_>
@@ -136,10 +136,11 @@ class Gps_agg_meta_traits :
                                                   Base;
 
   public:
-  typedef typename Base::X_monotone_curve_2       X_monotone_curve_2;
-  typedef typename Base::Point_2                  Point_2;
-  typedef typename Traits::Has_left_category      Has_left_category;
-  typedef typename Traits::Has_merge_category     Has_merge_category;
+  typedef typename Base::X_monotone_curve_2           X_monotone_curve_2;
+  typedef typename Base::Point_2                      Point_2;
+  typedef typename Traits::Has_left_category          Has_left_category;
+  typedef typename Traits::Has_merge_category         Has_merge_category;
+  typedef typename Traits::Has_do_intersect_category  Has_do_intersect_category;
 
   typedef typename Arrangement::Arr_left_side_category   Arr_left_side_category;
   typedef typename Arrangement::Arr_bottom_side_category Arr_bottom_side_category;
@@ -605,6 +606,6 @@ class Gps_agg_meta_traits :
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

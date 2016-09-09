@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_header_extended_OFF.h $
-// $Id: File_header_extended_OFF.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_header_extended_OFF.h $
+// $Id: File_header_extended_OFF.h 56979 2010-06-22 13:15:46Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -30,12 +30,12 @@
 #include <string>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class  File_header_extended_OFF {
     bool     m_verbose;     // Print error messages if true.
     bool     m_polyhedral_surface;
-    int      m_halfedges;
+  std::size_t      m_halfedges;
     bool     m_triangulated;
     bool     m_non_empty_facets;
     bool     m_terrain;
@@ -62,8 +62,8 @@ public:
     // Access:
     bool   verbose()              const { return m_verbose; }
     bool   polyhedral_surface()   const { return m_polyhedral_surface; }
-    int    halfedges()            const { return m_halfedges; }
-    int    size_of_halfedges()    const { return m_halfedges; }
+  std::size_t    halfedges()            const { return m_halfedges; }
+  std::size_t    size_of_halfedges()    const { return m_halfedges; }
     bool   triangulated()         const { return m_triangulated; }
     bool   non_empty_facets()     const { return m_non_empty_facets; }
     bool   terrain()              const { return m_terrain; }
@@ -86,7 +86,7 @@ public:
     // Set values:
     void   set_verbose( bool b)              { m_verbose            = b; }
     void   set_polyhedral_surface( bool b)   { m_polyhedral_surface = b; }
-    void   set_halfedges( int h)             { m_halfedges          = h; }
+  void   set_halfedges( std::size_t h)       { m_halfedges          = h; }
     void   set_triangulated( bool b)         { m_triangulated       = b; }
     void   set_non_empty_facets( bool b)     { m_non_empty_facets   = b; }
     void   set_terrain( bool b)              { m_terrain            = b; }
@@ -122,6 +122,6 @@ inline std::istream& skip_comment_OFF( std::istream& in) {
     return in;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_FILE_HEADER_EXTENDED_OFF_H //
 // EOF //

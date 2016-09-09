@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_intersections_2.h $
-// $Id: Conic_intersections_2.h 33081 2006-08-07 07:46:37Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_intersections_2.h $
+// $Id: Conic_intersections_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -24,7 +24,7 @@
  * Implementation of functions related to the intersection of conics curves.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Compute the roots of the resultants of the two bivariate polynomials:
@@ -229,6 +229,6 @@ int _compute_resultant_roots (Nt_traits& nt_traits,
   return (xs_end - xs);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

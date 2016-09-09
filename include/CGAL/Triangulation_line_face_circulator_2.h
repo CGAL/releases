@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h $
-// $Id: Triangulation_line_face_circulator_2.h 54005 2010-02-02 20:26:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h $
+// $Id: Triangulation_line_face_circulator_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -28,7 +28,7 @@
 // #include <CGAL/Triangulation_vertex_2.h>
 // #include <CGAL/Triangulation_handles_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class Triangulation_ > //  < class Gt, class Tds >
@@ -696,6 +696,5 @@ collinear_outside() const
            _tr->is_infinite(fh->neighbor(ccw(i))));
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_TRIANGULATION_LINE_FACE_CIRCULATOR_2_H
-

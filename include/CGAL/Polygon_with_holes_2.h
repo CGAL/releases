@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Polygon_with_holes_2.h $
-// $Id: Polygon_with_holes_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Polygon_with_holes_2.h $
+// $Id: Polygon_with_holes_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <vector>
 #include <algorithm>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Kernel,
           class Containter = std::vector<typename Kernel::Point_2> >
@@ -62,6 +62,8 @@ public:
     Base (pgn_boundary, h_begin, h_end)
   {}
 
+  /*! Obtain the bounding box of the polygon with holes */
+  Bbox_2 bbox() const { return this->outer_boundary().bbox(); }  
 };
 
 //-----------------------------------------------------------------------//
@@ -219,6 +221,6 @@ inline bool operator!=(const Polygon_2<Kernel_, Container_>& p1,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

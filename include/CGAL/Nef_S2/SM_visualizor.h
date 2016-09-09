@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_visualizor.h $
-// $Id: SM_visualizor.h 29754 2006-03-24 13:08:31Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_visualizor.h $
+// $Id: SM_visualizor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -27,7 +27,7 @@
 
 #define CGAL_NEF_LGREY CGAL::Color(170,170,200)
 #define CGAL_NEF_DGREY CGAL::Color(30,30,50)
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Map_>
 class SM_BooleColor 
@@ -196,9 +196,8 @@ void draw_triangulation() const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #undef CGAL_USING
 //#undef CGAL_NEF_LGREY
 //#undef CGAL_NEF_DGREY
 #endif // CGAL_NEF_SM_VISUALIZOR_H
-

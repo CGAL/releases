@@ -30,8 +30,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/Filter.h $
- * $Id: Filter.h 45042 2008-08-20 11:14:00Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/Filter.h $
+ * $Id: Filter.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #ifndef _CORE_FILTER_H_
@@ -52,7 +52,7 @@
   #include <ieeefp.h>
 #endif
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 const int POWTWO_26 = (1 << 26);  ///< constant 2^26
 
@@ -187,6 +187,5 @@ inline std::ostream & operator<< (std::ostream & os, const filteredFp& fp) {
   return os;
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_FILTER_H_
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
-// $Id: Apollonius_graph_2_impl.h 42744 2008-04-03 12:14:58Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
+// $Id: Apollonius_graph_2_impl.h 56942 2010-06-21 16:37:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,7 +24,7 @@
 // class implementation continued
 //=================================
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 //--------------------------------------------------------------------
@@ -1704,7 +1704,7 @@ remove(Vertex_handle v)
     wp_list.push_back(*wpit);
   }
 
-  int n = number_of_vertices();
+  size_type n = number_of_vertices();
   if ( n == 1 ) {
     remove_first(v);
   } else if ( n == 2 ) {
@@ -1712,7 +1712,7 @@ remove(Vertex_handle v)
   } else if ( n == 3 ) {
     remove_third(v);
   } else {
-    int deg = degree(v);
+    std::size_t deg = degree(v);
     if ( deg == 2 ) {
       remove_degree_2(v);
     } else if ( deg == 3 ) {
@@ -1736,7 +1736,7 @@ Apollonius_graph_2<Gt,Agds,LTag>::
 remove_degree_d_vertex(Vertex_handle v)
 {
   minimize_degree(v);
-  int deg = degree(v);
+  std::size_t deg = degree(v);
   if ( deg == 3 ) {
     remove_degree_3(v);
     return;
@@ -1802,8 +1802,8 @@ remove_degree_d_vertex(Vertex_handle v)
 
   Edge_circulator ec;
 
-  unsigned int num_fe = flipped_edges.size();
-  for (unsigned int i = 0; i < num_fe; i++) {
+  std::size_t num_fe = flipped_edges.size();
+  for (std::size_t i = 0; i < num_fe; i++) {
     Vh_triple *vhq = flipped_edges[num_fe - i - 1];
 
     bool found(false);
@@ -2058,7 +2058,7 @@ Apollonius_graph_2<Gt,Agds,LTag>::file_input(std::istream& is)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_APOLLONIUS_GRAPH_2_IMPL_H

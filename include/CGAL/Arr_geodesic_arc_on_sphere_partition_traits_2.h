@@ -1,4 +1,3 @@
-
 // Copyright (c) 2006 Tel-Aviv University (Israel).
 // All rights reserved.
 //
@@ -12,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
+// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     : Ophir Setter         <ophir.setter@cs.au.ac.il>
@@ -41,7 +40,7 @@
 
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class T_Kernel, class Container_P =
@@ -308,7 +307,7 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_ARR_GEODESIC_ARC_ON_SPHERE_PARTITION_TRAITS_2_H
 
@@ -326,8 +325,8 @@ CGAL_END_NAMESPACE
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
+// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     : Ophir Setter         <ophir.setter@cs.au.ac.il>
@@ -355,7 +354,7 @@ CGAL_END_NAMESPACE
 
 #include <vector>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class T_Kernel, class Container_P = std::vector<
@@ -608,6 +607,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_ARR_GEODESIC_ARC_ON_SPHERE_PARTITION_TRAITS_2_H

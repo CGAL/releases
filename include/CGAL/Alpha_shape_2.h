@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h 47026 2008-11-25 13:21:09Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 58106 2010-08-17 07:28:18Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -40,7 +40,7 @@
 
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Dt >
 class Alpha_shape_2 : public Dt 
@@ -83,6 +83,7 @@ public:
   typedef typename Dt::Finite_vertices_iterator Finite_vertices_iterator;
 
   typedef typename Dt::Locate_type Locate_type;
+  typedef typename Dt::size_type size_type;
 
   using Dt::finite_vertices_begin;
   using Dt::finite_vertices_end;
@@ -99,6 +100,7 @@ public:
   using Dt::OUTSIDE_CONVEX_HULL;
   using Dt::OUTSIDE_AFFINE_HULL;
   using Dt::dimension;
+  using Dt::is_infinite;
 
   // for backward compatibility
   typedef Finite_vertices_iterator Vertex_iterator;
@@ -240,13 +242,13 @@ public:
   // from first to last
 
   template < class InputIterator >  
-  int make_alpha_shape(const InputIterator& first,  
+  std::ptrdiff_t make_alpha_shape(const InputIterator& first,  
 		       const InputIterator& last) 
     {
 
       clear();
 
-      int n =  Dt::insert(first, last);
+      size_type n =  Dt::insert(first, last);
  
       if (dimension() == 2)
 	{   
@@ -367,7 +369,7 @@ public:
       return _alpha;
     }
   
-  const Coord_type&  get_nth_alpha(int n) const 
+  const Coord_type&  get_nth_alpha(size_type n) const 
     {
       // Returns the n-th alpha-value.
       // n < size()
@@ -377,7 +379,7 @@ public:
 	return UNDEFINED;
     }
   
-  int number_of_alphas() const 
+  size_type number_of_alphas() const 
     {
       // Returns the number of not necessary different alpha-values
       return _alpha_spectrum.size();
@@ -584,8 +586,8 @@ public:
     {
       // Classifies the face `f' of the underlying Delaunay
       // triangulation with respect to `A'.
-      // we consider open circles :
-      // f->radius == alpha => f exterior
+      // we consider close circles :
+      // f->radius < alpha <=> f exterior
       // problem the operator [] is non-const
 
       if (is_infinite(f)) return EXTERIOR;
@@ -593,7 +595,7 @@ public:
       // the version that computes the squared radius seems to be 
       // much faster
     
-      return (find_interval(f) < alpha) ? 
+      return (find_interval(f) <= alpha) ? 
 	INTERIOR :
 	EXTERIOR;
 
@@ -646,13 +648,13 @@ public:
       return number_of_solid_components(get_alpha());
     }
 
-  int 
+  size_type 
   number_solid_components(const Coord_type& alpha) const
     {
       return number_of_solid_components(get_alpha());
     }
 
-  int
+  size_type
   number_of_solid_components(const Coord_type& alpha) const;
 
 private:
@@ -661,13 +663,13 @@ private:
 		Marked_face_set& marked_face_set, 
 		const Coord_type alpha) const;
 
-  class Line_face_circulator;
+//  class Line_face_circulator;
 
   //----------------------------------------------------------------------
 
 public:
 
-  Alpha_iterator find_optimal_alpha(int nb_components);  	
+  Alpha_iterator find_optimal_alpha(size_type nb_components);  	
 
 private:
 
@@ -1058,12 +1060,12 @@ Alpha_shape_2<Dt>::update_alpha_shape_vertex_list()const {
 
 	for (vertex_alpha_it = _interval_vertex_map.begin(); 
 		vertex_alpha_it != _interval_vertex_map.end() &&
-		(*vertex_alpha_it).first.first < get_alpha();
+		(*vertex_alpha_it).first.first <= get_alpha();
 		++vertex_alpha_it) 
 		{
 		pInterval2 = &(*vertex_alpha_it).first;
 
-		if((pInterval2->second >= get_alpha()
+		if((pInterval2->second > get_alpha()
 		|| pInterval2->second == Infinity)) 
 		{
 		// alpha must be larger than the min boundary
@@ -1116,7 +1118,7 @@ Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const
       // and alpha is smaller than the upper boundary
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
 	  pInterval = &(*edge_alpha_it).first;
@@ -1125,8 +1127,8 @@ Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const
 	  // since this happens only for convex hull of dimension 2
 	  // thus singular
 
-	  if(pInterval->second < get_alpha() &&
-	     (pInterval->third >= get_alpha()
+	  if(pInterval->second <= get_alpha() &&
+	     (pInterval->third > get_alpha()
 	      || pInterval->third == Infinity)) 
 	    {
 	      // alpha must be larger than the mid boundary
@@ -1146,7 +1148,7 @@ Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const
       // draw the edges
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
 	  pInterval = &(*edge_alpha_it).first;
@@ -1157,8 +1159,8 @@ Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const
 	      // since this happens only for convex hull of dimension 2
 	      // thus singular
 	
-	      if(pInterval->second < get_alpha() &&
-		 (pInterval->third >= get_alpha()
+	      if(pInterval->second <= get_alpha() &&
+		 (pInterval->third > get_alpha()
 		  || pInterval->third == Infinity)) 
 		{
 		  // alpha must be larger than the mid boundary
@@ -1175,7 +1177,7 @@ Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const
 	  else 
 	    {
 	
-	      if(pInterval->third >= get_alpha()
+	      if(pInterval->third > get_alpha()
 		 || pInterval->third == Infinity) 
 		{
 		  // if alpha is smaller than the upper boundary
@@ -1217,21 +1219,21 @@ Alpha_shape_2<Dt>::classify(const Face_handle& f, int i,
   Interval3 interval = find_interval(const_Edge(f, i));
   //  (*(_edge_interval_map.find(const_Edge(f, i)))).second;
  
-  if (alpha <= interval.second) 
+  if (alpha < interval.second) 
     {
       if (get_mode() == REGULARIZED ||
 	  interval.first == UNDEFINED ||
-	  alpha <= interval.first)
+	  alpha < interval.first)
 	return EXTERIOR;
-      else // alpha > interval.first
+      else // alpha >= interval.first
 	return SINGULAR;
     }
   else 
-    {   // alpha > interval.second
+    {   // alpha >= interval.second
       if (interval.third == Infinity ||
-	  alpha <= interval.third)
+	  alpha < interval.third)
 	return REGULAR;
-      else // alpha > interval.third
+      else // alpha >= interval.third
 	return INTERIOR;
     }
    
@@ -1248,7 +1250,7 @@ Alpha_shape_2<Dt>::classify(const Vertex_handle& v,
   // triangulation with respect to `A'.
   Interval2 interval = v->get_range();
  
-  if (alpha <= interval.first) 
+  if (alpha < interval.first) 
     {
       if (get_mode() == REGULARIZED) 
 	return EXTERIOR;
@@ -1256,11 +1258,11 @@ Alpha_shape_2<Dt>::classify(const Vertex_handle& v,
 	return SINGULAR;
     }
   else 
-    {   // alpha > interval.first
+    {   // alpha >= interval.first
       if (interval.second == Infinity ||
-	  alpha <= interval.second)
+	  alpha < interval.second)
 	return REGULAR;
-      else // alpha > interval.second
+      else // alpha >= interval.second
 	return INTERIOR;
     }
 }
@@ -1268,14 +1270,14 @@ Alpha_shape_2<Dt>::classify(const Vertex_handle& v,
 //-------------------------------------------------------------------------
 
 template < class Dt >
-int
+typename Alpha_shape_2<Dt>::size_type
 Alpha_shape_2<Dt>::number_of_solid_components(const Coord_type& alpha) const
 {
   // Determine the number of connected solid components 
   typedef typename Marked_face_set::Data Data;
   Marked_face_set marked_face_set(false);
   Finite_faces_iterator face_it;
-  int nb_solid_components = 0;
+  size_type nb_solid_components = 0;
   
   if (number_of_vertices()==0)
     return 0;
@@ -1336,7 +1338,7 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
 
 template < class Dt >
 typename Alpha_shape_2<Dt>::Alpha_iterator
-Alpha_shape_2<Dt>::find_optimal_alpha(int nb_components) 
+Alpha_shape_2<Dt>::find_optimal_alpha(size_type nb_components) 
 {
   // find the minimum alpha that satisfies the properties
   // (1) nb_components solid components
@@ -1442,9 +1444,9 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
   const typename Alpha_shape_2<Dt>::Interval2* pInterval2;
 
-  Unique_hash_map< Vertex_handle , int > V;
+  Unique_hash_map< Vertex_handle , size_type > V;
 
-  int number_of_vertices = 0;
+  size_type number_of_vertices = 0;
       
   typedef typename Alpha_shape_2<Dt>::Interval_edge_map 
     Interval_edge_map;
@@ -1458,7 +1460,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
       typename Alpha_shape_2<Dt>::Vertex_handle v;
       for (vertex_alpha_it = _interval_vertex_map.begin(); 
 	   vertex_alpha_it != _interval_vertex_map.end() &&
-	     (*vertex_alpha_it).first.first < get_alpha();
+	     (*vertex_alpha_it).first.first <= get_alpha();
 	   ++vertex_alpha_it) 
 	{
 
@@ -1473,7 +1475,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	    pInterval2->second;
 #endif // CGAL_DEBUG_ALPHA_SHAPE_2
 
-	  if((pInterval2->second >= get_alpha()
+	  if((pInterval2->second > get_alpha()
 	      || pInterval2->second == Infinity)) 
 	    {
 	      // alpha must be larger than the min boundary
@@ -1499,7 +1501,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
 
@@ -1509,8 +1511,8 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	  // since this happens only for convex hull of dimension 1
 	  // thus singular
 
-	  if(pInterval->second < get_alpha() &&
-	     (pInterval->third >= get_alpha()
+	  if(pInterval->second <= get_alpha() &&
+	     (pInterval->third > get_alpha()
 	      || pInterval->third == Infinity)) 
 	    {
 	      // alpha must be larger than the mid boundary
@@ -1553,13 +1555,13 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
       for (vertex_alpha_it = _interval_vertex_map.begin(); 
 	   vertex_alpha_it != _interval_vertex_map.end() &&
-	     (*vertex_alpha_it).first.first < get_alpha();
+	     (*vertex_alpha_it).first.first <= get_alpha();
 	   ++vertex_alpha_it) 
 	{
 
 	  pInterval2 = &(*vertex_alpha_it).first;
 
-	  if((pInterval2->second >= get_alpha()
+	  if((pInterval2->second > get_alpha()
 	      || pInterval2->second == Infinity)) 
 	    {
 	      // alpha must be larger than the min boundary
@@ -1596,7 +1598,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
 
@@ -1613,7 +1615,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	    pInterval->third;
 #endif // CGAL_DEBUG_ALPHA_SHAPE_2
 	  
-	  if(pInterval->third >= get_alpha()
+	  if(pInterval->third > get_alpha()
 	     || pInterval->third == Infinity) 
 	    {
 	      // if alpha is smaller than the upper boundary
@@ -1626,7 +1628,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
 	      // write the regular edges
 	      if (pInterval->second != Infinity &&
-		  pInterval->second < get_alpha()) 
+		  pInterval->second <= get_alpha()) 
 		{
 
  CGAL_triangulation_assertion((classify(f, i) == 
@@ -1705,7 +1707,7 @@ Alpha_shape_2<Dt>::Output ()
       // and alpha is smaller than the upper boundary
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
       
@@ -1716,8 +1718,8 @@ Alpha_shape_2<Dt>::Output ()
 	      // since this happens only for convex hull of dimension 1
 	      // thus singular
 	
-	      if(pInterval->second < get_alpha() &&
-		 (pInterval->third >= get_alpha()
+	      if(pInterval->second <= get_alpha() &&
+		 (pInterval->third > get_alpha()
 		  || pInterval->third == Infinity)) 
 		{
 		  // alpha must be larger than the mid boundary
@@ -1747,7 +1749,7 @@ Alpha_shape_2<Dt>::Output ()
       // draw the edges
       for (edge_alpha_it = _interval_edge_map.begin(); 
 	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
+	     (*edge_alpha_it).first.first <= get_alpha();
 	   ++edge_alpha_it) 
 	{
 
@@ -1760,8 +1762,8 @@ Alpha_shape_2<Dt>::Output ()
 	      // since this happens only for convex hull of dimension 1
 	      // thus singular
 
-	      if(pInterval->second < get_alpha() &&
-		 (pInterval->third >= get_alpha()
+	      if(pInterval->second <= get_alpha() &&
+		 (pInterval->third > get_alpha()
 		  || pInterval->third == Infinity)) 
 		{
 		  // alpha must be larger than the mid boundary
@@ -1783,7 +1785,7 @@ Alpha_shape_2<Dt>::Output ()
 	  else 
 	    {
 
-	      if(pInterval->third >= get_alpha()
+	      if(pInterval->third > get_alpha()
 		 || pInterval->third == Infinity) 
 		{
 		  // if alpha is smaller than the upper boundary
@@ -1827,7 +1829,7 @@ Alpha_shape_2<Dt>::print_edge_map() {
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif //CGAL_ALPHA_SHAPE_2_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Refine_facets_3.h $
-// $Id: Refine_facets_3.h 53828 2010-01-27 14:37:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Refine_facets_3.h $
+// $Id: Refine_facets_3.h 57730 2010-08-03 06:34:02Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -93,7 +93,7 @@ public:
                   C3T3& c3t3);
 
   /// Destructor
-  virtual ~Refine_facets_3() { };
+  virtual ~Refine_facets_3() { }
 
   /// Get a reference on triangulation
   Tr& triangulation_ref_impl() { return r_tr_; }
@@ -140,7 +140,7 @@ public:
 
   /// Job to do after insertion
   void after_insertion_impl(const Vertex_handle& v)
-                                          { restore_restricted_Delaunay(v); };
+                                          { restore_restricted_Delaunay(v); }
 
   /// Insert p into triangulation
   Vertex_handle insert_impl(const Point& p, const Zone& zone);
@@ -162,6 +162,10 @@ public:
   {
     return "#facets to refine";
   }
+#endif
+  
+#ifdef CGAL_MESH_3_MESHER_STATUS_ACTIVATED
+  std::size_t queue_size() const { return this->size(); }
 #endif
 
 
@@ -197,13 +201,13 @@ private:
   bool is_facet_visited(const Facet& f) const
   {
     return f.first->is_facet_visited(f.second);
-  };
+  }
 
   /// Sets facet f to visited
   void set_facet_visited(Facet& f) const
   {
     f.first->set_facet_visited(f.second);
-  };
+  }
 
   /// Sets facet f to not visited
   void reset_facet_visited(Facet& f) const
@@ -294,7 +298,7 @@ private:
   void insert_bad_facet(Facet& facet, const Quality& quality)
   {
     // Insert canonical facet
-    add_bad_element(this->canonical_facet(facet), quality);
+    this->add_bad_element(this->canonical_facet(facet), quality);
   }
 
   /// Removes facet from refinement queue
@@ -322,7 +326,7 @@ private:
   {
     // perform the same operations as for an internal facet
     return before_insertion_handle_facet_in_conflict_zone(facet, source_facet);
-  };
+  }
 
   /// Action to perform on a facet incident to the new vertex
   void after_insertion_handle_incident_facet(Facet& facet);
@@ -332,7 +336,7 @@ private:
   {
     // perform the same operations as for a facet incident to the new vertex
     after_insertion_handle_incident_facet(facet);
-  };
+  }
 
 private:
   /// The triangulation
@@ -415,7 +419,9 @@ test_point_conflict_from_superior_impl(const Point& point,
        facet_it != zone.internal_facets.end();
        ++facet_it)
   {
-    if( is_facet_encroached(*facet_it, point) )
+    // surface facets which are internal facets of the conflict zone are
+    // encroached
+    if( is_facet_on_surface(*facet_it) )
     {
       // Insert already existing surface facet into refinement queue
       insert_encroached_facet(*facet_it);
@@ -751,7 +757,7 @@ Refine_facets_3<Tr,Cr,MD,C3T3_,P_,C_>::
 is_facet_encroached(const Facet& facet,
                     const Point& point) const
 {
-  if ( r_tr_.is_infinite(facet.first) || ! is_facet_on_surface(facet) )
+  if ( r_tr_.is_infinite(facet) || ! is_facet_on_surface(facet) )
   {
     return false;
   }

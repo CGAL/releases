@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_vertex_base_with_info_3.h $
-// $Id: Triangulation_vertex_base_with_info_3.h 51045 2009-08-04 13:36:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Triangulation_vertex_base_with_info_3.h $
+// $Id: Triangulation_vertex_base_with_info_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -22,7 +22,7 @@
 
 #include <CGAL/Triangulation_vertex_base_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename Info_, typename GT,
            typename Vb = Triangulation_vertex_base_3<GT> >
@@ -58,6 +58,6 @@ public:
   Info&       info()       { return _info; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_VERTEX_BASE_WITH_INFO_3_H

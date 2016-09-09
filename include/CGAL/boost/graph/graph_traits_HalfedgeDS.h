@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/graph_traits_HalfedgeDS.h $
-// $Id: graph_traits_HalfedgeDS.h 42705 2008-04-01 16:15:55Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/graph_traits_HalfedgeDS.h $
+// $Id: graph_traits_HalfedgeDS.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -28,7 +28,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Counting_iterator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Circ, class E>
 class HDS_in_halfedge_circulator : public Circ
@@ -267,6 +267,6 @@ public :
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_BOOST_GRAPH_GRAPH_TRAITS_HALFEDGEDS_H

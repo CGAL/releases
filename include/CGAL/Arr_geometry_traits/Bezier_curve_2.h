@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
-// $Id: Bezier_curve_2.h 40623 2007-10-16 13:01:26Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
+// $Id: Bezier_curve_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -34,7 +34,7 @@
 #include <list>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class _Bezier_curve_2
  * Representation of a Bezier curve, specified by (n+1) control points
@@ -381,7 +381,7 @@ public:
    */
   const Polynomial& x_polynomial () const
   {
-    return (_rep().x_polynomial());
+    return (this->_rep().x_polynomial());
   }
 
   /*!
@@ -389,7 +389,7 @@ public:
    */
   const Integer& x_norm () const 
   {
-    return (_rep().x_norm());
+    return (this->_rep().x_norm());
   }
 
   /*!
@@ -397,7 +397,7 @@ public:
    */
   const Polynomial& y_polynomial () const 
   {
-    return (_rep().y_polynomial());
+    return (this->_rep().y_polynomial());
   }
 
   /*!
@@ -405,7 +405,7 @@ public:
    */
   const Integer& y_norm () const 
   {
-    return (_rep().y_norm());
+    return (this->_rep().y_norm());
   }
 
   /*!
@@ -413,7 +413,7 @@ public:
    */
   unsigned int number_of_control_points () const
   {
-    return (_rep()._ctrl_pts.size());
+    return (this->_rep()._ctrl_pts.size());
   }
 
   /*!
@@ -425,7 +425,7 @@ public:
   {
     CGAL_precondition (i < number_of_control_points());
 
-    return ((_rep()._ctrl_pts)[i]);
+    return ((this->_rep()._ctrl_pts)[i]);
   }
 
   /*!
@@ -433,7 +433,7 @@ public:
    */
   Control_point_iterator control_points_begin () const
   {
-    return (_rep()._ctrl_pts.begin());
+    return (this->_rep()._ctrl_pts.begin());
   }
 
   /*!
@@ -441,7 +441,7 @@ public:
    */
   Control_point_iterator control_points_end () const
   {
-    return (_rep()._ctrl_pts.end());
+    return (this->_rep()._ctrl_pts.end());
   }
 
   /*!
@@ -525,7 +525,9 @@ public:
   OutputIterator get_t_at_x (const Rational& x0,
                              OutputIterator oi) const
   {
-    return (_solve_t_values (_rep().x_polynomial(), _rep().x_norm(), x0,
+    return (_solve_t_values (this->_rep().x_polynomial(), 
+                             this->_rep().x_norm(), 
+                             x0,
                              oi));
   }
 
@@ -541,7 +543,8 @@ public:
   OutputIterator get_t_at_y (const Rational& y0,
                              OutputIterator oi) const
   {
-    return (_solve_t_values (_rep().y_polynomial(), _rep.y_norm(), y0,
+    return (_solve_t_values (this->_rep().y_polynomial(), 
+                             this->_rep().y_norm(), y0,
                              oi));
   }
 
@@ -555,7 +558,7 @@ public:
    */
   const Bbox_2& bbox () const
   {
-    return (_rep()._bbox);
+    return (this->_rep()._bbox);
   }
 
   /*!
@@ -565,7 +568,7 @@ public:
    */
   bool has_no_self_intersections () const
   {
-    return (_rep()._no_self_inter);
+    return (this->_rep()._no_self_inter);
   }
 
 private:
@@ -810,7 +813,7 @@ _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
   if (sign_t == ZERO)
   {
     // If t is 0, simply return the first control point.
-    return (_rep()._ctrl_pts[0]);
+    return (this->_rep()._ctrl_pts[0]);
   }
 
   Comparison_result  res = CGAL::compare (t, Rational(1));
@@ -820,15 +823,15 @@ _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
   if (res == EQUAL)
   {
     // If t is 1, simply return the first control point.
-    return (_rep()._ctrl_pts[_rep()._ctrl_pts.size() - 1]);
+    return (this->_rep()._ctrl_pts[this->_rep()._ctrl_pts.size() - 1]);
   }
 
   // Evaluate the point for 0 < t < 1.
-  if (! _rep().has_polynomials())
+  if (! this->_rep().has_polynomials())
   {
     // Use de Casteljau's algorithm to evaluate the polynomial at t.
-    return (point_on_Bezier_curve_2 (_rep()._ctrl_pts.begin(),
-                                     _rep()._ctrl_pts.end(),
+    return (point_on_Bezier_curve_2 (this->_rep()._ctrl_pts.begin(),
+                                     this->_rep()._ctrl_pts.end(),
                                      t));
   }
 
@@ -836,10 +839,10 @@ _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
   Rational           x, y;
   Nt_traits          nt_traits;
     
-  x = nt_traits.evaluate_at (_rep().x_polynomial(), t) /
-      Rational (_rep().x_norm(), 1);
-  y = nt_traits.evaluate_at (_rep().y_polynomial(), t) /
-      Rational (_rep().y_norm(), 1);
+  x = nt_traits.evaluate_at (this->_rep().x_polynomial(), t) /
+      Rational (this->_rep().x_norm(), 1);
+  y = nt_traits.evaluate_at (this->_rep().y_polynomial(), t) /
+      Rational (this->_rep().y_norm(), 1);
   
   // Return the point.
   return (Rat_point_2 (x, y));
@@ -862,7 +865,7 @@ _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
   if (sign_t == ZERO)
   {
     // If t is 0, simply return the first control point.
-    const Rat_point_2&  p_0 = _rep()._ctrl_pts[0];
+    const Rat_point_2&  p_0 = this->_rep()._ctrl_pts[0];
     
     return (Alg_point_2 (nt_traits.convert (p_0.x()),
                          nt_traits.convert (p_0.y())));
@@ -875,17 +878,18 @@ _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
   if (res == EQUAL)
   {
     // If t is 1, simply return the first control point.
-    const Rat_point_2&  p_n = _rep()._ctrl_pts[_rep()._ctrl_pts.size() - 1];
+    const Rat_point_2&  p_n = 
+      this->_rep()._ctrl_pts[this->_rep()._ctrl_pts.size() - 1];
     
     return (Alg_point_2 (nt_traits.convert (p_n.x()),
                          nt_traits.convert (p_n.y())));
   }
 
   // The t-value is between 0 and 1: Compute the x and y coordinates.
-  const Algebraic    x = nt_traits.evaluate_at (_rep().x_polynomial(), t) /
-                         nt_traits.convert (_rep().x_norm());
-  const Algebraic    y = nt_traits.evaluate_at (_rep().y_polynomial(), t) /
-                         nt_traits.convert (_rep().y_norm());
+  const Algebraic    x = nt_traits.evaluate_at (this->_rep().x_polynomial(), t)/
+                         nt_traits.convert (this->_rep().x_norm());
+  const Algebraic    y = nt_traits.evaluate_at (this->_rep().y_polynomial(), t)/
+                         nt_traits.convert (this->_rep().y_norm());
 
   return (Alg_point_2 (x, y));
 }
@@ -909,9 +913,9 @@ bool _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::has_same_support
   {
     // Compute p1 = B1(k/n_samples), where B1 is (*this) curve.
     if (k == 0)
-      p1 = (_rep()._ctrl_pts[0]);
+      p1 = (this->_rep()._ctrl_pts[0]);
     else if (k == 1)
-      p1 = (_rep()._ctrl_pts[_rep()._ctrl_pts.size() - 1]);
+      p1 = (this->_rep()._ctrl_pts[this->_rep()._ctrl_pts.size() - 1]);
     else
       p1 = this->operator() (Rational (k, n_samples));
     
@@ -948,6 +952,6 @@ bool _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::has_same_support
   return (true);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

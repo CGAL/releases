@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/triangulation_helpers_3.h $
-// $Id: triangulation_helpers_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/triangulation_helpers_3.h $
+// $Id: triangulation_helpers_3.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/utility.h>
 #include <vector>
 
-CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace Kinetic { namespace internal {
 
 /*template <class C>
 typename C::first_type hi_there(C){
@@ -94,7 +94,7 @@ bool has_degree_3(const T&t, const typename T::Edge &e)
     } while (ccir != ecir);
     bool ret=( degree==3);
     return ret;
-};
+}
 
 template <class Tr>
 bool has_degree_4(const Tr &t, const typename Tr::Vertex_handle vh)
@@ -412,5 +412,5 @@ out << " " << label(e);
 }
 */
 
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::Kinetic::internal
 #endif

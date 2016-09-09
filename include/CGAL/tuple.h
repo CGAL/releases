@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/tuple.h $
-// $Id: tuple.h 49063 2009-04-30 17:28:55Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/tuple.h $
+// $Id: tuple.h 56749 2010-06-14 16:24:10Z sloriot $
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
 
@@ -33,7 +33,7 @@
 #  include <boost/tuple/tuple.hpp>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace cpp0x {
 
@@ -42,16 +42,29 @@ using std::tuple;
 using std::make_tuple;
 using std::tie;
 using std::get;
+using std::tuple_size;
+using std::tuple_element;
 #elif !defined CGAL_CFG_NO_TR1_TUPLE
 using std::tr1::tuple;
 using std::tr1::make_tuple;
 using std::tr1::tie;
 using std::tr1::get;
+using std::tr1::tuple_size;
+using std::tr1::tuple_element;
 #else
 using boost::tuple;
 using boost::make_tuple;
 using boost::tie;
 using boost::get;
+  
+//tuple_size
+template <class T>
+struct tuple_size:public boost::tuples::length<T> {};
+  
+//tuple_element
+template <int N,class T>
+struct tuple_element: public boost::tuples::element<N,T>{};
+  
 #endif
 
 } // cpp0x
@@ -177,6 +190,6 @@ struct Is_in_tuple <V,cpp0x::tuple<V,T1,T2,T3,T4,T5,T6> >
 
 #endif 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TUPLE_H

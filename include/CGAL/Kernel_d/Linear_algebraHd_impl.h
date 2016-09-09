@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/Linear_algebraHd_impl.h $
-// $Id: Linear_algebraHd_impl.h 41339 2007-12-27 16:15:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Linear_algebraHd_impl.h $
+// $Id: Linear_algebraHd_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------
 #ifndef CGAL_LINEAR_ALGEBRAHD_C
 #define CGAL_LINEAR_ALGEBRAHD_C
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class RT_, class AL_>
 bool Linear_algebraHd<RT_,AL_>::
@@ -1017,7 +1017,5 @@ Linear_algebraHd<RT_,AL_>::transpose(const Matrix& M)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_LINEAR_ALGEBRAHD_C
-
-

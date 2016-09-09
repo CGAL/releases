@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_overlay.h $
-// $Id: Arr_polyhedral_sgm_overlay.h 40357 2007-09-17 14:40:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_overlay.h $
+// $Id: Arr_polyhedral_sgm_overlay.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
 
@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Sgm>
 class Arr_polyhedral_sgm_overlay {
@@ -190,6 +190,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

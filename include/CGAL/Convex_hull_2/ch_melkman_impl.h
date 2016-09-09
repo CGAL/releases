@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_melkman_impl.h $
-// $Id: ch_melkman_impl.h 36295 2007-02-15 14:48:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_melkman_impl.h $
+// $Id: ch_melkman_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -28,7 +28,7 @@
 #include <queue>
 #include <iterator>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
@@ -124,6 +124,6 @@ ch_melkman( InputIterator first, InputIterator last,
   
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CH_MELKMAN_IMPL_H

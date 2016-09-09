@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
-// $Id: Common.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
+// $Id: Common.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -41,7 +41,7 @@
 #include <CGAL/Modifiable_priority_queue.h>
 #include <CGAL/boost/graph/halfedge_graph_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace Surface_mesh_simplification 
 {
@@ -108,7 +108,7 @@ inline std::string optional_to_string( boost::optional<T> const& o )
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if   defined(CGAL_SURFACE_SIMPLIFICATION_ENABLE_TRACE)    \
    || defined(CGAL_SURFACE_SIMPLIFICATION_ENABLE_LT_TRACE) 

@@ -1,4 +1,4 @@
-// Copyright (c) 2009 Inria Lorraine (France). All rights reserved.
+// Copyright (c) 2009-2010 Inria Lorraine (France). All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/include/CGAL/RS/sign_1_rs.h $
-// $Id: sign_1_rs.h 54380 2010-03-01 16:07:43Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/RS/sign_1_rs.h $
+// $Id: sign_1_rs.h 56222 2010-05-13 14:59:30Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@loria.fr>
 
 #ifndef CGAL_RS_SIGN_1_RS_H
 #define CGAL_RS_SIGN_1_RS_H

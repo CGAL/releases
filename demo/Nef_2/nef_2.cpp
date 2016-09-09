@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/demo/Nef_2/nef_2.cpp $
-// $Id: nef_2.cpp 45455 2008-09-09 21:46:21Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/demo/Nef_2/nef_2.cpp $
+// $Id: nef_2.cpp 57467 2010-07-12 10:02:56Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -307,7 +307,7 @@ public slots:
 		    "CGAL files (*.cgal)", this ) );
     if ( s.isEmpty() )
       return;
-    std::ifstream in(s);
+    std::ifstream in(s.ascii());
     CGAL::set_ascii_mode(in);
     Nef_polyhedron N_temp(Nef_polyhedron::EMPTY);
     Nef_visible2 = N_temp;
@@ -327,7 +327,7 @@ public slots:
                        "Cgal files (*.cgal)", this );
     if ( !fileName.isNull() ) {
       // got a file name
-      std::ofstream out(fileName);
+      std::ofstream out(fileName.ascii());
       CGAL::set_ascii_mode(out);
       out << Nef_visible << std::endl;
     }
@@ -338,7 +338,7 @@ public slots:
 		    "CGAL files (*.cgal)", this ) );
     if ( s.isEmpty() )
       return;
-    std::ifstream in(s);
+    std::ifstream in(s.ascii());
     CGAL::set_ascii_mode(in);
 
     Polygon_2_double poly;

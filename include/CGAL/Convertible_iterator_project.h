@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Convertible_iterator_project.h $
-// $Id: Convertible_iterator_project.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Convertible_iterator_project.h $
+// $Id: Convertible_iterator_project.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -23,7 +23,7 @@
 
 #include <CGAL/Iterator_project.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// This class inherits from Iterator_project<> +
@@ -77,6 +77,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_CONVERTIBLE_ITERATOR_PROJECT_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/internal/Static_filters/Compare_weighted_squared_radius_3.h $
-// $Id: Compare_weighted_squared_radius_3.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/internal/Static_filters/Compare_weighted_squared_radius_3.h $
+// $Id: Compare_weighted_squared_radius_3.h 53957 2010-02-01 12:55:28Z spion $
 //
 // Author(s)     : Sebastien Loriot
 // This predicates was generated using the fpg tool written by Andreas Meyer.
@@ -360,4 +360,3 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
 
 
 #endif //CGAL_INTERNAL_STATIC_FILTERS_COMPARE_WEIGHTED_SQUARED_RADIUS_3_H
-

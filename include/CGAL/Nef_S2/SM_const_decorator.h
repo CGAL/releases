@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
-// $Id: SM_const_decorator.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
+// $Id: SM_const_decorator.h 57092 2010-06-25 08:27:45Z afabri $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -36,7 +36,7 @@
 #define CGAL_NEF_DEBUG 67
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Map_>
 class SM_const_decorator { 
@@ -339,15 +339,15 @@ check_integrity_and_topological_planarity(bool faces) const
     }
   }
 
-  CGAL_assertion_code(int v_num = number_of_svertices() - 
+  CGAL_assertion_code(std::size_t v_num = number_of_svertices() - 
 		      iso_vert_num + 
 		      number_of_shalfloops());
-  CGAL_assertion_code(int e_num = number_of_sedges() + 
+  CGAL_assertion_code(std::size_t e_num = number_of_sedges() + 
 		      number_of_shalfloops());
-  CGAL_assertion_code(int c_num = number_of_connected_components() - 
+  CGAL_assertion_code(std::size_t c_num = number_of_connected_components() - 
 		      iso_vert_num 
 		      + number_of_sloops());
-  CGAL_assertion_code(int f_num = number_of_sface_cycles() - c_num + 1);
+  CGAL_assertion_code(std::size_t f_num = number_of_sface_cycles() - c_num + 1);
   CGAL_assertion_code(CGAL_NEF_TRACEV(fc_num));
   CGAL_assertion_code(CGAL_NEF_TRACEV(iv_num));
   CGAL_assertion_code(CGAL_NEF_TRACEV(iso_vert_num));
@@ -411,6 +411,5 @@ number_of_connected_components() const
   return comp_num;   
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SM_CONST_DECORATOR_H
-

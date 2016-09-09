@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/exceptions.h $
+// $Id: exceptions.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
@@ -27,7 +27,7 @@
 #include <string>
 #include <boost/lexical_cast.hpp> 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // [Sylvain] This was originaly written in the Exacus library.
 // I kept most doxygen comments.
@@ -183,6 +183,6 @@ public:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_EXCEPTIONS_H

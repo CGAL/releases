@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/make_mesh_3.h $
-// $Id: make_mesh_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/make_mesh_3.h $
+// $Id: make_mesh_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -146,7 +146,7 @@ void make_mesh_3_impl(C3T3& c3t3,
   // Don't reset c3t3 as we just created it
   refine_mesh_3(c3t3, domain, criteria,
                 exude, perturb, odt, lloyd, parameters::no_reset_c3t3());
-};
+}
 
 
 }  // end namespace CGAL

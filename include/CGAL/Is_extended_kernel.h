@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Is_extended_kernel.h $
-// $Id: Is_extended_kernel.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Is_extended_kernel.h $
+// $Id: Is_extended_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <andreas.fabri@geometryfactory.com>
@@ -21,13 +21,13 @@
 #define CGAL_IS_EXTENDED_KERNEL_H
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Kernel>
 struct Is_extended_kernel {
        typedef Tag_false value_type;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

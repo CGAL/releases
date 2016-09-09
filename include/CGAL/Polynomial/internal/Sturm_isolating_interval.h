@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_isolating_interval.h $
-// $Id: Sturm_isolating_interval.h 33371 2006-08-17 09:09:38Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_isolating_interval.h $
+// $Id: Sturm_isolating_interval.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,7 +24,7 @@
 #include <CGAL/Polynomial/basic.h>
 #include <CGAL/Polynomial/internal/Filtered_number.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 //! Define the interface for a bounding interval By convention the intervals are closed.
 /*!
@@ -48,7 +48,7 @@ public:
     }
     CGAL_assertion(lb() <= ub());
   }
-  bool is_valid() {
+  bool is_valid() const {
     return b_.first <= b_.second;
   }
 
@@ -341,9 +341,9 @@ std::pair<double, double> to_interval(const Sturm_isolating_interval<NT> &ii)
 }
 
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 template <class NT>
 std::pair<double, double>
 to_interval(const CGAL_POLYNOMIAL_NS::internal::Sturm_isolating_interval<NT> &ii)
@@ -352,5 +352,5 @@ to_interval(const CGAL_POLYNOMIAL_NS::internal::Sturm_isolating_interval<NT> &ii
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif                                            // CGAL_POLYNOMIAL_STURM_ISOLATING_INTERVAL_H

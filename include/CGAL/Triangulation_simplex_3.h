@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
-// $Id: Triangulation_simplex_3.h 51045 2009-08-04 13:36:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
+// $Id: Triangulation_simplex_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -21,7 +21,7 @@
 #ifndef CGAL_TRIANGULATION_SIMPLEX_3_H
 #define CGAL_TRIANGULATION_SIMPLEX_3_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class TriangulationDataStructure_3 >
 class Triangulation_simplex_3 {
@@ -279,6 +279,6 @@ operator<< (std::ostream& os,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATION_SIMPLEX_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
-// $Id: Arr_polyhedral_sgm_polyhedron_3.h 49419 2009-05-16 07:40:56Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
+// $Id: Arr_polyhedral_sgm_polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
@@ -48,7 +48,7 @@
 #include <CGAL/HalfedgeDS_halfedge_base.h>
 #include <CGAL/HalfedgeDS_face_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! The extended Polyhedron vertex type */
 template <class T_Refs, class T_Point>
@@ -212,6 +212,6 @@ struct Arr_polyhedral_sgm_polyhedron_3 :
   Arr_polyhedral_sgm_polyhedron_3() {}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

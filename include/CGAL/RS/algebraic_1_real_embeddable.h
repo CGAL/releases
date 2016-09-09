@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_real_embeddable.h $
-// $Id: algebraic_1_real_embeddable.h 54380 2010-03-01 16:07:43Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_real_embeddable.h $
+// $Id: algebraic_1_real_embeddable.h 57161 2010-06-28 16:40:05Z mkerber $
 //
-// Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
+// Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de> 
 //
 // ============================================================================
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
-// $Id: Snap_rounding_traits_2.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
+// $Id: Snap_rounding_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -25,7 +25,7 @@
 
 #include <CGAL/Arr_segment_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class Base_kernel>
 class Snap_rounding_traits_2 :
@@ -199,6 +199,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ISR_2_TRAITS_H

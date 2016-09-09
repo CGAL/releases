@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2/Optimisation_ellipse_2_impl.h $
-// $Id: Optimisation_ellipse_2_impl.h 32391 2006-07-11 12:17:08Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2/Optimisation_ellipse_2_impl.h $
+// $Id: Optimisation_ellipse_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Class implementation (continued)
 // ================================
@@ -120,6 +120,6 @@ operator >> ( std::istream& is, CGAL::Optimisation_ellipse_2<K_>& e)
     return( is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // ===== EOF ==================================================================

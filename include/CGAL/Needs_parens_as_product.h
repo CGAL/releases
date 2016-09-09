@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
-// $Id: Needs_parens_as_product.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
+// $Id: Needs_parens_as_product.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -25,7 +25,7 @@
 
 #include <CGAL/IO/io.h>
  
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! 
  * oformat flag for parentheses if needed for a coefficient
@@ -97,6 +97,6 @@ template <> struct Needs_parens_as_product<long double>{
     bool operator()(const long double& x){return x < (long double)(0);} 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  //CGAL_NEEDS_PARENTHESES_AS_PRODUCT_H

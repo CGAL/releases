@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Handle.h $
-// $Id: Handle.h 50940 2009-07-29 13:27:47Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Handle.h $
+// $Id: Handle.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -28,7 +28,7 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class Rep
 {
@@ -43,6 +43,9 @@ class Rep
 class Handle
 {
   public:
+    
+    typedef std::ptrdiff_t Id_type ;
+    
     Handle()
 	: PTR(static_cast<Rep*>(0)) {}
 
@@ -73,23 +76,18 @@ class Handle
     int
     refs()  const { return PTR->count; }
 
-    friend std::ptrdiff_t id(const Handle& x);
-    friend bool identical(const Handle& h1, const Handle& h2);
+    Id_type id() const { return PTR - static_cast<Rep*>(0); }
+
+    bool identical(const Handle& h) const { return PTR == h.PTR; }
 
   protected:
     Rep* PTR;
 };
 
-inline
-std::ptrdiff_t
-id(const Handle& x)
-{ return x.PTR - static_cast<Rep*>(static_cast<void*>(0)); }
+//inline Handle::Id_type id(const Handle& x) { return x.id() ; }
 
-inline
-bool
-identical(const Handle &h1, const Handle &h2)
-{ return h1.PTR == h2.PTR; }
+inline bool identical(const Handle &h1, const Handle &h2) { return h1.identical(h2); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HANDLE_H

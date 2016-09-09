@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Restricted_double.h $
-// $Id: Restricted_double.h 39778 2007-08-08 15:59:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Restricted_double.h $
+// $Id: Restricted_double.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -33,7 +33,7 @@
 #include <CGAL/basic.h>
 // #include <CGAL/double.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #ifdef CGAL_IA_CHECK_RESTRICT
 struct Restricted_double
@@ -84,6 +84,6 @@ to_double(const Restricted_double &f)
 typedef double Restricted_double;
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_RESTRICTED_DOUBLE_H

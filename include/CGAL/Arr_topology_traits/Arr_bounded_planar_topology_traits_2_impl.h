@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_topology_traits_2_impl.h $
-// $Id: Arr_bounded_planar_topology_traits_2_impl.h 40195 2007-09-05 09:51:34Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_topology_traits_2_impl.h $
+// $Id: Arr_bounded_planar_topology_traits_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * Arr_bounded_planar_topology_traits_2<GeomTraits> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Assign the contents of another topology-traits class.
@@ -85,6 +85,6 @@ void Arr_bounded_planar_topology_traits_2<GeomTraits, Dcel_>::dcel_updated ()
   return;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

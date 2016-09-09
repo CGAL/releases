@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 55809 2010-04-28 11:28:40Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -31,7 +31,15 @@
 #include <CGAL/Coercion_traits.h>
 #include <CGAL/Polynomial/modular_filter.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
+
+// Extend to a UFDomain as coefficient range
+// Forward declaration for <NiX/polynomial_gcd.h> for NT_traits<Poly...>::Gcd
+namespace internal {
+template <class NT> inline
+Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&);
+} // namespace internal
+
 
 // Now we wrap up all of this in the actual NT_traits
 // specialization for Polynomial<NT>
@@ -205,7 +213,7 @@ class Polynomial_algebraic_structure_traits_base< POLY, Unique_factorization_dom
     typedef typename Polynomial_traits_d<POLY>::Multivariate_content Mcontent;
     typedef typename Mcontent::result_type ICoeff; 
     
-    ICoeff gcd_help(const ICoeff& x, const ICoeff& y, Field_tag) const {
+    ICoeff gcd_help(const ICoeff& , const ICoeff& , Field_tag) const {
       return ICoeff(1);
     }
     ICoeff gcd_help(const ICoeff& x, const ICoeff& y, 
@@ -228,7 +236,7 @@ class Polynomial_algebraic_structure_traits_base< POLY, Unique_factorization_dom
         return idiv(x,upart(x));
       
       if (internal::may_have_common_factor(x,y))
-        return internal::gcd_(x,y);
+        return CGAL::internal::gcd_(x,y);
       else{        
         typename Algebraic_structure_traits<ICoeff>::Algebraic_category category;  
         return POLY(gcd_help(Mcontent()(x),Mcontent()(y), category));
@@ -340,5 +348,5 @@ template< class NT > class Algebraic_structure_traits< Polynomial< NT > >
     typedef typename Algebraic_structure_traits< NT >::Is_exact Is_exact;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POLYNOMIAL_ALGEBRAIC_STRUCTURE_TRAITS_H

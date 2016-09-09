@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 45630 2008-09-18 13:53:47Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -27,7 +27,7 @@
 #include <CGAL/number_type_basic.h>
 #include <CGAL/type_traits.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // REMARK: Some of the following comments and references are just copy & pasted
 //         from EXACUS and have to be adapted/removed in the future.
@@ -602,6 +602,6 @@ namespace INTERN_AST {
       }
   };
 } // INTERN_AST
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_ALGEBRAIC_STRUCTURE_TRAITS_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/solve.h $
-// $Id: solve.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/solve.h $
+// $Id: solve.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -25,7 +25,7 @@
 #ifndef CGAL_SOLVE_H
 #define CGAL_SOLVE_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class FT>
@@ -62,6 +62,6 @@ void solve_quadratic (const FT &a1, const FT &a2, const FT &a3,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SOLVE_H

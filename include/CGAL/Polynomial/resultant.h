@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/resultant.h $
-// $Id: resultant.h 53196 2009-11-26 10:07:09Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/resultant.h $
+// $Id: resultant.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -46,7 +46,7 @@
 #include <CGAL/primes.h>
 #include <CGAL/Polynomial/Cached_extended_euclidean_algorithm.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // The main function provided within this file is CGAL::internal::resultant(F,G),
@@ -410,9 +410,8 @@ Coeff  resultant(
 }
 
 } // namespace internal    
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 
 #endif // CGAL_POLYNOMIAL_RESULTANT_H
-

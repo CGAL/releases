@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_filtered_traits_3.h 51161 2009-08-10 15:57:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_filtered_traits_3.h 58159 2010-08-19 11:58:49Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -31,7 +31,7 @@
 #include <CGAL/Profile_counter.h>
 #include <CGAL/Periodic_3_triangulation_traits_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // This template class is a wrapper that implements the filtering for any
 // predicate (dynamic filters with IA).
@@ -474,20 +474,15 @@ private:
   typedef typename C2E::Target_kernel::Iso_cuboid_3 Exact_iso_cuboid_3;
   typedef typename C2F::Target_kernel::Iso_cuboid_3 Approximate_iso_cuboid_3;
  
-protected:
-#ifndef CGAL_CFG_MATCHING_BUG_6
-  using Base::_domain;
-#endif
-
 public:
   typedef typename K::Iso_cuboid_3 Iso_cuboid_3;
 
   void set_domain(const Iso_cuboid_3& domain) {
     C2E c2e;
     C2F c2f;
-    _domain = domain;
-    _domain_e = c2e(_domain);
-    _domain_f = c2f(_domain);
+    this->_domain = domain;
+    this->_domain_e = c2e(this->_domain);
+    this->_domain_f = c2f(this->_domain);
   }
 
   typedef Filtered_periodic_predicate<
@@ -566,11 +561,11 @@ public:
   Approximate_iso_cuboid_3 _domain_f;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < typename K >
 class Periodic_3_triangulation_filtered_traits_3
@@ -578,6 +573,6 @@ class Periodic_3_triangulation_filtered_traits_3
   Periodic_3_triangulation_filtered_traits_base_3<K> > {
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PERIODIC_3_TRIANGULATION_FILTERED_TRAITS_3_H

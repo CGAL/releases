@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h $
-// $Id: Env_divide_and_conquer_2_impl.h 50144 2009-06-28 13:18:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h $
+// $Id: Env_divide_and_conquer_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -25,7 +25,7 @@
 
 #include <boost/optional.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // ---------------------------------------------------------------------------
 // Construct the lower/upper envelope of the given list of non-vertical curves.
@@ -435,15 +435,13 @@ _merge_single_interval (Edge_const_handle e, Edge_const_handle other_edge,
   {
     new_v = _append_vertex (out_d, v->point(), e);
     new_v->add_curves (v->curves_begin(), v->curves_end());
+
+    if (res == EQUAL)
+      {
+        // In case of equality, append e's curves to those of the new vertex.
+        new_v->add_curves (e->curves_begin(), e->curves_end());
+      }
   }
-  
-  if (res == EQUAL)
-  {
-    // In case of equality, append e's curves to those of the new vertex.
-    new_v->add_curves (e->curves_begin(), e->curves_end());
-  }
-  
-  return;
 }
 
 //! \brief Functions that should be on Arr_traits_adaptor.
@@ -1334,7 +1332,6 @@ Envelope_divide_and_conquer_2<Traits,Diagram>::_split_edge
   return (new_v);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

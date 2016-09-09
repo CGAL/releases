@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/IO/File_medit.h $
-// $Id: File_medit.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/IO/File_medit.h $
+// $Id: File_medit.h 57308 2010-07-02 15:37:13Z stayeb $
 //
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -802,7 +802,8 @@ output_to_medit(std::ostream& os,
   //-------------------------------------------------------
   // Facets
   //-------------------------------------------------------
-  int number_of_triangles = c3t3.number_of_facets();
+  typename C3T3::size_type number_of_triangles = c3t3.number_of_facets();
+  
   if ( print_each_facet_twice )
     number_of_triangles += number_of_triangles;
   

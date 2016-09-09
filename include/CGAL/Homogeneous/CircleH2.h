@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/CircleH2.h $
-// $Id: CircleH2.h 44446 2008-07-25 15:06:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/CircleH2.h $
+// $Id: CircleH2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Sven Schoenherr
 //                 Stefan Schirra
@@ -27,7 +27,7 @@
 #include <CGAL/Interval_nt.h>
 #include <boost/tuple/tuple.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class CircleH2
@@ -114,13 +114,13 @@ template <class R>
 inline
 const typename CircleH2<R>::Point_2 &
 CircleH2<R>::center() const
-{ return get(base).get<0>(); }
+{ return get(base).template get<0>(); }
 
 template <class R>
 inline
 const typename CircleH2<R>::FT &
 CircleH2<R>::squared_radius() const
-{ return get(base).get<1>(); }
+{ return get(base).template get<1>(); }
 
 template <class R>
 CGAL_KERNEL_INLINE
@@ -136,7 +136,7 @@ template <class R>
 inline
 Orientation
 CircleH2<R>::orientation() const
-{ return get(base).get<2>(); }
+{ return get(base).template get<2>(); }
 
 template <class R>
 CGAL_KERNEL_INLINE
@@ -249,6 +249,6 @@ bool
 CircleH2<R>::operator!=(const CircleH2<R>& c) const
 { return !(*this == c); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CIRCLEH2_H

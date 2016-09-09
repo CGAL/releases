@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_point.h $
-// $Id: Sphere_point.h 44480 2008-07-26 20:26:48Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_point.h $
+// $Id: Sphere_point.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Origin.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Mtext \headerline{Restricted Spherical Geometry}
 
@@ -128,5 +128,5 @@ typename R::Point_3 operator+
   (const typename R::Point_3& p, const Sphere_point<R>& q)
 { return p + (q-CGAL::ORIGIN); }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SPHERE_POINT_H

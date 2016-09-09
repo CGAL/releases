@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Jet_fitting_3/include/CGAL/Lapack/Linear_algebra_lapack.h $
-// $Id: Linear_algebra_lapack.h 44877 2008-08-11 15:25:33Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Jet_fitting_3/include/CGAL/Lapack/Linear_algebra_lapack.h $
+// $Id: Linear_algebra_lapack.h 57113 2010-06-25 15:30:45Z afabri $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_LAPACK_H
@@ -138,8 +138,8 @@ public:
 inline
 Lapack_svd::FT Lapack_svd::solve(Matrix& M, Vector& B)
 {
-  int m = M.number_of_rows(),
-    n = M.number_of_columns(),
+  int m = static_cast<int>(M.number_of_rows()),
+    n = static_cast<int>(M.number_of_columns()),
     nrhs = 1,
     lda = m,
     ldb = m,

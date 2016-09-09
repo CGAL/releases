@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map_to_nef_3.h $
+// $Id: Gaussian_map_to_nef_3.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #include <CGAL/Minkowski_sum_3/Gaussian_map.h>
 #include <CGAL/Modifier_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<typename Nef3>
   class Gaussian_map_to_nef_3 : public Modifier_base<typename Nef3::SNC_structure > {
@@ -250,5 +250,5 @@ template<typename Nef3>
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_MS3_GAUSSIAN_MAP_TO_NEF_3_H

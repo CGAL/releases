@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
-// $Id: Sphere_triangle.h 49069 2009-05-01 12:07:15Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
+// $Id: Sphere_triangle.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/array.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_> class Sphere_triangle_rep 
 { typedef Sphere_point<R_>  Point;
@@ -113,5 +113,5 @@ std::istream& operator>>(std::istream& is,
   t = CGAL::Sphere_triangle<R>(p1,p2,p3,c1,c2,c3);
   return is; }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_SPHERE_TRIANGLE_H

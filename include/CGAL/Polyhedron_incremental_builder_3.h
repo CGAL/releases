@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
-// $Id: Polyhedron_incremental_builder_3.h 57149 2010-06-28 12:39:16Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
+// $Id: Polyhedron_incremental_builder_3.h 57150 2010-06-28 12:47:18Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -28,7 +28,7 @@
 #include <vector>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class HalfedgeDS_>
 class Polyhedron_incremental_builder_3 {
@@ -903,7 +903,7 @@ remove_unconnected_vertices( Tag_true) {
     return true;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H //
 // EOF //

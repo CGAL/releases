@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/lloyd_optimize_mesh_3.h $
-// $Id: lloyd_optimize_mesh_3.h 53413 2009-12-15 13:19:38Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/lloyd_optimize_mesh_3.h $
+// $Id: lloyd_optimize_mesh_3.h 57304 2010-07-02 14:51:18Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -27,18 +27,11 @@
 #include <CGAL/Mesh_3/global_parameters.h>
 #include <CGAL/Mesh_3/Mesh_global_optimizer.h>
 #include <CGAL/Mesh_3/Lloyd_move.h>
-#include <CGAL/Mesh_3/Triangulation_sizing_field.h>
 #include <CGAL/Mesh_3/Mesh_sizing_field.h>
 #include <CGAL/Mesh_optimization_return_code.h>
+#include <CGAL/Mesh_3/parameters_defaults.h>
 
 namespace CGAL {
-
-namespace parameters { namespace default_values {
-  const double lloyd_freeze_ratio = 0.01;
-  const double lloyd_convergence_ratio = 0.02;
-} } // end namespace parameters::default_values
-
-
   
 BOOST_PARAMETER_FUNCTION(
   (Mesh_optimization_return_code),
@@ -89,7 +82,7 @@ lloyd_optimize_mesh_3_impl(C3T3& c3t3,
     max_iteration_number = 1000;
   
   // Launch optimization
-  return opt(max_iteration_number);
+  return opt(static_cast<int>(max_iteration_number));
 }
   
   

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
-// $Id: SM_io_parser.h 41659 2008-01-17 15:34:18Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
+// $Id: SM_io_parser.h 57029 2010-06-23 15:07:14Z afabri $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -32,7 +32,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions outfile=SM_io_parser.man }*/
 /*{\Manpage {SM_io_parser}{Decorator_}{IO of embedded maps}{IO}}*/
@@ -69,6 +69,11 @@ class SM_io_parser : public Decorator_
   typedef typename Decorator_traits::SHalfedge_around_svertex_circulator
                                      SHalfedge_around_svertex_circulator;
 
+
+  using Base::is_isolated;
+  using Base::first_out_edge;
+  using Base::out_edges;
+
   std::istream& in; std::ostream& out;
   bool verbose;
   // a reference to the IO object
@@ -80,7 +85,7 @@ class SM_io_parser : public Decorator_
   std::vector<SFace_handle>          SFace_of;
   SHalfloop_handle                   Loop_of[2];
   // object mapping for input
-  int vn,en,ln,fn,i;
+  std::size_t vn,en,ln,fn,i;
   // the number of objects
 
   bool check_sep(const char* sep);
@@ -152,7 +157,7 @@ SM_io_parser(std::ostream& iout, const Base& D)
   ln(this->number_of_shalfloops()),
   fn(this->number_of_sfaces())
 { verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
-             out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
+    out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
 }
 
 
@@ -476,7 +481,7 @@ void SM_io_parser<Decorator_>::dump(const Decorator_& D, std::ostream& os)
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #if defined(BOOST_MSVC)
@@ -484,4 +489,3 @@ CGAL_END_NAMESPACE
 #endif
 
 #endif //CGAL_SM_IO_PARSER_H
-

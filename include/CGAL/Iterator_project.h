@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Iterator_project.h $
-// $Id: Iterator_project.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Iterator_project.h $
+// $Id: Iterator_project.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -26,7 +26,7 @@
 #ifndef CGAL_ITERATOR_PROJECT_H
 #define CGAL_ITERATOR_PROJECT_H 1
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Relies on iterator traits. Quite simplified compared to earlier version.
 
@@ -161,6 +161,6 @@ operator+( Dist n, Iterator_project<I,Fct,D1,D2,D3,D4> i) {
   return i += n;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_ITERATOR_PROJECT_H //
 // EOF //

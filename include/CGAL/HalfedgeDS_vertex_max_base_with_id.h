@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/HalfedgeDS_vertex_max_base_with_id.h $
-// $Id: HalfedgeDS_vertex_max_base_with_id.h 36383 2007-02-16 11:34:18Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/HalfedgeDS_vertex_max_base_with_id.h $
+// $Id: HalfedgeDS_vertex_max_base_with_id.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -22,7 +22,7 @@
 
 #include <CGAL/HalfedgeDS_vertex_base.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Refs, class P, class ID>
 class HalfedgeDS_vertex_max_base_with_id : public HalfedgeDS_vertex_base< Refs, Tag_true, P>
@@ -48,7 +48,7 @@ public:
     size_type const& id() const { return mID; }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_HALFEDGEDS_VERTEX_MAX_BASE_WITH_ID_H //
 // EOF //

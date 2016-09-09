@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/point_generators_2.h $
-// $Id: point_generators_2.h 45662 2008-09-22 08:09:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/point_generators_2.h $
+// $Id: point_generators_2.h 56956 2010-06-22 08:46:38Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -27,7 +27,7 @@
 #include <iterator>
 #include <CGAL/number_type_basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class P, class Creator = 
                   Creator_uniform_2<typename Kernel_traits<P>::Kernel::RT,P> >
@@ -448,7 +448,7 @@ OutputIterator random_collinear_points_2(
     typedef typename Creator::result_type   Point;
     typedef typename Creator::argument_type T;
 
-    int m = last - first;
+    std::ptrdiff_t m = last - first;
     for ( std::size_t i = 0; i < n; i++) {
         const Point& p = first[ rnd.get_int( 0, m-1)];
         const Point& q = first[ rnd.get_int( 0, m-1)];
@@ -497,6 +497,6 @@ OutputIterator random_collinear_points_2(
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POINT_GENERATORS_2_H //
 // EOF //

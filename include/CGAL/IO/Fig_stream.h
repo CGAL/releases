@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream.h $
-// $Id: Fig_stream.h 45507 2008-09-11 12:57:41Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream.h $
+// $Id: Fig_stream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
 
@@ -26,7 +26,7 @@
 #include <fstream>
 #include <cstdio>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * FIG colors.
@@ -1748,6 +1748,6 @@ protected:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

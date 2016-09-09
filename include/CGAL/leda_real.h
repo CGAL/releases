@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/leda_real.h $
-// $Id: leda_real.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_real.h $
+// $Id: leda_real.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -44,7 +44,7 @@
 #endif
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <> class Algebraic_structure_traits< leda_real >
 
@@ -102,7 +102,7 @@ template <> class Algebraic_structure_traits< leda_real >
                        ForwardIterator begin,
                        ForwardIterator end) const {
             return CGAL_LEDA_SCOPE::diamond(k,make_polynomial(begin,end));
-        };
+        }
 /*        template <class ForwardIterator>
         Type operator()( leda_rational lower,
                                         leda_rational upper,
@@ -242,7 +242,7 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // Unary + is missing for leda::real
 

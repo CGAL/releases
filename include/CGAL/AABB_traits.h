@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_traits.h $
-// $Id: AABB_traits.h 52944 2009-11-10 16:58:02Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_traits.h $
+// $Id: AABB_traits.h 57383 2010-07-08 07:35:44Z stayeb $
 //
 //
 // Author(s) : Stéphane Tayeb, Pierre Alliez, Camille Wormser
@@ -27,6 +27,8 @@
 
 #include <CGAL/Bbox_3.h>
 #include <CGAL/AABB_intersections.h>
+
+#include <boost/optional.hpp>
 
 namespace CGAL {
 

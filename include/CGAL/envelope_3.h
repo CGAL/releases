@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/envelope_3.h $
-// $Id: envelope_3.h 49708 2009-05-31 12:07:51Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/envelope_3.h $
+// $Id: envelope_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/Envelope_3/Envelope_divide_and_conquer_3.h>
 #include <CGAL/Arr_accessor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Construct the lower envelope of a given set of surfaces.
@@ -124,6 +124,6 @@ upper_envelope_xy_monotone_3 (InputIterator begin, InputIterator end,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

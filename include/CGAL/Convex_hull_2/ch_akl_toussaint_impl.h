@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
-// $Id: ch_akl_toussaint_impl.h 42441 2008-03-11 10:37:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
+// $Id: ch_akl_toussaint_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -31,7 +31,7 @@
 #include <CGAL/IO/Tee_for_output_iterator.h>
 #include <boost/bind.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class ForwardIterator, class OutputIterator, class Traits>
 OutputIterator
@@ -146,6 +146,6 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   #endif // no postconditions ...
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CH_AKL_TOUSSAINT_C

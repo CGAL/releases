@@ -1,10 +1,14 @@
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/examples/Algebraic_kernel_d/Construct_algebraic_real_1.cpp $
-// $Id: Construct_algebraic_real_1.cpp 53386 2009-12-11 11:22:11Z penarand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/examples/Algebraic_kernel_d/Construct_algebraic_real_1.cpp $
+// $Id: Construct_algebraic_real_1.cpp 57161 2010-06-28 16:40:05Z mkerber $
 
-#include <CGAL/Algebraic_kernel_d_1_RS_Gmpz.h>
+#include <CGAL/basic.h>
+#ifdef CGAL_USE_MPFI 
+#include <CGAL/Algebraic_kernel_d_1.h>
+#include <CGAL/Gmpz.h>
 #include <vector>
+#include <iostream>
 
-typedef CGAL::Algebraic_kernel_d_1_RS_Gmpz              AK;
+typedef CGAL::Algebraic_kernel_d_1<CGAL::Gmpz>          AK;
 typedef AK::Polynomial_1                                Polynomial_1;
 typedef AK::Algebraic_real_1                            Algebraic_real_1;
 typedef AK::Coefficient                                 Coefficient;
@@ -12,7 +16,7 @@ typedef AK::Bound                                       Bound;
 typedef AK::Multiplicity_type                           Multiplicity_type;
 
 int main(){
-  AK ak; // an object of Algebraic_kernel_d_1_RS_Gmpz
+  AK ak; // an object of 
   AK::Construct_algebraic_real_1 construct_algreal_1 = ak.construct_algebraic_real_1_object();
 
   std::cout << "Construct from int         : " << construct_algreal_1(int(2)) << "\n";
@@ -29,3 +33,9 @@ int main(){
 
   return 0;
 }
+#else
+int main(){
+  std::cout << "This example requires CGAL to be configured with library MPFI." << std::endl;
+return 0;
+}
+#endif

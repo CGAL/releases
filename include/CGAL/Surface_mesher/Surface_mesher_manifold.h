@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
-// $Id: Surface_mesher_manifold.h 43498 2008-06-06 12:22:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
+// $Id: Surface_mesher_manifold.h 53957 2010-02-01 12:55:28Z spion $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -238,4 +238,3 @@ namespace CGAL {
 
 
 #endif // CGAL_SURFACE_MESHER_MANIFOLD_H
-

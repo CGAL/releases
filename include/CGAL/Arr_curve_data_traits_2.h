@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
-// $Id: Arr_curve_data_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include<CGAL/Arr_geometry_traits/Curve_data_aux.h>
 #include<list>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class
  * A generic traits class for maintaining an arrangement of curves that have
@@ -63,9 +63,10 @@ public:
   typedef typename Base_traits_2::Point_2             Point_2;
 
   typedef typename Base_traits_2::Has_left_category   Has_left_category;
-
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
+  typedef typename Base_traits_2::Has_do_intersect_category
+                                                      Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Base_traits_2 >::Tag
                                                       Arr_left_side_category;
@@ -442,7 +443,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

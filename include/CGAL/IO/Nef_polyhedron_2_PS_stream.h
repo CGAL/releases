@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
-// $Id: Nef_polyhedron_2_PS_stream.h 41628 2008-01-14 23:08:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
+// $Id: Nef_polyhedron_2_PS_stream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #include <LEDA/graphics/color.h>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 static int frame_default = 100;
 
 template <typename CIRC>
@@ -116,6 +116,6 @@ ps_file& operator<<(ps_file& PS, const Nef_polyhedron_2<T>& P)
   return PS;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NEF_POLYHEDRON_2_PS_STREAM_H

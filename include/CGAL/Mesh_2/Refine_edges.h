@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
-// $Id: Refine_edges.h 54701 2010-03-11 14:19:21Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: Refine_edges.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -83,7 +83,7 @@ namespace Mesh_2 {
         Is_a_constrained_edge> Default_container;
     };
 
-  }; // end namespace details
+  } // end namespace details
 
 
   /**
@@ -630,7 +630,7 @@ private: /** \name DEBUGGING TYPES AND DATAS */
   {
     Tr& tr;
   public:
-    From_pair_of_vertex_to_edge(Tr& t) : tr(t) {};
+    From_pair_of_vertex_to_edge(Tr& t) : tr(t) {}
 
     const Edge operator()(const Constrained_edge edge) const
     {

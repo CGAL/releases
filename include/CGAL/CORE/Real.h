@@ -31,14 +31,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/Real.h $
- * $Id: Real.h 28567 2006-02-16 14:30:13Z lsaboret $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/Real.h $
+ * $Id: Real.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 #ifndef _CORE_REAL_H_
 #define _CORE_REAL_H_
 #include "RealRep.h"
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 // class Real
 typedef RCImpl<RealRep> RCReal;
 class Real : public RCReal {
@@ -490,6 +490,5 @@ inline Real RealLong::operator-() const {
   return ker < -LONG_MAX ? -BigInt(ker) : -ker;
 }
 
-CORE_END_NAMESPACE
+} //namespace CORE
 #endif // _CORE_REAL_H_
-

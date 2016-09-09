@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h $
-// $Id: Convex_hull_d_to_polyhedron_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h $
+// $Id: Convex_hull_d_to_polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel
@@ -24,7 +24,7 @@
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Polyhedron_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class _HDS, class _ChullType>
 class Build_polyhedron_from_chull : public Modifier_base< _HDS>
@@ -116,7 +116,5 @@ void convex_hull_d_to_polyhedron_3(
   P.delegate( get_surface );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_CONVEX_HULL_D_TO_POLYHEDRON_3_H
-
-

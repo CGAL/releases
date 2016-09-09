@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Rational_between_roots.h $
-// $Id: Rational_between_roots.h 40016 2007-08-23 15:34:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Rational_between_roots.h $
+// $Id: Rational_between_roots.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,10 +22,12 @@
 #define CGAL_POLYNOMIAL_KERNEL_RATIONAL_BETWEEN_ROOTS_H
 
 #include <CGAL/Polynomial/basic.h>
+#ifdef CGAL_USE_CORE
 #include <CGAL/CORE_Expr.h>
+#endif
 #include <CGAL/Polynomial/internal/Simple_interval_root.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 template <class K>
 struct Rational_between_roots
@@ -75,6 +77,7 @@ protected:
     }
   }
   
+#ifdef CGAL_USE_CORE
   result_type compute(const CORE::Expr &r0, const CORE::Expr &r1) const {
     result_type ret= CGAL::to_interval(r0).second;
     result_type step=.0000000596046447753906250000000;
@@ -89,7 +92,7 @@ protected:
     } while (ret >= r1 || ret <= r0);
     return ret;
   }
-  
+#endif
   
 public:
 
@@ -100,5 +103,5 @@ public:
 
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

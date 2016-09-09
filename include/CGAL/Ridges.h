@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Ridges_3/include/CGAL/Ridges.h $
-// $Id: Ridges.h 54363 2010-03-01 10:35:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Ridges_3/include/CGAL/Ridges.h $
+// $Id: Ridges.h 57931 2010-08-10 14:50:25Z sloriot $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_RIDGE_3_H_
@@ -30,7 +30,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
  
 enum Ridge_interrogation_type {MAX_RIDGE, MIN_RIDGE, CREST_RIDGE};
 
@@ -540,10 +540,10 @@ facet_ridge_type(const Facet_const_handle f, Halfedge_const_handle& he1, Halfedg
       he1 = h2; 
       he2 = h3;
     }
-  //check there is no other case (just on edge crossed)
+  //check there is no other case (just one edge crossed)
   CGAL_postcondition ( !( (h1_is_crossed && !h2_is_crossed && !h3_is_crossed)
 			  || (!h1_is_crossed && h2_is_crossed && !h3_is_crossed)
-			  || (!h1_is_crossed && h2_is_crossed && !h3_is_crossed)) );
+			  || (!h1_is_crossed && !h2_is_crossed && h3_is_crossed)) );
 
   //There is a ridge segment in the triangle, determine its type elliptic/hyperbolic
   bool is_elliptic;  
@@ -893,6 +893,6 @@ template < class TriangulatedSurfaceMesh,
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

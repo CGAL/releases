@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Ridges_3/include/CGAL/Umbilics.h $
-// $Id: Umbilics.h 41665 2008-01-17 21:48:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Ridges_3/include/CGAL/Umbilics.h $
+// $Id: Umbilics.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_UMBILIC_H_
@@ -24,7 +24,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/PolyhedralSurf_neighbors.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum Umbilic_type { NON_GENERIC_UMBILIC = 0, ELLIPTIC_UMBILIC, HYPERBOLIC_UMBILIC};
 
@@ -285,6 +285,6 @@ template < class TriangulatedSurfaceMesh,
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

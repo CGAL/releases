@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Alpha_shapes_3/include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h $
-// $Id: Weighted_alpha_shape_euclidean_traits_3.h 52648 2009-10-20 17:56:12Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_3/include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h $
+// $Id: Weighted_alpha_shape_euclidean_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
    
@@ -35,7 +35,7 @@ class Weighted_alpha_shape_euclidean_traits_3 : public
 Regular_triangulation_euclidean_traits_3<K>
 {};
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif //CGAL_NO_DEPRECATED_CODE
   
   

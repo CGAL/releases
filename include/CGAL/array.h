@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/array.h $
-// $Id: array.h 51051 2009-08-04 15:03:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/array.h $
+// $Id: array.h 57386 2010-07-08 09:12:23Z glisse $
 //
 // Author(s)     : Sylvain Pion
 
@@ -29,7 +29,7 @@
 #  include <boost/array.hpp>
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace cpp0x {
 
@@ -83,7 +83,7 @@ inline
 cpp0x::array< T, 1 + sizeof...(Args) >
 make_array(const T & t, const Args & ... args)
 {
-  cpp0x::array< T, 1 + sizeof...(Args) > a = { { t, args... } };
+  cpp0x::array< T, 1 + sizeof...(Args) > a = { { t, static_cast<T>(args)... } };
   return a;
 }
 
@@ -140,6 +140,6 @@ make_array(const T& b1, const T& b2, const T& b3, const T& b4, const T& b5,
 
 #endif // CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ARRAY_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
-// $Id: PM_point_locator.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: PM_point_locator.h 56962 2010-06-22 09:38:32Z afabri $
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -38,7 +38,7 @@
 # endif
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 enum object_kind { VERTEX, EDGE_CROSSING, EDGE_COLLINEAR };
 
@@ -139,6 +139,20 @@ public:
   using Base::number_of_vertices;
   using Base::number_of_halfedges;
   using Base::number_of_faces;
+  using Base::info;
+  using Base::is_closed_at_source;
+  using Base::source;
+  using Base::target;
+  using Base::cyclic_adj_succ;
+  using Base::mark;
+  using Base::twin;
+  using Base::flip_diagonal;
+  using Base::is_isolated;
+  using Base::first_out_edge;
+  using Base::next;
+  using Base::previous;
+  using Base::face;
+  using Base::point;
 
   Halfedge_const_handle out_wedge(Vertex_const_handle v,
     const Direction& d, bool& collinear) const
@@ -174,8 +188,6 @@ public:
   { return K.construct_direction(point(source(e)),point(target(e))); }
 
   /*{\Mcreation 3}*/
-
-  PM_naive_point_locator() : Base() {}
 
   /*{\Moptions constref=yes}*/
   PM_naive_point_locator(const Plane_map& P, const Geometry& k = Geometry()) :
@@ -429,6 +441,16 @@ public:
   using Base::K;
   using Base::number_of_vertices;
   using Base::faces_begin;
+  using Base::info;
+  using Base::flip_diagonal;
+  using Base::twin; 
+  using Base::next; 
+  using Base::previous; 
+  using Base::source; 
+  using Base::target; 
+  using Base::point; 
+  using Base::segment; 
+  using Base::face;
 
   /*{\Mtypes 2}*/
   /*{\Mtext All local types of |PM_naive_point_locator| are inherited.}*/
@@ -437,8 +459,11 @@ public:
 
   struct CT_link_to_original : Decorator { // CT decorator
     const Decorator& Po;
+    using Decorator::info;
+
     CT_link_to_original(const Decorator& P, const Decorator& Poi)
       : Decorator(P), Po(Poi) {}
+
     void operator()(Vertex_handle vn, Vertex_const_handle vo) const
     { Face_const_handle f;
       if ( Po.is_isolated(vo) ) f = Po.face(vo);
@@ -446,6 +471,7 @@ public:
       geninfo<VF_pair>::access(info(vn)) = VF_pair(vo,f);
       CGAL_NEF_TRACEN("linking to org "<<PV(vn));
     }
+
     void operator()(Halfedge_handle hn, Halfedge_const_handle ho) const
     { geninfo<EF_pair>::create(info(hn));
       geninfo<EF_pair>::access(info(hn)) = EF_pair(ho,Po.face(ho));
@@ -507,6 +533,13 @@ protected:
 
   struct CT_new_edge : Decorator {
     const Decorator& _DP;
+    using Decorator::mark;
+    using Decorator::previous;
+    using Decorator::is_closed_at_source;
+    using Decorator::info;
+    using Decorator::source;
+    using Decorator::twin;
+
     CT_new_edge(const Decorator& CT, const Decorator& DP) :
       Decorator(CT), _DP(DP) {}
     void operator()(Halfedge_handle& e) const
@@ -765,9 +798,9 @@ public:
     }
 
     CGAL_NEF_TRACEN("current = " << current);
-    if(current == VERTEX)
+    if(current == VERTEX){
       CGAL_NEF_TRACEN(point(v));
-
+    }
     while (true) switch ( current ) {
       case VERTEX:
         { CGAL_NEF_TRACEN("vertex "<<CT.point(v));
@@ -964,6 +997,6 @@ PM_point_locator<PMD,GEO>::walk_in_triangulation(const Point& q) const
   return Object_handle(); // never reached warning acceptable
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_PM_POINT_LOCATOR_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h $
-// $Id: Sweep_line_subcurve.h 41325 2007-12-26 15:39:40Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h $
+// $Id: Sweep_line_subcurve.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -31,7 +31,7 @@
 #include <CGAL/Multiset.h>
 #include <CGAL/assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Sweep_line_subcurve
  *
@@ -207,21 +207,6 @@ public:
     return (oi);
   }
 
-  /*! Get all the nodes in the hierarchy of overlapping subcurves. */
-  template <class OutputIterator>
-  OutputIterator all_nodes (OutputIterator oi)
-  {
-    *oi = this;
-    ++oi;
-
-    if (m_orig_subcurve1 == NULL)
-      return (oi);
-
-    oi = m_orig_subcurve1->get_all_inner_nodes (oi);
-    oi = m_orig_subcurve2->get_all_inner_nodes (oi);
-    return (oi);
-  }
-
   /*! Check if the given subcurve is a node in the overlapping hierarchy. */
   bool is_inner_node (Self *s)
   {
@@ -359,6 +344,6 @@ public:
   }
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

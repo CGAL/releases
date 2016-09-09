@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
-// $Id: Arr_counting_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
+// $Id: Arr_counting_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Efi Fogel    <efif@post.tau.ac.il>
 
@@ -32,7 +32,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Arr_enums.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class 
  * A model of the ArrangementTraits_2 concept that counts the methods invoked.
@@ -192,21 +192,22 @@ public:
   //@{
 
   // Traits types:
-  typedef typename Base::Has_left_category      Has_left_category;
-  typedef typename Base::Has_merge_category     Has_merge_category;
+  typedef typename Base::Has_left_category          Has_left_category;
+  typedef typename Base::Has_merge_category         Has_merge_category;
+  typedef typename Base::Has_do_intersect_category  Has_do_intersect_category;
 
   typedef typename internal::Arr_complete_left_side_tag< Base >::Tag
-                                                Arr_left_side_category;
+                                                    Arr_left_side_category;
   typedef typename internal::Arr_complete_bottom_side_tag< Base >::Tag
-                                                Arr_bottom_side_category;
+                                                    Arr_bottom_side_category;
   typedef typename internal::Arr_complete_top_side_tag< Base >::Tag
-                                                Arr_top_side_category;
+                                                    Arr_top_side_category;
   typedef typename internal::Arr_complete_right_side_tag< Base >::Tag
-                                                Arr_right_side_category;
+                                                    Arr_right_side_category;
   
-  typedef typename Base::Point_2                Point_2;
-  typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
-  typedef typename Base::Curve_2                Curve_2;
+  typedef typename Base::Point_2                    Point_2;
+  typedef typename Base::X_monotone_curve_2         X_monotone_curve_2;
+  typedef typename Base::Curve_2                    Curve_2;
 
   /*! A functor that compares the x-coordinates of two points */
   class Compare_x_2 {
@@ -851,6 +852,6 @@ Out_stream & operator<<(Out_stream & os,
   return os;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

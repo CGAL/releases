@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
-// $Id: Arr_unb_planar_topology_traits_2_impl.h 52007 2009-09-23 15:48:07Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
+// $Id: Arr_unb_planar_topology_traits_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>
@@ -26,7 +26,7 @@
  * Arr_unb_planar_topology_traits_2<GeomTraits> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //-----------------------------------------------------------------------------
 // Default constructor.
@@ -918,6 +918,6 @@ _is_on_fictitious_edge (const X_monotone_curve_2& cv, Arr_curve_end ind,
   return (res1 != res2);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

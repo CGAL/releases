@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_with_history_2.h $
-// $Id: Arrangement_with_history_2.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_with_history_2.h $
+// $Id: Arrangement_with_history_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -27,7 +27,7 @@
 #include <CGAL/Arrangement_on_surface_with_history_2.h>
 #include <CGAL/Arrangement_2/Arr_default_planar_topology.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \class Arrangement_on_history_2
  * The arrangement with history class, representing planar subdivisions
@@ -270,7 +270,6 @@ protected:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/IO/Arr_iostream.h $
-// $Id: Arr_iostream.h 40195 2007-09-05 09:51:34Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/IO/Arr_iostream.h $
+// $Id: Arr_iostream.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
@@ -32,7 +32,7 @@
 #include <CGAL/IO/Arrangement_2_reader.h>
 #include <iostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Write an arrangement to an output stream using a given formatter.
@@ -120,6 +120,6 @@ std::istream&
   return (is);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

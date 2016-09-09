@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
-// $Id: Incremental_neighbor_search.h 36334 2007-02-15 21:24:48Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
+// $Id: Incremental_neighbor_search.h 58140 2010-08-18 12:56:15Z sloriot $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -127,6 +127,15 @@ namespace CGAL {
     }
 
 
+    template<class T>
+    struct Object_wrapper
+    {
+      T object;
+      Object_wrapper(const T& t):object(t){}
+      const T& operator* () const { return object; }
+      const T* operator-> () const { return &object; }
+    };    
+
 
     class iterator {
 
@@ -170,6 +179,13 @@ namespace CGAL {
 	return *(*ptr);
       }
 
+      // -> operator
+      const Point_with_transformed_distance*
+      operator-> () const 
+      {
+	return &*(*ptr);
+      }      
+      
       // prefix operator
       iterator& operator++() 
       {
@@ -178,11 +194,10 @@ namespace CGAL {
       }
 
       // postfix operator
-      iterator operator++(int) 
+      Object_wrapper<Point_with_transformed_distance>
+      operator++(int) 
       {
-	iterator tmp(*this);
-	++(*this);
-	return tmp;  
+	return (*ptr)++;
       }
 
       bool 
@@ -230,8 +245,6 @@ namespace CGAL {
 	FT multiplication_factor;
 
 	Query_item query_point;
-
-	int total_item_number;
 
 	FT distance_to_root;
 
@@ -304,7 +317,9 @@ namespace CGAL {
 	  distance(tr), reference_count(1), number_of_internal_nodes_visited(0), 
 	  number_of_leaf_nodes_visited(0), number_of_items_visited(0),
 	  number_of_neighbours_computed(0)
-	{	  
+	{
+          if (tree.empty()) return;
+            
 	  multiplication_factor= distance.transformed_distance(FT(1)+Eps);
 
 	  Node_box *bounding_box = new Node_box((tree.bounding_box()));
@@ -315,8 +330,6 @@ namespace CGAL {
 		 distance.max_distance_to_rectangle(q,*bounding_box);
 
         
-	  total_item_number=tree.size();
-
 
 	  Cell *Root_Cell = new Cell(bounding_box,tree.root());
 	  Cell_with_distance  *The_Root = 
@@ -344,7 +357,15 @@ namespace CGAL {
 	  Compute_the_next_nearest_neighbour();
 	  return *this;
 	}
-	
+
+        // postfix operator
+        Object_wrapper<Point_with_transformed_distance>
+        operator++(int) 
+        {
+          Object_wrapper<Point_with_transformed_distance> result( *(Item_PriorityQueue.top()) );
+          ++*this;
+          return result;
+        }	
 
 	// Print statistics of the general priority search process.
 	std::ostream& 

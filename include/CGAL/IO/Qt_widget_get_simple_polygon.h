@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h $
 // $Id: Qt_widget_get_simple_polygon.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //

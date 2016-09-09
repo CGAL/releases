@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: 
-// $Id: Conic_x_monotone_arc_2.h 46881 2008-11-14 08:29:27Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
+// $Id: Conic_x_monotone_arc_2.h 57194 2010-06-29 12:47:18Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include <map>
 #include <ostream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*!
  * Representation of an x-monotone conic arc.
@@ -2130,6 +2130,6 @@ std::ostream& operator<< (std::ostream& os,
   return (os);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

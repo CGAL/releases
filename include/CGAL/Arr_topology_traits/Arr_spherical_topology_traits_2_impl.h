@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
-// $Id: Arr_spherical_topology_traits_2_impl.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
+// $Id: Arr_spherical_topology_traits_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
 //                 Ron Wein          <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  * Arr_spherical_topology_traits_2<GeomTraits> class.
  */
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*! \brief constructs default */
 template <class GeomTraits, class Dcel>
@@ -931,6 +931,6 @@ is_on_new_perimetric_face_boundary(const Halfedge * prev1,
   return (counter == 1);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

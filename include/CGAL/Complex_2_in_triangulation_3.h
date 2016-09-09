@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
-// $Id: Complex_2_in_triangulation_3.h 47967 2009-02-07 13:30:04Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
+// $Id: Complex_2_in_triangulation_3.h 57022 2010-06-23 14:20:14Z afabri $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -479,8 +479,8 @@ public:
       }
     }
     
-    i = facets.size(); 
-    j = facets.number_of_sets();
+    i = static_cast<int>(facets.size());  // we cast as it cannot be too many
+    j = static_cast<int>(facets.number_of_sets());
     v->set_c2t3_cache(i, j);
     return;
   }

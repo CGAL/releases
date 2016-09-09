@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/SearchStructures/include/CGAL/Range_tree_k.h $
-// $Id: Range_tree_k.h 41371 2007-12-30 16:55:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/include/CGAL/Range_tree_k.h $
+// $Id: Range_tree_k.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -38,7 +38,7 @@
 // A one dimensional Range Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class C_Traits_1>
@@ -416,6 +416,6 @@ public:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

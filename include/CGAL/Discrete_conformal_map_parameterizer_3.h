@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Discrete_conformal_map_parameterizer_3.h $
-// $Id: Discrete_conformal_map_parameterizer_3.h 49877 2009-06-11 08:38:15Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Discrete_conformal_map_parameterizer_3.h $
+// $Id: Discrete_conformal_map_parameterizer_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -24,7 +24,7 @@
 #include <CGAL/Fixed_border_parameterizer_3.h>
 #include <CGAL/surface_mesh_parameterization_assertions.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// The class Discrete_conformal_map_parameterizer_3
@@ -127,6 +127,8 @@ private:
     typedef typename Sparse_LA::Vector      Vector;
     typedef typename Sparse_LA::Matrix      Matrix;
 
+    using Base::cotangent;
+
 // Public operations
 public:
     /// Constructor
@@ -171,7 +173,6 @@ protected:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_DISCRETE_CONFORMAL_MAP_PARAMETERIZER_3_H
-

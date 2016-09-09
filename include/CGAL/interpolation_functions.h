@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/interpolation_functions.h $
-// $Id: interpolation_functions.h 36782 2007-03-03 09:00:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/interpolation_functions.h $
+// $Id: interpolation_functions.h 56993 2010-06-22 17:02:41Z afabri $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -23,7 +23,7 @@
 #include <utility>
 #include <CGAL/double.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //Functor class for accessing the function values/gradients
 template< class Map >
@@ -258,7 +258,7 @@ farin_c1_interpolation(RandomAccessIterator first,
   typename Functor::result_type f;
   typename GradFunctor::result_type grad;
 
-  int n= beyond - first;
+  int n= static_cast<int>(beyond - first);
   if( n==1){
     f= function_value(first->first);
     CGAL_assertion(f.second);
@@ -336,6 +336,6 @@ farin_c1_interpolation(RandomAccessIterator first,
   return std::make_pair(result/(CGAL_NTS square(norm)*norm), true);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_INTERPOLATION_FUNCTIONS_H

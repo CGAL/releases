@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
-// $Id: Simple_interval_root.h 45637 2008-09-18 15:41:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
+// $Id: Simple_interval_root.h 56668 2010-06-09 08:45:58Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,7 +23,7 @@
 #include <CGAL/Polynomial/basic.h>
 #include <CGAL/Real_embeddable_traits.h>
 #include <vector>
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE;
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 //! A root represented as a bounding interval and a polynomial.
 /*!
@@ -635,9 +635,9 @@ bool is_rational(const Simple_interval_root<F> &f)
   }*/
 
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class T>
@@ -698,7 +698,7 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace std
 {
@@ -737,5 +737,5 @@ namespace std
     static const bool tinyness_before =false;
     static const float_round_style round_stype = round_toward_zero;
   };
-};
+}
 #endif

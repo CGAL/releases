@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
-// $Id: Extended_homogeneous.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
+// $Id: Extended_homogeneous.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -32,7 +32,7 @@
 #include <CGAL/Nef_2/Line_to_epoint.h>
 #include <CGAL/Is_extended_kernel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class T> class Extended_homogeneous;
@@ -514,7 +514,5 @@ on the extended geometric objects.}*/
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_EXTENDED_HOMOGENEOUS_H
-
-

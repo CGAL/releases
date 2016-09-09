@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/iostream/include/CGAL/IO/io_tags.h $
-// $Id: io_tags.h 35126 2006-11-10 13:36:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/iostream/include/CGAL/IO/io_tags.h $
+// $Id: io_tags.h 57739 2010-08-03 10:34:25Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -25,7 +25,10 @@
 #ifndef CGAL_IO_TAGS_H
 #define CGAL_IO_TAGS_H
 
-CGAL_BEGIN_NAMESPACE
+#include <cstddef>
+#include <CGAL/compiler_config.h>
+
+namespace CGAL {
 
 struct io_Read_write{};
 struct io_Extract_insert{};
@@ -41,7 +44,17 @@ template<> struct Io_traits<char>{ typedef io_Read_write Io_tag; };
 template<> struct Io_traits<short> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<int> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<long> { typedef io_Read_write Io_tag; };
+
+template<> struct Io_traits<unsigned char>{ typedef io_Read_write Io_tag; }; 
+
+template<> struct Io_traits<unsigned short> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<unsigned int> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<unsigned long> { typedef io_Read_write Io_tag; };
+
+#ifndef CGAL_CFG_NO_CPP0X_LONG_LONG
 template<> struct Io_traits<long long> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<unsigned long long> { typedef io_Read_write Io_tag; };
+#endif
 
 template<> struct Io_traits<float> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<double> { typedef io_Read_write Io_tag; };
@@ -49,6 +62,6 @@ template<> struct Io_traits<long double> { typedef io_Read_write Io_tag; };
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_IO_TAGS_H

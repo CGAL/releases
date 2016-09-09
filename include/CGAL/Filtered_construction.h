@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Filtered_construction.h $
-// $Id: Filtered_construction.h 46439 2008-10-23 12:23:18Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Filtered_construction.h $
+// $Id: Filtered_construction.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -26,7 +26,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Interval_arithmetic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class AC, class EC, class FC, class C2E, class C2F,
 	  class E2C, class F2C,	bool Protection = true>
@@ -108,7 +108,7 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #endif // CGAL_FILTERED_CONSTRUCTION_H

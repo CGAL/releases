@@ -5,7 +5,7 @@
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Nef_polyhedron_S2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K,typename I,typename M>
 void
@@ -21,7 +21,7 @@ create_random_Nef_S2(Nef_polyhedron_S2<K,I,M>& P, int n=5, int seed=0) {
   typedef CGAL::Random_points_in_cube_3<Point_3,Creator> Point_source;
 
   if(seed == 0)
-    std::srand(time(0));
+    std::srand(static_cast<unsigned int>(time(0)));
   else
     std::srand(seed);
 
@@ -40,5 +40,5 @@ create_random_Nef_S2(Nef_polyhedron_S2<K,I,M>& P, int n=5, int seed=0) {
 
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // NEF_POLYHEDRON_S2_CREATE_RANDOM_H

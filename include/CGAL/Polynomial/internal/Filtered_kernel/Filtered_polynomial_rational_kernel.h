@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_kernel/Filtered_polynomial_rational_kernel.h $
-// $Id: Filtered_polynomial_rational_kernel.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_kernel/Filtered_polynomial_rational_kernel.h $
+// $Id: Filtered_polynomial_rational_kernel.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -41,7 +41,7 @@
 #include <CGAL/Polynomial/Kernel/Sturm_root_counter.h>
 #include <CGAL/Polynomial/Kernel/Compare_isolated_roots_in_interval.h>
 
-CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
+namespace CGAL { namespace POLYNOMIAL { namespace internal {
 
 template <class SFK_t, class IFK_t, class EFK_t, class IFC_t, class EFC_t, class EIFC_t>
 class Filtered_polynomial_rational_kernel
@@ -222,5 +222,5 @@ class Filtered_polynomial_rational_kernel
         Exact_interval_function_converter eifc_;
 };
 
-CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
+} } } //namespace CGAL::POLYNOMIAL::internal
 #endif

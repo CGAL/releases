@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/BGL/include/CGAL/boost/graph/graph_traits_Triangulation_2.h $
-// $Id: graph_traits_Triangulation_2.h 51682 2009-09-02 13:09:06Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/graph_traits_Triangulation_2.h $
+// $Id: graph_traits_Triangulation_2.h 57091 2010-06-25 08:19:41Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -208,9 +208,10 @@ namespace boost {
     typedef undirected_tag directed_category;
     typedef disallow_parallel_edge_tag edge_parallel_category; 
     typedef T2_graph_traversal_category traversal_category;
-    typedef int vertices_size_type;
-    typedef int edges_size_type;
-    typedef int degree_size_type;
+    typedef typename Triangulation::size_type size_type;
+    typedef size_type vertices_size_type;
+    typedef size_type edges_size_type;
+    typedef size_type degree_size_type;
   };
 
 
@@ -257,6 +258,22 @@ namespace boost {
   }
 
   template <class Gt, class Tds>
+  typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type
+  out_degree(
+    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::vertex_descriptor u, 
+    const CGAL::Triangulation_2<Gt,Tds>& g)
+  {
+    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type deg = 0;
+    typename CGAL::Triangulation_2<Gt,Tds>::Edge_circulator c = g.incident_edges(u), done(c);
+    if ( c != 0) {
+        do {
+            ++deg;
+        } while (++c != done);
+    }
+    return deg;
+  }
+
+  template <class Gt, class Tds>
   inline std::pair<
     typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::out_edge_iterator,
     typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::out_edge_iterator >  
@@ -265,7 +282,7 @@ namespace boost {
     const CGAL::Triangulation_2<Gt,Tds>& g)
   {
     typename CGAL::Triangulation_2<Gt,Tds>::Edge_circulator ec(u,u->face());
-    int out_deg = out_degree(u,g);
+    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type out_deg = out_degree(u,g);
     typedef typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >
       ::out_edge_iterator Iter;
     
@@ -281,7 +298,7 @@ namespace boost {
     const CGAL::Triangulation_2<Gt,Tds>& g)
   {
     typename CGAL::Triangulation_2<Gt,Tds>::Edge_circulator ec(u,u->face());
-    int out_deg = out_degree(u,g);
+    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type out_deg = out_degree(u,g);
     typedef typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >
       ::in_edge_iterator Iter;
     return std::make_pair( Iter(ec), Iter(ec,out_deg) );
@@ -296,7 +313,7 @@ namespace boost {
     const CGAL::Triangulation_2<Gt,Tds>& g)
   {
     typename CGAL::Triangulation_2<Gt,Tds>::Vertex_circulator vc = out_edge_iterator(u,u.face());
-    int out_deg = out_degree(u,g);
+    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type out_deg = out_degree(u,g);
     typedef typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >
       ::adjacency_iterator Iter;
     return std::make_pair( Iter(vc), Iter(vc,out_deg) );
@@ -316,22 +333,6 @@ namespace boost {
 
     return  g.number_of_vertices() + 1 + g.number_of_faces() + degree(g.infinite_vertex(), g) - 2;
   }  
-
-  template <class Gt, class Tds>
-  typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type
-  out_degree(
-    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::vertex_descriptor u, 
-    const CGAL::Triangulation_2<Gt,Tds>& g)
-  {
-    typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type deg = 0;
-    typename CGAL::Triangulation_2<Gt,Tds>::Edge_circulator c = g.incident_edges(u), done(c);
-    if ( c != 0) {
-        do {
-            ++deg;
-        } while (++c != done);
-    }
-    return deg;
-  }
 
   template <class Gt, class Tds>
   typename graph_traits< CGAL::Triangulation_2<Gt,Tds> >::degree_size_type

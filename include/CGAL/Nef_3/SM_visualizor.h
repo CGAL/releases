@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SM_visualizor.h $
-// $Id: SM_visualizor.h 29328 2006-03-09 22:51:00Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SM_visualizor.h $
+// $Id: SM_visualizor.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #define CGAL_NEF3_LGREY CGAL::Color(170,170,200)
 #define CGAL_NEF3_DGREY CGAL::Color(30,30,50)
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename Refs_>
 class SNC_SM_BooleColor 
@@ -238,6 +238,5 @@ void show_sphere_map_of(typename Sphere_map::Vertex_const_handle v)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SM_VISUALIZOR_H
-

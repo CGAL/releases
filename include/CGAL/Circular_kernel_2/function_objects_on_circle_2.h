@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_on_circle_2.h $
-// $Id: function_objects_on_circle_2.h 46608 2008-10-31 17:08:32Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_on_circle_2.h $
+// $Id: function_objects_on_circle_2.h 55857 2010-04-30 16:41:23Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -51,7 +51,7 @@ namespace CircularFunctors {
 	      return construct_circle_2<CK>(eq);
       }
 
-	  result_type 
+	  const result_type& 
 	  operator() (const Circular_arc_2 & a) const
 	    {
 	      return (a.rep().supporting_circle());
@@ -60,6 +60,15 @@ namespace CircularFunctors {
   };
 
 } // namespace CircularFunctors
+
+#ifndef CGAL_CFG_DONT_OVERLOAD_TOO_MUCH
+  template < typename K>
+  struct Qualified_result_of<CircularFunctors::Construct_circle_2<K>,
+                           typename K::Circular_arc_2>
+  {
+    typedef const typename K::Circle_2 &   type;
+  };
+#endif
 
 } // namespace CGAL
 

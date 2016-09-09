@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/CircularArcGraphicsItem.h $
-// $Id: CircularArcGraphicsItem.h 45725 2008-09-24 13:24:24Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/CircularArcGraphicsItem.h $
+// $Id: CircularArcGraphicsItem.h 56114 2010-05-11 09:11:59Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -87,6 +87,7 @@ protected:
   QRectF bounding_rect;
 
   QPen edges_pen;
+  QPen vertices_pen;
 
   Circular_arc_2 arc_;
 };

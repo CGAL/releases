@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_writer_OFF.h $
-// $Id: File_writer_OFF.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_writer_OFF.h $
+// $Id: File_writer_OFF.h 56972 2010-06-22 11:54:07Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #include <iostream>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class File_writer_OFF {
     std::ostream*           m_out;
@@ -84,13 +84,13 @@ public:
     }
     void write_facet_begin( std::size_t no) {
         if ( m_header.binary())
-            I_Binary_write_big_endian_integer32( out(), no);
+          I_Binary_write_big_endian_integer32( out(), static_cast<Integer32>(no));
         else
             out() << no << ' ';
     }
     void write_facet_vertex_index( std::size_t index) {
         if ( m_header.binary())
-            I_Binary_write_big_endian_integer32( out(), index);
+          I_Binary_write_big_endian_integer32( out(), static_cast<Integer32>(index));
         else
             out() << ' ' << index;
     }
@@ -102,6 +102,6 @@ public:
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_FILE_WRITER_OFF_H //
 // EOF //

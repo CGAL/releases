@@ -22,9 +22,9 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE ../../include)
 
-  create_single_source_cgal_program( "ex_envelope_planes.cpp" )
-  create_single_source_cgal_program( "ex_envelope_spheres.cpp" )
-  create_single_source_cgal_program( "ex_envelope_triangles.cpp" )
+  create_single_source_cgal_program( "envelope_planes.cpp" )
+  create_single_source_cgal_program( "envelope_spheres.cpp" )
+  create_single_source_cgal_program( "envelope_triangles.cpp" )
 
 else()
   

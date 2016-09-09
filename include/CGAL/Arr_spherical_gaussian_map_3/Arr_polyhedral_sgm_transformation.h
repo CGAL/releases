@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_transformation.h $
-// $Id: Arr_polyhedral_sgm_transformation.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_transformation.h $
+// $Id: Arr_polyhedral_sgm_transformation.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 // Author(s)     : Naama mayer         <naamamay@post.tau.ac.il>
 
@@ -20,25 +20,24 @@
 #ifndef CGAL_ARR_POLYHEDRAL_SGM_TRANSFORMATION_H
 #define CGAL_ARR_POLYHEDRAL_SGM_TRANSFORMATION_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /* This function rotates the face when the arrangement is Arr_polyhedral_sgm */
 
 template <class Arrangement, class Transformation_3>
 class Arr_polyhedral_sgm_transformation
 {
-
 public:
 
-	typedef typename Arrangement::Face_handle   Face_handle;
+  typedef typename Arrangement::Face_handle   Face_handle;
 
-	void rotate_face(Face_handle f, const Transformation_3 & aff)
-	{			
-		//Transform all the vertices of the original polyhedron.
-		f->set_point(aff.transform(f->point()));
-	}
+  void rotate_face(Face_handle f, const Transformation_3 & aff)
+  {			
+    //Transform all the vertices of the original polyhedron.
+    f->set_point(aff.transform(f->point()));
+  }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

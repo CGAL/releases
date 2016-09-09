@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/ft_constructions_2.h $
-// $Id: ft_constructions_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/ft_constructions_2.h $
+// $Id: ft_constructions_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_FT_CONSTRUCTIONS_2_H
 #define CGAL_CARTESIAN_FT_CONSTRUCTIONS_2_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class K >
 inline
@@ -70,6 +70,6 @@ line_x_at_y(const LineC2<K> &l, const typename K::FT &y)
   return line_y_at_xC2(l.b(), l.a(), l.c(), y);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_FT_CONSTRUCTIONS_2_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
-// $Id: global_functions_3.h 52284 2009-10-13 08:34:43Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
+// $Id: global_functions_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -31,7 +31,7 @@
 // Generic functions calling the kernel functor.
 // See comments in CGAL/Kernel/global_functions_2.h.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <typename K>
 inline
@@ -1094,6 +1094,6 @@ z_equal(const Point_3<K> &p, const Point_3<K> &q)
   return internal::z_equal(p, q, K());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif  // CGAL_KERNEL_GLOBAL_FUNCTIONS_3_H

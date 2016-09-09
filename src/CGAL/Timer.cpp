@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/src/CGAL/Timer.cpp $
-// $Id: Timer.cpp 41685 2008-01-18 20:19:17Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Profiling_tools/src/CGAL/Timer.cpp $
+// $Id: Timer.cpp 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -53,7 +53,7 @@
 #include <cfloat>
 
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // Static member variable for Timer
@@ -132,6 +132,6 @@ double Timer::max BOOST_PREVENT_MACRO_SUBSTITUTION () const {
 #endif // CGAL__GETRUSAGE //
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 // EOF //

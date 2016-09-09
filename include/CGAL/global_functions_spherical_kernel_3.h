@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_3/include/CGAL/global_functions_spherical_kernel_3.h $
-// $Id: global_functions_spherical_kernel_3.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_3/include/CGAL/global_functions_spherical_kernel_3.h $
+// $Id: global_functions_spherical_kernel_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -27,7 +27,7 @@
 #define CGAL_SPHERICAL_KERNEL_GLOBAL_FUNCTIONS_CIRCULAR_KERNEL_3_H
 
 // global functions
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class SK>
 Circular_arc_point_3<SK>
@@ -216,6 +216,6 @@ theta_extremal_points(const Circle_3<SK>& circle,const Sphere_3<SK>& sphere,Outp
   return SphericalFunctors::theta_extremal_points<SK>(circle,sphere,out_it);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SPHERICAL_KERNEL_GLOBAL_FUNCTIONS_CIRCULAR_KERNEL_3_H

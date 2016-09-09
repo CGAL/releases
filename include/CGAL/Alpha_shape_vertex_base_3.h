@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_vertex_base_3.h $
-// $Id: Alpha_shape_vertex_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_vertex_base_3.h $
+// $Id: Alpha_shape_vertex_base_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -25,7 +25,7 @@
 #include <CGAL/Triangulation_vertex_base_3.h>
 #include <CGAL/Alpha_shape_cell_base_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Gt, class Vb = Triangulation_vertex_base_3<Gt> >
 class Alpha_shape_vertex_base_3
@@ -69,6 +69,6 @@ public:
   void set_alpha_status(Alpha_status_iterator as) {_as= as;}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_ALPHA_SHAPE_VERTEX_BASE_3_H

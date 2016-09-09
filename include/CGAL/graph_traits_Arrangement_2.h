@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
-// $Id: graph_traits_Arrangement_2.h 50780 2009-07-23 12:15:34Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
+// $Id: graph_traits_Arrangement_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -349,9 +349,9 @@ public:
   {}
 };
 
-}; // namespace boost
+} // namespace boost
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Functions required by the IncidenceGraph concept:
 // -------------------------------------------------
@@ -600,6 +600,6 @@ edges (const CGAL::Arrangement_on_surface_2<GeomTraits, TopTraits>& arr)
   return std::make_pair (gt_arr.edges_begin(), gt_arr.edges_end());
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

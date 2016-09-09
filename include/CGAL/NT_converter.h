@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/NT_converter.h $
-// $Id: NT_converter.h 49905 2009-06-13 19:46:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/NT_converter.h $
+// $Id: NT_converter.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -25,7 +25,7 @@
 
 template <bool> class Interval_nt;
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // A number type converter usable as default, using the conversion operator.
 
@@ -100,6 +100,6 @@ struct NT_converter < Interval_nt<b>, Interval_nt<b> >
     }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_NT_CONVERTER_H

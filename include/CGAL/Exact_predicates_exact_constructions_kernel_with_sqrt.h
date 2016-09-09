@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel_with_sqrt.h $
-// $Id: Exact_predicates_exact_constructions_kernel_with_sqrt.h 37121 2007-03-15 10:47:09Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel_with_sqrt.h $
+// $Id: Exact_predicates_exact_constructions_kernel_with_sqrt.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
@@ -34,7 +34,7 @@
 #  error "You need LEDA or CORE installed."
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #ifdef CGAL_USE_LEDA
 typedef Simple_cartesian< leda_real >
@@ -44,6 +44,6 @@ typedef Simple_cartesian< CORE::Expr >
         Exact_predicates_exact_constructions_kernel_with_sqrt;
 #endif
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_EXACT_PREDICATES_EXACT_CONSTRUCTIONS_KERNEL_WITH_SQRT_H

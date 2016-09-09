@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Linear_algebraCd.h $
-// $Id: Linear_algebraCd.h 41674 2008-01-18 10:20:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Linear_algebraCd.h $
+// $Id: Linear_algebraCd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve.Bronnimann@sophia.inria.fr
@@ -33,7 +33,7 @@
 
 //#define CGAL_LA_SELFTEST
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class _FT, class _AL = CGAL_ALLOCATOR(_FT) >
 class Linear_algebraCd
@@ -115,7 +115,7 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Kernel_d/Linear_algebraCd_impl.h>
 

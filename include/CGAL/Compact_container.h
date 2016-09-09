@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2007-2009  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004,2007-2010  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 53634 2010-01-14 20:18:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 
@@ -79,9 +79,8 @@
 //   Instead of having the blocks linked between them, the start/end pointers
 //   could point back to the container, so that we can do more interesting
 //   things (e.g. freeing empty blocks automatically) ?
-// - Submission to Boost.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // The following base class can be used to easily add a squattable pointer
 // to a class (maybe you loose a bit of compactness though).
@@ -126,8 +125,8 @@ public:
   typedef typename Allocator::const_pointer         const_pointer;
   typedef typename Allocator::size_type             size_type;
   typedef typename Allocator::difference_type       difference_type;
-  typedef internal::CC_iterator<Self, false>           iterator;
-  typedef internal::CC_iterator<Self, true>            const_iterator;
+  typedef internal::CC_iterator<Self, false>        iterator;
+  typedef internal::CC_iterator<Self, true>         const_iterator;
   typedef std::reverse_iterator<iterator>           reverse_iterator;
   typedef std::reverse_iterator<const_iterator>     const_reverse_iterator;
 
@@ -450,6 +449,43 @@ public:
   allocator_type get_allocator() const
   {
     return alloc;
+  }
+
+  // Returns whether the iterator "cit" is in the range [begin(), end()].
+  // Complexity : O(#blocks) = O(sqrt(capacity())).
+  // This function is mostly useful for purposes of efficient debugging at
+  // higher levels.
+  bool owns(const_iterator cit) const
+  {
+    // We use the block structure to provide an efficient version :
+    // we check if the address is in the range of each block,
+    // and then test whether it is valid (not a free element).
+
+    if (cit == end())
+      return true;
+
+    const_pointer c = &*cit;
+
+    for (typename All_items::const_iterator it = all_items.begin(), end = all_items.end();
+         it != end; ++it) {
+      const_pointer p = it->first;
+      size_type s = it->second;
+
+      // Are we in the address range of this block (excluding first and last
+      // elements) ?
+      if (c <= p || (p+s-1) <= c)
+        continue;
+
+      CGAL_assertion_msg( (c-p)+p == c, "wrong alignment of iterator");
+
+      return type(c) == USED;
+    }
+    return false;
+  }
+
+  bool owns_dereferencable(const_iterator cit) const
+  {
+    return cit != end() && owns(cit);
   }
 
 private:
@@ -857,6 +893,6 @@ namespace internal {
 
 } // namespace internal
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_COMPACT_CONTAINER_H

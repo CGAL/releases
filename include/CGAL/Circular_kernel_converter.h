@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_converter.h $
-// $Id: Circular_kernel_converter.h 44373 2008-07-23 17:13:44Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_converter.h $
+// $Id: Circular_kernel_converter.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -32,7 +32,7 @@
 // TODO :
 // - we should have a better default than Cartesian_converter.
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class C1, class C2,
   class LK_converter = Cartesian_converter<C1, C2>,
@@ -227,6 +227,6 @@ public:
 
 }; 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CCIRCULAR_KERNEL_CONVERTER_H

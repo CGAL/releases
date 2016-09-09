@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Filter_circulator.h $
-// $Id: Filter_circulator.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Filter_circulator.h $
+// $Id: Filter_circulator.h 56230 2010-05-14 09:13:45Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -32,10 +32,10 @@ public:
   typedef Filter_circulator<Circ,Pred> Self;
 
 
-  Filter_circulator(const Pred p=Pred()): is_null(true), test(p) {};
+  Filter_circulator(const Pred p=Pred()): is_null(true), test(p) {}
 
   Filter_circulator(const Self& c): Circ(c), is_null(c.is_null),
-    test(c.test) {};
+    test(c.test) {}
 
   Self& operator=(const Self& c)
     {
@@ -61,7 +61,7 @@ public:
 	  if((*this)==end)
 	    is_null=true;
 	}
-    };
+    }
 
   bool operator==( Nullptr_t ) const {
     return is_null;

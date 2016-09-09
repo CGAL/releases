@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 55716 2010-04-24 09:17:58Z glisse $
 //
 //
 // Author(s)     : Radu Ursu
@@ -72,7 +72,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
   connect(but[2], SIGNAL(stateChanged(int)),
         &move_deletebut, SLOT(stateChanged(int)));
   but[1]->toggle();
-};
+}
 
 #include "Qt_widget_toolbar.moc"
 

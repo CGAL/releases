@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Linear_algebraHd.h $
-// $Id: Linear_algebraHd.h 41674 2008-01-18 10:20:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Linear_algebraHd.h $
+// $Id: Linear_algebraHd.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -36,7 +36,7 @@
 #include <CGAL/Kernel_d/Matrix__.h>
 
 // #define CGAL_LA_SELFTEST
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 /*{\Moptions outfile=Linear_algebra.man}*/
 /*{\Manpage {Linear_algebraHd}{RT}{Linear Algebra on RT}{LA}}*/
@@ -203,7 +203,7 @@ $c^T A = 0$ and $c^T b \not= 0$.}*/
 }; // Linear_algebraHd
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Kernel_d/Linear_algebraHd_impl.h>
 

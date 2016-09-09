@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
-// $Id: Chinese_remainder_traits.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
+// $Id: Chinese_remainder_traits.h 55617 2010-04-21 16:20:47Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -57,10 +57,11 @@ public:
     struct Chinese_remainder{
         void operator() (
                 const Scalar_type& m1, const Scalar_type& m2, const Scalar_type& m, 
-                const Scalar_type& s,  const Scalar_type& t,  
+                const Scalar_type& s,  const Scalar_type& CGAL_precondition_code(t),  
                 NT u1, NT u2, 
                 NT& u) const {
-#ifndef NDEBUG 
+
+#ifndef CGAL_NDEBUG 
             NT tmp,s_,t_;
             tmp = CGAL::extended_euclidean_algorithm(m1,m2,s_,t_);
             CGAL_precondition(tmp == NT(1));
@@ -110,4 +111,3 @@ public:
 } // namespace CGAL
 
 #endif // CGAL_CHINESE_REMAINDER_TRAITS_H //
-

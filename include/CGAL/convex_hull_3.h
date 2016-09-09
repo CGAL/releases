@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
-// $Id: convex_hull_3.h 51774 2009-09-03 13:58:12Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
+// $Id: convex_hull_3.h 56944 2010-06-21 16:47:25Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -550,7 +550,7 @@ convex_hull_3(InputIterator first, InputIterator beyond,
 
   // If the first and last point are equal the collinearity test some lines below will always be true.
   Point_3_list points(first, beyond);
-  unsigned int size = points.size();
+  std::size_t size = points.size();
   while((size > 1) && (points.front() == points.back())){
     points.pop_back();
     --size;

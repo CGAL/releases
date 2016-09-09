@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
-// $Id: Gps_agg_op_sweep.h 41153 2007-12-10 23:21:34Z efif $ $Date: 2007-12-11 00:21:34 +0100 (Tue, 11 Dec 2007) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
+// $Id: Gps_agg_op_sweep.h 56667 2010-06-09 07:37:13Z sloriot $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -24,7 +24,7 @@
 #include <CGAL/Sweep_line_2.h>
 #include <CGAL/Unique_hash_map.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Arrangement_,
           class MetaTraits_,
@@ -290,6 +290,6 @@ private:
 };
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

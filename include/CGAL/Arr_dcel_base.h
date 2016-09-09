@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
-// $Id: Arr_dcel_base.h 53145 2009-11-23 16:50:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
+// $Id: Arr_dcel_base.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -36,7 +36,7 @@
 #include <CGAL/Iterator_project.h>
 #include <CGAL/Arrangement_2/Arrangement_2_iterators.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 inline void* _clean_pointer (const void* p)
 {
@@ -1656,6 +1656,6 @@ protected:
   }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
-// $Id: Envelope_element_visitor_3.h 51989 2009-09-21 10:55:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
+// $Id: Envelope_element_visitor_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -36,7 +36,7 @@
 #include <iostream>
 #include <deque>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Return the comparison result of the halfedge's source and target vertices.
 #ifndef HE_COMP_RES
@@ -151,14 +151,12 @@ protected:
     bool operator() (const Point_2_with_info& p1,
                      const Point_2_with_info& p2) const
     {
-      Comparison_result res =
-        p_traits->compare_xy_2_object()(p1.first, p2.first);
-      if (res == SMALLER)
-        return true;
-      if (res == LARGER)
-        return false;
-      CGAL_error();
-      return (p1.second == true || p2.third == true);
+      // The original code seemed to presume that two Points are never equal
+      // This is not true, there are various counter examples. 
+      // e.g the intersection of surf1 and surf2 may have ending edge and 
+      // a starting edge on the to be resolved edge 
+      return 
+        p_traits->compare_xy_2_object()(p1.first, p2.first) == SMALLER;  
     }
   };
   
@@ -615,7 +613,7 @@ public:
 #endif
       return;
     }
-    
+   
     // sort the split points from left to right
     // and split the original edge in these points
     Points_compare comp(*m_traits);
@@ -3241,6 +3239,6 @@ protected:
 
 #undef HE_COMP_RES
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

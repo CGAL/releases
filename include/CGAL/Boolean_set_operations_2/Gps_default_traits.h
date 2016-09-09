@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_default_traits.h $
-// $Id: Gps_default_traits.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_default_traits.h $
+// $Id: Gps_default_traits.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -27,7 +27,7 @@
 #include <CGAL/Gps_segment_traits_2.h>
 #include <CGAL/Gps_traits_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Polygon>
 struct Gps_default_traits
@@ -62,6 +62,6 @@ struct Gps_default_traits<CGAL::General_polygon_2<Arr_traits> >
   typedef Gps_traits_2<Arr_traits>    Traits;
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif

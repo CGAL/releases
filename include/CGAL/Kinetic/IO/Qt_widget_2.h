@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
-// $Id: Qt_widget_2.h 42004 2008-02-06 18:13:32Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
+// $Id: Qt_widget_2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,7 +30,7 @@
 #include <set>
 #include <qapplication.h>
 
-CGAL_KINETIC_BEGIN_NAMESPACE
+namespace CGAL { namespace Kinetic {
 
 //! A GUI for a kinetic simulation in 2D.
 /*!
@@ -133,7 +133,7 @@ public:
   */
   bool picture_is_valid() const
   {
-    return widget()->picture_is_current();
+    return widget().picture_is_current();
   }
   //! Return the current time as a double.
   double current_time() const
@@ -250,5 +250,5 @@ protected:
   //std::auto_ptr<Widget_listener> widget_l_;
 };
 
-CGAL_KINETIC_END_NAMESPACE
+} } //namespace CGAL::Kinetic
 #endif                                            // guard

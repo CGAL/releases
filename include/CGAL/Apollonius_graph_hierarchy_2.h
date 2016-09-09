@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h $
-// $Id: Apollonius_graph_hierarchy_2.h 53845 2010-01-27 16:43:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h $
+// $Id: Apollonius_graph_hierarchy_2.h 56942 2010-06-21 16:37:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -34,7 +34,7 @@
 
 #include <CGAL/Apollonius_graph_2/Traits_wrapper_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 // parameterization of the  hierarchy
@@ -85,6 +85,18 @@ public:
 
   typedef typename Ag_base::size_type              size_type;
 
+  using Ag_base::insert_first;
+  using Ag_base::insert_second;
+  using Ag_base::insert_third;
+  using Ag_base::is_hidden;
+  using Ag_base::incircle;
+  using Ag_base::edge_interior;
+  using Ag_base::insert_degree_2;
+  using Ag_base::initialize_conflict_region;
+  using Ag_base::expand_conflict_region;
+  using Ag_base::retriangulate_conflict_region;
+  using Ag_base::is_infinite;
+
 public:
   // CREATION
   //---------
@@ -117,7 +129,7 @@ public:
   // INSERTION
   //----------
   template < class Input_iterator >
-  unsigned int insert(Input_iterator first, Input_iterator beyond)
+  size_type insert(Input_iterator first, Input_iterator beyond)
   {
     // copy the sites to a local container
     typename Apollonius_graph_base::Site_list wp_list;
@@ -139,7 +151,7 @@ public:
 
 
     // store how many sites where in the range
-    unsigned int num = wp_list.size();
+    std::size_t num = wp_list.size();
 
     // clear the local container
     wp_list.clear();
@@ -342,7 +354,7 @@ std::istream& operator>>(std::istream& is,
   return is;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 
 #include <CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h>

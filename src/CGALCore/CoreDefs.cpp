@@ -27,13 +27,13 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/CoreDefs.cpp $
- * $Id: CoreDefs.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/CoreDefs.cpp $
+ * $Id: CoreDefs.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 
 #include "CGAL/CORE/CoreDefs.h"
 
-CORE_BEGIN_NAMESPACE
+namespace CORE { 
 
 //  Default Values
 
@@ -150,5 +150,5 @@ long defInitialProgressivePrec = 64;
  *  true = turn on rational reduction */
 bool rationalReduceFlag = false;
 
-CORE_END_NAMESPACE
+} //namespace CORE
 

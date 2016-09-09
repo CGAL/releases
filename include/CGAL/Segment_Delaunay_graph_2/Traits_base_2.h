@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_base_2.h $
-// $Id: Traits_base_2.h 41433 2008-01-03 19:02:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_base_2.h $
+// $Id: Traits_base_2.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -24,7 +24,32 @@
 #include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Kernel_wrapper_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
+
+namespace Internal {
+
+  template<class K,class BooleanTag> struct Which_arrangement_type;
+
+  // Tag_true means that we want to support intersections
+  template<class K>
+  struct Which_arrangement_type<K,Tag_true>
+  {
+    typedef
+    CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Arrangement_type_C2<K>
+    Arrangement_type;
+  };
+
+  // Tag_false means that we do not want to support intersections
+  template<class K>
+  struct Which_arrangement_type<K,Tag_false>
+  {
+    typedef
+    CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Arrangement_type_non_intersecting_C2<K>
+    Arrangement_type;
+  };
+
+} // namespace Internal
+
 
 //-----------------------------------------------------------------------
 // the Traits class
@@ -131,9 +156,15 @@ public:
   CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Is_degenerate_edge_C2<K,MTag>
   Is_degenerate_edge_2;
 
+#ifdef CGAL_SDG_USE_SIMPLIFIED_ARRANGEMENT_TYPE_PREDICATE
+  typedef typename
+  Internal::Which_arrangement_type<K,ITag>::Arrangement_type
+  Arrangement_type_2;
+#else
   typedef
   CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Arrangement_type_C2<K>
   Arrangement_type_2;
+#endif
 
   typedef
   CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Oriented_side_C2<K,MTag>
@@ -234,6 +265,6 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_TRAITS_BASE_2_H

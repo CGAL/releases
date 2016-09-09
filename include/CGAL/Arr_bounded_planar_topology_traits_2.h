@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_bounded_planar_topology_traits_2.h $
-// $Id: Arr_bounded_planar_topology_traits_2.h 51984 2009-09-20 16:18:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_bounded_planar_topology_traits_2.h $
+// $Id: Arr_bounded_planar_topology_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s) : Ron Wein        <wein@post.tau.ac.il>
@@ -35,7 +35,7 @@
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h>
 #include <CGAL/Arr_topology_traits/Arr_inc_insertion_zone_visitor.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // Forward declaration:
 template <class GeomTraits_, class TopTraits_> 
@@ -84,10 +84,14 @@ public:
   ///! \name The side tags
   //@{
   // are inherited from the geometry traits
-  typedef typename Traits_adaptor_2::Arr_left_side_category   Arr_left_side_category;
-  typedef typename Traits_adaptor_2::Arr_bottom_side_category Arr_bottom_side_category;
-  typedef typename Traits_adaptor_2::Arr_top_side_category    Arr_top_side_category;
-  typedef typename Traits_adaptor_2::Arr_right_side_category  Arr_right_side_category;
+  typedef typename Traits_adaptor_2::Arr_left_side_category
+                                                        Arr_left_side_category;
+  typedef typename Traits_adaptor_2::Arr_bottom_side_category
+                                                        Arr_bottom_side_category;
+  typedef typename Traits_adaptor_2::Arr_top_side_category
+                                                        Arr_top_side_category;
+  typedef typename Traits_adaptor_2::Arr_right_side_category
+                                                        Arr_right_side_category;
   
   BOOST_MPL_ASSERT
   ((boost::is_same< Arr_left_side_category, Arr_oblivious_side_tag >));
@@ -630,7 +634,7 @@ public:
   //@}
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_topology_traits_2_impl.h>
 

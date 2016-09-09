@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/QP_solver/include/CGAL/QP_solver/QP_full_exact_pricing.h $
-// $Id: QP_full_exact_pricing.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_full_exact_pricing.h $
+// $Id: QP_full_exact_pricing.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -26,7 +26,7 @@
 // includes
 #include <CGAL/QP_solver/QP_pricing_strategy.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // =================
 // class declaration
@@ -47,6 +47,8 @@ class QP_full_exact_pricing : public QP_pricing_strategy<Q,ET,Tags> {
   // types from the base class
   typedef  typename Tags::Is_nonnegative     Is_nonnegative;
   typedef  typename CGAL::QP_solver<Q,ET,Tags>    QP_solver;
+
+  using Base::price_dantzig;
 
  public:
 
@@ -171,7 +173,7 @@ pricing_helper(int& direction, Tag_false /*is_in_standard_form*/)
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_QP_FULL_EXACT_PRICING_H
 

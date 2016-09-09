@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
-// $Id: Infimaximal_box.h 44895 2008-08-12 07:28:27Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
+// $Id: Infimaximal_box.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 
 #include <CGAL/Nef_3/SNC_intersection.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class T, class Kernel>
 class Infimaximal_box {
@@ -1185,5 +1185,5 @@ class Infimaximal_box<Tag_true, CGAL::Pseudo_extended_homogeneous<RT_> > {
 };
 */
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_INFIMAXIMAL_BOX_H

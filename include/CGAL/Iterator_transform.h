@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Iterator_transform.h $
-// $Id: Iterator_transform.h 50707 2009-07-20 08:52:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Iterator_transform.h $
+// $Id: Iterator_transform.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -29,7 +29,7 @@
 
 #include <CGAL/Iterator_project.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class I, class Fct>
 class Iterator_transform {
@@ -159,6 +159,6 @@ operator+( Dist n, Iterator_transform<I,Fct> i) {
   return i += n;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_Iterator_transform_H //
 // EOF //

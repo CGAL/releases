@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h 52585 2009-10-16 08:50:48Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: poisson_refine_triangulation.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
 
@@ -26,8 +26,9 @@
 #include <CGAL/Poisson_mesh_cell_criteria_3.h>
 #include <CGAL/Memory_sizer.h>
 #include <CGAL/surface_reconstruction_points_assertions.h>
+#include <CGAL/Surface_mesh_traits_generator_3.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 /// Utility class for poisson_refine_triangulation():
@@ -53,6 +54,7 @@ public:
   using Base::triangulation_ref_impl;
   using Base::oracle;
   using Base::surface;
+  using Base::should_be_refined;
 
   typedef typename Tr::Geom_traits Geom_traits;
   typedef typename Tr::Vertex_handle Vertex_handle;
@@ -249,6 +251,6 @@ unsigned int poisson_refine_triangulation(
 }
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POISSON_REFINE_TRIANGULATION_H

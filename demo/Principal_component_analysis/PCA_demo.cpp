@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/demo/Principal_component_analysis/PCA_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/demo/Principal_component_analysis/PCA_demo.cpp $
 // $Id: PCA_demo.cpp 50996 2009-07-31 12:37:20Z palliez $
 //
 //

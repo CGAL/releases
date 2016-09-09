@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 55809 2010-04-28 11:28:40Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $Id: Polynomial_traits_d.h 57401 2010-07-08 15:04:38Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -42,12 +42,8 @@
 #include <CGAL/Polynomial/subresultants.h>
 #include <CGAL/Polynomial/sturm_habicht_sequence.h>
 
+#include <boost/iterator/transform_iterator.hpp> 
 
-/*namespace CGAL{
-namespace internal{
-template <typename Polynomial> struct Monomial_representation; 
-}
-}*/
 
 #define CGAL_POLYNOMIAL_TRAITS_D_BASE_TYPEDEFS                          \
   private:                                                              \
@@ -87,7 +83,7 @@ template <typename Polynomial> struct Monomial_representation;
 
  
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace internal {
 
@@ -366,12 +362,10 @@ public:
       return Exponent_vector();
     }
   };
-    
+  
   struct Get_innermost_coefficient 
     : public std::binary_function< ICoeff, Polynomial_d, Exponent_vector > {
-        
-    ICoeff operator()( const Polynomial_d& p, Exponent_vector ev ) {
-      CGAL_precondition( ev.empty() );
+    ICoeff operator()( const Polynomial_d& p, Exponent_vector ) {
       return p;
     }
   };
@@ -387,14 +381,14 @@ public:
                                    Innermost_coefficient_type>::Type
     operator()(
         const Innermost_coefficient_type& p, 
-        Input_iterator begin, 
-        Input_iterator end) const { 
+        Input_iterator CGAL_precondition_code(begin), 
+        Input_iterator CGAL_precondition_code(end) ) const { 
       CGAL_precondition(end == begin);
       typedef typename std::iterator_traits<Input_iterator>::value_type 
         value_type;
       typedef CGAL::Coercion_traits<Innermost_coefficient_type,value_type> CT;
       return typename CT::Cast()(p);
-    }
+    } 
   };
 
   struct Substitute_homogeneous{
@@ -410,7 +404,7 @@ public:
     operator()(
         const Innermost_coefficient_type& p, 
         Input_iterator begin, 
-        Input_iterator end,
+        Input_iterator CGAL_precondition_code(end),
         int hdegree) const { 
       
       typedef typename std::iterator_traits<Input_iterator>::value_type 
@@ -572,6 +566,43 @@ public:
         const Coefficient_type& a8) const 
     {return Polynomial_d(a0,a1,a2,a3,a4,a5,a6,a7,a8);}
 
+#if 1
+  private:
+    template <class Input_iterator, class NT> Polynomial_d 
+    construct_value_type(Input_iterator begin, Input_iterator end, NT) const {
+      typedef CGAL::Coercion_traits<NT,Coefficient_type> CT;
+      BOOST_STATIC_ASSERT((boost::is_same<typename CT::Type,Coefficient_type>::value));    
+      typename CT::Cast cast; 
+      return Polynomial_d(
+          boost::make_transform_iterator(begin,cast),
+          boost::make_transform_iterator(end,cast));
+    }
+    
+    template <class Input_iterator, class NT> Polynomial_d 
+    construct_value_type(Input_iterator begin, Input_iterator end, std::pair<Exponent_vector,NT>) const {
+      return (*this)(begin,end,false);// construct from non sorted monom rep 
+    }
+    
+  public:
+    template< class Input_iterator >
+    Polynomial_d operator()( Input_iterator begin, Input_iterator end) const {
+      if(begin == end ) return Polynomial_d(0);
+      typedef typename std::iterator_traits<Input_iterator>::value_type value_type;
+      return construct_value_type(begin,end,value_type());
+    }
+    
+    template< class Input_iterator >
+    Polynomial_d operator()( Input_iterator begin, Input_iterator end, bool is_sorted) const {
+      // Avoid compiler warning
+      (void)is_sorted;
+      if(begin == end ) return Polynomial_d(0);
+      Monom_rep monom_rep(begin,end);
+      // if(!is_sorted) 
+      std::sort(monom_rep.begin(),monom_rep.end(),Compare_exponents_coeff_pair()); 
+      return Create_polynomial_from_monom_rep<Coefficient_type>()(monom_rep.begin(),monom_rep.end());
+    }
+#else
+    
     // Construct from Coefficient type 
     template< class Input_iterator >
     inline Polynomial_d 
@@ -606,7 +637,8 @@ public:
         std::sort(begin,end,Compare_exponents_coeff_pair()); 
       return Create_polynomial_from_monom_rep< Coefficient_type >()(begin,end); 
     }
-    
+#endif
+
   public: 
 
     template< class T >
@@ -897,7 +929,7 @@ public:
     :public std::binary_function<Polynomial_d,Coefficient_type,Coefficient_type>{
     // Evaluate with respect to one variable 
     Coefficient_type
-    operator()(const Polynomial_d& p, Coefficient_type x) const {
+    operator()(const Polynomial_d& p, const Coefficient_type& x) const {
       return p.evaluate(x);
     }
 #define ICOEFF typename First_if_different<Innermost_coefficient_type, Coefficient_type>::Type 
@@ -917,7 +949,7 @@ public:
     typedef Coefficient_type           third_argument_type;
        
     Coefficient_type operator()(
-        const Polynomial_d& p, Coefficient_type a, Coefficient_type b) const 
+        const Polynomial_d& p, const Coefficient_type& a, const Coefficient_type& b) const 
     {
       return p.evaluate_homogeneous(a,b);
     }
@@ -1035,7 +1067,8 @@ struct Construct_innermost_coefficient_const_iterator_range
     bool operator()( const Polynomial_d& p ) const {
       if( !internal::may_have_multiple_factor( p ) )
         return true;
-            
+      
+      Gcd_up_to_constant_factor gcd_utcf;
       Univariate_content_up_to_constant_factor ucontent_utcf;
       Integral_division_up_to_constant_factor  idiv_utcf;
       Differentiate diff;
@@ -1059,6 +1092,7 @@ struct Construct_innermost_coefficient_const_iterator_range
     Polynomial_d
     operator()(const Polynomial_d& p) const {
       if (CGAL::is_zero(p)) return p;
+      Gcd_up_to_constant_factor gcd_utcf;
       Univariate_content_up_to_constant_factor ucontent_utcf;
       Integral_division_up_to_constant_factor  idiv_utcf;
       Differentiate diff;
@@ -1130,10 +1164,13 @@ struct Construct_innermost_coefficient_const_iterator_range
     
   struct Integral_division_up_to_constant_factor
     :public std::binary_function<Polynomial_d, Polynomial_d, Polynomial_d> {
+   
+  
+    
     Polynomial_d
     operator()(const Polynomial_d& p, const Polynomial_d& q) const {
       typedef Innermost_coefficient_type IC;
-
+      
       typename PT::Construct_polynomial construct;
       typename PT::Innermost_leading_coefficient ilcoeff;
       typename PT::Construct_innermost_coefficient_const_iterator_range range;
@@ -1673,6 +1710,6 @@ public:
 //------------ Rebind ----------- 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_TRAITS_D_H

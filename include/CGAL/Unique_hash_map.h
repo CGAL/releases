@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Hash_map/include/CGAL/Unique_hash_map.h $
-// $Id: Unique_hash_map.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Hash_map/include/CGAL/Unique_hash_map.h $
+// $Id: Unique_hash_map.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -30,7 +30,7 @@
 #include <CGAL/Tools/chained_map.h>
 #include <cstddef>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class Key_, class Data_, 
           class UniqueHashFunction = Handle_hash_function>
@@ -117,7 +117,7 @@ public:
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 namespace boost {
   template <typename UniquePairAssociativeContainer>
@@ -171,4 +171,3 @@ namespace boost {
 
 #endif // CGAL_UNIQUE_HASH_MAP_H
 // EOF
-

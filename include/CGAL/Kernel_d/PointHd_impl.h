@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/PointHd_impl.h $
-// $Id: PointHd_impl.h 35126 2006-11-10 13:36:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/PointHd_impl.h $
+// $Id: PointHd_impl.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_POINTHD_C
 #define CGAL_POINTHD_C
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 #define PointHd PointHd2
 
 template <class RT, class LA>
@@ -81,6 +81,5 @@ std::ostream& operator<<(std::ostream& O, const PointHd<RT,LA>& p)
 { p.ptr()->print(O,"PointHd"); return O; } 
 
 #undef PointHd 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_POINTHD_C
-

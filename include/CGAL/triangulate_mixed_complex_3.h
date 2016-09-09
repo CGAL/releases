@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
-// $Id: triangulate_mixed_complex_3.h 46446 2008-10-23 13:10:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $Id: triangulate_mixed_complex_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -35,7 +35,7 @@
 
 #include <CGAL/Union_find.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template < 
@@ -121,22 +121,6 @@ private:
 
 
 public:
-  Mixed_complex_triangulator_3(Regular const &regular,
-			       Rt_FT const &shrink,
-			       Triangulated_mixed_complex
-			       &triangulated_mixed_complex, 
-			       bool verbose)
-    : regular(regular),
-      shrink(shrink),
-      _tmc(triangulated_mixed_complex),
-      triangulation_incr_builder(triangulated_mixed_complex), 
-      construct_anchor_point_3_obj(shrink),
-      compute_anchor_obj(regular),
-      verbose(verbose) {
-
-    build();
-  }
-
   Mixed_complex_triangulator_3(Regular &regular,
 			       Rt_FT const &shrink,
 			       Triangulated_mixed_complex
@@ -1023,9 +1007,12 @@ add_cell(Tmc_Vertex_handle vh[], int orient, Rt_Simplex s) {
   CGAL_assertion(vh[1] != Tmc_Vertex_handle());
   CGAL_assertion(vh[2] != Tmc_Vertex_handle()); 
   CGAL_assertion(vh[3] != Tmc_Vertex_handle());
-  CGAL_assertion(vh[1] != vh[2]); CGAL_assertion(vh[1] != vh[3]); 
-  CGAL_assertion(vh[1] != vh[4]); CGAL_assertion(vh[2] != vh[3]); 
-  CGAL_assertion(vh[2] != vh[4]); CGAL_assertion(vh[3] != vh[4]);
+  CGAL_assertion(vh[0] != vh[1]); 
+  CGAL_assertion(vh[0] != vh[2]); 
+  CGAL_assertion(vh[0] != vh[3]); 
+  CGAL_assertion(vh[1] != vh[2]); 
+  CGAL_assertion(vh[1] != vh[3]); 
+  CGAL_assertion(vh[2] != vh[3]);
 
   Tmc_Cell_handle ch;
 
@@ -1043,7 +1030,10 @@ template <
   class RegularTriangulation_3,
   class TriangulatedMixedComplex_3,
   class TriangulatedMixedComplexObserver_3>
-typename TriangulatedMixedComplex_3::Geom_traits::Point_3
+typename Mixed_complex_triangulator_3<
+  RegularTriangulation_3,
+  TriangulatedMixedComplex_3,
+  TriangulatedMixedComplexObserver_3>::Tmc_Point
 Mixed_complex_triangulator_3<
   RegularTriangulation_3,
   TriangulatedMixedComplex_3,
@@ -1091,7 +1081,10 @@ template <
   class RegularTriangulation_3,
   class TriangulatedMixedComplex_3,
   class TriangulatedMixedComplexObserver_3>
-typename TriangulatedMixedComplex_3::Geom_traits::Point_3
+typename Mixed_complex_triangulator_3<
+  RegularTriangulation_3,
+  TriangulatedMixedComplex_3,
+  TriangulatedMixedComplexObserver_3>::Tmc_Point
 Mixed_complex_triangulator_3<
   RegularTriangulation_3,
   TriangulatedMixedComplex_3,
@@ -1325,6 +1318,6 @@ triangulate_mixed_complex_3(RegularTriangulation_3 const &regular,
   triangulate_mixed_complex_3(regular, shrink_factor, tmc, observer, verbose);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_TRIANGULATE_MIXED_COMPLEX_H

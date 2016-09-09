@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Data_accessor_2.h $
-// $Id: Data_accessor_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/Data_accessor_2.h $
+// $Id: Data_accessor_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_DATA_ACCESSOR_2_H
 #define CGAL_CARTESIAN_DATA_ACCESSOR_2_H
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 // 2D Cartesian point data accessor
 template < class R_ >
@@ -44,6 +44,6 @@ public:
     void set( Point& p, const FT &x, const FT &y) const { p=Point(x,y); }
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_CARTESIAN_DATA_ACCESSOR_2_H

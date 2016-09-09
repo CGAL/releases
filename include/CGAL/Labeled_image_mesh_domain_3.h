@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Labeled_image_mesh_domain_3.h $
-// $Id: Labeled_image_mesh_domain_3.h 51561 2009-08-27 15:41:39Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Labeled_image_mesh_domain_3.h $
+// $Id: Labeled_image_mesh_domain_3.h 56231 2010-05-14 09:46:02Z afabri $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -57,10 +57,11 @@ public:
                               const FT& error_bound = FT(1e-3))
     : Base(Wrapper(image),
            compute_bounding_box(image),
-           error_bound)                           { };
+           error_bound)
+  {}
 
   /// Destructor
-  virtual ~Labeled_image_mesh_domain_3() { };
+  virtual ~Labeled_image_mesh_domain_3() {}
 
 
 private:

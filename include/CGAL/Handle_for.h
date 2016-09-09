@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Handle_for.h $
-// $Id: Handle_for.h 46241 2008-10-13 14:18:24Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/Handle_for.h $
+// $Id: Handle_for.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -27,12 +27,13 @@
 #include <boost/config.hpp>
 #include <CGAL/memory.h>
 #include <algorithm>
+#include <cstddef>
 
 #if defined(BOOST_MSVC)
 #  pragma warning(push)
 #  pragma warning(disable:4345) // Avoid warning  http://msdn.microsoft.com/en-us/library/wewb47ee(VS.80).aspx
 #endif
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class T, class Alloc = CGAL_ALLOCATOR(T) >
 class Handle_for
@@ -52,26 +53,28 @@ class Handle_for
 public:
 
     typedef T element_type;
+    
+    typedef std::ptrdiff_t Id_type ;
 
     Handle_for()
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(); // we get the warning here 
+        new (&(ptr_->t)) element_type(); // we get the warning here 
         ptr_->count = 1;
     }
 
-    Handle_for(const T& t)
+    Handle_for(const element_type& t)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(t);
+        new (&(ptr_->t)) element_type(t);
         ptr_->count = 1;
     }
 
 #ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
-    Handle_for(T && t)
+    Handle_for(element_type && t)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(std::move(t));
+        new (&(ptr_->t)) element_type(std::move(t));
         ptr_->count = 1;
     }
 #endif
@@ -92,7 +95,7 @@ public:
     Handle_for(T1 && t1, T2 && t2, Args && ... args)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(std::forward<T1>(t1), std::forward<T2>(t2), std::forward<Args>(args)...);
+        new (&(ptr_->t)) element_type(std::forward<T1>(t1), std::forward<T2>(t2), std::forward<Args>(args)...);
         ptr_->count = 1;
     }
 #else
@@ -100,7 +103,7 @@ public:
     Handle_for(const T1& t1, const T2& t2)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(t1, t2);
+        new (&(ptr_->t)) element_type(t1, t2);
         ptr_->count = 1;
     }
 
@@ -108,7 +111,7 @@ public:
     Handle_for(const T1& t1, const T2& t2, const T3& t3)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(t1, t2, t3);
+        new (&(ptr_->t)) element_type(t1, t2, t3);
         ptr_->count = 1;
     }
 
@@ -116,7 +119,7 @@ public:
     Handle_for(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
       : ptr_(allocator.allocate(1))
     {
-        new (&(ptr_->t)) T(t1, t2, t3, t4);
+        new (&(ptr_->t)) element_type(t1, t2, t3, t4);
         ptr_->count = 1;
     }
 #endif // CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
@@ -136,7 +139,7 @@ public:
     }
 
     Handle_for&
-    operator=(const T &t)
+    operator=(const element_type &t)
     {
         if (is_shared())
             *this = Handle_for(t);
@@ -158,7 +161,7 @@ public:
     }
 
     Handle_for&
-    operator=(T && t)
+    operator=(element_type && t)
     {
         if (is_shared())
             *this = Handle_for(std::move(t));
@@ -180,23 +183,20 @@ public:
     }
 
     void
-    initialize_with(const T& t)
+    initialize_with(const element_type& t)
     {
         // kept for backward compatibility.  Use operator=(t) instead.
         *this = t;
     }
 
-    bool
-    identical(const Handle_for& h) const
-    { return ptr_ == h.ptr_; }
+    Id_type id() const { return Ptr() - static_cast<T const*>(0); }
+    
+    bool identical(const Handle_for& h) const { return Ptr() == h.Ptr(); }
 
-    long int
-    id() const
-    { return reinterpret_cast<long int>(&*ptr_); }
 
     // Ptr() is the "public" access to the pointer to the object.
     // The non-const version asserts that the instance is not shared.
-    const T *
+    const element_type *
     Ptr() const
     {
        return &(ptr_->t);
@@ -244,7 +244,7 @@ protected:
       if ( is_shared() )
       {
         pointer tmp_ptr = allocator.allocate(1);
-        new (&(tmp_ptr->t)) T(ptr_->t);
+        new (&(tmp_ptr->t)) element_type(ptr_->t);
         tmp_ptr->count = 1;
         --(ptr_->count);
         ptr_ = tmp_ptr;
@@ -253,11 +253,11 @@ protected:
 
     // ptr() is the protected access to the pointer.  Both const and non-const.
     // Redundant with Ptr().
-    T *
+    element_type *
     ptr()
     { return &(ptr_->t); }
 
-    const T *
+    const element_type *
     ptr() const
     { return &(ptr_->t); }
 };
@@ -284,13 +284,7 @@ identical(const Handle_for<T, Allocator> &h1,
     return h1.identical(h2);
 }
 
-template <class T>
-inline
-bool
-identical(const T &t1, const T &t2)
-{
-    return &t1 == &t2;
-}
+template <class T> inline bool identical(const T &t1, const T &t2) { return &t1 == &t2; }
 
 template <class T, class Allocator>
 inline
@@ -308,7 +302,7 @@ get(const T &t)
     return t;
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

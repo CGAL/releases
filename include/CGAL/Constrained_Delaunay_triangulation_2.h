@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
-// $Id: Constrained_Delaunay_triangulation_2.h 56638 2010-06-08 11:27:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $Id: Constrained_Delaunay_triangulation_2.h 57014 2010-06-23 13:29:04Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
@@ -23,7 +23,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Constrained_triangulation_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template <class Gt, 
@@ -46,6 +46,7 @@ public:
   typedef typename Ctr::Edge          Edge;
   typedef typename Ctr::Finite_faces_iterator Finite_faces_iterator;
   typedef typename Ctr::Face_circulator       Face_circulator;
+  typedef typename Ctr::size_type             size_type;
   typedef typename Ctr::Locate_type           Locate_type;
  
   typedef typename Ctr::List_edges List_edges;  
@@ -65,6 +66,16 @@ public:
   using Ctr::ccw;
   using Ctr::infinite_vertex;
   using Ctr::side_of_oriented_circle;
+  using Ctr::is_infinite;
+  using Ctr::collinear_between;
+  using Ctr::are_there_incident_constraints;
+  using Ctr::make_hole;
+  using Ctr::insert_constraint;
+  using Ctr::locate;
+  using Ctr::test_dim_down;
+  using Ctr::fill_hole_delaunay;
+  using Ctr::update_constraints;
+  using Ctr::delete_vertex;
   using Ctr::push_back;
 #endif
 
@@ -104,7 +115,7 @@ public:
   
 
   // FLIPS
-  bool is_flipable(Face_handle f, int i) const;
+  bool is_flipable(Face_handle f, int i, bool perturb = true) const;
   void flip(Face_handle& f, int i);
   void flip_around(Vertex_handle va);
   void flip_around(List_vertices & new_vertices);
@@ -142,7 +153,7 @@ public:
 		       Face_handle loc, int li );
   Vertex_handle push_back(const Point& a);
 //   template < class InputIterator >
-//   int insert(InputIterator first, InputIterator last);
+//   std::ptrdiff_t insert(InputIterator first, InputIterator last);
 
   void remove(Vertex_handle v);
   void remove_incident_constraints(Vertex_handle v);
@@ -180,12 +191,12 @@ public:
 public:
   template < class InputIterator >
 #if defined(_MSC_VER)
-   int insert(InputIterator first, InputIterator last, int i = 0)
+  std::ptrdiff_t insert(InputIterator first, InputIterator last, int i = 0)
 #else
-   int insert(InputIterator first, InputIterator last) 
+    std::ptrdiff_t insert(InputIterator first, InputIterator last) 
 #endif
     {
-      int n = number_of_vertices();
+      size_type n = number_of_vertices();
 
       std::vector<Point> points (first, last);
       spatial_sort (points.begin(), points.end(), geom_traits());
@@ -372,13 +383,13 @@ public:
 template < class Gt, class Tds, class Itag >
 bool 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-is_flipable(Face_handle f, int i) const
+is_flipable(Face_handle f, int i, bool perturb) const
   // determines if edge (f,i) can be flipped 
 {
   Face_handle ni = f->neighbor(i); 
   if (is_infinite(f) || is_infinite(ni)) return false; 
   if (f->is_constrained(i)) return false;
-  return (side_of_oriented_circle(ni, f->vertex(i)->point()) 
+  return (side_of_oriented_circle(ni, f->vertex(i)->point(), perturb) 
                                         == ON_POSITIVE_SIDE);
 }
 
@@ -482,7 +493,7 @@ test_conflict(const Point& p, Face_handle fh) const
   // return true  if P is inside the circumcircle of fh
   // if fh is infinite, return true when p is in the positive
   // halfspace or on the boundary and in the  finite edge of fh
-  Oriented_side os = side_of_oriented_circle(fh,p);
+  Oriented_side os = side_of_oriented_circle(fh,p,true);
   if (os == ON_POSITIVE_SIDE) return true;
  
   if (os == ON_ORIENTED_BOUNDARY && is_infinite(fh)) {
@@ -673,7 +684,7 @@ is_valid(bool verbose, int level) const
     Finite_faces_iterator fit= finite_faces_begin();
     for (; fit != finite_faces_end(); fit++) {
       for(int i=0;i<3;i++) {
-	result = result && !is_flipable(fit,i);
+	result = result && !is_flipable(fit,i, false);
 	CGAL_triangulation_assertion( result );
       }
     }
@@ -682,5 +693,5 @@ is_valid(bool verbose, int level) const
 
 
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_2_H

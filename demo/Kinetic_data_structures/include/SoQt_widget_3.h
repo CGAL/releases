@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_widget_3.h $
-// $Id: SoQt_widget_3.h 41622 2008-01-14 22:01:20Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_widget_3.h $
+// $Id: SoQt_widget_3.h 56668 2010-06-09 08:45:58Z sloriot $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,7 +32,7 @@
 
 class SoSeparator;
 
-CGAL_KINETIC_BEGIN_NAMESPACE;
+namespace CGAL { namespace Kinetic {;
 
 //! This provides a GUI in 3D using Coin.
 /*!  If you want to draw something, extend
@@ -177,5 +177,5 @@ protected:
   Window_listener window_l_;
 };
 
-CGAL_KINETIC_END_NAMESPACE;
+} } //namespace CGAL::Kinetic;
 #endif                                            // qt

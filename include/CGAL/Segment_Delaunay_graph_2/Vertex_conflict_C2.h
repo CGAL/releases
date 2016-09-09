@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Vertex_conflict_C2.h $
-// $Id: Vertex_conflict_C2.h 45094 2008-08-22 16:10:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Vertex_conflict_C2.h $
+// $Id: Vertex_conflict_C2.h 56668 2010-06-09 08:45:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -26,9 +26,15 @@
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h>
 
-CGAL_BEGIN_NAMESPACE
+#ifdef CGAL_SDG_CHECK_INCIRCLE_CONSISTENCY
+#ifndef CGAL_SDG_USE_OLD_INCIRCLE
+#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h>
+#endif // CGAL_SDG_USE_OLD_INCIRCLE
+#endif // CGAL_SDG_CHECK_INCIRCLE_CONSISTENCY
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+namespace CGAL {
+
+namespace SegmentDelaunayGraph_2 {
 
 //---------------------------------------------------------------------
 
@@ -448,9 +454,66 @@ public:
   Sign operator()(const Site_2& p, const Site_2& q,
 		  const Site_2& r, const Site_2& t) const
   {
+#ifdef CGAL_PROFILE
+    // In case CGAL profile is called then output the sites in case of
+    // a filter failure
+    if ( Algebraic_structure_traits<FT>::Is_exact::value ) {
+      int np = 0;
+      if ( p.is_point() ) ++np;
+      if ( q.is_point() ) ++np;
+      if ( r.is_point() ) ++np;
+      std::string suffix("-failure-log.cin");
+      std::string fname;
+      if ( np == 3 ) {
+	fname = "ppp";
+      } else if ( np == 2 ) {
+	fname = "pps";
+      } else if ( np == 1 ) {
+	fname = "pss";
+      } else {
+	fname = "sss";
+      }
+      fname += suffix;
+      std::ofstream ofs(fname.c_str(), std::ios_base::app);
+      ofs.precision(16);
+      ofs << p << std::endl;
+      ofs << q << std::endl;
+      ofs << r << std::endl;
+      ofs << t << std::endl;
+      ofs << "=======" << std::endl;
+      ofs.close();
+    }
+#endif
+
+#ifdef CGAL_SDG_CHECK_INCIRCLE_CONSISTENCY
+#ifdef CGAL_SDG_USE_OLD_INCIRCLE
+    typedef Voronoi_vertex_sqrt_field_new_C2<K>   Alt_Voronoi_vertex_2;
+#else
+    typedef Voronoi_vertex_sqrt_field_C2<K>       Alt_Voronoi_vertex_2;
+#endif
+
+    Voronoi_vertex_2 v(p, q, r);
+    Alt_Voronoi_vertex_2 v_alt(p, q, r);
+
+    Sign s = v.incircle(t);
+    Sign s_alt = v_alt.incircle(t);
+
+    if ( s != s_alt ) {
+      std::cerr << "different results" << std::endl;
+      std::cerr << p << std::endl;
+      std::cerr << q << std::endl;
+      std::cerr << r << std::endl;
+      std::cerr << t << std::endl;
+      CGAL_assertion( s == s_alt );
+      exit(1);
+    }
+
+    return s;
+#else
     Voronoi_vertex_2 v(p, q, r);
 
     return v.incircle(t);
+#endif // CGAL_SDG_CHECK_INCIRCLE_CONSISTENCY
   }
 
 
@@ -459,6 +522,20 @@ public:
   Sign operator()(const Site_2& p, const Site_2& q,
 		  const Site_2& t) const
   {
+#ifdef CGAL_PROFILE
+    // In case CGAL profile is called then output the sites in case of
+    // a filter failure
+    if ( Algebraic_structure_traits<FT>::Is_exact::value ) {
+      std::ofstream ofs("failure-log.cin", std::ios_base::app);
+      ofs.precision(16);
+      ofs << p << std::endl;
+      ofs << q << std::endl;
+      ofs << t << std::endl;
+      ofs << "=======" << std::endl;
+      ofs.close();
+    }
+#endif
+
     CGAL_assertion( !(p.is_segment() && q.is_segment()) );
 
     if ( p.is_point() && q.is_segment() ) {
@@ -486,8 +563,8 @@ public:
 
 //---------------------------------------------------------------------
 
-CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+} //namespace SegmentDelaunayGraph_2
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_VERTEX_CONFLICT_C2_H

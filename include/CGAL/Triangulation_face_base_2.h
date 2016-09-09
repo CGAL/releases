@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_face_base_2.h $
-// $Id: Triangulation_face_base_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_face_base_2.h $
+// $Id: Triangulation_face_base_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -24,7 +24,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_ds_face_base_2.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template < typename Gt, typename Fb = Triangulation_ds_face_base_2<> >
 class Triangulation_face_base_2 
@@ -96,6 +96,6 @@ mirror_index(int i) const
 }
 #endif
 
-CGAL_END_NAMESPACE 
+} //namespace CGAL 
 
 #endif //CGAL_TRIANGULATION_FACE_BASE_2_H

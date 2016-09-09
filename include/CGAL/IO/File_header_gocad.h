@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_header_gocad.h $
-// $Id: File_header_gocad.h 48407 2009-03-16 11:15:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_header_gocad.h $
+// $Id: File_header_gocad.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,7 @@
 #include <iostream>
 #include <string>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 class File_header_gocad {
 private:
@@ -57,6 +57,5 @@ inline std::ostream& operator<<( std::ostream& out, const File_header_gocad& h){
     "TFACE\n";
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_IO_FILE_HEADER_GOCAD_H
-

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
-// $Id: Triangle_2_Triangle_2_do_intersect.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
+// $Id: Triangle_2_Triangle_2_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -23,7 +23,7 @@
 
 #include <CGAL/Triangle_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 
@@ -181,6 +181,6 @@ inline bool do_intersect(const Triangle_2<K> &t1,
   return Do_intersect()(t1,t2);
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_TRIANGLE_2_TRIANGLE_2_DO_INTERSECT_H

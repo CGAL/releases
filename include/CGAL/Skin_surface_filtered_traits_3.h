@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
-// $Id: Skin_surface_filtered_traits_3.h 52614 2009-10-19 14:29:50Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
+// $Id: Skin_surface_filtered_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -27,7 +27,7 @@
 #include <CGAL/Regular_triangulation_filtered_traits_3.h>
 #include <CGAL/Filtered_predicate.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template <class K>
 class Skin_surface_filtered_traits_3
@@ -66,5 +66,5 @@ public:
 
 };
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 #endif // CGAL_SKIN_SURFACE_FILTERED_TRAITS_3_H

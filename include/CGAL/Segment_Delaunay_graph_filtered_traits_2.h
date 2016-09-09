@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_filtered_traits_2.h $
-// $Id: Segment_Delaunay_graph_filtered_traits_2.h 41720 2008-01-20 21:11:57Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_filtered_traits_2.h $
+// $Id: Segment_Delaunay_graph_filtered_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -40,7 +40,7 @@
 #include <CGAL/Cartesian_converter.h>
 #include <CGAL/number_utils_classes.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 #define SDG2_INS CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal
 
@@ -240,6 +240,6 @@ struct Segment_Delaunay_graph_filtered_traits_without_intersections_2
 
 #undef SDG2_INS
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_FILTERED_TRAITS_2_H

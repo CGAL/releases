@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/SphereH3.h $
-// $Id: SphereH3.h 44446 2008-07-25 15:06:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/SphereH3.h $
+// $Id: SphereH3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -28,7 +28,7 @@
 #include <CGAL/Homogeneous/predicates_on_pointsH3.h>
 #include <boost/tuple/tuple.hpp>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class R_>
 class SphereH3
@@ -180,19 +180,19 @@ template <class R>
 inline
 const typename SphereH3<R>::Point_3 &
 SphereH3<R>::center() const
-{ return get(base).get<0>(); }
+{ return get(base).template get<0>(); }
 
 template <class R>
 inline
 const typename SphereH3<R>::FT &
 SphereH3<R>::squared_radius() const
-{ return get(base).get<1>(); }
+{ return get(base).template get<1>(); }
 
 template <class R>
 inline
 Orientation
 SphereH3<R>::orientation() const
-{ return get(base).get<2>(); }
+{ return get(base).template get<2>(); }
 
 template <class R>
 inline
@@ -224,6 +224,6 @@ SphereH3<R>::opposite() const
                          CGAL::opposite(orientation()) );
 }
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif // CGAL_SPHEREH3_H

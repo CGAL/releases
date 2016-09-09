@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_intersection.h $
-// $Id: SNC_intersection.h 43273 2008-05-22 15:04:50Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_intersection.h $
+// $Id: SNC_intersection.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -26,7 +26,7 @@
 #define CGAL_NEF_DEBUG 37
 #include <CGAL/Nef_2/debug.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template < class Node, class Object>
 struct Project_shalfedge_point {
@@ -499,6 +499,6 @@ class SNC_intersection : public SNC_const_decorator<SNC_structure_> {
 #endif
 }; // SNC_intersection
 
-CGAL_END_NAMESPACE
+} //namespace CGAL
 
 #endif //CGAL_SNC_INTERSECTION_H
