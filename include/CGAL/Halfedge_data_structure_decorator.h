@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Halfedge_data_structure_decorator.h
-// package       : Halfedge_DS (2.8)
+// package       : Halfedge_DS (2.17)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds_decorator.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/04/07 19:28:42 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/06/15 07:55:31 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
@@ -765,8 +765,7 @@ public:
     }
 
   protected:                               // Supports_halfedge_vertices
-      void erase_connected_component_vertex( HDS& hds, Halfedge* h,
-                                             Tag_false) {}
+      void erase_connected_component_vertex( HDS&, Halfedge*, Tag_false) {}
       void erase_connected_component_vertex( HDS& hds, Halfedge* h,
                                              Tag_true) {
           // Erases the the vertex incident to h and sets all references

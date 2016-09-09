@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/circulator.h
-// package       : Circulator (3.15)
+// package       : Circulator (3.17)
 // chapter       : $CGAL_Chapter: Circulators $
-// source        : circulator.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2000/04/20 12:31:15 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/02/25 12:14:58 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
@@ -50,26 +49,13 @@
 // ======================================================================
 
 #ifndef CGAL_CIRCULATOR_H
-#define CGAL_CIRCULATOR_H 1
+#define CGAL_CIRCULATOR_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_PROTECT_CSTDDEF
 #include <cstddef>
-#define CGAL_PROTECT_CSTDDEF
-#endif
-#ifndef CGAL_PROTECT_FUNCTIONAL
 #include <functional>
-#define CGAL_PROTECT_FUNCTIONAL
-#endif
-#ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
-#ifndef CGAL_CIRCULATOR_BASES_H
 #include <CGAL/circulator_bases.h>
-#endif
 
 #ifndef CGAL_NULL_TYPE
 #if defined( __GNUG__ )
@@ -248,32 +234,32 @@ void Assert_iterator( const I &i) {
     Assert_compile_time_tag( Iterator_tag(), query_circulator_or_iterator(i));
 }
 template <class I> inline
-void Assert_input_category( const I &i) {
+void Assert_input_category( const I &/*i*/) {
     Assert_compile_time_tag( std::input_iterator_tag(),
 			     // std::iterator_category(i));
 			     std::iterator_traits<I>::iterator_category());
 }
 template <class I> inline
-void Assert_output_category( const I &i) {
+void Assert_output_category( const I &/*i*/) {
     Assert_compile_time_tag( std::output_iterator_tag(),
                              //std::iterator_category(i));
 			     std::iterator_traits<I>::iterator_category());
 }
 template <class IC> inline
-void Assert_forward_category( const IC &ic) {
+void Assert_forward_category( const IC &/*ic*/) {
     Assert_compile_time_tag( std::forward_iterator_tag(),
                              //std::iterator_category(ic));
 			     std::iterator_traits<IC>::iterator_category());
 }
 template <class IC> inline
-void Assert_bidirectional_category( const IC &ic) {
+void Assert_bidirectional_category( const IC &/*ic*/) {
     Assert_compile_time_tag( std::bidirectional_iterator_tag(),
                              //std::iterator_category(ic));
 			     std::iterator_traits<IC>::iterator_category());
     
 }
 template <class IC> inline
-void Assert_random_access_category( const IC &ic) {
+void Assert_random_access_category( const IC &/*ic*/) {
     Assert_compile_time_tag( std::random_access_iterator_tag(),
                              //std::iterator_category(ic));
 			     std::iterator_traits<IC>::iterator_category());
@@ -318,31 +304,31 @@ inline void I_Has_to_be_at_least( std::random_access_iterator_tag,
 
 // The is-at-least assertions.
 template <class I> inline
-void Assert_is_at_least_input_category( const I& i) {
+void Assert_is_at_least_input_category( const I& /*i*/) {
     I_Has_to_be_at_least( std::input_iterator_tag(),
                           //std::iterator_category(i));
 			  std::iterator_traits<I>::iterator_category());
 }
 template <class I> inline
-void Assert_is_at_least_output_category( const I& i) {
+void Assert_is_at_least_output_category( const I& /*i*/) {
     I_Has_to_be_at_least( std::output_iterator_tag(),
                           //std::iterator_category(i));
 			  std::iterator_traits<I>::iterator_category());
 }
 template <class IC> inline
-void Assert_is_at_least_forward_category( const IC& ic) {
+void Assert_is_at_least_forward_category( const IC& /*ic*/) {
     I_Has_to_be_at_least( std::forward_iterator_tag(),
                           //std::iterator_category(ic));
 			  std::iterator_traits<IC>::iterator_category());
 }
 template <class IC> inline
-void Assert_is_at_least_bidirectional_category( const IC& ic) {
+void Assert_is_at_least_bidirectional_category( const IC& /*ic*/) {
     I_Has_to_be_at_least( std::bidirectional_iterator_tag(),
                           //std::iterator_category(ic)) ;
 			  std::iterator_traits<IC>::iterator_category());
     }
 template <class IC> inline
-void Assert_is_at_least_random_access_category( const IC& ic) {
+void Assert_is_at_least_random_access_category( const IC& /*ic*/) {
     I_Has_to_be_at_least( std::random_access_iterator_tag(),
                           //std::iterator_category(ic));
 			  std::iterator_traits<IC>::iterator_category());

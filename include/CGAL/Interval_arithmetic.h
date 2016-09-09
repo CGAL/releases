@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998,1999,2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Interval_arithmetic.h
-// package       : Interval_arithmetic (4.58)
-// revision      : $Revision: 2.116 $
-// revision_date : $Date: 2000/09/13 14:38:18 $
+// package       : Interval_arithmetic (4.114)
+// revision      : $Revision: 2.125 $
+// revision_date : $Date: 2001/03/19 18:20:30 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -60,7 +60,7 @@
 // and the opposite of the result (see operator+, operator*,...).
 
 #include <CGAL/basic.h>
-#include <CGAL/Interval_arithmetic/_FPU.h>
+#include <CGAL/FPU.h>
 #include <CGAL/Interval_base.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -120,6 +120,18 @@ struct Interval_nt : public Interval_base
     return IA(std::max(inf_, d.inf_), std::min(sup_, d.sup_));
   }
 };
+
+#ifdef LONG_LONG // missing CGAL_ ?
+inline
+Interval_base
+to_interval (const long long & z)
+{
+  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
+  Interval_nt_advanced approx (double(z));
+  FPU_set_cw(CGAL_FE_UPWARD);
+  return approx + Interval_base::Smallest;
+}
+#endif
 
 template <bool Protected>
 #ifndef CGAL_IA_NO_INLINE
@@ -213,6 +225,15 @@ Interval_nt<Protected>::operator/ (const Interval_nt<Protected> & d) const
 	   // We could do slightly better -> [0;HUGE_VAL] when d.sup_==0,
 	   // but is this worth ?
 }
+
+#if 0 // Do this for the next release, same for is_one()
+bool is_zero(const NT &n)
+{
+  if (0 >  n.sup_ || 0  < n.inf_) return false;
+  if (0 == n.sup_ && 0 == n.inf_) return true;
+  n.overlap_action();
+}
+#endif
 
 template <bool Protected>
 inline
@@ -431,58 +452,5 @@ compare (const Interval_nt<false> & d, const Interval_nt<false> & e)
 typedef Interval_nt<false> Interval_nt_advanced;  // for back-compatibility
 
 CGAL_END_NAMESPACE
-
-// Finally we deal with the convert_to<Interval_nt_advanced>(NT).
-// This is going to be obsoleted by the new NT requirement : to_interval().
-//
-// For the builtin types (well, all those that can be casted to double
-// exactly), the template in misc.h is enough.
-
-#if 0
-inline
-Interval_base
-to_interval(const long long z)
-{
-  double dz = (double) z;
-  if (z == (long long) dz)
-    return dz;
-  return Interval_nt<>(dz) + Interval_base::Smallest;
-}
-
-inline
-Interval_base
-to_interval(const long double z)
-{
-  return Interval_nt<>((double) z) + Interval_base::Smallest;
-}
-#endif
-
-#ifdef CGAL_GMPZ_H
-#include <CGAL/Interval_arithmetic/IA_Gmpz.h>
-#endif
-
-#ifdef CGAL_BIGFLOAT_H
-#include <CGAL/Interval_arithmetic/IA_leda_bigfloat.h>
-#endif
-
-#ifdef CGAL_INTEGER_H
-#include <CGAL/Interval_arithmetic/IA_leda_integer.h>
-#endif
-
-#ifdef CGAL_REAL_H
-#include <CGAL/Interval_arithmetic/IA_leda_real.h>
-#endif
-
-#ifdef CGAL_RATIONAL_H
-#include <CGAL/Interval_arithmetic/IA_leda_rational.h>
-#endif
-
-#ifdef CGAL_FIXED_PRECISION_NT_H
-#include <CGAL/Interval_arithmetic/IA_Fixed.h>
-#endif
-
-#ifdef CGAL_QUOTIENT_H
-#include <CGAL/Interval_arithmetic/IA_Quotient.h>
-#endif
 
 #endif // CGAL_INTERVAL_ARITHMETIC_H

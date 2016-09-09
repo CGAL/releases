@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : No_op_allocator.fw
 // file          : include/CGAL/No_op_allocator.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/01/17 13:53:19 $
 // author(s)     : Lutz Kettner
 //                 Stefan Schirra
 //
@@ -67,21 +66,22 @@ class No_op_allocator
   No_op_allocator() : Don_t_call(true) {}
 
   pointer
-  allocate(size_type n, const_pointer = 0) { return static_cast<pointer>(0); }
+  allocate(size_type, const_pointer = 0)
+  { return static_cast<pointer>(0); }
 
   void
-  deallocate(pointer p, size_type n) {}
+  deallocate(pointer, size_type) {}
 
   pointer
-  address(reference r)
+  address(reference)
   { CGAL_precondition ( !Don_t_call ); return static_cast<pointer>(0); }
 
   const_pointer
-  address(const_reference r)
+  address(const_reference)
   { CGAL_precondition ( !Don_t_call ); return static_cast<const_pointer>(0); }
 
   void
-  construct(pointer p, const_reference r)
+  construct(pointer, const_reference)
   { CGAL_precondition ( !Don_t_call ); }
   // It is the user responsibility to construct
   // the element, e.g. using new

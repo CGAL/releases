@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Aff_transformation_rep_2.h
-// package       : C2 (4.4)
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2000/06/26 15:00:20 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/01/12 11:40:09 $
 // author(s)     : Andreas Fabri, Lutz Kettner
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,6 +48,8 @@
 #ifndef CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_2_H
 #define CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_2_H
 
+#include <CGAL/determinant.h>
+
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
@@ -57,6 +59,7 @@ class Aff_transformation_rep_baseC2
 public:
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
+
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
   typedef typename R::Point_2                   Point_2;
   typedef typename R::Vector_2                  Vector_2;
@@ -118,32 +121,32 @@ friend class Scaling_repC2<R>;
   {}
 
   Aff_transformation_repC2( const FT& m11, const FT& m12,
-                             const FT& m21, const FT& m22)
+                            const FT& m21, const FT& m22)
     : t11(m11), t12(m12), t13(0),
       t21(m21), t22(m22), t23(0)
   {}
 
   Aff_transformation_repC2( const FT& m11, const FT& m12, const FT& m13,
-                             const FT& m21, const FT& m22, const FT& m23)
+                            const FT& m21, const FT& m22, const FT& m23)
     : t11(m11), t12(m12), t13(m13),
       t21(m21), t22(m22), t23(m23)
   {}
 
-  Point_2 transform(const Point_2& p) const
+  Point_2 transform(const Point_2& p) const // FIXME : construction
   {
     return Point_2(t11 * p.x() + t12 * p.y() + t13,
                    t21 * p.x() + t22 * p.y() + t23);
   }
 
   // note that a vector is not translated
-  Vector_2 transform(const Vector_2& v) const
+  Vector_2 transform(const Vector_2& v) const // FIXME : construction
   {
     return Vector_2(t11 * v.x() + t12 * v.y(),
                     t21 * v.x() + t22 * v.y());
   }
 
   // note that a direction is not translated
-  Direction_2 transform(const Direction_2& dir) const
+  Direction_2 transform(const Direction_2& dir) const // FIXME : construction
   {
     Vector_2 v = dir.to_vector();
     return Direction_2(t11 * v.x() + t12 * v.y(),
@@ -198,9 +201,94 @@ friend class Scaling_repC2<R>;
   }
 
 private:
-    FT   t11, t12, t13;
+    FT   t11, t12, t13; // FIXME : use an array instead ?
     FT   t21, t22, t23;
 };
+
+#ifdef CGAL_CFG_TYPENAME_BUG
+#define typename
+#endif
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+inverse() const // FIXME : construction
+{
+  FT det = FT(1) / (t11 * t22 - t12 * t21);
+  return Aff_transformation_2(
+    det * t22,    det * (-t12), det * (t12*t23-t13*t22),
+    det * (-t21), det * t11 ,   det * (t13*t21-t11*t23));
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+typename Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+operator*(const Aff_transformation_rep_baseC2<R> &t) const
+{
+  return t.compose(*this);
+}
+ 
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+compose(const Aff_transformation_repC2<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_2(t.t11*t11 + t.t12*t21,
+                              t.t11*t12 + t.t12*t22,
+                              t.t11*t13 + t.t12*t23 + t.t13,
+                              t.t21*t11 + t.t22*t21,
+                              t.t21*t12 + t.t22*t22,
+                              t.t21*t13 + t.t22*t23 + t.t23 );
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+compose(const Translation_repC2<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_2(t11,
+                              t12,
+                              t13 + t.translationvector_.x(),
+                              t21,
+                              t22,
+                              t23 + t.translationvector_.y());
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+compose(const Rotation_repC2<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_2(t.cosinus_*t11 - t.sinus_*t21,
+                              t.cosinus_*t12 - t.sinus_*t22,
+                              t.cosinus_*t13 - t.sinus_*t23,
+                              t.sinus_*t11 + t.cosinus_*t21,
+                              t.sinus_*t12 + t.cosinus_*t22,
+                              t.sinus_*t13 + t.cosinus_*t23);
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC2<R>::Aff_transformation_2
+Aff_transformation_repC2<R>::
+compose(const Scaling_repC2<R> &t) const // FIXME : construction
+{
+   return Aff_transformation_2(t.scalefactor_ * t11,
+                               t.scalefactor_ * t12,
+                               t.scalefactor_ * t13,
+                               t.scalefactor_ * t21,
+                               t.scalefactor_ * t22,
+                               t.scalefactor_ * t23);
+}
+
+#ifdef CGAL_CFG_TYPENAME_BUG
+#undef typename
+#endif
 
 CGAL_END_NAMESPACE
 

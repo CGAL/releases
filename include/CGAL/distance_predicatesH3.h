@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : distance_predicatesH3.fw
 // file          : include/CGAL/distance_predicatesH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/07/23 17:35:22 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -53,73 +52,75 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class FT, class RT>
+template <class R>
 Comparison_result
-cmp_dist_to_point(const PointH3<FT,RT>& ,
-                  const PointH3<FT,RT>& ,
-                  const PointH3<FT,RT>& );
+compare_distance_to_point(const PointH3<R>& ,
+                          const PointH3<R>& ,
+                          const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_larger_dist_to_point(const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& );
+has_larger_distance_to_point(const PointH3<R>& ,
+                             const PointH3<R>& ,
+                             const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_smaller_dist_to_point(const PointH3<FT,RT>& ,
-                          const PointH3<FT,RT>& ,
-                          const PointH3<FT,RT>& );
+has_smaller_distance_to_point(const PointH3<R>& ,
+                              const PointH3<R>& ,
+                              const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 Comparison_result
-cmp_signed_dist_to_plane(const PlaneH3<FT,RT>& ,
-                         const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& );
+compare_signed_distance_to_plane(const PlaneH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_larger_signed_dist_to_plane(const PlaneH3<FT,RT>& ,
-                                const PointH3<FT,RT>& ,
-                                const PointH3<FT,RT>& );
+has_larger_signed_distance_to_plane(const PlaneH3<R>& ,
+                                    const PointH3<R>& ,
+                                    const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_smaller_signed_dist_to_plane(const PlaneH3<FT,RT>&,
-                                 const PointH3<FT,RT>& ,
-                                 const PointH3<FT,RT>& );
+has_smaller_signed_distance_to_plane(const PlaneH3<R>&,
+                                     const PointH3<R>& ,
+                                     const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 Comparison_result
-cmp_signed_dist_to_plane(const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& ,
-                         const PointH3<FT,RT>& );
+compare_signed_distance_to_plane(const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_larger_signed_dist_to_plane(const PointH3<FT,RT>& ,
-                                const PointH3<FT,RT>& ,
-                                const PointH3<FT,RT>& ,
-                                const PointH3<FT,RT>& ,
-                                const PointH3<FT,RT>& );
+has_larger_signed_distance_to_plane(const PointH3<R>& ,
+                                    const PointH3<R>& ,
+                                    const PointH3<R>& ,
+                                    const PointH3<R>& ,
+                                    const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 bool
-has_smaller_signed_dist_to_plane(const PointH3<FT,RT>& ,
-                                 const PointH3<FT,RT>& ,
-                                 const PointH3<FT,RT>& ,
-                                 const PointH3<FT,RT>& ,
-                                 const PointH3<FT,RT>& );
+has_smaller_signed_distance_to_plane(const PointH3<R>& ,
+                                     const PointH3<R>& ,
+                                     const PointH3<R>& ,
+                                     const PointH3<R>& ,
+                                     const PointH3<R>& );
 
-template <class FT, class RT>
+template <class R>
 CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
-cmp_dist_to_point(const PointH3<FT,RT>& p,
-                  const PointH3<FT,RT>& q,
-                  const PointH3<FT,RT>& r)
+compare_distance_to_point(const PointH3<R>& p,
+                          const PointH3<R>& q,
+                          const PointH3<R>& r)
 {
+  typedef typename R::RT RT;
+
   const RT phx = p.hx();
   const RT phy = p.hy();
   const RT phz = p.hz();
@@ -150,13 +151,15 @@ cmp_dist_to_point(const PointH3<FT,RT>& p,
   { return (dosd < RT0) ? SMALLER : EQUAL; }
 }
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-has_larger_dist_to_point(const PointH3<FT,RT>& p,
-                         const PointH3<FT,RT>& q,
-                         const PointH3<FT,RT>& r)
+has_larger_distance_to_point(const PointH3<R>& p,
+                             const PointH3<R>& q,
+                             const PointH3<R>& r)
 {
+  typedef typename R::RT RT;
+
   const RT phx = p.hx();
   const RT phy = p.hy();
   const RT phz = p.hz();
@@ -184,13 +187,15 @@ has_larger_dist_to_point(const PointH3<FT,RT>& p,
   return ( RT0 < dosd );
 }
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-has_smaller_dist_to_point(const PointH3<FT,RT>& p,
-                          const PointH3<FT,RT>& q,
-                          const PointH3<FT,RT>& r)
+has_smaller_distance_to_point(const PointH3<R>& p,
+                              const PointH3<R>& q,
+                              const PointH3<R>& r)
 {
+  typedef typename R::RT RT;
+
   const RT phx = p.hx();
   const RT phy = p.hy();
   const RT phz = p.hz();
@@ -218,13 +223,15 @@ has_smaller_dist_to_point(const PointH3<FT,RT>& p,
   return ( dosd < RT0 );
 }
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_INLINE
 Comparison_result
-cmp_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
-                         const PointH3<FT,RT>& p,
-                         const PointH3<FT,RT>& q)
+compare_signed_distance_to_plane(const PlaneH3<R>& pl,
+                                 const PointH3<R>& p,
+                                 const PointH3<R>& q)
 {
+  typedef typename R::RT RT;
+
   const RT pla = pl.a();
   const RT plb = pl.b();
   const RT plc = pl.c();
@@ -251,12 +258,14 @@ cmp_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
   { return (RT0 < scaled_dist_p_minus_scaled_dist_q ) ?  LARGER : EQUAL;}
 }
 
-template <class FT, class RT>
+template <class R>
 bool
-has_larger_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
-                                const PointH3<FT,RT>& p,
-                                const PointH3<FT,RT>& q )
+has_larger_signed_distance_to_plane(const PlaneH3<R>& pl,
+                                    const PointH3<R>& p,
+                                    const PointH3<R>& q )
 {
+  typedef typename R::RT RT;
+
   const RT pla = pl.a();
   const RT plb = pl.b();
   const RT plc = pl.c();
@@ -279,12 +288,14 @@ has_larger_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
   return ( RT0 < scaled_dist_p_minus_scaled_dist_q );
 }
 
-template <class FT, class RT>
+template <class R>
 bool
-has_smaller_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
-                                 const PointH3<FT,RT>& p,
-                                 const PointH3<FT,RT>& q )
+has_smaller_signed_distance_to_plane(const PlaneH3<R>& pl,
+                                     const PointH3<R>& p,
+                                     const PointH3<R>& q )
 {
+  typedef typename R::RT RT;
+
   const RT pla = pl.a();
   const RT plb = pl.b();
   const RT plc = pl.c();
@@ -307,38 +318,195 @@ has_smaller_signed_dist_to_plane(const PlaneH3<FT,RT>& pl,
   return ( scaled_dist_p_minus_scaled_dist_q < RT0 );
 }
 
-template <class FT, class RT>
+template <class R>
+inline
 Comparison_result
-cmp_signed_dist_to_plane(const PointH3<FT,RT>& p,
-                         const PointH3<FT,RT>& q,
-                         const PointH3<FT,RT>& r,
-                         const PointH3<FT,RT>& s,
-                         const PointH3<FT,RT>& t)
+compare_signed_distance_to_plane(const PointH3<R>& p,
+                                 const PointH3<R>& q,
+                                 const PointH3<R>& r,
+                                 const PointH3<R>& s,
+                                 const PointH3<R>& t)
 {
   CGAL_kernel_precondition( !collinear(p,q,r) );
-  PlaneH3<FT,RT> P(p,q,r);
+  PlaneH3<R> P(p,q,r);
   return cmp_signed_dist_to_plane( P, s, t);
 }
 
-template <class FT, class RT>
+template <class R>
+inline
 bool
-has_larger_signed_dist_to_plane(const PointH3<FT,RT>& p,
-                                const PointH3<FT,RT>& q,
-                                const PointH3<FT,RT>& r,
-                                const PointH3<FT,RT>& s,
-                                const PointH3<FT,RT>& t)
+has_larger_signed_distance_to_plane(const PointH3<R>& p,
+                                    const PointH3<R>& q,
+                                    const PointH3<R>& r,
+                                    const PointH3<R>& s,
+                                    const PointH3<R>& t)
 { return cmp_signed_dist_to_plane(p,q,r,s,t) == LARGER; }
 
 
-template <class FT, class RT>
+template <class R>
+inline
 bool
-has_smaller_signed_dist_to_plane(const PointH3<FT,RT>& p,
-                                 const PointH3<FT,RT>& q,
-                                 const PointH3<FT,RT>& r,
-                                 const PointH3<FT,RT>& s,
-                                 const PointH3<FT,RT>& t)
+has_smaller_signed_distance_to_plane(const PointH3<R>& p,
+                                     const PointH3<R>& q,
+                                     const PointH3<R>& r,
+                                     const PointH3<R>& s,
+                                     const PointH3<R>& t)
 { return cmp_signed_dist_to_plane(p,q,r,s,t) == SMALLER; }
 
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class R>
+Comparison_result
+cmp_dist_to_point(const PointH3<R>& ,
+                  const PointH3<R>& ,
+                  const PointH3<R>& );
+
+template <class R>
+bool
+has_larger_dist_to_point(const PointH3<R>& ,
+                         const PointH3<R>& ,
+                         const PointH3<R>& );
+
+template <class R>
+bool
+has_smaller_dist_to_point(const PointH3<R>& ,
+                          const PointH3<R>& ,
+                          const PointH3<R>& );
+
+template <class R>
+Comparison_result
+cmp_signed_dist_to_plane(const PlaneH3<R>& ,
+                         const PointH3<R>& ,
+                         const PointH3<R>& );
+
+template <class R>
+bool
+has_larger_signed_dist_to_plane(const PlaneH3<R>& ,
+                                const PointH3<R>& ,
+                                const PointH3<R>& );
+
+template <class R>
+bool
+has_smaller_signed_dist_to_plane(const PlaneH3<R>&,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& );
+
+template <class R>
+Comparison_result
+cmp_signed_dist_to_plane(const PointH3<R>& ,
+                         const PointH3<R>& ,
+                         const PointH3<R>& ,
+                         const PointH3<R>& ,
+                         const PointH3<R>& );
+
+template <class R>
+bool
+has_larger_signed_dist_to_plane(const PointH3<R>& ,
+                                const PointH3<R>& ,
+                                const PointH3<R>& ,
+                                const PointH3<R>& ,
+                                const PointH3<R>& );
+
+template <class R>
+bool
+has_smaller_signed_dist_to_plane(const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& ,
+                                 const PointH3<R>& );
+
+template <class R>
+inline
+Comparison_result
+cmp_dist_to_point(const PointH3<R>& p,
+                  const PointH3<R>& q,
+                  const PointH3<R>& r)
+{
+  return compare_distance_to_point(p, q, r);
+}
+
+template < class R>
+inline
+bool
+has_larger_dist_to_point(const PointH3<R>& p,
+                         const PointH3<R>& q,
+                         const PointH3<R>& r)
+{
+  return has_larger_distance_to_point(p, q, r);
+}
+
+template < class R>
+inline
+bool
+has_smaller_dist_to_point(const PointH3<R>& p,
+                          const PointH3<R>& q,
+                          const PointH3<R>& r)
+{
+  return has_smaller_distance_to_point(p, q, r);
+}
+
+template < class R>
+inline
+Comparison_result
+cmp_signed_dist_to_plane(const PlaneH3<R>& pl,
+                         const PointH3<R>& p,
+                         const PointH3<R>& q)
+{
+  return compare_signed_distance_to_plane(pl, p, q);
+}
+
+template <class R>
+inline
+bool
+has_larger_signed_dist_to_plane(const PlaneH3<R>& pl,
+                                const PointH3<R>& p,
+                                const PointH3<R>& q )
+{
+  return has_larger_signed_distance_to_plane(pl, p, q);
+}
+
+template <class R>
+inline
+bool
+has_smaller_signed_dist_to_plane(const PlaneH3<R>& pl,
+                                 const PointH3<R>& p,
+                                 const PointH3<R>& q )
+{
+  return has_smaller_signed_distance_to_plane(pl, p, q);
+}
+
+template <class R>
+Comparison_result
+cmp_signed_dist_to_plane(const PointH3<R>& p,
+                         const PointH3<R>& q,
+                         const PointH3<R>& r,
+                         const PointH3<R>& s,
+                         const PointH3<R>& t)
+{
+  return compare_signed_distance_to_plane(p, q, r, s, t);
+}
+
+template <class R>
+inline
+bool
+has_larger_signed_dist_to_plane(const PointH3<R>& p,
+                                const PointH3<R>& q,
+                                const PointH3<R>& r,
+                                const PointH3<R>& s,
+                                const PointH3<R>& t)
+{ return cmp_signed_dist_to_plane(p,q,r,s,t) == LARGER; }
+
+
+template <class R>
+inline
+bool
+has_smaller_signed_dist_to_plane(const PointH3<R>& p,
+                                 const PointH3<R>& q,
+                                 const PointH3<R>& r,
+                                 const PointH3<R>& s,
+                                 const PointH3<R>& t)
+{ return cmp_signed_dist_to_plane(p,q,r,s,t) == SMALLER; }
+#endif
 
 CGAL_END_NAMESPACE
 

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : intersection_and_then.fw
 // file          : demo/Robustness/triangulation_of_intersection_points_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/08/01 08:43:28 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
@@ -46,41 +44,40 @@
 //
 // ======================================================================
  
-
-#include <CGAL/basic.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
-#else
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
-#include <CGAL/leda_real.h>
-#include <CGAL/Point_2.h>
-#include <CGAL/Segment_2.h>
-#include <CGAL/Circle_2.h>
 #include <vector>
 #include <fstream>
+#ifdef CGAL_USE_LEDA
+#  include <CGAL/leda_real.h>
+typedef leda_real exact_NT;
+#else
+#  include <CGAL/Lazy_exact_nt.h>
+#  include <CGAL/MP_Float.h>
+#  include <CGAL/Quotient.h>
+typedef CGAL::Lazy_exact_nt<CGAL::Quotient<CGAL::MP_Float> >  exact_NT;
+#endif
 #include <CGAL/segment_intersection_points_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/Join_input_iterator.h>
 #include <CGAL/copy_n.h>
-#include <CGAL/IO/leda_window.h>
+#include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/Ostream_iterator.h>
 
-#include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/IO/Window_stream.h>
-#include <CGAL/kernel_to_kernel.h>
+#include <CGAL/Cartesian_converter.h>
 
+#include <CGAL/Filtered_kernel.h>
 
-
-// Workaround for VC++
-#ifdef CGAL_CFG_MATCHING_BUG_2
-#define CGAL_IA_CT double
-#define CGAL_IA_PROTECTED true
-#define CGAL_IA_ET leda_real
-#define CGAL_IA_CACHE No_Filter_Cache
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_window  CGAL::window
+#define leda_string  std::string
+#define leda_green   CGAL::green
+#define leda_blue    CGAL::blue
+#define leda_black   CGAL::black
+#define leda_red     CGAL::red
 #endif
-#include <CGAL/Arithmetic_filter.h>
 
 
 namespace CGAL {
@@ -118,7 +115,6 @@ throw_exception_for_assertion_violation( const char*  type,
 } // namespace CGAL
 
 
-
 int
 main( int argc, char** argv)
 {
@@ -126,13 +122,15 @@ main( int argc, char** argv)
   CGAL::set_error_handler( CGAL::throw_exception_for_assertion_violation);
 
   typedef CGAL::Cartesian<double>       C_double;
-  typedef CGAL::Point_2< C_double>      double_Point;
-  typedef CGAL::Segment_2< C_double>    double_Segment;
-  typedef CGAL::Cartesian<leda_real>    C_real;
-  typedef CGAL::Point_2< C_real>        real_Point;
-  typedef CGAL::Segment_2< C_real>      real_Segment;
-  typedef CGAL::Creator_uniform_2<double, double_Point>
-                                        Point_creator;
+  typedef CGAL::Cartesian<exact_NT>    C_real;
+  typedef CGAL::Filtered_kernel<C_double, C_real> C_filtered;
+  typedef C_double::Point_2             double_Point;
+  typedef C_double::Segment_2           double_Segment;
+  typedef C_real::Point_2               real_Point;
+  typedef C_real::Segment_2             real_Segment;
+  typedef C_filtered::Point_2           C_filtered_Point;
+  typedef C_filtered::Segment_2         C_filtered_Segment;
+  typedef CGAL::Creator_uniform_2<double, double_Point> Point_creator;
   typedef CGAL::Random_points_in_square_2<double_Point, Point_creator>
                                         Source;
   typedef CGAL::Creator_uniform_2<double_Point,  double_Segment>
@@ -140,31 +138,10 @@ main( int argc, char** argv)
   typedef CGAL::Join_input_iterator_2<Source, Source, Segment_creator>
                                         Segment_iterator;
 
-  typedef CGAL::Cartesian<CGAL::Filtered_exact< double, leda_real> >
-                                                           C_filtered;
-  typedef CGAL::Point_2< C_filtered>                       C_filtered_Point;
-  typedef CGAL::Segment_2< C_filtered>                     C_filtered_Segment;
+  typedef CGAL::Delaunay_triangulation_2<C_double>       DT_double;
+  typedef CGAL::Delaunay_triangulation_2<C_filtered>     DT_filtered;
+  typedef CGAL::Delaunay_triangulation_2<C_real>         DT_real;
 
-  typedef CGAL::Triangulation_euclidean_traits_2<C_double> Gtd;
-  typedef CGAL::Triangulation_vertex_base_2<Gtd>           Vbd;
-  typedef CGAL::Triangulation_face_base_2<Gtd>             Fbd;
-  typedef CGAL::Triangulation_default_data_structure_2<Gtd,Vbd,Fbd>
-                                                           Tdsd;
-  typedef CGAL::Delaunay_triangulation_2<Gtd,Tdsd>         DT_double;
-
-  typedef CGAL::Triangulation_euclidean_traits_2<C_filtered> Gtf;
-  typedef CGAL::Triangulation_vertex_base_2<Gtf>           Vbf;
-  typedef CGAL::Triangulation_face_base_2<Gtf>             Fbf;
-  typedef CGAL::Triangulation_default_data_structure_2<Gtf,Vbf,Fbf>
-                                                           Tdsf;
-  typedef CGAL::Delaunay_triangulation_2<Gtf,Tdsf>         DT_filtered;
-
-  typedef CGAL::Triangulation_euclidean_traits_2<C_real>   Gtr;
-  typedef CGAL::Triangulation_vertex_base_2<Gtr>           Vbr;
-  typedef CGAL::Triangulation_face_base_2<Gtr>             Fbr;
-  typedef CGAL::Triangulation_default_data_structure_2<Gtr,Vbr,Fbr>
-                                                           Tdsr;
-  typedef CGAL::Delaunay_triangulation_2<Gtr,Tdsr>         DT_real;
   Source RS(280);
   Segment_iterator g( RS, RS);
 
@@ -177,7 +154,7 @@ main( int argc, char** argv)
   std::vector< double_Segment>   double_segments;
   CGAL::copy_n( g, N, std::back_inserter( double_segments) );
   std::vector<real_Segment>  real_segments;
-  CGAL::Cartesian_double_to_Cartesian<leda_real> converter;
+  CGAL::Cartesian_converter<C_double, C_real> converter;
   std::transform( double_segments.begin(),
                   double_segments.end(),
                   std::back_inserter( real_segments),
@@ -199,8 +176,7 @@ main( int argc, char** argv)
 
 
   std::vector<C_filtered_Segment >  filtered_segments;
-  typedef CGAL::Filtered_exact< double, leda_real>  Filtered;
-  CGAL::Cartesian_double_to_Cartesian<Filtered>  Fconverter;
+  CGAL::Cartesian_converter<C_double, C_filtered>  Fconverter;
   std::transform( double_segments.begin(),
                   double_segments.end(),
                   std::back_inserter( filtered_segments),
@@ -236,8 +212,8 @@ main( int argc, char** argv)
   std::copy( double_segments.begin(),
              double_segments.end(),
              CGAL::Ostream_iterator< double_Segment, CGAL_Stream>( W));
-  W0.draw_text(25,115, leda_string("Cartesian< leda_real >"));
-  std::cout << "First with Cartesian< leda_real > ";
+  W0.draw_text(25,115, leda_string("Cartesian< exact_NT >"));
+  std::cout << "First with Cartesian< exact_NT > ";
   std::cout << std::endl;
   DT_real   DTR;
   std::copy( real_intersection_points.begin(),
@@ -254,8 +230,8 @@ main( int argc, char** argv)
   W.read_mouse();
 
   W0.draw_text(25,100,
-      leda_string("Cartesian< Filtered_exact< double, leda_real > >"));
-  std::cout << "Next with Cartesian< Filtered_exact< double, leda_real> > ";
+      leda_string("Filtered_kernel<Cartesian<double>, Cartesian<exact_NT> >"));
+  std::cout << "Next with Filtered_kernel<Cartesian<double>, Cartesian<exact_NT> > ";
   std::cout << std::endl;
   DT_filtered FTD;
   std::copy( filtered_intersection_points.begin(),
@@ -281,7 +257,11 @@ main( int argc, char** argv)
   {
     W0.set_fg_color( leda_red);
     leda_string fi = Msg.fi;
+#ifdef CGAL_USE_CGAL_WINDOW
+    int fistart = fi.find(leda_string("include/CGAL/"),0);
+#else
     int fistart = fi.pos(leda_string("include/CGAL/"),0);
+#endif
     fistart += 13;
     W0.draw_text(25,85,
         leda_string("Cartesian< double >: ")
@@ -290,10 +270,17 @@ main( int argc, char** argv)
       + leda_string(" in line ")
       + leda_string("%d", Msg.wo)
       + leda_string(" of file "));
+#ifdef CGAL_USE_CGAL_WINDOW
+    W0.draw_text(25,70, fi.substr( fistart, 200 ));
+    W0.draw_text(25,55, Msg.ex.substr(0,60) );
+    W0.draw_text(25,40, Msg.ex.substr(60,120) );
+    W0.draw_text(25,25, Msg.ex.substr(120,180) );
+#else
     W0.draw_text(25,70, fi( fistart, 200 ));
     W0.draw_text(25,55, Msg.ex(0,60) );
     W0.draw_text(25,40, Msg.ex(60,120) );
     W0.draw_text(25,25, Msg.ex(120,180) );
+#endif
     std::cout << Msg.ex << std::endl;
   }
 
@@ -301,4 +288,3 @@ main( int argc, char** argv)
 
   return 0;
 }
-#endif // USE_LEDA

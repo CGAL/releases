@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : leda_window.fw
 // file          : include/CGAL/IO/leda_window.h
-// package       : window (2.7.1)
-// revision      : 2.7
-// revision_date : 21 Aug 2000 
+// package       : window (2.8.10)
+// revision      : 2.8.4
+// revision_date : 21 June 2001
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -92,9 +91,8 @@ inline
 void
 cgalize(leda_window& w)
 {
-  w.set_frame_label("CGAL-2.1");
+  w.set_frame_label("CGAL-2.3");
   w.set_icon_label("CGAL");
-  w.set_node_width( 3);
   w.set_line_width( 2);
   w.set_icon_pixrect( w.create_pixrect( esprit_logo));
 }
@@ -148,11 +146,7 @@ operator<<(leda_window& w, const Point_2<R>& p)
 {
   double x = CGAL::to_double(p.x());
   double y = CGAL::to_double(p.y());
-  int width = w.get_node_width();
-  if (width < 2)
-      w.draw_point(x,y);
-  else
-      w.draw_filled_node(x,y);
+  w.draw_point(x,y);
   
   return w;
 }
@@ -170,11 +164,8 @@ operator>>(leda_window& w, Point_2<R>& p)
       double y = l_p.ycoord();
       w << l_p;
       w.set_mode( save);
-      int width = w.get_node_width();
-      if (width < 2)
-          w.draw_point(x,y);
-      else
-          w.draw_filled_node(x,y);
+ 
+      w.draw_point(x,y);
       
       p = Point_2<R>( RT(x), RT(y));
   }
@@ -207,11 +198,7 @@ read_mouse_plus(leda_window& w, Point_2<R>& p, int& button)
   typedef typename R::RT RT;
   double x, y;
   button = w.read_mouse(x,y);
-  int width = w.get_node_width();
-  if (width < 2)
-      w.draw_point(x,y);
-  else
-      w.draw_filled_node(x,y);
+  w.draw_point(x,y);
   
   p = Point_2<R>(RT(x), RT(y));
 }
@@ -414,6 +401,14 @@ operator<<(leda_window& w, const Triangle_2<R>& t)
          y1 = CGAL::to_double(t.vertex(1).y()),
          x2 = CGAL::to_double(t.vertex(2).x()),
          y2 = CGAL::to_double(t.vertex(2).y());
+
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled triangle ...
+    w.draw_filled_triangle(leda_point(x0,y0), leda_point(x1,y1), leda_point(x2,y2), cl); 
+  }	 
+	 
+	 
   w.draw_segment(x0, y0, x1, y1);
   w.draw_segment(x1, y1, x2, y2);
   w.draw_segment(x2, y2, x0, y0);
@@ -481,6 +476,13 @@ operator>>(leda_window& w, Triangle_2<R>& t)
   double x2 = third.xcoord();
   double y2 = third.ycoord();
   w.set_mode( save);
+  
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled triangle ...
+    w.draw_filled_triangle(leda_point(x0,y0), leda_point(x1,y1), leda_point(x2,y2), cl); 
+  }  
+  
   w.draw_segment(x0,y0, x1, y1);
   w.draw_segment(x1,y1, x2, y2);
   w.draw_segment(x2,y2, x0, y0);
@@ -570,6 +572,13 @@ operator<<(leda_window& w, const Circle_2<R>& c)
   double cx = CGAL::to_double(c.center().x()),
          cy = CGAL::to_double(c.center().y()),
          r  = CGAL::to_double(c.squared_radius());
+	 
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled circle ...
+    w.draw_disc(cx, cy , std::sqrt(r), cl); 
+  }		 
+	 
   w.draw_circle(cx, cy , std::sqrt(r));
   return w;
 }
@@ -611,6 +620,13 @@ operator>>(leda_window& w, Circle_2<R>& c)
   double sqr = dx*dx+dy*dy;
   w.set_mode( save);
   w.set_buttons( save_but);
+  
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled circle ...
+    w.draw_disc(cx, cy , std::sqrt(sqr), cl); 
+  }    
+  
   w.draw_circle(cx, cy , std::sqrt(sqr));
   c = Circle_2<R>(center, RT(sqr));
   return w;
@@ -670,6 +686,13 @@ operator<<(leda_window& w, const Iso_rectangle_2<R>& r)
          ymin = CGAL::to_double(r.min().y()),
          xmax = CGAL::to_double(r.max().x()),
          ymax = CGAL::to_double(r.max().y());
+	 
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled rectangle ...
+    w.draw_filled_rectangle(xmin, ymin, xmax, ymax, cl); 
+  }	 
+	 
   w.draw_segment(xmin, ymin, xmax, ymin);
   w.draw_segment(xmax, ymin, xmax, ymax);
   w.draw_segment(xmax, ymax, xmin, ymax);
@@ -710,6 +733,13 @@ operator>>(leda_window& w, Iso_rectangle_2<R>& r)
                                                RT(first.ycoord())),
                               Point_2<R>( RT(x), RT(y)));
   w.set_mode( save);
+  
+  leda_color cl = w.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled rectangle ...
+    w.draw_filled_rectangle(first.xcoord(), first.ycoord(), x, y, cl); 
+  }  
+  
   w.draw_rectangle( first.xcoord(), first.ycoord(), x, y);
   w.set_buttons( save_but);
   return w;

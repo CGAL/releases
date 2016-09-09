@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,28 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_vertex_base_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.16 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.21 $
 // author(s)     : Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -49,62 +48,48 @@
 #ifndef CGAL_TRIANGULATION_VERTEX_BASE_3_H
 #define CGAL_TRIANGULATION_VERTEX_BASE_3_H
 
+#include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class GT > class Triangulation_vertex_base_3;
-template < class GT >
-std::istream& operator >> (std::istream&, Triangulation_vertex_base_3<GT>&);
-  
 template < class GT >
 class Triangulation_vertex_base_3
 {
-  friend std::istream& operator >> CGAL_NULL_TMPL_ARGS
-  (std::istream&, Triangulation_vertex_base_3<GT>&);
-
 public:
-  typedef typename GT::Point Point;
+  typedef typename GT::Point_3 Point;
   
   // CONSTRUCTORS
   
-  inline 
   Triangulation_vertex_base_3()
     : _p(), _c(NULL)
   {}
   
-  inline 
   Triangulation_vertex_base_3(const Point & p)
     :  _p(p), _c(NULL)
   {}
     
-  inline 
   Triangulation_vertex_base_3(const Point & p, void* c)
     :  _p(p), _c(c)
   {}
 
-  inline 
   Triangulation_vertex_base_3(void* c)
     :  _p(), _c(c)
   {}
 
   // ACCES 
 
-  inline 
-  Point point() const
+  const Point & point() const
   { return _p; }
     
-  inline 
   void* cell() const
   { return _c; }
 
   // SETTING
 
-  inline 
   void set_point(const Point & p)
   { _p = p; }
     
-  inline 
   void set_cell(void* c)
   { _c = c; }
 
@@ -115,15 +100,12 @@ public:
   // to add their own purpose checking
   bool is_valid(bool, int ) const
   { 
-    //return true; 
-    return( cell() != NULL );
+    return cell() != NULL;
   }
-
 
 private:
   Point _p;
   void * _c;
-  
 };
 
 template < class GT >
@@ -131,92 +113,60 @@ std::istream& operator >>
 (std::istream& is, Triangulation_vertex_base_3<GT> & v)
   // non combinatorial information. Default = point
 {
-  typedef typename GT::Point Point;
-  //  Point p;
-  //  is >> p;
-  is >> v._p;
-  //  v.set_point(p);
+  typename GT::Point_3 p;
+  is >> p;
+  v.set_point(p);
   return is;
 }
+
 template < class GT >
 std::ostream& operator<<
 (std::ostream& os, const Triangulation_vertex_base_3<GT> & v)
   // non combinatorial information. Default = point
 {
   os << v.point();
-  //  if(is_ascii(os)){
-  //    os << endl;
-  //  }
   return os;
 }
 
 template < class GT >
-class Triangulation_vertex_base_pointer_3;
-template < class GT >
-std::istream& operator >> 
-(std::istream&, Triangulation_vertex_base_pointer_3<GT>&);
-
-template < class GT >
 class Triangulation_vertex_base_pointer_3
 {
-  friend std::istream& operator >> CGAL_NULL_TMPL_ARGS
-  (std::istream&, Triangulation_vertex_base_pointer_3<GT>&);
-
 public:
-  typedef typename GT::Point Point;
+  typedef typename GT::Point_3 Point;
   
   // CONSTRUCTORS
   
-  inline 
   Triangulation_vertex_base_pointer_3()
     : _p(NULL), _c(NULL)
   {}
   
-  inline 
   Triangulation_vertex_base_pointer_3(const Point & p)
-    :  _p(&p), _c(NULL)
-  {
-    //    const Point * q =  &p;
-    //    _p = q;
-  }
+    : _p(&p), _c(NULL)
+  {}
     
-  inline 
   Triangulation_vertex_base_pointer_3(const Point & p, void* c)
-    :  _p(p), _c(c)
+    : _p(p), _c(c)
   {}
 
-  inline 
   Triangulation_vertex_base_pointer_3(void* c)
-    :  _p(NULL), _c(c)
+    : _p(NULL), _c(c)
   {}
 
   // ACCES 
 
-  inline 
   const Point & point() const
   { return *_p; }
     
-  inline 
   void* cell() const
   { return _c; }
 
   // SETTING
 
-//   inline 
-//   void set_point(Point * p)
-//   {     
-//     const Point * q =  &p;
-//     p = q; 
-//   }
-    
-  inline 
   void set_point(const Point & p)
   {     
-    //    const Point * q =  &p;
     _p = &p; 
   }
     
-  inline 
   void set_cell(void* c)
   { _c = c; }
 
@@ -227,15 +177,12 @@ public:
   // to add their own purpose checking
   bool is_valid(bool, int ) const
   { 
-    //return true; 
-    return( cell() != NULL );
+    return cell() != NULL;
   }
-
 
 private:
   const Point * _p;
   void * _c;
-  
 };
 
 template < class GT >
@@ -243,22 +190,19 @@ std::istream& operator >>
 (std::istream& is, Triangulation_vertex_base_pointer_3<GT> & v)
   // non combinatorial information. Default = point
 { 
-  typedef typename GT::Point Point;
-  Point q;
-  is >> q;
-  const Point * p = new Point(q);
-  v._p = p;
+  typedef typename GT::Point_3 Point;
+  Point * q = new Point();
+  is >> *q;
+  v.set_point(*q);
   return is;
 }
+
 template < class GT >
 std::ostream& operator<<
 (std::ostream& os, const Triangulation_vertex_base_pointer_3<GT> & v)
   // non combinatorial information. Default = point
 {
   os << v.point();
-  //  if(is_ascii(os)){
-  //    os << endl;
-  //  }
   return os;
 }
 

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Translation_rep_3.h
-// package       : C3 (5.2)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2000/06/27 14:06:44 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2000/11/10 17:32:00 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -70,12 +70,12 @@ public:
 	                                                Aff_transformation_3;
 
   Translation_repC3() {}
-  Translation_repC3(const Vector_3 &tv) : _translationvector(tv) {}
+  Translation_repC3(const Vector_3 &tv) : translationvector_(tv) {}
   virtual ~Translation_repC3() {}
 
   virtual Point_3     transform(const Point_3 &p) const
   {
-    return p + _translationvector;
+    return p + translationvector_;
   }
 
   virtual Vector_3    transform(const Vector_3 &v) const
@@ -98,59 +98,59 @@ public:
     return Aff_transformation_3(t.t11,
                                 t.t12,
 				t.t13,
-				t.t11 * _translationvector.x()
-				+ t.t12 * _translationvector.y()
-				+ t.t13 * _translationvector.z() + t.t14,
+				t.t11 * translationvector_.x()
+				+ t.t12 * translationvector_.y()
+				+ t.t13 * translationvector_.z() + t.t14,
 				
 				t.t21,
                                 t.t22,
 				t.t23,
-				t.t21 * _translationvector.x()
-				+ t.t22 * _translationvector.y()
-				+ t.t23 * _translationvector.z() + t.t24,
+				t.t21 * translationvector_.x()
+				+ t.t22 * translationvector_.y()
+				+ t.t23 * translationvector_.z() + t.t24,
 				
 				t.t31,
                                 t.t32,
 				t.t33,
-				t.t31 * _translationvector.x()
-				+ t.t32 * _translationvector.y()
-				+ t.t33 * _translationvector.z() + t.t34);
+				t.t31 * translationvector_.x()
+				+ t.t32 * translationvector_.y()
+				+ t.t33 * translationvector_.z() + t.t34);
   }
 
   virtual Aff_transformation_3 compose(const Translation_3 &t) const
   {
     return Aff_transformation_3(TRANSLATION,
-                                _translationvector + t._translationvector);
+                                translationvector_ + t.translationvector_);
   }
 
   virtual Aff_transformation_3 compose(const Scaling_3 &t) const
   {
     FT ft0(0);
-    return Aff_transformation_3(t._scalefactor,
+    return Aff_transformation_3(t.scalefactor_,
                                 ft0,
 				ft0,
-				t._scalefactor * _translationvector.x(),
+				t.scalefactor_ * translationvector_.x(),
 				
 				ft0,
-                                t._scalefactor,
+                                t.scalefactor_,
 				ft0,
-				t._scalefactor * _translationvector.y(),
+				t.scalefactor_ * translationvector_.y(),
 				
 				ft0,
                                 ft0,
-				t._scalefactor,
-				t._scalefactor * _translationvector.z());
+				t.scalefactor_,
+				t.scalefactor_ * translationvector_.z());
   }
 
   virtual Aff_transformation_3 inverse() const
   {
-    return Aff_transformation_3(TRANSLATION, - _translationvector);
+    return Aff_transformation_3(TRANSLATION, - translationvector_);
   }
 
   virtual Aff_transformation_3 transpose() const
   {
     FT ft1(1), ft0(0);
-    return Aff_transformation_3(TRANSLATION, _translationvector);
+    return Aff_transformation_3(TRANSLATION, translationvector_);
   }
   
   virtual bool is_even() const
@@ -161,21 +161,21 @@ public:
   virtual FT cartesian(int i, int j) const
   {
     if (j==i) return FT(1);
-    if (j==3) return _translationvector[i];
+    if (j==3) return translationvector_[i];
     return FT(0);
   }
 
   virtual std::ostream &print(std::ostream &os) const
   {
     FT ft0(0), ft1(1);
-    os << "Aff_transformationC3(VectorC3("<< _translationvector.x() << ","
-       << _translationvector.y() << ","
-       << _translationvector.z() << "))\n";
+    os << "Aff_transformationC3(VectorC3("<< translationvector_.x() << ","
+       << translationvector_.y() << ","
+       << translationvector_.z() << "))\n";
     return os;
   }
 
 private:
-  Vector_3   _translationvector;
+  Vector_3   translationvector_;
 };
 
 CGAL_END_NAMESPACE

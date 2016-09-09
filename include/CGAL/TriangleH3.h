@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : TriangleH3.fw
 // file          : include/CGAL/TriangleH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/04/12 07:32:01 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,67 +50,54 @@
 #ifndef CGAL_TRIANGLEH3_H
 #define CGAL_TRIANGLEH3_H
 
-#ifndef PREDICATES_ON_POINTSH3_H
 #include <CGAL/predicates_on_pointsH3.h>
-#endif // PREDICATES_ON_POINTSH3_H
-#ifndef CGAL_PLANEH3_H
 #include <CGAL/PlaneH3.h>
-#endif // CGAL_PLANEH3_H
-#ifndef CGAL_TETRAHEDRONH3_H
 #include <CGAL/TetrahedronH3.h>
-#endif // CGAL_TETRAHEDRONH3_H
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT >
-class TriangleH3 : public Handle_for< Threetuple< PointH3<FT,RT> > >
+template < class R_ >
+class TriangleH3
+  : public R_::Triangle_handle_3
 {
 public:
-  TriangleH3();
-  TriangleH3(const PointH3<FT,RT> &p,
-             const PointH3<FT,RT> &q,
-             const PointH3<FT,RT> &r);
+  typedef R_                R;
+  typedef typename R::RT    RT;
+  typedef typename R::FT    FT;
 
-  bool          operator==(const TriangleH3<FT,RT> &t) const;
-  bool          operator!=(const TriangleH3<FT,RT> &t) const;
+  typedef typename R::Triangle_handle_3         Triangle_handle_3_;
+  typedef typename Triangle_handle_3_::element_type Triangle_ref_3;
 
-  PlaneH3<FT,RT>
-                supporting_plane() const;
+  TriangleH3()
+    : Triangle_handle_3_(Triangle_ref_3()) {}
 
-  TriangleH3<FT,RT>
-                transform(const Aff_transformationH3<FT,RT> &t) const;
-  bool          has_on(const PointH3<FT,RT> &p) const;
-  bool          nondegenerate_has_on(const PointH3<FT,RT> &p) const;
+  TriangleH3(const PointH3<R> &p,
+             const PointH3<R> &q,
+             const PointH3<R> &r)
+    : Triangle_handle_3_(Triangle_ref_3(p,q,r)) {}
+
+  bool          operator==(const TriangleH3<R> &t) const;
+  bool          operator!=(const TriangleH3<R> &t) const;
+
+  PlaneH3<R>    supporting_plane() const;
+
+  TriangleH3<R> transform(const Aff_transformationH3<R> &t) const;
+  bool          has_on(const PointH3<R> &p) const;
+  bool          nondegenerate_has_on(const PointH3<R> &p) const;
   bool          is_degenerate() const;
 
+  PointH3<R> vertex(int i) const;
+  PointH3<R> operator[](int i) const;
 
-  PointH3<FT,RT> vertex(int i) const;
-  PointH3<FT,RT> operator[](int i) const;
+  FT       squared_area() const;
 
   Bbox_3   bbox() const;
-
 };
 
-
-
-template < class FT, class RT >
-inline
-TriangleH3<FT,RT>::TriangleH3()
- : Handle_for< Threetuple< PointH3<FT,RT> > >( Threetuple< PointH3<FT,RT> >())
-{}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-TriangleH3<FT,RT>::TriangleH3(const PointH3<FT,RT> &p,
-                              const PointH3<FT,RT> &q,
-                              const PointH3<FT,RT> &r)
- : Handle_for<Threetuple<PointH3<FT,RT> > >(Threetuple<PointH3<FT,RT> >(p,q,r))
-{}
-
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_LARGE_INLINE
 bool
-TriangleH3<FT,RT>::operator==(const TriangleH3<FT,RT> &t) const
+TriangleH3<R>::operator==(const TriangleH3<R> &t) const
 {
   int i;
   for(i = 0; (i< 3) && (vertex(0) != t.vertex(i) ); i++) {}
@@ -122,58 +108,68 @@ TriangleH3<FT,RT>::operator==(const TriangleH3<FT,RT> &t) const
   return ( vertex(1) == t.vertex(i+1) && vertex(2) == t.vertex(i+2) );
 }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TriangleH3<FT,RT>::operator!=(const TriangleH3<FT,RT> &t) const
+TriangleH3<R>::operator!=(const TriangleH3<R> &t) const
 { return !(*this == t); }
-template < class FT, class RT >
+
+template < class R >
 CGAL_KERNEL_INLINE
-PointH3<FT,RT>
-TriangleH3<FT,RT>::vertex(int i) const
+PointH3<R>
+TriangleH3<R>::vertex(int i) const
 {
-  switch (i)
-  {
-      case 0:  return ptr->e0;
-      case 1:  return ptr->e1;
-      case 2:  return ptr->e2;
-      default: return vertex(i%3);
-  }
-  // return PointH3<FT,RT>();
+  if (i<0) i=(i%3)+3;
+  else if (i>2) i=i%3;
+  return (i==0) ? Ptr()->e0 :
+         (i==1) ? Ptr()->e1 :
+                  Ptr()->e2;
 }
-template < class FT, class RT >
+
+template < class R >
 inline
-PointH3<FT,RT>
-TriangleH3<FT,RT>::operator[](int i) const
+PointH3<R>
+TriangleH3<R>::operator[](int i) const
 { return vertex(i); }
 
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-PlaneH3<FT,RT>
-TriangleH3<FT,RT>::supporting_plane() const
-{ return PlaneH3<FT,RT>(vertex(0), vertex(1), vertex(2)); }
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+typename TriangleH3<R>::FT
+TriangleH3<R>::squared_area() const
+{ 
+   VectorH3<R> v1 = vertex(1) - vertex(0);
+   VectorH3<R> v2 = vertex(2) - vertex(0);
+   VectorH3<R> v3 = cross_product(v1, v2);
+   return (v3 * v3)/FT(4); 
+}
 
-template < class FT, class RT >
+template < class R >
+CGAL_KERNEL_INLINE
+PlaneH3<R>
+TriangleH3<R>::supporting_plane() const
+{ return PlaneH3<R>(vertex(0), vertex(1), vertex(2)); }
+
+template < class R >
 inline
 Bbox_3
-TriangleH3<FT,RT>::bbox() const
+TriangleH3<R>::bbox() const
 { return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox(); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
-TriangleH3<FT,RT>
-TriangleH3<FT,RT>::
-transform(const Aff_transformationH3<FT,RT> &t) const
+TriangleH3<R>
+TriangleH3<R>::
+transform(const Aff_transformationH3<R> &t) const
 {
-  return TriangleH3<FT,RT>(t.transform(vertex(0)),
+  return TriangleH3<R>(t.transform(vertex(0)),
                                 t.transform(vertex(1)),
                                 t.transform(vertex(2)));
 }
 
 
-#ifndef NO_OSTREAM_INSERT_TRIANGLEH3
-template < class FT, class RT >
-std::ostream &operator<<(std::ostream &os, const TriangleH3<FT,RT> &t)
+#ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLEH3
+template < class R >
+std::ostream &operator<<(std::ostream &os, const TriangleH3<R> &t)
 {
   switch(os.iword(IO::mode))
   {
@@ -186,48 +182,49 @@ std::ostream &operator<<(std::ostream &os, const TriangleH3<FT,RT> &t)
           return os;
   }
 }
-#endif // NO_OSTREAM_INSERT_TRIANGLEH3
+#endif // CGAL_NO_OSTREAM_INSERT_TRIANGLEH3
 
-#ifndef NO_ISTREAM_EXTRACT_TRIANGLEH3
-template < class FT, class RT >
-std::istream &operator>>(std::istream &is, TriangleH3<FT,RT> &t)
+#ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLEH3
+template < class R >
+std::istream &operator>>(std::istream &is, TriangleH3<R> &t)
 {
-  PointH3<FT,RT> p, q, r;
+  PointH3<R> p, q, r;
   is >> p >> q >> r;
-  t = TriangleH3<FT,RT>(p, q, r);
+  t = TriangleH3<R>(p, q, r);
   return is;
 }
-#endif // NO_ISTREAM_EXTRACT_TRIANGLEH3
-template < class FT, class RT >
+#endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEH3
+
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-TriangleH3<FT,RT>::
-nondegenerate_has_on(const PointH3<FT,RT> &p) const
+TriangleH3<R>::
+nondegenerate_has_on(const PointH3<R> &p) const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  PlaneH3<FT,RT> sup_pl = supporting_plane();
+  PlaneH3<R> sup_pl = supporting_plane();
   if ( !sup_pl.has_on(p) )
   {
       return false;
   }
-  TetrahedronH3<FT,RT> tetrapak( vertex(0),
+  TetrahedronH3<R> tetrapak( vertex(0),
                                       vertex(1),
                                       vertex(2),
                                       vertex(0) + sup_pl.orthogonal_vector());
   return tetrapak.has_on_boundary(p);
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_LARGE_INLINE
 bool
-TriangleH3<FT,RT>::has_on(const PointH3<FT,RT> &p) const
+TriangleH3<R>::has_on(const PointH3<R> &p) const
 {
   if (!is_degenerate() )
   {
       return nondegenerate_has_on(p);
   }
-  PointH3<FT,RT> minp( vertex(0) );
-  PointH3<FT,RT> maxp( vertex(1) );
+  PointH3<R> minp( vertex(0) );
+  PointH3<R> maxp( vertex(1) );
   if (lexicographically_xyz_smaller(vertex(1),vertex(0)) )
   {
       minp = vertex(1);
@@ -245,17 +242,16 @@ TriangleH3<FT,RT>::has_on(const PointH3<FT,RT> &p) const
   {
       return (p == maxp);
   }
-  SegmentH3<FT,RT> s(minp,maxp);
+  SegmentH3<R> s(minp,maxp);
   return s.has_on(p);
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-TriangleH3<FT,RT>::is_degenerate() const
+TriangleH3<R>::is_degenerate() const
 { return collinear(vertex(0),vertex(1),vertex(2)); }
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_TRIANGLEH3_H

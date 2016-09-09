@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : ps_file.fw
 // file          : include/CGAL/IO/Postscript_file_stream.h
-// package       : window (2.7.1)
-// revision      : 2.7
-// revision_date : 21 Aug 2000 
+// package       : window (2.8.10)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/07/11 17:25:02 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -96,8 +95,8 @@ class Postscript_file_stream : public leda_ps_file
    { set_draw_bb(false); }
 
    void display() {}
-   void display(int x, int y) {}
-   int read_mouse(double& x, double& y) {return 1;}
+   void display(int, int) {}
+   int read_mouse(double& , double& ) {return 1;}
    leda_color set_fg_color(leda_color c) { return set_color(c); }
    void set_font(const leda_string& ls) { set_text_font(ls); }
    void change_rgb(const Color&);
@@ -135,7 +134,6 @@ inline
 void
 cgalize(Postscript_file_stream& w)
 {
-  w.set_node_width( 5);
   w.set_line_width( 1);
 }
 
@@ -143,10 +141,10 @@ cgalize(Postscript_file_stream& w)
 inline
 Postscript_file_stream*
 create_demo_postscript_file_stream( float w = 512.0, float h = 512.0,
-                                    const char* str = "CGAL",
+                                    const char* str = "CGAL_unnamed.ps",
                                     double x_extension = 1.0)
 {
-  Postscript_file_stream* Wptr = new Postscript_file_stream( w, h);
+  Postscript_file_stream* Wptr = new Postscript_file_stream( w, h, str);
   cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);
@@ -156,11 +154,11 @@ create_demo_postscript_file_stream( float w = 512.0, float h = 512.0,
 
 inline
 Postscript_file_stream*
-create_and_display_demo_postscript_file_stream(float w = 512.0, float h = 512.0,
-                                               const char* str = "CGAL",
-                                               double x_extension = 1.0)
+create_and_display_demo_postscript_file_stream(float w = 512.0, 
+                    float h = 512.0, const char* str = "CGAL_unnamed.ps",
+                    double x_extension = 1.0)
 {
-  Postscript_file_stream* Wptr = new Postscript_file_stream( w, h);
+  Postscript_file_stream* Wptr = new Postscript_file_stream( w, h, str);
   cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);
@@ -182,11 +180,7 @@ operator<<(Postscript_file_stream& w, const Point_2<R>& p)
 {
   double x = CGAL::to_double(p.x());
   double y = CGAL::to_double(p.y());
-  double width = w.get_node_width();
-  if (width < 2.0)
-      w.draw_point(x,y);
-  else
-      w.draw_filled_node(x,y);
+  w.draw_point(x,y);
 
   return w;
 }
@@ -204,11 +198,7 @@ operator>>(Postscript_file_stream& w, Point_2<R>& p)
       double y = l_p.ycoord();
       w << l_p;
       w.set_mode( save);
-      double width = w.get_node_width();
-      if (width < 2.0)
-          w.draw_point(x,y);
-      else
-          w.draw_filled_node(x,y);
+      w.draw_point(x,y);
 
       p = Point_2<R>( RT(x), RT(y));
   }
@@ -241,11 +231,7 @@ read_mouse_plus(Postscript_file_stream& w, Point_2<R>& p, int& button)
   typedef typename R::RT RT;
   double x, y;
   button = w.read_mouse(x,y);
-  double width = w.get_node_width();
-  if (width < 2.0)
-      w.draw_point(x,y);
-  else
-      w.draw_filled_node(x,y);
+  w.draw_point(x,y);
 
   p = Point_2<R>(RT(x), RT(y));
 }

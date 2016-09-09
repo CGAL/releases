@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,28 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : predicate_classes_2.fw
 // file          : include/CGAL/predicate_classes_2.h
-// package       : _2 (3.6)
-// revision      : 3.6
-// revision_date : 30 Jul 2000 
+// package       : _2 (3.19)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/07/23 17:43:07 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
@@ -47,52 +45,50 @@
 //
 // ======================================================================
  
-
 #ifndef CGAL_PREDICATES_CLASSES_2_H
 #define CGAL_PREDICATES_CLASSES_2_H
-#include <CGAL/predicates_on_points_2.h>
-#include <CGAL/distance_predicates_2.h>
-#include <CGAL/predicates_on_lines_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Point>             struct X_equal_2;
-template <class Point>             struct Y_equal_2;
-template <class Point>             struct Compare_x_2;
-template <class Point>             struct Compare_y_2;
-template <class Point>             struct Compare_deltax_deltay_2;
-template <class Point>             struct Compare_xy_2;
-template <class Point>             struct Less_xy_2;
-template <class Point>             struct Compare_yx_2;
-template <class Point>             struct Less_yx_2;
-template <class Point>             struct Are_ordered_along_line_2 ;
-template <class Point>             struct Collinear_are_ordered_along_line_2;
-template <class Point>             struct Are_strictly_ordered_along_line_2;
-template <class Point>             struct Collinear_are_strictly_ordered_along_line_2;
-template <class Point>             struct Collinear_2;
-template <class Point>             struct Leftturn_2;
-template <class Point>             struct Rightturn_2;
-template <class Point>             struct Orientation_2;
-template <class Point>             struct Side_of_oriented_circle_2;
-template <class Point>             struct Side_of_bounded_circle_2;
-template <class Point>             class  Compare_distance_to_point_2;
-template <class Point>             class  Less_distance_to_point_2;
+template <class Point>      struct X_equal_2;
+template <class Point>      struct Y_equal_2;
+template <class Point>      struct Compare_x_2;
+template <class Point>      struct Compare_y_2;
+template <class Point>      struct Compare_deltax_deltay_2;
+template <class Point>      struct Compare_xy_2;
+template <class Point>      struct Less_xy_2;
+template <class Point>      struct Compare_yx_2;
+template <class Point>      struct Less_yx_2;
+template <class Point>      struct Are_ordered_along_line_2 ;
+template <class Point>      struct Collinear_are_ordered_along_line_2;
+template <class Point>      struct Are_strictly_ordered_along_line_2;
+template <class Point>      struct Collinear_are_strictly_ordered_along_line_2;
+template <class Point>      struct Collinear_2;
+template <class Point>      struct Left_turn_2;
+template <class Point>      struct Right_turn_2;
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class Point>      struct Leftturn_2;
+template <class Point>      struct Rightturn_2;
+#endif
+template <class Point>      struct Orientation_2;
+template <class Point>      struct Side_of_oriented_circle_2;
+template <class Point>      struct Side_of_bounded_circle_2;
+template <class Point>      class  Compare_distance_to_point_2;
+template <class Point>      class  Less_distance_to_point_2;
 template <class Point, class Line> class  Compare_signed_distance_to_line_2;
 template <class Point, class Line> class  Less_signed_distance_to_line_2;
-template <class Point>             class  Compare_signed_distance_to_implicit_line_2;
-template <class Point>             class  Less_signed_distance_to_implicit_line_2;
+template <class Point>      class Compare_signed_distance_to_implicit_line_2;
+template <class Point>      class Less_signed_distance_to_implicit_line_2;
 template <class Point, class Line> struct Compare_y_at_point_2;
-template <class Line>              struct Compare_y_at_implicit_point_2;
+template <class Line>       struct Compare_y_at_implicit_point_2;
 template <class Point, class Line> struct Compare_y_of_lines_at_point_2;
-template <class Line>              struct Compare_y_of_lines_at_implicit_point_2;
+template <class Line>       struct Compare_y_of_lines_at_implicit_point_2;
 template <class Point, class Line> struct Compare_x_implicit_point_2;
-template <class Line>              struct Compare_x_implicit_points_2;
-template <class Line>              struct Compare_x_implicit_points_same_line_2;
+template <class Line>       struct Compare_x_implicit_points_2;
+template <class Line>       struct Compare_x_implicit_points_same_line_2;
 template <class Point, class Line> struct Compare_y_implicit_point_2;
-template <class Line>              struct Compare_y_implicit_points_2;
-template <class Line>              struct Compare_y_implicit_points_same_line_2;
-
-
+template <class Line>       struct Compare_y_implicit_points_2;
+template <class Line>       struct Compare_y_implicit_points_same_line_2;
 
 template <class Point>
 struct X_equal_2
@@ -210,19 +206,36 @@ struct Collinear_2
        { return collinear( p,q,r); }
 };
 
+
+template <class Point>
+struct Left_turn_2
+{
+  bool operator()( const Point& p, const Point& q, const Point& r) const
+       { return left_turn( p,q,r); }
+};
+
+template <class Point>
+struct Right_turn_2
+{
+  bool operator()( const Point& p, const Point& q, const Point& r) const
+       { return right_turn( p,q,r); }
+};
+
+#ifndef CGAL_NO_DEPRECATED_CODE
 template <class Point>
 struct Leftturn_2
 {
   bool operator()( const Point& p, const Point& q, const Point& r) const
-       { return leftturn( p,q,r); }
+       { return left_turn( p,q,r); }
 };
 
 template <class Point>
 struct Rightturn_2
 {
   bool operator()( const Point& p, const Point& q, const Point& r) const
-       { return rightturn( p,q,r); }
+       { return right_turn( p,q,r); }
 };
+#endif
 
 template <class Point>
 struct Orientation_2
@@ -257,21 +270,18 @@ class Compare_distance_to_point_2
   Compare_distance_to_point_2( const Point& p) : _p(p) {}
   Comparison_result
        operator()( const Point& q, const Point& r)
-       { return cmp_dist_to_point( _p,q,r); }
+       { return compare_distance_to_point( _p,q,r); }
  private:
   Point _p;
 };
 
 template <class Point>
 class Less_distance_to_point_2
- : public CGAL_STD::binary_function< Point, Point, bool>
 {
  public:
-  Less_distance_to_point_2( const Point& p) : _p(p) {}
-  bool operator()( const Point& q, const Point& r)
-       { return has_smaller_dist_to_point( _p,q,r); }
- private:
-  Point _p;
+  Less_distance_to_point_2( ) {}
+  bool operator()( const Point& p, const Point& q, const Point& r)
+       { return has_smaller_distance_to_point(p,q,r); }
 };
 
 template <class Point, class Line>
@@ -282,7 +292,7 @@ class Compare_signed_distance_to_line_2
   Compare_signed_distance_to_line_2( const Line& l) : _l(l) {}
   Comparison_result
        operator()( const Point& p, const Point& q)
-       { return cmp_signed_dist_to_line( _l, p, q); }
+       { return compare_signed_distance_to_line( _l, p, q); }
  private:
   Line _l;
 };
@@ -294,7 +304,7 @@ class Less_signed_distance_to_line_2
  public:
   Less_signed_distance_to_line_2( const Line& l) : _l(l) {}
   bool operator()( const Line& l, const Point& p, const Point& q)
-       { return has_smaller_signed_dist_to_line( l, p, q); }
+       { return has_smaller_signed_distance_to_line( l, p, q); }
  private:
   Line _l;
 };
@@ -309,7 +319,7 @@ class Compare_signed_distance_to_implicit_line_2
   {}
   Comparison_result
        operator()( const Point& r, const Point& s)
-       { return cmp_signed_dist_to_line( _p, _q, r, s); }
+       { return compare_signed_distance_to_line( _p, _q, r, s); }
  private:
   Point _p;
   Point _q;
@@ -324,7 +334,7 @@ class Less_signed_distance_to_implicit_line_2
    : _p(p), _q(q)
   {}
   bool operator()( const Point& r, const Point& s)
-       { return has_smaller_signed_dist_to_line( _p, _q, r, s); }
+       { return has_smaller_signed_distance_to_line( _p, _q, r, s); }
  private:
   Point _p;
   Point _q;
@@ -410,8 +420,6 @@ struct Compare_y_implicit_points_same_line_2
        { return compare_y( l, h1, h2); }
 };
 
-
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_PREDICATES_CLASSES_2_H

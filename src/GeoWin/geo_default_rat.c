@@ -12,14 +12,13 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_default_rat.c
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.2.2)
+// revision      : 1.2.2
+// revision_date : 30 January 2001 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
-
 
 #include <LEDA/geowin.h>
 #include <LEDA/geowin_init.h>
@@ -35,109 +34,8 @@ void d3_rat_point_window_handler(GeoWin& gw, d3_rat_point& p)
 }
 
 // edit functions
-
-void edit_rat_gen_polygon(GeoWin& gw, rat_gen_polygon& gp, int i)
-{
-  list<rat_point> LP = gp.vertices();
-  list<rat_segment> LS = gp.edges();
-
-  window& w = gw.get_window();
-  gw.message("Left button - delete vertex/insert vertex near edge, right - quit edit");  
-  double d  = w.pix_to_real(1)*gw.get_mfct();
-  int but;
-  unsigned long t;
-  double x,y;
-  int event;
-  
-  do {
-   do event = w.read_event(but, x, y, t);   
-   while (event != button_release_event);
-
-   double x1=x-d, x2=x+d, y1=y-d, y2=y+d;
-   list_item iter,found=NULL;
-   int cnt=0,number=0;
-   
-   if (but == MOUSE_BUTTON(1)){ // left ...
-      forall_items(iter,LP){
-        double xw = LP[iter].to_float().xcoord(), yw = LP[iter].to_float().ycoord();
-        if ((xw>=x1) && (xw<=x2) && (yw>=y1) && (yw<=y2)) found=iter;
-      }
-      if (found != NULL) { // delete a vertex ...
-         LP.del_item(found);
-	 gp = rat_gen_polygon(LP);
-	 LP = gp.vertices(); LS = gp.edges();
-	 gw.get_active_scene()->update_and_redraw();
-      }
-      else {
-       forall_items(iter,LS) {
-        if (geowin_IntersectsBox(LS[iter],x1,y1,x2,y2,true)) { found=iter; number=cnt; }
-	cnt++;
-       }
-       if (found != NULL) { // insert vertex ...
-         list_item it = LP.get_item(number);
-	 LP.insert(rat_point(point(x,y)),it);
-	 gp = rat_gen_polygon(LP);
-	 LP = gp.vertices(); LS = gp.edges();
-	 gw.get_active_scene()->update_and_redraw();         
-       }
-      }
-   }
-  } while (but != MOUSE_BUTTON(3));
-  
-  gw.message("");
-}
-
-
-void edit_rat_polygon(GeoWin& gw, rat_polygon& gp, int i)
-{
-  list<rat_point> LP = gp.vertices();
-  list<rat_segment> LS = gp.edges();
-
-  window& w = gw.get_window();
-  gw.message("Left button - delete vertex/insert vertex near edge, right - quit edit");
-  double d  = w.pix_to_real(1)*gw.get_mfct();
-  int but;
-  unsigned long t;
-  double x,y;
-  int event;
-  
-  do {
-   do event = w.read_event(but, x, y, t);   
-   while (event != button_release_event);
-
-   double x1=x-d, x2=x+d, y1=y-d, y2=y+d;
-   list_item iter,found=NULL;
-   int cnt=0,number=0;
-
-   if (but == MOUSE_BUTTON(1)){ // left ...
-      forall_items(iter,LP){
-        double xw = LP[iter].to_float().xcoord(), yw = LP[iter].to_float().ycoord();
-        if ((xw>=x1) && (xw<=x2) && (yw>=y1) && (yw<=y2)) found=iter;
-      }
-      if (found != NULL) { // delete a vertex ...
-         LP.del_item(found);
-	 gp = rat_polygon(LP);
-	 LP = gp.vertices(); LS = gp.edges();
-	 gw.get_active_scene()->update_and_redraw();
-      }
-      else {
-       forall_items(iter,LS) {
-        if (geowin_IntersectsBox(LS[iter],x1,y1,x2,y2,true)) { found=iter; number=cnt; }
-	cnt++;
-       }
-       if (found != NULL) { // insert vertex ...
-         list_item it = LP.get_item(number);
-	 LP.insert(rat_point(point(x,y)),it);
-	 gp = rat_polygon(LP);
-	 LP = gp.vertices(); LS = gp.edges();
-	 gw.get_active_scene()->update_and_redraw();         
-       }
-      }
-   }
-  } while (but != MOUSE_BUTTON(3));
-  
-  gw.message("");
-}
+void edit_rat_gen_polygon(GeoWin& gw, rat_gen_polygon& gp, int i);
+void edit_rat_polygon(GeoWin& gw, rat_polygon& gp, int i);
 
 
 void insert_new_rat_segment_scene(GeoWin& gw, const list<rat_segment>& LPol)
@@ -160,16 +58,6 @@ void insert_new_rat_circle_scene(GeoWin& gw, const list<rat_circle>& LPol)
  } 
 }
 
-/*
-void insert_new_rat_gen_polygon_scene(GeoWin& gw, const list<rat_gen_polygon>& LPol)
-{
- if (gw.get_algo_create_scenes()) {
-  geo_scene sc = GeoScene::new_scene(string("RationalGeneralizedPolygons"));
-  gw.insert_scene(sc);
-  ((GeoEditScene<list<rat_gen_polygon> >*)sc)->set_objects(LPol);
-  gw.init_and_set_visible(sc);
- } 
-}*/
 
 // get defining points functions ...
 void rat_segment_defining_points(const rat_segment& s, list<point>& lp)
@@ -211,9 +99,6 @@ void point_fcn_two_rat(GeoWin& gw, list<rat_point>& L);
 void point_fcn_three_rat(GeoWin& gw, list<rat_point>& L);
 void point_fcn_four_rat(GeoWin& gw, list<rat_point>& L);
 void seg_inter_rat(GeoWin& gw, list<rat_segment>& L);
-//void check_gen_pol_rat(GeoWin& gw, list<rat_gen_polygon>& L);
-//void union_gen_pol_rat(GeoWin& gw, list<rat_gen_polygon>& L);
-//void inter_gen_pol_rat(GeoWin& gw, list<rat_gen_polygon>& L);
 
 // input functions
 
@@ -226,7 +111,7 @@ int pt_number;
 public:
  alt_input_segment_rat() { pt_number=20; }
 
- virtual void operator()(GeoWin& gw, list<rat_point>& LPR)
+ void operator()(GeoWin& gw, list<rat_point>& LPR)
  {
   window& w = gw.get_window();
   rat_segment s;
@@ -234,7 +119,7 @@ public:
   rat_segment_points(LPR,s,pt_number); 
  }
  
- virtual void options(GeoWin& gw) 
+ void options(GeoWin& gw) 
  {
    panel P;
    P.text_item("\\bf\\blue Number of points on segment:");
@@ -265,7 +150,7 @@ int pt_number;
 public:
  alt_input_circle_rat() { pt_number=20; }
 
- virtual void operator()(GeoWin& gw, list<rat_point>& LP)
+ void operator()(GeoWin& gw, list<rat_point>& LP)
  {
   window& w = gw.get_window();
   circle c;
@@ -273,7 +158,7 @@ public:
   circle_points(LP,c,pt_number); 
  }
 
- virtual void options(GeoWin& gw) 
+ void options(GeoWin& gw) 
  {
    panel P;
    P.text_item("\\bf\\blue Number of points on circle:"); 
@@ -283,12 +168,52 @@ public:
  }
 };
 
-class alt_input_poly_rat : public GeoInputObject<rat_gen_polygon> {
+
+class alt_input_square_rat : public GeoInputObject<rat_polygon> {
 public:
- virtual void operator()(GeoWin& gw, list<rat_gen_polygon>& LG)
+ void operator()(GeoWin& gw, list<rat_polygon>& LP)
  {
   window& w = gw.get_window();
-  gw.message("Middle mouse button - abort gen_polygon input");
+  gw.message("square : input a segment");
+  
+  rat_segment RS;
+  w >> RS;
+  rat_segment RS2 = RS.rotate90(), RS3 = RS2.translate(RS.to_vector());
+  rat_point P1 = RS.source(), P2 = RS.target(), P3 = RS2.target(), P4 = RS3.target(); 
+  list<rat_point> poly_points;
+  poly_points.append(P1);  poly_points.append(P2); poly_points.append(P4); poly_points.append(P3);
+  LP.append(rat_polygon(poly_points));
+  gw.message("");
+ }
+};
+
+
+class alt_input_parallelogram_rat : public GeoInputObject<rat_polygon> {
+public:
+ void operator()(GeoWin& gw, list<rat_polygon>& LP)
+ {
+  window& w = gw.get_window();
+
+  rat_segment RS;
+  w >> RS; w << RS;
+  rat_point P1 = RS.source(), P2 = RS.target();
+  double x0=P2.to_float().xcoord(),y0=P2.to_float().ycoord(), x1, y1;
+  w.read_mouse_seg(x0,y0,x1,y1);
+  rat_point P3(point(x1,y1)), P4 = P3.translate(-RS.to_vector());
+  
+  list<rat_point> poly_points;
+  poly_points.append(P1);  poly_points.append(P2); poly_points.append(P3); poly_points.append(P4);
+  LP.append(rat_polygon(poly_points));
+ }
+};
+
+/*
+class alt_input_gen_poly_rat : public GeoInputObject<rat_gen_polygon> {
+public:
+ void operator()(GeoWin& gw, list<rat_gen_polygon>& LG)
+ {
+  window& w = gw.get_window();
+  gw.message("Middle mouse button - finish gen_polygon input");
   
   rat_polygon in;
   rat_gen_polygon GP;
@@ -296,10 +221,9 @@ public:
   int but;
   unsigned long t;
   double x,y;
-  int event;
   
   do {
-    event = w.read_event(but, x, y, t);
+   w.read_event(but, x, y, t);
    
    if (but != MOUSE_BUTTON(2)) {
     w >> in; w << in;
@@ -314,136 +238,27 @@ public:
   if (! GP.empty())  LG.append(GP);
  }
 };
+*/
 
-static alt_input_segment_rat altseg_rat;
-static alt_input_circle_rat  altcirc_rat;
-static alt_input_poly_rat    altpoly_rat;
-static alt_input_d3_rat_point altd3point_rat;
+static alt_input_segment_rat     altseg_rat;
+static alt_input_circle_rat      altcirc_rat;
+static alt_input_square_rat      altsquare_rat;
+static alt_input_parallelogram_rat   altpara_rat;
+//static alt_input_gen_poly_rat    altpoly_rat;
+static alt_input_d3_rat_point    altd3point_rat;
 
 // ----------------------------------------------
 // d3 output functions ...
 // ----------------------------------------------
+void rat_points_d3(const list<rat_point>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void d3_rat_points_d3(const list<d3_rat_point>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_segments_d3(const list<rat_segment>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_circles_d3(const list<rat_circle>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_lines_d3(const list<rat_line>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_rays_d3(const list<rat_ray>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_poly_d3(const list<rat_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H);
+void rat_gen_poly_d3(const list<rat_gen_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H);
 
-void rat_points_d3(const list<rat_point>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_point iter;
- forall(iter,L) G.new_node(d3_point(iter.to_float().xcoord(),iter.to_float().ycoord(),0));
- H.join(G);
-}
-
-void d3_rat_points_d3(const list<d3_rat_point>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- d3_rat_point iter;
- forall(iter,L) G.new_node(iter.to_float());
- H.join(G);
-}
-
-void rat_segments_d3(const list<rat_segment>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_segment iter;
- forall(iter,L) {
-   node v1 = G.new_node(d3_point(iter.source().to_float().xcoord(),iter.source().to_float().ycoord(),0));
-   node v2 = G.new_node(d3_point(iter.target().to_float().xcoord(),iter.target().to_float().ycoord(),0));   
-   edge e1 = G.new_edge(v1,v2);
-   edge e2 = G.new_edge(v2,v1);
-   G.set_reversal(e1,e2);
- }
- H.join(G);
-}
-
-void circle_segments(list<segment>&, circle, int);
-
-void rat_circles_d3(const list<rat_circle>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- list<segment> LS;
- list<rat_segment> LSR;
- rat_circle C;
- forall(C,L) {
-  LS.clear(); LSR.clear();
-  circle_segments(LS,C.to_float(),30);
-  segment iter;
-  forall(iter,LS) LSR.append(rat_segment(iter));
-  rat_segments_d3(LSR,W,H);
- }
-}
-
-void rat_lines_d3(const list<rat_line>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_line r_iter;
- forall(r_iter,L) {
-   line iter = r_iter.to_float();
-   point pm((iter.point1().xcoord()+iter.point2().xcoord())/2,(iter.point1().ycoord()+iter.point2().ycoord())/2);
-   vector v = iter.point1() - iter.point2();
-   v= v * 100;
-   point p1=pm+v, p2=pm-v;
-   node v1 = G.new_node(d3_point(p1.xcoord(),p1.ycoord(),0));
-   node v2 = G.new_node(d3_point(p2.xcoord(),p2.ycoord(),0));   
-   edge e1 = G.new_edge(v1,v2);
-   edge e2 = G.new_edge(v2,v1);
-   G.set_reversal(e1,e2);   
- }
- H.join(G);
-}
-
-void rat_rays_d3(const list<rat_ray>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_ray r_iter;
- forall(r_iter,L) {
-   ray iter = r_iter.to_float();
-   vector v = iter.point2() - iter.point1();
-   v= v * 100;
-   point p1=iter.source(), p2=p1 + v;
-   node v1 = G.new_node(d3_point(p1.xcoord(),p1.ycoord(),0));
-   node v2 = G.new_node(d3_point(p2.xcoord(),p2.ycoord(),0));   
-   edge e1 = G.new_edge(v1,v2);
-   edge e2 = G.new_edge(v2,v1);
-   G.set_reversal(e1,e2);   
- } 
- H.join(G);
-}
-
-void rat_poly_d3(const list<rat_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_polygon piter;
- list<rat_segment> LS;
- forall(piter,L) {
-   LS = piter.segments();
-   rat_segment siter;
-   forall(siter,LS) {
-    node v1 = G.new_node(d3_point(siter.source().to_float().xcoord(),siter.source().to_float().ycoord(),0));
-    node v2 = G.new_node(d3_point(siter.target().to_float().xcoord(),siter.target().to_float().ycoord(),0));   
-    edge e1 = G.new_edge(v1,v2);
-    edge e2 = G.new_edge(v2,v1);
-    G.set_reversal(e1,e2);
-   }   
- }
- H.join(G); 
-}
-
-void rat_gen_poly_d3(const list<rat_gen_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H)
-{
- GRAPH<d3_point,int> G;
- rat_gen_polygon piter;
- list<rat_segment> LS;
- forall(piter,L) {
-   LS = piter.edges();
-   rat_segment siter;
-   forall(siter,LS) {
-    node v1 = G.new_node(d3_point(siter.source().to_float().xcoord(),siter.source().to_float().ycoord(),0));
-    node v2 = G.new_node(d3_point(siter.target().to_float().xcoord(),siter.target().to_float().ycoord(),0));   
-    edge e1 = G.new_edge(v1,v2);
-    edge e2 = G.new_edge(v2,v1);
-    G.set_reversal(e1,e2);
-   }   
- }
- H.join(G); 
-}
 
 window& d3_rat_point_draw(window& w, const d3_rat_point& p,int val)
 {
@@ -471,6 +286,8 @@ typedef void (*CIRCLE_D3)(const list<rat_circle>&, d3_window&, GRAPH<d3_point,in
 typedef void (*POLYGON_D3)(const list<rat_polygon>&, d3_window&, GRAPH<d3_point,int>&);
 typedef void (*GENPOLYGON_D3)(const list<rat_gen_polygon>&, d3_window&, GRAPH<d3_point,int>&);
 typedef void (*D3POINT_D3)(const list<d3_rat_point>&, d3_window&, GRAPH<d3_point,int>&);
+
+typedef window& (*D3POINT_DRAW_FCN)(window&, const d3_rat_point&,int);
 
 template class GeoEditScene<list<rat_point> >;
 template class GeoBaseScene<list<rat_point> >;
@@ -521,62 +338,65 @@ template GeoEditScene<list<d3_rat_point> >* make_edit_prototype(list<d3_rat_poin
 template GeoBaseScene<list<d3_rat_point> >* make_base_prototype(list<d3_rat_point>*, string);
 template GeoEditScene<list<d3_rat_point> >* geowin_init_default_type(list<d3_rat_point>*, string, D3POINT_D3); 
 
+template void geowin_set_draw_object_fcn(GeoBaseScene<list<d3_rat_point> >*, D3POINT_DRAW_FCN); 
+
 #endif
 
 void init_leda_rat_default_types()
 {
 #if defined INIT_GEOWIN_LEDA_DEFAULT_TYPES
 
+  typedef void (*FU)(...);
+
   GeoEditScene<list<rat_point> >* esc = geowin_init_default_type((list<rat_point>*)0, string("RationalPoints"), rat_points_d3);
   esc->add_alternative_input_object(altseg_rat, string("Segments"));
   esc->add_alternative_input_object(altcirc_rat, string("Circles"));    
-  esc->add_buffer_fcn(chull_rat, "Convex hull");
-  esc->add_buffer_fcn(triang_rat, "Triangulation");
-  esc->add_buffer_fcn(width_rat, "Width");
-  esc->add_buffer_fcn(dt_rat, "Delaunay triangulation");
-  esc->add_buffer_fcn(f_dt_rat, "Furthest point DT");
-  esc->add_buffer_fcn(mst_rat, "MST");
-  esc->add_buffer_fcn(lec_rat, "Largest empty circle");
-  esc->add_buffer_fcn(sec_rat, "Smallest enclosing circle");
-  esc->add_buffer_fcn(all_empty_rat, "All empty circles");
-  esc->add_buffer_fcn(all_encl_rat, "All enclosing circles");
-  esc->add_buffer_fcn(point_fcn_two_rat, "Check (2)");
-  esc->add_buffer_fcn(point_fcn_three_rat, "Check (3)");
-  esc->add_buffer_fcn(point_fcn_four_rat, "Check (4)");  
+  esc->add_algorithm(chull_rat, "Convex hull");
+  esc->add_algorithm(triang_rat, "Triangulation");
+  esc->add_algorithm(width_rat, "Width");
+  esc->add_algorithm(dt_rat, "Delaunay triangulation");
+  esc->add_algorithm(f_dt_rat, "Furthest point DT");
+  esc->add_algorithm(mst_rat, "MST");
+  esc->add_algorithm(lec_rat, "Largest empty circle");
+  esc->add_algorithm(sec_rat, "Smallest enclosing circle");
+  esc->add_algorithm(all_empty_rat, "All empty circles");
+  esc->add_algorithm(all_encl_rat, "All enclosing circles");
+  esc->add_algorithm(point_fcn_two_rat, "Check (2)");
+  esc->add_algorithm(point_fcn_three_rat, "Check (3)");
+  esc->add_algorithm(point_fcn_four_rat, "Check (4)");  
    
   GeoEditScene<list<rat_segment> >* esc2 = geowin_init_default_type((list<rat_segment>*)0, string("RationalSegments"), rat_segments_d3);
   esc2->set_defining_points_fcn(rat_segment_defining_points);
-  esc2->move_point_fcn = geowin_Translatepoint;
-  esc2->add_buffer_fcn(seg_inter_rat, "Segment intersection");  
+  esc2->move_point_fcn = (FU) geowin_Translatepoint_rat_seg;
+  esc2->add_algorithm(seg_inter_rat, "Segment intersection");  
 
 /*     
   GeoEditScene<list<rat_ray> >* esc3 = geowin_init_default_type((list<rat_ray>*)0,     string("RationalRays"), rat_rays_d3);
   esc3->set_defining_points_fcn(rat_ray_defining_points);
-  esc3->move_point_fcn = geowin_Translatepoint;
+  esc3->move_point_fcn = (FU) geowin_Translatepoint_rat_ray;
 */
    
   GeoEditScene<list<rat_line> >* esc4 = geowin_init_default_type((list<rat_line>*)0,    string("RationalLines"), rat_lines_d3);
   esc4->set_defining_points_fcn(rat_line_defining_points);
-  esc4->move_point_fcn = geowin_Translatepoint;
+  esc4->move_point_fcn = (FU) geowin_Translatepoint_rat_line;
    
   GeoEditScene<list<rat_circle> >* esc5 = geowin_init_default_type((list<rat_circle>*)0,  string("RationalCircles"), rat_circles_d3);
   esc5->set_defining_points_fcn(rat_circle_defining_points);
-  esc5->move_point_fcn = geowin_Translatepoint;
+  esc5->move_point_fcn = (FU) geowin_Translatepoint_rat_circle;
   
   GeoEditScene<list<rat_polygon> >* esc6 = geowin_init_default_type((list<rat_polygon>*)0, string("RationalSimplePolygons"), rat_poly_d3);
+  esc6->add_alternative_input_object(altsquare_rat, string("Square"));
+  esc6->add_alternative_input_object(altpara_rat, string("Parallelogram"));
   esc6->set_defining_points_fcn(rat_polygon_defining_points);
-  esc6->move_point_fcn = geowin_Translatepoint;
-  esc6->edit_obj_fcn=edit_rat_polygon;
+  esc6->move_point_fcn = (FU) geowin_Translatepoint_rat_poly;
+  esc6->edit_obj_fcn= (FU) edit_rat_polygon;
    
   GeoEditScene<list<rat_gen_polygon> >* esc7 =geowin_init_default_type((list<rat_gen_polygon>*)0, \
   string("RationalGeneralizedPolygons"),rat_gen_poly_d3);
-  esc7->add_alternative_input_object(altpoly_rat, string("Construction")); 
+  //esc7->add_alternative_input_object(altpoly_rat, string("Construction")); 
   esc7->set_defining_points_fcn(rat_gen_polygon_defining_points);
-  esc7->move_point_fcn = geowin_Translatepoint;
-  //esc7->add_buffer_fcn(check_gen_pol_rat, string("Check (1)"));
-  //esc7->add_buffer_fcn(union_gen_pol_rat, string("Union (2)"));
-  //esc7->add_buffer_fcn(inter_gen_pol_rat, string("Intersection (2)"));  
-  esc7->edit_obj_fcn=edit_rat_gen_polygon;  
+  esc7->move_point_fcn = (FU) geowin_Translatepoint_rat_gpoly;
+  esc7->edit_obj_fcn= (FU) edit_rat_gen_polygon;  
   
 #if defined LEDA_RECTANGLES
   geowin_init_default_type((list<rat_rectangle>*)0,   string("RationalRectangles"));
@@ -585,7 +405,7 @@ void init_leda_rat_default_types()
   GeoEditScene<list<d3_rat_point> >* esc8 = geowin_init_default_type((list<d3_rat_point>*)0, \
   string("D3-RationalPoints"),d3_rat_points_d3);
   esc8->add_alternative_input_object(altd3point_rat,  string("xyz - Input"));
-  esc8->draw_fcn = d3_rat_point_draw;  
+  geowin_set_draw_object_fcn(esc8, d3_rat_point_draw);  
   esc8->post_window_default_input_handler = d3_rat_point_window_handler;
   
 #endif

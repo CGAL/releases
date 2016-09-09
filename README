@@ -1,112 +1,59 @@
-This is Computational Geometry Algorithms Library version 2.2 (CGAL-2.2).
+$(CGAL_HOME)/README
+-------------------------------------------------------------------------------
 
-Installation notes are available in several formats. 
-A PostScript file named installation.ps can be found in directory doc_ps.
-The pdf file installation.pdf can be found in doc_pdf.
-The HTML version is in doc_html/installation/main.html.
+This distribution of CGAL includes:
 
-The documentation of CGAL is available in various formats (HTML, PostScript,
-PDF). It is not bundled with the software but can be downloaded separately.
+   auxiliary/         - directory containing additional things distributed 
+                        with CGAL but not part of the library (in particular,
+                        the GNU multi-precision number type). The gmp library
+                        has its own license.
+   cgal_config.bat    - configuration file for the Windows platforms
+   CHANGES            - file recording the history of changes for the library
+   config/            - directory containing several test programs used in
+                        installation and configuration and into which 
+                        configuration files will be written during installation
+   demo/              - a directory containing many demo programs for the
+                        library's various packages.  These programs produce
+                        visual output.  Thus, for most you must have either 
+                        LEDA or libCGALwin installed (see the INSTALLATION 
+                        file).  Others programs require geomview, which is 
+                        available from www.geomview.org
+                        Makefiles are provided for all programs and project 
+                        files for MSVC 6.0 IDE (experimental) are provided 
+                        for many.
+   doc_html/          - a directory containing the installation manual in
+                        HTML format
+   doc_pdf/           - a directory containing the installation manual in
+                        PDF format
+   doc_ps/            - a directory containing the installation manual in
+                        compressed postscript format
+   examples/          - a directory containing programs illustrating the 
+                        library's functionality.  These programs do not produce
+                        visual output.
+                        Makefiles and project files for MSVC 6.0 IDE 
+                        (experimental) are provided for all programs.
+   include/           - the include files for the library
+   install.txt        - instructions for insalling CGAL on the Windows 
+                        platform.
+   install_cgal       - the script with which you can install CGAL
+   INSTALLATION       - file containing information about the installation
+                        process
+   lib/               - directory in which the CGAL libraries will be 
+                        installed
+   make/              - directory containing CGAL include makefiles, which
+                        are generated during installation
+   makefile           - a makefile that can be used for instaling the CGAL
+                        libraries (to be used only if you know what you are
+                        doing; normally one should use install_cgal)
+   README             - this file
+   scripts/           - directory containing some useful scripts for CGAL
+                        programmers
+   src/               - the library source code
+   stlport/           - adapted version of the STLPort required for use
+                        of CGAL with Microsoft VC++ 6.0.  This library
+                        has its own license.
+   winutils/          - various Windows-specific installation stuff used by
+                        cgal_config.bat
 
-For more information on CGAL, see the URL http://www.cgal.org/.
-
-The CGAL software falls under the license below. 
-// ============================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-
-// This software and related documentation is part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
-// - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ============================================================================
-
-The directory auxiliary contains the gmp library. This library is not part of
-CGAL and has its own license.
-
-The directory stlport contains an stl library, patched by cgal. This library
-has its own license.
-
-Changes
-=======
-
-The major changes of CGAL-2.2 with respect to release CGAL-2.1.
-
-Supported platforms
--------------------
-
-The Borland C++ compiler version 5.5 (which is the compiler of C++Builder 5
-and the freely available Borland compiler).
-The KAI compiler (version 4.0) has been tested under Solaris 2.8.
-
-
-The following functionality has been added
-------------------------------------------
-
-New optimisation algorithms
-  o Min_annulus_d
-    Algorithm for computing the smallest enclosing annulus of points
-    in arbitrary dimension 
-
-  o Polytope_distance_d
-    Algorithm for computing the (squared) distance between
-    two convex polytopes in arbitrary dimension
-
-  o Width_3
-    Algorithm for computing the (squared) width of points sets
-    in three dimensions
-
-There is a new, non-reference counted kernel, Simple_cartesian. Because
-reference counting is not used, and thus coordinates are stored within a
-class, debugging is easier using this kernel.
-
-About 2d Triangulations
-- There are now two triangulation data structures available in CGAL.
-  The new one uses a list to store the faces and allows one to represent 
-  two-dimensional triangulations embedded in three spaces as well as
-  planar triangulations.
-- The triangulation hierarchy which allows fast location query
-  is now available.
-
-
-The 3d triangulation now allows removal of vertices as well as insertions.
-
-A function that generates random simple polygons is now available.
-
-In directory demo/Robustness programs that demonstrate typical robustness
-problems in geometric computing are presented along with the solutions to
-these problems that CGAL provides.
-
-
-
-The following functionality has been removed
---------------------------------------------
-
-The binary operations on polygons (union, intersection ...) have been removed.
-Those operations were not documented in the previous release (2.1).
-Arrangements can often be used as a substitute.
-
-
+-------------------------------------------------------------------------------
+EOF

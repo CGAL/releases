@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Halfedge_data_structure_bases.h
-// package       : Halfedge_DS (2.8)
+// package       : Halfedge_DS (2.17)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/04/07 19:29:14 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/07/05 21:05:59 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
@@ -51,17 +51,8 @@
 
 #ifndef CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H
 #define CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_VECTOR_3_H
-#include <CGAL/Vector_3.h>
-#endif
-#ifndef CGAL_PLANE_3_H
-#include <CGAL/Plane_3.h>
-#endif
-#endif  // CGAL_REP_CLASS_DEFINED
 
 CGAL_BEGIN_NAMESPACE
 
@@ -191,25 +182,24 @@ public:
     void set_halfedge( void* h)  { hdg = h;}
 };
 
-#ifdef CGAL_REP_CLASS_DEFINED
-template < class _R >
+template < class Kernel_>
 class Polyhedron_facet_base_3 : public Facet_max_base {
     // defines the maximal facet functionality including halfedge pointer,
     // plane equation and normal vector.
 public:
-    typedef Tag_true     Supports_facet_plane;
-    typedef Tag_true     Supports_facet_normal;
-    typedef _R           R;
-    typedef Vector_3<R>  Normal;
-    typedef Plane_3<R>   Plane;
+    typedef Kernel_                    Kernel;
+    // typedef Kernel            R;  // maybe for backwards compatibility
+    typedef typename Kernel::Vector_3  Vector_3;
+    typedef typename Kernel::Plane_3   Plane_3;
+    typedef Tag_true                   Supports_facet_plane;
+    typedef Tag_true                   Supports_facet_normal;
 protected:
-    Plane   pln;
+    Plane_3 pln;
 public:
-    Normal        normal() const { return pln.orthogonal_vector();}
-    Plane&        plane()        { return pln;}
-    const Plane&  plane() const  { return pln;}
+    Vector_3        normal() const { return pln.orthogonal_vector();}
+    Plane_3&        plane()        { return pln;}
+    const Plane_3&  plane() const  { return pln;}
 };
-#endif  // CGAL_REP_CLASS_DEFINED
 
 CGAL_END_NAMESPACE
 #endif // CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H //

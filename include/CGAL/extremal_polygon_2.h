@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/extremal_polygon_2.h
-// package       : Matrix_search (1.43)
+// package       : Matrix_search (1.49)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:25:32 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:54 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -56,6 +56,7 @@
 #include <CGAL/monotone_matrix_search.h>
 #include <CGAL/Dynamic_matrix.h>
 #include <CGAL/Transform_iterator.h>
+#include <CGAL/Polygon_2_algorithms.h>
 #include <vector>
 #include <functional>
 #include <algorithm>
@@ -69,7 +70,8 @@ template < class Array, class Index, class Element >
 struct Index_operator
 : public CGAL_STD::binary_function< Array, Index, Element >
 {
-public:
+  typedef Arity_tag< 2 > Arity;
+
   Element&
   operator()( Array& a, const Index& i) const
   { return a[i]; }
@@ -541,7 +543,7 @@ extremal_polygon_2(
       iterator_distance( points_begin, points_end));)
   CGAL_optimisation_precondition( number_of_points >= t.min_k());
   CGAL_optimisation_expensive_precondition(
-    t.is_convex( points_begin, points_end));
+    is_convex_2( points_begin, points_end, t));
 
   typedef typename Traits::Point_2 Point_2;
   return CGAL_maximum_inscribed_k_gon_2(

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/File_writer_wavefront.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/06/19 07:23:18 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -84,15 +84,9 @@ public:
         out() << "\n# " << m_facets << " facets\n";
         out() << "# ------------------------------------------\n\n";
     }
-    void write_facet_begin( std::size_t) {  // no unused
-        out() << "f ";
-    }
-    void write_facet_vertex_index( std::size_t index) {
-        out() << ' ' << index + 1;
-    }
-    void write_facet_end() {
-        out() << '\n';
-    }
+    void write_facet_begin( std::size_t)            { out() << "f "; }
+    void write_facet_vertex_index( std::size_t idx) { out() << ' ' << idx+1; }
+    void write_facet_end()                          { out() << '\n'; }
 };
 
 CGAL_END_NAMESPACE

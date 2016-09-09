@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Object.h
-// package       : Kernel_basic (3.14)
-// source        : Object.lw 
-// revision      : 3.0
-// revision_date : 02 Feb 2000
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/02/13 12:39:01 $
 // author(s)     : Stefan.Schirra
 //                 Andreas Fabri
 //                 Geert-Jan Giezeman
@@ -55,7 +54,7 @@
 
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
 #error fatal error: dynamic cast not supported
-#endif // CGAL_CFG_NO_DYNAMIC_CAST
+#endif
 
 #include <CGAL/Handle_for.h>
 

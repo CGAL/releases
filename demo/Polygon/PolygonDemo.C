@@ -6,7 +6,6 @@
 #include <CGAL/basic.h>
 #include <iostream>
 
-#ifdef CGAL_USE_LEDA
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2.h>
@@ -82,7 +81,7 @@ void PrintPolygonInfo(const CGAL::Polygon_2<Traits,Container>& P)
     case CGAL::COLLINEAR       : cerr << "collinear" << endl; break;
   }
 
-  cerr << "  P.bbox()               = " << P.bbox() << endl;
+//  cerr << "  P.bbox()               = " << P.bbox() << endl;
   cerr << "  P.area()               = " << P.area() << endl;
   cerr << "  P.left_vertex()        = " << *P.left_vertex() << endl;
   cerr << "  P.right_vertex()       = " << *P.right_vertex() << endl;
@@ -184,16 +183,4 @@ int main()
 
   return 0;
 }
-
-#else
-// LEDA is not available.
-// We just print a notification.
-
-int main()
-{
-  std::cout<<"Sorry, this demo runs only if the LEDA library is installed.\n";
-  return 1;
-}
-
-#endif
 

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/point_generators_3.h
-// package       : Generator (2.34)
+// package       : Generator (2.40)
 // chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 1999/06/03 19:55:31 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/07/18 08:11:16 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
@@ -89,13 +89,14 @@ template < class P, class Creator >
 void
 Random_points_in_sphere_3<P,Creator>::
 generate_point() {
-    do {
-        Creator creator;
-        d_item = creator( d_range * ( 2 * _rnd.get_double() - 1.0),
-                          d_range * ( 2 * _rnd.get_double() - 1.0),
-                          d_range * ( 2 * _rnd.get_double() - 1.0));
-    } while ( d_item.x() * d_item.x() + d_item.y() * d_item.y() >=
-              d_range * d_range);
+   do {
+       Creator creator;
+       d_item = creator( d_range * ( 2 * _rnd.get_double() - 1.0),
+                         d_range * ( 2 * _rnd.get_double() - 1.0),
+                         d_range * ( 2 * _rnd.get_double() - 1.0));
+   } 
+   while (CGAL::to_double(d_item.x() * d_item.x() + d_item.y() * d_item.y()) >=
+          d_range * d_range);
 }
 
 

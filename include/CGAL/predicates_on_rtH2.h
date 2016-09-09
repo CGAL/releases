@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : predicates_on_rtH2.fw
 // file          : include/CGAL/predicates_on_rtH2.h
-// package       : H2 (2.12)
-// revision      : 2.12
-// revision_date : 03 Aug 2000 
+// package       : H2 (2.37)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/07/23 17:33:38 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -86,7 +85,7 @@ orientationH2( const RT& phx, const RT& phy, const RT& phw,
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-leftturnH2( const RT& phx, const RT& phy, const RT& phw,
+left_turnH2( const RT& phx, const RT& phy, const RT& phw,
                  const RT& qhx, const RT& qhy, const RT& qhw,
                  const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -106,10 +105,22 @@ leftturnH2( const RT& phx, const RT& phy, const RT& phw,
   return ( RT0 < det );
 }
 
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class RT>
+inline
+bool
+leftturnH2( const RT& phx, const RT& phy, const RT& phw,
+                 const RT& qhx, const RT& qhy, const RT& qhw,
+                 const RT& rhx, const RT& rhy, const RT& rhw )
+{
+   return left_turnH2(phx, phy, phw, qhx, qhy, qhw, rhx, rhy, rhw);
+}
+#endif
+
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-rightturnH2(const RT& phx, const RT& phy, const RT& phw,
+right_turnH2(const RT& phx, const RT& phy, const RT& phw,
                  const RT& qhx, const RT& qhy, const RT& qhw,
                  const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -128,6 +139,18 @@ rightturnH2(const RT& phx, const RT& phy, const RT& phw,
   
   return ( det < RT0 );
 }
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class RT>
+CGAL_KERNEL_INLINE
+bool
+rightturnH2(const RT& phx, const RT& phy, const RT& phw,
+                 const RT& qhx, const RT& qhy, const RT& qhw,
+                 const RT& rhx, const RT& rhy, const RT& rhw )
+{
+   return right_turnH2(phx, phy, phw, qhx, qhy, qhw, rhx, rhy, rhw);
+}
+#endif
 
 template <class RT>
 CGAL_KERNEL_INLINE
@@ -366,9 +389,9 @@ collinear_are_strictly_ordered_along_lineH2(
 
 CGAL_END_NAMESPACE
 
-
-#ifdef CGAL_ARITHMETIC_FILTER_H
-#include <CGAL/Arithmetic_filter/predicates_on_rtH2.h>
-#endif // CGAL_ARITHMETIC_FILTER_H
+// Filtered_exact<> is not operational for Homogeneous at the moment.
+// #ifdef CGAL_ARITHMETIC_FILTER_H
+// #include <CGAL/Arithmetic_filter/predicates_on_rtH2.h>
+// #endif
 
 #endif // CGAL_PREDICATES_ON_RTH2_H

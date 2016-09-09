@@ -12,19 +12,19 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_win.c
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.2.2)
+// revision      : 1.2.2
+// revision_date : 30 January 2001 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
 
-
 #include <LEDA/geowin.h>
 #include <LEDA/stream.h>
 #include <LEDA/file_panel.h>
 #include <LEDA/file.h>
+#include <LEDA/set.h>
 #include <LEDA/pixmaps/texture.h>
 #include <LEDA/bitmaps/button21.h>
 
@@ -39,6 +39,7 @@ void init_leda_rat_default_types();
 GeoWin* GeoWin::call_win = NULL;
 geo_scene GeoWin::call_scene = NULL;
 geo_scene GeoWin::call_inp_scene = NULL;
+
 int GeoWin::projection_mode = 0;
 
 static unsigned char* input_bits [] = {
@@ -87,6 +88,86 @@ void setup_font(window& w, double size)
   w.set_font(font_name);
 }
 
+void geowin_draw_text_object(window&  w, double x1, double x2, double y1, double y2, void* adr, const
+geowin_text& gt, bool object_assoc)
+{
+  typedef  void (*PFCN)(double, double, double, double, void*, bool, double&, double&);
+
+  double sz = gt.get_size();
+  double xf =0, yf= 0;
+  
+  PFCN pf = gt.get_position_fcn();
+  if (pf == NULL) { // center in bounding box
+   if (object_assoc) { xf = (x1+x2)/2;  yf = (y1+y2)/2; }
+  }
+  // compute position ...
+  else  pf(x1, x2, y1, y2, adr, object_assoc, xf, yf);
+  
+  
+  double xo = gt.get_x_offset();
+  double yo = gt.get_y_offset();
+
+  // font parameter ...
+  geowin_font_type font_t = gt.get_font_type();
+  string fn_user = gt.get_user_font();
+  
+  int wsz = w.real_to_pix(sz);
+  
+  string font_name;
+  switch (font_t) {
+    case roman_font:  font_name = string("T%d",wsz); break;
+    case bold_font:   font_name = string("B%d",wsz); break;
+    case italic_font: font_name = string("I%d",wsz); break;
+    case fixed_font:  font_name = string("F%d",wsz); break;
+    case user_font:   font_name = fn_user; break;
+  }
+  w.set_font(font_name);   
+  w.draw_ctext(xo + xf, yo + yf, gt.get_text(), gt.get_color()); 
+}
+
+
+// for ps_file output ...
+void geowin_draw_text_object(window&  w, ps_file&  ps, double x1, double x2, double y1, double y2, void* adr, const
+geowin_text& gt, bool object_assoc)
+{
+  typedef  void (*PFCN)(double, double, double, double, void*, bool, double&, double&);
+
+  double sz = gt.get_size();
+  double xf =0, yf= 0;
+  
+  PFCN pf = gt.get_position_fcn();
+  if (pf == NULL) { // center in bounding box
+   if (object_assoc) { xf = (x1+x2)/2;  yf = (y1+y2)/2; }
+  }
+  // compute position ...
+  else  pf(x1, x2, y1, y2, adr, object_assoc, xf, yf);
+  
+  double xo = gt.get_x_offset();
+  double yo = gt.get_y_offset();
+
+  // font parameter ...
+  geowin_font_type font_t = gt.get_font_type();
+  string fn_user = gt.get_user_font();
+  
+  double wsz = (double) w.real_to_pix(sz);  
+  
+  string font_name;
+  switch (font_t) {
+    case roman_font:  font_name = string("Times-Roman"); break;
+    case bold_font:   font_name = string("Times-Bold"); break;
+    case italic_font: font_name = string("Times-Italic"); break;
+    case fixed_font:  font_name = string("Helvetica"); break;
+    case user_font:   font_name = fn_user; break;
+  }
+  ps.set_text_font(font_name);   
+  double sold = ps.set_font_size(wsz/45); 
+  ps.draw_ctext(xo + xf, yo + yf, gt.get_text(), gt.get_color()); 
+  ps.set_font_size(sold); 
+}
+
+
+
+
 bool geowin_show_options2(GeoScene* scn,panel* p,GeoWin *gw,color& filling_color,
                    bool& high_light,bool fredraw,
 		   list<string> fnames, int& choice, geowin_defining_points& hdp )
@@ -113,10 +194,16 @@ bool geowin_show_options2(GeoScene* scn,panel* p,GeoWin *gw,color& filling_color
     hd_options.append(string("Highlight"));
     P->choice_item(string("show/handle def. points?"),hd,hd_options);
     
+    string ch_string;
+    
     if (! fnames.empty()){
       fnames.push(string("Default"));
       P->text_item("\\bf\\blue Input objects");
-      P->choice_item(string("Input:"),choice,fnames);
+      //P->choice_item(string("Input:"),choice,fnames);
+      // set ch_string ...
+      ch_string = fnames[fnames.get_item(choice)];
+      
+      P->string_item(string("Input:"),ch_string,fnames);
     }  
     
     bool val=scn->GeoScene::options(P);
@@ -125,6 +212,17 @@ bool geowin_show_options2(GeoScene* scn,panel* p,GeoWin *gw,color& filling_color
 
     high_light = hl;
     hdp = (geowin_defining_points)hd;
+    
+    // new : set choice ...
+    if (! fnames.empty()){
+      //cout << ch_string << "\n";
+      int counter = 0;
+      string siter;
+      forall(siter,fnames){
+        if (siter==ch_string) choice=counter;
+	counter++;
+      }
+    }
     
     if(!p) gw->redraw();
     return true;
@@ -254,10 +352,13 @@ GeoWin::~GeoWin()
   
   for( int j = 0; j <  last_menu; j++ )  delete menus[j];
   delete[] menus;
+  
+  if (visib != NULL) delete visib;
 
 #if !defined(__win32__)
   delete Wp;
   delete msg_win; 
+  if (quick_access != NULL) delete quick_access;
 #endif
  
   if( pin_point ) delete pin_point;
@@ -308,13 +409,13 @@ void GeoWin::help_news()
  panel P;
  P.text_item(string("\\bf New in Version %f",version()));
  P.text_item("");
- P.text_item("- edit object functions");
+ P.text_item("- Text objects");
  P.text_item("");
- P.text_item("- optional support for LEDA (rat_)triangles");
+ P.text_item("- New I/O options");
  P.text_item("");
- P.text_item("- optional support for LEDA d3 kernel types");
+ P.text_item("- Z - coordinate handling changed");
  P.text_item("");
- P.text_item("- new help");
+ P.text_item("- lots of small changes"); 
  P.button("ok");
  open_panel(P);
 }
@@ -342,8 +443,6 @@ bool GeoWin::save_defaults(string fname)
  out << "gw_solid           " << gw_solid    << endl;
  out << "gw_anim_speed      " << gw_anim_speed  << endl;
  out << "anim_steps         " << gw_anim_steps  << endl;
- out << "time_out1          " << time_out1   << endl;
- out << "time_out2          " << time_out2   << endl;
  
  return true;
 }
@@ -374,8 +473,6 @@ bool GeoWin::read_defaults(string fname)
     if (key == "gw_solid") {in >> b; DEFAULT_gw_solid=b; }     
     if (key == "gw_anim_speed") {in >> w; DEFAULT_gw_anim_speed=w; }    
     if (key == "anim_steps") {in >> w; DEFAULT_anim_steps=w; }        
-    if (key == "time_out1") {in >> w; DEFAULT_time_out1=w; }
-    if (key == "time_out2") {in >> w; DEFAULT_time_out2=w; }   
    }
   return in.good();
 }
@@ -415,8 +512,6 @@ void GeoWin::reset_defaults()
  DEFAULT_gw_solid=false;
  DEFAULT_gw_anim_speed=10;
  DEFAULT_anim_steps=10;
- DEFAULT_time_out1=300;
- DEFAULT_time_out2=300;
  
  show_coords=true;
  time_meas=false;
@@ -424,8 +519,6 @@ void GeoWin::reset_defaults()
  gw_solid=false;
  gw_anim_speed=10;
  gw_anim_steps=10;
- time_out1=300;
- time_out2=300;
 }
 
 // ***********************************************************************
@@ -437,8 +530,7 @@ void GeoWin::construct()
   
   init_leda_rat_default_types();
   init_leda_float_default_types();
-  
-  redraw_z_order = false;  
+   
   update_while_object_dragging = true;
 
   input_mode = 0;
@@ -493,23 +585,163 @@ void GeoWin::construct()
   vis_buttons = false;
   activate_buttons = false;
   
+  quick_access = NULL;
+  show_quick_access_window = false;
+  
+  visib = NULL;
+  
   show_grid = false;
+  allow_moving_from_grid = false;
   grid = 0.0;
   
   cur = edit_scene = 0;  
   reset_actions();
 
-  time_out1 = DEFAULT_time_out1;            //300
-  time_out2 = DEFAULT_time_out2;            //300
-
   d3_win = NULL;
-  Whelpd3= NULL;
 
   bg_pixmap = "none";
   pin_point = 0;
   mouse_fct = 4;
   VPICS = NULL;
+  
+  replace_by_blanks = "";
+  
+  file_existence_test = true;
 } 
+
+GEOWIN_END_NAMESPACE
+
+#if !defined(__win32__)
+
+static void quick_access_action(int n)
+{ 
+  window* wp =  window::get_call_window();
+#if defined GEOWIN_USE_NAMESPACE
+  GEOWIN_NAMESPACE_NAME::GeoWin* gw = (GEOWIN_NAMESPACE_NAME::GeoWin*) wp->get_inf();
+  GEOWIN_NAMESPACE_NAME::geo_scene it,sel=gw->get_quick_access_scene(n);
+  // now get selected edit scene and activate it ...
+  list<GEOWIN_NAMESPACE_NAME::geo_scene> scenes = gw->get_scenes();  
+#else  
+  GeoWin* gw =  (GeoWin*) wp->get_inf();
+  geo_scene it,sel=gw->get_quick_access_scene(n);  
+  // now get selected edit scene and activate it ...
+  list<geo_scene> scenes = gw->get_scenes();
+#endif   
+  if (sel==NULL) return;
+
+  forall(it,scenes){
+    if (it==sel) {
+      gw->activate(sel);
+    }
+  }
+}
+
+#endif
+
+static void visibility_action(int n)
+{
+  window* wp =  window::get_call_window();
+#if defined GEOWIN_USE_NAMESPACE
+  GEOWIN_NAMESPACE_NAME::GeoWin* gw = (GEOWIN_NAMESPACE_NAME::GeoWin*) wp->get_inf();
+#else  
+  GeoWin* gw =  (GeoWin*) wp->get_inf();
+#endif
+  int i=0;
+  int MS = sizeof(int)*8;
+  if (gw->get_scenes().size() < 32) MS=gw->get_scenes().size();
+  
+  for(;i<MS;i++) {
+    if (n & (1 << i)) (gw->visib)[i] = true; 
+    else (gw->visib)[i] = false;
+  }
+   
+  gw->change_visibility(gw->visib);
+}
+
+
+GEOWIN_BEGIN_NAMESPACE
+
+geo_scene GeoWin::get_quick_access_scene(int n)
+{
+  list_item it = quick_access_scenes.get_item(n);
+  if (it==NULL) return NULL;
+  else return quick_access_scenes[it];
+}
+
+void GeoWin::init_quick_access_window()
+{
+  if (quick_access != NULL) { 
+    quick_access->close();
+    delete quick_access;
+    quick_access=NULL;
+  }
+
+  if (! show_quick_access_window) return;
+  
+
+  int size = 1;
+  geo_scene sc;
+  quick_access_scenes.clear();
+  
+  if (cur) {
+    forall(sc, scenes){
+     if( (sc->owner).empty() ){
+	quick_access_scenes.append(sc);
+	size=size+30;
+     }
+    }
+  }
+  
+  // Quick access window ...
+  quick_access = new window(250,size+40, "Scene activation and visibility");
+  quick_access->set_inf(this);
+  quick_access->buttons_per_line(1);
+  quick_access->set_item_height(25);
+  quick_access->set_panel_bg_color(grey1);
+  quick_access->set_bg_color(grey1);
+  quick_access->set_button_space(5);
+  
+  // get active scene ...
+#if !defined(__win32__)
+  int number = 0;
+  geo_scene sc_act = get_active_scene();
+  
+  forall(sc,quick_access_scenes) {
+   if (sc != sc_act)
+     quick_access->button(sc->get_name(),number,quick_access_action);
+   else
+     quick_access->button("->  "+sc->get_name(),number,quick_access_action);
+        
+   number++;
+  } 
+#endif  
+  
+  // scene visibility ...
+   if (scenes.size() > 0) { 
+    int i=0;
+    VISIB_CHOICE=0;
+    list<string> LS;
+   
+    if (visib!=NULL) delete visib;
+    visib = new bool[scenes.size()];   
+   
+    forall(sc , scenes)  
+    {
+       if (sc->get_visible()) { VISIB_CHOICE = VISIB_CHOICE + (1 << i);  } 
+       string sn = get_short_name(sc);
+       if (sn == "") LS.append(string("%d",i));
+       else LS.append(sn);
+       i++;
+    }   
+    quick_access->choice_mult_item("Scene visibility",VISIB_CHOICE,LS,visibility_action,NULL);  
+   }
+ 
+#if !defined(__win32__) 
+   quick_access->text_item("\\bf\\blue Scene activation");
+#endif  
+   
+   quick_access->open();
+}
 
 double GeoWin::get_xmin() const
 {
@@ -533,6 +765,7 @@ double GeoWin::get_ymax() const
 
 GEOWIN_END_NAMESPACE
 
+
 static void select_visible(int mask)
 {
   window* wp =  window::get_call_window();
@@ -553,6 +786,8 @@ static void select_visible(int mask)
   forall(it,gw->VAR_2) {
     gw->set_visible(it, (mask&(1<<i)) !=0 ); i++; 
   }    
+  gw->init_quick_access_window();
+  
   gw->redraw();
 }
 
@@ -561,11 +796,12 @@ static void select_input(int mask)
   window* wp =  window::get_call_window();
 #if defined GEOWIN_USE_NAMESPACE
   GEOWIN_NAMESPACE_NAME::GeoWin* gw = (GEOWIN_NAMESPACE_NAME::GeoWin*) wp->get_geowin();
-  GEOWIN_NAMESPACE_NAME::geo_scene cur = gw->get_active_scene();
+  GEOWIN_NAMESPACE_NAME::geo_scene cur;
 #else  
   GeoWin* gw =  (GeoWin*) wp->get_geowin();
-  geo_scene cur = gw->get_active_scene();
+  geo_scene cur;
 #endif  
+  cur = gw->get_active_scene();
   if (cur==NULL) return;
   else {
     cur->set_alternative_input_fcn(mask);
@@ -587,14 +823,13 @@ static void select_active(int mask)
 
 GEOWIN_BEGIN_NAMESPACE
 
-
 static void avoid_unused_warning(unsigned char**, const char**) {}
 
 void GeoWin::display(int xc, int yc)
 {
-  avoid_unused_warning(xbm_button21,name_xbm_button21);
-
   typedef unsigned char* CHAR_PTR;
+
+  avoid_unused_warning(xbm_button21,name_xbm_button21);
 
   if( is_open ) return;
   
@@ -654,8 +889,18 @@ void GeoWin::display(int xc, int yc)
      acit = Wp->choice_item(string("  "), ACT_STATE, ACT_SCN.size(), VWIDTH, VHEIGHT, APICS, select_active);
     }
   }
+  
+  // input object choice_item ...
+  
   INP_STATE=0;
   inpit = Wp->choice_item(" ",INP_STATE,3,21,21,input_bits, select_input);
+  
+  // set the x-position of the item ...
+  //double max_x = Wp->xmax();
+  //cout << "max x:" << max_x << "\n";
+  //Wp->set_item_xpos(inpit,max_x-30);
+  
+  
   Wp->disable_item(inpit);
   Wp->set_clear_on_resize(0);
 
@@ -676,6 +921,16 @@ void GeoWin::display(int xc, int yc)
   make_scene_menu();
   redraw();
 }
+
+int GeoWin::set_edit_mode(geo_scene sc, int emode)
+{
+  int prev = sc->edit_mode;
+  sc->edit_mode = emode;
+  return prev;
+}
+  
+int GeoWin::get_edit_mode(geo_scene sc) const
+{ return sc->edit_mode; }
 
 void GeoWin::set_label(geo_scene sc, string label)
 {
@@ -722,8 +977,7 @@ void GeoWin::add_scene_buttons(const list<geo_scene>&  LS, const list<string>& L
   vis_buttons = true;
 }
 
-void GeoWin::add_scene_buttons(const list<geo_scene>& LS, int w, int h, 
-                                                          unsigned char** bm)
+void GeoWin::add_scene_buttons(const list<geo_scene>& LS, int w, int h, unsigned char** bm)
 {
   if (LS.size() > 32) return;
   VAR_2 = LS;
@@ -734,7 +988,7 @@ void GeoWin::add_scene_buttons(const list<geo_scene>& LS, int w, int h,
   vis_buttons = true;  
 }
 
-list<geo_scene> GeoWin::get_visible_scenes()
+list<geo_scene> GeoWin::get_visible_scenes() const
 {
   list<geo_scene> LS;
   geo_scene it;
@@ -776,6 +1030,9 @@ void GeoWin::round_to_grid(double&x, double& y)
 void GeoWin::edit()
 {
   if (!is_open) display();
+  float tmloop, tact;
+  
+  init_quick_access_window();
   
   while( !quit_button_was_pressed() && !done_button_was_pressed() )
   { 
@@ -797,25 +1054,27 @@ void GeoWin::edit()
       set_rational_precision((int)(1/xval)); 
       
     //cout << "    " << x << "/" << y << "  event:" << event << " window:" << w << "\n";
+    tact=0;
 
     while ( event != button_press_event || w != Wp ) 
     {
       event = read_event(w,but,x,y);
-      if (show_grid) { xreal=x; yreal=y; round_to_grid(x,y); }
-      
+      if (show_grid) { xreal=x; yreal=y; round_to_grid(x,y); }    
       //cout << "  " << x << "  " << y << "\n";
 
       if (w != Wp || event == no_event) continue;
           
-      if (cur && mouse_pos_check) { 
+      if (cur && mouse_pos_check && (tact< 0.1)) { 
+	 tmloop = used_time();
          if (show_grid) { cur->mouse_at_pos(xreal, yreal, MASK); }
          else 
 	 cur->mouse_at_pos(x, y, MASK);
+	 tact = used_time(tmloop);
+	 //if (tact>0.1) cout << "Achtung!\n";
       }
       else 
          Wp->set_cursor(-1);
      }
-      
 
     switch (but) 
     { case MOUSE_BUTTON(1) : MASK |= A_LEFT;   break;
@@ -844,9 +1103,9 @@ void GeoWin::edit()
     } 
 
 
-    if (Wp->shift_key_down()) MASK |= A_SHIFT; 
-    if (Wp->ctrl_key_down())  MASK |= A_CTRL;
-    if (Wp->alt_key_down())   MASK |= A_ALT;
+    if (Wp->shift_key_down()) { MASK |= A_SHIFT; }
+    if (Wp->ctrl_key_down())  { MASK |= A_CTRL; }
+    if (Wp->alt_key_down())   { MASK |= A_ALT; }
     
     point p(x,y);
    
@@ -863,13 +1122,14 @@ void GeoWin::edit()
              but == MOUSE_BUTTON(3) )
           Wp->read_mouse(x,y,300,300,dclick,drag);
   
-        if (drag)   { MASK |= A_DRAG; if (show_grid) p = point(xreal,yreal); }
+        if (drag)   { MASK |= A_DRAG;  if (show_grid && allow_moving_from_grid) p = point(xreal,yreal); }
         if (dclick) MASK |= A_DOUBLE;
   
         func = mouse_actions[MASK];
       }
       
     if (show_grid) { Wp->set_grid_dist(-Wp->get_grid_dist()); }
+    
     Wp->disable_panel(false);
     if (func) func(*this, p);
     Wp->enable_panel();
@@ -914,6 +1174,7 @@ bool GeoWin::edit(geo_scene sc)
 
   return ret;
 }
+
 
 // **********************************************************************
 // *************************** Window Operations ************************
@@ -984,6 +1245,7 @@ void GeoWin::redraw_geowin(window* wp, double x0, double y0,
 void GeoWin::coord_handler(window* win, double x, double y)
 {
   BASE_WINDOW* swin = win->get_status_window();
+  //cout << "coord handler !\n"; cout.flush();
 
   if( !swin || !swin->is_open()) return;
   
@@ -1006,22 +1268,25 @@ void GeoWin::redraw()
     redraw(Wp->xmin(), Wp->ymin(), Wp->xmax(), Wp->ymax());
 }
 
+GEOWIN_END_NAMESPACE
 
-#if defined(GEOWIN_USE_NAMESPACE)
+
+#if defined GEOWIN_USE_NAMESPACE
 static int scene_compare_z(const GEOWIN_NAMESPACE_NAME::geo_scene& sc1, const GEOWIN_NAMESPACE_NAME::geo_scene& sc2)
 {
-  int z1 = sc1->z, z2 = sc2->z;
-  //return -compare(z1,z2);
-  if (z1==z2) return 0;
-  if (z1<z2) return -1; else return 1;
+  int z1 = sc1->z, z2 = sc2->z;  
+  return - compare(z1,z2);
 }
 #else
 static int scene_compare_z(const geo_scene& sc1, const geo_scene& sc2)
 {
-  int z1 = sc1->z, z2 = sc2->z;
+  int z1 = sc1->z, z2 = sc2->z;  
   return -compare(z1,z2);
 }
 #endif
+
+
+GEOWIN_BEGIN_NAMESPACE
 
 void GeoWin::redraw(double x0, double y0, double x1, double y1) 
 { 
@@ -1034,14 +1299,7 @@ void GeoWin::redraw(double x0, double y0, double x1, double y1)
   Wp->clear(x0, y0, x1, y1);
   
   geo_scene sc;
-/*  
-  
-  if (! redraw_z_order){
-   forall( sc, scenes ) 
-     if( sc->visible && sc != cur ) sc->redraw(Wp, x0, y0, x1, y1);
-     
-  }
-*/
+
     // redraw the scenes in z - order
     // cout << "redraw: z order\n";
   
@@ -1049,21 +1307,21 @@ void GeoWin::redraw(double x0, double y0, double x1, double y1)
     list<geo_scene>  scenes_pos; // z>0
     
     forall(sc,scenes){
-      int z = get_z(sc);
+      int z = get_z_order(sc);
       if (z==0) scenes_0.append(sc);
       else scenes_pos.append(sc);
     }
     // redraw the scenes with z coordinate > 0 ...
     scenes_pos.sort(scene_compare_z);
     forall( sc, scenes_pos ) 
-     if( sc->visible && sc != cur ) sc->redraw(Wp, x0, y0, x1, y1);        
+     if( sc->visible || is_active(sc)) sc->redraw(Wp, x0, y0, x1, y1);        
     
     // redraw the scenes with z coordinate 0 ...
     forall( sc, scenes_0 ) 
-     if( sc->visible && sc != cur ) sc->redraw(Wp, x0, y0, x1, y1);    
+     if( sc->visible || is_active(sc)) sc->redraw(Wp, x0, y0, x1, y1);    
      
   // redraw current scene on top ...
-  if(cur) { cur->redraw(Wp, x0, y0, x1, y1); }
+  //if(cur) { cur->redraw(Wp, x0, y0, x1, y1); }
 
   draw_pin();
   draw_info();
@@ -1077,6 +1335,8 @@ void GeoWin::redraw(double x0, double y0, double x1, double y1)
 
 void GeoWin::update_status_line()
 {
+  //cout << "update status line !\n"; cout.flush();
+
   if( is_open )
     {
       string str;
@@ -1116,6 +1376,8 @@ void GeoWin::insert_scene(geo_scene sc)
       update_status_line();
     }
   make_scene_menu();
+  init_quick_access_window();
+  
   redraw();
 }
 
@@ -1134,16 +1396,16 @@ void GeoWin::remove(geo_scene sc)
   scene_name_map[tmp2]--;
   if( tmp1 == tmp2 ) tmp1 = string("%s-%d", tmp2, 1);
   scene_name_map[tmp1]=0;
-  
+ 
   if ( cur == sc )
     {
-      if( !scenes.empty() )  activate(scenes.head());
+      if( !scenes.empty() ) { activate(scenes.head()); }
       else                  { cur = 0; no_scene_on(); }
       update_status_line();
     }
   
   make_scene_menu();  
-  //cout << "after make scene menu!\n"; cout.flush();
+  init_quick_access_window();
   if( rd ) redraw();
 }
 
@@ -1155,6 +1417,7 @@ void GeoWin::destroy(geo_scene sc)
   if (sc == edit_scene) edit_scene = NULL;
   delete sc;
   //cout << "after deleting scene!\n"; cout.flush();  
+  init_quick_access_window();
 }
 
 void GeoWin::destroy_all()
@@ -1164,6 +1427,7 @@ void GeoWin::destroy_all()
    destroy(sc);
    sc = get_active_scene();
   }
+  init_quick_access_window();
 }
 
 
@@ -1204,6 +1468,15 @@ string GeoWin::set_name(geo_scene sc, string nm)
   return sc->get_name();
 }
 
+string GeoWin::get_short_name(geo_scene sc) { return sc->short_name; }
+
+string GeoWin::set_short_name(geo_scene sc, string sn)
+{
+ string prev = sc->short_name;
+ sc->short_name = sn;
+ return prev;
+}
+
 void GeoWin::redraw_inp_panel()
 {
   if (cur) {
@@ -1212,10 +1485,12 @@ void GeoWin::redraw_inp_panel()
    if ((sc_name == string("RationalPoints")) || (sc_name == string("Points")) ) 
     Wp->enable_item(inpit);
    else Wp->disable_item(inpit);
-   Wp->redraw_panel(inpit);
   }
-  else { Wp->disable_item(inpit); Wp->redraw_panel(inpit); }
+  else Wp->disable_item(inpit); 
+  
+  Wp->redraw_panel(inpit);
 }
+
 
 void GeoWin::activate(geo_scene sc)
 {
@@ -1223,7 +1498,8 @@ void GeoWin::activate(geo_scene sc)
   
   if( cur && cur != sc ) cur->set_active(false);
   
-  string sc_name = sc->get_name();
+  string sc_name = sc->get_type_name();
+  //cout << sc_name << "\n";
   
   if ((sc_name == string("RationalPoints")) || (sc_name == string("Points")) ) 
     Wp->enable_item(inpit);
@@ -1252,6 +1528,8 @@ void GeoWin::activate(geo_scene sc)
   INP_STATE = sc->fcn_state;
   Wp->redraw_panel(inpit);
   
+  init_quick_access_window();
+  
   make_algo_menu(sc); 
   redraw();
   update_status_line();
@@ -1259,21 +1537,9 @@ void GeoWin::activate(geo_scene sc)
   return;
 }
 
-bool GeoWin::get_redraw_z_order() const
-{
- return redraw_z_order;
-}
-  
-bool GeoWin::set_redraw_z_order(bool b)
-{
- bool old = redraw_z_order;
- redraw_z_order = b;
- return old;
-}
+int GeoWin::get_z_order(geo_scene sc) const { return sc->z; }
 
-int GeoWin::get_z(geo_scene sc) const { return sc->z; }
-
-int GeoWin::set_z(geo_scene sc,int n) {
+int GeoWin::set_z_order(geo_scene sc,int n) {
  int old = sc->z;
  sc->z = n;
  return old;
@@ -1302,6 +1568,44 @@ void GeoWin::set_selection_color(geo_scenegroup gs, color c) {
   geo_scene iter;
   forall(iter,gs->group_members) set_color2(iter,c);  
 }
+
+
+color GeoWin::get_selection_fill_color(geo_scene sc) const
+{
+  return sc->sel_filling_color;
+}  
+	  
+color GeoWin::set_selection_fill_color(geo_scene sc, color c)
+{
+  color prev = sc->sel_filling_color;
+  sc->sel_filling_color = c;
+  return prev;
+} 
+  
+line_style GeoWin::get_selection_line_style(geo_scene sc) const
+{
+  return sc->sel_l_style;
+}
+  
+line_style GeoWin::set_selection_line_style(geo_scene sc, line_style l) const
+{
+  line_style prev = sc->sel_l_style;
+  sc->sel_l_style = l;
+  return prev;
+}  
+  
+int GeoWin::get_selection_line_width(geo_scene sc) const
+{
+  return sc->sel_line_width;
+}
+  
+int GeoWin::set_selection_line_width(geo_scene sc, int w) const
+{   
+  int prev = sc->sel_line_width;
+  sc->sel_line_width = w;
+  return prev;
+}
+
 
 color GeoWin::set_fill_color(geo_scene sc,color c) { 
   color cold=sc->filling_color; sc->filling_color=c; 
@@ -1363,6 +1667,32 @@ void GeoWin::set_all_visible(bool v){
  forall(sc,scenes) sc->set_visible(v);                                                                                                                                              
 }
 
+string GeoWin::set_description(geo_scene sc, string desc) 
+{ string prev = sc->description;
+  sc->description = desc; 
+  return prev;
+}
+
+bool GeoWin::get_highlight(geo_scene sc) const
+{
+  return sc->high_light;
+}
+  
+bool GeoWin::set_highlight(geo_scene sc, bool hl)
+{
+  bool prev = sc->high_light;
+  sc->high_light = hl;
+  return prev;
+}
+
+void GeoWin::set_handle_defining_points(geo_scene sc, geowin_defining_points gdp)
+{ sc->handle_defining_points = gdp; } 
+  
+geowin_defining_points GeoWin::get_handle_defining_points(geo_scene sc)
+{ return sc->handle_defining_points; }    
+  
+string GeoWin::get_description(geo_scene sc) const { return sc->description; }
+
 geowin_redraw* GeoWin::get_redraw_pt(geo_scene sc) { return sc->redraw_pt; }
 
 GEOWIN_END_NAMESPACE
@@ -1372,15 +1702,28 @@ GEOWIN_END_NAMESPACE
 
 #if defined GEOWIN_USE_NAMESPACE
 static GEOWIN_NAMESPACE_NAME::GeoWin* GeoWp = 0;
+static GEOWIN_NAMESPACE_NAME::geo_scene sc_help = NULL;
 #else
 static GeoWin* GeoWp =0;
+static geo_scene sc_help = NULL;
 #endif
+
+static string geowin_choose_string = "";
 
 static void geo_read_scene(string fn)
 { GeoWp->read_scene(fn); }
 
-void geo_write_scene(string fn)
+static void geo_import_scene(string fn)
+{ GeoWp->import_scene(fn); }
+
+void geo_write_active_scene(string fn)
 { GeoWp->write_scene(fn); }
+
+void geo_write_scene(string fn)
+{ 
+ //cout << "geo_write_scene !\n"; cout.flush();
+ GeoWp->write_scene(sc_help, fn, true); 
+}
 
 void geo_write_ps(string fn)
 { GeoWp->write_ps(fn); }
@@ -1388,8 +1731,8 @@ void geo_write_ps(string fn)
 void geo_write_ps_vis(string fn)
 { GeoWp->write_ps_vis(fn); }
 
-void geo_write_scene_woh(string fn)
-{ GeoWp->write_scene_woh(fn); }
+void geo_export_scene(string fn)
+{ GeoWp->export_scene(fn); }
 
 static bool s_full_color = true;
 
@@ -1463,6 +1806,8 @@ void GeoWin::read_scene(string filename)
   else
     {   
       sc = GeoScene::new_scene(type_name);
+      if (sc == NULL) return;
+      
       sc->set_base_name(sc_name);
       insert_scene(sc);
       activate(sc);
@@ -1472,24 +1817,95 @@ void GeoWin::read_scene(string filename)
   update_status_line();
 }
 
-
-// new function - save without header
-void GeoWin::file_save_woh()
+void GeoWin::import_scene(string filename)
 {
-  string str1;
-  if(cur) str1 = string(cur->get_name()) + string(".geo");
-  string str2(".");
+  list<string> name, desc;
+  cur->get_import_object_names_and_descriptions(name, desc);   
   
-  GeoWp = this;
-  file_panel P(get_window(),str1, str2);
-  P.set_save_handler(::geo_write_scene_woh);
-  P.set_cancel_handler(::geo_dummy); 
-  P.set_pattern("Geo Files (*.geo)","*.geo");
-  open_panel(P);  
-  GeoWp = 0; 
+  //which importer was choosen ...    
+  string iter;
+  int i = 0, import_handler_nr = -1;
+  forall(iter,name){
+      if (geowin_choose_string==iter) { 
+	import_handler_nr = i; break; 
+      }
+      i++;
+  }  
+  if (import_handler_nr == -1) return;
+
+  // get import object ...  
+  list_item it = (cur->import_objects).get_item(import_handler_nr);
+  geowin_import* io = (cur->import_objects)[it];
+ 
+  io->operator()(cur, filename);
+}  
+
+// --------------------------------------
+// export and import data ....
+// --------------------------------------
+
+void GeoWin::file_export()
+{
+  if (cur){
+   list<string> name, desc;
+   cur->get_export_object_names_and_descriptions(name, desc); 
+   name.push_front("default");
+    
+   string str1;
+   str1 = string(cur->get_name()) + string(".geo");
+   string str2(".");
+  
+   GeoWp = this;
+   file_panel P(get_window(),str1, str2);
+   P.set_save_handler(::geo_export_scene);
+   P.set_cancel_handler(::geo_dummy); 
+   P.set_pattern("Geo Files (*.geo)","*.geo");
+   
+   panel& pan = P.get_panel();
+   P.init_panel();
+ 
+   pan.text_item("\\bf\\blue Choose Exporter"); 
+ 
+   geowin_choose_string = name.head();
+   pan.string_item("Exporter", geowin_choose_string, name);
+       
+   open_panel(P);  
+   GeoWp = 0; 
+  } 
 }
 
-void GeoWin::file_save()
+void GeoWin::file_import()
+{
+  if (cur){
+    list<string> name, desc;
+    cur->get_import_object_names_and_descriptions(name, desc); 
+    
+    if (name.empty()) return; // no importers ...
+    
+    string str1("no name");
+    string str2(".");
+  
+    GeoWp = this;
+    file_panel P(get_window(),str1, str2);
+    P.set_load_handler(::geo_import_scene);
+    P.set_cancel_handler(::geo_dummy);
+    P.set_pattern("Geo Files (*.geo)","*.geo");
+  
+    panel& pan = P.get_panel();
+    P.init_panel();
+ 
+    pan.text_item("\\bf\\blue Choose Importer"); 
+ 
+    geowin_choose_string = name.head();
+    pan.string_item("Importer", geowin_choose_string, name);
+
+    open_panel(P);
+    GeoWp = 0;
+  }
+}
+
+// save active scene ...
+void GeoWin::file_save_active()
 {
   string str1;
   if(cur) str1 = string(cur->get_name()) + string(".geo"); else return;
@@ -1497,6 +1913,51 @@ void GeoWin::file_save()
   
   GeoWp = this;
   file_panel P(get_window(),str1, str2);
+  P.set_save_handler(::geo_write_active_scene);
+  P.set_cancel_handler(::geo_dummy);
+  P.set_pattern("Geo Files (*.geo)","*.geo");
+  open_panel(P);  
+  GeoWp = 0;
+}
+
+// save some scene ...
+void GeoWin::file_save()
+{
+  geo_scene sc = NULL, sc_iter;
+  
+  //get scene ...
+  list<geo_scene> scn = get_scenes();
+  list<string> names;
+  forall(sc_iter, scn) names.append(get_name(sc_iter));
+  
+  if (names.empty()) return;
+  string choose = names.head();
+  
+  panel Psc("Choose scene");
+  Psc.buttons_per_line(2);
+  
+  Psc.text_item("\\bf\\blue Scenes:");
+  Psc.text_item("");
+ 
+  Psc.string_item("", choose, names );
+  
+  Psc.fbutton("Apply", APPLY_BUTTON);
+  Psc.button("Cancel", CANCEL_BUTTON);
+  
+  int but = open_panel(Psc);
+  
+  if( but == CANCEL_BUTTON ) return;
+  // find scene ...
+  forall(sc_iter, scn) { if (choose== get_name(sc_iter)) sc = sc_iter; }
+
+  string str1;
+  if(sc) str1 = string(sc->get_name()) + string(".geo"); else return;
+  string str2(".");
+  
+  sc_help = sc;
+  GeoWp = this;
+  file_panel P(get_window(),str1, str2);
+  
   P.set_save_handler(::geo_write_scene);
   P.set_cancel_handler(::geo_dummy);
   P.set_pattern("Geo Files (*.geo)","*.geo");
@@ -1536,11 +1997,13 @@ void GeoWin::save_ps_vis()
 
 bool GeoWin::test_file_exists(string filename)
 {
-  if (is_file(filename)){ // file is already there ...
+  if (file_existence_test){
+   if (is_file(filename)){ // file is already there ...
     window& wind = get_window();
     string cnf("File exists. Overwrite it ?");
     bool b = wind.confirm(cnf);
     return !b;
+   }
   }
   return false;
 }
@@ -1565,14 +2028,21 @@ void GeoWin::write_scene(string filename)
 void GeoWin::write_scene(geo_scene sc, string filename, bool test)
 {
   if (test) {
-   if (test_file_exists(filename)) return;
-  }
-  
+    if (test_file_exists(filename)) return;
+  }  
+    
   ofstream os(filename);
   if( !os )  { error_handler(0, "Can not save");  return;   }
   string str("GEOWIN ");
   os << str << version() << endl;
-  os << sc->get_type_name() << endl;
+  //cout << "write_scene get type name :\n" << flush;
+  string tn = sc->get_type_name();
+  
+  if ((tn.length() > 4) && (tn.tail(4) == string("Base"))){ // cut end off ...
+   tn = tn.head(tn.length()-4);
+  }
+  
+  os << tn << endl;
   os << sc->get_base_name() << endl;
   sc->write(os,"");
   os.close();
@@ -1593,6 +2063,7 @@ void GeoWin::write_ps(string filename)
   F.close();
 }
 
+/*
 void GeoWin::write_ps_vis(string filename)
 {
   if (!cur) return;
@@ -1617,18 +2088,113 @@ void GeoWin::write_ps_vis(string filename)
   
   F.close();
 }
+*/
 
 
-void GeoWin::write_scene_woh(string filename)
-// write to file without header
+void GeoWin::write_ps_vis(string filename)
 {
   if (!cur) return;
   if (test_file_exists(filename)) return;
   
-  ofstream os(filename);
-  if( !os )  { error_handler(0, "Can not save");  return;   }
-  cur->write(os,"");
-  os.close(); 
+  geo_scene sc;
+  window& win=get_window();
+
+  ps_file F(filename);
+  F.init(win.xmin(),win.xmax(),win.ymin());
+  F.set_output_mode(colored_mode); 
+  
+  // output scenes ...
+  list<geo_scene>  scenes_0;   // z==0
+  list<geo_scene>  scenes_pos; // z>0
+    
+  forall(sc,scenes){
+      int z = get_z_order(sc);
+      if (z==0) scenes_0.append(sc);
+      else scenes_pos.append(sc);
+  }
+    
+  // redraw the scenes with z coordinate > 0 ...
+  scenes_pos.sort(scene_compare_z);
+  forall( sc, scenes_pos ) {
+     F.set_point_style(sc->p_style);
+     if( sc->visible || is_active(sc)) sc->write_postscript(F);   
+  }     
+    
+  // redraw the scenes with z coordinate 0 ...
+  forall( sc, scenes_0 ) {
+     F.set_point_style(sc->p_style);
+     if( sc->visible || is_active(sc)) sc->write_postscript(F);
+  }
+  
+  F.close();
+}
+
+
+
+
+void GeoWin::replace_characters(string& strh)
+{
+  int max = strh.length();
+  int i;
+  
+  set<char> help_set;
+  
+  // init the set ...
+  for (i=0;i<replace_by_blanks.length();i++){
+    help_set.insert(replace_by_blanks[i]);
+  }
+  
+  for(i=0;i<max;i++){ 
+    char& act = strh[i];
+    if (help_set.member(act)) act = ' '; 
+  }
+}
+
+void GeoWin::export_scene(string filename)
+// write to file without header
+// or export using a geowin_export object
+{
+  if (!cur) return;
+  if (test_file_exists(filename)) return;
+  
+  ofstream os_file(filename);
+  
+  if (geowin_choose_string == "default"){
+    string_ostream os;
+  
+    if( !os_file )  { error_handler(0, "Can not save");  return;   }
+    cur->write(os,"\n");
+    os << "\n";
+    os << ends;
+  
+    string strh = os.str();
+    replace_characters(strh); 
+  
+    os_file << strh;
+  }
+  else { // export object ...
+    list<string> name, desc;
+    cur->get_export_object_names_and_descriptions(name, desc);   
+      
+    string iter;
+    int i = 0;
+    int export_handler_nr = -1;
+    forall(iter,name){
+      if (geowin_choose_string==iter) { 
+	export_handler_nr = i; break; 
+      }
+      i++;
+    }  
+    if (export_handler_nr == -1) return;
+  
+    // get export object ...
+  
+    list_item it = (cur->export_objects).get_item(export_handler_nr);
+    geowin_export* eo = (cur->export_objects)[it];
+    eo->operator()(cur, filename);  
+  }
+    
+  os_file.close();
 }
 
 void GeoWin::file_open()
@@ -1738,7 +2304,7 @@ void GeoWin::fill_window()
   { geo_editor ed = sc->type_editor();
     if (ed && sc->is_visible()) 
     { double x_min_akt, x_max_akt, y_min_akt, y_max_akt;
-      if (ed->fill_rect(x_min_akt, x_max_akt, y_min_akt, y_max_akt))
+      if (sc->fill_rect(x_min_akt, x_max_akt, y_min_akt, y_max_akt))
       { if (x_min_akt < x_min) x_min = x_min_akt;
         if (x_max_akt > x_max) x_max = x_max_akt;
         if (y_min_akt < y_min) y_min = y_min_akt;
@@ -1867,6 +2433,18 @@ bool  GeoWin::set_show_position(bool sp)
   return prev;
 }
 
+bool  GeoWin::get_show_quick_access_window() const
+{
+  return show_quick_access_window;
+}
+  
+bool  GeoWin::set_show_quick_access_window(bool b)
+{
+  bool prev = show_quick_access_window;
+  show_quick_access_window = b; 
+  return prev;
+}
+
 bool GeoWin::get_d3_elimination() const
 { return gw_elim; }
   
@@ -1885,10 +2463,20 @@ int GeoWin::get_d3_animation_speed() const
 int GeoWin::set_d3_animation_speed(int s)
 { int h = gw_anim_speed; gw_anim_speed = s; return h; }
 
-bool GeoWin::get_show_d3_edges() const
+// --- new : use the scene color in d3 output ?
+bool GeoWin::get_d3_use_scene_color(geo_scene sc) const
+{  return sc->d3_use_scene_color; }
+
+bool GeoWin::set_d3_use_scene_color(geo_scene sc, bool b)
+{  bool prev = sc->d3_use_scene_color;
+   sc->d3_use_scene_color = b;
+   return prev;
+}
+
+bool GeoWin::get_d3_show_edges() const
 { return gw_d3edges; }
   
-bool GeoWin::set_show_d3_edges(bool b)
+bool GeoWin::set_d3_show_edges(bool b)
 { bool h = gw_d3edges; gw_d3edges = b; return h; }
 
 void GeoWin::z_scenes()
@@ -1898,7 +2486,6 @@ void GeoWin::z_scenes()
   int *znr= new int[scenes.length()];
   int i=scenes.length() -1;
   geo_scene sc;
-  bool b = get_redraw_z_order();
   
   panel P("Z Order Scenes");
   P.buttons_per_line(2);
@@ -1921,9 +2508,6 @@ void GeoWin::z_scenes()
       i--;
     }
   
-  // P.text_item("");
-  // P.bool_item(string("Use z-order for redraw"),b);
-  
   P.fbutton("Apply", APPLY_BUTTON);
   P.button("Cancel", CANCEL_BUTTON);
 
@@ -1936,7 +2520,6 @@ void GeoWin::z_scenes()
   if (but) {
       i = 0;
       forall(sc , scenes) sc->z = znr[i++]; 
-      set_redraw_z_order(b);
       redraw();
   }
   
@@ -1982,17 +2565,24 @@ void GeoWin::visible_scenes()
   W.enable_panel();
   redraw_inp_panel();
   
-  if (but)
-    {
-      i = 0;
-      forall(sc , scenes)  sc->set_visible(vis[i++]);
+  if (but){ change_visibility(vis); init_quick_access_window(); }
+
+  delete vis;
+}
+
+void GeoWin::change_visibility(bool* vis)
+{
+      geo_scene sc;
+      int i = 0;
+      
+      forall(sc , scenes)  { sc->set_visible(vis[i++]); }  
 
       if (vis_buttons){     
        //reset buttons in vis_buttons ...
        geo_scene it;
     
        VIS_STATE = 0;
-       int i = 0;
+       i = 0;
     
        forall(it,VAR_1) {
          if (get_visible(it)) { VIS_STATE = VIS_STATE + (1 << i);  } 
@@ -2009,10 +2599,7 @@ void GeoWin::visible_scenes()
               
       }
       
-      redraw();
-    }
-
-  delete vis;
+      redraw();        
 }
 
 void GeoWin::scenegroup_dialog(geo_scenegroup gsg)
@@ -2079,8 +2666,10 @@ void GeoWin::scenegroup_dialog(geo_scenegroup gsg)
        if (!VAR_2.empty()) Wp->redraw_panel(pnit2);               
       }
       redraw();   
+      
+     init_quick_access_window();
   }
-  
+ 
   delete vis;
 }
 
@@ -2141,9 +2730,18 @@ void GeoWin::advanced_global_options()
   bool tme= time_meas;
   bool mpc= mouse_pos_check;
   bool up = update_while_object_dragging;
+  bool qa = show_quick_access_window;
+  
+  bool allow_mfg = allow_moving_from_grid;
+  
+  string rep_chars = replace_by_blanks;
   
   int  prec = rat_point::default_precision;
   bool  fi   = (rat_point::use_filter != 0);
+  bool  check_existance = file_existence_test;
+
+  // new -error handling
+  //bool win_error = window::get_show_error_panel();
 
   panel P;
   P.set_inf(this);    
@@ -2151,6 +2749,13 @@ void GeoWin::advanced_global_options()
   P.int_item("precision", prec, 0, 53);
   P.bool_item("use filter",fi);
   P.text_item("");  
+  
+  P.text_item("\\bf\\blue File Options"); 
+  P.bool_item("saving - file existance check", check_existance);  
+  P.text_item("");
+  P.text_item("Export - replace these characters by blanks");
+  P.string_item("Characters:", rep_chars);
+  P.text_item("");
 
   P.text_item("\\bf\\blue Miscellaneous");   
   P.bool_item("update while moving/rotating objects", up);
@@ -2158,6 +2763,10 @@ void GeoWin::advanced_global_options()
   P.bool_item("scribble mode", scribble);
   P.bool_item("buildin algorithms - create scenes",cscn);
   P.bool_item("current scene- check mouse position", mpc);
+  P.bool_item("show quick access window", qa);
+  P.bool_item("allow moving from grid in gridmode", allow_mfg);
+  //P.bool_item("error handler - window panel", win_error);
+  
   P.text_item("");
   
   P.fbutton("apply",   APPLY_BUTTON);
@@ -2173,11 +2782,19 @@ void GeoWin::advanced_global_options()
       prec      = 10;
       fi        = true;
       tme       = DEFAULT_time_meas;
+      qa        = true;
+      allow_mfg = false;
+      rep_chars = ""; 
+      check_existance  = true;
+      //win_error = true;
     }
   
   if( but == CANCEL_BUTTON ) return;
   
   Wp->set_flush(false);
+  
+  // new
+  //window::set_show_error_panel(win_error);
     
   scribble_mode=scribble;
   if (scribble_mode)  scribble_first=true;
@@ -2190,6 +2807,13 @@ void GeoWin::advanced_global_options()
   rat_point::use_filter=fi;
   time_meas = tme;
   mouse_pos_check = mpc;
+  show_quick_access_window = qa;
+  allow_moving_from_grid = allow_mfg;
+  
+  replace_by_blanks = rep_chars;
+  file_existence_test = check_existance;
+  
+  init_quick_access_window();
 
   Wp->set_flush(true);
   
@@ -2221,8 +2845,9 @@ void GeoWin::global_options()
 
   bool coords = show_coords;
   
-  int  t1   = time_out1;
-  int  t2   = time_out2;
+  // change - get nrat from window ...
+  bool nrat = Wp->get_normalize_rational_objects();
+  
   int  mfct = (int) mouse_fct;
   
   int an_steps = gw_anim_steps;
@@ -2231,7 +2856,7 @@ void GeoWin::global_options()
   P.set_inf(this);  
   P.text_item("\\bf\\blue Grid Settings");
   P.bool_item("show grid", sh_grid);
-  P.int_item("grid dist", grid_dist, min_dist, max_dist);
+  P.int_item("grid dist", grid_dist, min_dist, max_dist); 
   P.choice_item("grid style",gr_style,"invisible", "points", "lines");
   P.text_item("");
   
@@ -2239,14 +2864,14 @@ void GeoWin::global_options()
   P.string_item("bg texture", pm_name, pm_list, 5);
   P.color_item("bg color",bg_col);
   P.int_item("animation", an_steps,1,30);
+  P.bool_item("normalize before output", nrat);
+  P.text_item("");
   P.bool_item("show position", coords);
   P.text_item("");
 
 
   P.text_item("\\bf\\blue Mouse Options"); 
   P.int_item("capture width", mfct, 1, 15);
-  P.int_item("timeout1", t1, 100, 1000);
-  P.int_item("timeout2", t2, 10, 1000);
   P.text_item("");  
   
   P.fbutton("apply",   APPLY_BUTTON);
@@ -2267,11 +2892,9 @@ void GeoWin::global_options()
       coords    = DEFAULT_show_coords;
 
       mfct      = 1;
+      nrat      = false;
       
       an_steps  = DEFAULT_anim_steps;
-      
-      time_out1 = DEFAULT_time_out1;
-      time_out2 = DEFAULT_time_out2;
     }
   
   if( but == CANCEL_BUTTON ) return;
@@ -2307,12 +2930,12 @@ void GeoWin::global_options()
   
   gw_anim_steps = an_steps;
   
+  // handle nrat ...
+  Wp->set_normalize_rational_objects(nrat);
+  
   show_coords = coords;
 
   mouse_fct = mfct;
-
-  time_out1 = t1;
-  time_out2 = t2;
   
   Wp->set_flush(true);
   
@@ -2395,7 +3018,7 @@ void GeoWin::d3_options()
   P.text_item(""); 
   
   P.text_item("\\bf\\blue Z-value for input of new objects");
-  P.int_item("z:",zv,-100,100);
+  P.int_item("z:",zv,-200,200);
   
   P.text_item("\\bf\\blue Coordinate system");
   P.bool_item("show?", show_cs);
@@ -2419,7 +3042,6 @@ void GeoWin::d3_options()
   gw_anim_speed= sp;
   gw_d3_cs = show_cs;
   gw_d3_zvalue = (double) zv;
-  cout << gw_d3_zvalue << "\n";
   
   if (xstr == string("xy")) GeoWin::projection_mode=0;
   else
@@ -2427,17 +3049,18 @@ void GeoWin::d3_options()
    else
     if (xstr == string("yz")) GeoWin::projection_mode=2;
     
-  //cout << xstr << "\n";
-  //cout << GeoWin::projection_mode << "\n";
   redraw();
 }
 
-list_item GeoWin::add_remark(geo_scene sc,double x,double y,string rem)
-{ return sc->add_remark(x,y,rem); }
+void GeoWin::add_text(geo_scene sc, const geowin_text& gt)
+{
+ (sc->additional_objects).append(gt);
+}
 
-list_item GeoWin::add_remark(geo_scene sc,double x,double y,double wd,string rem)
-{ return sc->add_remark(x,y,wd,rem); }
-  
+void GeoWin::remove_texts(geo_scene sc)
+{
+ (sc->additional_objects).clear();
+}
 
 void GeoWin::msg_open(string str)
 {
@@ -2557,7 +3180,7 @@ void GeoWin::rotate(const point& p1, const point& p)
 {
   geo_editor ed = cur ? cur->type_editor() : 0;
   if( !ed ) return;
-  if( !ed->start_changing() )
+  if( !cur->start_changing() )
     error_handler(0, "Changing selected objects is not allowed !");
 
   point p2 = p;
@@ -2590,7 +3213,7 @@ void GeoWin::rotate(const point& p1, const point& p)
   s2 = segment(p1, p3);
   ed->move_or_rotate_sel(p1.xcoord(), p1.ycoord(), s1.angle(s2), false, true);
   
-  ed->stop_changing();
+  cur->stop_changing();
 }
 
 void GeoWin::move()
@@ -2615,12 +3238,55 @@ void GeoWin::show_sel()
    }
 }
 
+void GeoWin::paste_from()
+{
+   if (cur) {
+    if (edit_scene) { 
+     panel P("Paste from scene");
+     P.buttons_per_line(1);
+     
+     // select one of these scenes, get the typename
+     P.text_item("\\bf\\blue Paste from ");
+     
+     int i=0;
+     geo_scene sc;
+     
+     list<geo_scene> scl;
+     
+     forall(sc , scenes)  
+     { 
+      if( ((sc->owner).empty()) && (sc->get_type_name() == edit_scene->get_type_name()) ) 
+        scl.append(sc);
+     }
+     
+     if (! scl.empty()) {
+      forall(sc,scl) P.button(sc->get_name(),i++);
+
+      P.button("cancel",   i);
+
+      window& W = get_window();
+      W.disable_panel();
+      int but = P.open();
+      W.enable_panel();
+      redraw_inp_panel();
+      
+      if (but==i) return;
+ 
+      geo_scene from_scene = scl[scl.get_item(but)];
+      edit_scene->copy_clip_buffer(from_scene);
+      
+      // compare typename of selected scene with typename of edit_scene ...
+     }
+    }
+   }
+}
+
 
 void GeoWin::move(const point& p)
 {
   geo_editor ed = cur ? cur->type_editor() : 0;
   if( !ed ) return;
-  if( !ed->start_changing() )
+  if( !cur->start_changing() )
     error_handler(0, "Changing selected objects is not allowed !");
 
   double x = p.xcoord();
@@ -2654,7 +3320,7 @@ void GeoWin::move(const point& p)
   dy = y1-y;
   ed->move_or_rotate_sel(dx, dy, 0, true, true);
   
-  ed->stop_changing();
+  cur->stop_changing();
 }
 
 void GeoWin::select()
@@ -2678,7 +3344,7 @@ void GeoWin::select_all()
   geo_editor ed = cur ? cur->type_editor() : 0;
   if( !ed ) return; 
 
-  ed->select_in_rect(false,0,0,0,0,true);
+  cur->select_in_rect(false,0,0,0,0,true);
 }
 
 void GeoWin::select(const point& p0)
@@ -2719,13 +3385,13 @@ void GeoWin::select(const point& p0)
   if( x1 < x0 ) { tmp = x0; x0 = x1; x1 = tmp; }
   if( y1 < y0 ) { tmp = y0; y0 = y1; y1 = tmp; }
   
-  ed->select_in_rect(false, x0, y0, x1, y1,false); 
+  cur->select_in_rect(false, x0, y0, x1, y1,false); 
 }
 
 void GeoWin::unselect()
 { 
   geo_editor ed = cur ? cur->type_editor() : 0;
-  if( ed ) ed->select_in_rect(true,0,0,0,0,true);
+  if( ed ) cur->select_in_rect(true,0,0,0,0,true);
 }
 
 // d3 - support in GeoWin using d3_window ...
@@ -2756,8 +3422,34 @@ void GeoWin::show_d3()
   int but; 
 
   forall(scn,scenes) {
-    if (get_visible(scn) || is_active(scn))
-       scn->compute_d3_output(scn, (*d3_win), H);
+    if (get_visible(scn) || is_active(scn)){
+       GRAPH<d3_point,int> H2;
+
+       color cact = get_color(scn);
+       
+       scn->compute_d3_output(scn, (*d3_win), H2);
+       int nn = H2.number_of_nodes();
+       int ne = H2.number_of_edges();       
+       H.join(H2);
+       
+       if (get_d3_use_scene_color(scn)){
+         // get node and edge lists of H ...
+         list<node>& Lnode = (list<node>&) H.all_nodes();
+         list<edge>& Ledge = (list<edge>&) H.all_edges();
+        
+         // set node and edge colors ...
+         list_item it;
+         it = Lnode.last();	
+         for(;nn>0; it = Lnode.cyclic_pred(it),nn--) {  
+           if (! node_color_map.defined(Lnode[it])) node_color_map[Lnode[it]] = cact; 
+         }
+       
+         it = Ledge.last();
+         for(;ne>0; it = Ledge.cyclic_pred(it),ne--) {  
+           if (! edge_color_map.defined(Ledge[it])) edge_color_map[Ledge[it]] = cact; 
+         }  
+       }    
+    }   
   }
   
   // coordinate system ...
@@ -2775,18 +3467,6 @@ void GeoWin::show_d3()
   node nv3 = H.new_node(d3_point(0,w,0));
   node nv4 = H.new_node(d3_point(0,0,w));  
   
-  // arrows ...
-  /*
-  node nv5 = H.new_node(d3_point(w-val2,val2/2,0));
-  node nv6 = H.new_node(d3_point(w-val2,-val2/2,0));  
-
-  node nv7 = H.new_node(d3_point(0,w-val2,val2/2));
-  node nv8 = H.new_node(d3_point(0,w-val2,-val2/2));  
-
-  node nv9 = H.new_node(d3_point(0,val2/2,w-val2));
-  node nv10= H.new_node(d3_point(0,-val2/2,w-val2));  
-  */
-  
   e1 = H.new_edge(nv1,nv2), e2 = H.new_edge(nv2,nv1);
   H.set_reversal(e1,e2);
   e3 = H.new_edge(nv1,nv3), e4 = H.new_edge(nv3,nv1);
@@ -2794,24 +3474,7 @@ void GeoWin::show_d3()
   e5 = H.new_edge(nv1,nv4), e6 = H.new_edge(nv4,nv1);  
   H.set_reversal(e5,e6);
   
-  // arrow edges ...
-  /*
-  edge e7 = H.new_edge(nv2,nv5), e8 = H.new_edge(nv5,nv2);
-  H.set_reversal(e7,e8);
-  edge e9 = H.new_edge(nv2,nv6), e10 = H.new_edge(nv6,nv2);
-  H.set_reversal(e9,e10);
 
-  edge e11 = H.new_edge(nv3,nv7), e12 = H.new_edge(nv7,nv3);
-  H.set_reversal(e11,e12);
-  edge e13 = H.new_edge(nv3,nv8), e14 = H.new_edge(nv8,nv3);
-  H.set_reversal(e13,e14);
-
-  edge e15 = H.new_edge(nv4,nv9), e16 = H.new_edge(nv9,nv4);
-  H.set_reversal(e15,e16);
-  edge e17 = H.new_edge(nv4,nv10), e18 = H.new_edge(nv10,nv4);
-  H.set_reversal(e17,e18);
-  */
-  
   // x, y, z ...
   node xn1 = H.new_node(d3_point(w-val2,-1.7*val2,0));
   node xn2 = H.new_node(d3_point(w,-1.7*val2,0));
@@ -2857,8 +3520,8 @@ void GeoWin::show_d3()
 
   // new ...
   edge e;
-  forall_defined(e,edge_color_map) d3_win->set_color(e, edge_color_map[e]);
-  forall_defined(v,node_color_map) d3_win->set_color(v, node_color_map[v]);  
+  forall_defined(e,edge_color_map) {  d3_win->set_color(e, edge_color_map[e]); }
+  forall_defined(v,node_color_map) {  d3_win->set_color(v, node_color_map[v]); } 
 
   //arrows 
   if (gw_d3_cs) {
@@ -2893,269 +3556,20 @@ void GeoWin::hide_d3()
 {
   if (d3_win != NULL) 
   { delete d3_win; 
-    (*Whelpd3).close(); 
-    delete Whelpd3; 
     d3_win=NULL; 
-    Whelpd3=NULL; 
   }
 }
 
-// GeoProp-class 
-
-GeoProp::GeoProp()
-{
-  color1_map = 0;
-  color2_map = 0;
-  lst_map    = 0;
-  lw_map     = 0;
-  label_map  = 0;
-  original   = 0;    
-}
-
-color GeoProp::get_obj_color(void* o) 
-{
-  color c = prop_my_scene->get_default_color1();
-  void* obj = (original && original->defined(o)) ? (*original)[o] : o;
-  if( color1_map && color1_map->defined(obj)) c = (*color1_map)[obj];
-  return c; 
-}
-
-color GeoProp::set_obj_color(void* obj, color c) 
-{
-  color cold = get_obj_color(obj);
-  if( !color1_map ) color1_map = new map<void*, color>;
-  (*color1_map)[obj] = c;
-  return cold;
-}
-
-color GeoProp::get_obj_fill_color(void* o) 
-{
-  color c = prop_my_scene->get_default_color2();
-  void* obj = (original && original->defined(o)) ? (*original)[o] : o;
-  if( color2_map && color2_map->defined(obj)) { c = (*color2_map)[obj]; }
-
-  return c; 
-}
-
-color GeoProp::set_obj_fill_color(void* obj, color c) 
-{
-  color cold = get_obj_fill_color(obj);
-  if( !color2_map ) color2_map = new map<void*, color>;
-  (*color2_map)[obj] = c;
-  return cold;
-}
-
-  
-line_style GeoProp::get_obj_line_style(void* o)   
-{
-  line_style lst = prop_my_scene->get_default_line_style();
-  void* obj = (original && original->defined(o)) ? (*original)[o] : o;
-  if( lst_map && lst_map->defined(obj)) lst = (*lst_map)[obj];
-  return lst;
-}
-
-line_style GeoProp::set_obj_line_style(void* obj, line_style lst)
-{
-  line_style lold = get_obj_line_style(obj);
-  if(!lst_map) lst_map = new map<void*,line_style>;
-  (*lst_map)[obj] = lst;
-  return lold;
-}
-
-int GeoProp::get_obj_line_width(void* o)
-{ 
-  int lw = prop_my_scene->get_default_line_width();
-  void* obj = (original && original->defined(o)) ? (*original)[o] : o;
-  if ( lw_map && lw_map->defined(obj) ) lw = (*lw_map)[obj];
-  return  lw;
-}
-
-int GeoProp::set_obj_line_width(void* obj, int w)
-{
-  int lold = get_obj_line_width(obj);
-  if(!lw_map) lw_map = new map<void*, int >;
-  (*lw_map)[obj] = w;
-  return lold;
-}
-
-bool GeoProp::get_obj_label(void* o,string& label)
-{ 
-  if (! label_map) return false;
-  void* obj = (original && original->defined(o)) ? (*original)[o] : o;
-  if ( label_map && label_map->defined(obj) )  { label=  (*label_map)[obj]; return true; }
-  return false;
-}
-
-void GeoProp::set_obj_label(void* obj, string label)
-{
-  if(!label_map) label_map = new map<void*, string >;
-  (*label_map)[obj] = label;
-}  
-
-void GeoProp::set_original_properties(void* o, void* orig)
-{
-    if( color1_map && color1_map->defined(orig) )
-      (*color1_map)[o] = (*color1_map)[orig];
-    if( color2_map && color2_map->defined(orig) )
-      (*color2_map)[o] = (*color2_map)[orig];
-    if( lst_map && lst_map->defined(orig) )
-      (*lst_map)[o] = (*lst_map)[orig];
-    if( lw_map && lw_map->defined(orig) )
-      (*lw_map)[o] = (*lw_map)[orig];
-    if( label_map && label_map->defined(orig) )
-      (*label_map)[o] = (*label_map)[orig];
-}
-
-void GeoProp::set_def_properties(void* o)
-{
-    if( color1_map && color1_map->defined(o) )
-      (*color1_map)[o] = prop_my_scene->get_default_color1();
-    if( color2_map && color2_map->defined(o) )
-      (*color2_map)[o] = prop_my_scene->get_default_color2();
-    if( lst_map && lst_map->defined(o) )
-      (*lst_map)[o] = prop_my_scene->get_default_line_style();
-    if( lw_map && lw_map->defined(o) )
-      (*lw_map)[o] = prop_my_scene->get_default_line_width();
-    if( label_map && label_map->defined(o) )
-      (*label_map)[o] = string("");
-}
-
-void GeoProp::original_properties(void* o)
-{
-    void* obj = original ? (*original)[o] : o;
-    if(o==obj )  return; //was identical...
-
-    set_original_properties(o,obj);
-}
-  
-void GeoProp::set_default_properties(void* o)
-{
-    set_def_properties(o);
-    if( original && original->defined(o))  (*original)[o] = o;
-}
-
-void GeoProp::undefine_all()
-{
-    undefine_colors1();
-    undefine_colors2();
-    undefine_line_styles();
-    undefine_line_width();
-    undefine_labels();
-}
-
-int GeoProp::keyboard_panel(window& w, string& nval)
-{ 
-    panel p;
-    p.text_item("\\bf\\blue Input new object:");
-    p.text_item("");
-    p.string_item("New value:",nval );
-	
-    p.fbutton("apply",   APPLY_BUTTON); 
-    p.button("cancel",   CANCEL_BUTTON);
-    
-    int but=p.open(w);
-    return but;
-}
-
-void GeoProp::setup_focus_dialog(window& w,void* obj)
-{
-   panel p("Object Properties");
-   
-   color c1      = get_obj_color(obj);
-   color c2      = get_obj_fill_color(obj);
-   int   lw     = get_obj_line_width(obj);
-   line_style ls = get_obj_line_style(obj);
-
-   string label,old_label;
-   if (! get_obj_label(obj,label)) label="";
-	
-    p.text_item("\\bf\\blue Colors");
-    p.color_item("interior", c2);   
-    p.color_item("boundary", c1);   
-    p.text_item("");
-	
-    p.text_item("\\bf\\blue Line Style");
-    p.lstyle_item("line style", ls);
-    p.lwidth_item("line width", lw);
-    p.text_item("");  
-
-    p.string_item("Object Label",label );
-	
-    p.fbutton("apply",   APPLY_BUTTON);
-    p.button("default",  DEFAULTS_BUTTON);
-    p.button("cancel",   CANCEL_BUTTON);
-
-    int but;
-    while( (but=p.open(w)) == DEFAULTS_BUTTON )
-    {
-	    c1 = prop_my_scene->get_default_color1();
-	    c2 = prop_my_scene->get_default_color2();
-	    lw = prop_my_scene->get_default_line_width();
-	    ls = prop_my_scene->get_default_line_style();
-    }
-
-   if( but == CANCEL_BUTTON ) return;
-	
-   if( c1 != get_obj_color(obj) ) set_obj_color(obj, c1);
-   if( c2 != get_obj_fill_color(obj) ) set_obj_fill_color(obj, c2);
-   if( lw != get_obj_line_width(obj)) set_obj_line_width(obj, lw);
-   if( ls != get_obj_line_style(obj)) set_obj_line_style(obj, ls);
-
-   if (! get_obj_label(obj,old_label)) old_label="";        
-   if( label != old_label) { set_obj_label(obj, label); }
-}
-  
-int GeoProp::focus_dialog(string& nval, window& w)
-{
-    panel p;
-    p.set_item_width(240);
-    p.text_item("\\bf\\blue Object");
-    p.text_item("");
-    p.text_item(nval); p.text_item(""); 
-    p.string_item("new value",nval );
-	
-    p.fbutton("apply",   APPLY_BUTTON); 
-    p.button("cancel",   CANCEL_BUTTON);
-    int but=p.open(w);	
-    return but;
-}
-
-void GeoProp::set_window_params(window& w, void* adr, PresentationType pt)
-{
-    color c = get_obj_color(adr);
-    if (pt != geowin_normal) c =  prop_my_scene->get_sel_color();
-
-    color fc = get_obj_fill_color(adr);
-
-    oldcl   = w.set_color(c);
-    oldfl   = w.set_fill_color(fc);
-    old_ls  = w.set_line_style(get_obj_line_style(adr));
-    oldw    = w.set_line_width(get_obj_line_width(adr));  
-    text_clr = prop_my_scene->get_default_text_color(); 
-    old_ps = w.set_point_style(prop_my_scene->get_default_point_style());
-    setup_font(w,3);
-}
-
-void GeoProp::restore_window_params(window& w)
-{
-    w.set_color(oldcl);
-    w.set_fill_color(oldfl);
-    w.set_point_style(old_ps);
-    w.set_line_style(old_ls);
-    w.set_line_width(oldw);
-}  
-  
-void GeoProp::set_ps_params(ps_file& F, void* adr)
-{
-    F.set_line_width((int)get_obj_line_width(adr));
-    F.set_line_style(get_obj_line_style(adr));
-    F.set_fill_color(get_obj_fill_color(adr));
-    F.set_color(get_obj_color(adr));
-}
 
 // war version.c
 double GeoWin::version()             { return GeoWinVersion; }
 double GeoWin::fileformatversion()   { return GeoWinFileFormat; }
+
+// setting contents function ...
+void GeoWin::set_contents_fcn(geo_scene sc, bool (*f)(geo_scene, list<string>&))
+{
+  sc->contents_fcn = f;
+}
 
 // Scene group operations ...
 geo_scenegroup GeoWin::new_scenegroup(string name)
@@ -3202,13 +3616,205 @@ bool GeoWin::del(geo_scenegroup GS, geo_scene sc)
   return true;
 }
 
+void GeoWin::call_update_fcn(void (*fcn)(...),void* input, void* output,const list<void*>& infl)
+{
+  //cout << "call update function !\n";
+  int sz = infl.size();
+  
+  switch(sz){
+   case 0: { fcn(input,output); break; }
+   case 1: {
+     void* c1 = infl[infl.get_item(0)];
+     fcn(input,c1,output);
+     break;
+   }
+   case 2: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     fcn(input,c1,c2,output);
+     break;
+   }
+   case 3: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     void* c3 = infl[infl.get_item(2)];   
+     fcn(input,c1,c2,c3,output);   
+     break;
+   }
+   case 4: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     void* c3 = infl[infl.get_item(2)];
+     void* c4 = infl[infl.get_item(3)];    
+     fcn(input,c1,c2,c3,c4,output);
+     break;
+   }
+   case 5: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     void* c3 = infl[infl.get_item(2)];
+     void* c4 = infl[infl.get_item(3)];
+     void* c5 = infl[infl.get_item(4)];    
+     fcn(input,c1,c2,c3,c4,c5,output);   
+     break;
+   }  
+   case 6: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     void* c3 = infl[infl.get_item(2)];
+     void* c4 = infl[infl.get_item(3)];
+     void* c5 = infl[infl.get_item(4)];    
+     void* c6 = infl[infl.get_item(5)];
+     fcn(input,c1,c2,c3,c4,c5,c6,output);   
+     break;
+   }     
+   case 7: {
+     void* c1 = infl[infl.get_item(0)];
+     void* c2 = infl[infl.get_item(1)];
+     void* c3 = infl[infl.get_item(2)];
+     void* c4 = infl[infl.get_item(3)];
+     void* c5 = infl[infl.get_item(4)];    
+     void* c6 = infl[infl.get_item(5)];
+     void* c7 = infl[infl.get_item(6)];
+     fcn(input,c1,c2,c3,c4,c5,c6,c7,output);   
+     break;
+   }       
+    
+   default:{ cout << "Too many influencer scenes !\n"; }
+  }
+}
+
+
+void GeoWin::add_import_object(geo_scene sc, geowin_import& io, string name, string desc)
+{
+  io.name=name; io.description=desc;
+  sc->import_objects.append(&io);
+}
+  
+void GeoWin::add_export_object(geo_scene sc, geowin_export& eo, string name, string desc)
+{
+  eo.name=name; eo.description=desc;
+  sc->export_objects.append(&eo);
+}
+
+
+void GeoWin::set_font(geowin_font_type font_t, double size, string fn_user)
+{ 
+  if (! Wp) return;
+  
+  int sz = Wp->real_to_pix(size);
+  string font_name;
+  switch (font_t) {
+    case roman_font:  font_name = string("T%d",sz);
+                      break;
+    case bold_font:   font_name = string("B%d",sz);
+                      break;
+    case italic_font: font_name = string("I%d",sz);
+                      break;
+    case fixed_font:  font_name = string("F%d",sz);
+                      break;
+    case user_font:   font_name = fn_user;
+                      break;
+  }
+  Wp->set_font(font_name);
+}
+
+// former geo_rem (text objects)
+
+void geowin_text::construct()
+{
+  x_offs = 0;  y_offs = 0;
+  size = 10; 
+  remark = "";
+  ft_type = roman_font; 
+  user_font = "";
+  clr = black;  
+  position_fcn = NULL;
+}
+
+geowin_text::geowin_text(string t, double ox, double oy, geowin_font_type ft, double sz, string uf, color c)
+{
+  construct();
+  remark = t;
+  x_offs = ox; y_offs = oy;
+  ft_type = ft;
+  size = sz;  
+  user_font = uf;
+  clr = c;
+}
+
+geowin_text::geowin_text(string t, geowin_font_type ft, double sz)
+{
+  construct();
+  remark = t;
+  ft_type = ft;
+  size = sz;
+}
+
+string geowin_text::get_text() const 
+{ return remark; }
+
+string geowin_text::set_text(const string& n)
+{ string prev = remark;
+  remark = n;
+  return prev;
+}  
+
+double geowin_text::get_size() const 
+{ return size; }
+
+double geowin_text::set_size(double n)
+{ double prev = size;
+  size = n;
+  return prev;
+}  
+
+geowin_font_type geowin_text::get_font_type() const
+{ return ft_type; }
+
+geowin_font_type geowin_text::set_font_type(geowin_font_type n)
+{ geowin_font_type prev = ft_type;
+  ft_type = n;
+  return prev;
+}  
+
+string geowin_text::get_user_font() const
+{ return user_font; }
+
+string geowin_text::set_user_font(const string& n)
+{ string prev = user_font;
+  user_font = n;
+  return prev;
+}  
+
+color geowin_text::get_color() const
+{ return clr; }
+
+color geowin_text::set_color(color n)
+{ color prev = clr;
+  clr = n;
+  return prev;
+}  
+
+double geowin_text::get_x_offset() const 
+{ return x_offs; }
+
+double geowin_text::set_x_offset(double n)
+{ double prev = x_offs;
+  x_offs = n;
+  return prev;
+}  
+
+double geowin_text::get_y_offset() const 
+{ return y_offs; }
+
+double geowin_text::set_y_offset(double n)
+{ double prev = y_offs;
+  y_offs = n;
+  return prev;
+} 
 
 GEOWIN_END_NAMESPACE
-
-
-
-
-
 
 
 

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Handle_for.fw
 // file          : include/CGAL/Handle_for.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/01/09 18:54:31 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -88,6 +87,9 @@ template <class RefCounted,
 class Handle_for
 {
   public:
+
+    typedef RefCounted element_type;
+
     Handle_for(const RefCounted& rc)
     {
       ptr = allocator.allocate(1);
@@ -154,6 +156,10 @@ class Handle_for
     long int
     id() const
     { return reinterpret_cast<long int>( &(*ptr)); }
+
+    const typename Allocator::pointer
+    Ptr() const
+    { return ptr; }
 
   protected:
     static Allocator allocator;

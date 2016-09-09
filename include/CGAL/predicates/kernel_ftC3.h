@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/predicates/kernel_ftC3.h
-// package       : C3 (5.2)
-// revision      : $Revision: 1.22 $
-// revision_date : $Date: 2000/06/27 14:06:50 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2001/07/10 13:05:54 $
 // author(s)     : Herve Bronnimann, Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -123,23 +123,96 @@ orientationC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
+inline
+Angle
+angleC3(const FT &px, const FT &py, const FT &pz,
+        const FT &qx, const FT &qy, const FT &qz,
+        const FT &rx, const FT &ry, const FT &rz)
+{
+  return (Angle) CGAL_NTS sign ((px-qx)*(rx-qx)+
+	                        (py-qy)*(ry-qy)+
+				(pz-qz)*(rz-qz));
+}
+
+template < class FT >
 /*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 Orientation
-coplanar_orientationC3(const FT &qx, const FT &qy, const FT &qz,
+coplanar_orientationC3(const FT &px, const FT &py, const FT &pz,
+                       const FT &qx, const FT &qy, const FT &qz,
                        const FT &rx, const FT &ry, const FT &rz,
-                       const FT &sx, const FT &sy, const FT &sz,
-                       const FT &px, const FT &py, const FT &pz)
+                       const FT &sx, const FT &sy, const FT &sz)
 {
-  Orientation oxy_qrs = orientationC2(qx,qy,rx,ry,sx,sy);
-  if (oxy_qrs != COLLINEAR)
-      return Orientation( oxy_qrs * orientationC2(qx,qy,rx,ry,px,py));
-  Orientation oyz_qrs = orientationC2(qy,qz,ry,rz,sy,sz);
-  if (oyz_qrs != COLLINEAR)
-      return Orientation( oyz_qrs * orientationC2(qy,qz,ry,rz,py,pz));
-  Orientation oxz_qrs = orientationC2(qx,qz,rx,rz,sx,sz);
-  assert(oxz_qrs != COLLINEAR);
-  return Orientation( oxz_qrs * orientationC2(qx,qz,rx,rz,px,pz));
+  Orientation oxy_pqr = orientationC2(px,py,qx,qy,rx,ry);
+  if (oxy_pqr != COLLINEAR)
+      return Orientation( oxy_pqr * orientationC2(px,py,qx,qy,sx,sy));
+
+  Orientation oyz_pqr = orientationC2(py,pz,qy,qz,ry,rz);
+  if (oyz_pqr != COLLINEAR)
+      return Orientation( oyz_pqr * orientationC2(py,pz,qy,qz,sy,sz));
+
+  Orientation oxz_pqr = orientationC2(px,pz,qx,qz,rx,rz);
+  CGAL_kernel_assertion(oxz_pqr != COLLINEAR);
+  return Orientation( oxz_pqr * orientationC2(px,pz,qx,qz,sx,sz));
+}
+
+template < class FT >
+/*CGAL_NO_FILTER*/
+CGAL_KERNEL_MEDIUM_INLINE
+Orientation
+coplanar_orientationC3(const FT &px, const FT &py, const FT &pz,
+                       const FT &qx, const FT &qy, const FT &qz,
+                       const FT &rx, const FT &ry, const FT &rz)
+{
+  Orientation oxy_pqr = orientationC2(px,py,qx,qy,rx,ry);
+  if (oxy_pqr != COLLINEAR)
+      return oxy_pqr;
+
+  Orientation oyz_pqr = orientationC2(py,pz,qy,qz,ry,rz);
+  if (oyz_pqr != COLLINEAR)
+      return oyz_pqr;
+
+  return orientationC2(px,pz,qx,qz,rx,rz);
+}
+
+template < class FT >
+CGAL_KERNEL_LARGE_INLINE
+Bounded_side
+coplanar_side_of_bounded_circleC3(const FT &px, const FT &py, const FT &pz,
+                                  const FT &qx, const FT &qy, const FT &qz,
+                                  const FT &rx, const FT &ry, const FT &rz,
+                                  const FT &tx, const FT &ty, const FT &tz)
+{
+  // The approach is to compute side_of_bounded_sphere(p,q,r,t+v,t),
+  // with v = pq ^ pr.
+  // Note : since the circle defines the orientation of the plane, it can not
+  // be considered oriented.
+  FT ptx = px - tx;
+  FT pty = py - ty;
+  FT ptz = pz - tz;
+  FT pt2 = CGAL_NTS square(ptx) + CGAL_NTS square(pty) + CGAL_NTS square(ptz);
+  FT qtx = qx - tx;
+  FT qty = qy - ty;
+  FT qtz = qz - tz;
+  FT qt2 = CGAL_NTS square(qtx) + CGAL_NTS square(qty) + CGAL_NTS square(qtz);
+  FT rtx = rx - tx;
+  FT rty = ry - ty;
+  FT rtz = rz - tz;
+  FT rt2 = CGAL_NTS square(rtx) + CGAL_NTS square(rty) + CGAL_NTS square(rtz);
+  FT pqx = qx - px;
+  FT pqy = qy - py;
+  FT pqz = qz - pz;
+  FT prx = rx - px;
+  FT pry = ry - py;
+  FT prz = rz - pz;
+  FT vx = pqy*prz - pqz*pry;
+  FT vy = pqz*prx - pqx*prz;
+  FT vz = pqx*pry - pqy*prx;
+  FT v2 = CGAL_NTS square(vx) + CGAL_NTS square(vy) + CGAL_NTS square(vz);
+  return Bounded_side(sign_of_determinant4x4(ptx,pty,ptz,pt2,
+                                             rtx,rty,rtz,rt2,
+                                             qtx,qty,qtz,qt2,
+                                             vx,vy,vz,v2));
 }
 
 template < class FT >
@@ -190,6 +263,27 @@ equal_directionC3(const FT &dx1, const FT &dy1, const FT &dz1,
       && CGAL_NTS sign(dx1) == CGAL_NTS sign(dx2)
       && CGAL_NTS sign(dy1) == CGAL_NTS sign(dy2)
       && CGAL_NTS sign(dz1) == CGAL_NTS sign(dz2);
+}
+
+template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+bool
+equal_planeC3(const FT &ha, const FT &hb, const FT &hc, const FT &hd,
+              const FT &pa, const FT &pb, const FT &pc, const FT &pd)
+{
+    if (!equal_directionC3(ha, hb, hc, pa, pb, pc))
+	return false; // Not parallel.
+
+    CGAL::Sign s1a = CGAL_NTS sign(ha);
+    if (s1a != ZERO)
+        return s1a == CGAL_NTS sign(pa)
+            && sign_of_determinant2x2(pa, pd, ha, hd) == ZERO;
+    CGAL::Sign s1b = CGAL_NTS sign(hb);
+    if (s1b != ZERO)
+        return s1b == CGAL_NTS sign(pb)
+            && sign_of_determinant2x2(pb, pd, hb, hd) == ZERO;
+    return CGAL_NTS sign(pc) == CGAL_NTS sign(hc)
+        && sign_of_determinant2x2(pc, pd, hc, hd) == ZERO;
 }
 
 template <class FT >
@@ -253,6 +347,19 @@ side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
   return Bounded_side(s * o);
 }
 
+template <class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+Bounded_side
+side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
+                         const FT &qx, const FT &qy, const FT &qz,
+                         const FT &tx, const FT &ty, const FT &tz)
+{
+  // Returns whether T lies inside or outside the sphere which diameter is PQ.
+  return Bounded_side( CGAL_NTS sign((tx-px)*(qx-tx)
+	                           + (ty-py)*(qy-ty)
+	                           + (tz-pz)*(qz-tz)) );
+}
+
 template < class FT >
 CGAL_KERNEL_INLINE
 Comparison_result
@@ -262,6 +369,55 @@ cmp_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
 {
   return CGAL_NTS compare(squared_distanceC3(px,py,pz,qx,qy,qz),
                           squared_distanceC3(px,py,pz,rx,ry,rz));
+}
+
+// Because of the way the filtered predicates generator script works,
+// cmp_dist_to_pointC3() must be defined _before_ ths following one.
+template <class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+Bounded_side
+side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
+                         const FT &qx, const FT &qy, const FT &qz,
+                         const FT &sx, const FT &sy, const FT &sz,
+                         const FT &tx, const FT &ty, const FT &tz)
+{
+  // Returns whether T lies inside or outside the sphere which equatorial
+  // circle is PQR.
+
+  // This code is inspired by the one of circumcenterC3(3 points).
+
+  FT psx = px-sx;
+  FT psy = py-sy;
+  FT psz = pz-sz;
+  FT ps2 = CGAL_NTS square(psx) + CGAL_NTS square(psy) + CGAL_NTS square(psz);
+  FT qsx = qx-sx;
+  FT qsy = qy-sy;
+  FT qsz = qz-sz;
+  FT qs2 = CGAL_NTS square(qsx) + CGAL_NTS square(qsy) + CGAL_NTS square(qsz);
+  FT rsx = psy*qsz-psz*qsy;
+  FT rsy = psz*qsx-psx*qsz;
+  FT rsz = psx*qsy-psy*qsx;
+  FT tsx = tx-sx;
+  FT tsy = ty-sy;
+  FT tsz = tz-sz;
+
+  FT num_x = ps2 * det2x2_by_formula(qsy,qsz,rsy,rsz)
+	   - qs2 * det2x2_by_formula(psy,psz,rsy,rsz);
+  FT num_y = ps2 * det2x2_by_formula(qsx,qsz,rsx,rsz)
+	   - qs2 * det2x2_by_formula(psx,psz,rsx,rsz);
+  FT num_z = ps2 * det2x2_by_formula(qsx,qsy,rsx,rsy)
+	   - qs2 * det2x2_by_formula(psx,psy,rsx,rsy);
+
+  FT den   = det3x3_by_formula(psx,psy,psz,
+                               qsx,qsy,qsz,
+                               rsx,rsy,rsz);
+
+  FT den2 = FT(2) * den;
+
+  // The following could be simplified a bit.
+  return Bounded_side(cmp_dist_to_pointC3(num_x,    - num_y,  num_z,
+	                                  psx*den2, psy*den2, psz*den2,
+	                                  tsx*den2, tsy*den2, tsz*den2) );
 }
 
 template < class FT >

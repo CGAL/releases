@@ -1,11 +1,10 @@
-
 // ======================================================================
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -19,28 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_circulators_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.22 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.26 $
 // author(s)     : Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -50,14 +48,12 @@
 #ifndef CGAL_TRIANGULATION_CIRCULATORS_3_H
 #define CGAL_TRIANGULATION_CIRCULATORS_3_H
 
-#include <CGAL/triple.h>
-#include <CGAL/circulator.h>
+#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
+#include <CGAL/circulator.h>
 #include <CGAL/Triangulation_ds_circulators_3.h>
 #include <CGAL/Triangulation_vertex_3.h>
 #include <CGAL/Triangulation_cell_3.h>
-
-#include <CGAL/Triangulation_short_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -87,30 +83,31 @@ public:
     : _cb(), _tr(NULL)
     {}
 
-  Triangulation_cell_circulator_3(Triangulation * tr, Cell_handle c,
+  Triangulation_cell_circulator_3(const Triangulation * tr, Cell_handle c,
 				  int s, int t)
-    : _cb( &(tr->_tds), (Ctds *) &(*c), s, t ), _tr(tr)
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), (Ctds *) &(*c), s, t ),
+      _tr(const_cast<Triangulation *>(tr))
     {}
 
-  Triangulation_cell_circulator_3(Triangulation * tr, const Edge & e)
-    : _cb( &(tr->_tds), (Ctds *) &(*(e.first)), e.second, e.third ), _tr(tr)
+  Triangulation_cell_circulator_3(const Triangulation * tr, const Edge & e)
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), (Ctds *) &(*(e.first)),
+	    e.second, e.third ), _tr(const_cast<Triangulation *>(tr))
     {}
 
-   Triangulation_cell_circulator_3(Triangulation * tr, 
+   Triangulation_cell_circulator_3(const Triangulation * tr, 
 				   Cell_handle c, int s, int t,
 				   Cell_handle start)
-    : _cb( &(tr->_tds), 
-	   (Ctds *) &(*c), s, t,
-	   (Ctds *) &(*start) ),
-      _tr(tr)
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), 
+	   (Ctds *) &(*c), s, t, (Ctds *) &(*start) ),
+      _tr(const_cast<Triangulation *>(tr))
     {}
 
-   Triangulation_cell_circulator_3(Triangulation * tr, const Edge & e, 
+   Triangulation_cell_circulator_3(const Triangulation * tr, const Edge & e, 
 				   Cell_handle start)
-    : _cb( &(tr->_tds), 
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), 
 	   (Ctds *) &(*(e.first)), e.second, e.third, 
 	   (Ctds *) &(*start) ),
-      _tr(tr)
+      _tr(const_cast<Triangulation *>(tr))
     {}
  
   Triangulation_cell_circulator_3(const Cell_circulator & ccir)
@@ -167,12 +164,12 @@ public:
     return tmp;
   }
 
-  inline Cell & operator*() const
+  Cell & operator*() const
   {
     return (Cell &)(*_cb);
   }
 
-  inline Cell* operator->() const
+  Cell* operator->() const
   {
     return (Cell*)( &(*_cb) );
   }
@@ -207,47 +204,49 @@ public:
     : _cb(), _tr(NULL)
     {}
 
-  Triangulation_facet_circulator_3(Triangulation * tr, Cell_handle c,
+  Triangulation_facet_circulator_3(const Triangulation * tr, Cell_handle c,
 				  int s, int t)
-    : _cb( &(tr->_tds), (Ctds *) &(*c), s, t ), _tr(tr)
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), (Ctds *) &(*c), s, t ),
+      _tr(const_cast<Triangulation *>(tr))
     {}
 
-  Triangulation_facet_circulator_3(Triangulation * tr, const Edge & e)
-    : _cb( &(tr->_tds), (Ctds *) &(*(e.first)), e.second, e.third ), _tr(tr)
+  Triangulation_facet_circulator_3(const Triangulation * tr, const Edge & e)
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds), (Ctds *) &(*(e.first)),
+	    e.second, e.third ), _tr(const_cast<Triangulation *>(tr))
     {}
 
-   Triangulation_facet_circulator_3(Triangulation * tr, 
+   Triangulation_facet_circulator_3(const Triangulation * tr, 
 				   Cell_handle c, int s, int t,
 				   const Facet & start)
-    : _cb( &(tr->_tds), 
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds),
 	   (Ctds *) &(*c), s, t,
 	   std::make_pair((Ctds *) &(*start.first), start.second) ),
-      _tr(tr)
+      _tr(const_cast<Triangulation *>(tr))
     {}
 
-   Triangulation_facet_circulator_3(Triangulation * tr, const Edge & e, 
+   Triangulation_facet_circulator_3(const Triangulation * tr, const Edge & e, 
 				   const Facet & start)
-    : _cb( &(tr->_tds), 
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds),
 	   (Ctds *) &(*(e.first)), e.second, e.third, 
 	   std::make_pair((Ctds *) &(*start.first), start.second) ),
-      _tr(tr)
+      _tr(const_cast<Triangulation *>(tr))
     {}
  
-   Triangulation_facet_circulator_3(Triangulation * tr, 
+   Triangulation_facet_circulator_3(const Triangulation * tr, 
 				   Cell_handle c, int s, int t,
 				   Cell_handle start, int f)
-    : _cb( &(tr->_tds), 
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds),
 	   (Ctds *) &(*c), s, t,
 	   (Ctds *) &(*start), f ),
-      _tr(tr)
+      _tr(const_cast<Triangulation *>(tr))
     {}
 
-   Triangulation_facet_circulator_3(Triangulation * tr, const Edge & e, 
+   Triangulation_facet_circulator_3(const Triangulation * tr, const Edge & e, 
 				   Cell_handle start, int f)
-    : _cb( &(tr->_tds), 
+    : _cb( &(const_cast<Triangulation *>(tr)->_tds),
 	   (Ctds *) &(*(e.first)), e.second, e.third, 
 	   (Ctds *) &(*start), f ),
-      _tr(tr)
+      _tr(const_cast<Triangulation *>(tr))
     {}
  
   Triangulation_facet_circulator_3(const Facet_circulator & ccir)
@@ -304,7 +303,7 @@ public:
     return tmp;
   }
 
-  inline Facet operator*() const
+  Facet operator*() const
   {
     return std::make_pair( Cell_handle( (Cell *) ((*_cb).first) ),
 			   (*_cb).second  ) ;

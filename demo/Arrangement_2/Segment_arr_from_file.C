@@ -1,3 +1,5 @@
+// demo/Arrangement_2/Segment_arr_from_file.C
+//
 //constructs a segment arrangement from file.
 // We use a homogeneous representation with the cached traits.
 
@@ -44,7 +46,7 @@
 #include <fstream>
 
 #ifndef CGAL_USE_LEDA
-int main(int argc, char* argv[])
+int main()
 {
 
   std::cout << "Sorry, this demo needs LEDA for visualisation.";
@@ -65,23 +67,22 @@ int main(int argc, char* argv[])
 #include <CGAL/Arr_segment_exact_traits.h>
 
 #include <CGAL/Pm_walk_along_line_point_location.h>
-
-#include <CGAL/IO/Window_stream.h>
+#include <CGAL/Draw_preferences.h>
 
 typedef leda_integer NT;
-//typedef double                                           NT;
-//typedef leda_real                                           NT;
-//typedef leda_rational NT;
+//typedef double           NT;
+//typedef leda_real        NT;
+//typedef leda_rational    NT;
 //typedef CGAL::Double_eps NT;
 
 typedef CGAL::Homogeneous<NT>                      Rep;
 //typedef CGAL::Cartesian<NT>                      Rep;
 
-//typedef CGAL::Arr_segment_exact_cached_traits<Rep>          Traits;
+//typedef CGAL::Arr_segment_exact_cached_traits<Rep>   Traits;
 typedef CGAL::Arr_segment_exact_traits<Rep>          Traits;
 
-typedef Traits::Point                                  Point;
-typedef Traits::X_curve                                X_curve;
+typedef Traits::Point                                 Point;
+typedef Traits::X_curve                               X_curve;
 
 
 typedef CGAL::Arr_base_node<X_curve>   Base_node;
@@ -94,31 +95,15 @@ static Arr_2               arr;
 static CGAL::Window_stream W(400, 400, "CGAL - Segment Arrangement Demo");
 
 CGAL_BEGIN_NAMESPACE
-
-Window_stream& operator<<(Window_stream& os,
-                          Arr_2 &A)
+Window_stream& operator<<(Window_stream& os, Arr_2 &A)
 {
-   Arr_2::Halfedge_iterator it = A.halfedges_begin();
-
-   os << BLUE;
-
-    while(it != A.halfedges_end()){
-
-      os << (*it).curve();
-      ++it; ++it;
-    }
-
-    os << GREEN;
-    Arr_2::Vertex_iterator vit = A.vertices_begin();
-    while(vit!=A.vertices_end()) {
-      os << (*vit).point();
-      ++vit;
-    }
-
-    os.set_flush( 1 );
-    os.flush();
-
-    return os;
+  My_Arr_drawer< Arr_2,
+                 Arr_2::Ccb_halfedge_circulator, 
+                 Arr_2::Holes_iterator> drawer(os);
+  
+  draw_pm(arr, drawer, os);
+  
+  return os;
 }
 CGAL_END_NAMESPACE
 
@@ -145,7 +130,8 @@ void color_face(CGAL::Window_stream& W, Arr_2::Halfedge_handle e,
     
   }
 }
-// redraw function for the LEDA window. used automatically when window reappears
+// redraw function for the LEDA window. used automatically when window 
+// reappears
 void redraw(CGAL::Window_stream * wp) 
 { wp->start_buffering();
   wp->clear();
@@ -168,9 +154,6 @@ int main(int argc, char* argv[])
 
   CGAL::Timer insrt_t;
 
-  //  Arr_2 arr(new CGAL::Pm_walk_along_line_point_location<Arr_2::Planar_map>);
-
-  //  CGAL::Window_stream W(400, 400);
   double x0=-200,x1=200,y0=-200;
 
   W.init(x0,x1,y0);
@@ -178,6 +161,7 @@ int main(int argc, char* argv[])
   W.set_mode(leda_src_mode);
   W.set_node_width(3);
   W.button("finish",10);
+  W.open_status_window();
   W.display();
 
   std::ifstream file(argv[1]);
@@ -200,11 +184,8 @@ int main(int argc, char* argv[])
   
   W << arr;
   
-  std::cout << "Total insertion time: " <<  insrt_t.time() << std::endl;
-
-  
   //POINT LOCATION
-  std::cout << "\nEnter a point with left button." << std::endl;
+  W.set_status_string( "Enter a point with left button." );
   Point p;
   
   Arr_2::Halfedge_handle e=arr.halfedges_begin();

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : RayH2.fw
 // file          : include/CGAL/RayH2.h
-// package       : H2 (2.12)
-// revision      : 2.12
-// revision_date : 03 Aug 2000 
+// package       : H2 (2.37)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/02/14 18:34:32 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -53,153 +52,139 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT >
+template < class R >
 class Ray_repH2 : public Ref_counted
 {
 public:
-                        Ray_repH2();
-                        Ray_repH2(const PointH2<FT,RT>& fp,
-                                  const PointH2<FT,RT>& sp);
+    Ray_repH2() {}
+    Ray_repH2(const PointH2<R>& fp, const PointH2<R>& sp)
+	: start(fp), second(sp) {}
 
-    PointH2<FT,RT>  start;
-    PointH2<FT,RT>  second;
+    PointH2<R>  start;
+    PointH2<R>  second;
 };
 
-template < class FT, class RT >
-class RayH2 : public Handle_for< Ray_repH2<FT,RT> >
+template < class R >
+class Simple_Ray_repH2
 {
 public:
-            RayH2();
-            RayH2( const PointH2<FT,RT>& sp,
-                   const PointH2<FT,RT>& secondp);
-            RayH2( const PointH2<FT,RT>& sp,
-                   const DirectionH2<FT,RT>& d);
+    Simple_Ray_repH2() {}
+    Simple_Ray_repH2(const PointH2<R>& fp, const PointH2<R>& sp)
+	: start(fp), second(sp) {}
 
-    bool    operator==(const RayH2<FT,RT>& r) const;
-    bool    operator!=(const RayH2<FT,RT>& r) const;
+    PointH2<R>  start;
+    PointH2<R>  second;
+};
 
-    PointH2<FT,RT>     start() const;
-    PointH2<FT,RT>     source() const;
-    PointH2<FT,RT>     second_point() const;
-    PointH2<FT,RT>     point(int i) const;
-    DirectionH2<FT,RT> direction() const;
-    LineH2<FT,RT>      supporting_line() const;
-    RayH2<FT,RT>       opposite() const;
+template < class R_ >
+class RayH2
+  : public R_::Ray_handle_2
+{
+public:
+    typedef R_                                    R;
+    typedef typename R::FT                        FT;
+    typedef typename R::RT                        RT;
+
+    typedef typename R::Ray_handle_2              Ray_handle_2_;
+    typedef typename Ray_handle_2_::element_type   Ray_ref_2;
+
+    RayH2()
+      : Ray_handle_2_(Ray_ref_2()) {}
+    RayH2( const PointH2<R>& sp, const PointH2<R>& secondp)
+      : Ray_handle_2_(Ray_ref_2(sp, secondp)) {}
+    RayH2( const PointH2<R>& sp, const DirectionH2<R>& d)
+      : Ray_handle_2_(Ray_ref_2(sp, sp + d.to_vector())) {}
+
+    bool    operator==(const RayH2<R>& r) const;
+    bool    operator!=(const RayH2<R>& r) const;
+
+    PointH2<R>     start() const;
+    PointH2<R>     source() const;
+    PointH2<R>     second_point() const;
+    PointH2<R>     point(int i) const;
+    DirectionH2<R> direction() const;
+    LineH2<R>      supporting_line() const;
+    RayH2<R>       opposite() const;
 
     bool    is_horizontal() const;
     bool    is_vertical() const;
-    bool    has_on(const PointH2<FT,RT> p) const;
-    bool    collinear_has_on(const PointH2<FT,RT> p) const;
+    bool    has_on(const PointH2<R> p) const;
+    bool    collinear_has_on(const PointH2<R> p) const;
     bool    is_degenerate() const;
 
-    RayH2<FT,RT>
-            transform( const Aff_transformationH2<FT,RT> & t) const;
-
+    RayH2<R> transform( const Aff_transformationH2<R> & t) const;
 };
 
 
-
-template < class FT, class RT >
+template < class R >
 inline
-Ray_repH2<FT,RT>::Ray_repH2()
-{}
+PointH2<R>
+RayH2<R>::source() const
+{ return Ptr()->start; }
 
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-Ray_repH2<FT,RT>::Ray_repH2(const PointH2<FT,RT>& fp,
-                            const PointH2<FT,RT>& sp)
-  : start(fp), second(sp)
-{}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-RayH2<FT,RT>::RayH2()
- : Handle_for< Ray_repH2<FT,RT> >( Ray_repH2<FT,RT>() )
-{}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-RayH2<FT,RT>::RayH2( const PointH2<FT,RT>& sp,
-                     const PointH2<FT,RT>& secondp)
- : Handle_for< Ray_repH2<FT,RT> >( Ray_repH2<FT,RT>(sp,secondp) )
-{}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-RayH2<FT,RT>::RayH2( const PointH2<FT,RT>& sp,
-                     const DirectionH2<FT,RT>& d)
- : Handle_for< Ray_repH2<FT,RT> >( Ray_repH2<FT,RT>(sp, sp + d.to_vector()) )
-{}
-
-template < class FT, class RT >
+template < class R >
 inline
-PointH2<FT,RT>
-RayH2<FT,RT>::source() const
-{ return ptr->start; }
+PointH2<R>
+RayH2<R>::start() const
+{ return Ptr()->start; }
 
-template < class FT, class RT >
-inline
-PointH2<FT,RT>
-RayH2<FT,RT>::start() const
-{ return ptr->start; }
-
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
-DirectionH2<FT,RT>
-RayH2<FT,RT>::direction() const
+DirectionH2<R>
+RayH2<R>::direction() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return DirectionH2<FT,RT>( ptr->second - ptr->start );
+  return DirectionH2<R>( Ptr()->second - Ptr()->start );
 }
-template < class FT, class RT >
+template < class R >
 inline
-PointH2<FT,RT>
-RayH2<FT,RT>::second_point() const
+PointH2<R>
+RayH2<R>::second_point() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return ptr->second;
+  return Ptr()->second;
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
-PointH2<FT,RT>
-RayH2<FT,RT>::point(int i) const
+PointH2<R>
+RayH2<R>::point(int i) const
 {
   CGAL_kernel_precondition( !is_degenerate() );
   CGAL_kernel_precondition( i>= 0 );
-  VectorH2<FT,RT> v = direction().to_vector();
+  VectorH2<R> v = direction().to_vector();
   return start() + RT(i) * v;
 }
 
-template < class FT, class RT >
+template < class R >
 inline
-LineH2<FT,RT>
-RayH2<FT,RT>::supporting_line() const
+LineH2<R>
+RayH2<R>::supporting_line() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return LineH2<FT,RT>(*this);
+  return LineH2<R>(*this);
 }
 
-template < class FT, class RT >
+template < class R >
 inline
-RayH2<FT,RT>
-RayH2<FT,RT>::opposite() const
-{ return RayH2<FT,RT>( ptr->start, - direction() ); }
+RayH2<R>
+RayH2<R>::opposite() const
+{ return RayH2<R>( Ptr()->start, - direction() ); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
-RayH2<FT,RT>
-RayH2<FT,RT>::
-transform(const Aff_transformationH2<FT,RT> & t) const
+RayH2<R>
+RayH2<R>::
+transform(const Aff_transformationH2<R> & t) const
 {
-  return RayH2<FT,RT>(t.transform(ptr->start),
-                           t.transform(ptr->second) );
+  return RayH2<R>(t.transform(Ptr()->start),
+                           t.transform(Ptr()->second) );
 }
 
-#ifndef NO_OSTREAM_INSERT_RAYH2
-template < class FT, class RT >
+#ifndef CGAL_NO_OSTREAM_INSERT_RAYH2
+template < class R >
 std::ostream &
-operator<<(std::ostream &os, const RayH2<FT,RT> &r)
+operator<<(std::ostream &os, const RayH2<R> &r)
 {
   switch(os.iword(IO::mode))
   {
@@ -208,68 +193,71 @@ operator<<(std::ostream &os, const RayH2<FT,RT> &r)
     case IO::BINARY :
         return os << r.source() << r.second_point();
     default:
-        return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
+       return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
   }
 }
-#endif // NO_OSTREAM_INSERT_RAYH2
+#endif // CGAL_NO_OSTREAM_INSERT_RAYH2
 
-#ifndef NO_ISTREAM_EXTRACT_RAYH2
-template < class FT, class RT >
+#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYH2
+template < class R >
 std::istream &
-operator>>(std::istream &is, RayH2<FT,RT> &r)
+operator>>(std::istream &is, RayH2<R> &r)
 {
-  PointH2<FT,RT> p, q;
+  PointH2<R> p, q;
   is >> p >> q;
-  r = RayH2<FT,RT>(p, q);
+  r = RayH2<R>(p, q);
   return is;
 }
-#endif // NO_ISTREAM_EXTRACT_RAYH2
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-bool
-RayH2<FT,RT>::is_horizontal() const
-{ return start().hy()*second_point().hw() == second_point().hy()*start().hw(); }
+#endif // CGAL_NO_ISTREAM_EXTRACT_RAYH2
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-RayH2<FT,RT>::is_vertical() const
-{ return start().hx()*second_point().hw() == second_point().hx()*start().hw(); }
-
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-bool
-RayH2<FT,RT>::has_on(const PointH2<FT,RT> p) const
+RayH2<R>::is_horizontal() const
 {
-  return ( (  p == start() )
-        ||(DirectionH2<FT,RT>(p - ptr->start) == direction() ) );
+  return start().hy()*second_point().hw() == second_point().hy()*start().hw();
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-RayH2<FT,RT>::is_degenerate() const
-{ return ( (ptr->start == ptr->second) ); }
+RayH2<R>::is_vertical() const
+{
+  return start().hx()*second_point().hw() == second_point().hx()*start().hw();
+}
 
-template < class FT, class RT >
+template < class R >
+CGAL_KERNEL_INLINE
+bool
+RayH2<R>::has_on(const PointH2<R> p) const
+{
+  return ( (  p == start() )
+        ||(DirectionH2<R>(p - Ptr()->start) == direction() ) );
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+bool
+RayH2<R>::is_degenerate() const
+{ return ( (Ptr()->start == Ptr()->second) ); }
+
+template < class R >
 inline
 bool
-RayH2<FT,RT>::collinear_has_on(const PointH2<FT,RT> p) const
+RayH2<R>::collinear_has_on(const PointH2<R> p) const
 { return has_on(p); }
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-RayH2<FT,RT>::operator==(const RayH2<FT,RT>& r) const
+RayH2<R>::operator==(const RayH2<R>& r) const
 { return ( (start() == r.start() )&&( direction() == r.direction() ) ); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-RayH2<FT,RT>::operator!=( const RayH2<FT,RT>& r) const
+RayH2<R>::operator!=( const RayH2<R>& r) const
 { return !(*this == r); }
 
-
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_RAYH2_H

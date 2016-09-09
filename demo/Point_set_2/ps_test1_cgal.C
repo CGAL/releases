@@ -1,131 +1,133 @@
-#include <CGAL/basic.h>
-
-#if !defined(CGAL_USE_LEDA)
-#include <iostream>
-
-int main(int argc, char *argv[])
-{
- std::cout << "No LEDA installed!\n";
- return 0;
-}
-#else 
-
-#include <CGAL/config.h>
+//#include <CGAL/Cartesian.h>
+#include <CGAL/Simple_cartesian.h>
 #include <list>
-#include <LEDA/window.h>
 #include <CGAL/Point_set_2.h>
 #include <CGAL/IO/Window_stream.h>
 
-typedef CGAL::Cartesian<double>          REP;
-typedef CGAL::point_set_traits_2<REP>      TRAITS;
-typedef CGAL::Point_set_2<TRAITS>::Edge    Edge;
-typedef CGAL::Point_set_2<TRAITS>::Vertex  Vertex;
+//typedef CGAL::Cartesian<double>          K;
+typedef CGAL::Simple_cartesian<double>    K;
 
-leda_segment get_seg(const CGAL::Segment_2<REP>& s)
-{
-  CGAL::Point_2<REP> ps=s.source();
-  CGAL::Point_2<REP> pt=s.target();
+typedef CGAL::Triangulation_vertex_base_2<K> Vb;
+typedef CGAL::Triangulation_face_base_2<K>   Fb;
+typedef CGAL::Triangulation_default_data_structure_2<K,Vb,Fb> Tds;
 
-  leda_point p1(ps.x(),ps.y()), p2(pt.x(),pt.y());
-  return leda_segment(p1,p2);
-}
+typedef CGAL::Point_set_2<K,Tds>::Edge_iterator  Edge_iterator;
+typedef CGAL::Point_set_2<K,Tds>::Vertex_handle  Vertex_handle;
 
-void output(leda_window& W, const CGAL::Point_set_2<TRAITS>& PSR_rat)
+typedef CGAL::Iso_rectangle_2<K>     Rectangle;
+typedef CGAL::Triangle_2<K>          Triangle;
+
+
+void output(CGAL::Window_stream& W, const CGAL::Point_set_2<K,Tds>& PSet)
 {
   W.clear();
-  leda_edge e;
-  forall_edges(e,PSR_rat) {
-    CGAL::Segment_2<REP> s= PSR_rat.seg(e);
-    W << get_seg(s);
+  Edge_iterator eit = PSet.finite_edges_begin();
+  
+  for(;eit != PSet.finite_edges_end(); eit++) {
+    CGAL::Segment_2<K> s= PSet.segment(*eit);
+    W << s;
   }
 }
 
+
 int main()
 {
-  int i;
-  CGAL::Point_set_2<TRAITS> PSR_rat;
+  CGAL::Point_set_2<K,Tds> PS;
 
-  leda_window W(600,500);  
-  CGAL::cgalize( W);
+  CGAL::Window_stream W(600,500,"Range search operations on a point set");  
+  //CGAL::cgalize( W);
 
   W.init(-500,500,-400);
   W.display(100,100);
   
-  output(W,PSR_rat);
+#if defined(CGAL_USE_CGAL_WINDOW)
+  W.set_point_style(CGAL::disc_point);
+#else
+  W.set_point_style(leda_disc_point);
+#endif   
+  
+  W.draw_text(-260,20, "Input some points; quit input with the right mouse button");
 
-  for (i=0; i<25; i++) {
-    CGAL::Point_2<REP> pnew;
-    W >> pnew;
-    PSR_rat.insert(pnew);
-    output(W,PSR_rat);    
+  CGAL::Point_2<K> pnew;
+
+  while (W >> pnew) {
+    PS.insert(pnew);
+    output(W,PS);    
   }
-
-  for (i=0; i<2; i++) {
-    CGAL::Point_2<REP> pnew;
-    W >> pnew;
-    Vertex v = PSR_rat.nearest_neighbor(pnew);
-    PSR_rat.del(v);
-    output(W,PSR_rat);    
-  }  
-
+  
+  std::list<Vertex_handle>::const_iterator vit;
+  std::list<Vertex_handle> LV;  
+  
   std::cout << "circular range search !\n";
+  W << CGAL::BLACK;
+  output(W,PS);
+  W.draw_text(-450,-350, "Input a circle; we perform a range search (quit: right mouse button) ... ");
   
-  CGAL::Circle_2<REP> rc;
-  W >> rc;
-
-  std::list<Vertex> LV;
-  std::list<Vertex>::const_iterator vit;
-  
-  PSR_rat.range_search(rc,std::back_inserter(LV));
-  
-  W.set_color(leda_red);
-  for(vit=LV.begin(); vit!=LV.end(); vit++){
-    W << PSR_rat.pos(*vit);
-  }
-  W.set_color(leda_black);
+  CGAL::Circle_2<K> rc;
    
-  std::cout << LV.size() << "\n";
+  while (W >> rc) {
+   W << CGAL::BLACK;
+   output(W,PS);
+   W.draw_text(-450,-350, "Input a circle; we perform a range search (quit: right mouse button) ... ");
+   W << rc;
+
+   PS.range_search(rc,std::back_inserter(LV));  
+   W << CGAL::RED;
+  
+   for(vit=LV.begin(); vit!=LV.end(); vit++){
+     W << (*vit)->point();
+   }
+   LV.clear();
+  }
  
   std::cout << "triangular range search !\n";
+  W << CGAL::BLACK;
+  output(W,PS);  
+  W.draw_text(-450,-350, "Input a triangle; we perform a range search (quit: right mouse button) ... ");
     
-  CGAL::Point_2<REP> pt1,pt2,pt3,pt4;
-  W >> pt1;
-  W >> pt2;
-  W >> pt3;
+  CGAL::Point_2<K> pt1,pt2,pt3,pt4;
+  Triangle Tr;
   
-  std::list<Vertex>  outlist;
+  while (W >> Tr){
+   W << CGAL::BLACK;
+   output(W,PS);
+   W.draw_text(-450,-350, "Input a triangle; we perform a range search (quit: right mouse button) ... ");
+   W << Tr;
   
-  PSR_rat.range_search(pt1,pt2,pt3,std::back_inserter(outlist));
-  W.set_color(leda_green);
-  for(vit=outlist.begin(); vit!=outlist.end(); vit++){
-    W << PSR_rat.pos(*vit);
-  }  
-  W.set_color(leda_black);
+   pt1=Tr[0]; pt2=Tr[1]; pt3=Tr[2];
   
-  std::cout << outlist.size() << "\n";  
+   PS.range_search(pt1,pt2,pt3,std::back_inserter(LV));
+   W << CGAL::GREEN;
+   for(vit=LV.begin(); vit!=LV.end(); vit++){
+     W << (*vit)->point();
+   }  
+   LV.clear();
+  }
   
-  outlist.clear();
+  W << CGAL::BLACK;
  
   std::cout << "rectangular range search !\n";
-  W >> pt1; W >> pt3; 
- 
-  pt2 = CGAL::Point_2<REP>(pt3.x(),pt1.y());
-  pt4 = CGAL::Point_2<REP>(pt1.x(),pt3.y());
+  W << CGAL::BLACK;
+  output(W,PS);
+  W.draw_text(-450,-350, "Input a rectangle; we perform a range search (quit: right mouse button) ... ");
   
-  PSR_rat.range_search(pt1,pt2,pt3,pt4,std::back_inserter(outlist));
-  W.set_color(leda_yellow);
-  for(vit=outlist.begin(); vit!=outlist.end(); vit++){
-    W << PSR_rat.pos(*vit);
-  }  
-  W.set_color(leda_black);
-  std::cout << outlist.size() << "\n";    
+  Rectangle Rect;
+  while (W >> Rect) {
+   W << CGAL::BLACK;
+   output(W,PS);
+    W.draw_text(-450,-350, "Input a rectangle; we perform a range search (quit: right mouse button) ... ");
+   W << Rect;
+  
+   pt1=Rect[3]; pt2=Rect[0]; pt3=Rect[1]; pt4=Rect[2]; 
+  
+   PS.range_search(pt1,pt2,pt3,pt4,std::back_inserter(LV));
+   W << CGAL::YELLOW;
+   for(vit=LV.begin(); vit!=LV.end(); vit++){
+     W << (*vit)->point();
+   }
+   LV.clear();  
+  }
 
-  leda_list<Edge> El = PSR_rat.minimum_spanning_tree();
-  std::cout << "MST:\n" << El.size() << " vertices\n";
-
-  W.read_mouse();
-
-  return 0;
+  return 1;
 }
 
-#endif

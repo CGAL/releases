@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Polygon_traits_2.h
-// package       : Polygon (2.19)
+// package       : Polygon (4.2.4)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -50,6 +50,7 @@
 #ifndef CGAL_POLYGON_TRAITS_2_H
 #define CGAL_POLYGON_TRAITS_2_H
 
+/*
 #include <CGAL/Direction_2.h>
 #include <CGAL/Iso_rectangle_2.h>
 #include <CGAL/Point_2.h>
@@ -61,6 +62,7 @@
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/predicate_classes_2.h>
 #include <CGAL/Segment_2_Segment_2_intersection.h>
+*/
 
 CGAL_BEGIN_NAMESPACE
 
@@ -72,7 +74,7 @@ CGAL_BEGIN_NAMESPACE
 // The template parameter _Point is added to simplify the use of points
 // with additional information. It is assumed that _Point inherits from
 // Point_2<_R>.
-
+/*
 template <class _R, class _FT, class _Point>
 class Polygon_traits_2_aux : public _R
 {
@@ -104,7 +106,8 @@ class Polygon_traits_2_aux : public _R
       // (for efficiency reasons)
     }
 
-    FT determinant_2(const Point_2& p, const Point_2& q, const Point_2& r) const
+    FT determinant_2(const Point_2& p,
+                     const Point_2& q, const Point_2& r) const
     {
       return cross_product_2(p-q, p-r);
     }
@@ -150,17 +153,20 @@ class Polygon_traits_2_aux : public _R
        return ::CGAL::Direction_2<_R>(v1) == ::CGAL::Direction_2<_R>(v2);
     }
 };
-
+*/
 //-----------------------------------------------------------------------//
 //                          Polygon_traits_2
 //-----------------------------------------------------------------------//
 // The class Polygon_traits_2 is a traits class for Polygon_2.
-
+/*
 template <class _R>
 class Polygon_traits_2 :
   public Polygon_traits_2_aux<_R, typename _R::FT, Point_2<_R> >
 {
 };
+*/
+template <class R_>
+class Polygon_traits_2 : public R_ {};
 
 CGAL_END_NAMESPACE
 

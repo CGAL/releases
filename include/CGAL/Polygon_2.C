@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Polygon_2.C
-// package       : Polygon (2.19)
+// package       : Polygon (4.2.4)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -55,18 +55,36 @@
 
 CGAL_BEGIN_NAMESPACE
 
+namespace i_polygon {
+template <class Equal_2, class Point_2>
+class Equal_pred {
+    Equal_2 m_equal_2;
+    Point_2 m_pt;
+public:
+    Equal_pred(Equal_2 equal_2, Point_2 const &pt)
+    : m_equal_2(equal_2), m_pt(pt) {}
+    bool operator()(Point_2 const &pt) const
+    { return m_equal_2(m_pt, pt); }
+};
+}
+
 template <class Traits_P, class Container1_P, class Container2_P>
 bool operator==( const Polygon_2<Traits_P,Container1_P> &x,
                  const Polygon_2<Traits_P,Container2_P> &y )
 {
-  CGAL_polygon_precondition( (x.size() != 0) || (y.size() != 0));
+  typedef typename Traits_P::Equal_2 Equal_2;
+  typedef typename Traits_P::Point_2 Point_2;
+//  CGAL_polygon_precondition( (x.size() != 0) || (y.size() != 0));
+  if ((x.size() == 0) && (y.size() == 0)) return true;
 
   if (x.size() != y.size()) return false;
+  Equal_2 equal_2 = x.traits_member().equal_2_object();
   typename Polygon_2<Traits_P,Container1_P>::Vertex_const_iterator x_iter =
     x.vertices_begin();
 
   typename Polygon_2<Traits_P,Container2_P>::Vertex_const_iterator y_iter =
-    std::find(y.vertices_begin(), y.vertices_end(), *x.vertices_begin());
+    std::find_if(y.vertices_begin(), y.vertices_end(),
+    i_polygon::Equal_pred<Equal_2, Point_2>(equal_2, *x.vertices_begin()));
 
   // if y doesn't contain the first point of x ...
   if (y_iter == y.vertices_end()) return false;
@@ -75,14 +93,14 @@ bool operator==( const Polygon_2<Traits_P,Container1_P> &x,
   ++y_iter;
 
   while (y_iter != y.vertices_end()) {
-    if (*x_iter != *y_iter) return false;
+    if (!equal_2(*x_iter, *y_iter)) return false;
     ++x_iter;
     ++y_iter;
   }
 
   y_iter = y.vertices_begin();
   while (x_iter != x.vertices_end()) {
-    if (*x_iter != *y_iter) return false;
+    if (!equal_2(*x_iter, *y_iter)) return false;
     ++x_iter;
     ++y_iter;
   }
@@ -117,7 +135,8 @@ std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
 //-----------------------------------------------------------------------//
 
 template <class Traits_P, class Container_P>
-std::ostream &operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p)
+std::ostream
+&operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p)
 {
   typename Polygon_2<Traits_P,Container_P>::Vertex_const_iterator i;
 

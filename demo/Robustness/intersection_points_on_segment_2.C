@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : online.fw
 // file          : demo/Robustness/intersection_points_on_segment_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/26 11:52:29 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
@@ -47,29 +45,26 @@
 // ======================================================================
  
 
-#include <CGAL/basic.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
-#else
 #include <CGAL/Cartesian.h>
 #include <CGAL/Homogeneous.h>
 #include <cassert>
 #include <vector>
 #include <algorithm>
-#include <CGAL/Point_2.h>
-#include <CGAL/Segment_2.h>
 #include <CGAL/intersection_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/Join_input_iterator.h>
 #include <CGAL/copy_n.h>
-#include <CGAL/IO/leda_window.h>
-#include <CGAL/leda_real.h>
-
+#include <CGAL/IO/Window_stream.h>
+#include <CGAL/Cartesian_converter.h>
 #include <CGAL/kernel_to_kernel.h>
+
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_window  CGAL::window
+#define leda_string  std::string
+#endif
+
 #include <CGAL/intersection_test_statistics.h>
-
-
 #include <CGAL/further_point_generators_2.h>
 
 using namespace CGAL;
@@ -79,11 +74,9 @@ typedef Cartesian<double>                CartesianDouble;
 typedef Homogeneous<float>               HomogeneousFloat;
 typedef Homogeneous<double>              HomogeneousDouble;
 
-typedef Point_2<CartesianDouble>         Point;
-typedef Segment_2<CartesianDouble>       Segment;
+typedef CartesianDouble::Point_2         Point;
+typedef CartesianDouble::Segment_2       Segment;
 typedef std::vector<Segment>             Vector;
-
-
 
 int
 main(int argc, char** argv)
@@ -141,7 +134,7 @@ main(int argc, char** argv)
 
   std::vector< CartesianFloat::Segment_2>  CF1;
   std::vector< CartesianFloat::Segment_2>  CF2;
-  Cartesian_double_to_Cartesian< CartesianFloat::RT > converter1;
+  CGAL::Cartesian_converter<CartesianDouble, CartesianFloat> converter1;
   std::transform( CD1.begin(), CD1.end(), std::back_inserter( CF1), converter1);
   std::transform( CD2.begin(), CD2.end(), std::back_inserter( CF2), converter1);
   std::vector< HomogeneousFloat::Segment_2>  HF1;
@@ -219,5 +212,3 @@ main(int argc, char** argv)
   W.read_mouse();
   return 0;
 }
-
-#endif // USE_LEDA

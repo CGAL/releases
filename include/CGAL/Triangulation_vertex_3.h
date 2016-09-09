@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,28 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_vertex_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.11 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.17 $
 // author(s)     : Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -49,113 +48,59 @@
 #ifndef CGAL_TRIANGULATION_VERTEX_3_H
 #define CGAL_TRIANGULATION_VERTEX_3_H
 
-#include <CGAL/Pointer.h>
-//#include <CGAL/Triangulation_data_structure_3.h>
-#include <CGAL/Triangulation_circulators_3.h>
-#include <CGAL/Triangulation_cell_3.h>
-#include <CGAL/Triangulation_vertex_3.h>
-#include <CGAL/Triangulation_handles_3.h>
-
+#include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_3.h>
+
+#include <CGAL/Triangulation_cell_3.h>
+#include <CGAL/Triangulation_handles_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Tds >
-class Triangulation_cell_3;
-
-template < class Gt, class Tds >
-class Triangulation_vertex_handle_3;
-
-template < class Gt, class Tds >
-class Triangulation_cell_handle_3;
+template < class Gt, class Tds > class Triangulation_cell_3;
+template < class Gt, class Tds > class Triangulation_vertex_handle_3;
+template < class Gt, class Tds > class Triangulation_cell_handle_3;
 
 template<class Gt, class Tds >
 class Triangulation_vertex_3
   : public Tds::Vertex
 {
-public:
-  
-  typedef typename Gt::Point Point;
-
   typedef typename Tds::Vertex Vtds;
   typedef typename Tds::Cell Ctds;
 
   typedef Triangulation_cell_3<Gt,Tds> Cell;
-  
   typedef Triangulation_vertex_handle_3<Gt,Tds> Vertex_handle;
   typedef Triangulation_cell_handle_3<Gt,Tds> Cell_handle;
-  
+
+public:
+ 
+  typedef typename Gt::Point_3 Point;
+
   Triangulation_vertex_3()
-     : Vtds()
-  {}
+     : Vtds() {}
 
   Triangulation_vertex_3(const Point & p)
-    :  Vtds(p)
-  {}
-    
+    :  Vtds(p) {}
+
   Triangulation_vertex_3(const Point & p, Cell_handle c)
-    :  Vtds(p, &(*c))
-  {}
+    :  Vtds(p, &(*c)) {}
 
   Triangulation_vertex_3(Cell_handle c)
-    :  Vtds(&(*c))
-  {}
+    :  Vtds(&(*c)) {}
 
-  inline void set_cell(Cell_handle c)
+  void set_cell(Cell_handle c)
   {
     Vtds::set_cell(&(*c));
   }
-    
-  inline void set_point(const Point & p)
-  {
-    Vtds::set_point(p);
-  }
-    
-  inline Cell_handle cell() const
+
+  Cell_handle cell() const
   {
     return (Cell *) Vtds::cell();
   }
-        
-  inline Vertex_handle handle() const
+
+  Vertex_handle handle()
   {
     return Vertex_handle(this);
   }
-
-  inline bool is_valid(bool verbose = false, int level = 0) const
-  {
-    return Vtds::is_valid(verbose,level);
-  }
-//   inline Vertex_circulator incident_vertices()
-//   {
-//     return Vertex_circulator(handle(), cell());
-//   }
-
-//   inline Vertex_circulator incident_vertices(const Cell_handle& c)
-//   {
-//     return Vertex_circulator(handle(), c);
-//   } 
-
-//   inline 
-//   Cell_circulator incident_cells()
-//   {
-//     return Cell_circulator(handle(), cell());
-//   }
-    
-//   inline Cell_circulator incident_cells(const Cell_handle& c)
-//   {
-//     return Cell_circulator(handle(), c);
-//   }
-    
-//   inline Edge_circulator incident_edges()
-//   {
-//     return Edge_circulator(handle(), cell());
-//   }
- 
-//   inline Edge_circulator incident_edges(const Cell_handle& c)
-//   {
-//     return Edge_circulator(handle(), c);
-//   }
-    
 };
 
 CGAL_END_NAMESPACE

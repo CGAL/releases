@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Gmpz.fw
 // file          : include/CGAL/Gmpz.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/06/25 12:05:29 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -51,15 +50,14 @@
 #ifndef CGAL_GMPZ_H
 #define CGAL_GMPZ_H
 
-
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
+
 #ifndef CGAL_CFG_NO_LOCALE
-#include <locale>
+#  include <locale>
 #else
-#include <cctype>
+#  include <cctype>
 #endif // CGAL_CFG_NO_LOCALE
+
 #include <gmp.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -97,14 +95,6 @@ public:
   ~Gmpz_rep()
   { mpz_clear(mpZ); }
 };
-
-CGAL_END_NAMESPACE
-
-
-
-CGAL_BEGIN_NAMESPACE
-
-class Gmpz;
 
 class Gmpz : public Handle
 {
@@ -161,6 +151,8 @@ public:
   Gmpz operator*(const Gmpz &z) const;
   Gmpz operator*(int i) const;
 
+  Gmpz operator%(const Gmpz &z) const;
+
   Gmpz operator/(const Gmpz &z) const;
   Gmpz operator/(int i) const;
 
@@ -187,7 +179,7 @@ public:
 inline
 Gmpz_rep*
 Gmpz::ptr() const
-{ return (Gmpz_rep*) PTR; }
+{ return static_cast<Gmpz_rep*>(PTR); }
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 Gmpz::Gmpz()
@@ -195,7 +187,7 @@ Gmpz::Gmpz()
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 Gmpz::Gmpz(const Gmpz &z)
-  : Handle((Handle&)z)
+  : Handle(static_cast<const Handle&>(z))
 {}
 
 inline   // CGAL_KERNEL_CTOR_INLINE
@@ -255,7 +247,7 @@ Gmpz::operator<(const Gmpz &z) const
 inline
 bool
 Gmpz::operator<(int i) const
-{ return ( mpz_cmp_si(ptr()->mpZ, i) < 0 ); }
+{ return mpz_cmp_si(ptr()->mpZ, i) < 0; }
 
 inline
 bool            /* XXX */
@@ -436,6 +428,15 @@ Gmpz::operator/(const Gmpz &z) const
 
 inline
 Gmpz
+Gmpz::operator%(const Gmpz &z) const
+{
+    Gmpz_rep* Res = new Gmpz_rep();
+    mpz_tdiv_r(Res->mpZ, ptr()->mpZ, z.ptr()->mpZ);
+    return Gmpz(Res);
+}
+
+inline
+Gmpz
 Gmpz::operator/(int i) const
 {
     if (i>0)
@@ -476,7 +477,7 @@ io_tag(const Gmpz&)
 inline
 Sign
 Gmpz::sign() const
-{ return (Sign)mpz_sgn(ptr()->mpZ); }
+{ return static_cast<Sign>(mpz_sgn(ptr()->mpZ)); }
 
 inline
 Gmpz
@@ -551,8 +552,7 @@ gcd(const Gmpz &z, int i)
 
 inline
 Gmpz
-exact_division(const Gmpz &z1,
-                    const Gmpz &z2)
+exact_division(const Gmpz &z1, const Gmpz &z2)
 {
   Gmpz_rep* Res = new Gmpz_rep();
   mpz_divexact(Res->mpZ, z1.ptr()->mpZ, z2.ptr()->mpZ);
@@ -628,18 +628,27 @@ operator>>(std::istream& is, Gmpz &z)
   {
         is.putback(c);
   }
-  if (sign(z) != (Sign)0 && negative)
+  if (sign(z) != static_cast<Sign>(0) && negative)
   {
         z = -z;
   }
   return is;
 }
 
+inline
+Interval_base
+to_interval (const Gmpz & z)
+{
+  // GMP returns the closest double (seen in the code).
+  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
+  double app = CGAL::to_double(z);
+  // If it's lower than 2^53, then it's exact.
+  if (CGAL_CLIB_STD::fabs(app) < double(1<<26)*double(1<<27))
+      return app;
+  FPU_set_cw(CGAL_FE_UPWARD);
+  return Interval_nt_advanced(app) + Interval_base::Smallest;
+}
+
 CGAL_END_NAMESPACE
-
-
-#ifdef CGAL_INTERVAL_ARITHMETIC_H
-#include <CGAL/Interval_arithmetic/IA_Gmpz.h>
-#endif // CGAL_INTERVAL_ARITHMETIC_H
 
 #endif // CGAL_GMPZ_H

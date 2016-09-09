@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
-// file          : geomview_demo.C
+// file          : demo/Polyhedron_IO/geomview_demo.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
 // revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/03/09 22:18:32 $
+// revision_date : $Date: 2001/06/29 06:24:52 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -48,17 +48,12 @@
 // ======================================================================
 
 #include <CGAL/Cartesian.h>
-#include <CGAL/Point_3.h>
-#include <CGAL/Halfedge_data_structure_polyhedron_default_3.h>
-#include <CGAL/Polyhedron_default_traits_3.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/IO/Polyhedron_geomview_ostream.h>
 
-typedef  CGAL::Cartesian<double>                               R;
-typedef  CGAL::Point_3<R>                                      Point;
-typedef  CGAL::Polyhedron_default_traits_3<R>                  Traits;
-typedef  CGAL::Halfedge_data_structure_polyhedron_default_3<R> HDS;
-typedef  CGAL::Polyhedron_3<Traits,HDS>                        Polyhedron;
+typedef  CGAL::Cartesian<double>               Kernel;
+typedef  Kernel::Point_3                       Point;
+typedef  CGAL::Polyhedron_3<Kernel>            Polyhedron;
 
 int main() {
     Point p( 1.0, 0.0, 0.0);
@@ -68,7 +63,7 @@ int main() {
     Polyhedron P;
     P.make_tetrahedron( p,q,r,s);
     CGAL::Geomview_stream geo;
-    geo << P;
+    geo << CGAL::GREEN << P;
 
     // wait for a mouse click.
     Point click;

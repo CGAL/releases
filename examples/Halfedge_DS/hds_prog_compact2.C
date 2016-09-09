@@ -1,5 +1,5 @@
-// hds_prog_compact2.C
-// -------------------------------------------------
+// examples/Halfedge_DS/hds_prog_compact2.C
+// ----------------------------------------
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_3.h>
@@ -47,10 +47,9 @@ public:
     bool is_border() const       { return f == NULL;}
 
     void  set_opposite( void* g) {
-        const size_t SIZE = sizeof( My_halfedge) + 
-                            sizeof( In_place_list_base<My_halfedge>);
         char* h = (char*)g;
-        CGAL_assertion( size_t( abs( h - (char*)this)) == SIZE);
+        CGAL_assertion( size_t( abs( h - (char*)this)) == 
+	    sizeof( My_halfedge) + sizeof( In_place_list_base<My_halfedge>));
         if ( h > (char*)this)
             nxt |= 1;
         else

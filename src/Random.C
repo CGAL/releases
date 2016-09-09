@@ -1,10 +1,10 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998,1999 The CGAL Consortium
+// Copyright (c) 1997-2001 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,31 +18,31 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/Random.C
-// package       : Random_numbers (2.1.2)
-// chapter       : $CGAL_Chapter: Random Numbers Generator $
+// package       : Random_numbers (2.3.1)
+// chapter       : Random Numbers Generator
 //
-// source        : web/Random_numbers/Random.aw
-// revision      : $Revision: 2.2.2.3 $
-// revision_date : $Date: 1999/09/22 15:38:14 $
+// source        : web/Random.aw
+// revision      : $Revision: 1.1.2.2 $
+// revision_date : $Date: 2001/04/02 18:49:08 $
+//
 // author(s)     : Sven Schönherr
-//
-// coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
+// coordinator   : INRIA Sophia-Antipolis
 //
 // implementation: Random Numbers Generator
 // email         : contact@cgal.org

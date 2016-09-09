@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : rectangular_p_center_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : pcenter.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:24:35 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:46 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -50,20 +50,21 @@
 // ======================================================================
 
 
-#ifdef CGAL_USE_LEDA
+#include <CGAL/basic.h>
+
+#if (defined(CGAL_USE_LEDA) || defined(CGAL_USE_CGAL_WINDOW))
 
 #include <CGAL/Cartesian.h>
-#include <CGAL/Iso_rectangle_2.h>
-#include <CGAL/Point_2.h>
-#include <CGAL/IO/leda_window.h>
-#include <CGAL/IO/Ostream_iterator.h>
-#include <CGAL/IO/Istream_iterator.h>
 #include <CGAL/rectangular_p_center_2.h>
 #include <CGAL/point_generators_2.h>
-//#include <CGAL/Arithmetic_filter.h>
-#include <CGAL/leda_real.h>
 #include <CGAL/algorithm.h>
 #include <CGAL/Timer.h>
+#include <CGAL/IO/Ostream_iterator.h>
+#include <CGAL/IO/Istream_iterator.h>
+#include <CGAL/IO/Window_stream.h>
+#ifdef CGAL_USE_LEDA
+#include <CGAL/leda_real.h>
+#endif // CGAL_USE_LEDA
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -79,7 +80,6 @@ using std::copy;
 using std::back_inserter;
 using std::ostream_iterator;
 using std::transform;
-using std::bind2nd;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -96,6 +96,7 @@ using CGAL::set_pretty_mode;
 using CGAL::set_ascii_mode;
 using CGAL::cgalize;
 using CGAL::Timer;
+using CGAL::bind_2;
 using CGAL::BLUE;
 using CGAL::RED;
 using CGAL::ORANGE;
@@ -181,26 +182,25 @@ private:
 #undef Base
 #endif // _MSC_VER
 
-// typedefs
-//typedef Filtered_exact< double, leda_real > FT;
-//typedef double FT;
-typedef leda_real                           FT;
-typedef Cartesian< FT >                     R;
-typedef CGAL::Point_2< R >                  Point;
-typedef CGAL::Iso_rectangle_2< R >          Square_2;
-typedef vector< Point >                     Point_cont;
-typedef Point_cont::iterator                iterator;
-typedef Random_points_in_square_2< Point >  Point_generator_square;
-typedef Random_points_in_disc_2< Point >    Point_generator_disc;
-typedef Random_p_clusters_2< Point >        Point_generator_cluster;
-typedef Ostream_iterator< Point, leda_window >
-  Window_stream_iterator_point;
-typedef Ostream_iterator< Square_2, leda_window >
-  Window_stream_iterator_square;
-typedef ostream_iterator< Point >       Ostream_iterator_point;
-typedef ostream_iterator< Square_2 >    Ostream_iterator_square;
-typedef Istream_iterator< Point, leda_window>
-  Istream_iterator_point;
+#ifdef CGAL_USE_LEDA
+typedef leda_real                            FT;
+#else
+typedef double                               FT;
+#endif // CGAL_USE_LEDA
+typedef CGAL::Window_stream                  Window;
+typedef Cartesian< FT >                      K;
+typedef K::Point_2                           Point;
+typedef K::Iso_rectangle_2                   Square_2;
+typedef vector< Point >                      Point_cont;
+typedef Point_cont::iterator                 iterator;
+typedef Random_points_in_square_2< Point >   Point_generator_square;
+typedef Random_points_in_disc_2< Point >     Point_generator_disc;
+typedef Random_p_clusters_2< Point >         Point_generator_cluster;
+typedef Ostream_iterator< Point, Window >    Window_stream_iterator_point;
+typedef Ostream_iterator< Square_2, Window > Window_stream_iterator_square;
+typedef ostream_iterator< Point >            Ostream_iterator_point;
+typedef ostream_iterator< Square_2 >         Ostream_iterator_square;
+typedef Istream_iterator< Point, Window >    Istream_iterator_point;
 
 
 
@@ -210,6 +210,7 @@ template < class Point, class FT, class Box >
 struct Build_box
 : public CGAL_STD::binary_function< Point, FT, Box >
 {
+  typedef CGAL::Arity_tag< 2 > Arity;
   Box
   operator()(const Point& p, const FT& r) const
   {
@@ -234,7 +235,7 @@ main(int argc, char* argv[])
 
 #ifndef CGAL_PCENTER_NO_SHOW
   // init CGAL stuff:
-  leda_window W(730, 690);
+  Window W(730, 690);
   cgalize(W);
   W.set_node_width(2);
   W.init(-1.5, 1.5, -1.2);
@@ -249,9 +250,10 @@ main(int argc, char* argv[])
   int ps_button      = W.button("PS", "Generate postscript output.");
   int ascii_button   = W.button("ASCII",
                                 "Generate ascii output of input points.");
+  int help_button    = W.button("Help", "Explain the program.");
   int end_button     = W.button("Quit", "Leave the program.");
   W.int_item("n", number_of_points, "Number of points.");
-  W.int_item("p", number_of_clusters, "Number of clusters.");
+  W.int_item("p", number_of_clusters, 2, 4, "Number of clusters.");
   W.double_item("Cluster Size", c_size,
                 "Size of the clusters (relevant for the cluster generator).");
   W.display();
@@ -341,7 +343,7 @@ main(int argc, char* argv[])
 
     FT result;
     Point_cont centers;
-    if (!input_points.empty()) {
+    if (input_points.size() >= unsigned(number_of_clusters)) {
 #ifndef CGAL_PCENTER_NO_SHOW
       W << GREEN
         << CGAL::bounding_box_2(input_points.begin(), input_points.end());
@@ -361,7 +363,7 @@ main(int argc, char* argv[])
            << " and " << number_of_piercing_points
            << " points." << endl;
 #ifdef CGAL_PCENTER_CHECK
-      CGAL::Infinity_distance_2< R > dist;
+      CGAL::Infinity_distance_2< K > dist;
       for (iterator i = input_points.begin(); i != input_points.end(); ++i) {
         iterator j = centers.begin();
         do {
@@ -394,21 +396,21 @@ main(int argc, char* argv[])
       transform(centers.begin(),
                 centers.end(),
                 wout_s,
-                bind2nd(Build_square(), result / FT(2)));
+                bind_2(Build_square(), result / FT(2)));
 #endif // CGAL_PCENTER_NO_SHOW
 #ifndef _MSC_VER
       transform(centers.begin(),
                 centers.end(),
                 cout_s,
-                bind2nd(Build_square(), result / FT(2)));
+                bind_2(Build_square(), result / FT(2)));
       cerr << endl;
 #endif // _MSC_VER
 
 #ifdef CGAL_PCENTER_CHECK
       // check that there is at least one square with two points
       // on opposite sides
-      CGAL::Signed_x_distance_2< R > xdist;
-      CGAL::Signed_y_distance_2< R > ydist;
+      CGAL::Signed_x_distance_2< K > xdist;
+      CGAL::Signed_y_distance_2< K > ydist;
       bool boundary = false;
       for (iterator i = centers.begin(); i != centers.end(); ++i) {
         int left = 0, right = 0, bottom = 0, top = 0;
@@ -445,7 +447,10 @@ main(int argc, char* argv[])
         cerr << "Error: No square has two points on boundary." << endl;
 
 #endif // CGAL_PCENTER_CHECK
-    } // if (!input_points.empty())
+    } // if (input_points.size() >= unsigned(number_of_clusters))
+    else
+      cerr << "Too few points, need at least "
+           << number_of_clusters << "." << endl;
 
 #ifndef CGAL_PCENTER_NO_SHOW
     double x, y;
@@ -472,6 +477,7 @@ main(int argc, char* argv[])
         W.clear();
       } else if (input == gencl_button) {
         // random points in three clusters
+        c_size = std::min(1.0, std::max(0.0, c_size));
         Point_generator_cluster gen(number_of_clusters,
                                     c_size,
                                     1.0,
@@ -509,17 +515,19 @@ main(int argc, char* argv[])
       } else if (input == ps_button) {
         iterator xmin = std::min_element(input_points.begin(),
                                          input_points.end(),
-                                         CGAL::Less_x_2< R >());
+                                         K::Less_x_2());
         iterator xmax = std::max_element(input_points.begin(),
                                          input_points.end(),
-                                         CGAL::Less_x_2< R >());
+                                         K::Less_x_2());
         iterator ymin = std::min_element(input_points.begin(),
                                          input_points.end(),
-                                         CGAL::Less_y_2< R >());
+                                         K::Less_y_2());
         iterator ymax = std::max_element(input_points.begin(),
                                          input_points.end(),
-                                         CGAL::Less_y_2< R >());
-        FT scale = std::max(xmax->x() - xmin->x(), ymax->y() - ymin->y());
+                                         K::Less_y_2());
+        FT scale;
+        if (input_points.size() > 0)
+          scale = std::max(xmax->x() - xmin->x(), ymax->y() - ymin->y());
         const int size = 500;
         const int border = 20;
         cout << "%!PS-Adobe-2.0 EPSF-1.2\n"
@@ -595,14 +603,41 @@ main(int argc, char* argv[])
 #ifdef _MSC_VER
         }
 #endif
-      } else if (input == end_button || input == MOUSE_BUTTON(3))
-        done = true;
-    } while (!done);
-  } while (!done);
-#endif // CGAL_PCENTER_NO_SHOW
+      } else if ( input == help_button) {
+        // display help text
+        W.del_messages();
+        W.message("CGAL RECTANGULAR p-CENTER DEMO");
+        W.message("");
+        W.message("compute the rectangular p-centers of a set S \
+of n points in the plane,");
+            W.message("i.e. cover S with p congruent axis-parallel squares \
+of minimal size.");
+            W.message("");
+            W.message("Mouse Input:");
+            W.message("");
+            W.message(" <left mouse button>       -  add point.");
+            W.message(" <middle mouse button> -  compute result.");
+            W.message(" <Clear>                          -  clear all points");
+            W.message(" <Square>                       -  generate \
+n random points drawn uniformly from the unit square.");
+            W.message(" <Disc>                           -  generate n \
+random points drawn uniformly from the unit disc.");
+            W.message(" <Cluster>                       -  generate p \
+clusters of altogether n points");
+            W.message("                                            \
+drawn uniformly from squares of size Cluster Size.");
+            W.message(" <PS>                              -  \
+postscript output to stdout.");
+            W.message(" <ASCII>                        -  \
+ASCII output to stdout.");
+          } else if (input == end_button || input == MOUSE_BUTTON(3))
+            done = true;
+        } while (!done);
+      } while (!done);
+    #endif // CGAL_PCENTER_NO_SHOW
 
-  return 0;
-}
+      return 0;
+    }
 
 #else
 

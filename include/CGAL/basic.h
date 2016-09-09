@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : basic.fw
 // file          : include/CGAL/basic.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/20 13:07:30 $
 // author(s)     : Lutz Kettner
 //                 Stefan Schirra
 //
@@ -51,9 +50,7 @@
 #ifndef CGAL_BASIC_H
 #define CGAL_BASIC_H
 
-#ifndef CGAL_CONFIG_H
-#  include <CGAL/config.h>
-#endif // CGAL_CONFIG_H
+#include <CGAL/config.h>
 
 #define CGAL_NTS CGAL::NTS::
 
@@ -87,6 +84,9 @@
 #    endif // __LEDA__ < 380
 #    define CGAL_PROTECT_LEDA_BASIC_H
 #  endif // CGAL_PROTECT_LEDA_BASIC_H
+#else
+   // set flag for libCGALWin
+#  define CGAL_USE_CGAL_WINDOW
 #endif  // CGAL_USE_LEDA
 
 // CGAL uses std::min and std::max
@@ -121,43 +121,18 @@ namespace CGAL {
 } // namespace CGAL
 
 
-#ifndef CGAL_ASSERTIONS_H
 #include <CGAL/assertions.h>
-#endif // CGAL_ASSERTIONS_H
-#ifndef CGAL_KERNEL_ASSERTIONS_H
 #include <CGAL/kernel_assertions.h>
-#endif // CGAL_KERNEL_ASSERTIONS_H
-#ifndef CGAL_HANDLE_H
 #include <CGAL/Handle.h>
-#endif // CGAL_HANDLE_H
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
-#ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
-#endif // CGAL_TAGS_H
-#ifndef CGAL_MISC_H
-#include <CGAL/misc.h>
-#endif // CGAL_MISC_H
-#ifndef CGAL_NUMBER_TYPE_BASIC_H
 #include <CGAL/number_type_basic.h>
-#endif // CGAL_NUMBER_TYPE_BASIC_H
-#ifndef CGAL_IO_IO_H
 #include <CGAL/IO/io.h>
-#endif // CGAL_IO_IO_H
-#ifndef CGAL_KERNEL_BASIC_H
 #include <CGAL/kernel_basic.h>
-#endif // CGAL_KERNEL_BASIC_H
-
-#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #include <CGAL/known_bit_size_integers.h>
-#endif // CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 
 CGAL_BEGIN_NAMESPACE
-
 
 // Two struct's to denote boolean compile time decisions.
 // ======================================================
@@ -194,22 +169,20 @@ inline
 void
 assert_equal_types( const T&, const T&) {}
 
-
-
 // Symbolic constants to tailor inlining. Inlining Policy.
 // =======================================================
 #ifndef CGAL_MEDIUM_INLINE
-#define CGAL_MEDIUM_INLINE inline
+#  define CGAL_MEDIUM_INLINE inline
 #endif
+
 #ifndef CGAL_LARGE_INLINE
-#define CGAL_LARGE_INLINE
+#  define CGAL_LARGE_INLINE
 #endif
+
 #ifndef CGAL_HUGE_INLINE
-#define CGAL_HUGE_INLINE
+#  define CGAL_HUGE_INLINE
 #endif
 
 CGAL_END_NAMESPACE
-
-
 
 #endif // CGAL_BASIC_H

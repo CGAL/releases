@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,24 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointCd.h
-// package       : Cd (1.5)
+// package       : Cd (1.14)
 // revision      : 2.2.3
 // revision_date : 14 Sep 1999 
 // author(s)     : Sven Schoenherr, Bernd Gaertner
@@ -93,7 +93,7 @@ class PointCd : public Handle
       bool operator==(const PointCd<FT> &p) const;
       bool operator!=(const PointCd<FT> &p) const;
 
-    int id() const;
+    unsigned long id() const;
 
     FT homogeneous (int i) const;
     FT cartesian (int i) const;
@@ -111,8 +111,9 @@ template < class FT >
 CGAL_KERNEL_INLINE
 const _d_tuple<FT>* PointCd<FT>::ptr() const
 {
-  return (_d_tuple<FT>*)PTR;
+  return static_cast<_d_tuple<FT>*>(PTR);
 }
+
 CGAL_END_NAMESPACE
 
 #include <CGAL/Origin.h>
@@ -140,7 +141,7 @@ PointCd<FT>::PointCd(int dim, const Origin &)
 template < class FT >
 CGAL_KERNEL_CTOR_INLINE
 PointCd<FT>::PointCd(const PointCd<FT> &p)
-  : Handle((Handle&)p)
+  : Handle(static_cast<const Handle&>(p))
 {}
 
 
@@ -178,8 +179,9 @@ PointCd<FT>::operator!=(const PointCd<FT>& p) const
 
 template < class FT >
 inline
-int PointCd<FT>::id() const
-{ return (int)PTR; }
+unsigned long
+PointCd<FT>::id() const
+{ return reinterpret_cast<unsigned long>(PTR); }
 
 template < class FT >
 inline
@@ -226,7 +228,7 @@ inline
 const FT* PointCd<FT>::end() const
 { return ptr()->e + dimension(); }
 
-#ifndef NO_OSTREAM_INSERT_POINTCD
+#ifndef CGAL_NO_OSTREAM_INSERT_POINTCD
 template < class FT >
 std::ostream& 
 operator<<(std::ostream& os, const PointCd<FT> &p)
@@ -252,15 +254,15 @@ operator<<(std::ostream& os, const PointCd<FT> &p)
         return os << p.cartesian(d-1) << "))";
     }
 }
-#endif // NO_OSTREAM_INSERT_POINTCD
+#endif // CGAL_NO_OSTREAM_INSERT_POINTCD
 
-#ifndef NO_ISTREAM_EXTRACT_POINTCD
+#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTCD
 template < class FT >
 std::istream& 
 operator>>(std::istream& is, PointCd<FT> &p)
 {
     int d=0, i;
-    FT* e=0;
+    FT* e;
     switch(is.iword(IO::mode)) 
     {
       case IO::ASCII :
@@ -279,11 +281,12 @@ operator>>(std::istream& is, PointCd<FT> &p)
         // throw ios_base::failure("Stream must be in ascii or binary mode");
         return is;
     }
-    p = PointCd<FT>( d, e, e+d);
+    if (is)
+	p = PointCd<FT>(d, e, e+d);
     delete[] e;
     return is;
 }
-#endif // NO_ISTREAM_EXTRACT_POINTCD
+#endif // CGAL_NO_ISTREAM_EXTRACT_POINTCD
 
 CGAL_END_NAMESPACE
 

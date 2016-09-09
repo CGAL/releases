@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : ddim_points.fw
 // file          : include/CGAL/PointHd.h
-// package       : _d (2.4)
-// revision      : 2.4
-// revision_date : 20 Jul 2000 
+// package       : _d (2.6)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/05/17 09:04:15 $
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
@@ -51,9 +50,7 @@
 #ifndef CGAL_POINTHD_H
 #define CGAL_POINTHD_H
 
-#ifndef D_TUPLE_H
 #include <CGAL/d_tuple.h>
-#endif // D_TUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -118,15 +115,11 @@ const _d_tuple<RT>* PointHd<FT,RT>::ptr() const
 {
   return (_d_tuple<RT>*)PTR;
 }
+
 CGAL_END_NAMESPACE
 
-
-#ifndef CGAL_ORIGIN_H
 #include <CGAL/Origin.h>
-#endif // CGAL_ORIGIN_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -238,7 +231,7 @@ const RT*
 PointHd<FT,RT>::end() const
 { return ptr()->e + dimension() + 1; }
 
-#ifndef NO_OSTREAM_INSERT_POINTHD
+#ifndef CGAL_NO_OSTREAM_INSERT_POINTHD
 template < class FT, class RT >
 std::ostream&
 operator<<(std::ostream& os, const PointHd<FT,RT>& p)
@@ -264,15 +257,15 @@ operator<<(std::ostream& os, const PointHd<FT,RT>& p)
         return os;
     }
 }
-#endif // NO_OSTREAM_INSERT_POINTHD
+#endif // CGAL_NO_OSTREAM_INSERT_POINTHD
 
-#ifndef NO_ISTREAM_EXTRACT_POINTHD
+#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTHD
 template < class FT, class RT >
 std::istream&
 operator>>(std::istream& is, PointHd<FT,RT> &p)
 {
     int d=0, i;
-    RT* e=0;
+    RT* e;
     switch(is.iword(IO::mode))
     {
       case IO::ASCII :
@@ -295,9 +288,8 @@ operator>>(std::istream& is, PointHd<FT,RT> &p)
     delete[] e;
     return is;
 }
+#endif // CGAL_NO_ISTREAM_EXTRACT_POINTHD
 
-#endif // NO_ISTREAM_EXTRACT_POINTHD
 CGAL_END_NAMESPACE
 
-
-#endif // POINTH_H
+#endif // CGAL_POINTHD_H

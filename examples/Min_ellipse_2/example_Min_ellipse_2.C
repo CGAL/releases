@@ -1,10 +1,10 @@
 // ============================================================================
 //
-// Copyright (c) 1997,1998,1999 The CGAL Consortium
+// Copyright (c) 1997-2001 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,30 +18,29 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : examples/Min_ellipse_2/example_Min_ellipse_2.C
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
-// package       : $CGAL_Package: Min_ellipse_2 3.10.2 (29 Sep 2000) $
+// package       : $CGAL_Package: Min_ellipse_2 $
+// chapter       : Geometric Optimisation
 //
-// revision      : $Revision: 5.4 $
-// revision_date : $Date: 1999/10/12 18:51:36 $
-// author(s)     : Sven Schönherr
-//                 Bernd Gärtner
+// revision      : $Revision: 5.7 $
+// revision_date : $Date: 2001/07/17 12:33:00 $
 //
+// author(s)     : Sven Schönherr, Bernd Gärtner
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // example progr.: 2D Smallest Enclosing Ellipse
@@ -59,9 +58,9 @@
 
 // typedefs
 typedef  CGAL::Gmpz                       NT;
-typedef  CGAL::Homogeneous<NT>            R;
-typedef  CGAL::Point_2<R>                 Point;
-typedef  CGAL::Min_ellipse_2_traits_2<R>  Traits;
+typedef  CGAL::Homogeneous<NT>            K;
+typedef  CGAL::Point_2<K>                 Point;
+typedef  CGAL::Min_ellipse_2_traits_2<K>  Traits;
 typedef  CGAL::Min_ellipse_2<Traits>      Min_ellipse;
 
 // main

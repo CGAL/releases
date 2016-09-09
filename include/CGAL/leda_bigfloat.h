@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Bigfloat.fw
 // file          : include/CGAL/leda_bigfloat.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/01/09 18:56:25 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,9 +50,7 @@
 #ifndef CGAL_BIGFLOAT_H
 #define CGAL_BIGFLOAT_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
 
 // #ifndef IO_IO_TAGS_H
 // #include <CGAL/IO/io_tags.h>
@@ -97,11 +94,20 @@ io_Operator
 io_tag(const leda_bigfloat &)
 { return io_Operator(); }
 
+inline
+Interval_base
+to_interval (const leda_bigfloat & z)
+{
+  // assuming leda_bigfloat guarantee 1 bit error max
+  Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
+  Interval_nt_advanced approx (::to_double(z));
+  FPU_set_cw(CGAL_FE_UPWARD);
+  return approx + Interval_base::Smallest;
+}
+
+
 CGAL_END_NAMESPACE
 
 
-#ifdef CGAL_INTERVAL_ARITHMETIC_H
-#include <CGAL/Interval_arithmetic/IA_leda_bigfloat.h>
-#endif // CGAL_INTERVAL_ARITHMETIC_H
 
 #endif // CGAL_BIGFLOAT_H

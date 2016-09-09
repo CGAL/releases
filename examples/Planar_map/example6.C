@@ -1,5 +1,5 @@
-//example6
-
+// examples/Planar_map/example6.C
+// ------------------------------
 #define NAIVE_POINT_LOCATION
 #define CGAL_NO_PM_DEFAULT_POINT_LOCATION
 
@@ -10,56 +10,63 @@
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
 
-#include <CGAL/IO/Planar_map_iostream.h>
+//#include <CGAL/IO/Planar_map_iostream.h>
+#include <CGAL/IO/Pm_file_writer.h>
+#include <CGAL/IO/write_pm.h>
 
 #ifdef NAIVE_POINT_LOCATION
 #include <CGAL/Pm_naive_point_location.h>
 #endif
 
+using CGAL::write_pm; 
+
 //typedef CGAL::Homogeneous<long>                    coord_t;
 typedef CGAL::Cartesian<double>                      Coord_t;
-typedef CGAL::Pm_segment_exact_traits<Coord_t>       pmtraits;
-typedef pmtraits::Point                              point;
-typedef pmtraits::X_curve                            curve;
-typedef CGAL::Pm_default_dcel<pmtraits>              pmdcel;
-typedef CGAL::Planar_map_2<pmdcel,pmtraits>          Pmap;
+typedef CGAL::Pm_segment_exact_traits<Coord_t>       Pmtraits;
+typedef Pmtraits::Point                              Point;
+typedef Pmtraits::X_curve                            Curve;
+typedef CGAL::Pm_default_dcel<Pmtraits>              Pmdcel;
+typedef CGAL::Planar_map_2<Pmdcel, Pmtraits>         Planar_map;
+typedef CGAL::Pm_file_writer<Planar_map>             Pm_writer;
 
 int main()
 {
   // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
 #ifndef NAIVE_POINT_LOCATION   
-  Pmap pm;
+  Planar_map pm;
 #else
-  CGAL::Pm_naive_point_location< Pmap > naive_pl;
-  Pmap pm(&naive_pl);
+  CGAL::Pm_naive_point_location< Planar_map > naive_pl;
+  Planar_map pm(&naive_pl);
 #endif
+  Pm_writer verbose_writer(std::cout, pm, true);
 	
-  curve cv[6];
+  Curve cv[6];
   int i;
 	
   CGAL::set_ascii_mode(std::cout);
 	
-  point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1), a5(1,4,2) ;
+  Point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1), a5(1,4,2) ;
 	
   /*
-	a5 
-	/\  
-	/  \
-	a4  ----  a1
-	|    | 
-	|    | 
-	|    |
-	a3  ----  a2
-	*/        
+       a5 
+       /\  
+      /  \
+  a4  ----  a1
+     |    | 
+     |    | 
+     |    |
+  a3  ----  a2
+
+  */        
 	
 	
 	// those curves are about to enter to pm
-  cv[0] = curve(a1, a2);
-  cv[1] = curve(a2, a3);
-  cv[2] = curve(a3, a4);
-  cv[3] = curve(a4, a5);
-  cv[4] = curve(a5, a1);
-  cv[5] = curve(a1, a4);
+  cv[0] = Curve(a1, a2);
+  cv[1] = Curve(a2, a3);
+  cv[2] = Curve(a3, a4);
+  cv[3] = Curve(a4, a5);
+  cv[4] = Curve(a5, a1);
+  cv[5] = Curve(a1, a4);
 	
   std::cout << "the curves of the map :" << std::endl; 
   for (i = 0; i < 6; i++)
@@ -70,7 +77,7 @@ int main()
 	
   // insert the five curves to the map
   std::cout << "inserting the curves to the map..." << std::endl;
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[6];  
+  Planar_map::Halfedge_handle e[6];  
 	
   e[0]=pm.insert(cv[0]);
 	
@@ -84,15 +91,15 @@ int main()
   e[5]=pm.insert_at_vertices(cv[5],e[0]->source(),e[2]->target() );
 	
   /*             
-	e3  /\  e4
+     e3  /\  e4
 	/  \
 	----
-	| e5 | 
-	e2 |    | e0
-	|    |
-	----
-	e1 
-	*/
+       | e5 | 
+    e2 |    | e0
+       |    |
+        ----
+         e1 
+  */
 	
 	// check the validity of the map
   std::cout << "check map validity... ";
@@ -100,9 +107,9 @@ int main()
     std::cout << "map valid!" << std::endl;
   else
     std::cout << "map invalid!" << std::endl;
-  std::cout << std::endl << "Printing map: " << std::endl;
+  std::cout << std::endl << "* * * Printing map: " << std::endl << std::endl;
 	
-  std::cout << pm ;
-	
+  write_pm(pm, verbose_writer, std::cout);
+       
   return 0;  
 }

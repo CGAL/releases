@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Pm_default_point_location.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -84,7 +84,8 @@ public:
   typedef typename Planar_map::Halfedge_iterator Halfedge_iterator;
   
   PL_X_curve_plus() : curve(),parent() {};
-  PL_X_curve_plus(const curve &cv,const Halfedge_handle& p) : curve(cv),parent(p){}
+  PL_X_curve_plus(const curve &cv,const Halfedge_handle& p) : 
+    curve(cv), parent(p) {}
   PL_X_curve_plus(const Halfedge_handle& p) : curve(p->curve()),parent(p){}
   // used when no Halfedge_handle is supplied.
   PL_X_curve_plus(const curve &cv) : curve(cv),parent() {};
@@ -124,7 +125,7 @@ public:
   typedef typename Planar_map::Locate_type Locate_type;
   typedef typename Planar_map::Halfedge_handle Halfedge_handle;
   typedef typename Planar_map::Halfedge_iterator Halfedge_iterator;
-  typedef typename Planar_map::Ccb_halfedge_circulator  Ccb_halfedge_circulator;
+  typedef typename Planar_map::Ccb_halfedge_circulator Ccb_halfedge_circulator;
   typedef PL_X_curve_plus<Planar_map> X_curve_plus;
   typedef Td_traits<Pm_traits_wrap,X_curve_plus> Td_traits;
   typedef Trapezoidal_decomposition_2<Td_traits> Trapezoidal_decomposition;
@@ -165,7 +166,8 @@ public:
   Halfedge_handle locate(const Point& p, Locate_type& lt) const;
   Halfedge_handle locate(const Point& p, Locate_type& lt);
   
-  Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up) const;
+  Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up)
+    const;
   Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up);
   
   //the function is called after the combinatoric split
@@ -225,7 +227,8 @@ public:
   {
 
 #ifdef CGAL_PMBB_DEBUG
-		std::cout << "\nPL::update called with traits = "; traits->debug();
+		std::cout << "\nPL::update called with traits = "; 
+		traits->debug();
 #endif
 
 		if (begin!=end)
@@ -254,7 +257,8 @@ public:
 			token.rebuild_bounding_box(this);
 		}
 #ifdef CGAL_PMBB_DEBUG
-		std::cout << "\nPL::update exited with traits = "; traits->debug();
+		std::cout << "\nPL::update exited with traits = "; 
+		traits->debug();
 #endif
 	}  
   
@@ -314,7 +318,8 @@ private:
   bool halfedge_represents_point_inside_face(const Halfedge_handle& h,
                                              const Point& p) const 
   {
-    return (traits->curve_get_point_status(h->curve(),p)==Pm_traits::ABOVE_CURVE)
+    return (traits->curve_get_point_status(h->curve(),p)
+	    ==Pm_traits::ABOVE_CURVE)
       ==traits->point_is_left(h->source()->point(),h->target()->point());
   }
   Halfedge_handle halfedge_representing_unbounded_face() const
@@ -334,8 +339,10 @@ private:
   
   //use the latter
   //to workaround internal compiler error in egcs1.1
-  //	Locate_type convert(const Point& p,const TD::Locate_type& lt,Halfedge_handle& h,bool up=true) const	
-  Locate_type convert(const Point& p,const int& lt,Halfedge_handle& h,bool up=true) const
+  //	Locate_type convert(const Point& p,const TD::Locate_type& lt,
+  // Halfedge_handle& h,bool up=true) const	
+  Locate_type convert(const Point& p,const int& lt,Halfedge_handle& h,
+		      bool up=true) const
   {
     switch(lt)
       {
@@ -370,7 +377,7 @@ private:
       }
     return Locate_type();
   }
-  const Bounding_box* get_bounding_box() const {return pm->get_bounding_box();}	
+  const Bounding_box* get_bounding_box() const {return pm->get_bounding_box();}
 };
 
 

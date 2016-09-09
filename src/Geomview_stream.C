@@ -1,10 +1,10 @@
 // ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/Geomview_stream.C
-// package       : Geomview (2.9)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2000/06/28 15:46:19 $
-// author(s)     : Andreas Fabri and Herve Bronnimann
+// package       : Geomview (3.19)
+// revision      : $Revision: 1.45 $
+// revision_date : $Date: 2001/06/19 06:59:28 $
+// author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -50,34 +50,27 @@
 #if !defined(__BORLANDC__) && !defined(_MSC_VER)
 
 #include <CGAL/basic.h>
-#include <CGAL/IO/Geomview_stream.h>
 
+#include <strstream> // deprecated
+#include <csignal>
+#include <cerrno>
+#include <cstring>
 #include <unistd.h>
-#include <errno.h>
-#include <string.h>
+
+#include <CGAL/IO/Geomview_stream.h>
+#include <CGAL/IO/binary_file_io.h>
 
 CGAL_BEGIN_NAMESPACE
 
 Geomview_stream::Geomview_stream(const Bbox_3 &bbox,
 				 const char *machine,
 				 const char *login)
-    : _line_width(1)
+    : bb(bbox), vertex_color(BLACK), edge_color(BLACK), face_color(BLACK),
+      wired_flag(false), echo_flag(true), raw_flag(false),
+      trace_flag(false), binary_flag(false),
+      line_width(1)
 {
-    setup_geomview(machine,login);
-    frame(bbox);
-    pickplane(bbox);
-    set_vertex_radius((bbox.xmax() - bbox.xmin())/100.0);
-}
-
-Geomview_stream::Geomview_stream(const char *machine,
-				 const char *login,
-				 const Bbox_3 &bbox)
-    : _line_width(1)
-{
-    std::cerr << "Warning: This constructor is going to disappear" << std::endl
-         << "The bounding box should come as first argument" << std::endl
-         << "machine and login default to NULL" << std::endl;
-    setup_geomview(machine,login);
+    setup_geomview(machine, login);
     frame(bbox);
     pickplane(bbox);
     set_vertex_radius((bbox.xmax() - bbox.xmin())/100.0);
@@ -90,12 +83,6 @@ Geomview_stream::~Geomview_stream()
 
 void Geomview_stream::setup_geomview(const char *machine, const char *login)
 {
-    bflag = 0;
-    _trace = false;
-    col = BLACK;
-    vertex_color = BLACK;
-    edge_color = BLACK;
-    face_color = BLACK;
     int pipe_out[2], pipe_in[2];
 
     // Communication between CGAL and geomview should be possible
@@ -120,16 +107,18 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         close(pipe_out[1]); // does not write to the out pipe,
         close(pipe_in[0]);  // does not read from the in pipe.
 
-        close (0);          // this is the file descriptor of cin
-        dup(pipe_out[0]);   // we connect it to the pipe
-        close (1);          // this is the file descriptor of cout
-        dup(pipe_in[1]);    // we connect it to the pipe
-        if (machine && (strlen(machine)>0)) {
-            std::ostrstream os;
-            os << " rgeomview " << machine << ":0.0" << std::ends;
-            execlp("rsh", "rsh", machine, "-l", login, os.str(), (char *)0);
+	if (dup2(pipe_out[0], 0) != 0)
+	    std::cerr << "Connect pipe to stdin failed." << std::endl;
+	if (dup2(pipe_in[1], 1) != 1)
+	    std::cerr << "Connect pipe to stdout failed." << std::endl;
+
+        if (machine && (CGAL_CLIB_STD::strlen(machine)>0)) {
+	    std::string s (" rgeomview ");
+	    s += machine;
+	    s += ":0.0";
+            execlp("rsh", "rsh", machine, "-l", login, s.data(), NULL);
         } else {
-            execlp("geomview", "geomview", "-c", "-", (char *)0);
+            execlp("geomview", "geomview", "-c", "-", NULL);
         }
 
         // if we get to this point something went wrong.
@@ -157,27 +146,68 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         in = pipe_in[0];
         out = pipe_out[1];
 
+	// Necessary to wait a little bit for Geomview,
+        // otherwise you won't be able to ask for points...
+        sleep(1);
+
+#if 1
+        // We want to get rid of the requirement in the CGAL doc about
+	// (echo "started").  But we want to be backward compatible, that is,
+	// people who have this echo in their .geomview must still have CGAL
+	// working, at least for a few public releases.
+        // So the plan is to send, from CGAL, the command : (echo "CGAL-3D")
+        // It's the same length as "started", 7.
+        // Then we read 7 chars from Geomview, and test which string it is.
+        // If it's "CGAL-3D", then fine, the user doesn't have .geomview with
+        // the back-compatible echo command.
+        // In the very long run, we'll be able to get rid of all this code as
+        // well.
+	// Maybe we should simply read the pipe, till we find "CGAL-3D" ?
+
+        *this << "(echo \"CGAL-3D\")";
+
         char inbuf[10];
         ::read(in, inbuf, 7);
 
+        if (CGAL_CLIB_STD::strncmp(inbuf, "started", 7) == 0)
+        {
+            // std::cerr << "You still have a .geomview file with the\n"
+                   // << "(echo \"started\") command. Note that this is not\n"
+                   // << "compulsory anymore, since CGAL 2.3" << std::endl;
+
+            // Then the next one is supposed to be CGAL-3D.
+            ::read(in, inbuf, 7);
+            if (CGAL_CLIB_STD::strncmp(inbuf, "CGAL-3D", 7) != 0)
+                std::cerr << "Unexpected string from Geomview !" << std::endl;
+        }
+        else if (CGAL_CLIB_STD::strncmp(inbuf, "CGAL-3D", 7) == 0)
+        {
+            // std::cerr << "Good, you don't have a .geomview file with the\n"
+                      // << "(echo \"started\") command" << std::endl;
+        }
+        else
+        {
+            std::cerr << "Unexcepted string from Geomview at initialization!\n"
+                      << "Going on nevertheless !" << std::endl;
+        }
+#else
+        // Old original version
+        char inbuf[10];
+        // Waits for "started" from the .geomview file.
+        ::read(in, inbuf, 7);
+#endif
+
         std::cout << "done." << std::endl;
 
-        bbox_count = 0;
-        triangle_count = 0;
-        segment_count = 0;
-        point_count = 0;
-        tetrahedron_count = 0;
         (*this) << "(normalization g* none)(bbox-draw g* no)";
-
-        break;
     }
 }
 
 void
 Geomview_stream::pickplane(const Bbox_3 &bbox)
 {
-    (*this) << binary
-            << "(geometry pickplane {QUAD BINARY\n"
+    bool bin_bak = set_binary_mode();
+    (*this) << "(geometry pickplane {QUAD BINARY\n"
             << 1
     // here are the four corners
             << bbox.xmin() << bbox.ymin() << bbox.zmin()
@@ -186,127 +216,32 @@ Geomview_stream::pickplane(const Bbox_3 &bbox)
             << bbox.xmax() << bbox.ymin() << bbox.zmin()
 
     // close the text bracket
-            << "}) (pickable pickplane no)"
-            << ascii;
-}
-
-void
-Geomview_stream::set_binary_mode()
-{
-    bflag = 1;
-}
-
-void
-Geomview_stream::set_ascii_mode()
-{
-    bflag = 0;
-}
-
-bool
-Geomview_stream::in_binary_mode() const
-{
-    return bflag;
-}
-
-bool
-Geomview_stream::in_ascii_mode() const
-{
-    return ! bflag;
-}
-
-Geomview_stream&
-Geomview_stream::operator<<(Geomview_stream&(*fct)(Geomview_stream&))
-{
-  (*fct)(*this);
-  return *this;
-}
-
-bool
-Geomview_stream::get_trace() const
-{
-    return _trace;
-}
-
-bool
-Geomview_stream::set_trace(bool b)
-{
-    bool old = _trace;
-    _trace = b;
-    return old;
-}
-
-void
-Geomview_stream::trace(const char *cptr) const
-{
-    if (_trace)
-        std::cerr << cptr;
-}
-
-void
-Geomview_stream::trace(double d) const
-{
-    if (_trace)
-        std::cerr << d << ' ';
-}
-
-void
-Geomview_stream::trace(int i) const
-{
-    if (_trace)
-        std::cerr << i << ' ';
-}
-
-double
-Geomview_stream::get_vertex_radius() const
-{
-    return _radius;
-}
-
-double
-Geomview_stream::set_vertex_radius(double r)
-{
-    double old = _radius;
-    _radius = r;
-    return old;
-}
-
-int
-Geomview_stream::get_line_width() const
-{
-    return _line_width;
-}
-
-int
-Geomview_stream::set_line_width(int w)
-{
-    int old = _line_width;
-    _line_width = w;
-    return old;
+            << "}) (pickable pickplane no)";
+    set_ascii_mode(bin_bak);
 }
 
 void
 Geomview_stream::clear()
 {
     (*this) << "(delete World)";
+    id.clear();
 }
 
 void
-Geomview_stream::look_recenter() const
+Geomview_stream::look_recenter()
 {
-    Geomview_stream* ncthis = (Geomview_stream*)this;
-    (*ncthis) << "(look-recenter World)";
+    (*this) << "(look-recenter World)";
 }
 
 Geomview_stream&
-Geomview_stream::operator<<(const char *cptr)
+Geomview_stream::operator<<(std::string s)
 {
-    int length = strlen(cptr);
-    if (length != ::write(out, cptr, length)) {
+    if ((int)s.length() != ::write(out, s.data(), s.length())) {
         std::cerr << "write problem in the pipe while sending data to geomview"
              << std::endl;
         exit(-1);
     }
-    trace(cptr);
+    trace(s);
 
     return *this;
 }
@@ -315,17 +250,18 @@ Geomview_stream&
 Geomview_stream::operator<<(int i)
 {
     // Depending on the mode chosen
-    if (in_binary_mode()) {
+    if (get_binary_mode()) {
         // we write raw binary data to the stream.
-        ::write(out, (char*)&i, sizeof(i));
+        int num = i;
+        I_swap_to_big_endian(num);
+        ::write(out, (char*)&num, sizeof(num));
+        trace(i);
     } else {
         // transform the int in a character sequence and put whitespace around
         std::ostrstream str;
         str << i << ' ' << std::ends;
-        char *bptr = str.str();
-        ::write(out, bptr, int(strlen(bptr)));
+        *this << str.str();
     }
-    trace(i);
 
     return *this;
 }
@@ -334,30 +270,26 @@ Geomview_stream&
 Geomview_stream::operator<<(double d)
 {
     float f = d;
-
-    if (in_binary_mode()) {
-        ::write(out, (char*)&f, sizeof(f));
+    if (get_binary_mode()) {
+        float num = d;
+        I_swap_to_big_endian(num);
+        ::write(out, (char*)&num, sizeof(num));
+        trace(f);
     } else {
         // 'copy' the float in a string and append a blank
         std::ostrstream str;
-        str << f << " " << std::ends;
-        char *bptr = str.str();
-
-        ::write(out, bptr, int(strlen(bptr)));
+        str << f << ' ' << std::ends;
+        *this << str.str();
     }
-    trace(f);
     return *this;
 }
 
 Geomview_stream&
 operator<<(Geomview_stream &gv, const Bbox_2 &bbox)
 {
-    std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << std::ends;
-    char *id = os.str();
-
-    gv << ascii
-       << "(geometry " << id << " {VECT 1 5 0 5 0 ";
+    bool ascii_bak = gv.set_ascii_mode();
+    gv << "(geometry " << gv.get_new_id("Bbox")
+       << " {VECT 1 5 0 5 0 ";
     // here are the four corners
 
     gv << bbox.xmin() << bbox.ymin() << 0.0
@@ -368,6 +300,7 @@ operator<<(Geomview_stream &gv, const Bbox_2 &bbox)
 
     // close the text bracket
     gv << "})";
+    gv.set_ascii_mode(ascii_bak);
 
     return gv;
 }
@@ -375,12 +308,9 @@ operator<<(Geomview_stream &gv, const Bbox_2 &bbox)
 Geomview_stream&
 operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
 {
-    std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << std::ends;
-    char *id = os.str();
-
-    gv << ascii
-       << "(geometry " << id << " {appearance {material {edgecolor "
+    bool ascii_bak = gv.set_ascii_mode();
+    gv << "(geometry " << gv.get_new_id("Bbox")
+       << " {appearance {material {edgecolor "
        << gv.ecr() << gv.ecg() << gv.ecb() <<  "}}{SKEL 8 4 "
     // here are the corners
        << bbox.xmin() << bbox.ymin() << bbox.zmin()
@@ -399,6 +329,7 @@ operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
 
     // close the text bracket
        << "}})";
+    gv.set_ascii_mode(ascii_bak);
 
     return gv;
 }
@@ -406,18 +337,19 @@ operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
 void
 Geomview_stream::set_bg_color(const Color &c)
 {
-    *this << ascii
-          << "(backcolor \"Camera\" "
+    bool ascii_bak = set_ascii_mode();
+    *this << "(backcolor \"Camera\" "
           << double(c.r())/255.0
           << double(c.g())/255.0
           << double(c.b())/255.0
           << ")";
+    set_ascii_mode(ascii_bak);
 }
 
 Geomview_stream&
 Geomview_stream::operator<<(const Color &c)
 {
-    col = vertex_color = edge_color = face_color = c;
+    vertex_color = edge_color = face_color = c;
     return (*this);
 }
 
@@ -520,19 +452,17 @@ Geomview_stream::fcb() const
 void
 Geomview_stream::frame(const Bbox_3 &bbox)
 {
-    (*this) << bbox
-            << ascii
-            << "(look-recenter g0 c0)(delete bbox0)";
+    (*this) << bbox << "(look-recenter g0 c0)";
 }
 
 Geomview_stream&
 Geomview_stream::operator>>(char *expr)
 {
-    // skip whitespace
-    ::read(in, expr, 1);
-    while(expr[0] != '('){
-        ::read(in, expr, 1);
-    }
+    // Skip whitespaces
+    do {
+      ::read(in, expr, 1);
+    } while (expr[0] != '(');
+
     int pcount = 1;
     int i = 1;
     while (1) {
@@ -590,13 +520,6 @@ nth(char* s, int count)
  
     s[j] = '\0';
     return s;
-}
-
-// Returns whether "p" is a prefix of "w".
-bool
-is_prefix(const char* p, const char* w)
-{
-    return w == ::strstr(w, p);
 }
 
 CGAL_END_NAMESPACE

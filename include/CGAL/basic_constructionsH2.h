@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : basic_constructionsH2.fw
 // file          : include/CGAL/basic_constructionsH2.h
-// package       : H2 (2.12)
-// revision      : 2.12
-// revision_date : 03 Aug 2000 
+// package       : H2 (2.37)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2001/06/19 19:17:08 $
 // author(s)     : Sven Schoenherr
 //                 Stefan Schirra
 //
@@ -57,21 +56,23 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class FT, class RT>
+template <class R>
 CGAL_KERNEL_MEDIUM_INLINE
-PointH2<FT,RT>
-gp_linear_intersection(const LineH2<FT,RT>& l1, const LineH2<FT,RT>& l2)
+PointH2<R>
+gp_linear_intersection(const LineH2<R>& l1, const LineH2<R>& l2)
 {
-  return PointH2<FT,RT>( l1.b()*l2.c() - l2.b()*l1.c(),
-                         l2.a()*l1.c() - l1.a()*l2.c(),
-                         l1.a()*l2.b() - l2.a()*l1.b() );
+  return PointH2<R>( l1.b()*l2.c() - l2.b()*l1.c(),
+                     l2.a()*l1.c() - l1.a()*l2.c(),
+                     l1.a()*l2.b() - l2.a()*l1.b() );
 }
 
-template <class FT, class RT>
+template <class R>
 CGAL_KERNEL_MEDIUM_INLINE
-LineH2<FT,RT>
-bisector( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
+LineH2<R>
+bisector( const PointH2<R>& p, const PointH2<R>& q )
 {
+  typedef typename R::RT RT;
+
  // Bisector equation is based on equation
  // ( X - p.x())^2 + (Y - p.y())^2 == ( X - q.x())^2 + (Y - q.y())
  // and x() = hx()/hw() ...
@@ -87,14 +88,17 @@ bisector( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
   RT b = RT(2) * ( qhy*qhw*phw*phw - phy*phw*qhw*qhw );
   RT c = phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw;
 
-  return LineH2<FT,RT>( a, b, c );
+  return LineH2<R>( a, b, c );
 }
 
-template <class FT, class RT>
+template <class R>
 CGAL_KERNEL_MEDIUM_INLINE
-FT
-squared_distance( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
+typename R::FT
+squared_distance( const PointH2<R>& p, const PointH2<R>& q )
 {
+  typedef typename R::RT RT;
+  typedef typename R::FT FT;
+
   const RT phx = p.hx();
   const RT phy = p.hy();
   const RT phw = p.hw();
@@ -116,11 +120,12 @@ squared_distance( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
   return FT( sq_dist_numerator ) / FT( sq_dist_denominator );
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
-PointH2<FT,RT>
-midpoint( PointH2<FT,RT> const& p, PointH2<FT,RT> const& q )
+PointH2<R>
+midpoint( PointH2<R> const& p, PointH2<R> const& q )
 {
+    typedef typename R::RT RT;
     const RT phw( p.hw());
     const RT qhw( q.hw());
 
@@ -128,17 +133,55 @@ midpoint( PointH2<FT,RT> const& p, PointH2<FT,RT> const& q )
     RT hy( p.hy()*qhw + q.hy()*phw);
     RT hw( phw * qhw * RT( 2));
 
-    return( PointH2<FT,RT>( hx, hy, hw));
+    return( PointH2<R>( hx, hy, hw));
 }
 
-
-template <class FT, class RT>
-CGAL_KERNEL_LARGE_INLINE
-PointH2<FT,RT>
-circumcenter( const PointH2<FT,RT>& p,
-              const PointH2<FT,RT>& q,
-              const PointH2<FT,RT>& r )
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+PointH2<R>
+centroid( const PointH2<R>& p,
+          const PointH2<R>& q,
+          const PointH2<R>& r )
 {
+   typedef typename R::RT  RT;
+   const RT phw(p.hw());
+   const RT qhw(q.hw());
+   const RT rhw(r.hw());
+   RT hx(p.hx()*qhw*rhw + q.hx()*phw*rhw + r.hx()*phw*qhw);
+   RT hy(p.hy()*qhw*rhw + q.hy()*phw*rhw + r.hy()*phw*qhw);
+   RT hw( phw*qhw*rhw * 3);
+   return PointH2<R>(hx, hy, hw);
+}
+
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+PointH2<R>
+centroid( const PointH2<R>& p,
+          const PointH2<R>& q,
+          const PointH2<R>& r,
+          const PointH2<R>& s )
+{
+   typedef typename R::RT  RT;
+   const RT phw(p.hw());
+   const RT qhw(q.hw());
+   const RT rhw(r.hw());
+   const RT shw(s.hw());
+   RT hx(p.hx()*qhw*rhw*shw + q.hx()*phw*rhw*shw + r.hx()*phw*qhw*shw 
+         + s.hx()*phw*qhw*rhw);
+   RT hy(p.hy()*qhw*rhw*shw + q.hy()*phw*rhw*shw + r.hy()*phw*qhw*shw
+         + s.hy()*phw*qhw*rhw);
+   RT hw( phw*qhw*rhw*shw * 4);
+   return PointH2<R>(hx, hy, hw);
+}
+
+template <class R>
+CGAL_KERNEL_LARGE_INLINE
+PointH2<R>
+circumcenter( const PointH2<R>& p,
+              const PointH2<R>& q,
+              const PointH2<R>& r )
+{
+  typedef typename R::RT RT;
   RT phx = p.hx();
   RT phy = p.hy();
   RT phw = p.hw();
@@ -149,25 +192,25 @@ circumcenter( const PointH2<FT,RT>& p,
   RT rhy = r.hy();
   RT rhw = r.hw();
 
-#ifdef EXPANDED_CIRCUMCENTER_COMPUTATION   /* strange flag -- XXX */
+#ifdef CGAL_EXPANDED_CIRCUMCENTER_COMPUTATION
   RT vvx =
-      ( qhy*qhw*phw*phw - phy*phw*qhw*qhw )
-     *( phx*phx*rhw*rhw + phy*phy*rhw*rhw - rhx*rhx*phw*phw - rhy*rhy*phw*phw )
-   -  ( rhy*rhw*phw*phw - phy*phw*rhw*rhw )
-     *( phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw );
+     ( qhy*qhw*phw*phw - phy*phw*qhw*qhw )
+    *( phx*phx*rhw*rhw + phy*phy*rhw*rhw - rhx*rhx*phw*phw - rhy*rhy*phw*phw )
+  -  ( rhy*rhw*phw*phw - phy*phw*rhw*rhw )
+    *( phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw );
 
   RT vvy =
-   -  ( qhx*qhw*phw*phw - phx*phw*qhw*qhw )
-     *( phx*phx*rhw*rhw + phy*phy*rhw*rhw - rhx*rhx*phw*phw - rhy*rhy*phw*phw )
-   +  ( rhx*rhw*phw*phw - phx*phw*rhw*rhw )
-     *( phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw );
+  -  ( qhx*qhw*phw*phw - phx*phw*qhw*qhw )
+    *( phx*phx*rhw*rhw + phy*phy*rhw*rhw - rhx*rhx*phw*phw - rhy*rhy*phw*phw )
+  +  ( rhx*rhw*phw*phw - phx*phw*rhw*rhw )
+    *( phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw );
 
   RT vvw = RT(2) *
    (  ( qhx*qhw*phw*phw - phx*phw*qhw*qhw )
      *( rhy*rhw*phw*phw - phy*phw*rhw*rhw )
    -  ( rhx*rhw*phw*phw - phx*phw*rhw*rhw )
      *( qhy*qhw*phw*phw - phy*phw*qhw*qhw ) );
-#endif // EXPANDED_CIRCUMCENTER_COMPUTATION
+#endif // CGAL_EXPANDED_CIRCUMCENTER_COMPUTATION
 
   RT qy_py = ( qhy*qhw*phw*phw - phy*phw*qhw*qhw );
   RT qx_px = ( qhx*qhw*phw*phw - phx*phw*qhw*qhw );
@@ -183,13 +226,26 @@ circumcenter( const PointH2<FT,RT>& p,
   RT vvy = rx_px * px2_py2_qx2_qy_2 - qx_px * px2_py2_rx2_ry_2;
   RT vvw = RT(2) * ( qx_px * ry_py - rx_px * qy_py );
 
-  return PointH2<FT,RT>( vvx, vvy, vvw );
+  return PointH2<R>( vvx, vvy, vvw );
 }
 
-template <class FT, class RT>
-FT
-area(const TriangleH2<FT,RT>& t)
+template <class R>
+CGAL_KERNEL_INLINE
+typename R::FT
+squared_radius( const PointH2<R>& p,
+                const PointH2<R>& q,
+                const PointH2<R>& r )
 {
+  return squared_distance(p, circumcenter(p, q, r));
+}
+
+template <class R>
+CGAL_KERNEL_LARGE_INLINE
+typename R::FT
+area(const TriangleH2<R>& t)
+{
+  typedef typename R::RT RT;
+  typedef typename R::FT FT;
   RT num = determinant_3x3_by_formula(
                t.vertex(0).hx(), t.vertex(0).hy(), t.vertex(0).hw(),
                t.vertex(1).hx(), t.vertex(1).hy(), t.vertex(1).hw(),
@@ -199,6 +255,5 @@ area(const TriangleH2<FT,RT>& t)
 }
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_BASIC_CONSTRUCTIONSH2_H

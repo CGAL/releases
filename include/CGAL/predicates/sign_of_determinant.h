@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : determinant.fw
 // file          : include/CGAL/predicates/sign_of_determinant.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/03/20 12:36:47 $
 // author(s)     : Sylvain Pion
 //                 Stefan Schirra
 //
@@ -46,14 +45,11 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_PREDICATES_SIGN_OF_DETERMINANT_H
 #define CGAL_PREDICATES_SIGN_OF_DETERMINANT_H
 
-#ifndef CGAL_DETERMINANT_H
 #include <CGAL/determinant.h>
-#endif // CGAL_DETERMINANT_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -115,12 +111,18 @@ template <class FT>
 CGAL_KERNEL_LARGE_INLINE
 Sign
 sign_of_determinant6x6(
- const FT& a00, const FT& a01, const FT& a02, const FT& a03, const FT& a04, const FT& a05,
- const FT& a10, const FT& a11, const FT& a12, const FT& a13, const FT& a14, const FT& a15,
- const FT& a20, const FT& a21, const FT& a22, const FT& a23, const FT& a24, const FT& a25,
- const FT& a30, const FT& a31, const FT& a32, const FT& a33, const FT& a34, const FT& a35,
- const FT& a40, const FT& a41, const FT& a42, const FT& a43, const FT& a44, const FT& a45,
- const FT& a50, const FT& a51, const FT& a52, const FT& a53, const FT& a54, const FT& a55)
+ const FT& a00, const FT& a01, const FT& a02, const FT& a03, const FT& a04,
+ const FT& a05,
+ const FT& a10, const FT& a11, const FT& a12, const FT& a13, const FT& a14,
+ const FT& a15,
+ const FT& a20, const FT& a21, const FT& a22, const FT& a23, const FT& a24,
+ const FT& a25,
+ const FT& a30, const FT& a31, const FT& a32, const FT& a33, const FT& a34,
+ const FT& a35,
+ const FT& a40, const FT& a41, const FT& a42, const FT& a43, const FT& a44,
+ const FT& a45,
+ const FT& a50, const FT& a51, const FT& a52, const FT& a53, const FT& a54,
+ const FT& a55)
 {
   return CGAL_NTS sign(det6x6_by_formula(a00, a01, a02, a03, a04, a05,
                                          a10, a11, a12, a13, a14, a15,
@@ -131,7 +133,6 @@ sign_of_determinant6x6(
 }
 
 CGAL_END_NAMESPACE
-
 
 #ifdef CGAL_ARITHMETIC_FILTER_H
 #include <CGAL/Arithmetic_filter/predicates/sign_of_determinant.h>

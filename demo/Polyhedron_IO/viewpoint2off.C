@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
-// file          : viewpoint2off.C
+// file          : demo/Polyhedron_IO/viewpoint2off.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
 // revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/03/09 22:18:32 $
+// revision_date : $Date: 2001/06/29 06:24:52 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -47,8 +47,11 @@
 //
 // ======================================================================
 
-#include <CGAL/basic.h>
-
+#include <CGAL/Cartesian.h>
+#include <CGAL/known_bit_size_integers.h>
+#include <CGAL/IO/Verbose_ostream.h>
+#include <CGAL/IO/binary_file_io.h>
+#include <CGAL/IO/File_writer_OFF.h>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -57,17 +60,11 @@
 #include <strstream>
 #include <vector>
 
-#include <CGAL/Cartesian.h>
-#include <CGAL/known_bit_size_integers.h>
-#include <CGAL/Point_3.h>
-#include <CGAL/IO/Verbose_ostream.h>
-#include <CGAL/IO/binary_file_io.h>
-#include <CGAL/IO/File_writer_OFF.h>
 
 using namespace std;
 
-typedef  CGAL::Cartesian<float>                 R;
-typedef  CGAL::Point_3<R>                       Point;
+typedef  CGAL::Cartesian<float>                 Kernel;
+typedef  Kernel::Point_3                        Point;
 typedef  vector<Point>                          Point_vector;
 typedef  vector<int>                            Facet;
 typedef  vector<Facet>                          Facet_vector;
@@ -181,7 +178,7 @@ int main( int argc, char **argv) {
     }
     if ( binary_mesh) {
         vout << "Scanning Viewpoint binary mesh data file ..." << endl;
-        CGAL::_Binary_read_big_endian_integer32( in, number);
+        CGAL::I_Binary_read_big_endian_integer32( in, number);
         int tmesh = 0;
         while( in) {
             tmesh ++;
@@ -199,20 +196,20 @@ int main( int argc, char **argv) {
                     }
                 }
                 // Scan vertex coordinates.
-                CGAL::_Binary_read_big_endian_float32( in, x);
-                CGAL::_Binary_read_big_endian_float32( in, y);
-                CGAL::_Binary_read_big_endian_float32( in, z);
+                CGAL::I_Binary_read_big_endian_float32( in, x);
+                CGAL::I_Binary_read_big_endian_float32( in, y);
+                CGAL::I_Binary_read_big_endian_float32( in, z);
                 points.push_back( Point( x, y, z));
             }
             for ( int k = 0; k < number; k++) {
                 // Scan vertex normal.
-                CGAL::_Binary_read_big_endian_float32( in, x);
-                CGAL::_Binary_read_big_endian_float32( in, y);
-                CGAL::_Binary_read_big_endian_float32( in, z);
+                CGAL::I_Binary_read_big_endian_float32( in, x);
+                CGAL::I_Binary_read_big_endian_float32( in, y);
+                CGAL::I_Binary_read_big_endian_float32( in, z);
                 if ( ! no_normals)
                     normals.push_back( Point( x, y, z));
             }
-            CGAL::_Binary_read_big_endian_integer32( in, number);
+            CGAL::I_Binary_read_big_endian_integer32( in, number);
         }
         in.close();
         vout << points.size() << " vertex coordinates read." << endl;

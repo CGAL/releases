@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Constrained_triangulation_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Constrained_triangulation_2.h,v $
-// revision      : $Revision: 1.39 $
-// revision_date : $Date: 2000/07/06 13:27:26 $
+// revision      : $Revision: 1.55 $
+// revision_date : $Date: 2001/06/21 20:41:31 $
 // author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
 //
 // coordinator   : Mariette Yvinec
@@ -50,9 +50,6 @@
 #ifndef CGAL_CONSTRAINED_TRIANGULATION_2_H
 #define CGAL_CONSTRAINED_TRIANGULATION_2_H
 
-// #include <utility>
-// #include <list>
-// #include <map> 
 #include <set>
 
 #include <CGAL/triangulation_assertions.h>
@@ -60,12 +57,16 @@
 #include <CGAL/Triangulation_2.h> 
 #include <CGAL/Constrained_triangulation_face_base_2.h>
 #include <CGAL/Constrained_triangulation_sweep_2.h>
-
+#include <CGAL/Dummy_output_iterator.h>
+	
 CGAL_BEGIN_NAMESPACE
-template < class Gt, class Tds>
+template < class Gt, 
+           class Tds = Triangulation_data_structure_using_list_2 <
+                       Triangulation_vertex_base_2<Gt>,
+		       Constrained_triangulation_face_base_2<Gt> > >
 class Constrained_triangulation_2  : public Triangulation_2<Gt,Tds>
 {
-  friend Constrained_triangulation_sweep_2<Gt,Tds>;
+  friend  class Constrained_triangulation_sweep_2<Gt,Tds>;
   //friend Constrained_triangulation_sweep_2<Gt,Tds>::Neighbor_list;
 public:
   typedef Triangulation_2<Gt,Tds> Triangulation;
@@ -90,13 +91,14 @@ public:
   typedef std::list<Edge>                    List_edges;
   typedef std::list<Face_handle>             List_faces;
   typedef std::list<Vertex_handle>           List_vertices;
+  typedef std::list<Constraint>              List_constraints;
 
   //nouveau 
   class Less_edge;
   typedef std::set<Edge,Less_edge> Edge_set;
   //nouveau
 
-  Constrained_triangulation_2(const Gt& gt=Gt()) : Triangulation() { }
+  Constrained_triangulation_2(const Gt& =Gt()) : Triangulation() { }
 
   Constrained_triangulation_2(const Constrained_triangulation_2& ct)
     : Triangulation(ct) {}
@@ -106,7 +108,7 @@ public:
   {
     //Sweep sweep(this,lc);
     //sweep is momentaneously broken
-    typename std::list<Constraint>::iterator lcit=lc.begin();
+    typename List_constraints::iterator lcit=lc.begin();
     for( ;lcit != lc.end(); lcit++) {
       insert( (*lcit).first, (*lcit).second);
     }
@@ -114,7 +116,7 @@ public:
   }
 
   template<class InputIterator>
-  Constrained_triangulation_2(InputIterator first,
+  Constrained_triangulation_2(InputIterator it,
 			      InputIterator last,
 			      const Gt& gt=Gt() )
      : Triangulation_2<Gt,Tds>(gt)
@@ -124,36 +126,41 @@ public:
 //           lc.push_back(*first++);
 //       }
 //       Sweep sweep(this,lc);
-    while( first != last){
-      insert((*first).first, (*first).second);
-      ++first;
-    }
+    for ( ; it != last; it++) {
+      	insert((*it).first, (*it).second);
+      }
       CGAL_triangulation_postcondition( is_valid() );
   }
 
   // INSERTION
-  Vertex_handle insert(Point a);
+  Vertex_handle insert(const Point& p, Face_handle start = Face_handle() );
+  Vertex_handle insert(const Point& p,
+		       Locate_type lt,
+		       Face_handle loc, int li );
+//   template < class InputIterator >
+//   int insert(InputIterator first, InputIterator last);
+  Vertex_handle push_back(const Point& a);
+
   Vertex_handle special_insert_in_edge(const Point & a, Face_handle f, int i);
   void insert(Point a, Point b);
-  void insert(const Vertex_handle & va, const Vertex_handle & vb);
-  void insert(const Vertex_handle & va, const Vertex_handle & vb,
-		     Face_handle & fr, int & i);
-  void insert(const Vertex_handle & va, const Vertex_handle & vb,
-	      Face_handle & fr, int & i, 
-	      List_edges & new_edges);
-  
+  void insert(Vertex_handle va, 
+	      Vertex_handle  vb);
+  void insert(Vertex_handle  va, 
+	      Vertex_handle  vb,
+	      List_edges& new_edges);
+
+  void          push_back(const Constraint& c);
+
   void remove(Vertex_handle  v);
   void remove_constraint(Face_handle f, int i);
-
-  Vertex_handle find_intersected_faces(Vertex_handle va, 
-				 Vertex_handle vb,
-				 Vertex_handle vaa,
-				 List_faces & intersected_faces,
-				 List_edges & list_ab, 
-				 List_edges & list_ba);
-  void triangulate(List_edges & list_edges); 
-  void triangulate(List_edges & list_edges, 
-		   List_edges & new_edges);
+  void remove_incident_constraints(Vertex_handle  v);
+ 
+  // QUERY
+  bool is_constrained(Edge e) const;
+  bool are_there_incident_constraints(Vertex_handle v) const;
+  // template<class OutputIterator>
+  // bool are_there_incident_constraints(Vertex_handle v, 
+  //                                     OutputIterator out) const;
 
   class Less_edge 
     :  public std::binary_function<Edge, Edge, bool>
@@ -177,39 +184,100 @@ protected:
 				   Vertex_handle c2);
   void clear_constraints_incident(Vertex_handle va);
   void update_constraints_opposite(Vertex_handle va);
-  void update_constraints(const std::list<Edge> &hole);
+  void update_constraints(const List_edges &hole);
+
+  void mark_constraint(Face_handle fr, int i);
+  Vertex_handle  insert_part(Vertex_handle va, 
+			     Vertex_handle  vb,
+			     Vertex_handle vaa,
+			     List_edges & new_edges);
+			     
+  Vertex_handle find_intersected_faces(Vertex_handle va, 
+				       Vertex_handle vb,
+				       Vertex_handle vaa,
+				       List_faces & intersected_faces,
+				       List_edges & list_ab, 
+				       List_edges & list_ba);
+  
+  void triangulate_hole(List_faces& intersected_faces,
+			List_edges& conflict_boundary_ab,
+			List_edges& conflict_boundary_ba,
+			List_edges& new_edges,
+			Vertex_handle );
+  
+  void triangulate_half_hole(List_edges & list_edges, 
+			     List_edges & new_edges);
 
   void remove_1D(Vertex_handle v);
   void remove_2D(Vertex_handle v);
+
+public:
+  template < class InputIterator >
+  int insert(InputIterator first, InputIterator last)
+    {
+      int n = number_of_vertices();
+      while(first != last){
+	insert(*first);
+	++first;
+      }
+      return number_of_vertices() - n;
+    }
+
+  template<class OutputIterator>
+  bool are_there_incident_constraints(Vertex_handle v, 
+				      OutputIterator out) const
+    {
+      Edge_circulator ec=incident_edges(v), done(ec);
+      bool are_there = false;
+      if (ec == 0) return are_there;
+      do {
+	if(is_constrained(*ec)) {
+	  *out++ = *ec;
+	  are_there = true;
+	}
+	ec++;
+      } while (ec != done);
+      return are_there;
+    }
+  
 };
     
-
-
-
 template < class Gt, class Tds >
+inline
 Constrained_triangulation_2<Gt,Tds>::Vertex_handle
 Constrained_triangulation_2<Gt,Tds>::
-insert(Point a)
+insert(const Point& a, Face_handle start)
 // inserts point a 
 // in addition to what is done for non constrained triangulations
 // constrained edges are updated
 {
-  Vertex_handle va;
-  Vertex_handle c1,c2;
   Face_handle loc;
   int li;
   Locate_type lt;
+  loc = locate(a, lt, li, start);
+  return insert(a,lt,loc,li);
+}
+
+template < class Gt, class Tds >
+Constrained_triangulation_2<Gt,Tds>::Vertex_handle
+Constrained_triangulation_2<Gt,Tds>::
+insert(const Point& a, Locate_type lt, Face_handle loc, int li)
+// insert a point p, whose localisation is known (lt, f, i)
+// in addition to what is done for non constrained triangulations
+// constrained edges are updated
+{
+  Vertex_handle va;
+  Vertex_handle v1, v2;
   bool insert_in_constrained_edge = false;
 
-  loc = locate(a, lt, li);
   if ( lt == EDGE && loc->is_constrained(li) ){
     insert_in_constrained_edge = true;
-    c1=loc->vertex(ccw(li)); //endpoint of the constraint
-    c2=loc->vertex(cw(li)); // endpoint of the constraint
+    v1=loc->vertex(ccw(li)); //endpoint of the constraint
+    v2=loc->vertex(cw(li)); // endpoint of the constraint
   }
-  
+
   va = Triangulation::insert(a,lt,loc,li);
-  if (insert_in_constrained_edge) update_constraints_incident(va, c1,c2);
+  if (insert_in_constrained_edge) update_constraints_incident(va, v1,v2);
   else if(lt != VERTEX) clear_constraints_incident(va);
   if (dimension() == 2) update_constraints_opposite(va);
   return va;
@@ -236,6 +304,71 @@ special_insert_in_edge(const Point & a, Face_handle f, int i)
   else clear_constraints_incident(va);
   if (dimension() == 2) update_constraints_opposite(va);
   return va;
+}
+
+
+template < class Gt, class Tds >
+inline void
+Constrained_triangulation_2<Gt,Tds>::
+insert(Point a, Point b)
+// the algorithm first inserts a and b, then walks in t along ab, removes
+// the triangles crossed by ab and creates new ones
+// if a vertex vc of t lies on segment ab, 
+// constraint ab is replaced by the
+// two constraints ac and cb, 
+// apart from the insertion of a and b, the algorithm runs in time 
+// proportionnal to the number of removed triangles
+{
+  Vertex_handle va= insert(a);
+  Vertex_handle vb= insert(b);
+  insert(va,vb);
+}
+
+template < class Gt, class Tds >
+inline void
+Constrained_triangulation_2<Gt,Tds>::
+insert(Vertex_handle  va, Vertex_handle vb)
+{
+  List_edges new_edges;
+  insert(va, vb, new_edges);
+}
+
+template < class Gt, class Tds >
+inline void
+Constrained_triangulation_2<Gt,Tds>::
+insert(Vertex_handle  va, 
+       Vertex_handle vb, 
+       List_edges&   new_edges)
+  // the new_edges created by the insertion of (va,vb)
+  // are listed in new_edges
+  // to help in Constrained_Delaunay_triangulation_2
+{
+  Vertex_handle vaa = va;
+  while (vaa != vb) {
+    Vertex_handle vbb = insert_part(va,vb,vaa,new_edges);
+    vaa=vbb;
+  }    
+  return;
+}
+
+
+template <class Gt, class Tds >
+inline
+Constrained_triangulation_2<Gt,Tds>::Vertex_handle
+Constrained_triangulation_2<Gt,Tds>::
+push_back(const Point &p)
+{
+  return insert(p);
+}
+
+
+template <class Gt, class Tds >
+inline
+void
+Constrained_triangulation_2<Gt,Tds>::
+push_back(const Constraint &c)
+{
+  insert(c.first, c.second);
 }
 
 
@@ -326,9 +459,9 @@ update_constraints_opposite(Vertex_handle va)
 template < class Gt, class Tds >
 void
 Constrained_triangulation_2<Gt,Tds>:: 
-update_constraints( const std::list<Edge> &hole)
+update_constraints( const List_edges &hole)
 {
-  typename std::list<Edge>::const_iterator it = hole.begin();
+  typename List_edges::const_iterator it = hole.begin();
   Face_handle f;
   int i;
   for ( ; it != hole.end(); it ++) {
@@ -344,121 +477,101 @@ update_constraints( const std::list<Edge> &hole)
 template < class Gt, class Tds >
 inline void
 Constrained_triangulation_2<Gt,Tds>::
-insert(Point a, Point b)
-// the algorithm first inserts a and b, then walks in t along ab, removes
-// the triangles crossed by ab and creates new ones
-// if a vertex c of t lies on segment ab, constraint ab is replaced by the
-// two constraints ac and cb 
-// apart from the insertion of a and b, the algorithm runs in time 
-// proportionnal to the number of removed triangles
+mark_constraint(Face_handle fr, int i)
 {
-  Vertex_handle va= insert(a);
-  Vertex_handle vb= insert(b);
-  insert(va, vb);
+  if (dimension()==1) fr->set_constraint(2, true);
+  else{
+    fr->set_constraint(i,true);
+    fr->neighbor(i)->set_constraint(fr->mirror_index(i),true);
+  }
+  return;
 }
 
 template < class Gt, class Tds >
-inline void
+Constrained_triangulation_2<Gt,Tds>::Vertex_handle
 Constrained_triangulation_2<Gt,Tds>::
-insert(const Vertex_handle & va, const Vertex_handle & vb)
-// Precondition va != vb
+insert_part(Vertex_handle  va, 
+	    Vertex_handle  vb,
+	    Vertex_handle vaa,
+	    List_edges & new_edges)
+  // insert the portion of the constraint (va,vb)
+  // from the current vertex vaa, up to the next encountered vertex vbb
+  // return vbb
 {
-  List_edges new_edges;
-  Face_handle fr;
+ Vertex_handle vbb;
+
+ Face_handle fr;
   int i;
-  insert(va, vb, fr, i, new_edges);
-}
+  if(includes_edge(vaa,vb,vbb,fr,i)) {
+    mark_constraint(fr,i);
+    return vbb;
+  }
+      
+  List_faces intersected_faces;
+  List_edges conflict_boundary_ab, conflict_boundary_ba;
+  
+  vbb = find_intersected_faces(va, vb, vaa, 
+			       intersected_faces,
+			       conflict_boundary_ab,
+			       conflict_boundary_ba);
+  triangulate_hole(intersected_faces,
+		   conflict_boundary_ab,
+		   conflict_boundary_ba,
+		   new_edges,
+		   vbb);
+  return vbb;
+}       
 
-template < class Gt, class Tds >
-inline void
-Constrained_triangulation_2<Gt,Tds>::
-insert(const Vertex_handle & va, 
-       const Vertex_handle & vb,
-       Face_handle & fr, int & i)
-{
-  List_edges new_edges;
-  insert(va, vb, fr, i, new_edges);
-}
 
 template < class Gt, class Tds >
 void
 Constrained_triangulation_2<Gt,Tds>::
-insert(const Vertex_handle & va, 
-       const Vertex_handle & vb,
-       Face_handle & fr, int & i, 
-       List_edges & new_edges)
-  // Inserts line segment ab as a constraint (i.e. an edge) in
-  // triangulation t
-  // Precondition : the algorithm assumes that a and b are vertices of t
-  // walks in t along ab, removes the triangles intersected by ab and
-  // creates new ones
-  // fr is the face incident to edge ab and to the right  of ab
-  // edge ab=(fr,i).
-  // new_edges will contain in the end 
-  // all the new edges 
-  // to be used e.g. by propagating flip 
-  // for Delaunay constrained triangulation
-  // The algorithm runs in time proportionnal to the number 
-  // of removed triangles
+triangulate_hole(List_faces& intersected_faces,
+		 List_edges& conflict_boundary_ab,
+		 List_edges& conflict_boundary_ba,
+		 List_edges& new_edges,
+		 Vertex_handle)
+  // triangulate the hole limited by conflict_boundary_ab
+  // and conflict_boundary_ba
+  // insert the new edges in new-edges
+  // deete the faces of intersected_faces
 {
-  Vertex_handle vaa=va, vbb=va;
-  Face_handle fl;
-  List_faces faces_to_be_removed;
-      
-  while (vbb != vb) {
-    vaa = vbb;
-
-    // case where ab contains an edge of t incident to a
-    if(includes_edge(vaa,vb,vbb,fr,i)) {
-      if (dimension()==1) fr->set_constraint(2, true);
-      else{
-	fr->set_constraint(i,true);
-	fr->neighbor(i)->set_constraint(fr->mirror_index(i),true);
-      }
-    }
-    else {
-      // ab does not contain an edge of t incident to a
-      // finds all triangles intersected by ab (in conflict)
-      List_faces intersected_faces;
-      List_edges conflict_boundary_ab, conflict_boundary_ba;
-      vbb = find_intersected_faces(va, vb, vaa,
-				   intersected_faces,
-				   conflict_boundary_ab,
-				   conflict_boundary_ba);
-
-      // skip if the lists are empty : the first crossed edge is a constraint
-      if ( !conflict_boundary_ab.empty() ) {
-	triangulate(conflict_boundary_ab, new_edges);
-	triangulate(conflict_boundary_ba, new_edges);
+  if ( !conflict_boundary_ab.empty() ) {
+    triangulate_half_hole(conflict_boundary_ab, new_edges);
+    triangulate_half_hole(conflict_boundary_ba, new_edges);
 	
-	// the two faces that share edge ab are neighbors
-	// their common edge ab is a constraint
-	fl=(*conflict_boundary_ab.begin()).first;
-	fr=(*conflict_boundary_ba.begin()).first;
-	fl->set_neighbor(2, fr);
-	fr->set_neighbor(2, fl);
-	fl->set_constraint(2, true);
-	fr->set_constraint(2, true);
-	i=2;
+    // the two faces that share edge ab are neighbors
+    // their common edge ab is a constraint
+    Face_handle fr,fl;
+    fl=(*conflict_boundary_ab.begin()).first;
+    fr=(*conflict_boundary_ba.begin()).first;
+    fl->set_neighbor(2, fr);
+    fr->set_neighbor(2, fl);
+    fl->set_constraint(2, true);
+    fr->set_constraint(2, true);
+   
 
-	// delete faces to be removed
-	while( ! intersected_faces.empty()) {
-	  fl = intersected_faces.front();
-	  intersected_faces.pop_front();
-	  delete_face(fl);
-	}
-      }
+    // delete intersected faces
+    while( ! intersected_faces.empty()) {
+      fl = intersected_faces.front();
+      intersected_faces.pop_front();
+      delete_face(fl);
     }
   }
 }
+
+
 
 template < class Gt, class Tds >
 void
 Constrained_triangulation_2<Gt,Tds>::
 remove(Vertex_handle  v)
+  // remove a vertex and updates the constrained edges of the new faces
+  // precondition : there is no incident constraints
 {
   CGAL_triangulation_precondition( ! v.is_null() );
-  CGAL_triangulation_precondition( !is_infinite(v));
+  CGAL_triangulation_precondition( ! is_infinite(v));
+  CGAL_triangulation_precondition( ! are_there_incident_constraints(v));
     
   if  (number_of_vertices() == 1)     remove_first(v);
   else if (number_of_vertices() == 2) remove_second(v);
@@ -484,14 +597,12 @@ template < class Gt, class Tds >
 void
 Constrained_triangulation_2<Gt,Tds>::
 remove_2D(Vertex_handle v)
-  // remove a vertex and updates the constrained edges of the new faces
-  // all constraints incident to the removed vertex are removed
 {
   if (test_dim_down(v)) {_tds.remove_dim_down(&(*v));}
   else {
-    std::list<Edge> hole;
+    List_edges hole;
     make_hole(v, hole);
-    std::list<Edge> shell=hole; //because hole will be emptied by fill_hole
+    List_edges shell=hole; //save hole because it will be emptied by fill_hole
     fill_hole(v, hole);
     update_constraints(shell);
     delete &(*v);
@@ -511,12 +622,44 @@ remove_constraint(Face_handle f, int i)
     (f->neighbor(i))->set_constraint(f->mirror_index(i), false);
   return;
 }
+
+template < class Gt, class Tds >
+void
+Constrained_triangulation_2<Gt,Tds>::
+remove_incident_constraints(Vertex_handle v)
+{
+   Edge_circulator ec=incident_edges(v), done(ec);
+   if (ec == 0) return;
+   do {
+	if(is_constrained(*ec)) { remove_constraint((*ec).first,
+						   (*ec).second);}
+	ec++;
+   } while (ec != done);
+   return;	
+}
+
+template < class Gt, class Tds >
+inline  bool 
+Constrained_triangulation_2<Gt,Tds>::
+are_there_incident_constraints(Vertex_handle v) const
+{
+  Dummy_output_iterator out;
+  return are_there_incident_constraints(v, out);
+}
+
+template < class Gt, class Tds >
+inline  bool 
+Constrained_triangulation_2<Gt,Tds>::
+is_constrained(Edge e) const
+{
+  return (e.first)->is_constrained(e.second);
+}
     
 template < class Gt, class Tds >
 Constrained_triangulation_2<Gt,Tds>::Vertex_handle 
 Constrained_triangulation_2<Gt,Tds>::
 find_intersected_faces(Vertex_handle va, 
-		       Vertex_handle  vb,
+		       Vertex_handle vb,
 		       Vertex_handle vaa,
 		       List_faces & intersected_faces,
 		       List_edges & list_ab, 
@@ -540,7 +683,6 @@ find_intersected_faces(Vertex_handle va,
   Line_face_circulator current_face=line_walk(vaa->point(),b, vaa->face());
   int ind=current_face->index(vaa);
   assert( !current_face->is_constrained(ind));
-  Vertex_handle vbb=vb;
   Face_handle lf= current_face->neighbor(ccw(ind)); 
   Face_handle rf= current_face->neighbor(cw(ind));
   Orientation orient;
@@ -558,6 +700,7 @@ find_intersected_faces(Vertex_handle va,
   current_vertex=current_face->vertex(ind);  
 
   // loop over triangles intersected by ab
+  Vertex_handle vbb=vb;
   while (current_vertex != vbb)  { 
     orient = orientation(a,b,current_vertex->point());
     int i1, i2;
@@ -601,27 +744,12 @@ find_intersected_faces(Vertex_handle va,
 }
 
 
-template < class Gt, class Tds >
-void
-Constrained_triangulation_2<Gt,Tds>::
-triangulate(List_edges & list_edges)
-  // triangulates the  polygon whose boundary consists of list_edges
-  // plus the edge ab joining the two endpoints of list_edges
-  // the orientation of the polygon (as provided by list_edges) must
-  // be cw
-  // the edges of list_edges are assumed to be edges of a
-  // triangulation that will be updated by the procedure
-  // the faces intersecting ab are put in the list faces_to_be_removed
-  // takes linear time
-{
-  List_edges new_edges;
-  triangulate(list_edges, new_edges);
-}
+
 
 template < class Gt, class Tds >
 void
 Constrained_triangulation_2<Gt,Tds>::
-triangulate(List_edges & list_edges,  List_edges & new_edges)
+triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
   // triangulates the  polygon whose boundary consists of list_edges
   // plus the edge ab joining the two endpoints of list_edges
   // the orientation of the polygon (as provided by list_edges) must

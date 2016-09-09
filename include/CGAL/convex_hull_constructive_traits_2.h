@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/convex_hull_constructive_traits_2.h
-// package       : Convex_hull (3.3)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
+// package       : Convex_hull_2 (3.21)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/07/20 09:21:21 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -45,9 +44,13 @@
 //
 // ======================================================================
 
+// This file's name must begin with a lower-case letter for backward 
+// compatability.  Unfortunately, you can't have a file that differs only 
+// in capitalization on the Windows platforms.
 
 #ifndef CGAL_CONVEX_HULL_CONSTRUCTIVE_TRAITS_2_H 
 #define CGAL_CONVEX_HULL_CONSTRUCTIVE_TRAITS_2_H
+
 
 #include <CGAL/Point_2.h>
 #include <CGAL/Line_2.h>
@@ -56,19 +59,18 @@
 #include <CGAL/predicate_objects_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
-template <class R_>
-class convex_hull_constructive_traits_2 : public R_
+template <class K_>
+class Convex_hull_constructive_traits_2 : public K_
 {
 public:
-  typedef   R_                                              R;
-  typedef   CGAL::Point_2<R>                                Point_2;    
-  typedef   CGAL::p_Less_xy<Point_2>                        Less_xy_2;
-  typedef   CGAL::p_Less_yx<Point_2>                        Less_yx_2;
-  typedef   CGAL::r_Left_of_line<R>                         Left_of_line_2;
-  typedef   CGAL::r_Less_dist_to_line<R>                    Less_signed_distance_to_line_2;
-  typedef   CGAL::p_Less_rotate_ccw<Point_2>                Less_rotate_ccw_2;
-  typedef   CGAL::p_Leftturn<Point_2>                       Leftturn_2;
-  typedef   CGAL::Segment_2<R>                              Segment_2;    
+  typedef K_                                  K;
+  typedef typename K::Point_2                 Point_2;    
+  typedef typename K::Less_xy_2               Less_xy_2;
+  typedef typename K::Less_yx_2               Less_yx_2;
+  typedef CGAL::r_Less_dist_to_line<K>        Less_signed_distance_to_line_2;
+  typedef typename K::Less_rotate_ccw_2       Less_rotate_ccw_2;
+  typedef typename K::Leftturn_2              Leftturn_2;
+  typedef typename K::Segment_2               Segment_2;    
   
   Less_xy_2
   less_xy_2_object() const 
@@ -78,22 +80,27 @@ public:
   less_yx_2_object() const 
   { return Less_yx_2(); } 
 
-  Left_of_line_2
-  left_of_line_2_object( const Point_2& p, const Point_2& q) const 
-  { return Left_of_line_2( p, q); } 
-
   Less_signed_distance_to_line_2
-  less_signed_distance_to_line_2_object( const Point_2& p, const Point_2& q) const
-  { return Less_signed_distance_to_line_2( p, q); } 
+  less_signed_distance_to_line_2_object() const
+  { return Less_signed_distance_to_line_2(); } 
 
   Less_rotate_ccw_2
-  less_rotate_ccw_2_object( const Point_2& p ) const
-  { return Less_rotate_ccw_2( p); }
+  less_rotate_ccw_2_object() const
+  { return Less_rotate_ccw_2(); }
 
   Leftturn_2
   leftturn_2_object() const
   { return Leftturn_2(); }
 
+};
+
+
+// for backward compatability
+
+template <class K>
+class convex_hull_constructive_traits_2 : 
+                         public Convex_hull_constructive_traits_2<K>
+{
 };
 
 CGAL_END_NAMESPACE

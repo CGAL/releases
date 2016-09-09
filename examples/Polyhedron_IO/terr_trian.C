@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : examples/Polyhedron_IO/terr_trian.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/03/09 22:18:32 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/29 06:24:56 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -48,8 +48,13 @@
 //
 // ======================================================================
 
-#include <CGAL/basic.h>
-
+#include <CGAL/Cartesian.h>
+#include <CGAL/IO/Verbose_ostream.h>
+#include <CGAL/IO/File_scanner_OFF.h>
+#include <CGAL/IO/File_writer_OFF.h>
+#include <CGAL/Triangulation_euclidean_traits_xy_3.h>
+#include <CGAL/Triangulation_2.h>
+#include <CGAL/Delaunay_triangulation_2.h>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -59,36 +64,27 @@
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_rational.h>
 #endif
-#include <CGAL/Cartesian.h>
-#include <CGAL/Point_3.h>
-#include <CGAL/IO/Verbose_ostream.h>
-#include <CGAL/IO/File_scanner_OFF.h>
-#include <CGAL/IO/File_writer_OFF.h>
-#include <CGAL/Triangulation_short_names_2.h>
-#include <CGAL/Triangulation_euclidean_traits_xy_3.h>
-#include <CGAL/Triangulation_2.h>
-#include <CGAL/Delaunay_triangulation_2.h>
 #include "triangulation_print_OFF.h"
 
 using namespace std;
 using CGAL::Point_3;
 
-template <class R>
-struct  Indexed_point: public Point_3<R> {
+template <class K>
+struct  Indexed_point: public Point_3<K> {
     int*  index;
     Indexed_point()                                 {}
-    Indexed_point( Point_3<R> p) : Point_3<R>(p)    {}
+    Indexed_point( Point_3<K> p) : Point_3<K>(p)    {}
     Indexed_point( double x, double y, double z, int* i) 
-        : Point_3<R>(x,y,z), index(i)               {}
+        : Point_3<K>(x,y,z), index(i)               {}
 };
 
 #ifdef CGAL_USE_LEDA
-typedef  CGAL::Cartesian<leda_rational>                R;
+typedef  CGAL::Cartesian<leda_rational>                     Kernel;
 #else
-typedef  CGAL::Cartesian<double>                       R;
+typedef  CGAL::Cartesian<double>                            Kernel;
 #endif
-typedef  Indexed_point<R>                              IPoint;
-typedef  CGAL::Triangulation_euclidean_traits_xy_3<R>  Gtraits;
+typedef  Indexed_point<Kernel>                              IPoint;
+typedef  CGAL::Triangulation_euclidean_traits_xy_3<Kernel>  Gtraits;
 
 struct Gt : public Gtraits {
     typedef IPoint Point;

@@ -1,3 +1,7 @@
+// demo/Arrangement_2/Polyline_arr_from_mouse.C
+//
+//constructs an arrangement of polylines from user input
+
 #include <CGAL/config.h> // needed for the LONGNAME flag
 
 #ifdef CGAL_CFG_NO_LONGNAME_PROBLEM
@@ -36,7 +40,7 @@
 #include <CGAL/Arr_polyline_traits.h>
 
 #ifndef CGAL_USE_LEDA
-int main(int argc, char* argv[])
+int main()
 {
 
   std::cout << "Sorry, this demo needs LEDA for visualisation.";
@@ -48,8 +52,9 @@ int main(int argc, char* argv[])
 #else
 
 #include <CGAL/leda_real.h>
-#include <CGAL/IO/Window_stream.h>
 #include <LEDA/string.h>
+
+#include <CGAL/Draw_preferences.h>
 
 typedef leda_real                            NT;
 typedef CGAL::Cartesian<NT>                  R;
@@ -103,25 +108,18 @@ CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
   return os;
 }
 
-// draw an arrangement with polyline traits
-CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
-                                Arr_2 &A)
+CGAL_BEGIN_NAMESPACE
+Window_stream& operator<<(Window_stream& os, Arr_2 &A)
 {
-   Arr_2::Halfedge_iterator it = A.halfedges_begin();
-   
-   os << CGAL::BLUE;
-   while(it != A.halfedges_end()){
-
-      os << (*it).curve();
-      ++it; ++it;
-    }
-   it = A.halfedges_begin();
-
-    os.set_flush( 1 );
-    os.flush();
-
-    return os;
+  My_Arr_drawer< Arr_2,
+                 Arr_2::Ccb_halfedge_circulator, 
+                 Arr_2::Holes_iterator> drawer(os);
+  
+  draw_pm(arr, drawer, os);
+  
+  return os;
 }
+CGAL_END_NAMESPACE
 
 void show_welcome_message()
 {
@@ -176,8 +174,8 @@ int main()
 
   // (2) polylines insertion part
   Point  pnt, last_pnt;
-  bool   should_exit = false;
-  bool   first_point = true;
+  bool   should_exit = false,
+         first_point = true;
   double x, y; // doubles are used to read off screen, but not in computations
   int    b; // button
 
@@ -193,7 +191,9 @@ int main()
   else if (b == MOUSE_BUTTON(1) || MOUSE_BUTTON(3))
     {
       // looking for points in the vicinity of the click
-      bool vicinity_point = false;
+      bool vicinity_point   = false,
+           last_in_polyline = false;      
+
       // first, looking in the points of this polyline
       Arr_2::Curve::iterator cit = cv1.begin();
       for(; ! vicinity_point && cit != cv1.end(); cit++)
@@ -204,6 +204,11 @@ int main()
 	    vicinity_point = true;
 	  }
 	}
+      // check if last point was re-clicked
+      if ( vicinity_point && last_pnt == pnt )
+	{
+	  last_in_polyline = true;
+	}
       // second, looking in other points of the arrangement
       for(Arr_2::Vertex_iterator vi = arr.vertices_begin();
 	  ! vicinity_point && vi != arr.vertices_end(); ++vi) {
@@ -213,8 +218,9 @@ int main()
 	    vicinity_point = true;
 	  }
       }
-      
-      cv1.push_back(pnt);
+      // if last point was re-clicked ignore to avoid invalidity of polyline.
+      if ( ! last_in_polyline )
+	cv1.push_back(pnt);
       W << CGAL::BLACK;
       W << pnt;
       if ( ! first_point )
@@ -240,34 +246,47 @@ int main()
 
   // (3) Point Location part
   Arr_2::Halfedge_handle e;
+  bool map_is_empty = false;
 
-  W.set_status_string("Enter a point with left button. Press Quit to quit.");  
+  if (arr.halfedges_begin() == arr.halfedges_end()) 
+    map_is_empty = true;
+
+  if (map_is_empty) {
+    W.set_status_string("Arrangement is empty. Press Quit to quit.");
+  }
+  else {
+    W.set_status_string(
+      "Enter a point with left button. Press Quit to quit.");  
+  }
   W.set_button_label(THE_BUTTON, "  Quit  ");
   //enable_button(THE_BUTTON);
   while (W.read_mouse(x,y) != THE_BUTTON) {
     pnt = Point(x,y);
     W << arr;
     
-    Arr_2::Locate_type lt;
-    e = arr.locate(pnt ,lt);
+    if ( ! map_is_empty )
+    {
+      Arr_2::Locate_type lt;
+      e = arr.locate(pnt ,lt);
 
-    //color the face on the screen
-    W << CGAL::GREEN;
-    Arr_2::Face_handle f=e->face();
-    if (f->does_outer_ccb_exist()) {
-      Arr_2::Ccb_halfedge_circulator cc=f->outer_ccb();
-      do {
-	W << cc->curve();
-      } while (++cc != f->outer_ccb());
-    }
-    for (Arr_2::Holes_iterator ho=f->holes_begin(),hoe=f->holes_end();
-	 ho!=hoe; ++ho) {
-      Arr_2::Ccb_halfedge_circulator cc=*ho; 
-      do {
-	W << cc->curve();
-      } while (++cc != *ho);
-    }
-  } // location
+      //color the face on the screen
+      W << CGAL::GREEN;
+      Arr_2::Face_handle f=e->face();
+      if (f->does_outer_ccb_exist()) {
+	Arr_2::Ccb_halfedge_circulator cc=f->outer_ccb();
+	do {
+	  W << cc->curve();
+	} while (++cc != f->outer_ccb());
+      }
+      for (Arr_2::Holes_iterator ho=f->holes_begin(),hoe=f->holes_end();
+	   ho!=hoe; ++ho) {
+	Arr_2::Ccb_halfedge_circulator cc=*ho; 
+	do {
+	  W << cc->curve();
+	} while (++cc != *ho);
+      }
+    } // if ! map_is_empty
+  } // while
 
   return 0;  
 }

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : rotation.fw
 // file          : demo/Robustness/rotation_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/08/01 08:15:14 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -46,33 +45,46 @@
 //
 // ======================================================================
  
-
-#include <CGAL/basic.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
-#else
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
-#include <CGAL/Gmpz.h>
+#ifdef CGAL_USE_GMP
+#  include <CGAL/Gmpz.h>
+#else
+#  include <CGAL/MP_Float.h>
+#endif
 #include <cmath>
 #include <vector>
 #include <algorithm>
-#include <CGAL/Point_2.h>
-#include <CGAL/Direction_2.h>
-#include <CGAL/Segment_2.h>
-#include <CGAL/Aff_transformation_2.h>
-#include <CGAL/IO/leda_window.h>
+// #include <sstream> // Doesn't work with GCC < 2.95.3
+#include <strstream>
+#include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/Ostream_iterator.h>
-#include <CGAL/leda_real.h>
-#include <CGAL/kernel_to_kernel.h>
+#ifdef CGAL_USE_LEDA
+#  include <CGAL/leda_real.h>
+typedef leda_real exact_NT;
+#else
+#  include <CGAL/MP_Float.h>
+#  include <CGAL/Quotient.h>
+typedef CGAL::Quotient<CGAL::MP_Float> exact_NT;
+#endif
 
 typedef CGAL::Cartesian<double>           CartesianDouble;
-typedef CGAL::Point_2<CartesianDouble>    Point;
-typedef CGAL::Direction_2<CartesianDouble>     Direction;
+typedef CartesianDouble::Point_2          Point;
+typedef CartesianDouble::Direction_2      Direction;
 typedef std::vector<Point>                Vector;
+#ifdef CGAL_USE_GMP
 typedef CGAL::Homogeneous<CGAL::Gmpz>     HomogeneousInteger;
-typedef CGAL::Cartesian<leda_real>        CartesianLedaReal;
+#else
+typedef CGAL::Homogeneous<CGAL::MP_Float> HomogeneousInteger;
+#endif
+typedef CGAL::Cartesian<exact_NT>         CartesianLedaReal;
 
+
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_window  CGAL::window
+#define leda_string  std::string
+#define leda_green2  CGAL::green2
+#endif
 
 int
 main()
@@ -161,10 +173,20 @@ main()
               if ( CGAL::collinear( *i, *j, *k) ) ++s;
               ++n;
           }
+	  
+#if defined(CGAL_USE_LEDA)	  
   str = leda_string("Before rotation, %2.2f%% ", 100.0* s/n );
   str += trailer;
+#else
+  // std::ostringstream OS;
+  std::ostrstream OS;
+  OS << "Before rotation, " << 100.0* s/n << "% ";
+  OS << trailer;
+  OS << std::ends;
+  str = OS.str();
+#endif
+
   W.draw_ctext(250,60, str);
-  
   
   n = 0;
   s = 0;
@@ -175,26 +197,47 @@ main()
               if ( CGAL::collinear( *i, *j, *k) ) ++s;
               ++n;
           }
+	  
+#if defined(CGAL_USE_LEDA)	  
   str = leda_string("After rotation, only %2.2f%% ", 100.0* s/n );
   str += trailer;
+#else
+  // std::ostringstream OS2;
+  std::ostrstream OS2;
+  OS2 << "After rotation, only " << 100.0* s/n << "% ";
+  OS2 << trailer;
+  OS2 << std::ends;
+  str = OS2.str();  
+#endif  
   W.draw_ctext(250,40, str);
   
   
   Vector D;
   D.push_back( L.front());
   Point o = Point( CGAL::ORIGIN);
-  CartesianDouble::Less_distance_to_point_2 less =
-      CartesianDouble().less_distance_to_point_2_object(o);
-  for ( i = CR.begin(); i != CR.end(); ++i)
-  {
+  CartesianDouble::Compare_distance_2 cmp =
+      CartesianDouble().compare_distance_2_object();
+  for ( i = CR.begin(); i != CR.end(); ++i) {
     bool new_distance = true;
-    for ( j = D.begin(); j != D.end(); ++j)
-    { if ( !( less( *i, *j))||( less( *j, *i)) ) new_distance = false; }
+    for ( j = D.begin(); j != D.end(); ++j) {
+      if ( ( cmp(o, *i, *j) != CGAL::SMALLER) ||
+           ( cmp(o, *j, *i) == CGAL::SMALLER) )
+        new_distance = false;
+    }
     if ( new_distance ) { D.push_back( *i); }
   }
-  
+ 
+#if defined(CGAL_USE_LEDA)  
   str = leda_string("%d different distances",
                     std::distance( D.begin(), D.end() ));
+#else
+  // std::ostringstream OS3;
+  std::ostrstream OS3;
+  OS3 << std::distance( D.begin(), D.end() ) << " different distances";
+  OS3 << std::ends;
+  str = OS3.str();  
+#endif		    
+		    
   W.draw_ctext(700,50,str);
   
 
@@ -202,4 +245,3 @@ main()
 
   return 0;
 }
-#endif // USE_LEDA

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
 // source        : leda_window.fw
 // file          : include/CGAL/IO/Window_stream.h
-// package       : window (2.7.1)
-// revision      : 2.7
-// revision_date : 21 Aug 2000 
+// package       : window (2.8.10)
+// revision      : 2.8.1
+// revision_date : 23 May 2001 
 // author(s)     : Stefan Schirra
 //
 //
@@ -47,8 +47,13 @@
 //
 // ======================================================================
  
-
+// use the port of the LEDA window (CGAL::window) or the "normal" LEDA window ... 
+ 
+#if defined(CGAL_USE_CGAL_WINDOW)
+#include <CGAL/IO/cgal_window.h>
+#else
 #include <CGAL/IO/leda_window.h>
+#endif
 
 #ifndef IO_TRIANGULATION_WINDOW_STREAM_H
 #include <CGAL/IO/triangulation_Window_stream.h>

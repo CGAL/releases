@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/sorted_matrix_search.h
-// package       : Matrix_search (1.43)
+// package       : Matrix_search (1.49)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : fjsearch.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:25:34 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:57 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -54,9 +54,8 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>
-#include <CGAL/function_objects.h>
+#include <CGAL/functional.h>
 #include <algorithm>
-#include <functional>
 #include <vector>
 #include <CGAL/Sorted_matrix_search_traits_adaptor.h>
 
@@ -151,6 +150,7 @@ template < class Cell >
 struct Cell_min
 : public CGAL_STD::unary_function< Cell, typename Cell::Value >
 {
+  typedef Arity_tag< 1 > Arity;
   typename Cell::Value
   operator()( const Cell& c) const
   { return c.min(); }
@@ -159,6 +159,7 @@ struct Cell_min
 template < class Cell >
 struct Cell_max
 : public CGAL_STD::unary_function< Cell, typename Cell::Value > {
+  typedef Arity_tag< 1 > Arity;
 
   Cell_max( int offset) : ofs( offset) {}
 
@@ -183,10 +184,6 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   using std::remove_if;
   using std::logical_or;
   using std::equal_to;
-  using CGAL::compose1_1;
-  using CGAL::compose2_1;
-  using std::bind1st;
-  using std::bind2nd;
   #endif
   
   typedef typename Traits::Matrix                   Matrix;
@@ -288,7 +285,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     nth_element(active_cells.begin(),
                 active_cells.begin() + upper_median_rank,
                 active_cells.end(),
-                compose2_2(
+                compose(
                   t.compare_strictly(),
                   Cell_min< Cell >(),
                   Cell_min< Cell >()));
@@ -301,7 +298,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     nth_element(active_cells.begin(),
                 active_cells.begin() + lower_median_rank,
                 active_cells.end(),
-                compose2_2(
+                compose(
                   t.compare_strictly(),
                   Cell_max< Cell >(ccd),
                   Cell_max< Cell >(ccd)));
@@ -316,8 +313,8 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
       lower_median_cell =
         find_if(active_cells.begin(),
                 active_cells.end(),
-                compose1_1(
-                  bind1st(equal_to< Value >(), lower_median),
+                compose(
+                  bind_1(equal_to< Value >(), lower_median),
                   Cell_min< Cell >()));
     CGAL_optimisation_assertion(lower_median_cell != active_cells.end());
     // ------------------------------------------------------
@@ -351,8 +348,8 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
           remove_if(
             active_cells.begin() + 1,
             active_cells.end(),
-            compose1_1(
-              bind1st( t.compare_non_strictly(), min_median),
+            compose(
+              bind_1( t.compare_non_strictly(), min_median),
               Cell_min< Cell >()));
     
       } // lower_median and upper_median are feasible
@@ -369,15 +366,15 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
           remove_if(
             active_cells.begin() + 1,
             active_cells.end(),
-            compose2_1(
+            compose_shared(
               logical_or< bool >(),
-              compose1_1(
-                bind1st(
+              compose(
+                bind_1(
                   t.compare_non_strictly(),
                   lower_median),
                 Cell_min< Cell >()),
-              compose1_1(
-                bind2nd(
+              compose(
+                bind_2(
                   t.compare_non_strictly(),
                   upper_median),
                 Cell_max< Cell >( ccd))));
@@ -398,15 +395,15 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
           remove_if(
             active_cells.begin() + 1,
             active_cells.end(),
-            compose2_1(
+            compose_shared(
               logical_or< bool >(),
-              compose1_1(
-                bind1st(
+              compose(
+                bind_1(
                   t.compare_non_strictly(),
                   upper_median),
                 Cell_min< Cell >()),
-              compose1_1(
-                bind2nd(
+              compose(
+                bind_2(
                   t.compare_non_strictly(),
                   lower_median),
                 Cell_max< Cell >( ccd))));
@@ -421,8 +418,8 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
           remove_if(
             active_cells.begin(),
             active_cells.end(),
-            compose1_1(
-              bind2nd(
+            compose(
+              bind_2(
                 t.compare_non_strictly(),
                 max( lower_median, upper_median)),
               Cell_max< Cell >( ccd)));

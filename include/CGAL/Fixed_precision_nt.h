@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Fixed_precision_nt.h
-// package       : Fixed_precision_nt (2.16)
-// revision      : 
-// revision_date : 
+// package       : Fixed_precision_nt (2.27)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2001/08/08 18:14:52 $
 // author(s)     : Olivier Devillers
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -50,15 +50,14 @@
 #ifndef CGAL_FIXED_PRECISION_NT_H
 #define CGAL_FIXED_PRECISION_NT_H
 
-#include <CGAL/config.h>
+#include <CGAL/basic.h>
 #include <iostream>
-#ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
-#endif // CGAL_TAGS_H
 #include <CGAL/enum.h>
 #include <CGAL/assertions.h>
 #include <CGAL/double.h>
 #include <CGAL/number_utils.h>
+#include <CGAL/Interval_base.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -118,6 +117,8 @@ class Fixed_precision_nt
 {
 private:
   float _value;          // value of the number
+  // I put this function here so that GCC doesn't complain with -Winline.
+  void round() {_value = ( _value+ Fixed_SNAP ) - Fixed_SNAP ;}
   
 public:
   // constructors
@@ -140,8 +141,7 @@ public:
   Fixed_precision_nt operator/=(const Fixed_precision_nt&f)
                         {_value/=f._value; return *this;}
   // access and parametrization of static members
-  static bool init(float f);
-  void round() {_value = ( _value+ Fixed_SNAP ) - Fixed_SNAP ;}
+  inline static bool init(float f);
   static float unit_value() {return Fixed_B0;}
   static float upper_bound(){return Fixed_B24;}
   static void perturb_incircle(){Fixed_incircle_perturb=true;}
@@ -153,48 +153,44 @@ public:
 };
 
 inline double to_double(Fixed_precision_nt a){ return a.to_double(); }
-bool is_finite(Fixed_precision_nt) { return true; }
-bool is_valid(Fixed_precision_nt) { return true; }
+inline bool is_finite(Fixed_precision_nt) { return true; }
+inline bool is_valid(Fixed_precision_nt) { return true; }
 
-inline Fixed_precision_nt  operator-
-(Fixed_precision_nt a)
+inline
+Interval_base
+to_interval (Fixed_precision_nt a)
+{
+  return a.to_double();
+}
+
+inline Fixed_precision_nt operator- (Fixed_precision_nt a)
 {   return Fixed_precision_nt( - (a.to_double()) );}
-inline Fixed_precision_nt  operator+
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline Fixed_precision_nt operator+(Fixed_precision_nt a, Fixed_precision_nt b)
 {   return Fixed_precision_nt(a.to_double() + b.to_double() );}
-inline Fixed_precision_nt  operator-
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline Fixed_precision_nt operator-(Fixed_precision_nt a, Fixed_precision_nt b)
 {   return Fixed_precision_nt(a.to_double() - b.to_double() );}
-inline Fixed_precision_nt  operator*
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline Fixed_precision_nt operator*(Fixed_precision_nt a, Fixed_precision_nt b)
 {   return Fixed_precision_nt(a.to_double() * b.to_double() );}
-inline Fixed_precision_nt  operator/
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline Fixed_precision_nt operator/(Fixed_precision_nt a, Fixed_precision_nt b)
 {   return Fixed_precision_nt(a.to_double() / b.to_double() );}
 
-inline bool  operator<
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator< (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() <  b.to_double() );}
-inline bool  operator<=
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator<= (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() <= b.to_double() );}
-inline bool  operator>
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator> (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() >  b.to_double() );}
-inline bool  operator>=
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator>= (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() >= b.to_double() );}
-inline bool  operator==
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator== (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() == b.to_double() );}
-inline bool  operator!=
-(Fixed_precision_nt a, Fixed_precision_nt b)
+inline bool  operator!= (Fixed_precision_nt a, Fixed_precision_nt b)
 {   return (a.to_double() != b.to_double() );}
 
 
-std::ostream &operator<<(std::ostream &os, const Fixed_precision_nt& a)
+inline std::ostream &operator<<(std::ostream &os, const Fixed_precision_nt& a)
 { return os << a.to_double(); }
-std::istream &operator>>(std::istream &is, Fixed_precision_nt& a)
+inline std::istream &operator>>(std::istream &is, Fixed_precision_nt& a)
 { float f;  is >>f; a=Fixed_precision_nt(f); return is; }
 
 // ======================================================================
@@ -210,7 +206,7 @@ inline io_Operator io_tag(Fixed_precision_nt)
 // ======================================================================
 //--------- initialize the upper bound on fixed
 // ======================================================================
-bool Fixed_precision_nt::init(float b)
+inline bool Fixed_precision_nt::init(float b)
   // return true if init succeed false otherwise
   // Precondition : b positive
   // Precondition : non yet initialized
@@ -425,6 +421,7 @@ cmp_dist_to_pointC3(
 }
 
 
+inline
 Orientation orientationC3
 (   const Fixed_precision_nt& x0, const Fixed_precision_nt& y0, 
     const Fixed_precision_nt& z0,
@@ -471,6 +468,7 @@ Orientation orientationC3
   return COPLANAR;
 }
 
+inline
 Oriented_side side_of_oriented_sphereC3 
 (     const Fixed_precision_nt& x0, const Fixed_precision_nt& y0, 
       const Fixed_precision_nt& z0,
@@ -820,13 +818,4 @@ Oriented_side side_of_oriented_sphereC3
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_INTERVAL_ARITHMETIC_H
-#include <CGAL/Interval_arithmetic/IA_Fixed.h>
-#endif // CGAL_INTERVAL_ARITHMETIC_H
-
-
 #endif  //CGAL_FIXED_PRECISION_NT_H
-
-
-
-

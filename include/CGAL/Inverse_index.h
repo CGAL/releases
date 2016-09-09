@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,33 +18,33 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Inverse_index.h
-// package       : STL_Extension (2.21)
+// package       : STL_Extension (2.34)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2000/09/15 13:05:11 $
+// revision      : $Revision: 1.27 $
+// revision_date : $Date: 2001/07/23 08:38:59 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
+// coordinator   : ETH
 //
 // Inverse_Index adaptor enumerates sequences.
-// coordinator   : ?
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -84,7 +84,7 @@ protected:
   typedef typename Index::const_iterator  Index_const_iterator;
   typedef typename Index::value_type      Item;
 
-private:
+protected:
   void ini_idx( IC i, const IC& j, std::input_iterator_tag);
   void ini_idx( const IC& i, const IC& j, std::forward_iterator_tag){
     ini_idx( i, j, std::input_iterator_tag());
@@ -112,7 +112,7 @@ public:
 #endif
   }
 
-private:
+protected:
   void push_back( const IC& k, std::input_iterator_tag) {
     std::size_t d = idx.size();
     idx[ &*k] = d;
@@ -159,7 +159,11 @@ public:
   std::size_t find( const IC& k, std::forward_iterator_tag) const {
     return find( k, std::input_iterator_tag());
   }
-  std::size_t find( const IC& k, std::bidirectional_iterator_tag) const {
+  std::size_t find( const IC& k, std::bidirectional_iterator_tag
+  #if defined( _MSC_VER ) && (_MSC_VER < 1300 )
+   , int dummy=0
+  #endif //_MSC_VER
+  ) const {
     return find( k, std::input_iterator_tag());
   }
   std::size_t find( const IC& k, Forward_circulator_tag) const {
@@ -199,6 +203,19 @@ public:
   }
 };
 
+#if (defined(__GNUC__) && (__GNUC__ >= 3))
+template < class IC>
+void
+Inverse_index< IC>::ini_idx( IC i, const IC& j, std::input_iterator_tag) {
+  std::size_t n = 0;
+  if ( ! is_empty_range( i, j)) {
+    do {
+      idx.insert(Item( &*i, n));
+      n++;
+    } while ((++i) != (j));
+  }
+}
+#else
 template < class IC>
 void
 Inverse_index< IC>::ini_idx( IC i, const IC& j, std::input_iterator_tag) {
@@ -211,6 +228,7 @@ Inverse_index< IC>::ini_idx( IC i, const IC& j, std::input_iterator_tag) {
     } while ((++i) != (j));
   }
 }
+#endif // (__GNUC__ >= 3)
 
 CGAL_END_NAMESPACE
 #endif // CGAL_INVERSE_INDEX_H //

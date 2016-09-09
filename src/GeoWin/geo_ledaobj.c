@@ -12,14 +12,13 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_ledaobj.c
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.2.2)
+// revision      : 1.2.2
+// revision_date : 30 January 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
-
 
 #include <LEDA/geowin_init.h>
 
@@ -37,7 +36,7 @@ void geowin_Translate(segment& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(segment& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_seg(segment& obj, double dx, double dy, int pnr)
 { 
   segment obnew;
   if (pnr==0) obnew = segment(obj.source().translate(dx,dy),obj.target()); 
@@ -51,7 +50,7 @@ void geowin_Translate(ray& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(ray& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_ray(ray& obj, double dx, double dy, int pnr)
 { 
   ray obnew;
   if (pnr==0) obnew = ray(obj.point1().translate(dx,dy),obj.point2()); 
@@ -65,7 +64,7 @@ void geowin_Translate(line& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(line& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_line(line& obj, double dx, double dy, int pnr)
 { 
   line obnew;
   if (pnr==0) obnew = line(obj.point1().translate(dx,dy),obj.point2()); 
@@ -79,7 +78,7 @@ void geowin_Translate(circle& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(circle& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_circle(circle& obj, double dx, double dy, int pnr)
 { 
   circle obnew;
   if (pnr==0) obnew = circle(obj.point1().translate(dx,dy),obj.point2(),obj.point3()); 
@@ -98,7 +97,7 @@ void geowin_Translate(polygon& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(polygon& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_poly(polygon& obj, double dx, double dy, int pnr)
 { 
   list<point> PL = obj.vertices();
   if (pnr >= PL.size()) return;
@@ -115,7 +114,7 @@ void geowin_Translate(gen_polygon& obj, double dx, double dy)
   obj = obnew;
 }
 
-void geowin_Translatepoint(gen_polygon& obj, double dx, double dy, int pnr)
+void geowin_Translatepoint_gpoly(gen_polygon& obj, double dx, double dy, int pnr)
 { 
   list<point> PL = obj.vertices();
   if (pnr >= PL.size()) return;
@@ -305,12 +304,20 @@ bool geowin_IntersectsBox(const polygon& p,  double x1, double y1,
   segment s3(x1, y1, x1, y2);
   segment s4(x2, y1, x2, y2);
   
+  int ori = p.orientation();
+
   if ( !p.intersection(s1).empty() ) return true;
   if ( !p.intersection(s2).empty() ) return true;
   if ( !p.intersection(s3).empty() ) return true;
   if ( !p.intersection(s4).empty() ) return true;
   
-  if( p.inside(point(x1, y1)) ) return filled;
+  if (ori == -1) {
+   if( p.outside(point(x1, y1)) ) return filled;  
+  }
+  else {
+   if( p.inside(point(x1, y1)) ) return filled;
+  }
+  
   return geowin_IntersectsBox(p.vertices().head(), x1, y1, x2, y2, filled);
 }
 
@@ -427,7 +434,7 @@ void geowin_BoundingBox(const polygon& P, double& x1, double& x2,
 		double& y1, double& y2)
 {
   point p;
-  const list<point>&  L = P.vertices(); // polygons with 0 points ??
+  const list<point>&  L = P.vertices(); 
 
   if (L.empty()) return;
 
@@ -514,54 +521,54 @@ void geowin_Translate(rat_point& p, double dx, double dy)
 void geowin_Translate(rat_segment& s, double dx, double dy)
 { s = rat_segment(s.to_segment().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_segment& s, double dx, double dy,int pnr)
+void geowin_Translatepoint_rat_seg(rat_segment& s, double dx, double dy,int pnr)
 { segment sf = s.to_segment(); 
-  geowin_Translatepoint(sf,dx,dy,pnr);
+  geowin_Translatepoint_seg(sf,dx,dy,pnr);
   s = rat_segment(sf, 20); 
 }
 
 void geowin_Translate(rat_ray& r, double dx, double dy)
 { r = rat_ray(r.to_ray().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_ray& r, double dx, double dy,int pnr)
+void geowin_Translatepoint_rat_ray(rat_ray& r, double dx, double dy,int pnr)
 { ray rf = r.to_ray(); 
-  geowin_Translatepoint(rf,dx,dy,pnr);
+  geowin_Translatepoint_ray(rf,dx,dy,pnr);
   r = rat_ray(rf, 20); 
 }
 
 void geowin_Translate(rat_line& l, double dx, double dy)
 { l = rat_line(l.to_line().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_line& l, double dx, double dy,int pnr)
+void geowin_Translatepoint_rat_line(rat_line& l, double dx, double dy,int pnr)
 { line lf = l.to_line(); 
-  geowin_Translatepoint(lf,dx,dy,pnr);
+  geowin_Translatepoint_line(lf,dx,dy,pnr);
   l = rat_line(lf, 20); 
 }
 
 void geowin_Translate(rat_circle& ci, double dx, double dy)
 { ci = rat_circle(ci.to_circle().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_circle& c, double dx, double dy,int pnr)
+void geowin_Translatepoint_rat_circle(rat_circle& c, double dx, double dy,int pnr)
 { circle cf = c.to_circle(); 
-  geowin_Translatepoint(cf,dx,dy,pnr);
+  geowin_Translatepoint_circle(cf,dx,dy,pnr);
   c = rat_circle(cf, 20); 
 }
 
 void geowin_Translate(rat_polygon& p, double dx, double dy)
 { p = rat_polygon(p.to_polygon().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_polygon& p, double dx, double dy, int pnr)
+void geowin_Translatepoint_rat_poly(rat_polygon& p, double dx, double dy, int pnr)
 { polygon pf = p.to_polygon(); 
-  geowin_Translatepoint(pf,dx,dy,pnr);
+  geowin_Translatepoint_poly(pf,dx,dy,pnr);
   p = rat_polygon(pf, 20); 
 }
 
 void geowin_Translate(rat_gen_polygon& p, double dx, double dy)
 { p = rat_gen_polygon(p.to_gen_polygon().translate(dx, dy), 20); }
 
-void geowin_Translatepoint(rat_gen_polygon& p, double dx, double dy,int pnr)
+void geowin_Translatepoint_rat_gpoly(rat_gen_polygon& p, double dx, double dy,int pnr)
 { gen_polygon pf = p.to_gen_polygon(); 
-  geowin_Translatepoint(pf,dx,dy,pnr);
+  geowin_Translatepoint_gpoly(pf,dx,dy,pnr);
   p = rat_gen_polygon(pf, 20); 
 }
 

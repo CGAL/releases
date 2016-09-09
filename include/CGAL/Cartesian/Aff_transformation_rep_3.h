@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Aff_transformation_rep_3.h
-// package       : C3 (5.2)
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2000/06/27 14:06:37 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/01/12 11:40:11 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -49,6 +49,7 @@
 #define CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_3_H
 
 #include <CGAL/Cartesian/redefine_names_3.h>
+#include <CGAL/determinant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -59,6 +60,7 @@ class Aff_transformation_rep_baseC3
 public:
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
+
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
   typedef typename R::Point_3                   Point_3;
   typedef typename R::Vector_3                  Vector_3;
@@ -141,7 +143,7 @@ public:
   virtual ~Aff_transformation_repC3()
   {}
 
-  virtual Point_3 transform(const Point_3& p) const
+  virtual Point_3 transform(const Point_3& p) const // FIXME : construction
   {
     return Point_3(t11 * p.x() + t12 * p.y() + t13 * p.z() + t14,
                    t21 * p.x() + t22 * p.y() + t23 * p.z() + t24,
@@ -149,7 +151,7 @@ public:
   }
 
   // note that a vector is not translated
-  virtual Vector_3 transform(const Vector_3& v) const
+  virtual Vector_3 transform(const Vector_3& v) const // FIXME : construction
   {
     return Vector_3(t11 * v.x() + t12 * v.y() + t13 * v.z(),
                     t21 * v.x() + t22 * v.y() + t23 * v.z(),
@@ -158,7 +160,7 @@ public:
 
   // note that a direction is not translated
   virtual Direction_3 transform(const Direction_3& dir) const
-  {
+  { // FIXME : construction
     Vector_3 v = dir.to_vector();
     return Direction_3(t11 * v.x() + t12 * v.y() + t13 * v.z(),
                        t21 * v.x() + t22 * v.y() + t23 * v.z(),
@@ -227,11 +229,127 @@ public:
   }
 
 private:
-// Wouldn't this be better with an array ?
-  FT   t11, t12, t13, t14;
+  FT   t11, t12, t13, t14; // FIXME : Wouldn't this be better with an array ?
   FT   t21, t22, t23, t24;
   FT   t31, t32, t33, t34;
 };
+
+#ifdef CGAL_CFG_TYPENAME_BUG
+#define typename
+#endif
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::inverse() const // FIXME : construction
+{
+  return Aff_transformation_3(
+      det2x2_by_formula( t22, t23, t32, t33),         // i 11
+     -det2x2_by_formula( t12, t13, t32, t33),         // i 12
+      det2x2_by_formula( t12, t13, t22, t23),         // i 13
+     -det3x3_by_formula( t12, t13, t14, t22, t23, t24, t32, t33, t34 ),
+
+     -det2x2_by_formula( t21, t23, t31, t33),         // i 21 
+      det2x2_by_formula( t11, t13, t31, t33),         // i 22
+     -det2x2_by_formula( t11, t13, t21, t23),         // i 23
+      det3x3_by_formula( t11, t13, t14, t21, t23, t24, t31, t33, t34 ),
+
+      det2x2_by_formula( t21, t22, t31, t32),         // i 31
+     -det2x2_by_formula( t11, t12, t31, t32),         // i 32
+      det2x2_by_formula( t11, t12, t21, t22),         // i 33
+     -det3x3_by_formula( t11, t12, t14, t21, t22, t24, t31, t32, t34 ),
+
+      det3x3_by_formula( t11, t12, t13, t21, t22, t23, t31, t32, t33 ));
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::
+operator*(const Aff_transformation_rep_baseC3<R> &t) const
+{
+  return t.compose(*this);
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::
+compose(const Aff_transformation_repC3<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_3(t.t11*t11 + t.t12*t21 + t.t13*t31,
+                              t.t11*t12 + t.t12*t22 + t.t13*t32,
+                              t.t11*t13 + t.t12*t23 + t.t13*t33,
+                              t.t11*t14 + t.t12*t24 + t.t13*t34 + t.t14,
+
+                              t.t21*t11 + t.t22*t21 + t.t23*t31,
+                              t.t21*t12 + t.t22*t22 + t.t23*t32,
+                              t.t21*t13 + t.t22*t23 + t.t23*t33,
+                              t.t21*t14 + t.t22*t24 + t.t23*t34 + t.t24,
+
+                              t.t31*t11 + t.t32*t21 + t.t33*t31,
+                              t.t31*t12 + t.t32*t22 + t.t33*t32,
+                              t.t31*t13 + t.t32*t23 + t.t33*t33,
+                              t.t31*t14 + t.t32*t24 + t.t33*t34 + t.t34);
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::
+compose(const Translation_repC3<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_3(t11,
+                              t12,
+                              t13,
+                              t14 + t.translationvector_.x(),
+
+                              t21,
+                              t22,
+                              t23,
+                              t24 + t.translationvector_.y(),
+
+                              t31,
+                              t32,
+                              t33,
+                              t34 + t.translationvector_.z());
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::
+compose(const Scaling_repC3<R> &t) const // FIXME : construction
+{
+  return Aff_transformation_3(t.scalefactor_ * t11,
+                              t.scalefactor_ * t12,
+                              t.scalefactor_ * t13,
+                              t.scalefactor_ * t14,
+			      
+                              t.scalefactor_ * t21,
+                              t.scalefactor_ * t22,
+                              t.scalefactor_ * t23,
+                              t.scalefactor_ * t24,
+                              
+			      t.scalefactor_ * t31,
+                              t.scalefactor_ * t32,
+                              t.scalefactor_ * t33,
+                              t.scalefactor_ * t34);
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+typename Aff_transformation_repC3<R>::Aff_transformation_3
+Aff_transformation_repC3<R>::transpose() const
+{
+  return Aff_transformation_3( t11, t21, t31, t14,
+                               t12, t22, t32, t24,
+                               t13, t23, t33, t34);
+}
+
+#ifdef CGAL_CFG_TYPENAME_BUG
+#undef typename
+#endif
 
 CGAL_END_NAMESPACE
 

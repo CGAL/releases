@@ -1,10 +1,10 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2001 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : basic.fw
 // file          : include/CGAL/known_bit_size_integers.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/04/06 14:49:09 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -45,16 +44,16 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #define CGAL_KNOWN_BIT_SIZE_INTEGERS_H
-CGAL_BEGIN_NAMESPACE
 
+CGAL_BEGIN_NAMESPACE
 
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
     (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \
     (defined(__i386__)  || defined(__i386)  || defined(i386)) || \
+    (defined(__alpha__)  || defined(__alpha)  || defined(alpha)) || \
     (defined(__powerpc__) || defined(__powerpc) || defined(powerpc))
     typedef  signed char             Integer8;
     typedef  short                   Integer16;
@@ -62,11 +61,7 @@ CGAL_BEGIN_NAMESPACE
     typedef  unsigned char           UInteger8;
     typedef  unsigned short          UInteger16;
     typedef  unsigned int            UInteger32;
-//  ANSI C++ does not support `long long'
-//  typedef  long long int           Integer64;
-//  typedef  unsigned long long int  UInteger64;
-//  the above definitions for long long are now in file
-//  include/CGAL/long_long.h and not included automatically anymore
+    // See long_long.h for Integer64.
 #else
 #  if defined(__BORLANDC__)
     typedef  __int8                  Integer8;
@@ -77,6 +72,7 @@ CGAL_BEGIN_NAMESPACE
     typedef  unsigned __int16        UInteger16;
     typedef  unsigned __int32        UInteger32;
     typedef  unsigned __int64        UInteger64;
+#define CGAL_HAS_INTEGER64
 #  else
 #  if defined(_MSC_VER)
     typedef  signed char             Integer8;
@@ -87,6 +83,7 @@ CGAL_BEGIN_NAMESPACE
     typedef  unsigned short          UInteger16;
     typedef  unsigned int            UInteger32;
     typedef  unsigned __int64        UInteger64;
+#define CGAL_HAS_INTEGER64
 #  else
 #    error "patch this"
 #  endif

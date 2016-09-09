@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Pm_leda_segment_exact_traits.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // author(s)     : Eyal flato
 //		   Iddo hanniel
 //
@@ -147,14 +147,16 @@ public:
 		return r;
 	}
 	
-	Orientation orientation(const Point &p, const Point &q, const Point &r) const
+	Orientation orientation(const Point &p, const Point &q, const Point &r)
+	  const
 	{
 		OP_CONSUME(opOrientation, 1);
 		return CGAL::orientation(p, q, r);
 	}
 	
 	Curve_point_status 
-		curve_get_point_status(const X_curve &cv, const Point & p) const
+	curve_get_point_status(const X_curve &cv, const Point & p) 
+	  const
 	{
 		if (!curve_is_in_x_range(cv, p))
 			return CURVE_NOT_IN_RANGE;
@@ -176,11 +178,12 @@ public:
 		}
 		else
 		{
-			//return CURVE_VERTICAL; //&&& - copied from exact-traits ask Oren & Iddo 1/4/99
+		  //return CURVE_VERTICAL; 
+		  //&&& - copied from exact-traits ask Oren & Iddo 1/4/99
 			
-			if (is_lower(p,lowest(curve_source(cv),curve_target(cv))))
+			if (is_lower(p,lowest(cv.source(),cv.target())))
 				return UNDER_CURVE;
-			if (is_higher(p,highest(curve_source(cv),curve_target(cv))))
+			if (is_higher(p,highest(cv.source(),cv.target())))
 				return ABOVE_CURVE;
 			// if (curve_is_in_y_range(cv,p))
 			return ON_CURVE;
@@ -188,24 +191,70 @@ public:
 	}
 	
 	Comparison_result 
-		curve_compare_at_x(const X_curve &cv1, const X_curve &cv2, const Point &q) 
+		curve_compare_at_x(const X_curve &cv1, const X_curve &cv2, 
+				   const Point &q) 
 		const 
 	{
-		if ((!curve_is_in_x_range(cv1, q)) || (!curve_is_in_x_range(cv2, q)))
+		if ((!curve_is_in_x_range(cv1, q)) || 
+		    (!curve_is_in_x_range(cv2, q)))
 			return EQUAL;
 		
 		int res;
 		// bug ??? in LEDA - 
 		// cmp_segments_at_xcoord returns wrong answer if
 		// cv1 (or cv2) are from right to left
-		// cv1_ and cv2_ are the same as cv1 and cv2 - oriented from left to right
+		// cv1_ and cv2_ are the same as cv1 and cv2 - 
+		//   oriented from left to right
 		X_curve cv1_ = cv1;
 		X_curve cv2_ = cv2;
-		if (is_left(cv1.target(), cv1.source()))
+		if (lexicographically_xy_larger(cv1.source(), cv1.target()))
 			cv1_ = cv1.reversal();
-		if (is_left(cv2.target(), cv2.source()))
+		if (lexicographically_xy_larger(cv2.source(), cv2.target()))
 			cv2_ = cv2.reversal();
 		
+                
+                // checking verical curves.
+                if (curve_is_vertical(cv1_)) {
+                  
+                  if (curve_is_vertical(cv2_)) {
+                    // both cv1 and cv2 are vertical
+                    if ( is_lower(cv1_.target(), cv2_.source()) )
+                      return SMALLER;
+                    if ( is_higher(cv1_.source(), cv2_.target()) )
+                      return LARGER;
+                    return EQUAL; // overlapping. 
+                  } // end  both cv1 and cv2 are vertical.
+                  else { // only cv1 is vertical.
+                    if (orientation(cv2_.source(), 
+				    cv2_.target(), 
+				    cv1_.source()) > 0 )
+                      return LARGER;
+                    
+                    if (orientation(cv2_.source(), 
+				    cv2_.target(), 
+				    cv1_.target()) < 0)
+                      return SMALLER;
+
+                    return EQUAL;
+                  }
+                }
+                
+                if (curve_is_vertical(cv2_)) { // only cv2 is vertical.
+                  if (orientation(cv1_.source(), 
+				  cv1_.target(), 
+				  cv2_.source()) > 0 )
+                    return SMALLER;
+                    
+                  if (orientation(cv1_.source(), 
+				  cv1_.target(), 
+				  cv2_.target()) < 0)
+                    return LARGER;
+
+                  return EQUAL;  
+                }
+                  
+                // end checking verical curves.
+
 		OP_CONSUME(opSegmentX, 1);
 		res = cmp_segments_at_xcoord(cv1_, cv2_, q);
 		
@@ -218,37 +267,48 @@ public:
 	
 	
 	Comparison_result 
-		curve_compare_at_x_left(const X_curve &cv1, const X_curve &cv2, 
+		curve_compare_at_x_left(const X_curve &cv1, 
+					const X_curve &cv2, 
 		const Point &q) const 
 	{
-		if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return EQUAL;
-		if (!is_left(leftmost(cv1.source(), cv1.target()), q)) return EQUAL;
-		if (!is_left(leftmost(cv2.source(), cv2.target()), q)) return EQUAL;
+		if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) 
+		  return EQUAL;
+		if (!is_left(leftmost(cv1.source(), cv1.target()), q)) 
+		  return EQUAL;
+		if (!is_left(leftmost(cv2.source(), cv2.target()), q)) 
+		  return EQUAL;
 		
 		Comparison_result r = curve_compare_at_x(cv1, cv2, q);
 		
 		if ( r != EQUAL)
 			return r;     // since the curve is continous 
 		
-		// <cv2> and <cv1> meet at a point with the same x-coordinate as q
+		// <cv2> and <cv1> meet at a point with the same x-coordinate 
+		// as q
 		return (Comparison_result)
 			orientation(leftmost(cv2.source(), cv2.target()), q,
 			leftmost(cv1.source(), cv1.target()) );
 	}
 	
 	Comparison_result 
-		curve_compare_at_x_right(const X_curve &cv1, const X_curve &cv2, const Point & q) const 
+		curve_compare_at_x_right(const X_curve &cv1, 
+					 const X_curve &cv2, 
+					 const Point & q) const 
 	{
-		if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return EQUAL;
-		if (!is_right(rightmost(cv1.source(), cv1.target()), q)) return EQUAL;
-		if (!is_right(rightmost(cv2.source(), cv2.target()), q)) return EQUAL;
+		if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) 
+		  return EQUAL;
+		if (!is_right(rightmost(cv1.source(), cv1.target()), q)) 
+		  return EQUAL;
+		if (!is_right(rightmost(cv2.source(), cv2.target()), q)) 
+		  return EQUAL;
 		
 		Comparison_result r = curve_compare_at_x(cv1, cv2, q);
 		
 		if ( r != EQUAL)
 			return r;     // since the curve is continous (?)
 		
-		// <cv1> and <cv2> meet at a point with the same x-coordinate as q
+		// <cv1> and <cv2> meet at a point with the same x-coordinate 
+		// as q
 		return (Comparison_result)
 			orientation(q, rightmost(cv2.source(), cv2.target()),  
 			rightmost(cv1.source(), cv1.target()) );
@@ -285,7 +345,8 @@ public:
 		const Point &point)	const
 		// TRUE if cv is between first and second in cw direction
 		// precondition: this, first and second have a common endpoint
-		// precondition: first, second, this are pairwise interior disjoint
+		// precondition: first, second, this are pairwise interior 
+	        //disjoint
 	{
 		Point p = point;
 		
@@ -301,9 +362,11 @@ public:
 		
 		int or0=orientation(p0,p,px);
 		int or1=orientation(p1,p,px);
-		int or=or0*or1;
+                // Bug Fix, Shai, Jan, 8, 2001
+                // 'or' is a keyword in C++, changed to 'orient'
+                int orient=or0*or1;                        
 		
-		if (or < 0) 
+		if (orient < 0) 
 		{ //one is a leftturn the other rightturn
 			return (or0 == LEFTTURN); //leftturn
 		}
@@ -312,7 +375,8 @@ public:
 			if (orientation(p0,p,p1)==RIGHTTURN)
 			{
 				if ((or1 == 0) && (or0 == RIGHTTURN)) 
-					return false; // the case where cvx and cv1 are colinear
+				  // the case where cvx and cv1 are colinear
+					return false; 
 				else 
 					return true;
 			}
@@ -351,7 +415,8 @@ public:
 		const Point &point)	const
 		// TRUE if cv is between first and second in cw direction
 		// precondition: this, first and second have a common endpoint
-		// precondition: first, second, this are pairwise interior disjoint
+		// precondition: first, second, this are pairwise interior 
+	        // disjoint
 	{
 		// assert(is_intersection_simple(first, second);
 		// assert(is_intersection_simple(first, *this);
@@ -390,73 +455,77 @@ public:
 		if (cv0_status == cv1_status)
 		{
 			if (cv0_status == CURVE_RIGHT)
-				cv0_cv1 = curve_compare_at_x_right(cv0, cv1, cp);
+			  cv0_cv1 = curve_compare_at_x_right(cv0, cv1, cp);
 			if (cv0_status == CURVE_LEFT)
-				cv0_cv1 = curve_compare_at_x_left(cv0, cv1, cp);
+			  cv0_cv1 = curve_compare_at_x_left(cv0, cv1, cp);
 		}
 		if (cv0_status == cvx_status)
 		{
 			if (cv0_status == CURVE_RIGHT)
-				cv0_cvx = curve_compare_at_x_right(cv0, cvx, cp);
+			  cv0_cvx = curve_compare_at_x_right(cv0, cvx, cp);
 			if (cv0_status == CURVE_LEFT)
-				cv0_cvx = curve_compare_at_x_left(cv0, cvx, cp);
+			  cv0_cvx = curve_compare_at_x_left(cv0, cvx, cp);
 		}
 		if (cv1_status == cvx_status)
 		{
 			if (cv1_status == CURVE_RIGHT)
-				cv1_cvx = curve_compare_at_x_right(cv1, cvx, cp);
+			  cv1_cvx = curve_compare_at_x_right(cv1, cvx, cp);
 			if (cv1_status == CURVE_LEFT)
-				cv1_cvx = curve_compare_at_x_left(cv1, cvx, cp);
+			  cv1_cvx = curve_compare_at_x_left(cv1, cvx, cp);
 		}
 		
 		if (cv0_status == cv1_status)
 		{
-			if (cv0_status == CURVE_LEFT)
-			{
-				if ( ((cv0_cv1==1) && (cvx_status==cv0_status) && 
-					((cv0_cvx==-1) || (cv1_cvx==1))) ||
-					((cv0_cv1==1) && (cvx_status!=cv0_status)) ||
-					((cv0_cv1==-1) && (cvx_status==cv0_status) && 
-					((cv0_cvx==-1) && (cv1_cvx==1))) )
-					return true;
-			}
-			if (cv0_status == CURVE_RIGHT)
-			{
-				if ( ((cv0_cv1==1) && (cvx_status==cv0_status) && 
-					((cv0_cvx==1) && (cv1_cvx==-1))) ||
-					((cv0_cv1==-1) && (cvx_status!=cv0_status)) ||
-					((cv0_cv1==-1) && (cvx_status==cv0_status) && 
-					((cv0_cvx==1) || (cv1_cvx==-1))) )
-					return true;
-			}
-			return false;
+		  if (cv0_status == CURVE_LEFT)
+		    {
+		      if ( ((cv0_cv1==1) && (cvx_status==cv0_status) && 
+			    ((cv0_cvx==-1) || (cv1_cvx==1))) ||
+			   ((cv0_cv1==1) && (cvx_status!=cv0_status)) ||
+			   ((cv0_cv1==-1) && (cvx_status==cv0_status) && 
+			    ((cv0_cvx==-1) && (cv1_cvx==1))) )
+			return true;
+		    }
+		  if (cv0_status == CURVE_RIGHT)
+		    {
+		      if ( ((cv0_cv1==1) && (cvx_status==cv0_status) && 
+			    ((cv0_cvx==1) && (cv1_cvx==-1))) ||
+			   ((cv0_cv1==-1) && (cvx_status!=cv0_status)) ||
+			   ((cv0_cv1==-1) && (cvx_status==cv0_status) && 
+			    ((cv0_cvx==1) || (cv1_cvx==-1))) )
+			return true;
+		    }
+		  return false;
 		}
 		// else do the following
 		
 		if (cv0_status == cvx_status)
 		{
-			if ( ((cv0_status == CURVE_LEFT) && (cv0_cvx==-1)) ||
-				((cv0_status == CURVE_RIGHT) && (cv0_cvx==1)) )
-				return true;
-			
-			//Addition by iddo for enabeling addition of null segments - testing
-			if ( (cv0_status==CURVE_VERTICAL_DOWN)&&
-				((cv0.source()==cv0.target())||(cvx.source()==cvx.target())) )
-				return true; //a null segment (=point) 
-			
-			return false;
+		  if ( ((cv0_status == CURVE_LEFT) && (cv0_cvx==-1)) ||
+		       ((cv0_status == CURVE_RIGHT) && (cv0_cvx==1)) )
+		    return true;
+		  
+		  //Addition by iddo for enabeling addition of null segments - 
+		  // testing
+		  if ( (cv0_status==CURVE_VERTICAL_DOWN) &&
+		       ((cv0.source()==cv0.target()) || 
+			(cvx.source()==cvx.target())) )
+		    return true; //a null segment (=point) 
+		  
+		  return false;
 		}
 		
 		if (cv1_status == cvx_status)
 		{
-			if ( ((cv1_status == CURVE_LEFT) && (cv1_cvx==1)) ||
-				((cv1_status == CURVE_RIGHT) && (cv1_cvx==-1)) )
-				return true;
-			
-			//Addition by iddo for enabeling addition of null segments - testing
-			if ( (cv1_status==CURVE_VERTICAL_DOWN)&&
-				((cv1.source()==cv1.target())||(cvx.source()==cvx.target())) )
-				return true; //a null segment (=point)  
+		  if ( ((cv1_status == CURVE_LEFT) && (cv1_cvx==1)) ||
+		       ((cv1_status == CURVE_RIGHT) && (cv1_cvx==-1)) )
+		    return true;
+		  
+		  //Addition by iddo for enabeling addition of null segments -
+		  // testing
+		  if ( (cv1_status==CURVE_VERTICAL_DOWN) &&
+		       ((cv1.source()==cv1.target()) || 
+			(cvx.source()==cvx.target())) )
+		    return true; //a null segment (=point)  
 			
 			return false;
 		}
@@ -466,8 +535,8 @@ public:
 			((cvx_status - cv0_status + 4)%4) )
 			return false;
 		else
-			// if there is an equality or inequality to the other side
-			// everything is ok
+		  // if there is an equality or inequality to the other side
+		  // everything is ok
 			return true;
   }
   
@@ -526,8 +595,11 @@ compare(p1.ycoord(),p2.ycoord())
   }
   
 public:
-	Point point_to_left(const Point& p) const  {return Point(p.xcoord()-1, p.ycoord());}
-	Point point_to_right(const Point& p) const {return Point(p.xcoord()+1, p.ycoord());}
+	Point point_to_left(const Point& p) const  
+        {return Point(p.xcoord()-1, p.ycoord());}
+	
+        Point point_to_right(const Point& p) const 
+        {return Point(p.xcoord()+1, p.ycoord());}
 	
 	bool curve_is_same(const X_curve &cv1, const X_curve &cv2) const
 	{

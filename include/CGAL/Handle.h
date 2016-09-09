@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,38 +18,36 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Handle.fw
 // file          : include/CGAL/Handle.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/02/13 12:39:00 $
 // author(s)     :
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_HANDLE_H
 #define CGAL_HANDLE_H
+
 #include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -67,31 +65,32 @@ class Leda_like_rep
 class Leda_like_handle
 {
   public:
-             Leda_like_handle()
-             { PTR = (Leda_like_rep*)NULL; }
-             // { PTR = (Leda_like_rep*)0xefefefef; }
+    Leda_like_handle()
+	: PTR(static_cast<Leda_like_rep*>(0)) {}
 
-             Leda_like_handle(const Leda_like_handle& x)
-             {
-               CGAL_kernel_precondition( x.PTR != (Leda_like_rep*)NULL );
-               PTR = x.PTR;
-               PTR->count++;
-             }
+    Leda_like_handle(const Leda_like_handle& x)
+    {
+      CGAL_kernel_precondition( x.PTR != static_cast<Leda_like_rep*>(0) );
+      PTR = x.PTR;
+      PTR->count++;
+    }
 
-
-             ~Leda_like_handle()
-             { if ( PTR && (--PTR->count == 0)) { delete PTR; } }
+    ~Leda_like_handle()
+    {
+	if ( PTR && (--PTR->count == 0))
+	    delete PTR;
+    }
 
     Leda_like_handle&
     operator=(const Leda_like_handle& x)
     {
-      CGAL_kernel_precondition( x.PTR != (Leda_like_rep*)NULL );
+      CGAL_kernel_precondition( x.PTR != static_cast<Leda_like_rep*>(0) );
       x.PTR->count++;
-      if ( PTR && (--PTR->count == 0)) { delete PTR; }
+      if ( PTR && (--PTR->count == 0))
+	  delete PTR;
       PTR = x.PTR;
       return *this;
     }
-
 
     int
     refs()  const { return PTR->count; }
@@ -105,15 +104,15 @@ class Leda_like_handle
 inline
 unsigned long
 id(const Leda_like_handle& x)
-{ return (unsigned long)x.PTR; }
+{ return reinterpret_cast<unsigned long>(x.PTR); }
 
 template < class T >
 inline
 bool
 identical(const T &t1, const T &t2)
 { return id(t1) == id(t2); }
-CGAL_END_NAMESPACE
 
+CGAL_END_NAMESPACE
 
 #if defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_HANDLE)
 #  include <LEDA/basic.h>
@@ -127,8 +126,8 @@ inline
 unsigned long
 id(const Handle& x)
 { return ID_Number(x); }
-CGAL_END_NAMESPACE
 
+CGAL_END_NAMESPACE
 
 #  else
 
@@ -136,8 +135,8 @@ CGAL_BEGIN_NAMESPACE
 
 typedef Leda_like_handle Handle;
 typedef Leda_like_rep    Rep;
-CGAL_END_NAMESPACE
 
+CGAL_END_NAMESPACE
 
 #endif // defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_HANDLE)
 #endif // CGAL_HANDLE_H

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/squared_distance_3_0.h
-// package       : Distance_3 (2.4.5)
+// package       : Distance_3 (2.5.2)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -75,29 +75,22 @@ wdot(const Vector_3<R> &u,
     return  (u.hx()*v.hx() + u.hy()*v.hy() + u.hz()*v.hz());
 }
 
-#ifdef CGAL_HOMOGENEOUS_H
-template <class RT>
-RT wdot(const Point_3< Homogeneous<RT> > &p,
-    const Point_3<Homogeneous<RT> > &q,
-    const Point_3<Homogeneous<RT> > &r)
-{
-    return  (q.hw()*p.hx() - p.hw()*q.hx())*(q.hw()*r.hx() - r.hw()*q.hx()) +
-            (q.hw()*p.hy() - p.hw()*q.hy())*(q.hw()*r.hy() - r.hw()*q.hy()) +
-            (q.hw()*p.hz() - p.hw()*q.hz())*(q.hw()*r.hz() - r.hw()*q.hz());
-}
-#endif // CGAL_HOMOGENEOUS_H
 
-#ifdef CGAL_CARTESIAN_H
-template <class FT>
-FT wdot(const Point_3< Cartesian<FT> > &p,
-    const Point_3< Cartesian<FT> > &q,
-    const Point_3< Cartesian<FT> > &r)
+template <class R>
+typename R::RT
+wdot(const Point_3<R> &p,
+     const Point_3<R> &q,
+     const Point_3<R> &r)
 {
-    return  (p.hx() - q.hx())*(r.hx() - q.hx()) +
-            (p.hy() - q.hy())*(r.hy() - q.hy()) +
-            (p.hz() - q.hz())*(r.hz() - q.hz());
+    R* pR = 0;
+    return  (wmult(pR, p.hx(),q.hw()) - wmult(pR, q.hx(),p.hw()))
+          * (wmult(pR, r.hx(),q.hw()) - wmult(pR, q.hx(),r.hw()))
+        +   (wmult(pR, p.hy(),q.hw()) - wmult(pR, q.hy(),p.hw()))
+          * (wmult(pR, r.hy(),q.hw()) - wmult(pR, q.hy(),r.hw()))
+        +   (wmult(pR, p.hz(),q.hw()) - wmult(pR, q.hz(),p.hw()))
+          * (wmult(pR, r.hz(),q.hw()) - wmult(pR, q.hz(),r.hw()));
 }
-#endif // CGAL_CARTESIAN_H
+
 
 
 
@@ -111,7 +104,7 @@ Vector_3<R> wcross(const Vector_3<R> &u,
         u.hx()*v.hy() - u.hy()*v.hx());
 }
 
-#ifdef CGAL_HOMOGENEOUS_H
+#if defined CGAL_HOMOGENEOUS_H
 template <class RT>
 Vector_3< Homogeneous<RT> >
 wcross(const Point_3< Homogeneous<RT> > &p,
@@ -132,7 +125,28 @@ wcross(const Point_3< Homogeneous<RT> > &p,
 }
 #endif // CGAL_HOMOGENEOUS_H
 
-#ifdef CGAL_CARTESIAN_H
+#if defined CGAL_SIMPLE_HOMOGENEOUS_H
+template <class RT>
+Vector_3< Simple_homogeneous<RT> >
+wcross(const Point_3< Simple_homogeneous<RT> > &p,
+    const Point_3< Simple_homogeneous<RT> > &q,
+    const Point_3< Simple_homogeneous<RT> > &r)
+{
+    RT x,y,z;
+    x =  p.hy() * (q.hz()*r.hw() - q.hw()*r.hz() )
+       + p.hz() * (q.hw()*r.hy() - q.hy()*r.hw() )
+       + p.hw() * (q.hy()*r.hz() - q.hz()*r.hy() );
+    y =  p.hz() * (q.hx()*r.hw() - q.hw()*r.hx() )
+       + p.hx() * (q.hw()*r.hz() - q.hz()*r.hw() )
+       + p.hw() * (q.hz()*r.hx() - q.hx()*r.hz() );
+    z =  p.hx() * (q.hy()*r.hw() - q.hw()*r.hy() )
+       + p.hy() * (q.hw()*r.hx() - q.hx()*r.hw() )
+       + p.hw() * (q.hx()*r.hy() - q.hy()*r.hx() );
+    return Vector_3< Simple_homogeneous<RT> >(x, y, z);
+}
+#endif // CGAL_SIMPLE_HOMOGENEOUS_H
+
+#if defined CGAL_CARTESIAN_H
 template <class FT>
 Vector_3< Cartesian<FT> >
 wcross(const Point_3< Cartesian<FT> > &p,
@@ -146,6 +160,22 @@ wcross(const Point_3< Cartesian<FT> > &p,
     return Vector_3< Cartesian<FT> >(x, y, z);
 }
 #endif // CGAL_CARTESIAN_H
+
+#if defined CGAL_SIMPLE_CARTESIAN_H
+template <class FT>
+Vector_3< Simple_cartesian<FT> >
+wcross(const Point_3< Simple_cartesian<FT> > &p,
+    const Point_3< Simple_cartesian<FT> > &q,
+    const Point_3< Simple_cartesian<FT> > &r)
+{
+    FT x,y,z;
+    x = (q.y()-p.y())*(r.z()-q.z()) - (q.z()-p.z())*(r.y()-q.y());
+    y = (q.z()-p.z())*(r.x()-q.x()) - (q.x()-p.x())*(r.z()-q.z());
+    z = (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
+    return Vector_3< Simple_cartesian<FT> >(x, y, z);
+}
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
 
 
 template <class R>

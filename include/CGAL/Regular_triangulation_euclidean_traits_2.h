@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997  The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,28 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
-// patch         : 1
-// patch_date    : 2000, December 11
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Regular_triangulation_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2000/06/30 09:22:02 $
+// revision      : $Revision: 1.18 $
+// revision_date : $Date: 2001/05/30 10:05:37 $
 // author(s)     : Mariette Yvinec
 //                 Sylvain Pion
 //
@@ -60,15 +58,137 @@
 #error  no representation class defined
 #endif  // CGAL_REP_CLASS_DEFINED
 
-#ifdef CGAL_CARTESIAN_H
+#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/predicates/Regular_triangulation_ftC2.h>
+#include <CGAL/constructions_on_weighted_points_cartesian_2.h>
 #endif
 
-#ifdef CGAL_HOMOGENEOUS_H
+#if defined CGAL_HOMOGENEOUS_H || defined CGAL_SIMPLE_HOMOGENEOUS_H
 #include <CGAL/predicates/Regular_triangulation_rtH2.h>
+#include <CGAL/constructions_on_weighted_points_homogeneous_2.h>
 #endif
 
 CGAL_BEGIN_NAMESPACE 
+
+// constructions for DUALITY: weighted_circumcenter and radical 
+//  axis
+template < class Point, class We >
+inline
+Point
+weighted_circumcenter(const Weighted_point< Point,We >& p,
+		      const Weighted_point< Point,We >& q,
+		      const Weighted_point< Point,We >& r,
+		      Cartesian_tag )
+{
+  
+  typename Point::RT x,y;
+  weighted_circumcenterC2(p.x(),p.y(),p.weight(),
+			  q.x(),q.y(),q.weight(),
+			  r.x(),r.y(),r.weight(),x,y);
+  return Point(x,y);
+}
+
+template < class Point, class We >
+inline
+Point
+weighted_circumcenter(const Weighted_point< Point,We >& p,
+		      const Weighted_point< Point,We >& q,
+		      const Weighted_point< Point,We >& r,
+		      Homogeneous_tag )
+{
+  
+  typename Point::RT x,y,w;
+  weighted_circumcenterH2(p.hx(),p.hy(),p.hw(),p.weight(),
+			  q.hx(),q.hy(),q.hw(),q.weight(),
+			  r.hx(),r.hy(),r.hw(),r.weight(),
+			  x,y,w);
+  return Point(x,y,w);
+}
+
+
+template < class Point, class We >
+inline
+Point
+weighted_circumcenter(const Weighted_point< Point,We >& p,
+		      const Weighted_point< Point,We >& q,
+		      const Weighted_point< Point,We >& r)
+{
+  typedef typename Point::R::Rep_tag Tag;
+  return weighted_circumcenter(p, q, r, Tag()); 
+}
+
+
+template <class Point, class Weight>
+class Construct_weighted_circumcenter_2
+{
+public:
+  typedef Weighted_point <Point, Weight>        Weighted_point;
+  Point operator() ( Weighted_point p,
+		     Weighted_point q,
+		     Weighted_point r) 
+    {
+      CGAL_triangulation_precondition( ! collinear(p, q, r) );
+      return CGAL::weighted_circumcenter(p,q,r);
+    }
+};
+ 
+
+
+template < class Point, class We >
+inline
+Line_2<typename Point::R>
+radical_axis(const Weighted_point< Point,We >& p,
+	     const Weighted_point< Point,We >& q,
+	     Cartesian_tag )
+{
+  typedef typename Point::RT RT;
+  typedef typename Point::R  Rep;
+  RT a,b,c;
+  radical_axisC2(p.x(),p.y(),p.weight(),q.x(),q.y(),q.weight(),a,b,c);
+  return Line_2<Rep>(a,b,c);
+}
+
+template < class Point, class We >
+inline
+Line_2<typename Point::R>
+radical_axis(const Weighted_point< Point,We >& p,
+	     const Weighted_point< Point,We >& q,
+	      Homogeneous_tag)
+{
+  typedef typename Point::RT RT;
+  typedef typename Point::R  Rep;
+  RT a,b,c;
+  radical_axisH2(p.hx(),p.hy(), p.hw(), p.weight(),
+		 q.hx(),q.hy(), q.hw(), q.weight(),a,b,c);
+  return Line_2<Rep>(a,b,c);
+}
+
+template < class Point, class We >
+inline
+Line_2<typename Point::R>
+radical_axis(const Weighted_point< Point,We >& p,
+	     const Weighted_point< Point,We >& q)
+{
+  typedef typename Point::R::Rep_tag Tag;
+  return radical_axis(p, q, Tag()); 
+}
+
+
+template <class Point, class Weight>
+class Construct_radical_axis_2
+{
+public:
+  typedef Weighted_point <Point, Weight>   Weighted_point;
+  typedef typename Point::R  R;
+
+  Line_2<R> operator() ( Weighted_point p, Weighted_point q) 
+  {
+    return CGAL::radical_axis(p,q);
+  }
+};
+
+///-----------------------------------------------------------
+
 
 template < class Point, class Weight >
 inline
@@ -194,16 +314,19 @@ public:
   typedef Triangulation_euclidean_traits_2 <R>  Traits;
   typedef typename Traits::Point_2              Bare_point;
   typedef Weighted_point <Bare_point, W>        Weighted_point;
+  // This is required for the point() function of vertex base class
+  // to be correctly return a weighted_point;
+  // patch 27/11/00
   typedef Weighted_point                        Point_2;
+
   typedef CGAL::Power_test_2<Bare_point, W>     Power_test_2;
   typedef CGAL::Power_test_degenerated_2<Bare_point, W>  
                                                 Power_test_degenerated_2;
-  
-  Regular_triangulation_euclidean_traits_2(){}
-  Regular_triangulation_euclidean_traits_2 ( 
-    const  Regular_triangulation_euclidean_traits_2& ) {}
-  Regular_triangulation_euclidean_traits_2& operator=
-  (const  Regular_triangulation_euclidean_traits_2& ) {return *this ;}
+ //concstruction objects
+  typedef CGAL::Construct_weighted_circumcenter_2<Bare_point, W> 
+                                            Construct_weighted_circumcenter_2;
+  typedef CGAL::Construct_radical_axis_2<Bare_point, W> 
+                                            Construct_radical_axis_2;
   
   Power_test_2 
   power_test_2_object() const
@@ -212,6 +335,15 @@ public:
   Power_test_degenerated_2
   power_test_degenerated_2_object() const
     {return Power_test_degenerated_2();}
+
+  //constructions for dual:
+  Construct_weighted_circumcenter_2
+  construct_weighted_circumcenter_2_object() const
+    {return Construct_weighted_circumcenter_2();}
+  
+  Construct_radical_axis_2
+  construct_radical_axis_2_object() const
+    {return Construct_radical_axis_2();}
 
 };
  

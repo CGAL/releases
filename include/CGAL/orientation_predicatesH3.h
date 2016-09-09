@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : predicates_on_pointsH3.fw
 // file          : include/CGAL/orientation_predicatesH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/07/10 13:04:33 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,86 +50,61 @@
 #ifndef CGAL_ORIENTATION_PREDICATESH3_H
 #define CGAL_ORIENTATION_PREDICATESH3_H
 
-#ifndef CGAL_PVDH3_H
 #include <CGAL/PVDH3.h>
-#endif // CGAL_PVDH3_H
-
 #include <CGAL/predicates_on_rtH2.h>
+#include <CGAL/predicates/sign_of_determinant.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_INLINE
 Orientation
-orientation( const PointH3<FT,RT>& p,
-             const PointH3<FT,RT>& q,
-             const PointH3<FT,RT>& r,
-             const PointH3<FT,RT>& s)
+orientation( const PointH3<R>& p,
+             const PointH3<R>& q,
+             const PointH3<R>& r,
+             const PointH3<R>& s)
 {
-  RT det = det4x4_by_formula(
-               p.hx(), p.hy(), p.hz(), p.hw(),
-               q.hx(), q.hy(), q.hz(), q.hw(),
-               r.hx(), r.hy(), r.hz(), r.hw(),
-               s.hx(), s.hy(), s.hz(), s.hw() );
-/*
-  RT det= - p.hw()*(  q.hx()*( r.hy()*s.hz() - r.hz()*s.hy() )
-                    - r.hx()*( q.hy()*s.hz() - q.hz()*s.hy() )
-                    + s.hx()*( q.hy()*r.hz() - q.hz()*r.hy() ) )
-          + q.hw()*(  p.hx()*( r.hy()*s.hz() - r.hz()*s.hy() )
-                    - r.hx()*( p.hy()*s.hz() - p.hz()*s.hy() )
-                   + s.hx()*( p.hy()*r.hz() - p.hz()*r.hy() ) )
-          - r.hw()*(  p.hx()*( q.hy()*s.hz() - q.hz()*s.hy() )
-                    - q.hx()*( p.hy()*s.hz() - p.hz()*s.hy() )
-                    + s.hx()*( p.hy()*q.hz() - p.hz()*q.hy() ) )
-          + s.hw()*(  p.hx()*( q.hy()*r.hz() - q.hz()*r.hy() )
-                    - q.hx()*( p.hy()*r.hz() - p.hz()*r.hy() )
-                    + r.hx()*( p.hy()*q.hz() - p.hz()*q.hy() ) ) ;
-*/
-  if (det == RT(0))
-  {
-      return COPLANAR;
-  }
-  else
-  {
-      return det < RT(0) ? POSITIVE : NEGATIVE;
-      // switched, because the determinant above has the 1-row at the end
-  }
+  // Two rows are switched, because of the homogeneous column.
+  return (Orientation) sign_of_determinant4x4( p.hx(), p.hy(), p.hz(), p.hw(),
+                                               r.hx(), r.hy(), r.hz(), r.hw(),
+                                               q.hx(), q.hy(), q.hz(), q.hw(),
+                                               s.hx(), s.hy(), s.hz(), s.hw());
 }
 
-template < class FT, class RT>
+template < class R>
 inline
 bool
-are_positive_oriented( const PointH3<FT,RT>& p,
-                            const PointH3<FT,RT>& q,
-                            const PointH3<FT,RT>& r,
-                            const PointH3<FT,RT>& s)
+are_positive_oriented( const PointH3<R>& p,
+                       const PointH3<R>& q,
+                       const PointH3<R>& r,
+                       const PointH3<R>& s)
 { return (orientation(p,q,r,s) == POSITIVE); }
 
-template < class FT, class RT>
+template < class R>
 inline
 bool
-are_negative_oriented( const PointH3<FT,RT>& p,
-                       const PointH3<FT,RT>& q,
-                       const PointH3<FT,RT>& r,
-                       const PointH3<FT,RT>& s)
+are_negative_oriented( const PointH3<R>& p,
+                       const PointH3<R>& q,
+                       const PointH3<R>& r,
+                       const PointH3<R>& s)
 { return (orientation(p,q,r,s) == NEGATIVE); }
 
-template < class FT, class RT>
+template < class R>
 inline
 bool
-coplanar( const PointH3<FT,RT>& p,
-          const PointH3<FT,RT>& q,
-          const PointH3<FT,RT>& r,
-          const PointH3<FT,RT>& s)
+coplanar( const PointH3<R>& p,
+          const PointH3<R>& q,
+          const PointH3<R>& r,
+          const PointH3<R>& s)
 { return (orientation(p,q,r,s) == COPLANAR); }
 
 
-template <class FT, class RT>
+template <class R>
 Orientation
-coplanar_orientation(const PointH3<FT,RT>& p,
-                     const PointH3<FT,RT>& q,
-                     const PointH3<FT,RT>& r,
-                     const PointH3<FT,RT>& s)
+coplanar_orientation(const PointH3<R>& p,
+                     const PointH3<R>& q,
+                     const PointH3<R>& r,
+                     const PointH3<R>& s)
 // p,q,r,s supposed to be coplanar
 // p, q, r supposed to be non collinear
 // tests whether s is on the same side of p,q as r
@@ -178,7 +152,32 @@ coplanar_orientation(const PointH3<FT,RT>& p,
   return COLLINEAR;
 }
 
+template <class R>
+CGAL_KERNEL_LARGE_INLINE
+Orientation
+coplanar_orientation(const PointH3<R>& p,
+                     const PointH3<R>& q,
+                     const PointH3<R>& r)
+// Returns an Orientation which is coherent for all (p,q,r) chosen in a same
+// plane.
+{
+  Orientation oxy_pqr = orientationH2(p.hx(), p.hy(), p.hw(),
+	                              q.hx(), q.hy(), q.hw(),
+				      r.hx(), r.hy(), r.hw());
+  if (oxy_pqr != COLLINEAR)
+      return oxy_pqr;
+
+  Orientation oyz_pqr = orientationH2(p.hy(), p.hz(), p.hw(),
+	                              q.hy(), q.hz(), q.hw(),
+				      r.hy(), r.hz(), r.hw());
+  if (oyz_pqr != COLLINEAR)
+      return oyz_pqr;
+
+  return orientationH2(p.hx(), p.hz(), p.hw(),
+	               q.hx(), q.hz(), q.hw(),
+		       r.hx(), r.hz(), r.hw());
+}
+
 CGAL_END_NAMESPACE
 
-
-#endif // ORIENTATION_PREDICATESH3_H
+#endif // CGAL_ORIENTATION_PREDICATESH3_H

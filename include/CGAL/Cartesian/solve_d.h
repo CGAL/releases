@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/solve_d.h
-// package       : Cd (1.5)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2000/06/27 14:32:35 $
+// package       : Cd (1.14)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/20 21:55:04 $
 // author(s)     : Andreas.Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,10 +48,7 @@
 #ifndef CGAL_CARTESIAN_CARTESIAN_SOLVE_D_H
 #define CGAL_CARTESIAN_CARTESIAN_SOLVE_D_H
 
-#ifndef CGAL_CARTESIAN_REDEFINE_NAMES_D_H
 #include <CGAL/Cartesian/redefine_names_d.h>
-#endif
-
 #include <CGAL/solve.h>
 #include <CGAL/Cartesian/Vector_d.h>
 
@@ -73,4 +70,4 @@ void solve (const VectorCd<R CGAL_CTAG> &v0,
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_CARTESIAN_CARTESIAN_SOLVE_3_H
+#endif // CGAL_CARTESIAN_CARTESIAN_SOLVE_D_H

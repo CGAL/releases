@@ -1,3 +1,5 @@
+// demo/Arrangement_2/Circle_arr_from_file.C
+//
 //constructs an arrangement of circles from file
 
 //File format is:
@@ -14,7 +16,7 @@
 #include <CGAL/Arrangement_2.h>
 
 #ifndef CGAL_USE_LEDA
-int main(int argc, char* argv[])
+int main()
 {
 
   std::cout << "Sorry, this demo needs LEDA for visualisation.";
@@ -27,8 +29,8 @@ int main(int argc, char* argv[])
 
 #include <CGAL/leda_real.h>
 #include <CGAL/IO/Window_stream.h>
-#include <CGAL/IO/leda_window.h>
 #include <CGAL/IO/Arr_circle_traits_Window_stream.h>
+#include <CGAL/Draw_preferences.h>
 
 typedef CGAL::Arr_circles_real_traits<leda_real> Traits; 
 
@@ -44,36 +46,21 @@ typedef CGAL::Arrangement_2<Dcel,Traits,Base_node >    Arr_2;
 // can be defined to draw information found in these variables.
 static Arr_2 arr;
 static CGAL::Window_stream W(400, 400, "CGAL - Circle Arrangement Demo");
- 
+
 CGAL_BEGIN_NAMESPACE
-
-Window_stream& operator<<(Window_stream& os,
-                          Arr_2 &A)
+Window_stream& operator<<(Window_stream& os, Arr_2 &A)
 {
-   Arr_2::Halfedge_iterator it = A.halfedges_begin();
-   os << BLUE;
-
-   while(it != A.halfedges_end()){
-     os << (*it).curve();
-     ++it; ++it;
-     
-    }
-
-    os << GREEN;
-    Arr_2::Vertex_iterator vit = A.vertices_begin();
-    while(vit!=A.vertices_end()) {
-      os << (*vit).point();
-      ++vit;
-    }
-
-    os.set_flush( 1 );
-    os.flush();
-
-    return os;
+  My_Arr_drawer< Arr_2,
+                 Arr_2::Ccb_halfedge_circulator, 
+                 Arr_2::Holes_iterator> drawer(os);
+  
+  draw_pm(arr, drawer, os);
+  
+  return os;
 }
 CGAL_END_NAMESPACE
-
-// redraw function for the LEDA window. used automatically when window reappears
+// redraw function for the LEDA window. used automatically when window 
+// reappears
 void redraw(CGAL::Window_stream * wp) 
 { wp->start_buffering();
   wp->clear();
@@ -120,6 +107,7 @@ int main(int argc, char* argv[])
   W.set_mode(leda_src_mode);
   W.set_node_width(3);
   W.button("finish",10);
+  W.open_status_window();
   W.display();
 
   for (unsigned int i=0; i<circles.size(); ++i) {
@@ -130,10 +118,10 @@ int main(int argc, char* argv[])
   }
 
   W << arr;
-  std::cout << "Total insertion time: " <<  insrt_t.time() << std::endl;
+   std::cout << "Total insertion time: " <<  insrt_t.time() << std::endl;
 
   //POINT LOCATION
-  std::cout << "\nEnter a point with left button." << std::endl;
+  W.set_status_string( "Enter a query point with left mouse button" );
   Point p;
 
   Arr_2::Halfedge_handle e;

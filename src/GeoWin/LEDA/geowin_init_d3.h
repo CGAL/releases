@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/GeoWin/LEDA/geowin_init_d3.h
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.3.5)
+// revision      : 1.2.2
+// revision_date : 30 January 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
@@ -44,6 +44,8 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
+
 
 #ifndef LEDA_GEOWIN_INIT_D3_H
 #define LEDA_GEOWIN_INIT_D3_H
@@ -159,6 +161,21 @@ d3_rat_triangle leda_convert_to(const d3_triangle& s)
                     leda_convert_to(s.point3()));
   return sr;
 }
+
+/*
+#if !defined(__SUNPRO_CC) 
+d3_rat_polygon leda_convert_to(const d3_polygon& s)
+{
+  list<d3_rat_point> LPR;
+  list<d3_point> LP = s.vertices();
+  d3_point pi;
+  forall(pi, LP) LPR.append(leda_convert_to(pi));
+
+  d3_rat_polygon sr(LPR);
+  return sr;
+}
+#endif
+*/
 
 d3_rat_sphere leda_convert_to(const d3_sphere& s)
 {
@@ -1193,6 +1210,98 @@ void d3_rat_triangles_d3(const list<d3_rat_triangle>& L,d3_window& W, GRAPH<d3_p
  H.join(G);
 }
 
+// ---------------------------------------------------------------------------------------
+// --------------------------------- generators ------------------------------------------
+// ---------------------------------------------------------------------------------------
+
+list<d3_triangle> geowin_conversion(list<d3_rat_point>& L,double wt)
+{
+ list<d3_triangle> Lf;
+ d3_rat_point p;
+ d3_point pfl[3];
+ int pfl_cnt = 0;
+ 
+ forall(p,L) {
+   pfl[pfl_cnt++] = p.to_d3_point().translate(wt,wt,0);
+   
+   if (pfl_cnt == 3){
+    d3_triangle p_tr(pfl[0], pfl[1], pfl[2]);
+    Lf.append(p_tr);
+    pfl_cnt = 0;
+   } 
+ }
+ return Lf;
+}
+
+void geowin_generate_objects(GeoWin& gw, list<d3_triangle>& L)
+{
+  window& w = gw.get_window();
+  int r     = GEOWIN_MARGIN;
+
+  double d = r/w.scale();
+  double d1 = d + 16/w.scale();
+  double x1 = w.xmin()+d;
+  double y1 = w.ymin()+d;
+  double x2 = w.xmax()-d;
+  double y2 = w.ymax()-d1;
+
+  panel P("D3 Triangles");
+  
+  double wt = ((x2-x1) > (y2-y1)) ? (y2-y1)/2 : (x2-x1)/2 ;
+  int   maxc = (int)wt;
+  int   number = 20, number2 =0;
+  
+  P.int_item("number*100", number2, 0, 19);
+  P.int_item("+ n", number, 0, 99);
+    
+  P.button(" CUBE ", 1);
+  P.button(" BALL ", 2);
+  P.button(" SQUARE ", 3);
+
+  P.button(" DONE ", 0);
+
+  int but;
+  list<d3_rat_point> Lr;
+
+  but = gw.open_panel(P);
+
+  switch (but) {
+   case 0: return;
+   case 1: random_points_in_cube(3* (number+number2*100),3*maxc/4,Lr); break;
+   case 2: random_points_in_ball(3* (number+number2*100),maxc,Lr); break;
+   case 3: random_points_in_square(3* (number+number2*100),maxc,Lr); break;
+  }
+
+  L=geowin_conversion(Lr,wt);
+}
+
+void geowin_generate_objects(GeoWin& gw, list<d3_rat_triangle>& L) 
+{ 
+  list<d3_triangle> L1;
+
+  geowin_generate_objects(gw, L1);
+  d3_triangle t;
+  d3_rat_point p1,p2,p3;
+  d3_point p;
+  rational x,y,z;
+  forall(t, L1) {
+     p= t.point1();
+     x=rational(p.xcoord()); y=rational(p.ycoord());
+     z=rational(p.zcoord());
+     p1 = d3_rat_point(x,y,z);
+     p= t.point2();
+     x=rational(p.xcoord()); y=rational(p.ycoord());
+     z=rational(p.zcoord());
+     p2 = d3_rat_point(x,y,z);
+     p= t.point3();
+     x=rational(p.xcoord()); y=rational(p.ycoord());
+     z=rational(p.zcoord());  
+     p3 = d3_rat_point(x,y,z);        
+     L.append(d3_rat_triangle(p1,p2,p3)); 
+  }
+}
+
+
 ps_file& operator<<(ps_file& F,const d3_triangle& r)
 {
    point p1(r.point1().xcoord(), r.point1().ycoord());
@@ -1395,9 +1504,169 @@ void geowin_Translate(d3_rat_triangle& obj, double dx, double dy)
 void geowin_Rotate(d3_rat_triangle& obj, double dx, double dy,double a){ }
 
 
-void geowin_generate_objects(GeoWin& gw, list<d3_triangle>& L){ }
 
-void geowin_generate_objects(GeoWin& gw, list<d3_rat_triangle>& L){ }
+
+// ------------------------------------------------------------------------------
+// New  - d3 polygons
+// ------------------------------------------------------------------------------
+
+/*
+#if !defined(__SUNPRO_CC) 
+void d3_polygons_d3(const list<d3_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H)
+{
+ GRAPH<d3_point,int> G;
+ d3_polygon iter;
+ list<d3_segment> LS;
+ forall(iter,L) {
+   LS = iter.segments();
+   d3_segment siter;
+   forall(siter,LS) {
+    node v1 = G.new_node(siter.source());
+    node v2 = G.new_node(siter.target());   
+    edge e1 = G.new_edge(v1,v2);
+    edge e2 = G.new_edge(v2,v1);
+    G.set_reversal(e1,e2);
+   } 
+ }
+ H.join(G);
+}
+
+void d3_rat_polygons_d3(const list<d3_rat_polygon>& L,d3_window& W, GRAPH<d3_point,int>& H)
+{
+ GRAPH<d3_point,int> G;
+ d3_rat_polygon iter;
+ list<d3_rat_segment> LS;
+ forall(iter,L) {
+   LS = iter.segments();
+   d3_rat_segment siter;
+   forall(siter,LS) {
+    node v1 = G.new_node(siter.source().to_float());
+    node v2 = G.new_node(siter.target().to_float());   
+    edge e1 = G.new_edge(v1,v2);
+    edge e2 = G.new_edge(v2,v1);
+    G.set_reversal(e1,e2);
+   } 
+ }
+ H.join(G);
+}
+
+ps_file& operator<<(ps_file& F,const d3_polygon& p)
+{
+   return F;
+}
+
+ps_file& operator<<(ps_file& F,const d3_rat_polygon& p)
+{     
+   return F;
+}
+
+window& operator << (window& w, const d3_polygon& p)
+{
+   list<d3_segment> LS = p.segments();
+   d3_segment siter;
+   forall(siter, LS){
+     w << siter.project_xy();
+   }
+   return w;
+}
+
+window& operator << (window& w, const d3_rat_polygon& p)
+{
+   list<d3_rat_segment> LS = p.segments();
+   d3_rat_segment siter;
+   forall(siter, LS){
+     w << siter.project_xy().to_float();
+   } 
+   return w;
+}
+
+window& operator >> (window& w, d3_polygon& obj)
+{
+   polygon p;
+   w >> p;
+   list<d3_point> LP;
+   
+   list<point> Lh = p.vertices();
+   point pi;
+   forall(pi,Lh) LP.append(d3_point(pi.xcoord(), pi.ycoord(), 0));
+     
+   obj = d3_polygon(LP);
+   return w;
+}
+
+window& operator >> (window& w, d3_rat_polygon& obj)
+{
+   d3_polygon p;
+   w >> p;
+   obj = leda_convert_to(p);
+   return w;
+}
+
+
+bool geowin_IntersectsBox(const d3_polygon& obj, double x1,double y1,double x2, double y2,bool f)
+{
+  list<d3_point> Lp = obj.vertices();
+  list<point> Lh;
+  d3_point pi;
+  forall(pi,Lp) Lh.append(pi.project_xy());
+  
+  polygon p(Lh);
+
+  return geowin_IntersectsBox(p, x1,y1,x2,y2,f);
+}
+
+void geowin_BoundingBox(const d3_polygon& obj, double& x1, double& x2,double& y1, double& y2)
+{  
+  list<d3_point> Lp = obj.vertices();
+  list<point> Lh;
+  d3_point pi;
+  forall(pi,Lp) Lh.append(pi.project_xy());
+  
+  polygon p(Lh);
+
+  geowin_BoundingBox(p, x1,x2,y1,y2);
+}
+
+void geowin_Translate(d3_polygon& obj, double dx, double dy)
+{
+  d3_polygon obnew; 
+  int val = GeoWin::get_projection_mode();
+  
+  switch(val){
+   case 0:   { obnew = obj.translate(dx,dy,0); break; }
+   case 1:   { obnew = obj.translate(dx,0,dy); break; }
+   default: { obnew = obj.translate(0,dx,dy); break; }
+  }  
+  obj = obnew;
+}
+
+void geowin_Rotate(d3_polygon& obj, double dx, double dy,double a){ }
+
+bool geowin_IntersectsBox(const d3_rat_polygon& obj, double x1,double y1,double x2, double y2,bool f)
+{ return geowin_IntersectsBox(obj.to_float(),x1,y1,x2,y2,f); }
+
+void geowin_BoundingBox(const d3_rat_polygon& obj, double& x1, double& x2,double& y1, double& y2)
+{ geowin_BoundingBox(obj.to_float(),x1,x2,y1,y2); }
+
+void geowin_Translate(d3_rat_polygon& obj, double dx, double dy)
+{
+ int val = GeoWin::get_projection_mode();
+ switch(val){
+  case 0: { obj = leda_convert_to(obj.to_float().translate(dx, dy, 0)); break; }
+  case 1: { obj = leda_convert_to(obj.to_float().translate(dx, 0, dy)); break; }
+  default: { obj = leda_convert_to(obj.to_float().translate(0,dx,dy)); break; }  
+ }
+}
+
+void geowin_Rotate(d3_rat_polygon& obj, double dx, double dy,double a){ }
+
+
+void geowin_generate_objects(GeoWin& gw, list<d3_polygon>& L){ }
+
+void geowin_generate_objects(GeoWin& gw, list<d3_rat_polygon>& L){ }
+
+#endif
+*/
 
 
 #endif
@@ -1627,6 +1896,11 @@ void geowin_Rotate(d3_rat_sphere& obj, double dx, double dy,double a){ }
 void geowin_generate_objects(GeoWin& gw, list<d3_sphere>& L){ }
 
 void geowin_generate_objects(GeoWin& gw, list<d3_rat_sphere>& L){ }
+
+#if LEDA_ROOT_INCL_ID == 400955
+#undef LEDA_ROOT_INCL_ID
+#include <LEDA/UNDEFINE_NAMES.h>
+#endif
 
 #endif
 

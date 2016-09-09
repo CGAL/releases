@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/intersection_3_1.h
-// package       : Intersections_3 (2.3)
+// package       : Intersections_3 (2.4.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -221,6 +221,74 @@ intersection(const Bbox_3 &box,
 {
     return intersection(seg, box);
 }
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Line_3<R> &line,
+        const Iso_cuboid_3<R> &box) ;
+
+template <class R>
+inline Object
+intersection(const Iso_cuboid_3<R> &box,
+        const Line_3<R> &line)
+{
+    return intersection(line, box);
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Ray_3<R> &ray,
+        const Iso_cuboid_3<R> &box) ;
+
+template <class R>
+inline Object
+intersection(const Iso_cuboid_3<R> &box,
+        const Ray_3<R> &ray)
+{
+    return intersection(ray, box);
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Segment_3<R> &seg,
+        const Iso_cuboid_3<R> &box) ;
+
+template <class R>
+inline Object
+intersection(const Iso_cuboid_3<R> &box,
+        const Segment_3<R> &seg)
+{
+    return intersection(seg, box);
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Iso_cuboid_3<R> &box1,
+        const Iso_cuboid_3<R> &box2) ;
+
 CGAL_END_NAMESPACE
 
 

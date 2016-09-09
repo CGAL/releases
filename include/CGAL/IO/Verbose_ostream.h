@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/Verbose_ostream.h
-// package       : Stream_support (2.9)
-// chapter       : $CGAL_Chapter: Stream Support $
-// source        : support.fw
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 1999/07/30 14:21:30 $
+// package       : Stream_support (2.15)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/01/30 15:21:54 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
@@ -50,11 +48,9 @@
 // ======================================================================
 
 #ifndef CGAL_IO_VERBOSE_OSTREAM_H
-#define CGAL_IO_VERBOSE_OSTREAM_H 1
-#ifndef CGAL_PROTECT_IOSTREAM
+#define CGAL_IO_VERBOSE_OSTREAM_H
+
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -68,52 +64,41 @@ public:
         : b(active), o(&out){}
 
     bool          verbose()           const { return b; }
-    void          set_verbose( bool active) { b = active; }
+    void          set_verbose(bool active)  { b = active; }
     std::ostream& out()                     { return *o; }
 
-#ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
     template < class T >
-    Verbose_ostream&  operator<<( const T& t)            { CGAL__VERB(t);}
-#endif // CGAL_CFG_NO_MEMBER_TEMPLATES //
-    // The following specialisations avoid the & for their small args.
-    Verbose_ostream&  operator<<( char c)                { CGAL__VERB(c);}
-    Verbose_ostream&  operator<<( const char* s)         { CGAL__VERB(s);}
-    Verbose_ostream&  operator<<( int a)                 { CGAL__VERB(a);}
-    Verbose_ostream&  operator<<( long l)                { CGAL__VERB(l);}
-    Verbose_ostream&  operator<<( double d)              { CGAL__VERB(d);}
-    Verbose_ostream&  operator<<( float f)               { CGAL__VERB(f);}
-    Verbose_ostream&  operator<<( unsigned int a)        { CGAL__VERB(a);}
-    Verbose_ostream&  operator<<( unsigned long l)       { CGAL__VERB(l);}
-#ifdef _LONGLONG
-    Verbose_ostream&  operator<<( long long l)           { CGAL__VERB(l);}
-    Verbose_ostream&  operator<<( unsigned long long l)  { CGAL__VERB(l);}
-#endif /* _LONGLONG */
-    Verbose_ostream&  operator<<( void* p)               { CGAL__VERB(p);}
-    Verbose_ostream&  operator<<( short i)               { CGAL__VERB(i);}
-    Verbose_ostream&  operator<<( unsigned short i)      { CGAL__VERB(i);}
+    Verbose_ostream& operator<<(const T& t)
+    { CGAL__VERB(t); }
 
-    Verbose_ostream&  operator<<( std::ostream& (*f)(std::ostream&))
-                                                         { CGAL__VERB(f);}
-    Verbose_ostream&  operator<<( std::ios& (*f)(std::ios&))
-                                                         { CGAL__VERB(f);}
-    Verbose_ostream&  flush() {
+    Verbose_ostream& operator<<( std::ostream& (*f)(std::ostream&))
+    { CGAL__VERB(f); }
+
+    Verbose_ostream& operator<<( std::ios& (*f)(std::ios&))
+    { CGAL__VERB(f); }
+
+    Verbose_ostream& flush()
+    {
         if (b)
             o->flush();
         return *this;
     }
-    Verbose_ostream&  put(char c) {
+
+    Verbose_ostream& put(char c)
+    {
         if (b)
             o->put(c);
         return *this;
     }
-    Verbose_ostream&  write(const char*  s,int n) {
+
+    Verbose_ostream& write(const char* s, int n)
+    {
         if (b)
-            o->write( s, n);
+            o->write(s, n);
         return *this;
     }
 };
-#undef CGAL__VERB
 
 CGAL_END_NAMESPACE
-#endif // CGAL_IO_VERBOSE_OSTREAM_H //
-// EOF //
+
+#endif // CGAL_IO_VERBOSE_OSTREAM_H

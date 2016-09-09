@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/iterator_traits_pointer_specs_for_homogeneous_kernel.h
-// package       : Kernel_basic (3.14)
-// source        : bangbang.lw
-// revision      : 2.7.1
-// revision_date : 06 Oct 1999
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/02/25 12:46:25 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -442,364 +441,364 @@ __STL_END_NAMESPACE                                                             
 #define CGAL_ITERATOR_TRAITS_POINTER_SPECH2(NT)                                                       \
 __STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
-    struct iterator_traits<const CGAL::PointH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::PointH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PointH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PointH2< CGAL::Homogeneous< NT > >        value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef const CGAL::PointH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::PointH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::PointH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::PointH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                               \
     template <>                                                                      \
-    struct iterator_traits<CGAL::PointH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::PointH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PointH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PointH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef CGAL::PointH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::PointH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::PointH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::PointH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                               \
 __STL_END_NAMESPACE                                                                  \
 __STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
-    struct iterator_traits<const CGAL::VectorH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::VectorH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::VectorH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::VectorH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef const CGAL::VectorH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::VectorH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::VectorH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::VectorH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                \
     template <>                                                                       \
-    struct iterator_traits<CGAL::VectorH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::VectorH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::VectorH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::VectorH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef CGAL::VectorH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::VectorH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::VectorH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::VectorH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                \
 __STL_END_NAMESPACE                                                                   \
 __STL_BEGIN_NAMESPACE                                                                    \
     template <>                                                                          \
-    struct iterator_traits<const CGAL::DirectionH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::DirectionH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                            iterator_category; \
-        typedef CGAL::DirectionH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::DirectionH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                             difference_type;   \
-        typedef const CGAL::DirectionH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::DirectionH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::DirectionH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::DirectionH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                   \
     template <>                                                                          \
-    struct iterator_traits<CGAL::DirectionH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::DirectionH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                            iterator_category; \
-        typedef CGAL::DirectionH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::DirectionH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                             difference_type;   \
-        typedef CGAL::DirectionH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::DirectionH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::DirectionH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::DirectionH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                   \
 __STL_END_NAMESPACE                                                                      \
 __STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
-    struct iterator_traits<const CGAL::LineH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::LineH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::LineH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::LineH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                        difference_type;   \
-        typedef const CGAL::LineH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::LineH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::LineH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::LineH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                              \
     template <>                                                                     \
-    struct iterator_traits<CGAL::LineH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::LineH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::LineH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::LineH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                        difference_type;   \
-        typedef CGAL::LineH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::LineH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::LineH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::LineH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                              \
 __STL_END_NAMESPACE                                                                 \
 __STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
-    struct iterator_traits<const CGAL::SegmentH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::SegmentH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
-        typedef CGAL::SegmentH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::SegmentH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                           difference_type;   \
-        typedef const CGAL::SegmentH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::SegmentH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::SegmentH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::SegmentH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                 \
     template <>                                                                        \
-    struct iterator_traits<CGAL::SegmentH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::SegmentH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                          iterator_category; \
-        typedef CGAL::SegmentH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::SegmentH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                           difference_type;   \
-        typedef CGAL::SegmentH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::SegmentH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::SegmentH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::SegmentH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                 \
 __STL_END_NAMESPACE                                                                    \
 __STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
-    struct iterator_traits<const CGAL::RayH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::RayH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
-        typedef CGAL::RayH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::RayH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                       difference_type;   \
-        typedef const CGAL::RayH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::RayH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::RayH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::RayH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                             \
     template <>                                                                    \
-    struct iterator_traits<CGAL::RayH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::RayH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                      iterator_category; \
-        typedef CGAL::RayH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::RayH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                       difference_type;   \
-        typedef CGAL::RayH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::RayH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::RayH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::RayH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                             \
 __STL_END_NAMESPACE                                                                \
 __STL_BEGIN_NAMESPACE                                                                        \
     template <>                                                                              \
-    struct iterator_traits<const CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                iterator_category; \
-        typedef CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                 difference_type;   \
-        typedef const CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                       \
     template <>                                                                              \
-    struct iterator_traits<CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                                iterator_category; \
-        typedef CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                 difference_type;   \
-        typedef CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::Iso_rectangleH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::Iso_rectangleH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                       \
 __STL_END_NAMESPACE                                                                          \
 __STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
-    struct iterator_traits<const CGAL::TriangleH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::TriangleH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
-        typedef CGAL::TriangleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TriangleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                            difference_type;   \
-        typedef const CGAL::TriangleH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::TriangleH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::TriangleH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::TriangleH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                  \
     template <>                                                                         \
-    struct iterator_traits<CGAL::TriangleH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::TriangleH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                           iterator_category; \
-        typedef CGAL::TriangleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TriangleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                            difference_type;   \
-        typedef CGAL::TriangleH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::TriangleH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::TriangleH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::TriangleH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                  \
 __STL_END_NAMESPACE                                                                     \
 __STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
-    struct iterator_traits<const CGAL::CircleH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::CircleH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::CircleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::CircleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef const CGAL::CircleH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::CircleH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::CircleH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::CircleH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                \
     template <>                                                                       \
-    struct iterator_traits<CGAL::CircleH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::CircleH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::CircleH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::CircleH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef CGAL::CircleH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::CircleH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::CircleH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::CircleH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                \
 __STL_END_NAMESPACE                                                                   \
 __STL_BEGIN_NAMESPACE                                                                             \
     template <>                                                                                   \
-    struct iterator_traits<const CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                     iterator_category; \
-        typedef CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                      difference_type;   \
-        typedef const CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                            \
     template <>                                                                                   \
-    struct iterator_traits<CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                                     iterator_category; \
-        typedef CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                      difference_type;   \
-        typedef CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::Aff_transformationH2< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::Aff_transformationH2< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                            \
 __STL_END_NAMESPACE                                                                               \
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPECH3(NT)                                                       \
 __STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
-    struct iterator_traits<const CGAL::PointH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::PointH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PointH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PointH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef const CGAL::PointH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::PointH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::PointH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::PointH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                               \
     template <>                                                                      \
-    struct iterator_traits<CGAL::PointH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::PointH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PointH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PointH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef CGAL::PointH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::PointH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::PointH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::PointH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                               \
 __STL_END_NAMESPACE                                                                  \
 __STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
-    struct iterator_traits<const CGAL::VectorH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::VectorH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::VectorH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::VectorH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef const CGAL::VectorH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::VectorH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::VectorH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::VectorH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                \
     template <>                                                                       \
-    struct iterator_traits<CGAL::VectorH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::VectorH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                         iterator_category; \
-        typedef CGAL::VectorH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::VectorH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                          difference_type;   \
-        typedef CGAL::VectorH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::VectorH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::VectorH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::VectorH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                \
 __STL_END_NAMESPACE                                                                   \
 __STL_BEGIN_NAMESPACE                                                                    \
     template <>                                                                          \
-    struct iterator_traits<const CGAL::DirectionH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::DirectionH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                            iterator_category; \
-        typedef CGAL::DirectionH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::DirectionH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                             difference_type;   \
-        typedef const CGAL::DirectionH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::DirectionH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::DirectionH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::DirectionH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                   \
     template <>                                                                          \
-    struct iterator_traits<CGAL::DirectionH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::DirectionH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                            iterator_category; \
-        typedef CGAL::DirectionH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::DirectionH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                             difference_type;   \
-        typedef CGAL::DirectionH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::DirectionH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::DirectionH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::DirectionH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                   \
 __STL_END_NAMESPACE                                                                      \
 __STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
-    struct iterator_traits<const CGAL::PlaneH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::PlaneH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PlaneH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PlaneH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef const CGAL::PlaneH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::PlaneH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::PlaneH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::PlaneH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                               \
     template <>                                                                      \
-    struct iterator_traits<CGAL::PlaneH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::PlaneH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                        iterator_category; \
-        typedef CGAL::PlaneH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::PlaneH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                         difference_type;   \
-        typedef CGAL::PlaneH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::PlaneH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::PlaneH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::PlaneH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                               \
 __STL_END_NAMESPACE                                                                  \
 __STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
-    struct iterator_traits<const CGAL::LineH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::LineH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::LineH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::LineH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                        difference_type;   \
-        typedef const CGAL::LineH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::LineH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::LineH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::LineH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                              \
     template <>                                                                     \
-    struct iterator_traits<CGAL::LineH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::LineH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::LineH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::LineH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                        difference_type;   \
-        typedef CGAL::LineH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::LineH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::LineH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::LineH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                              \
 __STL_END_NAMESPACE                                                                 \
 __STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
-    struct iterator_traits<const CGAL::SegmentH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::SegmentH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
-        typedef CGAL::SegmentH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::SegmentH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                           difference_type;   \
-        typedef const CGAL::SegmentH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::SegmentH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::SegmentH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::SegmentH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                 \
     template <>                                                                        \
-    struct iterator_traits<CGAL::SegmentH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::SegmentH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                          iterator_category; \
-        typedef CGAL::SegmentH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::SegmentH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                           difference_type;   \
-        typedef CGAL::SegmentH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::SegmentH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::SegmentH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::SegmentH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                 \
 __STL_END_NAMESPACE                                                                    \
 __STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
-    struct iterator_traits<const CGAL::RayH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::RayH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
-        typedef CGAL::RayH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::RayH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                       difference_type;   \
-        typedef const CGAL::RayH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::RayH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::RayH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::RayH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                             \
     template <>                                                                    \
-    struct iterator_traits<CGAL::RayH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::RayH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                      iterator_category; \
-        typedef CGAL::RayH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::RayH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                       difference_type;   \
-        typedef CGAL::RayH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::RayH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::RayH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::RayH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                             \
 __STL_END_NAMESPACE                                                                \
 __STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
-    struct iterator_traits<const CGAL::TriangleH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::TriangleH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
-        typedef CGAL::TriangleH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TriangleH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                            difference_type;   \
-        typedef const CGAL::TriangleH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::TriangleH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::TriangleH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::TriangleH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                  \
     template <>                                                                         \
-    struct iterator_traits<CGAL::TriangleH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::TriangleH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                           iterator_category; \
-        typedef CGAL::TriangleH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TriangleH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                            difference_type;   \
-        typedef CGAL::TriangleH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::TriangleH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::TriangleH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::TriangleH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                  \
 __STL_END_NAMESPACE                                                                     \
 __STL_BEGIN_NAMESPACE                                                                      \
     template <>                                                                            \
-    struct iterator_traits<const CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                              iterator_category; \
-        typedef CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                               difference_type;   \
-        typedef const CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                     \
     template <>                                                                            \
-    struct iterator_traits<CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                              iterator_category; \
-        typedef CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                               difference_type;   \
-        typedef CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::TetrahedronH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::TetrahedronH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                     \
 __STL_END_NAMESPACE                                                                        \
 __STL_BEGIN_NAMESPACE                                                                             \
     template <>                                                                                   \
-    struct iterator_traits<const CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >*> {       \
+    struct iterator_traits<const CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                     iterator_category; \
-        typedef CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                      difference_type;   \
-        typedef const CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >*  pointer;           \
-        typedef const CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >&  reference;         \
+        typedef const CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >*  pointer;           \
+        typedef const CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >&  reference;         \
     };                                                                                            \
     template <>                                                                                   \
-    struct iterator_traits<CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >*> {             \
+    struct iterator_traits<CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >*> {             \
         typedef random_access_iterator_tag                                     iterator_category; \
-        typedef CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >         value_type;        \
+        typedef CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >         value_type;        \
         typedef ptrdiff_t                                                      difference_type;   \
-        typedef CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >*        pointer;           \
-        typedef CGAL::Aff_transformationH3< CGAL::Quotient< NT >, NT >&        reference;         \
+        typedef CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >*        pointer;           \
+        typedef CGAL::Aff_transformationH3< CGAL::Homogeneous< NT > >&        reference;         \
     };                                                                                            \
 __STL_END_NAMESPACE                                                                               \
 

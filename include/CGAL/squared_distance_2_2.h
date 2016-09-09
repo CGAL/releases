@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/squared_distance_2_2.h
-// package       : Distance_2 (2.3.5)
+// package       : Distance_2 (2.4.2)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -352,9 +352,9 @@ squared_distance(
     } else {
 // Check if all the triangle vertices lie at the same side of the segment.
         const Line_2<R> &sl = ray.supporting_line();
-        Oriented_side or = sl.oriented_side(triangle.vertex(0));
+        Oriented_side or_s = sl.oriented_side(triangle.vertex(0));
         for (i=1; i<3; i++) {
-            if (sl.oriented_side(triangle.vertex(i)) != or) {
+            if (sl.oriented_side(triangle.vertex(i)) != or_s) {
                 mindist = FT(0);
                 break;
             }
@@ -415,17 +415,17 @@ squared_distance(
 // the triangle segment.
         const Point_2<R> &vt1 = triangle.vertex(ind_tr1);
         const Point_2<R> &vt2 = triangle.vertex(ind_tr2);
-        Orientation or = orientation(vt1, vt2, seg.source());
-        if (orientation(vt1, vt2, seg.target()) != or) {
+        Orientation or_s = orientation(vt1, vt2, seg.source());
+        if (orientation(vt1, vt2, seg.target()) != or_s) {
             mindist = FT(0);
         }
     } else {
 // Check if all the triangle vertices lie at the same side of the segment.
         const Point_2<R> &vt1 = seg.source();
         const Point_2<R> &vt2 = seg.target();
-        Orientation or = orientation(vt1, vt2, triangle.vertex(0));
+        Orientation or_s = orientation(vt1, vt2, triangle.vertex(0));
         for (i=1; i<3; i++) {
-            if (orientation(vt1, vt2, triangle.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle.vertex(i)) != or_s) {
                 mindist = FT(0);
                 break;
             }
@@ -486,9 +486,9 @@ squared_distance(
     if (ind1_2 != -1) {
         const Point_2<R> &vt1 = triangle1.vertex(ind1_1);
         const Point_2<R> &vt2 = triangle1.vertex(ind1_2);
-        Orientation or = orientation(vt1, vt2, triangle2.vertex(0));
+        Orientation or_s = orientation(vt1, vt2, triangle2.vertex(0));
         for (i=1; i<3; i++) {
-            if (orientation(vt1, vt2, triangle2.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle2.vertex(i)) != or_s) {
                 mindist = FT(0);
                 break;
             }
@@ -496,9 +496,9 @@ squared_distance(
     } else {
         const Point_2<R> &vt1 = triangle2.vertex(ind2_1);
         const Point_2<R> &vt2 = triangle2.vertex(ind2_2);
-        Orientation or = orientation(vt1, vt2, triangle1.vertex(0));
+        Orientation or_s = orientation(vt1, vt2, triangle1.vertex(0));
         for (i=1; i<3; i++) {
-            if (orientation(vt1, vt2, triangle1.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle1.vertex(i)) != or_s) {
                 mindist = FT(0);
                 break;
             }

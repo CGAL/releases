@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_data_structure_using_list_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Triangulation_data_structure_using_list_2.h,v $
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2000/08/29 06:53:26 $
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 2001/06/21 20:41:32 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -108,7 +108,7 @@ class Triangulation_data_structure_using_list_2
 public:
   typedef Vb  Vertex_base;
   typedef Fb  Face_base;
-  typedef typename Vertex_base::Point                        Point;
+  //typedef typename Vertex_base::Point                        Point;
   typedef Triangulation_dsul_vertex_2<Vertex_base,Face_base> Vertex;
   typedef Triangulation_dsul_face_2<Vertex_base,Face_base>   Face;
   typedef std::pair<Face*, int>                              Edge;
@@ -124,8 +124,9 @@ public:
   typedef Triangulation_ds_vertex_circulator_2<Vertex,Face> 
 							Vertex_circulator;
   typedef Triangulation_ds_edge_circulator_2<Vertex,Face> 
-
 							Edge_circulator;
+  typedef std::list<Edge> List_edges;
+
 protected:
   int _number_of_vertices; 
   int _dimension;
@@ -207,7 +208,7 @@ public:
   Vertex* insert_in_face(Face* f);
   Vertex* insert_in_edge(Face* f, int i);
   Vertex* insert_dim_up(Vertex *w = NULL, bool orient=true);
-  
+
   void remove_degree_3(Vertex* v, Face* f = NULL);
   void remove_1D(Vertex* v); 
    
@@ -215,6 +216,30 @@ public:
   void remove_first(Vertex* v);
   void remove_dim_down(Vertex* v);
 
+  Vertex* star_hole(List_edges& hole);
+  void    star_hole(Vertex* v, List_edges& hole);
+  void    make_hole(Vertex* v, List_edges& hole);
+
+//   template< class EdgeIt>
+//   Vertex* star_hole(EdgeIt edge_begin,EdgeIt edge_end);
+ 
+//   template< class EdgeIt>
+//   void  star_hole(Vertex* v, EdgeIt edge_begin,  EdgeIt edge_end);
+
+//   template< class EdgeIt, class FaceIt>
+//   Vertex* star_hole(EdgeIt edge_begin, 
+// 		    EdgeIt edge_end,
+// 		    FaceIt face_begin,
+// 		    FaceIt face_end);
+ 
+//   template< class EdgeIt, class FaceIt>
+//   void  star_hole(Vertex* v,
+// 		  EdgeIt edge_begin, 
+// 		  EdgeIt edge_end,
+// 		  FaceIt face_begin,
+// 		  FaceIt face_end);
+  
+  Vertex* create_vertex();
   Face* create_face(Face* f1, int i1, Face* f2, int i2, Face* f3, int i3);
   Face* create_face(Face* f1, int i1, Face* f2, int i2);
   Face* create_face(Face* f1, int i1, Vertex* v);
@@ -223,8 +248,9 @@ public:
 		    Face* f1, Face* f2, Face* f3);
   Face* create_face(Face* f); //calls copy constructor of Face
   Face* create_face();
+
   void  delete_face(Face*);
-  
+  void  delete_vertex(Vertex*);
 
   // CHECKING
   bool is_valid(bool verbose = false, int level = 0) const;
@@ -250,6 +276,101 @@ public:
   // SETTING (had to make them public for use in remove from Triangulations)
   void set_number_of_vertices(int n) {_number_of_vertices = n;}
   void set_dimension (int n) {_dimension = n ;}
+
+  // template members definition
+public:
+  template< class EdgeIt>
+  Vertex* star_hole(EdgeIt edge_begin, EdgeIt edge_end)
+  // creates a new vertex 
+  // and stars from it
+  // the hole described by the range [edge_begin,edge_end[
+  // the triangulation is assumed to have dim=2
+  // hole is supposed to be ccw oriented
+  {
+     Vertex* newv = create_vertex();
+     star_hole(newv, edge_begin, edge_end);
+     return newv;
+  }
+ 
+  template< class EdgeIt>
+  void  star_hole(Vertex* v, EdgeIt edge_begin,  EdgeIt edge_end)
+  // uses vertex v
+  // to star the hole described by the range [edge_begin,edge_end[
+  // the triangulation is assumed to have dim=2
+  // the hole is supposed to be ccw oriented
+  { 
+    std::list<Face*> empty_list;
+    star_hole(v, 
+	      edge_begin, 
+	      edge_end, 
+	      empty_list.begin(),
+	      empty_list.end());
+    return;    
+  }
+
+
+  template< class EdgeIt, class FaceIt>
+  Vertex* star_hole(EdgeIt edge_begin, 
+		    EdgeIt edge_end,
+		    FaceIt face_begin,
+		    FaceIt face_end)
+  // creates a new vertex 
+  // and stars from it
+  // the hole described by the range [edge_begin,edge_end[
+  // reusing the faces in the range [face_begin,face_end[
+  // the triangulation is assumed to have dim=2
+  // the hole is supposed to be ccw oriented
+  {
+    Vertex* newv = create_vertex();
+    star_hole(newv, edge_begin, edge_end, face_begin, face_end);
+    return newv;
+  }
+ 
+  template< class EdgeIt, class FaceIt>
+  void  star_hole(Vertex* newv,
+		  EdgeIt edge_begin, 
+		  EdgeIt edge_end,
+		  FaceIt face_begin,
+		  FaceIt face_end)
+    // uses vertex v
+    // to star the hole described by the range [edge_begin,edge_end[
+    // reusing the faces in the range [face_begin,face_end[
+    // the triangulation is assumed to have dim=2
+    // hole is supposed to be ccw oriented
+  {
+       CGAL_triangulation_precondition(dimension() == 2);
+    EdgeIt eit = edge_begin;
+    FaceIt fit = face_begin;
+
+    Face* first_f =  reset_or_create_face((*eit).first, (*eit).second, newv,
+					  fit, face_end);
+    ++eit;
+    Face* previous_f=first_f, *next_f;
+    for( ; eit != edge_end ; eit++) {
+    next_f = reset_or_create_face((*eit).first, (*eit).second, newv,
+				  fit, face_end);
+    next_f->set_neighbor(1, previous_f);
+    previous_f->set_neighbor(0, next_f);
+    previous_f=next_f;
+    }
+    next_f->set_neighbor(0, first_f);
+    first_f->set_neighbor(1, next_f);
+    newv->set_face(first_f);
+    return;    
+  }
+
+private:
+  template< class FaceIt>
+  Face*  reset_or_create_face(Face* fn, 
+			      int in, 
+			      Vertex* v,
+			      FaceIt fit,
+			      FaceIt face_end) {
+    if (fit == face_end) return create_face(fn, in, v);
+    (*fit)->set_vertices(fn->vertex(cw(in)), fn->vertex(ccw(in)), v);
+    (*fit)->set_neighbors(0,0,fn);
+    return &(**fit++);    
+  }
 
 };
 
@@ -396,8 +517,8 @@ is_face(const Vertex* v1, const Vertex* v2, const Vertex* v3,
   if (!b) return false;
   else if (v3== f->vertex(i)) return true;
   f = f-> neighbor(i);
-  ind1= f->index(v1);
-  ind2= f->index(v2);
+  int ind1= f->index(v1);
+  int ind2= f->index(v2);
   if (v3 == f->vertex(3-ind1-ind2)) { return true;}
   return false;  
 }
@@ -451,10 +572,6 @@ insert_first( )
   CGAL_triangulation_precondition( number_of_vertices() == 0 &&
 				   dimension()==-2 );
   return insert_dim_up();
-//   Vertex* v1 = new Vertex;
-//   set_infinite_vertex(v1);
-//   set_number_of_vertices(1);
-//   return v1;
 }
 
 template < class Vb, class Fb>
@@ -465,16 +582,7 @@ insert_second()
   CGAL_triangulation_precondition( number_of_vertices() == 1 &&
 				   dimension()==-1 );
   return insert_dim_up();
-//   Vertex* v2= new Vertex;
-//   Face * f1 = new Face( _infinite_vertex, NULL, NULL);
-//   Face * f2 = new Face( v2, NULL, NULL);
-//   f1->set_neighbor(0,f2);
-//   f2->set_neighbor(0,f1);
-//   _infinite_vertex->set_face(f1);
-//   v2->set_face(f2);
-//   set_number_of_vertices(2);
-//   set_dimension(0);
-//   return v2;
+
 }
 
 
@@ -485,8 +593,7 @@ insert_in_face(Face* f)
   // New vertex will replace f->vertex(0) in face f
 {
   CGAL_triangulation_precondition( f != NULL && dimension()== 2);
-  Vertex*  v = new Vertex;
-  set_number_of_vertices(number_of_vertices() +1);
+  Vertex*  v = create_vertex();
 
   Vertex* v0 = f->vertex(0);
   Vertex* v2 = f->vertex(2);
@@ -532,7 +639,7 @@ insert_in_edge(Face* f, int i)
 							 i == 2);}
   Vertex * v;
   if (dimension() == 1) {
-    v = new Vertex;
+    v = create_vertex();
     Face * ff = f->neighbor(0);
     Vertex * vv = f->vertex(1);
     Face * g = create_face(v,vv,NULL,ff, f, NULL);
@@ -540,7 +647,6 @@ insert_in_edge(Face* f, int i)
     ff->set_neighbor(1,g);
     v->set_face(g);
     vv->set_face(ff);
-    set_number_of_vertices(number_of_vertices() +1);
   }
 
     else { //dimension() ==2
@@ -566,9 +672,9 @@ insert_dim_up(Vertex *w, bool orient)
   // w=NULL for first and second insertions
   // orient governs the orientation of the resulting triangulation
 
-  Vertex * v = new Vertex;
+  Vertex * v = create_vertex();
   set_dimension(dimension() + 1);
-  set_number_of_vertices(number_of_vertices() + 1);
+  //set_number_of_vertices(number_of_vertices() + 1);
   Face* f1;
   Face* f2;
     
@@ -604,7 +710,7 @@ insert_dim_up(Vertex *w, bool orient)
 	g = create_face(f); //calls copy constructor of face
 	f->set_vertex(i,v); f->set_neighbor(i,g);
 	g->set_vertex(i,w); g->set_neighbor(i,f);
-	if (f->has_vertex(w)) to_delete.push_back(g); // flat face to be deleted 
+	if (f->has_vertex(w)) to_delete.push_back(g); // flat face to delete
       }
 
       lfit = faces_list.begin();
@@ -703,8 +809,8 @@ remove_degree_3(Vertex* v, Face* f)
     delete_face(right);
     delete_face(left);
         
-    delete v;
-    set_number_of_vertices( number_of_vertices() -1);
+    delete_vertex(v);
+    //set_number_of_vertices( number_of_vertices() -1);
   } 
 
 
@@ -762,8 +868,8 @@ remove_dim_down(Vertex* v)
       delete_face(*lfit);
     }
   }  
-  delete v;
-  set_number_of_vertices(number_of_vertices() -1);
+  delete_vertex(v);
+  //set_number_of_vertices(number_of_vertices() -1);
   set_dimension(dimension() -1);
   return;
 }
@@ -785,8 +891,8 @@ remove_1D(Vertex* v)
   g->neighbor(0)->set_neighbor(1,f);
   g->vertex(1)->set_face(f);
   delete_face(g);
-  delete v;
-  set_number_of_vertices(number_of_vertices() -1);
+  delete_vertex(v);
+  //set_number_of_vertices(number_of_vertices() -1);
   return;
 }
 
@@ -797,15 +903,6 @@ inline void
 Triangulation_data_structure_using_list_2<Vb,Fb>::
 remove_second(Vertex* v)
 {
- //  CGAL_triangulation_precondition(number_of_vertices()== 2 &&
-// 				  dimension() == 0);
-//   delete v->face()->neighbor(0);
-//   delete v->face();
-//   delete v;
-//   set_number_of_vertices(1);
-//   set_dimension(-1);
-//   infinite_vertex()->set_face(NULL);
-//   return;
   CGAL_triangulation_precondition(number_of_vertices()== 2 &&
  				  dimension() == 0);
   remove_dim_down(v);
@@ -818,17 +915,85 @@ inline void
 Triangulation_data_structure_using_list_2<Vb,Fb>::
 remove_first(Vertex* v)
 {
-  // CGAL_triangulation_precondition(number_of_vertices()== 1 && 
-// 				  dimension() == -1 &&
-// 				  v== infinite_vertex());
-//   delete v;
-//   set_number_of_vertices(0);
-//   set_infinite_vertex(NULL);
-//   return;
   CGAL_triangulation_precondition(number_of_vertices()== 1 && 
  				  dimension() == -1);
   remove_dim_down(v);
   return; 
+}
+
+template <class Vb, class Fb>
+inline
+Triangulation_data_structure_using_list_2<Vb,Fb>::Vertex*
+Triangulation_data_structure_using_list_2<Vb,Fb>::
+star_hole(List_edges& hole)
+{
+  Vertex* newv = create_vertex();
+  star_hole(newv, hole);
+  return newv;
+}
+
+template <class Vb, class Fb>
+void
+Triangulation_data_structure_using_list_2<Vb,Fb>::
+star_hole(Vertex* newv, List_edges& hole)
+  // star the hole represented by hole around newv
+  // the triangulation is assumed to have dim=2
+  // hole is supposed to be ccw oriented
+{
+   
+  star_hole(newv, hole.begin(), hole.end());
+  return;	    
+}
+
+template <class Vb, class Fb>
+void
+Triangulation_data_structure_using_list_2<Vb,Fb>::
+make_hole(Vertex* v, List_edges& hole)
+  // delete the faces incident to v and v
+  // and return the dscription of the hole in hole
+{
+ CGAL_triangulation_precondition(dimension() == 2);
+ std::list<Face*> to_delete;  
+
+ Face*  f, *fn;
+ int i =0, in =0;
+ Vertex*  vv;
+
+ Face_circulator fc = v->incident_faces();
+ Face_circulator done(fc);
+ do {
+   f = &(*fc);
+   i = f->index(v);
+   fn = f->neighbor(i);
+   in = fn->index(f);
+   vv = f->vertex(cw(i));
+   if( vv->face()==  f) vv->set_face(fn);
+   vv = fc->vertex(ccw(i));
+   if( vv->face()== f) vv->set_face(fn);
+   fn->set_neighbor(in, NULL);
+   hole.push_back(Edge(fn,in));
+   to_delete.push_back(f);
+ }
+  while(++fc != done);
+
+  while (! to_delete.empty()){
+    delete_face(to_delete.front());
+    to_delete.pop_front();
+  }
+  delete_vertex(v);
+  return;
+}
+
+
+template <class Vb, class Fb>
+inline
+Triangulation_data_structure_using_list_2<Vb,Fb>::Vertex*
+Triangulation_data_structure_using_list_2<Vb,Fb>::
+create_vertex()
+{
+  Vertex* newv= new Vertex();
+  set_number_of_vertices(number_of_vertices()+ 1);
+  return newv;
 }
 
 template <class Vb, class Fb>
@@ -916,7 +1081,7 @@ create_face(Vertex* v1, Vertex* v2, Vertex* v3,
 }
 
 template <class Vb, class Fb>
-void
+inline void
 Triangulation_data_structure_using_list_2<Vb,Fb>::
 delete_face(Face* f)
 {
@@ -936,7 +1101,15 @@ add_face(Face* newf)
   newf->next()->set_previous(newf);
 }
 
-
+template <class Vb, class Fb>
+inline void
+Triangulation_data_structure_using_list_2<Vb,Fb>::
+delete_vertex(Vertex* v)
+{
+  delete v;
+  set_number_of_vertices(number_of_vertices() -1);
+  return;
+}
 
 // CHECKING
 template <  class Vb, class Fb>
@@ -1052,13 +1225,20 @@ copy_tds(const Tds &tds, const Vertex* v)
   v_inf = static_cast<Vertex*>(V[v]);
     
   // create the faces
-  for(Iterator_base ib = tds.iterator_base_begin();
-      ib != tds.iterator_base_end(); ++ib) {
-    f2 = create_face(&(*ib));
-    F[&(*ib)]=  f2;
-    f2->set_vertices((Vertex*) V[ib->vertex(0)],
-		     (Vertex*) V[ib->vertex(1)],
-		     (Vertex*) V[ib->vertex(2)] );
+  //because faces are inserted at the head of the list
+  //they have to be created in reverse order
+  // to provide parallel faces and vertices iterators
+//   for(Iterator_base ib = tds.iterator_base_begin();
+//       ib != tds.iterator_base_end(); ++ib) {
+  typedef  std::reverse_iterator<Iterator_base> RIB;
+  for(RIB rib=RIB(tds.iterator_base_end());
+      rib != RIB(tds.iterator_base_begin());
+      ++rib) {
+    f2 = create_face(&(*rib));
+    F[&(*rib)]=  f2;
+    f2->set_vertices((Vertex*) V[rib->vertex(0)],
+		     (Vertex*) V[rib->vertex(1)],
+		     (Vertex*) V[rib->vertex(2)] );
   }
 
   // link each vertex to a face
@@ -1159,10 +1339,10 @@ clear()
   }
   for( typename std::list<Vertex*>::iterator lvit=Vertices.begin();
        lvit != Vertices.end(); ++lvit) {
-    delete *lvit;
+    delete_vertex(*lvit);
   }
   
-  set_number_of_vertices(0);
+  //set_number_of_vertices(0);
   set_dimension(-2);
   dummy().set_next(&dummy());
   dummy().set_previous(&dummy());
@@ -1268,7 +1448,7 @@ file_input( std::istream& is, bool skip_first)
     ++i;
   }
   for( ; i < n; ++i) {
-    Point p;
+    typename Vertex_base::Point p;
     is >> p;
     V[i] = new Vertex(p);
   }

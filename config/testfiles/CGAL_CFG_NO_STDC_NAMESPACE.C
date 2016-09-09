@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : config/testfiles/CGAL_CFG_NO_STDC_NAMESPACE.C
-// package       : Configuration (2.4)
+// package       : Configuration (2.11)
 // source        :
 // revision      : 1.11
 // revision_date : 29 Mar 1998
@@ -68,7 +68,6 @@ using std::jmp_buf;
 using std::va_list;
 
 #include <ctime>
-using std::size_t;   
 using std::time_t;   
 using std::clock_t;  
 using std::tm;       
@@ -157,7 +156,6 @@ using std::wctype;
 #endif
 
 #include <cstring>
-using std::size_t;
 using std::memchr;
 using std::memcmp;
 using std::memcpy;
@@ -183,7 +181,6 @@ using std::strxfrm;
 #if 0
 #include <cwchar>
 using std::wint_t;
-using std::size_t;
 /* These do not exist in egcs-1.1.1
 using std::mbstate_t;
 using std::btowc;
@@ -244,7 +241,6 @@ using std::wcsxfrm;
 #include <cstdio>
 using std::FILE;
 using std::fpos_t;
-using std::size_t;
 using std::clearerr;
 using std::fclose;
 using std::feof;

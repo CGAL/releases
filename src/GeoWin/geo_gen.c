@@ -12,14 +12,13 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_gen.c
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.2.2)
+// revision      : 1.2.2
+// revision_date : 30 January 2001 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
-
 
 #include <LEDA/geowin_init.h>
 #include<LEDA/d3_rat_point.h>
@@ -246,6 +245,16 @@ void hilbert(list<point>& L, int n, double xmin, double ymin,
 
 void geowin_generate_objects(GeoWin& gw, list<point>& L)      
 {
+  // get calling scene ...
+  // add here special handling for namespaces ??
+  geo_scene c_scene = GeoWin::get_call_scene();
+  //cout << "calling scene:" << c_scene << "\n";
+  
+  //get added generators of the scene ...
+  list<string> gen_names = gw.get_generator_names(c_scene);
+  
+  //cout << gen_names << "\n";
+
   window& w = gw.get_window();
   int r    = GEOWIN_MARGIN;
   int grid = w.get_grid_mode();
@@ -282,6 +291,10 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
   P.button(" IN DISC ",5);  
   P.button(" IN RECT ",6);
   P.button(" ON POLYGON ",7);
+  
+  int cnt = 8;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);
   
   P.button(" DONE ", 0);
 
@@ -334,8 +347,12 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
       polygon_points(L, pol, ps);
       break;
      }
-    default : cout << but << endl; break;
-    }
+    default : //cout << but << endl; break;
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene,but-8);
+       break;       
+     }
+  }
 }
 
 
@@ -345,6 +362,8 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
 
 void geowin_generate_objects(GeoWin& gw, list<segment>& S)
 { 
+  geo_scene c_scene = GeoWin::get_call_scene();
+  list<string> gen_names = gw.get_generator_names(c_scene);
  
   window& w = gw.get_window();
   int r     = GEOWIN_MARGIN;
@@ -378,6 +397,10 @@ void geowin_generate_objects(GeoWin& gw, list<segment>& S)
   P.button(" IN CIRCLE ",4);  
   P.button(" IN RECT ",5);
   P.button(" DONE ", 0);
+  
+  int cnt = 6;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);  
   
   list<point> L;
   list<rat_point> rL;
@@ -444,7 +467,11 @@ void geowin_generate_objects(GeoWin& gw, list<segment>& S)
       }
       break;
      }     
-    default : cout << but << endl; break;
+    default : 
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene, but-6);
+       break;       
+     }
     }
 }
 
@@ -472,6 +499,9 @@ void geowin_generate_objects(GeoWin& gw, list<line>& L)
 
 void geowin_generate_objects(GeoWin& gw, list<circle>& C) 
 {   
+  geo_scene c_scene = GeoWin::get_call_scene();
+  list<string> gen_names = gw.get_generator_names(c_scene);
+  
   window& w = gw.get_window();
   int ra     = GEOWIN_MARGIN;
   int grid  = w.get_grid_mode();
@@ -491,6 +521,10 @@ void geowin_generate_objects(GeoWin& gw, list<circle>& C)
 
   P.button(" RANDOM ", 1);
   P.button(" DONE ", 0);
+  
+  int cnt = 2;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);
 
 
   int but = gw.open_panel(P);
@@ -516,7 +550,11 @@ void geowin_generate_objects(GeoWin& gw, list<circle>& C)
 	}
       break;
      }
-    default : cout << but << endl; break;
+    default : 
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene, but-2);
+       break;       
+     }
     }
 }
 
@@ -527,6 +565,9 @@ void geowin_generate_objects(GeoWin& gw, list<circle>& C)
 
 void geowin_generate_objects(GeoWin& gw, list<polygon>& Pl) 
 {  
+  geo_scene c_scene = GeoWin::get_call_scene();
+  list<string> gen_names = gw.get_generator_names(c_scene);
+
   window& w = gw.get_window();
   int r     = GEOWIN_MARGIN;
   int grid  = w.get_grid_mode();
@@ -549,6 +590,10 @@ void geowin_generate_objects(GeoWin& gw, list<polygon>& Pl)
   P.button(" REGULAR ", 2);
   P.button(" HILBERT ", 1);
   P.button(" DONE ", 0);
+  
+  int cnt = 4;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);
   
   
   list<point>         L;
@@ -594,12 +639,19 @@ void geowin_generate_objects(GeoWin& gw, list<polygon>& Pl)
       Pl.append(polygon(L1));
       break;
      }
-    default : cout << but << endl; break;
+    default : 
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene, but-4);
+       break;       
+     }
     }
 }
 
 void geowin_generate_objects(GeoWin& gw, list<gen_polygon>& Pl) 
 {
+  geo_scene c_scene = GeoWin::get_call_scene();
+  list<string> gen_names = gw.get_generator_names(c_scene);
+
   window& w = gw.get_window();
   int r     = GEOWIN_MARGIN;
   int grid  = w.get_grid_mode();
@@ -626,8 +678,11 @@ void geowin_generate_objects(GeoWin& gw, list<gen_polygon>& Pl)
   P.button(" LOGO ",4);
   P.button(" DONE ", 0);
   
+  int cnt = 5;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);
   
-  list<point>         L;
+  list<point>        L;
   point              p;
 
   gen_polygon gp;
@@ -675,7 +730,11 @@ void geowin_generate_objects(GeoWin& gw, list<gen_polygon>& Pl)
       Pl.append(gp);
       break;
      }
-    default : cout << but << endl; break;
+    default : 
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene, but-5);
+       break;       
+     }
     }  
 }
 
@@ -689,13 +748,13 @@ void geowin_generate_objects(GeoWin& gw, list<rectangle>& L)
 {
 }
 
-list<d3_point> conversion(list<d3_rat_point>& L,double wt)
+list<d3_point> conversion(list<d3_rat_point>& L,const point& wt)
 {
  list<d3_point> Lf;
  d3_rat_point p;
  d3_point pfl;
  forall(p,L) {
-   pfl= p.to_d3_point().translate(wt,wt,0);
+   pfl= p.to_d3_point().translate(wt.xcoord(),wt.ycoord(),0);
    Lf.append(pfl);
  }
  return Lf;
@@ -704,21 +763,19 @@ list<d3_point> conversion(list<d3_rat_point>& L,double wt)
 
 void geowin_generate_objects(GeoWin& gw, list<d3_point>& L)
 {
+  geo_scene c_scene = GeoWin::get_call_scene();
+  list<string> gen_names = gw.get_generator_names(c_scene);
+
   window& w = gw.get_window();
   int r     = GEOWIN_MARGIN;
   //int grid  = w.get_grid_mode();
 
   double d = r/w.scale();
-  double d1 = d + 16/w.scale();
   double x1 = w.xmin()+d;
   double y1 = w.ymin()+d;
-  double x2 = w.xmax()-d;
-  double y2 = w.ymax()-d1;
 
   panel P("D3 Points");
   
-  double wt = ((x2-x1) > (y2-y1)) ? (y2-y1)/2 : (x2-x1)/2 ;
-  int   maxc = (int)wt;
   int   number = 20, number2 =0;
   
   P.int_item("number*100", number2, 0, 19);
@@ -733,6 +790,10 @@ void geowin_generate_objects(GeoWin& gw, list<d3_point>& L)
   P.button(" LATTICE ", 5);
   P.button(" SPHERE ", 6);
   P.button(" SEGMENT ", 7);
+  
+  int cnt = 8;
+  string siter;
+  forall(siter, gen_names) P.button(siter, cnt++);   
 
   P.button(" DONE ", 0);
 
@@ -740,19 +801,61 @@ void geowin_generate_objects(GeoWin& gw, list<d3_point>& L)
   list<d3_rat_point> Lr;
 
   but = gw.open_panel(P);
+  point cpoint(x1,y1);
+  circle circ;
 
   switch (but) {
    case 0: return;
-   case 1: random_points_in_cube(number+number2*100,3*maxc/4,Lr); break;
-   case 2: random_points_in_ball(number+number2*100,maxc,Lr); break;
-   case 3: random_points_in_square(number+number2*100,maxc,Lr); break;
-   case 4: random_points_on_paraboloid(number+number2*100,maxc,Lr); break;
-   case 5: lattice_points(number+number2*100,3*maxc/4,Lr); break;
-   case 6: random_points_on_sphere(number+number2*100,maxc,Lr); break;
-   case 7: random_points_on_segment(number+number2*100,maxc,Lr); break;
+   case 1: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_in_cube(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   case 2: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_in_ball(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   case 3: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_in_square(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   case 4: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_on_paraboloid(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   case 5: { 
+     w >> circ;
+     cpoint = circ.center();
+     lattice_points(number+number2*100,(int)(circ.radius()),Lr); 
+     break; 
+   }
+   case 6: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_on_sphere(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   case 7: {
+     w >> circ;
+     cpoint = circ.center();
+     random_points_on_segment(number+number2*100,(int)(circ.radius()),Lr); 
+     break;
+   }
+   default : 
+     { // an additional generator was choosen ...
+       gw.set_generator_number(c_scene, but-8);
+       break;       
+     }   
   }
 
-  L=conversion(Lr,wt);
+  L=conversion(Lr,cpoint);
 }
 
 #if !defined(NO_RAT_ALGORITHMS)

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : orientation.fw
 // file          : demo/Robustness/orientation_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/08/01 08:14:58 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -49,11 +48,14 @@
 
 #include <CGAL/Interval_arithmetic.h>
 
+// #include <sstream> // doesn't work with GCC 2.95.2
+#include <strstream>
+
 template <class ForwardIterator, class Traits>
 void
 orientation_statistics( ForwardIterator first, ForwardIterator last,
                         CGAL::Orientation* C,
-                        leda_string& s1, leda_string& s2,
+                        leda_string& /*s1*/, leda_string& /*s2*/,
                         const Traits& T )
 {
     typename Traits::Orientation_2  orientation = T.orientation_2_object();
@@ -64,9 +66,9 @@ orientation_statistics( ForwardIterator first, ForwardIterator last,
             for( ForwardIterator k = first; k != last; ++k)
                 if ( C[c++] == orientation(*i, *j, *k)) ++success;
 
-    s1 = leda_string("Out of %d orientation tests, %d", c, success);
-    s2 = leda_string("( %2.2f %%) give the correct result.",
-                        (double)success/c * 100);
+    //s1 = leda_string("Out of %d orientation tests, %d", c, success);
+    //s2 = leda_string("( %2.2f %%) give the correct result.",
+    //                    (double)success/c * 100);
 }
 
 template <class ForwardIterator, class Traits>
@@ -96,10 +98,9 @@ orientation_statistics_IA( ForwardIterator first, ForwardIterator last,
         for( ForwardIterator j = first; j != last; ++j)
             for( ForwardIterator k = first; k != last; ++k)
                 {
-                  CGAL::Orientation  ori;
                   try
                   {
-                    ori = orientation(*i, *j, *k);
+                    (void) orientation(*i, *j, *k);
                     ++success;
                   }
                   catch ( CGAL::Interval_base::unsafe_comparison )
@@ -107,9 +108,16 @@ orientation_statistics_IA( ForwardIterator first, ForwardIterator last,
                   ++c;
                 }
 
+#if defined(CGAL_USE_CGAL_WINDOW)
+    // std::ostringstream OS;
+    std::ostrstream OS;
+    OS << "Out of " << c << " orientation tests, " << c;
+    OS << std::ends;
+    s1 = OS.str();
+    s2 = std::string("do not throw an exception.");
+#else
     s1 = leda_string("Out of %d orientation tests, %d", c, success);
     s2 = leda_string("( %2.2f %%) do not throw an exception.",
                         (double)success/c * 100);
+#endif
 }
-
-

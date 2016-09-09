@@ -1,46 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1997  The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind.
+// damage of any kind. 
 //
-// Every use of CGAL requires a license.
+// Every use of CGAL requires a license. 
 //
 // Academic research and teaching license
 // - For academic research and teaching purposes, permission to use and copy
 //   the software and its documentation is hereby granted free of charge,
 //   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation.
+//   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de).
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com).
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
-// patch         : 1
-// patch_date    : 2000, December 11
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Sphere_3.h
-// package       : C3 (5.6)
+// package       : Cartesian_kernel (6.24)
 // revision      : $Revision: 1.18 $
-// revision_date : $Date: 2000/11/02 15:18:13 $
+// revision_date : $Date: 2001/02/13 15:38:54 $
 // author(s)     : Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis 
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -57,79 +55,119 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class SphereC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
-  : public Handle_for< Sphere_repC3<R_> >
+  : public R_::Sphere_handle_3
 {
 public:
   typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
+
+  typedef typename R::Sphere_handle_3           Sphere_handle_3_;
+  typedef typename Sphere_handle_3_::element_type Sphere_ref_3;
+
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
   typedef SphereC3<R CGAL_CTAG>                 Self;
   typedef typename R::Point_3                   Point_3;
+  typedef typename R::Vector_3                  Vector_3;
   typedef typename R::Aff_transformation_3      Aff_transformation_3;
 #else
   typedef SphereC3<R>                           Self;
   typedef typename R::Point_3_base              Point_3;
+  typedef typename R::Vector_3_base             Vector_3;
   typedef typename R::Aff_transformation_3_base Aff_transformation_3;
 #endif
 
-  SphereC3();
-  SphereC3(const Self &s);
+  SphereC3()
+    : Sphere_handle_3_() {}
 
-  // Sphere with center p, squared radius s, orientation o
-  SphereC3(const Point_3 &p, const FT &s,
+  SphereC3(const Point_3 &center, const FT &squared_radius,
            const Orientation &o = COUNTERCLOCKWISE)
   {
-    CGAL_kernel_precondition( ( s >= FT(0) ) && ( o != COLLINEAR) );
+    CGAL_kernel_precondition( (squared_radius >= FT(0)) &&
+                              (o != COLLINEAR) );
 
-    new ( static_cast< void*>(ptr)) Sphere_repC3<R>(p, s, o);
+    initialize_with(Sphere_ref_3(center, squared_radius, o));
   }
 
-  // Sphere passing through p,q,r,s, oriented by p, q, r, s
+  // Sphere passing through and oriented by p,q,r,s
   SphereC3(const Point_3 &p, const Point_3 &q,
-           const Point_3 &r, const Point_3 &s);
+           const Point_3 &r, const Point_3 &s)
+  {
+    Orientation orient = CGAL::orientation(p, q, r, s);
+    Point_3 center = circumcenter(p, q, r, s);
+    FT      squared_radius = squared_distance(p, center);
+
+    initialize_with(Sphere_ref_3(center, squared_radius, orient));
+  }
 
   // Sphere with great circle passing through p,q,r, oriented by o
   SphereC3(const Point_3 &p, const Point_3 &q, const Point_3 &r,
-	   const Orientation &o = COUNTERCLOCKWISE);
+	   const Orientation &o = COUNTERCLOCKWISE)
+  {
+    CGAL_kernel_precondition(o != COLLINEAR);
+
+    Point_3 center = circumcenter(p, q, r);
+    FT      squared_radius = squared_distance(p, center);
+
+    initialize_with(Sphere_ref_3(center, squared_radius, o));
+  }
 
   // Sphere with diameter pq and orientation o
-  SphereC3(const Point_3 & p, const Point_3 & q,
-           const Orientation &o = COUNTERCLOCKWISE);
+  SphereC3(const Point_3 &p, const Point_3 &q,
+           const Orientation &o = COUNTERCLOCKWISE)
+  {
+    CGAL_kernel_precondition(o != COLLINEAR);
 
-  // Sphere centered at p, radius 0, orientation o
-  SphereC3(const Point_3 & p,
-           const Orientation& o = COUNTERCLOCKWISE);
+    Point_3 center = midpoint(p, q);
+    FT      squared_radius = squared_distance(p, center);
 
-  ~SphereC3() {}
+    initialize_with(Sphere_ref_3(center, squared_radius, o));
+  }
+
+  SphereC3(const Point_3 &center,
+           const Orientation& o = COUNTERCLOCKWISE)
+  {
+    CGAL_kernel_precondition(o != COLLINEAR);
+
+    initialize_with(Sphere_ref_3(center, FT(0), o));
+  }
 
   bool operator==(const Self &) const;
   bool operator!=(const Self &) const;
 
   Point_3 center() const
   {
-      return ptr->center;
+      return Ptr()->center;
   }
   FT squared_radius() const
   {
       // Returns the square of the radius (instead of the radius itself,
       // which would require square roots)
-      return ptr->squared_radius;
+      return Ptr()->squared_radius;
   }
   Orientation orientation() const
   {
-      return ptr->orient;
+      return Ptr()->orient;
   }
 
-  Self   orthogonal_transform(const Aff_transformation_3 &t) const;
-  //! precond: t.is_orthogonal() (*UNDEFINED*)
-  // Returns the image of c by t. Since t is orthogonal, the image is
-  // always a circle
+  Self orthogonal_transform(const Aff_transformation_3 &t) const
+  {
+    // FIXME: precond: t.is_orthogonal() (*UNDEFINED*)
+    Vector_3 vec(FT(1), FT(0));               // unit vector
+    vec = vec.transform(t);                   // transformed
+    FT sq_scale = vec.squared_length();       // squared scaling factor
 
-  bool   is_degenerate() const;
+    return SphereC3(t.transform(center()),
+                    sq_scale * squared_radius(),
+                    t.is_even() ? orientation()
+                                : CGAL::opposite(orientation()));
+  }
+
   // A circle is degenerate if its (squared) radius is null or negative
-  Self   opposite() const;
+  bool is_degenerate() const;
+
   // Returns a circle with opposite orientation
+  Self opposite() const;
 
   Oriented_side  oriented_side(const Point_3 &p) const;
   //! precond: ! x.is_degenerate() (when available)
@@ -139,7 +177,7 @@ public:
   bool has_on_positive_side(const Point_3 &p) const;
   bool has_on_negative_side(const Point_3 &p) const;
 
-  Bounded_side   bounded_side(const Point_3 &p) const;
+  Bounded_side bounded_side(const Point_3 &p) const;
   //! precond: ! x.is_degenerate() (when available)
   // Returns R::ON_BOUNDED_SIDE, R::ON_BOUNDARY or R::ON_UNBOUNDED_SIDE
   bool has_on_bounded_side(const Point_3 &p) const;
@@ -153,85 +191,12 @@ public:
 #endif
 
 template < class R >
-CGAL_KERNEL_CTOR_INLINE
-SphereC3<R CGAL_CTAG>::SphereC3()
-{
-  new ( static_cast< void*>(ptr)) Sphere_repC3<R>;
-}
-
-template < class R >
-CGAL_KERNEL_CTOR_INLINE
-SphereC3<R CGAL_CTAG>::SphereC3(const SphereC3<R CGAL_CTAG> &s)
-  : Handle_for< Sphere_repC3<R> > (s)
-{}
-
-template < class R >
-CGAL_KERNEL_CTOR_INLINE
-SphereC3<R CGAL_CTAG>::
-SphereC3(const typename SphereC3<R CGAL_CTAG>::Point_3 &p,
-         const Orientation &o)
-{
-  CGAL_kernel_precondition( o != COLLINEAR );
-
-  new ( static_cast< void*>(ptr)) Sphere_repC3<R>(p, FT(0), o);
-}
-
-template < class R >
-CGAL_KERNEL_CTOR_MEDIUM_INLINE
-SphereC3<R CGAL_CTAG>::
-SphereC3(const typename SphereC3<R CGAL_CTAG>::Point_3 &p,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &q,
-         const Orientation &o)
-{
-  CGAL_kernel_precondition( o != COLLINEAR);
-
-  SphereC3<R CGAL_CTAG>::Point_3 center = midpoint(p,q);
-  SphereC3<R CGAL_CTAG>::FT      squared_radius = squared_distance(p,center);
-
-  new ( static_cast< void*>(ptr))
-      Sphere_repC3<R>( center, squared_radius, o);
-}
-
-template < class R >
-CGAL_KERNEL_CTOR_MEDIUM_INLINE
-SphereC3<R CGAL_CTAG>::
-SphereC3(const typename SphereC3<R CGAL_CTAG>::Point_3 &p,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &q,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &r,
-         const Orientation &o)
-{
-  CGAL_kernel_precondition( o != COLLINEAR);
-
-  Point_3 center = circumcenter(p,q,r);
-  FT      squared_radius = squared_distance(p,center);
-
-  new ( static_cast< void*>(ptr))
-      Sphere_repC3<R>(center, squared_radius, o);
-}
-
-template < class R >
-CGAL_KERNEL_CTOR_MEDIUM_INLINE
-SphereC3<R CGAL_CTAG>::
-SphereC3(const typename SphereC3<R CGAL_CTAG>::Point_3 &p,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &q,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &r,
-         const typename SphereC3<R CGAL_CTAG>::Point_3 &s)
-{
-  Orientation o = CGAL::orientation(p,q,r,s);
-  Point_3 center = circumcenter(p,q,r,s);
-  FT      squared_radius = squared_distance(p,center);
-
-  new ( static_cast< void*>(ptr))
-      Sphere_repC3<R>(center, squared_radius, o);
-}
-
-template < class R >
 CGAL_KERNEL_INLINE
 bool
-SphereC3<R CGAL_CTAG>::
-operator==(const SphereC3<R CGAL_CTAG> &t) const
+SphereC3<R CGAL_CTAG>::operator==(const SphereC3<R CGAL_CTAG> &t) const
 {
-  if ( identical(t) ) return true;
+  if (identical(t))
+      return true;
   return center() == t.center() &&
          squared_radius() == t.squared_radius() &&
          orientation() == t.orientation();
@@ -240,8 +205,7 @@ operator==(const SphereC3<R CGAL_CTAG> &t) const
 template < class R >
 inline
 bool
-SphereC3<R CGAL_CTAG>::
-operator!=(const SphereC3<R CGAL_CTAG> &t) const
+SphereC3<R CGAL_CTAG>::operator!=(const SphereC3<R CGAL_CTAG> &t) const
 {
   return !(*this == t);
 }
@@ -261,6 +225,7 @@ Bounded_side
 SphereC3<R CGAL_CTAG>::
 bounded_side(const typename SphereC3<R CGAL_CTAG>::Point_3 &p) const
 {
+    // FIXME: it's a predicate...
   return Bounded_side(CGAL_NTS compare(squared_radius(),
                                        squared_distance(center(),p)));
 }
@@ -271,6 +236,7 @@ bool
 SphereC3<R CGAL_CTAG>::
 has_on_boundary(const typename SphereC3<R CGAL_CTAG>::Point_3 &p) const
 {
+    // FIXME: it's a predicate...
   return squared_distance(center(),p) == squared_radius();
   // NB: J'ai aussi trouve ailleurs :
   // return oriented_side(p)==ON_ORIENTED_BOUNDARY;
@@ -309,6 +275,7 @@ bool
 SphereC3<R CGAL_CTAG>::
 has_on_bounded_side(const typename SphereC3<R CGAL_CTAG>::Point_3 &p) const
 {
+    // FIXME: it's a predicate...
   return squared_distance(center(),p) < squared_radius();
   // NB: J'ai aussi trouve ailleurs :
   // return bounded_side(p)==ON_BOUNDED_SIDE;
@@ -320,6 +287,7 @@ bool
 SphereC3<R CGAL_CTAG>::
 has_on_unbounded_side(const typename SphereC3<R CGAL_CTAG>::Point_3 &p) const
 {
+    // FIXME: it's a predicate...
   return squared_distance(center(),p) > squared_radius();
   // NB: J'ai aussi trouve ailleurs :
   // return bounded_side(p)==ON_UNBOUNDED_SIDE;
@@ -331,6 +299,7 @@ bool
 SphereC3<R CGAL_CTAG>::
 is_degenerate() const
 {
+    // FIXME: it's a predicate (?)
   return CGAL_NTS is_zero(squared_radius());
 }
 
@@ -357,22 +326,6 @@ SphereC3<R CGAL_CTAG>::bbox() const
                 cx + radius, cy + radius, cz + radius);
 }
 
-template < class R >
-CGAL_KERNEL_INLINE
-SphereC3<R CGAL_CTAG>
-SphereC3<R CGAL_CTAG>::orthogonal_transform
-  (const typename SphereC3<R CGAL_CTAG>::Aff_transformation_3 &t) const
-{
-  typename SphereC3<R CGAL_CTAG>::Vector_3 vec(FT(1), FT(0) );   // unit vector
-  vec = vec.transform(t);             // transformed
-  FT sq_scale = vec.squared_length();       // squared scaling factor
-
-  return SphereC3<R CGAL_CTAG>(t.transform(center()),
-                      sq_scale * squared_radius(),
-                      t.is_even() ? orientation()
-                                  : CGAL::opposite(orientation()));
-}
-
 /*
 template < class R >
 inline
@@ -394,12 +347,12 @@ operator<<(std::ostream &os, const SphereC3<R CGAL_CTAG> &c)
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
         os << c.center() << ' ' << c.squared_radius() << ' '
-           << (int)c.orientation();
+           << static_cast<int>(c.orientation());
         break;
     case IO::BINARY :
         os << c.center();
         write(os, c.squared_radius());
-        write(os, (int)c.orientation());
+        write(os, static_cast<int>(c.orientation()));
         break;
     default:
         os << "SphereC3(" << c.center() <<  ", " << c.squared_radius();
@@ -443,7 +396,9 @@ operator>>(std::istream &is, SphereC3<R CGAL_CTAG> &c)
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
     }
-    c = SphereC3<R CGAL_CTAG>(center, squared_radius, (Orientation)o);
+    if (is)
+	c = SphereC3<R CGAL_CTAG>(center, squared_radius,
+		                  static_cast<Orientation>(o));
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SPHEREC3

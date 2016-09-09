@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : TetrahedronH3.fw
 // file          : include/CGAL/TetrahedronH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/02/21 15:07:45 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -53,99 +52,111 @@
 
 #include <CGAL/Fourtuple.h>
 #include <CGAL/SegmentH3.h>
-#include <CGAL/predicate_classes_3.h>
 #include <CGAL/predicates_on_pointsH3.h>
 #include <vector>
 #include <functional>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT >
+template < class R >
 class Tetrahedron_repH3 : public Ref_counted
 {
  public:
-  Tetrahedron_repH3() : ordertype(DEGENERATE) {}
-  Tetrahedron_repH3(const PointH3<FT,RT> &p,
-                    const PointH3<FT,RT> &q,
-                    const PointH3<FT,RT> &r,
-                    const PointH3<FT,RT> &s )
+  Tetrahedron_repH3()
+      : ordertype(DEGENERATE) {}
+  Tetrahedron_repH3(const PointH3<R> &p,
+                    const PointH3<R> &q,
+                    const PointH3<R> &r,
+                    const PointH3<R> &s )
     : container(p,q,r,s), ordertype(orientation(p,q,r,s)) {}
 
-  friend class TetrahedronH3<FT,RT>;
+  friend class TetrahedronH3<R>;
 
  private:
-    Fourtuple< PointH3<FT,RT> > container;
-    Orientation                 ordertype;
+    Fourtuple< PointH3<R> > container;
+    Orientation             ordertype;
+};
+
+template < class R >
+class Simple_Tetrahedron_repH3
+{
+ public:
+  Simple_Tetrahedron_repH3()
+      : ordertype(DEGENERATE) {}
+  Simple_Tetrahedron_repH3(const PointH3<R> &p,
+                           const PointH3<R> &q,
+                           const PointH3<R> &r,
+                           const PointH3<R> &s )
+    : container(p,q,r,s), ordertype(orientation(p,q,r,s)) {}
+
+  friend class TetrahedronH3<R>;
+
+ private:
+    Simple_Fourtuple< PointH3<R> > container;
+    Orientation                    ordertype;
 };
 
 
-
-
-template < class FT, class RT >
-class TetrahedronH3 : public Handle_for< Tetrahedron_repH3<FT,RT> >
+template < class R_ >
+class TetrahedronH3
+  : public R_::Tetrahedron_handle_3
 {
 public:
-  TetrahedronH3();
-  TetrahedronH3(const PointH3<FT,RT> &p,
-                const PointH3<FT,RT> &q,
-                const PointH3<FT,RT> &r,
-                const PointH3<FT,RT> &s);
+  typedef R_                R;
+  typedef typename R::RT    RT;
+  typedef typename R::FT    FT;
 
-  PointH3<FT,RT> vertex(int i) const;
-  PointH3<FT,RT> operator[](int i) const;
-  bool           operator==(const TetrahedronH3<FT,RT> &t) const;
-  bool           operator!=(const TetrahedronH3<FT,RT> &t) const;
+  typedef typename R::Tetrahedron_handle_3      Tetrahedron_handle_3_;
+  typedef typename Tetrahedron_handle_3_::element_type Tetrahedron_ref_3;
+
+  TetrahedronH3()
+    : Tetrahedron_handle_3_(Tetrahedron_ref_3()) {}
+
+  TetrahedronH3(const PointH3<R> &p,
+                const PointH3<R> &q,
+                const PointH3<R> &r,
+                const PointH3<R> &s)
+    : Tetrahedron_handle_3_(Tetrahedron_ref_3(p,q,r,s)) {}
+
+  PointH3<R> vertex(int i) const;
+  PointH3<R> operator[](int i) const;
+  bool           operator==(const TetrahedronH3<R> &t) const;
+  bool           operator!=(const TetrahedronH3<R> &t) const;
   Bbox_3         bbox() const;
-  TetrahedronH3<FT,RT>
-                 transform(const Aff_transformationH3<FT,RT> &t) const;
+  FT             volume() const;
+
+  TetrahedronH3<R>
+                 transform(const Aff_transformationH3<R> &t) const;
   Orientation    orientation() const;
-  Oriented_side  oriented_side(const PointH3<FT,RT> &p) const;
-  Bounded_side   bounded_side(const PointH3<FT,RT> &p) const;
-  bool           has_on_boundary(const PointH3<FT,RT> &p) const;
-  bool           has_on_positive_side(const PointH3<FT,RT> &p) const;
-  bool           has_on_negative_side(const PointH3<FT,RT> &p) const;
-  bool           has_on_bounded_side(const PointH3<FT,RT> &p) const;
-  bool           has_on_unbounded_side(const PointH3<FT,RT> &p) const;
+  Oriented_side  oriented_side(const PointH3<R> &p) const;
+  Bounded_side   bounded_side(const PointH3<R> &p) const;
+  bool           has_on_boundary(const PointH3<R> &p) const;
+  bool           has_on_positive_side(const PointH3<R> &p) const;
+  bool           has_on_negative_side(const PointH3<R> &p) const;
+  bool           has_on_bounded_side(const PointH3<R> &p) const;
+  bool           has_on_unbounded_side(const PointH3<R> &p) const;
   bool           is_degenerate() const;
 };
 
 
-
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-TetrahedronH3<FT,RT>::TetrahedronH3()
- : Handle_for< Tetrahedron_repH3<FT,RT> >( Tetrahedron_repH3<FT,RT>() )
-{}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-TetrahedronH3<FT,RT>::TetrahedronH3(const PointH3<FT,RT> &p,
-                                    const PointH3<FT,RT> &q,
-                                    const PointH3<FT,RT> &r,
-                                    const PointH3<FT,RT> &s)
- : Handle_for< Tetrahedron_repH3<FT,RT> >( Tetrahedron_repH3<FT,RT>(p,q,r,s))
-{}
-
-
-
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-TetrahedronH3<FT,RT>::operator==(const TetrahedronH3<FT,RT> &t) const
+TetrahedronH3<R>::operator==(const TetrahedronH3<R> &t) const
 {
-  if ( ptr == t.ptr ) return true;
+  if ( Ptr() == t.Ptr() ) return true;
   if ( orientation() != t.orientation() ) return false;
 
-  std::vector< PointH3<FT,RT> > V1;
-  std::vector< PointH3<FT,RT> > V2;
-  typename std::vector< PointH3<FT,RT> >::iterator uniq_end1;
-  typename std::vector< PointH3<FT,RT> >::iterator uniq_end2;
+  std::vector< PointH3<R> > V1;
+  std::vector< PointH3<R> > V2;
+  typename std::vector< PointH3<R> >::iterator uniq_end1;
+  typename std::vector< PointH3<R> >::iterator uniq_end2;
   int k;
   for ( k=0; k < 4; k++) V1.push_back( vertex(k));
   for ( k=0; k < 4; k++) V2.push_back( t.vertex(k));
-  std::sort(V1.begin(), V1.end(), Less_xyz< PointH3<FT,RT> >());
-  std::sort(V2.begin(), V2.end(), Less_xyz< PointH3<FT,RT> >());
+  typename R::Less_xyz_3 Less_object = R().less_xyz_3_object();
+  std::sort(V1.begin(), V1.end(), Less_object);
+  std::sort(V2.begin(), V2.end(), Less_object);
   uniq_end1 = std::unique( V1.begin(), V1.end());
   uniq_end2 = std::unique( V2.begin(), V2.end());
   V1.erase( uniq_end1, V1.end());
@@ -153,77 +164,77 @@ TetrahedronH3<FT,RT>::operator==(const TetrahedronH3<FT,RT> &t) const
   return V1 == V2;
 }
 
-
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::operator!=(const TetrahedronH3<FT,RT> &t) const
+TetrahedronH3<R>::operator!=(const TetrahedronH3<R> &t) const
 { return !(*this == t); }
-template < class FT, class RT >
+
+template < class R >
 CGAL_KERNEL_INLINE
-PointH3<FT,RT>
-TetrahedronH3<FT,RT>::vertex(int i) const
+PointH3<R>
+TetrahedronH3<R>::vertex(int i) const
 {
   switch (i%4)
   {
-     case 0:  return ptr->container.e0;
-     case 1:  return ptr->container.e1;
-     case 2:  return ptr->container.e2;
-     case 3:  return ptr->container.e3;
+     case 0:  return Ptr()->container.e0;
+     case 1:  return Ptr()->container.e1;
+     case 2:  return Ptr()->container.e2;
+     case 3:  return Ptr()->container.e3;
   }
-  return PointH3<FT,RT>();
+  return PointH3<R>();
 }
 
-template < class FT, class RT >
+template < class R >
 inline
-PointH3<FT,RT>
-TetrahedronH3<FT,RT>::operator[](int i) const
+PointH3<R>
+TetrahedronH3<R>::operator[](int i) const
 { return vertex(i); }
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::
-has_on_boundary(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+has_on_boundary(const PointH3<R> &p) const
 { return bounded_side(p) == ON_BOUNDARY; }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::
-has_on_positive_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+has_on_positive_side(const PointH3<R> &p) const
 { return oriented_side(p) == ON_POSITIVE_SIDE; }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::
-has_on_negative_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+has_on_negative_side(const PointH3<R> &p) const
 { return oriented_side(p) == ON_NEGATIVE_SIDE; }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::
-has_on_bounded_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+has_on_bounded_side(const PointH3<R> &p) const
 { return bounded_side(p) == ON_BOUNDED_SIDE; }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::
-has_on_unbounded_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+has_on_unbounded_side(const PointH3<R> &p) const
 { return bounded_side(p) == ON_UNBOUNDED_SIDE; }
 
-template < class FT, class RT >
+template < class R >
 inline
 Orientation
-TetrahedronH3<FT,RT>::orientation() const
-{ return ptr->ordertype; }
+TetrahedronH3<R>::orientation() const
+{ return Ptr()->ordertype; }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 Oriented_side
-TetrahedronH3<FT,RT>::oriented_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::oriented_side(const PointH3<R> &p) const
 {
   if ( orientation() == POSITIVE)
   {
@@ -247,21 +258,21 @@ TetrahedronH3<FT,RT>::oriented_side(const PointH3<FT,RT> &p) const
   return ON_ORIENTED_BOUNDARY;
 }
 
-template < class FT, class RT >
+template < class R >
 Bounded_side
-TetrahedronH3<FT,RT>::
-bounded_side(const PointH3<FT,RT> &p) const
+TetrahedronH3<R>::
+bounded_side(const PointH3<R> &p) const
 {
   const RT RT0(0);
   RT alpha;
   RT beta ;
   RT gamma;
 
-  VectorH3<FT,RT> v1 = vertex(1)-vertex(0);
-  VectorH3<FT,RT> v2 = vertex(2)-vertex(0);
-  VectorH3<FT,RT> v3 = vertex(3)-vertex(0);
+  VectorH3<R> v1 = vertex(1)-vertex(0);
+  VectorH3<R> v2 = vertex(2)-vertex(0);
+  VectorH3<R> v3 = vertex(3)-vertex(0);
 
-  VectorH3<FT,RT> vp =   p     - vertex(0);
+  VectorH3<R> vp =   p     - vertex(0);
 
   // want to solve  alpha*v1 + beta*v2 + gamma*v3 == vp
   // let vi' == vi*vi.hw()
@@ -327,37 +338,64 @@ bounded_side(const PointH3<FT,RT> &p) const
   return (t5 && t6) ? ON_BOUNDED_SIDE : ON_BOUNDARY;
 }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-TetrahedronH3<FT,RT>::is_degenerate() const
+TetrahedronH3<R>::is_degenerate() const
 { return ( orientation() == DEGENERATE); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 Bbox_3
-TetrahedronH3<FT,RT>::bbox() const
+TetrahedronH3<R>::bbox() const
 {
   return
   vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox() + vertex(3).bbox();
 }
 
-template < class FT, class RT >
-inline
-TetrahedronH3<FT,RT>
-TetrahedronH3<FT,RT>::
-transform(const Aff_transformationH3<FT,RT> &t) const
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+typename TetrahedronH3<R>::FT
+TetrahedronH3<R>::volume() const
 {
-  return TetrahedronH3<FT,RT>(t.transform(vertex(0)),
-                                   t.transform(vertex(1)),
-                                   t.transform(vertex(2)),
-                                   t.transform(vertex(3)));
+  VectorH3<R> vec1 = vertex(1) - vertex(0);
+  VectorH3<R> vec2 = vertex(2) - vertex(0);
+  VectorH3<R> vec3 = vertex(3) - vertex(0);
+
+  // first compute (vec1.hw * vec2.hw * vec3.hw * det(vec1, vec2, vec3))
+  // then divide by (6 * vec1.hw * vec2.hw * vec3.hw)
+  FT w123 = vec1.hw() * vec2.hw() * vec3.hw();
+  FT hx1 =  vec1.hx();
+  FT hy1 =  vec1.hy();
+  FT hz1 =  vec1.hz();
+  FT hx2 =  vec2.hx();
+  FT hy2 =  vec2.hy();
+  FT hz2 =  vec2.hz();
+  FT hx3 =  vec3.hx();
+  FT hy3 =  vec3.hy();
+  FT hz3 =  vec3.hz();
+
+  return (  (hx1 * (hy2 * hz3 - hy3 * hz2))
+          - (hy1 * (hx2 * hz3 - hx3 * hz2))
+          + (hz1 * (hx2 * hy3 - hx3 * hy2)))/ (FT(6) * w123);
+}
+
+template < class R >
+inline
+TetrahedronH3<R>
+TetrahedronH3<R>::
+transform(const Aff_transformationH3<R> &t) const
+{
+  return TetrahedronH3<R>(t.transform(vertex(0)),
+                              t.transform(vertex(1)),
+                              t.transform(vertex(2)),
+                              t.transform(vertex(3)));
 }
 
 
-#ifndef NO_OSTREAM_INSERT_TETRAHEDRONH3
-template < class FT, class RT >
-std::ostream &operator<<(std::ostream &os, const TetrahedronH3<FT,RT> &t)
+#ifndef CGAL_NO_OSTREAM_INSERT_TETRAHEDRONH3
+template < class R >
+std::ostream &operator<<(std::ostream &os, const TetrahedronH3<R> &t)
 {
   switch(os.iword(IO::mode))
   {
@@ -371,20 +409,19 @@ std::ostream &operator<<(std::ostream &os, const TetrahedronH3<FT,RT> &t)
         return os;
   }
 }
-#endif // NO_OSTREAM_INSERT_TETRAHEDRONH3
+#endif // CGAL_NO_OSTREAM_INSERT_TETRAHEDRONH3
 
-#ifndef NO_ISTREAM_EXTRACT_TETRAHEDRONH3
-template < class FT, class RT >
-std::istream &operator>>(std::istream &is, TetrahedronH3<FT,RT> &t)
+#ifndef CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONH3
+template < class R >
+std::istream &operator>>(std::istream &is, TetrahedronH3<R> &t)
 {
-  PointH3<FT,RT> p, q, r, s;
+  PointH3<R> p, q, r, s;
   is >> p >> q >> r >> s;
-  t = TetrahedronH3<FT,RT>(p, q, r, s);
+  t = TetrahedronH3<R>(p, q, r, s);
   return is;
 }
-#endif // NO_ISTREAM_EXTRACT_TETRAHEDRONH3
+#endif // CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONH3
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_TETRAHEDRONH3_H

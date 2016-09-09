@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/Generic_writer.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/07/12 05:34:38 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -62,43 +62,48 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class Writer>
-class _Generic_writer_vertex_proxy {
+class I_Generic_writer_vertex_proxy {
     Writer&  m_writer;
 public:
     typedef typename Writer::Point Point;
-    _Generic_writer_vertex_proxy( Writer& w) : m_writer(w) {}
+    I_Generic_writer_vertex_proxy( Writer& w) : m_writer(w) {}
     void operator= ( const Point& p) { m_writer.write_vertex(p); }
 };
 
 template <class Writer>
-class _Generic_writer_vertex_iterator : public std::output_iterator {
+class I_Generic_writer_vertex_iterator
+    : public std::iterator< output_iterator_tag,
+                            typedef typename Writer::Point >
+{
     Writer&  m_writer;
 public:
-    typedef _Generic_writer_vertex_proxy< Writer>    Proxy;
-    typedef _Generic_writer_vertex_iterator< Writer> Self;
+    typedef I_Generic_writer_vertex_proxy< Writer>    Proxy;
+    typedef I_Generic_writer_vertex_iterator< Writer> Self;
 
-    _Generic_writer_vertex_iterator( Writer& w) : m_writer(w) {}
+    I_Generic_writer_vertex_iterator( Writer& w) : m_writer(w) {}
     Self& operator++()      { return *this; }
     Self& operator++(int)   { return *this; }
     Proxy operator*() const { return Proxy( m_writer); }
 };
 
 template <class Writer>
-class _Generic_writer_facet_proxy {
+class I_Generic_writer_facet_proxy {
     Writer&  m_writer;
 public:
-    _Generic_writer_facet_proxy( Writer& w) : m_writer(w) {}
+    I_Generic_writer_facet_proxy( Writer& w) : m_writer(w) {}
     void operator= ( std::size_t i) { m_writer.write_facet_index(i); }
 };
 
 template <class Writer>
-class _Generic_writer_facet_iterator : public std::output_iterator {
+class I_Generic_writer_facet_iterator
+    : public std::iterator< output_iterator_tag, std::size_t>
+{
     Writer& m_writer;
 public:
-    typedef  _Generic_writer_facet_proxy<Writer>    Proxy;
-    typedef  _Generic_writer_facet_iterator<Writer> Self;
+    typedef  I_Generic_writer_facet_proxy<Writer>    Proxy;
+    typedef  I_Generic_writer_facet_iterator<Writer> Self;
 
-    _Generic_writer_facet_iterator( Writer& w) : m_writer(w) {}
+    I_Generic_writer_facet_iterator( Writer& w) : m_writer(w) {}
     Self& operator++()      { return *this; }
     Self& operator++(int)   { return *this; }
     Proxy operator*() const { return Proxy( m_writer); }
@@ -121,10 +126,10 @@ class Generic_writer {
     std::size_t  m_fcnt;
     std::size_t  m_icnt;
 public:
-    typedef Pt                                     Point;
-    typedef Generic_writer< Writer, Pt>            Self;
-    typedef _Generic_writer_vertex_iterator<Self>  Vertex_iterator;
-    typedef _Generic_writer_facet_iterator<Self>   Facet_iterator;
+    typedef Pt                                      Point;
+    typedef Generic_writer< Writer, Pt>             Self;
+    typedef I_Generic_writer_vertex_iterator<Self>  Vertex_iterator;
+    typedef I_Generic_writer_facet_iterator<Self>   Facet_iterator;
 
     Generic_writer( const Writer& writer, std::ostream& out,
                     std::size_t v, std::size_t h, std::size_t f)
@@ -155,9 +160,9 @@ public:
     // Interface used by the iterators and their proxies.
     void write_vertex( const Point& p) {
         ++m_vcnt;
-        m_writer.write_vertex( to_double( p.x()),
-                               to_double( p.y()),
-                               to_double( p.z()));
+        m_writer.write_vertex( ::CGAL::to_double( p.x()),
+                               ::CGAL::to_double( p.y()),
+                               ::CGAL::to_double( p.z()));
     }
     void write_facet_index( std::size_t i) {
         if ( m_fcnt > m_facets) {

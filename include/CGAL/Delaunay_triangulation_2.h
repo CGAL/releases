@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Delaunay_triangulation_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Delaunay_triangulation_2.h,v $
-// revision      : $Revision: 1.34 $
-// revision_date : $Date: 2000/09/01 11:43:30 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/06/22 09:35:32 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -53,10 +53,14 @@
 #define CGAL_DELAUNAY_TRIANGULATION_2_H
 
 #include <CGAL/Triangulation_2.h>
+#include <CGAL/Dummy_output_iterator.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Tds>
+template < class Gt, 
+           class Tds = Triangulation_data_structure_using_list_2 <
+                       Triangulation_vertex_base_2<Gt>,
+		       Triangulation_face_base_2<Gt> > >
 class Delaunay_triangulation_2 : public Triangulation_2<Gt,Tds>
 {
 public:
@@ -98,22 +102,35 @@ public:
   Vertex_handle
   nearest_vertex(const Point& p, Face_handle f= Face_handle()) const;
   
-  bool does_conflict(const Point  &p, Face_handle fh) const;
-  bool find_conflicts(const Point  &p, 
+  bool does_conflict(const Point  &p, Face_handle fh) const;// deprecated
+  bool test_conflict(const Point  &p, Face_handle fh) const;
+  bool find_conflicts(const Point  &p,                //deprecated
 		      std::list<Face_handle>& conflicts,
-		      Face_handle start = Face_handle()) const;
+		      Face_handle start= Face_handle() ) const;
+  //  //template member functions, declared and defined at the end 
+  // template <class Out_it1, class Out_it2> 
+  //   bool get_conflicts_and_boundary(const Point  &p, 
+  // 		                        Out_it1 fit, 
+  // 		                        Out_it2 eit,
+  // 		                        Face_handle start) const;
+  //   template <class Out_it1> 
+  //   bool get_conflicts (const Point  &p, 
+  // 		            Out_it1 fit, 
+  // 		            Face_handle start ) const;
+  //   template <class Out_it2> 
+  //   bool get_boundary_of_conflicts(const Point  &p, 
+  // 				      Out_it2 eit, 
+  // 				      Face_handle start ) const;
+   
  
   // DUAL
   Point dual (Face_handle f) const;
   Object dual(const Edge &e) const ;
   Object dual(const Edge_circulator& ec) const;
   Object dual(const Finite_edges_iterator& ei) const;
-  Point circumcenter(const Point& p0, 
-		     const Point& p1, 
-		     const Point&   p2) const;
   
   //INSERTION-REMOVAL
-  Vertex_handle  insert(const Point  &p, Face_handle start = Face_handle() );
+  Vertex_handle insert(const Point  &p, Face_handle start = Face_handle() );
   Vertex_handle insert(const Point& p,
 		       Locate_type lt,
 		       Face_handle loc, int li );
@@ -134,11 +151,6 @@ private:
 			      Face_handle f,
 			      int i,
 			      Vertex_handle& nn) const;
-
-  void propagate_conflicts(const Point &p, 
-			   Face_handle fh, 
-			   int i,
-			   std::list<Face_handle>& conflicts) const;
 
 public:
   template < class Stream>
@@ -169,58 +181,102 @@ public:
       return number_of_vertices() - n;
     }
 
+  //
+  template <class Out_it1, class Out_it2> 
+  bool 
+  get_conflicts_and_boundary (const Point  &p, 
+			      Out_it1 fit, 
+			      Out_it2 eit,
+			      Face_handle start = Face_handle()) const
+    {
+      CGAL_triangulation_precondition( dimension() == 2);
+      int li;
+      Locate_type lt;
+      Face_handle fh = locate(p,lt,li, start);
+      switch(lt) {
+      case OUTSIDE_AFFINE_HULL:
+      case VERTEX:
+	return false;
+      case FACE:
+      case EDGE:
+      case OUTSIDE_CONVEX_HULL:
+	*fit++ = fh; //put fh in Out_it1
+	propagate_conflicts(p,fh,0,fit,eit);
+	propagate_conflicts(p,fh,1,fit,eit);
+	propagate_conflicts(p,fh,2,fit,eit);
+	return true;    
+      }
+      CGAL_triangulation_assertion(false);
+      return false;
+    }
+
+  template <class Out_it1> 
+  bool 
+  get_conflicts (const Point  &p, 
+		  Out_it1 fit, 
+		  Face_handle start= Face_handle()) const
+    {
+      Dummy_output_iterator eit;
+      return get_conflicts_and_boundary(p, fit, eit, start);
+    }
+
+  template <class Out_it2> 
+  bool 
+  get_boundary_of_conflicts(const Point  &p, 
+			    Out_it2 eit, 
+			    Face_handle start= Face_handle()) const
+    {
+      Dummy_output_iterator fit;
+      return get_conflicts_and_boundary(p, fit, eit, start);
+    }
+
+private:
+ template <class Out_it1, class Out_it2> 
+  void propagate_conflicts (const Point  &p,
+			    Face_handle fh, 
+			    int i,
+			    Out_it1 fit, 
+			    Out_it2 eit) const
+    {
+      Face_handle fn = fh->neighbor(i);
+      if (! test_conflict(p,fn)) {
+	*eit++ = Edge(fn, fn->index(fh));
+	return;
+      }
+      *fit++ = fn;
+      int j = fn->index(fh);
+      propagate_conflicts(p,fn,ccw(j),fit,eit);
+      propagate_conflicts(p,fn,cw(j),fit,eit);
+      return;
+    }
+
+
 };
+
+template < class Gt, class Tds >
+inline bool
+Delaunay_triangulation_2<Gt,Tds>::
+test_conflict(const Point  &p, Face_handle fh) const
+{
+  return (side_of_oriented_circle(fh,p) == ON_POSITIVE_SIDE);
+}
 
 template < class Gt, class Tds >
 inline bool
 Delaunay_triangulation_2<Gt,Tds>::
 does_conflict(const Point  &p, Face_handle fh) const
 {
-  return (side_of_oriented_circle(fh,p) == ON_POSITIVE_SIDE);
+  return test_conflict(p,fh);
 }
 
 template < class Gt, class Tds >
-bool
+inline bool
 Delaunay_triangulation_2<Gt,Tds>::
 find_conflicts(const Point  &p, 
 	       std::list<Face_handle>& conflicts,
-	       Face_handle start)  const
+	       Face_handle start ) const
 {
-  int li;
-  Locate_type lt;
-  Face_handle fh = locate(p,lt,li, start);
-  switch(lt) {
-  case OUTSIDE_AFFINE_HULL:
-  case VERTEX:
-    return false;
-  case FACE:
-  case EDGE:
-  case OUTSIDE_CONVEX_HULL:
-    conflicts.push_back(fh);
-    propagate_conflicts(p,fh,0,conflicts);
-    propagate_conflicts(p,fh,1,conflicts);
-    propagate_conflicts(p,fh,2,conflicts);
-    return true;    
-  }
-  CGAL_triangulation_assertion(false);
-  return false;
-}
-
-template < class Gt, class Tds >
-void 
-Delaunay_triangulation_2<Gt,Tds>::
-propagate_conflicts(const Point &p, 
-		    Face_handle fh, 
-		    int i,
-		    std::list<Face_handle>& conflicts) const
-{
-  Face_handle fn = fh->neighbor(i);
-  if (! does_conflict(p,fn)) return;
-  conflicts.push_back(fn);
-  int j = fn->index(fh);
-  propagate_conflicts(p,fn,cw(j),conflicts);
-  propagate_conflicts(p,fn,ccw(j),conflicts);
-  return;
+  return get_conflicts(p, std::back_inserter(conflicts), start);
 }
 
 template < class Gt, class Tds >
@@ -269,18 +325,22 @@ Delaunay_triangulation_2<Gt,Tds>::
 nearest_vertex_2D(const Point& p, Face_handle f) const
 {
   CGAL_triangulation_precondition(dimension() == 2);
-    if (f== Face_handle()) f = locate(p);
+  if (f== Face_handle()) f = locate(p);
   else
     CGAL_triangulation_precondition(oriented_side(f,p)!=ON_NEGATIVE_SIDE);
 
-  typename Geom_traits::Less_distance_to_point_2 
-    closer = geom_traits().less_distance_to_point_2_object(p);
+  typename Geom_traits::Compare_distance_2 
+    closer =  geom_traits().compare_distance_2_object();
   Vertex_handle nn =  !is_infinite(f->vertex(0)) ? f->vertex(0):f->vertex(1);
-  if ( !is_infinite(f->vertex(1))  && 
-       closer(f->vertex(1)->point(), nn->point())) nn=f->vertex(1);
-  if ( !is_infinite(f->vertex(2))  &&
-       closer(f->vertex(2)->point(), nn->point())) nn=f->vertex(2);
- 
+  if ( !is_infinite(f->vertex(1)) && closer(p,
+					    f->vertex(1)->point(),
+					    nn->point()) == SMALLER) 
+    nn=f->vertex(1);
+  if ( !is_infinite(f->vertex(2)) && closer(p,
+					    f->vertex(2)->point(), 
+					    nn->point()) == SMALLER) 
+    nn=f->vertex(2);
+       
   look_nearest_neighbor(p,f,0,nn);
   look_nearest_neighbor(p,f,1,nn);
   look_nearest_neighbor(p,f,2,nn);
@@ -292,15 +352,14 @@ Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>:: 
 nearest_vertex_1D(const Point& p) const
 {
-  typename Geom_traits::Less_distance_to_point_2 
-    closer=geom_traits().less_distance_to_point_2_object(p);
-  
+  typename Geom_traits::Compare_distance_2 
+    closer =  geom_traits().compare_distance_2_object();
   Vertex_handle nn;
   
   Finite_vertices_iterator vit=finite_vertices_begin();
   nn = vit->handle();
   for ( ; vit != finite_vertices_end(); ++vit){
-    if (closer(vit->point(), nn->point()) ) nn=vit->handle();
+    if (closer(p, vit->point(), nn->point()) ) nn=vit->handle();
   } 
   return nn;
 }
@@ -316,11 +375,13 @@ look_nearest_neighbor(const Point& p,
   Face_handle  ni=f->neighbor(i);
   if ( ON_POSITIVE_SIDE != side_of_oriented_circle(ni,p) ) return;
 
-  typename Geom_traits::Less_distance_to_point_2 
-    closer=geom_traits().less_distance_to_point_2_object(p);
+  typename Geom_traits::Compare_distance_2 
+    closer =  geom_traits().compare_distance_2_object();
   i = ni->index(f);
   if ( !is_infinite(ni->vertex(i)) &&
-       closer(ni->vertex(i)->point(), nn->point()) )  nn=ni->vertex(i);
+       closer(p, 
+	      ni->vertex(i)->point(),
+	      nn->point())  == SMALLER)  nn=ni->vertex(i);
     
   // recursive exploration of triangles whose circumcircle contains p
   look_nearest_neighbor(p, ni, ccw(i), nn);
@@ -335,19 +396,7 @@ Delaunay_triangulation_2<Gt,Tds>::
 dual (Face_handle f) const
 {
   CGAL_triangulation_precondition (dimension()==2);
-  return circumcenter(f->vertex(0)->point(),
-		      f->vertex(1)->point(),
-		      f->vertex(2)->point());
-}
-
-template<class Gt, class Tds>
-inline
-Delaunay_triangulation_2<Gt,Tds>::Point
-Delaunay_triangulation_2<Gt,Tds>::
-circumcenter (const Point& p0, const Point& p1, const Point&  p2) const
-{
-  return 
-    geom_traits().construct_circumcenter_2_object()(p0,p1,p2);
+  return circumcenter(f);
 }
 
   

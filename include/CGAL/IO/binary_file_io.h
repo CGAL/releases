@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/binary_file_io.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/06/19 07:23:18 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -65,25 +65,25 @@
 CGAL_BEGIN_NAMESPACE
 
 inline void
-_Binary_write_integer32(std::ostream& out, Integer32 i) {
+I_Binary_write_integer32(std::ostream& out, Integer32 i) {
     out.write( (char*)(&i), 4);
 }
 inline void
-_Binary_write_float32(std::ostream& out, float f) {
+I_Binary_write_float32(std::ostream& out, float f) {
     out.write( (char*)(&f), 4);
 }
 
 inline void
-_Binary_read_integer32(std::istream& in, Integer32& i) {
+I_Binary_read_integer32(std::istream& in, Integer32& i) {
     in.read( (char*)(&i), 4);
 }
 inline void
-_Binary_read_float32(std::istream& in, float& f) {
+I_Binary_read_float32(std::istream& in, float& f) {
     in.read( (char*)(&f), 4);
 }
 
 inline void
-_swap_to_big_endian( UInteger32& u) {
+I_swap_to_big_endian( UInteger32& u) {
     (void)u;
 #ifdef CGAL_LITTLE_ENDIAN
 u = ((u >> 24) | (u << 24) | ((u >> 8) & 0xff00) | ((u << 8) & 0xff0000));
@@ -91,37 +91,37 @@ u = ((u >> 24) | (u << 24) | ((u >> 8) & 0xff00) | ((u << 8) & 0xff0000));
 }
 
 inline void
-_swap_to_big_endian( Integer32& i) {
+I_swap_to_big_endian( Integer32& i) {
     UInteger32& u = (UInteger32&)i;
-    _swap_to_big_endian( u);
+    I_swap_to_big_endian( u);
 }
 
 inline void
-_swap_to_big_endian( float& f) {
+I_swap_to_big_endian( float& f) {
     UInteger32& u = (UInteger32&)f;
-    _swap_to_big_endian( u);
+    I_swap_to_big_endian( u);
 }
 
 inline void
-_Binary_write_big_endian_integer32(std::ostream& out, Integer32 i) {
-    _swap_to_big_endian( i);
+I_Binary_write_big_endian_integer32(std::ostream& out, Integer32 i) {
+    I_swap_to_big_endian( i);
     out.write( (char*)(&i), 4);
 }
 inline void
-_Binary_write_big_endian_float32(std::ostream& out, float f) {
-    _swap_to_big_endian( f);
+I_Binary_write_big_endian_float32(std::ostream& out, float f) {
+    I_swap_to_big_endian( f);
     out.write( (char*)(&f), 4);
 }
 
 inline void
-_Binary_read_big_endian_integer32(std::istream& in, Integer32& i) {
+I_Binary_read_big_endian_integer32(std::istream& in, Integer32& i) {
     in.read( (char*)(&i), 4);
-    _swap_to_big_endian( i);
+    I_swap_to_big_endian( i);
 }
 inline void
-_Binary_read_big_endian_float32(std::istream& in, float& f) {
+I_Binary_read_big_endian_float32(std::istream& in, float& f) {
     in.read( (char*)(&f), 4);
-    _swap_to_big_endian( f);
+    I_swap_to_big_endian( f);
 }
 
 CGAL_END_NAMESPACE

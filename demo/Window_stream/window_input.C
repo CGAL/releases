@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : webIO/demo.fw
 // file          : demo/Window_stream/window_input.C
-// revision      : 2.7
-// revision_date : 21 Aug 2000 
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/20 15:39:24 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -55,9 +54,6 @@
 #include <CGAL/Iso_rectangle_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Circle_2.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "Sorry, this demo needs LEDA"; return 0; }
-#else
 #include <CGAL/IO/Window_stream.h>
 
 typedef CGAL::Cartesian< double >             RepCls;
@@ -69,10 +65,16 @@ typedef CGAL::Iso_rectangle_2<RepCls>         Iso;
 typedef CGAL::Triangle_2<RepCls>              Triangle;
 typedef CGAL::Circle_2<RepCls>                Circle;
 
+
+#if defined(CGAL_USE_CGAL_WINDOW) 
+#define leda_red     CGAL::red
+#define leda_yellow  CGAL::yellow
+#endif
+
 int
 main()
 {
-  leda_window W;
+  CGAL::Window_stream W;
   CGAL::cgalize( W);
   W.set_fg_color( leda_red);
   W.set_bg_color( leda_yellow);
@@ -136,4 +138,4 @@ main()
   W.acknowledge("THE END");
   return 0;
 }
-#endif // USE_LEDA
+

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Pm_segment_exact_traits.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -154,29 +154,36 @@ public:
     if ((!curve_is_in_x_range(cv1, q)) || (!curve_is_in_x_range(cv2, q)))
       return EQUAL;
     
-    Point p1 = curve_calc_point(cv1, q);
-    Point p2 = curve_calc_point(cv2, q);
+    X_curve cv1_ = cv1;
+    X_curve cv2_ = cv2;
+    if (compare_lexicographically_xy(cv1.source(), cv1.target()) == LARGER)
+      cv1_ = curve_flip(cv1);
+    if (compare_lexicographically_xy(cv2.source(), cv2.target()) == LARGER)
+      cv2_ = curve_flip(cv2);
     
-    if (curve_is_vertical(cv1))
+    Point p1 = curve_calc_point(cv1_, q);
+    Point p2 = curve_calc_point(cv2_, q);
+    
+    if (curve_is_vertical(cv1_))
       {
-        if (curve_is_vertical(cv2))
+        if (curve_is_vertical(cv2_))
           {
             // both cv1 and cv2 are vertical
-            if ( is_lower(cv1.target(), cv2.source()) )
+            if ( is_lower(cv1_.target(), cv2_.source()) )
               return SMALLER;
-            if ( is_higher(cv1.source(), cv2.target()) )
+            if ( is_higher(cv1_.source(), cv2_.target()) )
               return LARGER;
             return SMALLER;
           }
         // cv1 is vertical and cv2 not
-        if ( is_lower(cv1.target(), p2) )
+        if ( is_lower(cv1_.target(), p2) )
           return SMALLER;
-        if ( is_higher(cv1.source(), p2) )
+        if ( is_higher(cv1_.source(), p2) )
           return LARGER;
         return EQUAL;
       }
     
-    if (curve_is_vertical(cv2))
+    if (curve_is_vertical(cv2_))
       {
         // cv2 is vertical and cv1- not
          /*        bug fix (Oren)
@@ -197,9 +204,9 @@ public:
         p                     p
 
         */
-        if (is_lower(lowest(cv2.source(),cv2.target()), p1) )
+        if (is_lower(cv2_.target(), p1) )
           return LARGER;
-        if ( is_higher(highest(cv2.source(),cv2.target()), p1) )
+        if (is_higher(cv2_.source(), p1) )
           return SMALLER;
         return EQUAL;
       }
@@ -236,7 +243,8 @@ public:
     }
   
   Comparison_result 
-  curve_compare_at_x_right(const X_curve &cv1, const X_curve &cv2, const Point & q) const 
+  curve_compare_at_x_right(const X_curve &cv1, const X_curve &cv2, 
+			   const Point & q) const 
   {
     // cases  in which the function isn't defined
     //CGAL_assertion(!curve_is_vertical(cv1));

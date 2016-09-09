@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Alpha_shape_face_base_2.h
-// package       : Alpha_shapes_2 (8.3)
+// package       : Alpha_shapes_2 (11.6)
 // source        : $RCSfile: Alpha_shape_face_base_2.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/11/05 16:37:22 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/07/23 12:14:53 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -98,12 +98,12 @@ public:
       A = AA;
     }
 
-  inline Interval_3 get_ranges(int i)
+  inline Interval_3 get_ranges(const int& i)
     {
       return vec_edge[i];
     }
 
-  inline void set_ranges(int i, Interval_3 Inter)
+  inline void set_ranges(const int& i, const Interval_3& Inter)
     {
       vec_edge[i]=Inter;
     }

@@ -1,0 +1,168 @@
+// ============================================================================
+//
+// Copyright (c) 2001 The CGAL Consortium
+
+// This software and related documentation are part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation are provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
+//
+// Every use of CGAL requires a license. 
+//
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
+//
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - Commercial users may apply for an evaluation license by writing to
+//   (Andreas.Fabri@geometryfactory.com). 
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
+//
+// file          : demo/Convex_hull/ch_quickhull_3_demo.C
+// package       : $CGAL_Package: Convex_hull_3 $
+// chapter       : Convex Hulls and Extreme Points
+//
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/07/25 11:45:49 $
+//
+// author(s)     : Susan Hert
+//
+// coordinator   : MPI (Susan Hert)
+//
+// implementation: 3D convex hull via quickhull algorithm
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
+//
+// ======================================================================
+
+#include <CGAL/Homogeneous.h>
+#include <CGAL/point_generators_3.h>
+#include <CGAL/copy_n.h>
+#include <CGAL/Convex_hull_traits_3.h>
+#include <CGAL/convex_hull_3.h>
+#include <CGAL/predicates_on_points_3.h>
+#include <CGAL/IO/Geomview_stream.h>
+#include <CGAL/IO/Polyhedron_geomview_ostream.h>
+
+#if !defined(__BORLANDC__) && !defined(_MSC_VER)
+
+#ifdef CGAL_USE_LEDA
+#include <CGAL/leda_integer.h>
+typedef leda_integer RT;
+#else
+#ifdef CGAL_USE_GMP
+#include <CGAL/Gmpz.h>
+typedef CGAL::Gmpz RT;
+#else
+// NOTE: the choice of double here for a number type may cause problems
+//       for degenerate point sets
+#include <CGAL/double.h>
+typedef double RT;
+#endif
+#endif
+
+#include <vector>
+
+// NOTE: the choice of double here for a number type may cause problems 
+//       for degenerate point sets
+typedef CGAL::Homogeneous<RT>                     K;
+typedef CGAL::Convex_hull_traits_3<K>             Traits;
+typedef Traits::Polyhedron_3                      Polyhedron_3;
+
+// define point creator 
+typedef K::Point_3                                Point_3;
+typedef CGAL::Creator_uniform_3<double, Point_3>  PointCreator;
+typedef CGAL::Random_points_in_sphere_3<Point_3, PointCreator> Generator;
+
+void draw_points_and_hull(const std::vector<Point_3>& points, 
+                          const CGAL::Object& object)
+{
+   std::vector<Point_3>::const_iterator p_it;
+
+   CGAL::Geomview_stream geomview;
+   geomview << CGAL::RED;
+   for (p_it = points.begin(); p_it != points.end(); p_it++)
+   {
+      geomview << *p_it;
+   }
+
+   K::Segment_3     segment;
+   K::Triangle_3    triangle;
+   Point_3          point;
+   Polyhedron_3     polyhedron;
+
+   geomview << CGAL::BLUE;
+   if ( CGAL::assign(point, object) )
+      geomview << point;
+   else if ( CGAL::assign(segment, object) )
+      geomview << segment;
+   else if ( CGAL::assign(triangle, object) )
+      geomview << triangle;
+   else if (CGAL::assign(polyhedron, object));
+      geomview << polyhedron;
+
+
+   std::cout << "Press any key to end the program: ";
+   char wait;
+   std::cin >> wait;
+}
+
+
+
+int main(int argc, char* argv[])
+{
+
+  if (argc != 2)
+  {
+      std::cerr << "Usage: " << argv[0] << " #points " << std::endl;
+      exit(0);
+  }
+
+  int num = atoi(argv[1]);
+  if (num < 0) 
+  {
+     std::cerr << "Usage: " << argv[0] << " #points " << std::endl;
+     std::cerr << " #points must be >= 0" << std::endl;
+     exit(0);
+  }
+
+  std::vector<Point_3> points;
+  Generator gen(100.0);
+
+  // generate num points and copy them to a vector 
+  CGAL::copy_n( gen, num, std::back_inserter(points) );
+  
+  // define object to hold convex hull 
+  CGAL::Object ch_object;
+
+  // compute convex hull 
+  CGAL::convex_hull_3(points.begin(), points.end(), ch_object);
+  draw_points_and_hull(points, ch_object);
+  return 0;
+}
+
+#else // on windows:
+
+int main() {
+  std::cerr <<
+  "This demo requires geomview, which is is not present on windows\n";
+  return 0;
+}
+
+#endif
+

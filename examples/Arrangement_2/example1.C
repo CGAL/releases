@@ -1,4 +1,4 @@
-//example1.C
+//examples/Arrangement_2/example1.C
 #include <CGAL/Cartesian.h>
 #include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
@@ -9,16 +9,16 @@
 // This is not recommended generally.
 // Read more in the README file or in the manual.
 typedef double                                        NT;
-typedef CGAL::Cartesian<NT>                            R;
-typedef CGAL::Arr_segment_exact_traits<R>              Traits;
+typedef CGAL::Cartesian<NT>                           R;
+typedef CGAL::Arr_segment_exact_traits<R>             Traits;
 
 typedef Traits::Point                                 Point;
 typedef Traits::X_curve                               X_curve;
 typedef Traits::Curve                                 Curve;
 
-typedef CGAL::Arr_base_node<Curve>                     Base_node;
-typedef CGAL::Arr_2_default_dcel<Traits>               Dcel;
-typedef CGAL::Arrangement_2<Dcel,Traits,Base_node >    Arr_2;
+typedef CGAL::Arr_base_node<Curve>                    Base_node;
+typedef CGAL::Arr_2_default_dcel<Traits>              Dcel;
+typedef CGAL::Arrangement_2<Dcel,Traits,Base_node >   Arr_2;
 
 using namespace std;
 

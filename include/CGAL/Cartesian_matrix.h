@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian_matrix.h
-// package       : Matrix_search (1.43)
+// package       : Matrix_search (1.49)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:25:29 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:52 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -63,8 +63,6 @@ template < class Operation,
 class Cartesian_matrix {
 public:
   typedef typename Operation::result_type           Value;
-  typedef typename Operation::first_argument_type   RowValue;
-  typedef typename Operation::second_argument_type  ColumnValue;
 
   Cartesian_matrix(RandomAccessIC_row r_f,
                    RandomAccessIC_row r_l,

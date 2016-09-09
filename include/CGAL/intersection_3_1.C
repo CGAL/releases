@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/intersection_3_1.C
-// package       : Intersections_3 (2.3)
+// package       : Intersections_3 (2.4.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -46,6 +46,7 @@
 // ======================================================================
 
 
+#include <CGAL/wmult.h>
 
 
 
@@ -124,7 +125,7 @@ intersection(const Plane_3<R> &plane, const Line_3<R>&line)
     const Direction_3<R> &line_dir = line.direction();
     RT num,  den;
     num = plane.a()*line_pt.hx() + plane.b()*line_pt.hy()
-        + plane.c()*line_pt.hz() + plane.d()*line_pt.hw();
+        + plane.c()*line_pt.hz() + wmult((R*)0, plane.d(), line_pt.hw());
     den = plane.a()*line_dir.dx() + plane.b()*line_dir.dy()
         + plane.c()*line_dir.dz();
     if (den == RT(0)) {
@@ -140,7 +141,7 @@ intersection(const Plane_3<R> &plane, const Line_3<R>&line)
         den*line_pt.hx()-num*line_dir.dx(),
         den*line_pt.hy()-num*line_dir.dy(),
         den*line_pt.hz()-num*line_dir.dz(),
-        line_pt.hw()*den));
+        wmult((R*)0, den, line_pt.hw())));
 }
 
 template <class R>
@@ -156,7 +157,7 @@ do_intersect(const Plane_3<R> &plane, const Line_3<R>&line)
     if (den !=  RT(0))
         return true;
     num = plane.a()*line_pt.hx() + plane.b()*line_pt.hy()
-        + plane.c()*line_pt.hz() + plane.d()*line_pt.hw();
+        + plane.c()*line_pt.hz() + wmult((R*)0, plane.d(), line_pt.hw());
     if (num == RT(0)) {
         // all line
         return true;
@@ -337,6 +338,268 @@ intersection(const Segment_3<R> &seg,
         CGAL::to_double(diffvec.z()),
         false, false
         );
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Line_3<R> &line,
+        const Iso_cuboid_3<R> &box)
+{
+    typedef typename R::RT RT;
+    typedef typename R::FT FT;
+    bool all_values = true;
+    FT _min, _max;
+    Point_3<R> const & _ref_point=line.point();
+    Vector_3<R> const & _dir=line.direction().vector();
+    Point_3<R> const & _iso_min=box.min();
+    Point_3<R> const & _iso_max=box.max();
+    int i;
+    for (i=0; i< _ref_point.dimension(); i++) {
+        if (_dir.homogeneous(i) == RT(0)) {
+            if (_ref_point.cartesian(i) < _iso_min.cartesian(i)) {
+                return Object();
+            }
+            if (_ref_point.cartesian(i) > _iso_max.cartesian(i)) {
+                return Object();
+            }
+        } else {
+            FT newmin, newmax;
+            if (_dir.homogeneous(i) > RT(0)) {
+                newmin = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            } else {
+                newmin = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            }
+            if (all_values) {
+                _min = newmin;
+                _max = newmax;
+            } else {
+                if (newmin > _min)
+                    _min = newmin;
+                if (newmax < _max)
+                    _max = newmax;
+                if (_max < _min) {
+                    return Object();
+                }
+            }
+            all_values = false;
+        }
+    }
+    CGAL_kernel_assertion(!all_values);
+    if (_max == _min) {
+        return make_object(Point_3<R>(_ref_point + _dir * _min ));
+    }
+    return make_object(
+        Segment_3<R>(_ref_point + _dir*_min, _ref_point + _dir*_max));
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Ray_3<R> &ray,
+        const Iso_cuboid_3<R> &box)
+{
+    typedef typename R::RT RT;
+    typedef typename R::FT FT;
+    bool all_values = true;
+    FT _min= FT(0), _max;
+    Point_3<R> const & _ref_point=ray.source();
+    Vector_3<R> const & _dir=ray.direction().vector();
+    Point_3<R> const & _iso_min=box.min();
+    Point_3<R> const & _iso_max=box.max();
+    int i;
+    for (i=0; i< _ref_point.dimension(); i++) {
+        if (_dir.homogeneous(i) == RT(0)) {
+            if (_ref_point.cartesian(i) < _iso_min.cartesian(i)) {
+                return Object();
+            }
+            if (_ref_point.cartesian(i) > _iso_max.cartesian(i)) {
+                return Object();
+            }
+        } else {
+            FT newmin, newmax;
+            if (_dir.homogeneous(i) > RT(0)) {
+                newmin = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            } else {
+                newmin = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            }
+            if (all_values) {
+                _max = newmax;
+            } else {
+                if (newmax < _max)
+                    _max = newmax;
+            }
+            if (newmin > _min)
+                 _min = newmin;
+            if (_max < _min)
+                return Object();
+            all_values = false;
+        }
+    }
+    CGAL_kernel_assertion(!all_values);
+    if (_max == _min) {
+        return make_object(Point_3<R>(_ref_point + _dir * _min ));
+    }
+    return make_object(
+        Segment_3<R>(_ref_point + _dir*_min, _ref_point + _dir*_max));
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(const Segment_3<R> &seg,
+        const Iso_cuboid_3<R> &box)
+{
+    typedef typename R::RT RT;
+    typedef typename R::FT FT;
+    FT _min= FT(0), _max;
+
+    Point_3<R> const & _ref_point=seg.source();
+    Vector_3<R> const & _dir=seg.direction().vector();
+    Point_3<R> const & _iso_min=box.min();
+    Point_3<R> const & _iso_max=box.max();
+    int main_dir =
+        (CGAL_NTS abs(_dir.x()) > CGAL_NTS abs(_dir.y()) )
+            ? (CGAL_NTS abs(_dir.x()) > CGAL_NTS abs(_dir.z()) ? 0 : 2)
+            : (CGAL_NTS abs(_dir.y()) > CGAL_NTS abs(_dir.z()) ? 1 : 2);
+    _max = (seg.target().cartesian(main_dir)-_ref_point.cartesian(main_dir)) /
+            _dir.cartesian(main_dir);
+    int i;
+    for (i=0; i< _ref_point.dimension(); i++) {
+        if (_dir.homogeneous(i) == RT(0)) {
+            if (_ref_point.cartesian(i) < _iso_min.cartesian(i)) {
+                return Object();
+            }
+            if (_ref_point.cartesian(i) > _iso_max.cartesian(i)) {
+                return Object();
+            }
+        } else {
+            FT newmin, newmax;
+            if (_dir.homogeneous(i) > RT(0)) {
+                newmin = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            } else {
+                newmin = (_iso_max.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+                newmax = (_iso_min.cartesian(i) - _ref_point.cartesian(i)) /
+                    _dir.cartesian(i);
+            }
+            if (newmax < _max)
+                _max = newmax;
+            if (newmin > _min)
+                 _min = newmin;
+            if (_max < _min)
+                return Object();
+        }
+    }
+    if (_max == _min) {
+        return make_object(Point_3<R>(_ref_point + _dir * _min ));
+    }
+    return make_object(
+        Segment_3<R>(_ref_point + _dir*_min, _ref_point + _dir*_max));
+}
+
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+Object
+intersection(
+    const Iso_cuboid_3<R> &icub1,
+    const Iso_cuboid_3<R> &icub2)
+{
+    Point_3<R> min_points[2];
+    Point_3<R> max_points[2];
+    min_points[0] = icub1.min();
+    min_points[1] = icub2.min();
+    max_points[0] = icub1.max();
+    max_points[1] = icub2.max();
+    typedef typename R::FT FT;
+    const int DIM = 3;
+    int min_idx[DIM];
+    int max_idx[DIM];
+    Point_3<R> newmin;
+    Point_3<R> newmax;
+    for (int dim = 0; dim < DIM; ++dim) {
+        min_idx[dim] =
+          min_points[0].cartesian(dim) >= min_points[1].cartesian(dim) ? 0 : 1;
+        max_idx[dim] =
+          max_points[0].cartesian(dim) <= max_points[1].cartesian(dim) ? 0 : 1;
+        if (min_idx[dim] != max_idx[dim]
+                && max_points[max_idx[dim]].cartesian(dim)
+                   < min_points[min_idx[dim]].cartesian(dim))
+            return Object();
+    }
+    if (min_idx[0] == min_idx[1] && min_idx[0] == min_idx[2]) {
+        newmin = min_points[min_idx[0]];
+    } else {
+        newmin = Point_3<R>(
+            min_idx[0] == 0
+                ? wmult((R*)0, min_points[0].hx(), min_points[1].hw())
+                : wmult((R*)0, min_points[1].hx(), min_points[0].hw())
+            ,
+            min_idx[1] == 0
+                ? wmult((R*)0, min_points[0].hy(), min_points[1].hw())
+                : wmult((R*)0, min_points[1].hy(), min_points[0].hw())
+            ,
+            min_idx[2] == 0
+                ? wmult((R*)0, min_points[0].hz(), min_points[1].hw())
+                : wmult((R*)0, min_points[1].hz(), min_points[0].hw())
+            ,
+            wmult((R*)0, min_points[0].hw(), min_points[1].hw()) );
+    }
+    if (max_idx[0] == max_idx[1] && max_idx[0] == max_idx[2]) {
+        newmax = max_points[max_idx[0]];
+    } else {
+        newmax = Point_3<R>(
+            max_idx[0] == 0
+                ? wmult((R*)0, max_points[0].hx(), max_points[1].hw())
+                : wmult((R*)0, max_points[1].hx(), max_points[0].hw())
+            ,
+            max_idx[1] == 0
+                ? wmult((R*)0, max_points[0].hy(), max_points[1].hw())
+                : wmult((R*)0, max_points[1].hy(), max_points[0].hw())
+            ,
+            max_idx[2] == 0
+                ? wmult((R*)0, max_points[0].hz(), max_points[1].hw())
+                : wmult((R*)0, max_points[1].hz(), max_points[0].hw())
+            ,
+            wmult((R*)0, max_points[0].hw(), max_points[1].hw()) );
+    }
+    Object result = make_object(Iso_cuboid_3<R>(newmin, newmax));
+    return result;
 }
 
 CGAL_END_NAMESPACE

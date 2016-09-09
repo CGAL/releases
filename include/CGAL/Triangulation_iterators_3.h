@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,29 +18,28 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_iterators_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.15 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.19 $
 //
 // author(s)     : Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -52,37 +51,21 @@
 
 #include <utility>
 #include <iterator>
+
+#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_ds_iterators_3.h>
 
-#include <CGAL/Triangulation_short_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Tds >
-class Triangulation_3;
-
-template < class Gt, class Tds >
-class Triangulation_cell_3;
-
-template < class Gt, class Tds >
-class Triangulation_vertex_3;
-
-template < class Gt, class Tds>
-class Triangulation_3;
-
-template < class Gt, class Tds>
-class Triangulation_cell_iterator_3;
-
-template < class Gt, class Tds>
-class Triangulation_facet_iterator_3;
-
-template < class Gt, class Tds>
-class Triangulation_edge_iterator_3;
-
-template < class Gt, class Tds>
-class Triangulation_vertex_iterator_3;
-
+template < class Gt, class Tds > class Triangulation_3;
+template < class Gt, class Tds > class Triangulation_cell_3;
+template < class Gt, class Tds > class Triangulation_vertex_3;
+template < class Gt, class Tds > class Triangulation_3;
+template < class Gt, class Tds > class Triangulation_cell_iterator_3;
+template < class Gt, class Tds > class Triangulation_facet_iterator_3;
+template < class Gt, class Tds > class Triangulation_edge_iterator_3;
+template < class Gt, class Tds > class Triangulation_vertex_iterator_3;
 
 template < class Gt, class Tds>
 class Triangulation_cell_iterator_3
@@ -110,8 +93,9 @@ public:
     : _ib(), _tr(NULL), _inf(true)
   {}
         
-  Triangulation_cell_iterator_3(Triangulation_3<Gt,Tds> *tr, bool inf)
-    : _ib( &(tr->_tds)), _tr(tr), _inf(inf)
+  Triangulation_cell_iterator_3(const Triang *tr, bool inf)
+    : _ib( &(const_cast<Triang *>(tr)->_tds)),
+      _tr(const_cast<Triang *>(tr)), _inf(inf)
     { 
       if (! _inf) {
 	while ( // ( _ib != _tr->_tds.cells_end() ) &&
@@ -124,8 +108,9 @@ public:
   
   // for past-end iterator
   // does not need to find a finite cell
-  Triangulation_cell_iterator_3(Triangulation_3<Gt,Tds> *tr)
-    : _ib( &(tr->_tds), 1), _tr(tr), _inf(true)
+  Triangulation_cell_iterator_3(const Triang *tr)
+    : _ib( &(const_cast<Triang *>(tr)->_tds), 1),
+      _tr(const_cast<Triang *>(tr)), _inf(true)
   { }
        
   Triangulation_cell_iterator_3(const Cell_iterator & cit)
@@ -206,12 +191,12 @@ public:
     return tmp;
   }
         
-  inline Cell & operator*() const
+  Cell & operator*() const
   {
     return (Cell &)(*_ib);
   }
 
-  inline Cell* operator->() const
+  Cell* operator->() const
   {
     return (Cell*)( &(*_ib) );
   }
@@ -248,8 +233,9 @@ public:
     : _ib(), _tr(NULL), _inf(true)
   {}
         
-  Triangulation_vertex_iterator_3(Triangulation_3<Gt,Tds> * tr, bool inf)
-    : _ib( &(tr->_tds)), _tr(tr), _inf(inf)
+  Triangulation_vertex_iterator_3(const Triang * tr, bool inf)
+    : _ib( &(const_cast<Triang *>(tr)->_tds)),
+      _tr(const_cast<Triang *>(tr)), _inf(inf)
     { 
       if (! _inf) {
 	if ( _tr->is_infinite(Vertex_handle( (Vertex *) &(*(_ib)) )) ) {
@@ -260,8 +246,8 @@ public:
         
   // for past-end iterator
   // does not need to find a finite cell
-  Triangulation_vertex_iterator_3(Triangulation_3<Gt,Tds> * tr)
-    : _ib( &(tr->_tds), 1), _tr(tr)
+  Triangulation_vertex_iterator_3(const Triang * tr)
+    : _ib( &(const_cast<Triang *>(tr)->_tds), 1), _tr(const_cast<Triang *>(tr))
   { }
        
   Triangulation_vertex_iterator_3(const Vertex_iterator & vi)
@@ -342,12 +328,12 @@ public:
     return tmp;
   }
 
-  inline Vertex & operator*() const
+  Vertex & operator*() const
   {
     return (Vertex &)(*_ib);
   }
 
-  inline Vertex* operator->() const
+  Vertex* operator->() const
   {
     return   (Vertex*)( &(*_ib) );
   }
@@ -385,8 +371,9 @@ public:
     : _ib(), _tr(NULL), _inf(true)
   {}
         
-  Triangulation_edge_iterator_3(Triangulation_3<Gt,Tds> *tr, bool inf)
-    : _ib( &(tr->_tds)), _tr(tr), _inf(inf)
+  Triangulation_edge_iterator_3(const Triang *tr, bool inf)
+    : _ib( &(const_cast<Triang *>(tr)->_tds)),
+      _tr(const_cast<Triang *>(tr)), _inf(inf)
   { 
     if (! _inf) {
 	while ( // ( _ib != _tr->_tds.cells_end() ) &&
@@ -398,8 +385,9 @@ public:
     }
   }
         
-  Triangulation_edge_iterator_3(Triangulation_3<Gt,Tds> *tr)
-    : _ib( &(tr->_tds), 1), _tr(tr), _inf(true)
+  Triangulation_edge_iterator_3(const Triang *tr)
+    : _ib( &(const_cast<Triang *>(tr)->_tds), 1),
+      _tr(const_cast<Triang *>(tr)), _inf(true)
     // _inf is initialized but should never be used
   { }
        
@@ -487,7 +475,7 @@ public:
     return tmp;
   }
         
-  inline Edge operator*() const
+  Edge operator*() const
   {
     Cell_handle ch = (Cell *)( (*_ib).first );
     return make_triple( ch, (*_ib).second, (*_ib).third );
@@ -525,8 +513,9 @@ public:
     : _ib(), _tr(NULL), _inf(true)
   {}
         
-  Triangulation_facet_iterator_3(Triangulation_3<Gt,Tds> *tr, bool inf)
-    : _ib( &(tr->_tds)), _tr(tr), _inf(inf)
+  Triangulation_facet_iterator_3(const Triang *tr, bool inf)
+    : _ib( &(const_cast<Triang *>(tr)->_tds)),
+      _tr(const_cast<Triang *>(tr)), _inf(inf)
   {       
     if (! _inf) {
       while ( // ( _ib != _tr->_tds.cells_end() ) &&
@@ -539,8 +528,9 @@ public:
     }
   }
         
-  Triangulation_facet_iterator_3(Triangulation_3<Gt,Tds> *tr)
-    : _ib( &(tr->_tds), 1), _tr(tr), _inf(true)
+  Triangulation_facet_iterator_3(const Triang *tr)
+    : _ib( &(const_cast<Triang *>(tr)->_tds), 1),
+      _tr(const_cast<Triang *>(tr)), _inf(true)
   // _inf is initialized but should never be used
   { }
        
@@ -626,7 +616,7 @@ public:
     return tmp;
   }
         
-  inline Facet operator*() const
+  Facet operator*() const
   {
     Cell_handle ch = (Cell *)( (*_ib).first );
     return std::make_pair( ch, (*_ib).second );

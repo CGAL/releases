@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/Polyhedron_geomview_ostream.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/03/09 22:18:32 $
+// revision_date : $Date: 2001/07/02 20:58:52 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -50,15 +50,9 @@
 #ifndef CGAL_IO_POLYHEDRON_GEOMVIEW_OSTREAM_H
 #define CGAL_IO_POLYHEDRON_GEOMVIEW_OSTREAM_H 1
 
-#ifndef CGAL_IO_GEOMVIEW_STREAM_H
 #include <CGAL/IO/Geomview_stream.h>
-#endif // CGAL_IO_GEOMVIEW_STREAM_H
-#ifndef CGAL_IO_GENERIC_PRINT_POLYHEDRON_H
 #include <CGAL/IO/generic_print_polyhedron.h>
-#endif // CGAL_IO_GENERIC_PRINT_POLYHEDRON_H
-#ifndef CGAL_POLYHEDRON_3_H
 #include <CGAL/Polyhedron_3.h>
-#endif // CGAL_POLYHEDRON_3
 
 CGAL_BEGIN_NAMESPACE
 
@@ -73,7 +67,8 @@ public:
         // ignore ostream. Output goes to Geomview_stream.
         // Print header.
         out->set_ascii_mode();
-        *out << "(geometry polyhedron  {appearance {}{ ";
+        *out << "(geometry " << out->get_new_id("polyhedron")
+             << " {appearance {}{ ";
         out->set_binary_mode();
         *out << "OFF BINARY\n"  << int(vertices) << int(facets) << 0 ;
     }
@@ -96,9 +91,21 @@ public:
 };
 
 
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
 template < class Traits, class HDS >
 Geomview_stream&
 operator<<( Geomview_stream &gv, const Polyhedron_3<Traits,HDS> &P) {
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class Traits,
+           class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+Geomview_stream&
+operator<<( Geomview_stream &gv,
+            const Polyhedron_3<Traits,Items,HDS,Alloc> &P) {
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
     Polyhedron_writer_geomview  writer(gv);
     generic_print_polyhedron( std::cerr, P, writer); // note: cerr not used.
     return gv;

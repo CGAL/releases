@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Iso_rectangleH2.fw
 // file          : include/CGAL/Iso_rectangleH2.h
-// package       : H2 (2.12)
-// revision      : 2.12
-// revision_date : 03 Aug 2000 
+// package       : H2 (2.37)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/02/28 10:18:07 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -47,72 +46,71 @@
 //
 // ======================================================================
  
-
 #ifndef CGAL_ISO_RECTANGLEH2_H
 #define CGAL_ISO_RECTANGLEH2_H
 
-#ifndef TWOTUPLE_H
-#include <CGAL/Twotuple.h>
-#endif // TWOTUPLE_H
-#ifndef CGAL_POINTH2_H
 #include <CGAL/PointH2.h>
-#endif // CGAL_POINTH2_H
-#ifndef CGAL_PREDICATES_ON_POINTSH2_H
 #include <CGAL/predicates_on_pointsH2.h>
-#endif // CGAL_PREDICATES_ON_POINTSH2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class FT, class RT>
-class Iso_rectangleH2 : public Handle_for< Twotuple< PointH2<FT,RT> > >
+template <class R_>
+class Iso_rectangleH2
+  : public R_::Iso_rectangle_handle_2
 {
 public:
-            Iso_rectangleH2();
-            Iso_rectangleH2(const PointH2<FT,RT>& p,
-                            const PointH2<FT,RT>& q);
+  typedef R_                                    R;
+  typedef typename R::FT                        FT;
+  typedef typename R::RT                        RT;
 
-  bool      operator==(const Iso_rectangleH2<FT,RT>& s) const;
-  bool      operator!=(const Iso_rectangleH2<FT,RT>& s) const;
+  typedef typename R::Iso_rectangle_handle_2    Iso_rectangle_handle_2_;
+  typedef typename Iso_rectangle_handle_2_::element_type Iso_rectangle_ref_2;
 
-  PointH2<FT,RT>  min() const;
-  PointH2<FT,RT>  max() const;
-  PointH2<FT,RT>  vertex(int i) const;
-  PointH2<FT,RT>  operator[](int i) const;
+  Iso_rectangleH2()
+    : Iso_rectangle_handle_2_(Iso_rectangle_ref_2()) {}
 
-  Iso_rectangleH2<FT,RT>
-            transform(const Aff_transformationH2<FT,RT>& t) const;
+  Iso_rectangleH2(const PointH2<R>& p, const PointH2<R>& q);
+
+  Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
+                  const RT& max_hx, const RT& max_hy);
+
+  Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
+                  const RT& max_hx, const RT& max_hy, const RT& hw);
+
+  bool      operator==(const Iso_rectangleH2<R>& s) const;
+  bool      operator!=(const Iso_rectangleH2<R>& s) const;
+
+  PointH2<R>  min() const;
+  PointH2<R>  max() const;
+  PointH2<R>  vertex(int i) const;
+  PointH2<R>  operator[](int i) const;
+
+  Iso_rectangleH2<R>
+            transform(const Aff_transformationH2<R>& t) const;
 
   Bounded_side
-            bounded_side(const PointH2<FT,RT>& p) const;
-  bool      has_on(const PointH2<FT,RT>& p) const;
-  bool      has_on_boundary(const PointH2<FT,RT>& p) const;
-  bool      has_on_bounded_side(const PointH2<FT,RT>& p) const;
-  bool      has_on_unbounded_side(const PointH2<FT,RT>& p) const;
+            bounded_side(const PointH2<R>& p) const;
+  bool      has_on(const PointH2<R>& p) const;
+  bool      has_on_boundary(const PointH2<R>& p) const;
+  bool      has_on_bounded_side(const PointH2<R>& p) const;
+  bool      has_on_unbounded_side(const PointH2<R>& p) const;
   bool      is_degenerate() const;
 
-  Bbox_2
-            bbox() const;
+  Bbox_2    bbox() const;
 
   FT        xmin() const;
   FT        ymin() const;
   FT        xmax() const;
   FT        ymax() const;
+  FT        min_coord(int i) const;
+  FT        max_coord(int i) const;
 
-
+  FT        area() const;
 };
 
-
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-Iso_rectangleH2<FT,RT>::Iso_rectangleH2()
- : Handle_for< Twotuple< PointH2<FT,RT> > >( Twotuple< PointH2<FT,RT> >() )
-{}
-
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_CTOR_MEDIUM_INLINE
-Iso_rectangleH2<FT,RT>::Iso_rectangleH2(const PointH2<FT,RT>& p,
-                                        const PointH2<FT,RT>& q)
+Iso_rectangleH2<R>::Iso_rectangleH2(const PointH2<R>& p, const PointH2<R>& q)
 {
   bool px_g_qx = ( p.hx()*q.hw() > q.hx()*p.hw() );
   bool py_g_qy = ( p.hy()*q.hw() > q.hy()*p.hw() );
@@ -120,109 +118,160 @@ Iso_rectangleH2<FT,RT>::Iso_rectangleH2(const PointH2<FT,RT>& p,
   {
       if ( px_g_qx && py_g_qy )
       {
-          initialize_with( Twotuple<PointH2<FT,RT> >(q,p) );
+          initialize_with( Iso_rectangle_ref_2(q,p) );
       }
       else
       {
          if ( px_g_qx )
          {
-             initialize_with( Twotuple<PointH2<FT,RT> >(
-             PointH2<FT,RT>(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() ),
-             PointH2<FT,RT>(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() )) );
+             initialize_with( Iso_rectangle_ref_2(
+             PointH2<R>(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() ),
+             PointH2<R>(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() )) );
          }
          if ( py_g_qy )
          {
-             initialize_with( Twotuple<PointH2<FT,RT> >(
-             PointH2<FT,RT>(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() ),
-             PointH2<FT,RT>(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() )) );
+             initialize_with( Iso_rectangle_ref_2(
+             PointH2<R>(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() ),
+             PointH2<R>(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() )) );
          }
       }
   }
   else
   {
-      initialize_with( Twotuple< PointH2<FT,RT> >(p,q) );
+      initialize_with( Iso_rectangle_ref_2(p,q) );
   }
 }
 
-template < class FT, class RT >
+template < class R >
+inline
+Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
+                                    const RT& max_hx, const RT& max_hy)
+{
+  initialize_with( Iso_rectangle_ref_2( PointH2<R>(min_hx, min_hy), 
+                                        PointH2<R>(max_hx, max_hy)) );
+}
+
+template < class R >
+inline
+Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
+                                    const RT& max_hx, const RT& max_hy,
+                                    const RT& hw)
+{
+  initialize_with( Iso_rectangle_ref_2( PointH2<R>(min_hx, min_hy, hw), 
+                                        PointH2<R>(max_hx, max_hy, hw)) );
+}
+
+template < class R >
 inline
 bool
-Iso_rectangleH2<FT,RT>::operator==(const Iso_rectangleH2<FT,RT>& r) const
+Iso_rectangleH2<R>::operator==(const Iso_rectangleH2<R>& r) const
 { return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-Iso_rectangleH2<FT,RT>::operator!=(const Iso_rectangleH2<FT,RT>& r) const
+Iso_rectangleH2<R>::operator!=(const Iso_rectangleH2<R>& r) const
 { return !(*this == r); }
-template < class FT, class RT >
-inline
-PointH2<FT,RT>
-Iso_rectangleH2<FT,RT>::min() const
-{ return  ptr->e0; }
 
-template < class FT, class RT >
+template < class R >
 inline
-PointH2<FT,RT>
-Iso_rectangleH2<FT,RT>::max() const
-{ return  ptr->e1; }
+PointH2<R>
+Iso_rectangleH2<R>::min() const
+{ return  Ptr()->e0; }
 
-template < class FT, class RT >
+template < class R >
 inline
-FT
-Iso_rectangleH2<FT,RT>::xmin() const
+PointH2<R>
+Iso_rectangleH2<R>::max() const
+{ return  Ptr()->e1; }
+
+template < class R >
+inline
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::xmin() const
 { return  FT( min().hx() ) / FT( min().hw() ); }
 
-template < class FT, class RT >
+template < class R >
 inline
-FT
-Iso_rectangleH2<FT,RT>::ymin() const
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::ymin() const
 { return  FT( min().hy() ) / FT( min().hw() ); }
 
-template < class FT, class RT >
+template < class R >
 inline
-FT
-Iso_rectangleH2<FT,RT>::xmax() const
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::xmax() const
 { return  FT( max().hx() ) / FT( max().hw() ); }
 
-template < class FT, class RT >
+template < class R >
 inline
-FT
-Iso_rectangleH2<FT,RT>::ymax() const
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::ymax() const
 { return  FT( max().hy() ) / FT( max().hw() ); }
 
-template < class FT, class RT >
+template < class R >
+inline
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::min_coord(int i) const
+{ 
+   CGAL_kernel_precondition ( i == 0 || i == 1 );
+   if (i == 0)
+      return xmin();
+   else
+      return ymin();
+}
+
+template < class R >
+inline
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::max_coord(int i) const
+{ 
+   CGAL_kernel_precondition ( i == 0 || i == 1 );
+   if (i == 0)
+      return xmax();
+   else
+      return ymax();
+}
+
+template < class R >
+inline
+typename Iso_rectangleH2<R>::FT
+Iso_rectangleH2<R>::area() const
+{ return  (xmax() - xmin()) * (ymax() - ymin()); }
+
+template < class R >
 CGAL_KERNEL_INLINE
-PointH2<FT,RT>
-Iso_rectangleH2<FT,RT>::vertex(int i) const
+PointH2<R>
+Iso_rectangleH2<R>::vertex(int i) const
 {
   switch (i%4)
   {
     case 0:
         return min();
     case 1:
-        return PointH2<FT,RT>( max().hx()*min().hw(),
-                                    min().hy()*max().hw(),
-                                    min().hw()*max().hw() );
+        return PointH2<R>( max().hx()*min().hw(),
+                           min().hy()*max().hw(),
+                           min().hw()*max().hw() );
     case 2:
         return max();
     case 3:
-        return PointH2<FT,RT>( min().hx()*max().hw(),
-                                    max().hy()*min().hw(),
-                                    min().hw()*max().hw() );
+        return PointH2<R>( min().hx()*max().hw(),
+                           max().hy()*min().hw(),
+                           min().hw()*max().hw() );
   }
-  return PointH2<FT,RT>();
+  return PointH2<R>();
 }
 
-template < class FT, class RT >
+template < class R >
 inline
-PointH2<FT,RT>
-Iso_rectangleH2<FT,RT>::operator[](int i) const
+PointH2<R>
+Iso_rectangleH2<R>::operator[](int i) const
 { return vertex(i); }
-template < class FT, class RT >
+
+template < class R >
 CGAL_KERNEL_INLINE
 Bounded_side
-Iso_rectangleH2<FT,RT>::bounded_side(const PointH2<FT,RT>& p) const
+Iso_rectangleH2<R>::bounded_side(const PointH2<R>& p) const
 {
   Oriented_side wrt_min = _where_wrt_L_wedge(min(),p);
   Oriented_side wrt_max = _where_wrt_L_wedge(p,max());
@@ -238,62 +287,61 @@ Iso_rectangleH2<FT,RT>::bounded_side(const PointH2<FT,RT>& p) const
   return ON_BOUNDED_SIDE;
 }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-Iso_rectangleH2<FT,RT>::has_on_boundary(const PointH2<FT,RT>& p) const
+Iso_rectangleH2<R>::has_on_boundary(const PointH2<R>& p) const
 { return ( bounded_side(p) == ON_BOUNDARY ); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-Iso_rectangleH2<FT,RT>::has_on(const PointH2<FT,RT>& p) const
+Iso_rectangleH2<R>::has_on(const PointH2<R>& p) const
 { return ( bounded_side(p) == ON_BOUNDARY ); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-Iso_rectangleH2<FT,RT>::
-has_on_bounded_side(const PointH2<FT,RT>& p) const
+Iso_rectangleH2<R>::
+has_on_bounded_side(const PointH2<R>& p) const
 { return ( bounded_side(p) == ON_BOUNDED_SIDE ); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-Iso_rectangleH2<FT,RT>::
-has_on_unbounded_side(const PointH2<FT,RT>& p) const
+Iso_rectangleH2<R>::
+has_on_unbounded_side(const PointH2<R>& p) const
 {
   return (  (_where_wrt_L_wedge(min(),p) == ON_NEGATIVE_SIDE)
           ||(_where_wrt_L_wedge(p,max()) == ON_NEGATIVE_SIDE) );
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-Iso_rectangleH2<FT,RT>::is_degenerate() const
+Iso_rectangleH2<R>::is_degenerate() const
 {
  return (   ( min().hx()*max().hw() == max().hx()*min().hw() )
          || ( min().hy()*max().hw() == max().hy()*min().hw() ) );
 }
-template < class FT, class RT >
+template < class R >
 inline
 Bbox_2
-Iso_rectangleH2<FT,RT>::bbox() const
+Iso_rectangleH2<R>::bbox() const
 { return  min().bbox() + max().bbox(); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
-Iso_rectangleH2<FT,RT>
-Iso_rectangleH2<FT,RT>::
-transform(const Aff_transformationH2<FT,RT>&t) const
+Iso_rectangleH2<R>
+Iso_rectangleH2<R>::
+transform(const Aff_transformationH2<R>&t) const
 {
-  return Iso_rectangleH2<FT,RT>(t.transform(min() ),
-                                t.transform(max() ) );
+  return Iso_rectangleH2<R>(t.transform(min() ), t.transform(max() ) );
 }
 
-#ifndef NO_OSTREAM_INSERT_ISO_RECTANGLEH2
-template < class FT, class RT >
-std::ostream& operator<<(std::ostream& os, const Iso_rectangleH2<FT,RT>& r)
+#ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLEH2
+template < class R >
+std::ostream& operator<<(std::ostream& os, const Iso_rectangleH2<R>& r)
 {
   switch(os.iword(IO::mode))
   {
@@ -305,20 +353,19 @@ std::ostream& operator<<(std::ostream& os, const Iso_rectangleH2<FT,RT>& r)
         return os << "Iso_rectangleH2(" << r[0] << ", " << r[2] << ")";
   }
 }
-#endif // NO_OSTREAM_INSERT_ISO_RECTANGLEH2
+#endif // CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLEH2
 
-#ifndef NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
-template < class FT, class RT >
-std::istream& operator>>(std::istream& is, Iso_rectangleH2<FT,RT>& r)
+#ifndef CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
+template < class R >
+std::istream& operator>>(std::istream& is, Iso_rectangleH2<R>& r)
 {
-  PointH2<FT,RT> p, q;
+  PointH2<R> p, q;
   is >> p >> q;
-  r = Iso_rectangleH2<FT,RT>(p, q);
+  r = Iso_rectangleH2<R>(p, q);
   return is;
 }
-#endif // NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
+#endif // CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_ISO_RECTANGLEH2_H

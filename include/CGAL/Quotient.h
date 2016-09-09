@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Quotient.fw
 // file          : include/CGAL/Quotient.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/06/20 22:19:04 $
 //
 // author(s)     :
 //
@@ -53,34 +52,22 @@
 //
 // ======================================================================
 
-
 #ifndef CGAL_QUOTIENT_H
 #define CGAL_QUOTIENT_H
 
-#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
-#  if ((__GNUC__ == 2) && (__GNUC_MINOR__ <= 8))
-#    define CGAL_NO_STL_PROVIDED_REL_OPS
-#  endif // g++ 2.8
-#endif // CGAL_NO_STL_PROVIDED_REL_OPS
-
-
-
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
+
 #ifndef CGAL_CFG_NO_LOCALE
-#include <locale>
+#  include <locale>
 #else
-#include <cctype>
-#endif // CGAL_CFG_NO_LOCALE
-#ifndef IO_IO_TAGS_H
+#  include <cctype>
+#endif
+
 #include <CGAL/IO/io_tags.h>
-#endif // IO_IO_TAGS_H
 
 CGAL_BEGIN_NAMESPACE
 
 template <class NumberType> class Quotient;
-CGAL_TEMPLATE_NULL  class Quotient<int>;
 
 template <class NumberType>
 double
@@ -216,7 +203,6 @@ CGAL_KERNEL_INLINE
 bool
 operator< (const NumberType& q, const Quotient<NumberType>& r);
 
-#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
 template <class NumberType>
 CGAL_KERNEL_INLINE
 bool
@@ -276,7 +262,6 @@ template <class NumberType>
 CGAL_KERNEL_INLINE
 bool
 operator>=(const NumberType& q, const Quotient<NumberType>& r);
-#endif // CGAL_NO_STL_PROVIDED_REL_OPS
 
 template <class NumberType>
 std::istream&
@@ -302,19 +287,14 @@ class Quotient
   typedef NumberType NT;
   
   Quotient() : num( NT(0) ), den( NT(1) ) {}
-  
-  Quotient(const NT& n) : num(n), den( NT(1) ) {}
-  
-  Quotient(int i) : num(NT(i)), den( NT(1) ) {}
-  
+
+  template <class T>
+  Quotient(const T& n) : num(n), den( NT(1) ) {}
+
   Quotient(const NT& n, const NT& d) : num(n), den(d)
   { CGAL_kernel_precondition( d!= NT(0) ); }
   
   Quotient(const Quotient<NT>& r) : num(r.num), den(r.den) {}
-  
-  ~Quotient() {}
-  
-  
   
   Quotient<NT>& operator+= (const Quotient<NT>& r);
   Quotient<NT>& operator-= (const Quotient<NT>& r);
@@ -325,120 +305,29 @@ class Quotient
   Quotient<NT>& operator*= (const NT& r);
   Quotient<NT>& operator/= (const NT& r);
   
-  
   Quotient<NT>&    normalize();
-  
   
   NT   numerator() const;
   NT   denominator() const;
-  
 
  public:
   NT   num;
   NT   den;
-  
 };
 
-CGAL_END_NAMESPACE
+template <class RT>
+Interval_base
+to_interval (const Quotient<RT>& z)
+{
+  return Interval_nt<>(CGAL::to_interval(z.numerator())) /
+         Interval_nt<>(CGAL::to_interval(z.denominator()));
+}
 
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/Quotient.C>
 #endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-
-CGAL_BEGIN_NAMESPACE
-
-CGAL_TEMPLATE_NULL
-class Quotient<int>
-{
- public:
-  Quotient() : num( 0 ), den( 1 ) {}
-  Quotient(int i) : num( i ), den( 1 ) {}
-  Quotient(const int& n, const int& d) : num(n), den(d)
-  { CGAL_kernel_precondition( d!= 0 ); }
-  Quotient(const Quotient<int>& r) : num(r.num), den(r.den) {}
-  ~Quotient() {}
-  
-  int
-  numerator() const { return num; }
-  
-  int
-  denominator() const { return den; }
-  
-  
-  Quotient<int>&
-  operator+= (const Quotient<int>& r)
-  {
-    num = num * r.den + r.num * den;
-    den *= r.den;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator-= (const Quotient<int>& r)
-  {
-    num = num * r.den - r.num * den;
-    den *= r.den;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator*= (const Quotient<int>& r)
-  {
-    num *= r.num;
-    den *= r.den;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator/= (const Quotient<int>& r)
-  {
-    CGAL_kernel_precondition( r.num != 0 );
-    num *= r.den;
-    den *= r.num;
-    return (*this);
-  }
-  Quotient<int>&
-  operator+= (const int& r)
-  {
-    num = num + r * den;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator-= (const int& r)
-  {
-    num = num - r * den;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator*= (const int& r)
-  {
-    num *= r ;
-    return (*this);
-  }
-  
-  Quotient<int>&
-  operator/= (const int& r)
-  {
-    CGAL_kernel_precondition( r != 0 );
-    den *= r ;
-    return (*this);
-  }
-  
- public:
-  int num;
-  int den;
-  
-};
-
-CGAL_END_NAMESPACE
-
-
-#ifdef CGAL_INTERVAL_ARITHMETIC_H
-#include <CGAL/Interval_arithmetic/IA_Quotient.h>
-#endif // CGAL_INTERVAL_ARITHMETIC_H
 
 #include <CGAL/iterator_traits_pointer_specs_for_cartesian_quotient.h>
 

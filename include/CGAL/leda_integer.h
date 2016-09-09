@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Integer.fw
 // file          : include/CGAL/leda_integer.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/05/29 14:16:37 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -46,42 +45,20 @@
 //
 // ======================================================================
  
+#ifndef CGAL_LEDA_INTEGER_H
+#define CGAL_LEDA_INTEGER_H
 
-#ifndef CGAL_INTEGER_H
-#define CGAL_INTEGER_H
-
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-
-// #ifndef IO_IO_TAGS_H
-// #include <CGAL/IO/io_tags.h>
-// #endif // IO_IO_TAGS_H
-// #ifndef CGAL_NUMBER_TYPE_TAGS_H
-// #include <CGAL/number_type_tags.h>
-// #endif // CGAL_NUMBER_TYPE_TAGS_H
-
-/*
-#if !defined(LEDA_ROOT_INCL_ID)
-#define LEDA_ROOT_INCL_ID 349063
-#include <LEDA/REDEFINE_NAMES.h>
-#endif
-*/
-
-#ifndef CGAL_PROTECT_LEDA_INTEGER_H
 #include <LEDA/integer.h>
-#define CGAL_PROTECT_LEDA_INTEGER_H
-#endif // CGAL_PROTECT_LEDA_INTEGER_H
 
 CGAL_BEGIN_NAMESPACE
-
 
 #ifndef CGAL_CFG_NO_NAMESPACE
 inline
 double
 to_double(const leda_integer & i)
 { return i.to_double(); }
-#endif // CGAL_CFG_NO_NAMESPACE
+#endif
 
 inline
 Number_tag
@@ -108,21 +85,23 @@ inline
 Sign
 sign(const leda_integer& n)
 { return (Sign)::sign(n); }
-#endif // CGAL_CFG_NO_NAMESPACE
+#endif
+
+inline
+Interval_base
+to_interval (const leda_integer & n)
+{
+  Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
+  double cn = CGAL::to_double(n);
+  leda_integer pn = ( n>0 ? n : -n);
+  if ( pn.iszero() || log(pn) < 53 )
+      return Interval_base(cn);
+  else {
+    FPU_set_cw(CGAL_FE_UPWARD);
+    return Interval_nt_advanced(cn)+Interval_nt_advanced::Smallest;
+  }
+}
 
 CGAL_END_NAMESPACE
 
-
-/*
-#if LEDA_ROOT_INCL_ID == 349063
-#undef LEDA_ROOT_INCL_ID
-#include <LEDA/UNDEFINE_NAMES.h>
-#endif
-*/
-
-
-#ifdef CGAL_INTERVAL_ARITHMETIC_H
-#include <CGAL/Interval_arithmetic/IA_leda_integer.h>
-#endif // CGAL_INTERVAL_ARITHMETIC_H
-
-#endif // CGAL_INTEGER_H
+#endif // CGAL_LEDA_INTEGER_H

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Polygon_2_algorithms.h
-// package       : Polygon (2.19)
+// package       : Polygon (4.2.4)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -58,7 +58,7 @@
 #include <CGAL/polygon_assertions.h>
 
 #ifdef CGAL_REP_CLASS_DEFINED
-#include <CGAL/Polygon_traits_2.h>
+ #include <CGAL/Polygon_traits_2.h>
 #endif // CGAL_REP_CLASS_DEFINED
 
 CGAL_BEGIN_NAMESPACE
@@ -94,22 +94,53 @@ Bbox_2 bbox_2(InputIterator first, InputIterator last);
 template <class ForwardIterator, class Traits>
 void 
 area_2( ForwardIterator first, ForwardIterator last,
-   	typename std::iterator_traits<ForwardIterator>::value_type::FT& result,
+   	typename Traits::FT &result,
         const Traits& traits)
 {
-   typedef typename std::iterator_traits<ForwardIterator>::value_type::FT FT;
+   typedef typename Traits::FT FT;
    result = FT(0);
    // check if the polygon is empty
    if (first == last) return;
    ForwardIterator second = first; ++second;
    // check if the polygon has only one point
    if (second == last) return;
+   typename Traits::Compute_area_2 compute_area_2 =
+            traits.compute_area_2_object();
+   typename Traits::Construct_triangle_2 construct_triangle_2 =
+            traits.construct_triangle_2_object();
    ForwardIterator third = second;
    while (++third != last) {
-	result = result + traits.determinant_2(*first, *second, *third);
+	result = result + compute_area_2(
+                    construct_triangle_2(*first, *second, *third));
 	second = third;
    }
    result = result / FT(2);
+}
+
+template <class ForwardIterator, class Traits>
+typename Traits::FT 
+polygon_area_2( ForwardIterator first, ForwardIterator last,
+        const Traits& traits)
+{
+   typedef typename Traits::FT FT;
+   FT result = FT(0);
+   // check if the polygon is empty
+   if (first == last) return result;
+   ForwardIterator second = first; ++second;
+   // check if the polygon has only one point
+   if (second == last) return result;
+   typename Traits::Compute_area_2 compute_area_2 =
+            traits.compute_area_2_object();
+   typename Traits::Construct_triangle_2 construct_triangle_2 =
+            traits.construct_triangle_2_object();
+   ForwardIterator third = second;
+   while (++third != last) {
+	result = result + compute_area_2(
+                    construct_triangle_2(*first, *second, *third));
+	second = third;
+   }
+   result = result / FT(2);
+   return result;
 }
 
 template <class ForwardIterator, class Traits>
@@ -153,7 +184,7 @@ ForwardIterator left_vertex_2_aux(ForwardIterator first,
                                        ForwardIterator last,
                                        const Point_2<R>)
 {
-  return left_vertex_2(first, last, Polygon_traits_2<R>());
+  return left_vertex_2(first, last, R());
 }
 
 template <class ForwardIterator>
@@ -257,7 +288,7 @@ bool is_simple_2_aux(ForwardIterator first,
                           ForwardIterator last,
                           const Point_2<R>&)
 {
-  return is_simple_2(first, last, Polygon_traits_2<R>());
+  return is_simple_2(first, last, R());
 }
 
 template <class ForwardIterator>
@@ -311,4 +342,5 @@ CGAL_END_NAMESPACE
 #endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 
 #endif // CGAL_POLYGON_2_ALGORITHMS_H
+
 

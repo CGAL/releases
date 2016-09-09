@@ -28,8 +28,6 @@ Bbox_2$(OBJ_EXT) \
 Bbox_2_intersections$(OBJ_EXT) \
 Bbox_3_intersections$(OBJ_EXT) \
 Color$(OBJ_EXT) \
-Double$(OBJ_EXT) \
-Double_eps$(OBJ_EXT) \
 File_header_OFF$(OBJ_EXT) \
 File_header_extended_OFF$(OBJ_EXT) \
 File_scanner_OFF$(OBJ_EXT) \
@@ -37,10 +35,9 @@ File_writer_OFF$(OBJ_EXT) \
 File_writer_VRML_2$(OBJ_EXT) \
 File_writer_inventor$(OBJ_EXT) \
 File_writer_wavefront$(OBJ_EXT) \
-Fixed_precision_nt$(OBJ_EXT) \
-Float$(OBJ_EXT) \
 Geomview_stream$(OBJ_EXT) \
 Interval_arithmetic$(OBJ_EXT) \
+MP_Float$(OBJ_EXT) \
 Origin$(OBJ_EXT) \
 Random$(OBJ_EXT) \
 Triangulation_3$(OBJ_EXT) \

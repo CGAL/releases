@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Alpha_shape_euclidean_traits_2.h
-// package       : Alpha_shapes_2 (8.3)
+// package       : Alpha_shapes_2 (11.6)
 // source        : $RCSfile: Alpha_shape_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/11/05 16:37:21 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/07/11 13:49:28 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -51,30 +51,37 @@
 #define CGAL_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Cartesian.h>
-//#include <CGAL/Homogeneous.h>
-//#include <CGAL/Integer.h>
-//#include <CGAL/Rational.h>
-//#include <CGAL/Fixed.h>
-
-#include <CGAL/squared_distance_2.h>   // to avoid a g++ problem
-#include <CGAL/Point_2.h>
-#include <CGAL/predicates_on_points_2.h>
-#include <CGAL/Triangle_2.h>
-#include <CGAL/Segment_2.h>
 
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 
 #include <CGAL/smallest_radius_2.h>
-#include <CGAL/side_of_smallest_circle_2.h>
 
 //-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
 //-------------------------------------------------------------------
 
+//------------------ Function Objects ---------------------------------
+
+template < class return_type, class T >
+class Compute_squared_radius_2
+{
+public:
+  typedef return_type result_type;
+
+  result_type operator()(const T& p, const T& q, const T& r) const
+    {
+      return CGAL::squared_radius(p, q, r);
+    }
+
+  result_type operator()(const T& p, const T& q) const
+    {
+      return CGAL::squared_radius_smallest_circumcircle(p, q);
+    }
+};
+
 //------------------ Traits class -------------------------------------
 
-template<class R>
+template < class R >
 class Alpha_shape_euclidean_traits_2 : public
 Triangulation_euclidean_traits_2<R> 
 {
@@ -82,41 +89,24 @@ public:
   typedef typename R::FT Coord_type;
   typedef typename Triangulation_euclidean_traits_2<R>::Point Point;
 
-  //---------------------------------------------------------------------
-
-  Coord_type squared_radius(const Point &p,
-			    const Point &q,
-			    const Point &r) const 
-    {
-      // the computation of the squared radius takes 17 multiplications
-      // and 12 additions
-
-      return CGAL::squared_radius_circumcircle(p, q, r);
-    }
+  typedef Compute_squared_radius_2<Coord_type, Point> 
+  Compute_squared_radius_2;
+  typedef typename R::Side_of_bounded_circle_2 Side_of_bounded_circle_2;
   
   //------------------------------------------------------------------
 
-  Coord_type squared_radius(const Point &p,
-			    const Point &q) const 
+  Compute_squared_radius_2
+  compute_squared_radius_2_object() const
     {
-      // the computation of the squared radius takes 17 multiplications
-      // and 12 additions
-
-      return CGAL::squared_radius_smallest_circumcircle(p, q);
-
+      return Compute_squared_radius_2();
     }
 
   //------------------------------------------------------------------
 
-  Bounded_side side_of_circle(const Point &p,
-			      const Point &q,
-			      const Point &test) const 
+  Side_of_bounded_circle_2 side_of_bounded_circle_2_object() const
     {
-      return CGAL::side_of_bounded_circle(p, q, test);
+      return Side_of_bounded_circle_2();
     }
-
-  //------------------------------------------------------------------
-
 };
 
 //-------------------------------------------------------------------

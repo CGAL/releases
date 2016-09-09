@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,24 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_hierarchy_2.h
-// package       : Triangulation (4.69)
-// source        : $RCSfile: Triangulation_hierarchy_2.h,v $
+// package       : Triangulation_2 (5.18)
 // revision      : 
 // revision_date : 
 // author(s)     : Olivier Devillers
@@ -47,10 +46,11 @@
 //
 // ======================================================================
 
-#ifndef TRIANGULATION_HIERARCHY_2_H
-#define TRIANGULATION_HIERARCHY_2_H
+#ifndef CGAL_TRIANGULATION_HIERARCHY_2_H
+#define CGAL_TRIANGULATION_HIERARCHY_2_H
 
 #include <CGAL/Random.h>
+#include <map>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -87,7 +87,8 @@ class Triangulation_hierarchy_vertex_base_2
 };
 
 // parameterization of the  hierarchy
-const float Triangulation_hierarchy_2__ratio    = 30.0;
+//const float Triangulation_hierarchy_2__ratio    = 30.0;
+const int Triangulation_hierarchy_2__ratio    = 30;
 const int   Triangulation_hierarchy_2__minsize  = 20;
 const int   Triangulation_hierarchy_2__maxlevel = 5;
 // maximal number of points is 30^5 = 24 millions !
@@ -319,8 +320,6 @@ Triangulation_hierarchy_2<Tr>::
 insert(const Point &p)
 {
   int vertex_level = random_level();
-  //   debug purpose
-  std::cout << "niveau " << vertex_level << std::endl << std::flush;
   Locate_type lt;
   int i;
   // locate using hierarchy
@@ -421,8 +420,8 @@ locate(const Point& p,
   Face_handle position;
   Vertex_handle nearest;
   int level  = Triangulation_hierarchy_2__maxlevel;
-  typename Geom_traits::Less_distance_to_point_2 
-    closer = geom_traits().less_distance_to_point_2_object(p);
+  typename Geom_traits::Compare_distance_2 
+    closer = geom_traits().compare_distance_2_object();
 
   // find the highest level with enough vertices
   while (hierarchy[--level]->number_of_vertices() 
@@ -439,15 +438,17 @@ locate(const Point& p,
       nearest = position->vertex(1);
     else if (hierarchy[level]->is_infinite(position->vertex(1)))
       nearest = position->vertex(0);
-     else if ( closer(position->vertex(0)->point(),
-		      position->vertex(1)->point()))
+     else if ( closer(p,
+		      position->vertex(0)->point(),
+		      position->vertex(1)->point()) == SMALLER)
       nearest = position->vertex(0);
     else
       nearest = position->vertex(1);
     // compare to vertex 2
     if ( !  hierarchy[level]->is_infinite(position->vertex(2)))
-      if ( closer( position->vertex(2)->point(),
-		   nearest->point()))
+      if ( closer( p, 
+		   position->vertex(2)->point(),
+		   nearest->point()) == SMALLER)
 	nearest = position->vertex(2);
     // go at the same vertex on level below
     nearest = (Vertex*)( nearest->down() );
@@ -474,4 +475,5 @@ random_level()
 }
 
 CGAL_END_NAMESPACE
-#endif //TRIANGULATION_HIERARCHY_2_H
+
+#endif // CGAL_TRIANGULATION_HIERARCHY_2_H

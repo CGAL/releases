@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999  The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,30 +18,29 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 1999/11/02 10:50:21 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2001/07/18 14:21:25 $
 // author(s)     : Sylvain Pion
 //                 Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -51,79 +50,80 @@
 #ifndef CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_3_H
 #define CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_3_H
 
-// This file is based on Regular_triangulation_euclidean_traits_2.h
-
-#include <CGAL/Triangulation_geom_traits_3.h>
+#include <CGAL/basic.h>
+#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/Weighted_point.h>
 
 #ifndef CGAL_REP_CLASS_DEFINED
 #error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
+#endif
 
-#ifdef CGAL_CARTESIAN_H
+#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/predicates/Regular_triangulation_ftC3.h>
 #endif
 
-#ifdef CGAL_HOMOGENEOUS_H
+#if defined CGAL_HOMOGENEOUS_H || defined CGAL_SIMPLE_HOMOGENEOUS_H
 #include <CGAL/predicates/Regular_triangulation_rtH3.h>
 #endif
 
-#include <CGAL/Triangulation_short_names_3.h>
-
 CGAL_BEGIN_NAMESPACE 
+
+template <class Point, class Weight>
+class Power_test_3
+{
+public:
+  typedef Oriented_side  result_type;
+  typedef Weighted_point <Point, Weight>        Weighted_point;
+
+  Oriented_side operator() ( const Weighted_point & p,
+			     const Weighted_point & q,
+			     const Weighted_point & r,
+			     const Weighted_point & s,
+			     const Weighted_point & t) const
+    {
+      return CGAL::power_test(p,q,r,s,t);
+    }
+  Oriented_side operator() ( const Weighted_point & p,
+			     const Weighted_point & q,
+			     const Weighted_point & r,
+			     const Weighted_point & s) const
+    {
+      return CGAL::power_test(p,q,r,s);
+    }
+
+  Oriented_side operator() ( const Weighted_point & p,
+			     const Weighted_point & q,
+			     const Weighted_point & r) const
+    {
+      return CGAL::power_test(p,q,r);
+    }
+};
+
+
 
 template < class Repres, class Weight = CGAL_TYPENAME_MSVC_NULL Repres::RT >
 class Regular_triangulation_euclidean_traits_3
-  : public Triangulation_geom_traits_3<Repres>
+  : public Repres
 {
 public:
-  typedef typename Triangulation_geom_traits_3<Repres>::Point Bare_point;
+  typedef typename Repres::Point_3 Bare_point;
   typedef Weighted_point <Bare_point, Weight>   Weighted_point;
-  typedef Weighted_point                        Point;
+  typedef Weighted_point                        Point_3;
 
-  // power test for non coplanar points
-  Oriented_side power_test(const Weighted_point &p,
-			   const Weighted_point &q,
-			   const Weighted_point &r,
-			   const Weighted_point &s,
-			   const Weighted_point &t) const
-    // Let S be the sphere orthogonal to weighted points p,q,r,s
-    //
-    // returns ON_ORIENTED_BOUNDARY if t is orthogonal to S
-    // ON_NEGATIVE_SIDE if the angle between t and S is > pi/2
-    // ON_POSITIVE_SIDE if the angle is < pi/2
-    //
-    // When all the weights are equal, the answer is exactly the same as
-    // side_of_oriented_sphere(p,q,r,s,t)
-  {
-    CGAL_triangulation_precondition( ! coplanar(p, q, r, s) );
-    return CGAL::power_test(p, q, r, s, t);
-  }
+  // The next typedef is there for backward compatibility
+  // Some users take their point type from the traits class.
+  // Before this type was Point
+  typedef Point_3 Point;
 
-  // power test for coplanar points
-  Oriented_side power_test(const Weighted_point &p,
-			   const Weighted_point &q,
-			   const Weighted_point &r,
-			   const Weighted_point &t) const
-    // same as the previous test, for the circle orthogonal to p,q,r
-  {
-    CGAL_triangulation_precondition( ! collinear(p, q, r) );
-    CGAL_triangulation_precondition( orientation(p,q,r,t) == COPLANAR );
-    return CGAL::power_test(p, q, r, t);
-  }
+  typedef Power_test_3<Bare_point, Weight> Power_test_3;
+  
+  Power_test_3 
+  power_test_3_object() const
+    {  return Power_test_3();}
 
-  // power test for collinear points
-  Oriented_side power_test(const Weighted_point &p,
-			   const Weighted_point &q,
-			   const Weighted_point &t) const
-  {
-    CGAL_triangulation_precondition( collinear(p, q, t) );
-    CGAL_triangulation_precondition( p.point() != q.point() );
-    return CGAL::power_test(p, q, t);
-  }
 };
 
-#ifdef CGAL_CARTESIAN_H
+#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 template < class pt, class Weight >
 inline
 Oriented_side
@@ -173,7 +173,7 @@ power_test(const Weighted_point<pt, Weight> &p,
 }
 #endif // CGAL_CARTESIAN_H
 
-#ifdef CGAL_HOMOGENEOUS_H
+#if defined CGAL_HOMOGENEOUS_H || defined CGAL_SIMPLE_HOMOGENEOUS_H
 template < class pt, class Weight >
 inline
 Oriented_side

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/constructions/kernel_ftC2.h
-// package       : C2 (4.4)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2000/09/07 18:37:39 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/06/19 14:30:37 $
 // author(s)     : Sven Schoenherr, Hervé Brönnimann, Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -81,7 +81,7 @@ circumcenter_translateC2(const FT &dqx, const FT &dqy,
 
   // The 3 points aren't collinear.
   // Hopefully, this is already checked at the upper level.
-  CGAL_kernel_assertion ( den != FT(0) );
+  CGAL_kernel_assertion ( ! CGAL_NTS is_zero(den) );
 
   // One possible optimization here is to precompute 1/den, to avoid one
   // division.  However, we loose precision, and it's maybe not worth it (?).
@@ -100,6 +100,31 @@ circumcenterC2( const FT &px, const FT &py,
   circumcenter_translateC2(qx-px, qy-py, rx-px, ry-py, x, y);
   x += px;
   y += py;
+}
+
+template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+void
+centroidC2( const FT &px, const FT &py,
+            const FT &qx, const FT &qy,
+            const FT &rx, const FT &ry,
+            FT &x, FT &y)
+{
+   x = (px + qx + rx)/FT(3);
+   y = (py + qy + ry)/FT(3);
+}
+
+template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+void
+centroidC2( const FT &px, const FT &py,
+            const FT &qx, const FT &qy,
+            const FT &rx, const FT &ry,
+            const FT &sx, const FT &sy,
+            FT &x, FT &y)
+{
+   x = (px + qx + rx + sx)/FT(4);
+   y = (py + qy + ry + sy)/FT(4);
 }
 
 template < class FT >
@@ -155,7 +180,7 @@ void
 line_get_pointC2(const FT &a, const FT &b, const FT &c, int i,
                  FT &x, FT &y)
 {
-  if (b==FT(0))
+  if (CGAL_NTS is_zero(b))
     {
       x = (-b-c)/a + FT(i)*b;
       y = FT(1) - FT(i)*a;
@@ -186,14 +211,14 @@ line_project_pointC2(const FT &la, const FT &lb, const FT &lc,
 		     const FT &px, const FT &py,
 		     FT &x, FT &y)
 {
-#if 1
+#if 1 // FIXME
   // Original old version
-  if (la==FT(0)) // horizontal line
+  if (CGAL_NTS is_zero(la)) // horizontal line
   {
     x = px;
     y = -lc/lb;
   }
-  else if (lb==FT(0)) // vertical line
+  else if (CGAL_NTS is_zero(lb)) // vertical line
   {
     x = -lc/la;
     y = py;
@@ -219,7 +244,7 @@ line_project_pointC2(const FT &la, const FT &lb, const FT &lc,
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 FT
-squared_circumradiusC2(const FT &px, const FT &py,
+squared_radiusC2(const FT &px, const FT &py,
                        const FT &qx, const FT &qy,
                        const FT &rx, const FT &ry,
                        FT &x, FT &y )
@@ -234,7 +259,7 @@ squared_circumradiusC2(const FT &px, const FT &py,
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 FT
-squared_circumradiusC2(const FT &px, const FT &py,
+squared_radiusC2(const FT &px, const FT &py,
                        const FT &qx, const FT &qy,
                        const FT &rx, const FT &ry)
 {

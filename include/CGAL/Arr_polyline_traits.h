@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Arr_polyline_traits.h
-// package       : arr (1.73)
+// package       : Arrangement (2.18)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -339,9 +339,11 @@ public:
     
     int or0=orientation(p0,p,px);
     int or1=orientation(p1,p,px);
-    int or=or0*or1;
+    // Bug Fix, Shai, Jan, 8, 2001
+    // 'or' is a keyword in C++, changed to 'orient'
+    int orient=or0*or1;
     
-    if (or < 0) { //one is a leftturn the other rightturn
+    if (orient < 0) { //one is a leftturn the other rightturn
       return (or0 == LEFTTURN); //leftturn
     }
     else { //both are either left or right turns (or one is colinear)
@@ -732,8 +734,18 @@ public:
 	  if (lexicographically_xy_larger (i_seg.source(),pt)) {
 	    p1=i_seg.source();}
 	  else {
-	    p1=pt;}
-          
+	    // p1=pt;
+            // Modified by Eug
+            // Performing vertical ray shooting from pt.
+	    // Finding the intersection point. We know by now
+	    // that there is exactly ONE point. Assinging this
+	    // point to p1.
+            Point ap1( pt.x(), i_seg.source().y() );
+            Point ap2( pt.x(), i_seg.target().y() );
+            Segment_2<R> vertical_pt_x_base( ap1, ap2 );
+            Object i_obj = intersection( vertical_pt_x_base, i_seg );
+            assign( p1, i_obj );
+          }         
 	  found = true;
 	}
       }
@@ -785,8 +797,18 @@ public:
 	  if (lexicographically_xy_larger (i_seg.source(),pt)) {
 	    p1=i_seg.source();}
 	  else {
-	    p1=pt;}
-            
+	    // p1=pt;
+            // Modified by Eug
+            // Performing vertical ray shooting from pt.
+	    // Finding the intersection point. We know by now
+	    // that there is exactly ONE point. Assinging this
+	    // point to p1.
+            Point ap1( pt.x(), i_seg.source().y() );
+            Point ap2( pt.x(), i_seg.target().y() );
+            Segment_2<R> vertical_pt_x_base( ap1, ap2 );
+            Object i_obj = intersection( vertical_pt_x_base, i_seg );
+            assign( p1, i_obj );
+	  }    
 	  found = true;
 	}
       }

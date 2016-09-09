@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Pm_point_location_base.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -75,7 +75,8 @@ public:
   typedef typename Planar_map::Halfedge_iterator Halfedge_iterator;
   typedef typename Planar_map::Halfedge Halfedge;
   typedef std::vector<Halfedge_handle> Halfedge_handle_container;
-	typedef typename Halfedge_handle_container::iterator Halfedge_handle_iterator;
+  typedef typename Halfedge_handle_container::iterator 
+                                        Halfedge_handle_iterator;
   typedef typename Traits::X_curve X_curve;
 //  typedef typename Traits::X_curve_iterator X_curve_iterator;
   typedef typename Traits::Point Point;
@@ -102,7 +103,8 @@ public:
   virtual Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, 
                                              bool up) const = 0;
   /* Applies the bounding box */
-  virtual Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up)
+  virtual Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, 
+					     bool up)
   {
     return vertical_ray_shoot(p,lt,up);
   }

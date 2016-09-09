@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : number_utils.fw
 // file          : include/CGAL/number_utils.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/05 11:44:18 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -46,7 +45,6 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_NUMBER_UTILS_H
 #define CGAL_NUMBER_UTILS_H
@@ -56,16 +54,14 @@
 #include <CGAL/kernel_basic.h>
 #include <algorithm>
 
-namespace CGAL {
+CGAL_BEGIN_NAMESPACE
 
 template <class NT>
 inline
 bool
 is_zero(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool is_zero_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return x == NT(0);
 }
 
@@ -74,9 +70,7 @@ inline
 bool
 is_one(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool is_one_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return x == NT(1);
 }
 
@@ -85,9 +79,7 @@ inline
 bool
 is_negative(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool is_negative_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return x < NT(0);
 }
 
@@ -96,9 +88,7 @@ inline
 bool
 is_positive(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool is_positive_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return NT(0) < x;
 }
 
@@ -107,9 +97,7 @@ CGAL_KERNEL_INLINE
 Sign
 sign(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool sign_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return (x < NT(0)) ? NEGATIVE : (NT(0) < x) ? POSITIVE : ZERO;
 }
 
@@ -118,9 +106,7 @@ CGAL_KERNEL_INLINE
 Sign
 lexicographical_sign(const NT& x, const NT& y)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool lexicographical_sign_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return (x == NT(0)) ? CGAL::sign(y) : CGAL::sign(x);
 }
 
@@ -129,9 +115,7 @@ CGAL_KERNEL_INLINE
 NT
 abs(const NT& x)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool abs_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return (x < NT(0)) ? -x: x;
 }
 
@@ -142,9 +126,7 @@ CGAL_KERNEL_INLINE
 Comparison_result
 compare(const NT& n1, const NT& n2)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool compare_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   if (n1 < n2)
   {
     return SMALLER ;
@@ -157,14 +139,10 @@ inline
 NT
 square( const NT& n)
 {
-#ifndef CGAL_NO_NTS_NAMESPACE
   bool square_is_obsolete__qualify_call_by_CGAL_NTS;
-#endif // CGAL_NO_NTS_NAMESPACE
   return n*n;
 }
 
-
-#ifndef CGAL_NO_NTS_NAMESPACE
 namespace NTS {
 
 template <class NT>
@@ -269,12 +247,8 @@ bool
 is_integral( const NT& n)
 { return CGAL::is_integral(n); }
 
-
-
 } // namespace NTS
 
-#endif // CGAL_NO_NTS_NAMESPACE
-
-} // namespace CGAL
+CGAL_END_NAMESPACE
 
 #endif // CGAL_NUMBER_UTILS_H

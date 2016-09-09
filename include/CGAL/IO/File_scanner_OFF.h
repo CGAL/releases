@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/File_scanner_OFF.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/06/25 08:38:19 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -72,6 +72,9 @@
 #define CGAL_PROTECT_IOSTREAM
 #endif
 
+#include <CGAL/Point_3.h>
+#include <CGAL/Vector_3.h>
+
 CGAL_BEGIN_NAMESPACE
 
 class File_scanner_OFF : public File_header_OFF {
@@ -92,12 +95,12 @@ public:
     // coordinate types to support parameterized polytopes.
     void scan_vertex( float&  x, float&  y, float&  z) {
         if ( binary()) {
-            _Binary_read_float32( m_in, x);
-            _Binary_read_float32( m_in, y);
-            _Binary_read_float32( m_in, z);
+            I_Binary_read_big_endian_float32( m_in, x);
+            I_Binary_read_big_endian_float32( m_in, y);
+            I_Binary_read_big_endian_float32( m_in, z);
             if ( is_homogeneous()) {
                 float w;
-                _Binary_read_float32( m_in, w);
+                I_Binary_read_big_endian_float32( m_in, w);
                 x /= w;
                 y /= w;
                 z /= w;
@@ -117,14 +120,14 @@ public:
     void scan_vertex( double& x, double& y, double& z) {
         if ( binary()) {
             float f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             x = f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             y = f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             z = f;
             if ( is_homogeneous()) {
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 x /= f;
                 y /= f;
                 z /= f;
@@ -144,12 +147,12 @@ public:
     void scan_vertex( int& x, int& y, int& z) {
         if ( binary()) {
             float fx, fy, fz;
-            _Binary_read_float32( m_in, fx);
-            _Binary_read_float32( m_in, fy);
-            _Binary_read_float32( m_in, fz);
+            I_Binary_read_big_endian_float32( m_in, fx);
+            I_Binary_read_big_endian_float32( m_in, fy);
+            I_Binary_read_big_endian_float32( m_in, fz);
             if ( is_homogeneous()) {
                 float fw;
-                _Binary_read_float32( m_in, fw);
+                I_Binary_read_big_endian_float32( m_in, fw);
                 x = int( fx / fw);
                 y = int( fy / fw);
                 y = int( fz / fw);
@@ -181,11 +184,11 @@ public:
     void scan_vertex( float&  x, float&  y, float&  z, float&  w) {
         w = 1;
         if ( binary()) {
-            _Binary_read_float32( m_in, x);
-            _Binary_read_float32( m_in, y);
-            _Binary_read_float32( m_in, z);
+            I_Binary_read_big_endian_float32( m_in, x);
+            I_Binary_read_big_endian_float32( m_in, y);
+            I_Binary_read_big_endian_float32( m_in, z);
             if ( is_homogeneous())
-                _Binary_read_float32( m_in, w);
+                I_Binary_read_big_endian_float32( m_in, w);
         } else {
             skip_comment();
             m_in >> x >> y >> z;
@@ -197,14 +200,14 @@ public:
         w = 1;
         if ( binary()) {
             float f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             x = f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             y = f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             z = f;
             if ( is_homogeneous()) {
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 w = f;
             }
         } else {
@@ -218,14 +221,14 @@ public:
         w = 1;
         if ( binary()) {
             float f;
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             x = int(f);
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             y = int(f);
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             z = int(f);
             if ( is_homogeneous()) {
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 w = int(f);
             }
         } else {
@@ -248,12 +251,12 @@ public:
         if ( has_normals()) {
             normals_read = true;
             if ( binary()) {
-                _Binary_read_float32( m_in, x);
-                _Binary_read_float32( m_in, y);
-                _Binary_read_float32( m_in, z);
+                I_Binary_read_big_endian_float32( m_in, x);
+                I_Binary_read_big_endian_float32( m_in, y);
+                I_Binary_read_big_endian_float32( m_in, z);
                 if ( is_homogeneous()) {
                     float w;
-                    _Binary_read_float32( m_in, w);
+                    I_Binary_read_big_endian_float32( m_in, w);
                     x /= w;
                     y /= w;
                     z /= w;
@@ -275,12 +278,12 @@ public:
             normals_read = true;
             if ( binary()) {
                 float fx, fy, fz;
-                _Binary_read_float32( m_in, fx);
-                _Binary_read_float32( m_in, fy);
-                _Binary_read_float32( m_in, fz);
+                I_Binary_read_big_endian_float32( m_in, fx);
+                I_Binary_read_big_endian_float32( m_in, fy);
+                I_Binary_read_big_endian_float32( m_in, fz);
                 if ( is_homogeneous()) {
                     float fw;
-                    _Binary_read_float32( m_in, fw);
+                    I_Binary_read_big_endian_float32( m_in, fw);
                     x = fx / fw;
                     y = fy / fw;
                     y = fz / fw;
@@ -306,12 +309,12 @@ public:
             normals_read = true;
             if ( binary()) {
                 float fx, fy, fz;
-                _Binary_read_float32( m_in, fx);
-                _Binary_read_float32( m_in, fy);
-                _Binary_read_float32( m_in, fz);
+                I_Binary_read_big_endian_float32( m_in, fx);
+                I_Binary_read_big_endian_float32( m_in, fy);
+                I_Binary_read_big_endian_float32( m_in, fz);
                 if ( is_homogeneous()) {
                     float fw;
-                    _Binary_read_float32( m_in, fw);
+                    I_Binary_read_big_endian_float32( m_in, fw);
                     x = int( fx / fw);
                     y = int( fy / fw);
                     y = int( fz / fw);
@@ -345,11 +348,11 @@ public:
         if ( has_normals()) {
             normals_read = true;
             if ( binary()) {
-                _Binary_read_float32( m_in, x);
-                _Binary_read_float32( m_in, y);
-                _Binary_read_float32( m_in, z);
+                I_Binary_read_big_endian_float32( m_in, x);
+                I_Binary_read_big_endian_float32( m_in, y);
+                I_Binary_read_big_endian_float32( m_in, z);
                 if ( is_homogeneous())
-                    _Binary_read_float32( m_in, w);
+                    I_Binary_read_big_endian_float32( m_in, w);
             } else {
                 m_in >> x >> y >> z;
                 if ( is_homogeneous())
@@ -363,14 +366,14 @@ public:
             normals_read = true;
             if ( binary()) {
                 float f;
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 x = f;
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 y = f;
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 z = f;
                 if ( is_homogeneous()) {
-                    _Binary_read_float32( m_in, f);
+                    I_Binary_read_big_endian_float32( m_in, f);
                     w = f;
                 }
             } else {
@@ -386,14 +389,14 @@ public:
             normals_read = true;
             if ( binary()) {
                 float f;
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 x = int(f);
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 y = int(f);
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
                 z = int(f);
                 if ( is_homogeneous()) {
-                    _Binary_read_float32( m_in, f);
+                    I_Binary_read_big_endian_float32( m_in, f);
                     w = int(f);
                 }
             } else {
@@ -417,7 +420,7 @@ public:
     void scan_facet( Integer32& size, int current_facet) {
         CGAL_assertion( current_facet < size_of_facets());
         if ( binary())
-            _Binary_read_integer32( m_in, size);
+            I_Binary_read_big_endian_integer32( m_in, size);
         else {
             skip_comment();
             m_in >> size;
@@ -427,7 +430,7 @@ public:
     void scan_facet_vertex_index( Integer32& index,
                                   int current_facet) {
         if ( binary())
-            _Binary_read_integer32( m_in, index);
+            I_Binary_read_big_endian_integer32( m_in, index);
         else
             m_in >> index;
         if( ! m_in) {
@@ -459,9 +462,6 @@ public:
 
     void skip_to_next_facet( int current_facet);
 };
-
-template < class R> class Point_3;
-template < class R> class Vector_3;
 
 template < class R> inline
 Point_3<R>&

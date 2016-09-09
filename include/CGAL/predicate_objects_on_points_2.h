@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/predicate_objects_on_points_2.h
-// package       : Convex_hull (3.3)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/07/23 17:36:53 $ 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -52,16 +51,20 @@
 #include <CGAL/user_classes.h>
 
 CGAL_BEGIN_NAMESPACE
+
 template <class Point>
 class p_Left_of_line_2p
 {
 public:
+   typedef bool    result_type;
+   typedef  Arity_tag< 1 >   Arity;
+
         p_Left_of_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
-        { return leftturn( p_a, p_b, c ); }
+        { return left_turn( p_a, p_b, c ); }
 
 private:
     Point p_a;
@@ -72,12 +75,15 @@ template <class Point>
 class p_Right_of_line_2p
 {
 public:
+   typedef bool    result_type;
+   typedef  Arity_tag< 1 >   Arity;
+
         p_Right_of_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
-        { return rightturn( p_a, p_b, c ); }
+        { return right_turn( p_a, p_b, c ); }
 
 private:
     Point p_a;
@@ -88,6 +94,9 @@ template <class Point>
 class p_Left_of_line_2p_safer
 {
 public:
+  typedef bool    result_type;
+   typedef  Arity_tag< 1 >   Arity;
+
         p_Left_of_line_2p_safer(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
@@ -95,7 +104,7 @@ public:
   bool  operator()(const Point& c) const
         {
           if ( (c == p_a) || ( c == p_b ) ) return false;
-          return leftturn( p_a, p_b, c );
+          return left_turn( p_a, p_b, c );
         }
 
 private:
@@ -107,6 +116,9 @@ private:
 template <class Point>
 struct p_Less_xy
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
   bool operator()( const Point& p1, const Point& p2) const
        { return lexicographically_xy_smaller( p1, p2); }
 };
@@ -114,6 +126,9 @@ struct p_Less_xy
 template <class Point>
 struct p_Greater_xy
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
   bool operator()( const Point& p1, const Point& p2) const
        { return lexicographically_xy_larger( p1, p2); }
 };
@@ -121,6 +136,9 @@ struct p_Greater_xy
 template <class Point>
 struct p_Less_yx
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
   bool operator()( const Point& p1, const Point& p2) const
        { return lexicographically_yx_smaller( p1, p2); }
 };
@@ -128,6 +146,9 @@ struct p_Less_yx
 template <class Point>
 struct p_Greater_yx
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
   bool operator()( const Point& p1, const Point& p2) const
        { return lexicographically_yx_larger( p1, p2); }
 };
@@ -136,6 +157,9 @@ template <class Point>
 class p_Less_dist_to_line_2p
 {
 public:
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
         p_Less_dist_to_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
@@ -143,7 +167,7 @@ public:
   bool  operator()(const Point& c, const Point& d) const
         {
           Comparison_result 
-            res = cmp_signed_dist_to_line( p_a, p_b, c, d);
+            res = compare_signed_distance_to_line( p_a, p_b, c, d);
           if ( res == LARGER )
           {
               return false;
@@ -164,9 +188,40 @@ private:
 };
 
 template <class Point>
+class p_Less_dist_to_line_2
+{
+public:
+  typedef bool    result_type;
+  typedef  Arity_tag< 4 >   Arity;
+
+  bool  operator()(const Point&a, const Point& b,
+                   const Point& c, const Point& d) const
+        {
+          Comparison_result 
+            res = compare_signed_distance_to_line( a, b, c, d);
+          if ( res == LARGER )
+          {
+              return false;
+          }
+          else if ( res == SMALLER )
+          {
+              return true;
+          }
+          else
+          {
+              return lexicographically_xy_smaller( c, d );
+          }
+        }
+
+};
+
+template <class Point>
 class p_Less_negative_dist_to_line_2p
 {
 public:
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
         p_Less_negative_dist_to_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
@@ -174,7 +229,7 @@ public:
   bool  operator()(const Point& c, const Point& d) const
         {
           Comparison_result 
-            res = cmp_signed_dist_to_line( p_a, p_b, c, d);
+            res = compare_signed_distance_to_line( p_a, p_b, c, d);
           if ( res == LARGER )
           {
               return true;
@@ -198,13 +253,12 @@ template <class Point>
 class p_Less_rotate_ccw
 {
 public:
-        p_Less_rotate_ccw(const Point& p)
-        : rot_point(p)
-        {}
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
 
-  bool  operator()(const Point& p, const Point& q) const
+  bool  operator()(const Point& r, const Point& p, const Point& q) const
         {
-          Orientation ori = orientation(rot_point, p, q);
+          Orientation ori = orientation(r, p, q);
           if ( ori == LEFTTURN )
           {
               return true;
@@ -215,27 +269,22 @@ public:
           }
           else
           {
-              if (p == rot_point) return false;
-              if (q == rot_point) return true;
+              if (p == r) return false;
+              if (q == r) return true;
               if (p == q)         return false;
-              return  collinear_are_ordered_along_line( rot_point, q, p);
+              return  collinear_are_ordered_along_line( r, q, p);
           }
         }
-
-  void  set_rotation_center( const Point& p)
-        { rot_point = p; }
-
-
-private:
-    Point  rot_point;
 };
 
 template <class Point>
 class p_Less_rotate_ccw_safer
 {
 public:
-        p_Less_rotate_ccw_safer(const Point& p)
-        : rot_point(p)
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
+        p_Less_rotate_ccw_safer(const Point& p) : rot_point(p)
         {}
 
   bool  operator()(const Point& p, const Point& q) const
@@ -270,8 +319,10 @@ template <class Point>
 class p_Less_rotate_ccw_E
 {
 public:
-        p_Less_rotate_ccw_E(const Point& p)
-        : rot_point(p)
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
+        p_Less_rotate_ccw_E(const Point& p) : rot_point(p)
         {}
 
   bool  operator()(const Point& p, const Point& q) const
@@ -303,18 +354,20 @@ template <class R>
 class r_Right_of_line
 {
 public:
-        typedef typename R::Point_2  Point;
-        typedef typename R::Line_2   Line;
-        r_Right_of_line(const Point& a, const Point& b)
-         : l_ab( a, b )
+  typedef bool    result_type;
+  typedef  Arity_tag< 1 >   Arity;
+
+  typedef typename R::Point_2  Point;
+  typedef typename R::Line_2   Line;
+
+        r_Right_of_line(const Point& a, const Point& b) : l_ab( a, b )
         {}
 
-  bool  
-  operator()(const Point& c) const
-  {
-    if ( l_ab.is_degenerate() ) return false;
-    return (l_ab.oriented_side(c) == ON_NEGATIVE_SIDE);
-  }
+  bool  operator()(const Point& c) const
+        {
+          if ( l_ab.is_degenerate() ) return false;
+          return (l_ab.oriented_side(c) == ON_NEGATIVE_SIDE);
+        }
 
 private:
   Line    l_ab;
@@ -324,46 +377,64 @@ template <class R>
 class r_Left_of_line
 {
 public:
-        typedef typename R::Point_2  Point;
-        typedef typename R::Line_2   Line;
-        r_Left_of_line(const Point& a, const Point& b)
-         : l_ab( a, b ), is_deg( a == b)
+  typedef bool                 result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+  typedef typename R::Point_2  Point;
+  typedef typename R::Line_2   Line;
+
+        r_Left_of_line(): line_constructed(false)
         {}
 
-  bool  
-  operator()(const Point& c) const
-  { return ( !is_deg && (l_ab.oriented_side(c) == ON_POSITIVE_SIDE)); }
+  bool  operator()(const Point& a, const Point& b, const Point& c) const
+        { 
+           if (!line_constructed)
+           {
+              line_constructed = true;
+              l_ab = Line(a,b);
+              is_deg = a == b;
+           }
+           return ( !is_deg && (l_ab.oriented_side(c) == ON_POSITIVE_SIDE)); 
+        }
+
 
 private:
-  Line    l_ab;
-  bool    is_deg;
+  mutable bool line_constructed;
+  mutable Line l_ab;
+  mutable bool is_deg;
 };
 
 template <class Point>
 class p_Less_dist_to_point
 {
  public:
-  p_Less_dist_to_point( const Point& p) : _p(p) {}
-  bool operator()( const Point& p1, const Point& p2) const
-       { return has_smaller_dist_to_point(_p, p1, p2); }
- private:
-  Point _p;
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+       p_Less_dist_to_point( ) 
+       {}
+
+  bool operator()( const Point& p0, const Point& p1, const Point& p2) const
+       { return has_smaller_dist_to_point(p0, p1, p2); }
 };
 
 template <class R>
 class r_Less_negative_dist_to_line
 {
 public:
-        typedef typename R::Point_2  Point;
-        typedef typename R::Line_2   Line;
-        r_Less_negative_dist_to_line(const Point& a, 
-                            const Point& b)
-         : l_ab( a, b )
+  typedef bool                 result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
+  typedef typename R::Point_2  Point;
+  typedef typename R::Line_2   Line;
+
+        r_Less_negative_dist_to_line(const Point& a, const Point& b) : 
+           l_ab( a, b )
         {}
 
   bool  operator()(const Point& c, const Point& d) const
         {
-          Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
+          Comparison_result res = compare_signed_distance_to_line(l_ab, c, d);
           if ( res == SMALLER )
           {
               return false;
@@ -386,15 +457,24 @@ template <class R>
 class r_Less_dist_to_line
 {
 public:
-        typedef typename R::Point_2  Point;
-        typedef typename R::Line_2   Line;
-        r_Less_dist_to_line(const Point& a, const Point& b)
-         : l_ab( a, b )
-        {}
+  typedef bool    result_type;
+  typedef  Arity_tag< 4 >   Arity;
 
-  bool  operator()(const Point& c, const Point& d) const
+  typedef typename R::Point_2  Point;
+  typedef typename R::Line_2   Line;
+
+        r_Less_dist_to_line() : line_constructed( false )
+        { }
+       
+  bool  operator()(const Point& a, const Point& b,
+                   const Point& c, const Point& d) const
         {
-          Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
+          if (!line_constructed)
+          {
+             line_constructed = true;
+             l_ab = Line(a,b);
+          }
+          Comparison_result res = compare_signed_distance_to_line(l_ab, c, d);
           if ( res == SMALLER )
           {
               return true;
@@ -410,26 +490,29 @@ public:
         }
 
 private:
-  Line    l_ab;
+  mutable bool line_constructed;
+  mutable Line l_ab;
 };
 
 template <class R>
 class r_Less_in_direction
 {
 public:
-        typedef typename  R::RT           RT;
-        typedef typename  R::Direction_2  Direction;
-        typedef typename  R::Point_2      Point;
-        typedef typename  R::Line_2       Line;
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
 
-        r_Less_in_direction( const Direction& dir )
-        : l( Point( RT(0) , RT(0) ),
+  typedef typename  R::RT           RT;
+  typedef typename  R::Direction_2  Direction;
+  typedef typename  R::Point_2      Point;
+  typedef typename  R::Line_2       Line;
+
+        r_Less_in_direction( const Direction& dir ) : l(Point(RT(0) , RT(0)),
              Direction(-(dir.dy()), dir.dx() ))
         {}
 
   bool  operator()(const Point& c, const Point& d) const
         {
-          Comparison_result res = cmp_signed_dist_to_line(l, c, d);
+          Comparison_result res = compare_signed_distance_to_line(l, c, d);
           if ( res == LARGER )
           {
               return true;
@@ -449,27 +532,57 @@ private:
 };
 
 template <class Point>
-struct p_Leftturn
+struct p_Left_turn
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
   bool  operator()(const Point& p, const Point& q, const Point& r) const
-        { return leftturn(p,q,r); }
+        { return left_turn(p,q,r); }
 };
 
 template <class Point>
+struct p_Right_turn
+{
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+  bool  operator()(const Point& p, const Point& q, const Point& r) const
+        { return right_turn(p,q,r); }
+};
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class Point>
+struct p_Leftturn
+{
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+  bool  operator()(const Point& p, const Point& q, const Point& r) const
+        { return left_turn(p,q,r); }
+};
+template <class Point>
 struct p_Rightturn
 {
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
   bool  operator()(const Point& p, const Point& q, const Point& r) const
-        { return rightturn(p,q,r); }
+        { return right_turn(p,q,r); }
 };
+#endif // CGAL_NO_DEPRECATED_CODE
 
 template <class Point>
 struct p_Orientation
 {
+  typedef Orientation    result_type;
+
   Orientation  
         operator()(const Point& p, const Point& q, const Point& r) const
         { return orientation(p,q,r); }
   Orientation  
-        operator()(const Point& p, const Point& q, const Point& r, const Point& s) const
+        operator()(const Point& p, const Point& q, const Point& r, 
+                   const Point& s) const
         { return orientation(p,q,r,s); }
 };
 

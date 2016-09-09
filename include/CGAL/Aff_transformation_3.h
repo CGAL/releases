@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Aff_transformation_3.fw
 // file          : include/CGAL/Aff_transformation_3.h
-// package       : _3 (3.7)
-// revision      : 3.7
-// revision_date : 16 Aug 2000 
+// package       : _3 (3.23)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/06/27 14:49:51 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -46,32 +45,9 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_AFF_TRANSFORMATION_3_H
 #define CGAL_AFF_TRANSFORMATION_3_H
-
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#if defined(CGAL_CFG_INCOMPLETE_TYPE_BUG_1) && \
-   !defined(CGAL_NO_PLANE_TRANSFORM_IN_AT)
-#define CGAL_NO_PLANE_TRANSFORM_IN_AT
-#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
-
-#ifdef CGAL_HOMOGENEOUS_H
-#include <CGAL/Aff_transformationH3.h>
-#endif // CGAL_HOMOGENEOUS_H
-
-#ifdef CGAL_CARTESIAN_H
-#include <CGAL/Cartesian/Aff_transformation_3.h>
-#endif // CGAL_CARTESIAN_H
-
-#ifdef CGAL_SIMPLE_CARTESIAN_H
-#include <CGAL/SimpleCartesian/Aff_transformationS3.h>
-#endif // CGAL_SIMPLE_CARTESIAN_H
-
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Vector_3.h>
@@ -90,32 +66,26 @@ public:
   typedef typename R::Plane_3_base  RPlane_3;
   typedef typename R::Aff_transformation_3_base  RAff_transformation_3;
 
-  // default constructor
   Aff_transformation_3() : RAff_transformation_3()
   {}
 
-  // copy constructor
   Aff_transformation_3(const CGAL::Aff_transformation_3<R>& t)
     : RAff_transformation_3(t)
   {}
 
-  // up cast constructor
   Aff_transformation_3(const RAff_transformation_3&  t)
     : RAff_transformation_3(t)
   {}
 
-  // identity:
   Aff_transformation_3(const Identity_transformation& tag)
     : RAff_transformation_3(tag)
   {}
 
-  // translation:
   Aff_transformation_3(const Translation tag,
                        const CGAL::Vector_3<R>& v)
     : RAff_transformation_3(tag, v)
   {}
 
-  // scaling:
   Aff_transformation_3(const Scaling tag,
                        const RT& s,
                        const RT& w= RT(1) )
@@ -133,6 +103,7 @@ public:
                             m31, m32, m33, m34,
                                            w)
   {}
+
   Aff_transformation_3(
       const RT& m11, const RT& m12, const RT& m13,
       const RT& m21, const RT& m22, const RT& m23,
@@ -143,9 +114,7 @@ public:
                            m31, m32, m33,
                                           w)
   {}
-  // dtor
-  ~Aff_transformation_3()
-  {}
+
   // transformations
   CGAL::Point_3<R>       transform(const CGAL::Point_3<R>& p) const
                         { return RAff_transformation_3::transform(p); }
@@ -159,36 +128,14 @@ public:
                         { return RAff_transformation_3::transform(d); }
   CGAL::Direction_3<R>   operator()(const CGAL::Direction_3<R>& d) const
                         { return RAff_transformation_3::transform(d); }
-#ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
   CGAL::Plane_3<R>       transform(const CGAL::Plane_3<R>& pl) const
                         { return RAff_transformation_3::transform(pl); }
-#else
-  CGAL::Plane_3<R>
-    transform(const CGAL::Plane_3<R>& pl) const
-    {
-      return
-      (( const RPlane_3&  )pl).transform( (const RAff_transformation_3& )(*this) );
-    }
-#endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
   CGAL::Plane_3<R>       operator()(const CGAL::Plane_3<R>& pl) const
                         { return transform(pl); }
   // further members
   CGAL::Aff_transformation_3<R>
                         inverse() const
                         { return RAff_transformation_3::inverse(); }
-  bool                  is_even() const
-                        { return RAff_transformation_3::is_even(); }
-  bool                  is_odd() const
-                        { return !is_even(); }
-  // access
-  FT                    cartesian(int i, int j) const
-                        { return RAff_transformation_3::cartesian(i,j); }
-  RT                    homogeneous(int i, int j) const
-                        { return RAff_transformation_3::homogeneous(i,j); }
-  FT                    m(int i, int j) const
-                        { return RAff_transformation_3::m(i,j); }
-  RT                    hm(int i, int j) const
-                        { return RAff_transformation_3::hm(i,j); }
   // composition
   CGAL::Aff_transformation_3<R>
                         operator*(const CGAL::Aff_transformation_3<R>& t) const
@@ -199,8 +146,7 @@ public:
                         }
 };
 
-// I/O operators
-#ifndef NO_OSTREAM_INSERT_AFF_TRANSFORMATION_3
+#ifndef CGAL_NO_OSTREAM_INSERT_AFF_TRANSFORMATION_3
 template < class R >
 std::ostream&
 operator<<(std::ostream& os, const CGAL::Aff_transformation_3<R>& t)
@@ -208,9 +154,9 @@ operator<<(std::ostream& os, const CGAL::Aff_transformation_3<R>& t)
   typedef typename   R::Aff_transformation_3_base  RAff_transformation_3;
   return os << static_cast<const RAff_transformation_3&>(t);
 }
-#endif // NO_OSTREAM_INSERT_AFF_TRANSFORMATION_3
+#endif // CGAL_NO_OSTREAM_INSERT_AFF_TRANSFORMATION_3
 
-#ifndef NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_3
+#ifndef CGAL_NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_3
 template < class R >
 std::istream&
 operator>>(std::istream& is, CGAL::Aff_transformation_3<R>& t)
@@ -218,9 +164,8 @@ operator>>(std::istream& is, CGAL::Aff_transformation_3<R>& t)
   typedef typename   R::Aff_transformation_3_base  RAff_transformation_3;
   return is >> static_cast<const RAff_transformation_3&>(t);
 }
-#endif // NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_3
+#endif // CGAL_NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_3
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_AFF_TRANSFORMATION_3_H

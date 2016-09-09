@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,22 +18,22 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/ch_eddy.C
-// package       : Convex_hull (3.3)
+// package       : Convex_hull_2 (3.21)
 // source        : convex_hull_2.lw
 // revision      : 3.3
 // revision_date : 03 Aug 2000
@@ -52,6 +52,7 @@
 #ifndef CGAL_CH_EDDY_H
 #include <CGAL/ch_eddy.h>
 #endif // CGAL_CH_EDDY_H
+#include <CGAL/functional.h>
 
 CGAL_BEGIN_NAMESPACE
 template <class List, class ListIterator, class Traits>
@@ -61,23 +62,25 @@ ch__recursive_eddy(List& L,
                         const Traits& ch_traits)
 {
   typedef  typename Traits::Point_2                         Point_2;    
-  typedef  typename Traits::Left_of_line_2                  Left_of_line;
+  typedef  typename Traits::Leftturn_2                      Leftturn_2;
   typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
 
+  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
   CGAL_ch_precondition( \
     std::find_if(a_it, b_it, \
-            ch_traits.left_of_line_2_object(*b_it, *a_it)) \
+            bind_1(bind_1(left_turn, *b_it), *a_it)) \
     != b_it );
 
 
   ListIterator f_it = successor(a_it);
+  Less_dist less_dist = ch_traits.less_signed_distance_to_line_2_object();
   ListIterator 
       c_it = std::min_element( f_it, b_it,  // max before
-                               ch_traits.less_signed_distance_to_line_2_object(*a_it,*b_it));
+                               bind_1(bind_1(less_dist, *a_it), *b_it));
   Point_2 c = *c_it;
 
-  c_it = std::partition( f_it, b_it, ch_traits.left_of_line_2_object(c, *a_it ) );
-  f_it = std::partition( c_it, b_it, ch_traits.left_of_line_2_object(*b_it, c ) );
+  c_it = std::partition(f_it, b_it, bind_1(bind_1(left_turn, c), *a_it));
+  f_it = std::partition(c_it, b_it, bind_1(bind_1(left_turn, *b_it), c));
   c_it = L.insert(c_it, c);
   L.erase( f_it, b_it );
 
@@ -100,8 +103,7 @@ ch_eddy(InputIterator first, InputIterator last,
              const Traits& ch_traits)
 {
   typedef  typename Traits::Point_2                         Point_2;    
-  typedef  typename Traits::Left_of_line_2                  Left_of_line;
-  typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
+  typedef  typename Traits::Leftturn_2                      Leftturn_2;
 
   if (first == last) return result;
   std::list< Point_2 >   L;
@@ -120,7 +122,9 @@ ch_eddy(InputIterator first, InputIterator last,
 
   L.erase(w);
   L.erase(e);
-  e = std::partition(L.begin(), L.end(), ch_traits.left_of_line_2_object( ep, wp) );
+  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
+  e = std::partition(L.begin(), L.end(), 
+                     bind_1(bind_1(left_turn, ep), wp) );
   L.push_front(wp);
   e = L.insert(e, ep);
 
@@ -128,7 +132,7 @@ ch_eddy(InputIterator first, InputIterator last,
   {
       ch__recursive_eddy( L, L.begin(), e, ch_traits);
   }
-  w = std::find_if( e, L.end(), ch_traits.left_of_line_2_object( wp, ep) );
+  w = std::find_if( e, L.end(), bind_1(bind_1(left_turn, wp), ep) );
   if ( w == L.end() )
   {
       L.erase( ++e, L.end() );

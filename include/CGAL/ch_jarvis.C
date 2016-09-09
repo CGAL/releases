@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,22 +18,22 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/ch_jarvis.C
-// package       : Convex_hull (3.3)
+// package       : Convex_hull_2 (3.21)
 // source        : convex_hull_2.lw
 // revision      : 3.3
 // revision_date : 03 Aug 2000
@@ -52,6 +52,8 @@
 #ifndef CGAL_CH_JARVIS_H
 #include <CGAL/ch_jarvis.h>
 #endif // CGAL_CH_JARVIS_H
+
+#include <CGAL/functional.h>
 
 CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class OutputIterator, 
@@ -76,16 +78,16 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       int count_points = 0; )
   CGAL_ch_assertion_code( \
       for (ForwardIterator fit = first; fit!= last; ++fit) ++count_points; )
-
   Less_rotate_ccw  
-      rotation_predicate = ch_traits.less_rotate_ccw_2_object( start_p );
+      rotation_predicate = ch_traits.less_rotate_ccw_2_object( );
   *res = start_p;  ++res;
   CGAL_ch_assertion_code( \
       int constructed_points = 1; )
   CGAL_ch_exactness_assertion_code( \
       Point previous_point = start_p; ) 
 
-  ForwardIterator it = std::min_element( first, last, rotation_predicate );
+  ForwardIterator it = std::min_element( first, last, 
+                                         bind_1(rotation_predicate, start_p) );
   while ( *it != stop_p )
   {
       CGAL_ch_exactness_assertion( \
@@ -99,8 +101,8 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       CGAL_ch_assertion( \
           constructed_points <= count_points + 1 );
 
-      rotation_predicate = ch_traits.less_rotate_ccw_2_object( *it );
-      it = std::min_element( first, last, rotation_predicate );
+      it = std::min_element( first, last, 
+                             bind_1(rotation_predicate, *it) );
   } 
   CGAL_ch_postcondition( \
       is_ccw_strongly_convex_2( res.output_so_far_begin(), \

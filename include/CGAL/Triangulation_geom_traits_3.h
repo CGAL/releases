@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,29 +18,29 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_geom_traits_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.27 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.46 $
 // 
-// author(s)     : Monique Teillaud
+// author(s)     : Andreas Fabri
+//                 Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -56,164 +56,49 @@
 
 #include <CGAL/basic.h>
 
-#include <CGAL/Cartesian.h>
-
-#include <CGAL/Point_3.h>
-#include <CGAL/Point_2.h>
-#include <CGAL/Triangle_3.h>
-#include <CGAL/Tetrahedron_3.h>
-
 #include <CGAL/triangulation_assertions.h>
-
 #include <CGAL/Triangulation_short_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class Repres >
-class Triangulation_geom_traits_3 
+class Triangulation_geom_traits_3 : public Repres
 {
 public:
   typedef Repres Rep;
-  typedef Point_3<Repres>  Point;
-  typedef Point_2< Cartesian< typename Repres::FT> >  Point2;
-  typedef Segment_3<Repres> Segment;
-  typedef Triangle_3<Repres> Triangle;
-  typedef Tetrahedron_3<Repres> Tetrahedron;
 
-  Triangulation_geom_traits_3()
-    {}
+  typedef typename Rep::Object_3       Object_3;
+  typedef typename Rep::Point_3        Point_3;
+  typedef typename Rep::Segment_3      Segment_3;
+  typedef typename Rep::Triangle_3     Triangle_3;
+  typedef typename Rep::Tetrahedron_3  Tetrahedron_3;
+  typedef typename Rep::Ray_3          Ray_3;
+  typedef typename Rep::Line_3         Line_3;
+  typedef typename Rep::Direction_3    Direction_3;
+  typedef typename Rep::Plane_3        Plane_3;
 
-  Triangulation_geom_traits_3(const Triangulation_geom_traits_3 & )
-     {}
+  // The next typedef is there for backward compatibility
+  // Some users take their point type from the traits class.
+  // Before this type was Point
+  typedef Point_3                      Point; 
 
-  Triangulation_geom_traits_3 & 
-  operator=(const Triangulation_geom_traits_3 & )
-    {return *this;}
+  typedef typename Rep::Compare_x_3                Compare_x_3;
+  typedef typename Rep::Compare_y_3                Compare_y_3;
+  typedef typename Rep::Compare_z_3                Compare_z_3;
+  typedef typename Rep::Equal_3                    Equal_3;
+  typedef typename Rep::Orientation_3              Orientation_3;
+  typedef typename Rep::Coplanar_orientation_3     Coplanar_orientation_3;
+  typedef typename Rep::Side_of_oriented_sphere_3  Side_of_oriented_sphere_3;
+  typedef typename Rep::Coplanar_side_of_bounded_circle_3
+                                          Coplanar_side_of_bounded_circle_3;
 
-  // PREDICATES ON POINTS
+  typedef typename Rep::Construct_segment_3        Construct_segment_3;
+  typedef typename Rep::Construct_triangle_3       Construct_triangle_3;
+  typedef typename Rep::Construct_tetrahedron_3    Construct_tetrahedron_3;
+  typedef typename Rep::Construct_object_3         Construct_object_3;
 
-  bool equal(const Point & p, const Point & q) const
-  {
-    return ( CGAL::compare_x(p, q)== EQUAL &&  
-	     CGAL::compare_y(p, q)== EQUAL &&
-	     CGAL::compare_z(p, q)== EQUAL );
-  }
-  
-  Comparison_result compare_x(const Point & p, const Point & q) const
-    {
-      return CGAL::compare_x(p, q);
-    }
-
-
-  Comparison_result compare_y(const Point & p, const Point & q) const
-    {
-      return CGAL::compare_y(p, q);
-    }
-
-  Comparison_result compare_z(const Point & p, const Point & q) const
-    {
-      return CGAL::compare_z(p, q);
-    }
-
-  Orientation orientation(const Point & p,
-			  const Point & q,
-			  const Point & r,
-			  const Point & s) const
-  {
-    return CGAL::orientation(p, q, r, s);
-  }
-
-  Orientation orientation_in_plane(const Point & q,
-					const Point & r,
-					const Point & s,
-					const Point & p) const
-    // p,q,r,s supposed to be coplanar
-    // q,r,s supposed to be non collinear
-    // tests whether p is on the same side of q,r as s
-    // returns :
-    // COLLINEAR if pqr collinear
-    // POSITIVE if qrp and qrs have the same orientation
-    // NEGATIVE if qrp and qrs have opposite orientations
-  {
-    // should be used only when p,q,r,s are coplanar
-    CGAL_triangulation_precondition( ! CGAL::collinear(q,r,s) );
-    CGAL_triangulation_precondition( CGAL::orientation(p,q,r,s) == COPLANAR );
-    // projection on the x,y-plane
-    Point2 P(p.x(), p.y());
-    Point2 Q(q.x(), q.y());
-    Point2 R(r.x(), r.y());
-    Point2 S(s.x(), s.y());
-    Orientation oxy_qrs = CGAL::orientation(Q,R,S);
-
-    if ( oxy_qrs != COLLINEAR )
-      // the projection on x,y is OK
-      return Orientation( oxy_qrs * CGAL::orientation(Q,R,P) );
-
-    // else : must project on another plane
-    // tests on which plane :
-
-    if ( ( Q.x() != R.x() ) || 
-	 ( Q.x() != S.x() ) ) {
-      // projection on x,z-plane is ok
-      P = Point2(p.x(), p.z());
-      Q = Point2(q.x(), q.z());
-      R = Point2(r.x(), r.z());
-      S = Point2(s.x(), s.z());
-    }
-    else
-    { // projection on y,z-plane
-      P = Point2(p.y(), p.z());
-      Q = Point2(q.y(), q.z());
-      R = Point2(r.y(), r.z());
-      S = Point2(s.y(), s.z());
-    }
-
-    return Orientation ( CGAL::orientation(Q,R,S) * CGAL::orientation(Q,R,P) );
-  }
-
-  bool collinear(const Point & p,
-		 const Point & q,
-		 const Point & r) const
-    {
-      return CGAL::collinear(p,q,r);
-    }
-
-  // DELAUNAY
-
-  Oriented_side 
-  side_of_oriented_sphere(const Point & p,
-			  const Point & q,
-			  const Point & r,
-			  const Point & s,
-			  const Point & test) const
-    {
-      return CGAL::side_of_oriented_sphere(p, q, r, s, test);
-    }
-
-  Oriented_side 
-  side_of_oriented_circle(const Point & p,
-			  const Point & q,
-			  const Point & r,
-			  const Point & test) const
-    {
-      CGAL_triangulation_precondition( CGAL::orientation(p,q,r,test) ==
-				       COPLANAR );
-      CGAL_triangulation_precondition( ! CGAL::collinear(p,q,r) );
-
-      // test belongs to the circle if and only if it belongs to a
-      // sphere passing through pqr
-      Orientation or;
-      Point O(0,0,0), A(1,0,0), B(0,1,0), C(0,0,1);
-
-      Point P = ((or = CGAL::orientation(p,q,r,O)) != ZERO) ? O:
-                ((or = CGAL::orientation(p,q,r,A)) != ZERO) ? A:
-                ((or = CGAL::orientation(p,q,r,B)) != ZERO) ? B:
-                ((or = CGAL::orientation(p,q,r,C)) != ZERO) ? C: C;
-
-      return Oriented_side( or *
-	      CGAL::side_of_oriented_sphere(p, q, r, P, test));
-    }
-
+  // For the hierarchy :
+  typedef typename Rep::Compare_distance_3         Compare_distance_3;
 };
 
 CGAL_END_NAMESPACE

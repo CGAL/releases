@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/alpha_shapes_2_window_stream.h
-// package       : Alpha_shapes_2 (8.3)
+// package       : Alpha_shapes_2 (11.6)
 // source        : $RCSfile: alpha_shapes_2_window_stream.h,v $
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1999/11/05 16:37:39 $
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2001/06/15 15:02:05 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -46,7 +46,6 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
-
 
 #ifdef CGAL_ALPHA_WINDOW_STREAM
 
@@ -80,13 +79,13 @@ Alpha_shape_2<Dt>::op_window(Window_stream& W) const
 
 	  pInterval = &(*edge_alpha_it).first;
 
-	  CGAL_triangulation_assertion(pInterval->second != INFINITY);
+	  CGAL_triangulation_assertion(pInterval->second != Infinity);
 	  // since this happens only for convex hull of dimension 1
 	  // thus singular
 
 	  if(pInterval->second < get_alpha() &&
 	     (pInterval->third >= get_alpha()
-	      || pInterval->third == INFINITY)) 
+	      || pInterval->third == Infinity)) 
 	    {
 	      // alpha must be larger than the mid boundary
 	      // and alpha is smaller than the upper boundary
@@ -101,6 +100,15 @@ Alpha_shape_2<Dt>::op_window(Window_stream& W) const
 	      // thus we would write to many vertices
 	      W << segment((*edge_alpha_it).second.first,
 			   (*edge_alpha_it).second.second);
+
+	      // to debug the edge descrition...
+// 	      W << Segment((*edge_alpha_it).second.first->vertex(0)->point(),
+// 			   (*edge_alpha_it).second.first->vertex(1)->point());
+// 	      W << Segment((*edge_alpha_it).second.first->vertex(1)->point(),
+// 			   (*edge_alpha_it).second.first->vertex(2)->point());
+// 	      W << Segment((*edge_alpha_it).second.first->vertex(2)->point(),
+// 			   (*edge_alpha_it).second.first->vertex(0)->point());
+
 	    }
 	}
     }
@@ -119,13 +127,13 @@ Alpha_shape_2<Dt>::op_window(Window_stream& W) const
 	  if (pInterval->first == UNDEFINED) 
 	    {
 	    
-	      CGAL_triangulation_assertion(pInterval->second != INFINITY);
+	      CGAL_triangulation_assertion(pInterval->second != Infinity);
 	      // since this happens only for convex hull of dimension 1
 	      // thus singular
 
 	      if(pInterval->second < get_alpha() &&
 		 (pInterval->third >= get_alpha()
-		  || pInterval->third == INFINITY)) 
+		  || pInterval->third == Infinity)) 
 		{
 		  // alpha must be larger than the mid boundary
 		  // and alpha is smaller than the upper boundary
@@ -144,7 +152,7 @@ Alpha_shape_2<Dt>::op_window(Window_stream& W) const
 	   
 
 	      if(pInterval->third >= get_alpha()
-		 || pInterval->third == INFINITY) 
+		 || pInterval->third == Infinity) 
 		{
 		  // if alpha is smaller than the upper boundary
 		  // which might be infinity 

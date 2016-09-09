@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,22 +18,22 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/convexity_check_2.C
-// package       : Convex_hull (3.3)
+// package       : Convex_hull_2 (3.21)
 // source        : convex_hull_2.lw
 // revision      : 3.3
 // revision_date : 03 Aug 2000
@@ -51,6 +51,7 @@
 
 #include <CGAL/Kernel/traits_aids.h>
 #include <CGAL/convexity_check_2.h>
+#include <CGAL/functional.h>
 
 CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class Traits>
@@ -168,7 +169,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                             ForwardIterator2 first2, ForwardIterator2 last2,
                             const Traits&  ch_traits)
 {
-  typedef    typename Traits::Left_of_line_2    Left_of_line;
+  typedef    typename Traits::Leftturn_2    Left_of_line;
   ForwardIterator1 iter11;
   ForwardIterator2 iter21;
   ForwardIterator2 iter22;
@@ -186,18 +187,18 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
       return true;
   }
 
-  Left_of_line  rol = ch_traits.left_of_line_2_object(*successor(first2), *first2);
+  Left_of_line  left_turn = ch_traits.leftturn_2_object();
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = ch_traits.left_of_line_2_object( *iter22++, *iter21++);
-      iter11 = std::find_if( first1, last1, rol );
+      iter11 = std::find_if( first1, last1, 
+                             bind_1(bind_1(left_turn,*iter22++), *iter21++) );
       if (iter11 != last1 ) return false;
   }
 
-  rol = ch_traits.left_of_line_2_object( *first2, *iter21 );   
-  iter11 = std::find_if( first1, last1, rol );
+  iter11 = std::find_if( first1, last1, 
+                         bind_1(bind_1(left_turn, *first2), *iter21) );
   if (iter11 != last1 ) return false;
   return true;
 }
@@ -221,13 +222,13 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( successor(first2) == last2 ) return true;
 
-  Left_of_line  rol = ch_traits.left_of_line_2_object(*successor(first2), *first2);
+  Left_of_line  left_turn = ch_traits.leftturn_2_object();
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = ch_traits.left_of_line_2_object( *iter22++, *iter21++);
-      iter11 = std::find_if( first1, last1, rol );
+      iter11 = std::find_if( first1, last1, 
+                             bind_1(bind_1(left_turn, *iter22++), *iter21++) );
       if (iter11 != last1 ) return false;
   }
 

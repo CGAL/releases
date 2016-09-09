@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h
-// package       : Alpha_shapes_2 (8.3)
+// package       : Alpha_shapes_2 (11.6)
 // source        : $RCSfile: Weighted_alpha_shape_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2000/07/11 16:16:06 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2001/07/11 13:47:30 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -51,16 +51,8 @@
 #define CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Cartesian.h>
-
-//#include <CGAL/Homogeneous.h>
-//#include <CGAL/Integer.h>
-//#include <CGAL/Rational.h>
-//#include <CGAL/Fixed.h>
 
 #include <CGAL/squared_distance_2.h>
-#include <CGAL/Triangle_2.h>
-#include <CGAL/Segment_2.h>
 
 #include <CGAL/in_smallest_orthogonalcircleC2.h>
 #include <CGAL/squared_radius_smallest_orthogonalcircleC2.h>
@@ -70,6 +62,44 @@
 //-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
 //-------------------------------------------------------------------
+
+//------------------ Function Objects----------------------------------
+
+template < class return_type, class T >
+class Compute_squared_radius_orthogonalcircle_2
+{
+public:
+  typedef return_type result_type;
+  
+  result_type operator()(const T& p, const T& q, const T& r)
+    {
+      return
+	std::max
+	(return_type(0), CGAL::squared_radius_orthogonalcircle(p, q, r));
+    }
+
+  result_type operator()(const T& p, const T& q)
+    {
+      return
+	std::max
+	(return_type(0), CGAL::squared_radius_smallest_orthogonalcircle(p, q));
+    }
+};
+
+//-------------------------------------------------------------------
+
+template < class T >
+class Side_of_bounded_orthogonalcircle_2
+{
+public:
+  typedef Bounded_side result_type;
+  
+   result_type operator()(const T& p, const T& q, const T& t)
+    {  
+      return
+	CGAL::in_smallest_orthogonalcircle(p, q, t);
+    }
+};
 
 //------------------ Traits class -------------------------------------
 
@@ -85,39 +115,25 @@ public:
    Regular_triangulation_euclidean_traits_2<R, typename R::FT>::Weighted_point 
      Point;
 
-  //---------------------------------------------------------------------
-
-  Coord_type squared_radius(const Point &p,
-			    const Point &q,
-			    const Point &r) const 
-    {
+  typedef Compute_squared_radius_orthogonalcircle_2<Coord_type, Point>
+  Compute_squared_radius_orthogonalcircle_2;
+  typedef Side_of_bounded_orthogonalcircle_2<Point>
+  Side_of_bounded_orthogonalcircle_2;
   
-      return
-	std::max
-	(Coord_type(0), CGAL::squared_radius_orthogonalcircle(p, q, r));
-    }
+  //------------------------------------------------------------------
 
-
-
-
-  Coord_type squared_radius(const Point &p,
-			    const Point &q) const 
+  Compute_squared_radius_orthogonalcircle_2
+  compute_squared_radius_2_object() const
     {
-
-      return
-	std::max
-	(Coord_type(0), CGAL::squared_radius_smallest_orthogonalcircle(p, q));
+      return Compute_squared_radius_orthogonalcircle_2();
     }
 
-  Bounded_side side_of_circle(const Point &p,
-			      const Point &q,
-			      const Point &t) const 
+  //------------------------------------------------------------------
+
+  Side_of_bounded_orthogonalcircle_2 side_of_bounded_circle_2_object() const
     {
-  
-      return
-	CGAL::in_smallest_orthogonalcircle(p, q, t);
+      return Side_of_bounded_orthogonalcircle_2();
     }
-
 };
   
 //-------------------------------------------------------------------

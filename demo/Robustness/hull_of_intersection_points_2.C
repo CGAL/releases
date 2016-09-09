@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : intersection_and_then.fw
 // file          : demo/Robustness/hull_of_intersection_points_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/26 11:52:29 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
@@ -46,41 +44,49 @@
 //
 // ======================================================================
  
-
-#include <CGAL/basic.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
-#else
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
-#include <CGAL/leda_real.h>
-#include <CGAL/Point_2.h>
-#include <CGAL/Segment_2.h>
-#include <CGAL/Circle_2.h>
 #include <vector>
 #include <fstream>
+#ifdef CGAL_USE_LEDA
+#  include <CGAL/leda_real.h>
+typedef leda_real exact_NT;
+#else
+#  include <CGAL/MP_Float.h>
+#  include <CGAL/Quotient.h>
+typedef CGAL::Quotient<CGAL::MP_Float> exact_NT;
+#endif
 #include <CGAL/segment_intersection_points_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/Join_input_iterator.h>
 #include <CGAL/copy_n.h>
-#include <CGAL/IO/leda_window.h>
+#include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/Ostream_iterator.h>
 
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/IO/polygonal_2.h>
-#include <CGAL/kernel_to_kernel.h>
+#include <CGAL/Cartesian_converter.h>
 
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_blue    CGAL::blue
+#define leda_red     CGAL::red
+#define leda_window  CGAL::window
+#define leda_black   CGAL::black
+#define leda_string  std::string
+#define leda_grey2   CGAL::grey2
+#define leda_green   CGAL::green
+#endif
 
 int
 main( int argc, char** argv)
 {
   typedef CGAL::Cartesian<double>       C_double;
-  typedef CGAL::Point_2< C_double>      double_Point;
-  typedef CGAL::Segment_2< C_double>    double_Segment;
-  typedef CGAL::Cartesian<leda_real>    C_real;
-  typedef CGAL::Point_2< C_real>        real_Point;
-  typedef CGAL::Segment_2< C_real>      real_Segment;
+  typedef C_double::Point_2             double_Point;
+  typedef C_double::Segment_2           double_Segment;
+  typedef CGAL::Cartesian<exact_NT>     C_real;
+  typedef C_real::Point_2               real_Point;
+  typedef C_real::Segment_2             real_Segment;
   typedef CGAL::Creator_uniform_2<double, double_Point>
                                         Point_creator;
   typedef CGAL::Random_points_in_square_2<double_Point, Point_creator>
@@ -102,7 +108,7 @@ main( int argc, char** argv)
   std::vector< double_Segment>   double_segments;
   CGAL::copy_n( g, N, std::back_inserter( double_segments) );
   std::vector<real_Segment>  real_segments;
-  CGAL::Cartesian_double_to_Cartesian<leda_real> converter;
+  CGAL::Cartesian_converter<C_double, C_real> converter;
   std::transform( double_segments.begin(),
                   double_segments.end(),
                   std::back_inserter( real_segments),
@@ -142,7 +148,7 @@ main( int argc, char** argv)
   W0 << double_Point(50,50);
   W0.set_fg_color(leda_red);
   W0 << double_Point(50,25);
-  W0 << CGAL::Circle_2< C_double>( double_Point(50,25), 40.0);
+  W0 << C_double::Circle_2( double_Point(50,25), 40.0);
   W0.set_fg_color(leda_black);
   W0.draw_text(65,58,
      leda_string("correct extreme point"));
@@ -196,7 +202,7 @@ main( int argc, char** argv)
                ) > 0.125 )
          )
       {
-        W << CGAL::Circle_2< C_double>( *dble_it, 80.0);
+        W << C_double::Circle_2( *dble_it, 80.0);
       }
       else
       {
@@ -209,4 +215,3 @@ main( int argc, char** argv)
 
   return 0;
 }
-#endif // USE_LEDA

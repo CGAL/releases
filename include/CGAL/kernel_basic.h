@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : kernel_basic.fw
 // file          : include/CGAL/kernel_basic.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/07/12 14:55:10 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,14 +50,38 @@
 #ifndef CGAL_KERNEL_BASIC_H
 #define CGAL_KERNEL_BASIC_H
 
-#define CGAL_KERNEL_INLINE inline
-#define CGAL_KERNEL_MEDIUM_INLINE
-#define CGAL_KERNEL_LARGE_INLINE
-#define CGAL_KERNEL_CTOR_INLINE
-#define CGAL_KERNEL_CTOR_MEDIUM_INLINE
-#define CGAL_KERNEL_CTOR_LARGE_INLINE
+#include <CGAL/Kernel_traits.h>
 
-#define CGAL_FRIEND_INLINE
-#define CGAL_KERNEL_FRIEND_INLINE
+#ifndef CGAL_KERNEL_INLINE
+#  define CGAL_KERNEL_INLINE inline
+#endif
+
+#ifndef CGAL_KERNEL_MEDIUM_INLINE
+#  define CGAL_KERNEL_MEDIUM_INLINE
+#endif
+
+#ifndef CGAL_KERNEL_LARGE_INLINE
+#  define CGAL_KERNEL_LARGE_INLINE
+#endif
+
+#ifndef CGAL_KERNEL_CTOR_INLINE
+#  define CGAL_KERNEL_CTOR_INLINE
+#endif
+
+#ifndef CGAL_KERNEL_CTOR_MEDIUM_INLINE
+#  define CGAL_KERNEL_CTOR_MEDIUM_INLINE
+#endif
+
+#ifndef CGAL_KERNEL_CTOR_LARGE_INLINE
+#  define CGAL_KERNEL_CTOR_LARGE_INLINE
+#endif
+
+#ifndef CGAL_FRIEND_INLINE
+#  define CGAL_FRIEND_INLINE
+#endif
+
+#ifndef CGAL_KERNEL_FRIEND_INLINE
+#  define CGAL_KERNEL_FRIEND_INLINE
+#endif
 
 #endif // CGAL_KERNEL_BASIC_H

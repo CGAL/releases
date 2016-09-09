@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Scaling_rep_2.h
-// package       : C2 (4.4)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2000/06/26 15:00:25 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/11/16 21:31:01 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -74,7 +74,7 @@ public:
   {}
 
   Scaling_repC2(const FT &scalefactor) :
-    _scalefactor(scalefactor)
+    scalefactor_(scalefactor)
   {}
 
   ~Scaling_repC2()
@@ -82,12 +82,12 @@ public:
 
   Point_2      transform(const Point_2 &p) const
   {
-    return Point_2(_scalefactor * p.x(), _scalefactor * p.y());
+    return Point_2(scalefactor_ * p.x(), scalefactor_ * p.y());
   }
 
   Vector_2      transform(const Vector_2 &p) const
   {
-    return Vector_2(_scalefactor * p.x(), _scalefactor * p.y());
+    return Vector_2(scalefactor_ * p.x(), scalefactor_ * p.y());
   }
 
   Direction_2  transform(const Direction_2 &d) const
@@ -103,43 +103,40 @@ public:
   Aff_transformation_2 compose(const Translation &t) const
   {
     FT ft0(0);
-    return Aff_transformation_2(_scalefactor,
+    return Aff_transformation_2(scalefactor_,
                                 ft0,
-                                t._translationvector.x(),
-
+                                t.translationvector_.x(),
                                 ft0,
-                                _scalefactor,
-                                t._translationvector.y());
+                                scalefactor_,
+                                t.translationvector_.y());
   }
 
   Aff_transformation_2 compose(const Rotation &t) const
   {
-    return Aff_transformation_2(_scalefactor * t._cosinus,
-                                _scalefactor * -t._sinus,
-
-                                _scalefactor * t._sinus,
-                                _scalefactor * t._cosinus);
+    return Aff_transformation_2(scalefactor_ * t.cosinus_,
+                                scalefactor_ * -t.sinus_,
+                                scalefactor_ * t.sinus_,
+                                scalefactor_ * t.cosinus_);
   }
 
   Aff_transformation_2 compose(const Scaling &t) const
   {
-    return Aff_transformation_2(SCALING, _scalefactor*t._scalefactor);
+    return Aff_transformation_2(SCALING, scalefactor_*t.scalefactor_);
   }
 
   Aff_transformation_2 compose(const Transformation &t) const
   {
-    return Aff_transformation_2(_scalefactor * t.t11,
-                                _scalefactor * t.t12,
-                                 t.t13,
-
-                                _scalefactor * t.t21,
-                                _scalefactor * t.t22,
-                                 t.t23);
+    return Aff_transformation_2(scalefactor_ * t.t11,
+                                scalefactor_ * t.t12,
+                                t.t13,
+                                scalefactor_ * t.t21,
+                                scalefactor_ * t.t22,
+                                t.t23);
   }
 
   Aff_transformation_2  inverse() const
   {
-    return Aff_transformation_2(SCALING, FT(1)/_scalefactor);
+    return Aff_transformation_2(SCALING, FT(1)/scalefactor_);
   }
 
   bool is_even() const
@@ -150,17 +147,17 @@ public:
   FT cartesian(int i, int j) const
   {
     if (i!=j) return FT(0);
-    return (i==2) ? FT(1) : _scalefactor;
+    return (i==2) ? FT(1) : scalefactor_;
   }
 
   std::ostream &print(std::ostream &os) const
   {
-    os << "Aff_transformationC2(" << _scalefactor <<  ")";
+    os << "Aff_transformationC2(" << scalefactor_ <<  ")";
     return os;
   }
 
 private:
-  FT _scalefactor;
+  FT scalefactor_;
 };
 
 CGAL_END_NAMESPACE

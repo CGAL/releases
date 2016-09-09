@@ -1,80 +1,80 @@
-#include <CGAL/basic.h>
-
-#if !defined(CGAL_USE_LEDA)
-#include <iostream>
-
-int main(int argc, char *argv[])
-{
- std::cout << "No LEDA installed!\n";
- return 0;
-}
-#else 
-
-#include <CGAL/config.h>
+#include <CGAL/Cartesian.h>
+//#include <CGAL/Simple_cartesian.h>
 #include <list>
-#include <LEDA/window.h>
 #include <CGAL/Point_set_2.h>
-#include <CGAL/leda_rational.h>
 #include <CGAL/IO/Window_stream.h>
 
-typedef CGAL::Cartesian<leda_rational>    REP;
-typedef CGAL::point_set_traits_2<REP>     TRAITS;
-typedef CGAL::Point_set_2<TRAITS>::Edge    Edge;
-typedef CGAL::Point_set_2<TRAITS>::Vertex  Vertex;
+typedef CGAL::Cartesian<double>    K;
+//typedef CGAL::Simple_cartesian<double>    K;
+typedef CGAL::Triangulation_vertex_base_2<K> Vb;
+typedef CGAL::Triangulation_face_base_2<K>  Fb;
+typedef CGAL::Triangulation_default_data_structure_2<K,Vb,Fb> Tds;
 
-leda_segment get_seg(const CGAL::Segment_2<REP>& s)
-{
-  CGAL::Point_2<REP> ps=s.source();
-  CGAL::Point_2<REP> pt=s.target();
+typedef CGAL::Point_set_2<K,Tds>::Edge_iterator  Edge_iterator;
+typedef CGAL::Point_set_2<K,Tds>::Vertex_handle  Vertex_handle;
 
-  leda_rat_point p1(ps.x(),ps.y()), p2(pt.x(),pt.y());
-  
-  return leda_segment(p1.to_point(),p2.to_point());
-}
 
-void output(leda_window& W, const CGAL::Point_set_2<TRAITS>& PSet)
+void output(CGAL::Window_stream& W, const CGAL::Point_set_2<K,Tds>& PSet)
 {
   W.clear();
-  leda_edge e;
-  forall_edges(e,PSet) {
-    CGAL::Segment_2<REP> s= PSet.seg(e);
-    W << get_seg(s);
+  Edge_iterator eit = PSet.finite_edges_begin();
+  
+  for(;eit != PSet.finite_edges_end(); eit++) {
+    CGAL::Segment_2<K> s= PSet.segment(*eit);
+    W << s;
   }
 }
 
 int main()
 {
-  CGAL::Point_set_2<TRAITS> PSet;
+  CGAL::Point_set_2<K,Tds> PSet;
 
-  leda_window W(600,500, leda_string("Finding nearest neighbors"));  
-  CGAL::cgalize( W);
+  CGAL::Window_stream W(600,500, "Finding nearest neighbor / k nearest neighbors");  
 
   W.init(-500,500,-400);
   W.display(100,100);
   
-  CGAL::Point_2<REP> actual;
-  int i;
+#if defined(CGAL_USE_CGAL_WINDOW)
+  W.set_point_style(CGAL::disc_point);
+#else
+  W.set_point_style(leda_disc_point);
+#endif  
   
-  for (i=0; i<25; i++){
-   W >> actual;
+  W.draw_text(-260,20, "Input some points; quit input with the right mouse button");
+  
+  CGAL::Point_2<K> actual;
+  int i=0;
+  
+  while (W >> actual){
    PSet.insert(actual);
    output(W,PSet);
+   i++;
   }  
+  
+  std::cout << i << " points were inserted !\n";
 
   // nearest neighbor ...  
+  W.draw_text(-450,-350, "Input a point; we display the nearest neighbor ... ");
+  
   for (i=0; i<5; i++){
     W >> actual;
-    Vertex v = PSet.nearest_neighbor(actual);
+    Vertex_handle v = PSet.nearest_neighbor(actual);
     
-    CGAL::Segment_2<REP> my_seg(actual,PSet.pos(v));
+    if (v != NULL) {
     
-    W << CGAL::RED << PSet.pos(v) << CGAL::BLACK;
-    W << CGAL::BLUE << my_seg << CGAL::BLACK;
+     CGAL::Segment_2<K> my_seg(actual,v->point());
+    
+     W << CGAL::RED << v->point() << CGAL::BLACK;
+     W << CGAL::BLUE << my_seg << CGAL::BLACK;
+    }
   }
   
   // k nearest neighbors ...
-  std::list<Vertex> L;
-  std::list<Vertex>::const_iterator it;
+  std::list<Vertex_handle> L;
+  std::list<Vertex_handle>::const_iterator it;
+ 
+  output(W,PSet);
+  W.draw_text(-450,-350, "Input a point; we display the 5 nearest neighbors ... "); 
   
   for (i=0; i<5; i++){
     L.clear();
@@ -83,18 +83,19 @@ int main()
     std::cout << "actual point: " << actual << "\n";
     
     W.clear();
+    W.draw_text(-450,-350, "Input a point; we display the 5 nearest neighbors ... "); 
     output(W,PSet);
     W << CGAL::RED << actual << CGAL::BLACK;
     
     for (it=L.begin();it != L.end(); it++){
-      W << CGAL::GREEN << PSet.pos(*it) << CGAL::BLACK;      
-      std::cout << PSet.pos(*it) << "\n";
+      W << CGAL::GREEN << (*it)->point() << CGAL::BLACK;      
+      std::cout << (*it)->point() << "\n";
     }
     std::cout << "\n";
   }  
 
   W.read_mouse();
 
-  return 0;
+  return 1;
 }
-#endif
+

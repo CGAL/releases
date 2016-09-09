@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997  The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_2_traits_3.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Triangulation_2_traits_3.h,v $
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2000/08/25 13:07:19 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/07/09 09:01:04 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -69,8 +69,8 @@ public:
 
   Comparison_result operator() (Point p, Point q){
     Comparison_result r;
-    r = CGAL::compare_y<R>(p,q);
-    if (r == EQUAL) r = CGAL::compare_z<R>(p,q);
+    r = CGAL::compare_y(p,q);
+    if (r == EQUAL) r = CGAL::compare_z(p,q);
     return r;
    }
 };
@@ -85,18 +85,19 @@ public:
 			 const Point& q,
 			 const Point& r)
     {
-      Orientation or;
-      Point O(0.1111,0.1111,0.1111); 
-      Point A(1.1111,0,0);
-      Point B(0,1.1111,0);
-      Point C(0,0,1.1111);
+//       Orientation ori;
+//       Point O(0.1111,0.1111,0.1111); 
+//       Point A(1.1111,0,0);
+//       Point B(0,1.1111,0);
+//       Point C(0,0,1.1111);
 
-      Point P = ((or = CGAL::orientation(p,q,r,O)) != ZERO) ? O:
-                ((or = CGAL::orientation(p,q,r,A)) != ZERO) ? A:
-                ((or = CGAL::orientation(p,q,r,B)) != ZERO) ? B:
-                ((or = CGAL::orientation(p,q,r,C)) != ZERO) ? C: C;
-      return CGAL::orientation(p,q,r,P);
+//       Point P = ((ori = CGAL::orientation(p,q,r,O)) != ZERO) ? O:
+//                 ((ori = CGAL::orientation(p,q,r,A)) != ZERO) ? A:
+//                 ((ori = CGAL::orientation(p,q,r,B)) != ZERO) ? B:
+//                 ((ori = CGAL::orientation(p,q,r,C)) != ZERO) ? C: C;
+//       return CGAL::orientation(p,q,r,P);
     }
+  
 };
 
 template <class R>
@@ -109,25 +110,26 @@ public:
 				  const Point &r, 
 				  const Point &s)
     {
-      //CGAL_triangulation_precondition( 
-      //              CGAL::orientation(p,q,r,s) == COPLANAR );
-      CGAL_triangulation_precondition( !CGAL::collinear(p,q,r) );
+//       //CGAL_triangulation_precondition( 
+//       //              CGAL::orientation(p,q,r,s) == COPLANAR );
+//       CGAL_triangulation_precondition( !CGAL::collinear(p,q,r) );
 
-      // test belongs to the circle if and only if it belongs to a
-      // sphere passing through pqr
-      Orientation or;
-      Point O(0.1111,0.1111,0.1111); 
-      Point A(1.1111,0,0);
-      Point B(0,1.1111,0);
-      Point C(0,0,1.1111);
+//       // test belongs to the circle if and only if it belongs to a
+//       // sphere passing through pqr
+//       Orientation ori;
+//       Point O(0.1111,0.1111,0.1111); 
+//       Point A(1.1111,0,0);
+//       Point B(0,1.1111,0);
+//       Point C(0,0,1.1111);
 
-      Point P = ((or = CGAL::orientation(p,q,r,O)) != ZERO) ? O:
-                ((or = CGAL::orientation(p,q,r,A)) != ZERO) ? A:
-                ((or = CGAL::orientation(p,q,r,B)) != ZERO) ? B:
-                ((or = CGAL::orientation(p,q,r,C)) != ZERO) ? C: C;
+//       Point P = ((ori = CGAL::orientation(p,q,r,O)) != ZERO) ? O:
+//                 ((ori = CGAL::orientation(p,q,r,A)) != ZERO) ? A:
+//                 ((ori = CGAL::orientation(p,q,r,B)) != ZERO) ? B:
+//                 ((ori = CGAL::orientation(p,q,r,C)) != ZERO) ? C: C;
 
-      return Oriented_side( or *
-	      CGAL::side_of_oriented_sphere(p, q, r, P, s));
+//       return Oriented_side( ori *
+// 	      CGAL::side_of_oriented_sphere(p, q, r, P, s));
+      return CGAL::coplanar_side_of_bounded_circle(p,q,r,s);
     }
 };
 
@@ -144,7 +146,8 @@ public:
   typedef typename R::Compare_x_3         Compare_x_2;
   typedef Compare_yz_3<R>                 Compare_y_2;
   typedef Orientation_2_3<R>              Orientation_2;
-  typedef Side_of_oriented_circle_2_3<R>  Side_of_oriented_circle_2;
+  typedef R::Coplanar_side_of_bounded_circle_3 
+                                          Side_of_oriented_circle_2;
   
   typedef typename R::Construct_segment_3        Construct_segment_2;
   typedef typename R::Construct_triangle_3       Construct_triangle_2;

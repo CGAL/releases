@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Segment_2.fw
 // file          : include/CGAL/Segment_2.h
-// package       : _2 (3.6)
-// revision      : 3.6
-// revision_date : 30 Jul 2000 
+// package       : _2 (3.19)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/06/27 14:51:34 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -45,35 +44,13 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_SEGMENT_2_H
 #define CGAL_SEGMENT_2_H
 
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#ifdef CGAL_HOMOGENEOUS_H
-#ifndef CGAL_SEGMENTH2_H
-#include <CGAL/SegmentH2.h>
-#endif // CGAL_SEGMENTH2_H
-#endif // CGAL_HOMOGENEOUS_H
-
-#ifdef CGAL_CARTESIAN_H
-#ifndef CGAL_SEGMENTC2_H
-#include <CGAL/Cartesian/Segment_2.h>
-#endif // CGAL_SEGMENTC2_H
-#endif // CGAL_CARTESIAN_H
-
-#ifdef CGAL_SIMPLE_CARTESIAN_H
-#include <CGAL/SimpleCartesian/SegmentS2.h>
-#endif // CGAL_SIMPLE_CARTESIAN_H
-
-
-#ifndef CGAL_LINE_2_H
+#include <CGAL/Point_2.h>
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
+#include <CGAL/Direction_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -90,42 +67,18 @@ public:
     : RSegment_2()  // does the handle stuff
   {}
 
-  ~Segment_2()
-  {}
-
   Segment_2(const CGAL::Segment_2<R>& s)
-    : RSegment_2((RSegment_2&)s)  // does the handle stuff
+    : RSegment_2(static_cast<const RSegment_2&>(s))  // does the handle stuff
   {}
 
   Segment_2(const CGAL::Point_2<R> &sp, const CGAL::Point_2<R> &ep)
     :  RSegment_2(sp,ep)
   {}
 
-
   // conversion from implementation class object to interface class object
   Segment_2(const RSegment_2& s)
     : RSegment_2(s)  // does the handle stuff
   {}
-
-
-  bool  is_horizontal() const
-  { return RSegment_2::is_horizontal(); }
-
-  bool  is_vertical() const
-  { return RSegment_2::is_vertical(); }
-
-  bool  has_on(const CGAL::Point_2<R> &p) const
-  { return RSegment_2::has_on(p); }
-
-  bool  collinear_has_on(const CGAL::Point_2<R> &p) const
-  { return RSegment_2::collinear_has_on(p); }
-
-
-  bool  operator==(const CGAL::Segment_2<R> &s) const
-  { return RSegment_2::operator==(s); }
-
-  bool  operator!=(const CGAL::Segment_2<R> &s) const
-  { return !(*this == s); }
 
   CGAL::Point_2<R>     start() const
   { return RSegment_2::start(); }
@@ -154,9 +107,6 @@ public:
   CGAL::Point_2<R>     operator[](int i) const
   { return vertex(i); }
 
-  FT                 squared_length() const
-  { return RSegment_2::squared_length(); }
-
   CGAL::Direction_2<R> direction() const
   { return RSegment_2::direction(); }
 
@@ -169,39 +119,30 @@ public:
   CGAL::Segment_2<R>   transform(const CGAL::Aff_transformation_2<R> &t) const
   { return  RSegment_2::transform(t); }
 
-
   CGAL::Line_2<R>      supporting_line() const
   { return RSegment_2::supporting_line(); }
-
-  bool                is_degenerate() const
-  { return RSegment_2::is_degenerate(); }
-
-  Bbox_2         bbox() const
-  { return source().bbox() + target().bbox(); }
-
 };
 
-#ifndef NO_OSTREAM_INSERT_SEGMENT_2
+#ifndef CGAL_NO_OSTREAM_INSERT_SEGMENT_2
 template < class R>
 std::ostream &
 operator<<(std::ostream &os, const Segment_2<R> &s)
 {
   typedef typename  R::Segment_2_base  RSegment_2;
-  return os << (const RSegment_2&)s;
+  return os << static_cast<const RSegment_2&>(s);
 }
-#endif // NO_OSTREAM_INSERT_SEGMENT_2
+#endif // CGAL_NO_OSTREAM_INSERT_SEGMENT_2
 
-#ifndef NO_ISTREAM_EXTRACT_SEGMENT_2
+#ifndef CGAL_NO_ISTREAM_EXTRACT_SEGMENT_2
 template < class R>
 std::istream &
 operator>>(std::istream &is, Segment_2<R> &s)
 {
   typedef typename  R::Segment_2_base  RSegment_2;
-  return is >> (RSegment_2&)s;
+  return is >> static_cast<RSegment_2&>(s);
 }
-#endif // NO_ISTREAM_EXTRACT_SEGMENT_2
+#endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENT_2
 
 CGAL_END_NAMESPACE
-
 
 #endif //  CGAL_SEGMENT_2_H

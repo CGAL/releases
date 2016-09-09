@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/generic_print_polyhedron.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
 // revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision_date : $Date: 2001/07/12 05:34:39 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -51,57 +51,45 @@
 
 #ifndef CGAL_IO_GENERIC_PRINT_POLYHEDRON_H
 #define CGAL_IO_GENERIC_PRINT_POLYHEDRON_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_POLYHEDRON_3_H
-#include <CGAL/Polyhedron_3.h>
-#endif
-#ifndef CGAL_INVERSE_INDEX_H
 #include <CGAL/Inverse_index.h>
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Traits, class HDS, class Writer>
+template <class Polyhedron, class Writer>
 void
-generic_print_polyhedron( std::ostream& out,
-                          const Polyhedron_3<Traits,HDS>& P,
-                          Writer& writer) {
+generic_print_polyhedron( std::ostream&     out, 
+                          const Polyhedron& P,
+                          Writer&           writer) {
     // writes P to `out' in the format provided by `writer'.
-    typedef Polyhedron_3<Traits,HDS>                    Poly;
-    typedef typename Poly::Vertex                           Vertex;
-    typedef typename Poly::Size                             Size;
-    typedef typename Poly::Vertex_const_iterator            VCI;
-    typedef typename Poly::Facet_const_iterator             FCI;
-    typedef typename Poly::Halfedge_around_facet_const_circulator
-                                                            HFCC;
+    typedef typename Polyhedron::Vertex                                 Vertex;
+    typedef typename Polyhedron::Vertex_const_iterator                  VCI;
+    typedef typename Polyhedron::Facet_const_iterator                   FCI;
+    typedef typename Polyhedron::Halfedge_around_facet_const_circulator HFCC;
     // Print header.
     writer.write_header( out,
                          P.size_of_vertices(),
                          P.size_of_halfedges(),
                          P.size_of_facets());
     for( VCI vi = P.vertices_begin(); vi != P.vertices_end(); ++vi) {
-        writer.write_vertex( (*vi).point().x(),
-                             (*vi).point().y(),
-                             (*vi).point().z());
+        writer.write_vertex( ::CGAL::to_double( vi->point().x()),
+                             ::CGAL::to_double( vi->point().y()),
+                             ::CGAL::to_double( vi->point().z()));
     }
     typedef Inverse_index< VCI> Index;
     Index index( P.vertices_begin(), P.vertices_end());
     writer.write_facet_header();
 
     for( FCI fi = P.facets_begin(); fi != P.facets_end(); ++fi) {
-        HFCC hc = (*fi).facet_begin();
+        HFCC hc = fi->facet_begin();
         HFCC hc_end = hc;
         std::size_t n = circulator_size( hc);
         CGAL_assertion( n >= 3);
         writer.write_facet_begin( n);
         do {
-            writer.write_facet_vertex_index( index[ VCI((*hc).vertex())]);
+            writer.write_facet_vertex_index( index[ VCI(hc->vertex())]);
             ++hc;
         } while( hc != hc_end);
         writer.write_facet_end();

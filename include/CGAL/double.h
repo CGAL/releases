@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Double.fw
 // file          : include/CGAL/double.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/14 13:03:06 $
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -45,23 +44,22 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_DOUBLE_H
-#define CGAL_DOUBLE_H 1
+#define CGAL_DOUBLE_H
 
 #include <CGAL/basic.h>
-#ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
-#endif // CGAL_TAGS_H
 #include <cmath>
-#include <CGAL/IEEE_754_unions.h>
+#if defined(_MSC_VER) || defined(__BORLANDC__) || \
+    defined(CGAL_MASK_FINITE_VALID)
+#  include <CGAL/IEEE_754_unions.h>
+#endif
 #ifdef __sgi
-#include <fp_class.h>
-#endif // __sgi
+#  include <fp_class.h>
+#endif
 
 CGAL_BEGIN_NAMESPACE
-
 
 inline
 double
@@ -83,20 +81,8 @@ Number_tag
 number_type_tag(double)
 { return Number_tag(); }
 
-#ifdef OLD_FINITE_VALID
-extern
-bool
-is_finite(double d);
-
-extern
-bool
-is_valid(double d);
-
-#else
-
 #ifdef __sgi
 
-// double
 inline
 bool is_finite(double d)
 {
@@ -137,8 +123,8 @@ bool is_valid(double d)
     return false; // NOT REACHED
 }
 
-#else
-#if defined(_MSC_VER) || defined(CGAL_MASK_FINITE_VALID) || defined(__BORLANDC__)
+#elif defined(_MSC_VER) || defined(__BORLANDC__) || \
+      defined(CGAL_MASK_FINITE_VALID)
 
 #define CGAL_EXPONENT_DOUBLE_MASK   0x7ff00000
 #define CGAL_MANTISSA_DOUBLE_MASK   0x000fffff
@@ -155,8 +141,9 @@ inline
 bool
 is_nan_by_mask_double(unsigned int h, unsigned int l)
 {
-  if ( is_finite_by_mask_double(h) ) return false;
-  return ( (( h & CGAL_MANTISSA_DOUBLE_MASK ) != 0) || (( l & 0xffffffff ) != 0));
+  if ( is_finite_by_mask_double(h) )
+      return false;
+  return (( h & CGAL_MANTISSA_DOUBLE_MASK ) != 0) || (( l & 0xffffffff ) != 0);
 }
 
 inline
@@ -177,7 +164,6 @@ is_valid( const double& dble)
   return ! ( is_nan_by_mask_double( p->c.H, p->c.L ));
 }
 
-
 #else
 
 inline
@@ -190,17 +176,13 @@ bool
 is_finite(double d)
 { return (d == d) && (is_valid(d-d)); }
 
-#endif // MSC_VER || ...
-#endif // __sgi
-
-#endif // OLD_FINITE_VALID
+#endif
 
 inline
 io_Operator
 io_tag(double)
 { return io_Operator(); }
 
-#ifndef CGAL_NO_NTS_NAMESPACE
 namespace NTS {
 #ifndef CGAL_NUMBER_UTILS_H
 template <class NT> NT abs(const NT &x);
@@ -212,21 +194,7 @@ double
 abs(const double& d)
 { return CGAL_CLIB_STD::fabs(d); }
 
-
 } // namespace NTS
-#else
-#ifndef CGAL_NUMBER_UTILS_H
-template <class NT> NT abs(const NT &x);
-#endif // CGAL_NUMBER_UTILS_H
-
-CGAL_TEMPLATE_NULL
-inline
-double
-abs(const double& d)
-{ return CGAL_CLIB_STD::fabs(d); }
-
-
-#endif // CGAL_NO_NTS_NAMESPACE
 
 CGAL_END_NAMESPACE
 

@@ -1,29 +1,53 @@
 // ======================================================================
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// Copyright (c) 1997-2001 The CGAL Consortium
+
+// This software and related documentation are part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation are provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Every use of CGAL requires a license. 
+//
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
+//
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - Commercial users may apply for an evaluation license by writing to
+//   (Andreas.Fabri@geometryfactory.com). 
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.2-I-51 $
-// release_date  : $CGAL_Date: 2000/10/01 $
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Min_circle_2_adapterC2.h
-// package       : Min_circle_2 (3.10.1)
-// maintainer    : Sven Schönherr <sven@inf.ethz.ch>
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// package       : Min_circle_2 (3.12)
+// chapter       : Geometric Optimisation
 //
-// source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.29 $
-// revision_date : $Date: 2000/09/18 09:56:37 $
+// source        : web/Min_circle_2.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/07/17 11:24:35 $
 //
 // author(s)     : Sven Schönherr, Bernd Gärtner
-// coordinator   : ETH Zürich (Bernd Gärtner <gaertner@inf.ethz.ch>)
+// coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: traits class adapter for 2D Smallest Enclosing Circle
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
+//
 // ======================================================================
 
 #ifndef CGAL_MIN_CIRCLE_2_ADAPTERC2_H
@@ -38,26 +62,26 @@ CGAL_BEGIN_NAMESPACE
 
 // Class declarations
 // ==================
-template < class _Traits >
+template < class Traits_ >
 class Min_circle_2;
 
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 class Min_circle_2_adapterC2;
 
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 class _Min_circle_2_adapterC2__Circle;
 
 // Class interface and implementation
 // ==================================
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 class Min_circle_2_adapterC2 {
   public:
     // types
-    typedef  _PT  PT;
-    typedef  _DA  DA;
+    typedef  PT_  PT;
+    typedef  DA_  DA;
 
     // nested types
-    typedef  PT                                           Point;
+    typedef  PT                                            Point;
     typedef  CGAL::_Min_circle_2_adapterC2__Circle<PT,DA>  Circle;
 
   private:
@@ -75,7 +99,7 @@ class Min_circle_2_adapterC2 {
     CGAL::Orientation
     orientation( const Point& p, const Point& q, const Point& r) const
     {
-        typedef  typename _DA::FT  FT;
+        typedef  typename DA_::FT  FT;
     
         FT  px;
         FT  py;
@@ -94,24 +118,24 @@ class Min_circle_2_adapterC2 {
 };
 
 // Nested type `Circle'
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 std::ostream&
 operator << ( std::ostream&,
-              const CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>&);
+              const CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>&);
 
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 std::istream&
 operator >> ( std::istream&,
-              CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>&);
+              CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>&);
 
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 class _Min_circle_2_adapterC2__Circle {
   public:
     // typedefs
-    typedef  _PT  PT;
-    typedef  _DA  DA;
+    typedef  PT_  PT;
+    typedef  DA_  DA;
 
-    typedef  typename _DA::FT  FT;
+    typedef  typename DA_::FT  FT;
 
   private:
     // data members
@@ -131,10 +155,10 @@ class _Min_circle_2_adapterC2__Circle {
     }
 
     friend  std::ostream&  operator << CGAL_NULL_TMPL_ARGS ( std::ostream&,
-        const CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>&);
+        const CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>&);
 
     friend  std::istream&  operator >> CGAL_NULL_TMPL_ARGS ( std::istream&,
-        CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>&);
+        CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>&);
 
   public:
     // types
@@ -253,7 +277,7 @@ class _Min_circle_2_adapterC2__Circle {
     // additional operations for checking
     bool
     operator == (
-        const CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>& c) const
+        const CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>& c) const
     {
         return( ( center_x == c.center_x) &&
                 ( center_y == c.center_y) &&
@@ -262,7 +286,7 @@ class _Min_circle_2_adapterC2__Circle {
 
     bool
     operator != (
-        const CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>& c) const
+        const CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>& c) const
     {
         return( ! ( *this == c));
     }
@@ -283,10 +307,10 @@ class _Min_circle_2_adapterC2__Circle {
 };
 
 // I/O
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 std::ostream&
 operator << ( std::ostream& os,
-              const CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>& c)
+              const CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>& c)
 {
     switch ( CGAL::get_mode( os)) {
 
@@ -315,10 +339,10 @@ operator << ( std::ostream& os,
     return( os);
 }
 
-template < class _PT, class _DA >
+template < class PT_, class DA_ >
 std::istream&
 operator >> ( std::istream& is,
-              CGAL::_Min_circle_2_adapterC2__Circle<_PT,_DA>& c)
+              CGAL::_Min_circle_2_adapterC2__Circle<PT_,DA_>& c)
 {
     switch ( CGAL::get_mode( is)) {
 

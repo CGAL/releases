@@ -37,7 +37,8 @@ all:            \
                 Segment_generator_example1$(EXE_EXT) \
                 Segment_generator_example2$(EXE_EXT) \
                 generators_example1$(EXE_EXT) \
-                generators_example2$(EXE_EXT) 
+                generators_example2$(EXE_EXT) \
+                random_polygon_ex$(EXE_EXT) 
 
 Segment_generator_example1$(EXE_EXT): Segment_generator_example1$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_example1 Segment_generator_example1$(OBJ_EXT) $(LDFLAGS)
@@ -51,11 +52,15 @@ generators_example1$(EXE_EXT): generators_example1$(OBJ_EXT)
 generators_example2$(EXE_EXT): generators_example2$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_example2 generators_example2$(OBJ_EXT) $(LDFLAGS)
 
+random_polygon_ex$(EXE_EXT): random_polygon_ex$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_polygon_ex random_polygon_ex$(OBJ_EXT) $(LDFLAGS)
+
 clean: \
                    Segment_generator_example1.clean \
                    Segment_generator_example2.clean \
                    generators_example1.clean \
-                   generators_example2.clean 
+                   generators_example2.clean \
+                   random_polygon_ex.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

@@ -1,11 +1,10 @@
-
 // ======================================================================
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -19,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : webmisc/kernel_to_kernel.fw
 // file          : include/CGAL/kernel_to_kernel.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/06/21 20:56:28 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -48,13 +46,15 @@
 //
 // ======================================================================
  
+#ifndef CGAL_KERNEL_TO_KERNEL_H
+#define CGAL_KERNEL_TO_KERNEL_H
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_integer.h>
 #include <LEDA/rat_point.h>
-#endif // CGAL_USE_LEDA
+#endif
 
-namespace CGAL {
+CGAL_BEGIN_NAMESPACE
 
 template <class NumberType>
 struct Cartesian_double_to_Homogeneous
@@ -63,11 +63,11 @@ struct Cartesian_double_to_Homogeneous
   typedef Segment_2< Homogeneous< NumberType> >  Segment;
 
   Point2
-  operator()(  const Point_2<Cartesian<double> >& p)
+  operator()(  const Point_2<Cartesian<double> >& p) const
   { return Point2( NumberType(p.x()), NumberType(p.y()) ); }
 
   Segment
-  operator()(  const Segment_2<Cartesian<double> >& s)
+  operator()(  const Segment_2<Cartesian<double> >& s) const
   {
     return Segment( Point2( NumberType(s.source().x()),
                             NumberType(s.source().y()) ),
@@ -75,55 +75,6 @@ struct Cartesian_double_to_Homogeneous
                             NumberType(s.target().y()) ) );
   }
 };
-
-
-template <class NumberType>
-struct Cartesian_double_to_Cartesian
-{
-  typedef Point_2< Cartesian< NumberType> >    Point2;
-  typedef Point_3< Cartesian< NumberType> >    Point3;
-  typedef Segment_2< Cartesian< NumberType> >  Segment;
-
-  Point2
-  operator()(  const Point_2<Cartesian<double> >& p)
-  { return Point2( NumberType(p.x()), NumberType(p.y()) ); }
-
-  Point3
-  operator()(  const Point_3<Cartesian<double> >& p)
-  { return Point3( NumberType(p.x()),
-                   NumberType(p.y()),
-                   NumberType(p.z()) ); }
-
-  Segment
-  operator()(  const Segment_2<Cartesian<double> >& s)
-  {
-    return Segment( Point2( NumberType(s.source().x()),
-                            NumberType(s.source().y()) ),
-                    Point2( NumberType(s.target().x()),
-                            NumberType(s.target().y()) ) );
-  }
-};
-
-template <class NumberType>
-struct Cartesian_float_to_Cartesian
-{
-  typedef Point_2< Cartesian< NumberType> >    Point2;
-  typedef Segment_2< Cartesian< NumberType> >  Segment;
-
-  Point2
-  operator()(  const Point_2<Cartesian<float> >& p)
-  { return Point2( NumberType(p.x()), NumberType(p.y()) ); }
-
-  Segment
-  operator()(  const Segment_2<Cartesian<float> >& s)
-  {
-    return Segment( Point2( NumberType(s.source().x()),
-                            NumberType(s.source().y()) ),
-                    Point2( NumberType(s.target().x()),
-                            NumberType(s.target().y()) ) );
-  }
-};
-
 
 #ifdef CGAL_USE_LEDA
 struct Cartesian_double_to_H_double_int
@@ -132,13 +83,12 @@ struct Cartesian_double_to_H_double_int
   typedef Segment_2< Homogeneous< double> >  Segment;
 
   Segment
-  operator()(  const Segment_2< Cartesian< double> >& s)
+  operator()(  const Segment_2< Cartesian< double> >& s) const
   {
     leda_rat_point rs =  leda_point(s.source().x(), s.source().y());
     leda_rat_point rt =  leda_point(s.target().x(), s.target().y());
 
-    return
-    Segment(
+    return Segment(
       Point2(::to_double(rs.X()),::to_double(rs.Y()),::to_double(rs.W())),
       Point2(::to_double(rt.X()),::to_double(rt.Y()),::to_double(rt.W())) );
   }
@@ -150,17 +100,18 @@ struct Cartesian_float_to_H_double_int
   typedef Segment_2< Homogeneous< double> >  Segment;
 
   Segment
-  operator()(  const Segment_2< Cartesian< float> >& s)
+  operator()(  const Segment_2< Cartesian< float> >& s) const
   {
     leda_rat_point rs =  leda_point(s.source().x(), s.source().y());
     leda_rat_point rt =  leda_point(s.target().x(), s.target().y());
 
-    return
-    Segment(
+    return Segment(
       Point2(::to_double(rs.X()),::to_double(rs.Y()),::to_double(rs.W())),
       Point2(::to_double(rt.X()),::to_double(rt.Y()),::to_double(rt.W())) );
   }
 };
 #endif // CGAL_USE_LEDA
 
-} // namespace CGAL
+CGAL_END_NAMESPACE
+
+#endif // CGAL_KERNEL_TO_KERNEL_H

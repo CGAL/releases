@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,22 +18,22 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/ch_akl_toussaint.C
-// package       : Convex_hull (3.3)
+// package       : Convex_hull_2 (3.21)
 // source        : convex_hull_2.lw
 // revision      : 3.3
 // revision_date : 03 Aug 2000
@@ -61,7 +61,7 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
                       const Traits&   ch_traits)
 {
   typedef  typename Traits::Point_2                    Point_2;    
-  typedef  typename Traits::Left_of_line_2             Left_of_line;
+  typedef  typename Traits::Leftturn_2                 Left_of_line;
   typedef  typename Traits::Less_xy_2                  Less_xy;
   typedef  ch_Binary_predicate_reversor< Point_2, Less_xy>
                                                        Greater_xy;
@@ -92,25 +92,21 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   region3.push_back( *e);
   region4.push_back( *n);
 
-  Left_of_line  rol_we = ch_traits.left_of_line_2_object( *e, *w);
-  Left_of_line  rol_en = ch_traits.left_of_line_2_object( *n, *e);
-  Left_of_line  rol_nw = ch_traits.left_of_line_2_object( *w, *n);
-  Left_of_line  rol_ws = ch_traits.left_of_line_2_object( *s, *w);
-  Left_of_line  rol_se = ch_traits.left_of_line_2_object( *e, *s);
+  Left_of_line  left_turn = ch_traits.leftturn_2_object();
 
   CGAL_ch_postcondition_code( ForwardIterator save_first = first; )
 
   for ( ; first != last; ++first )
   {
-      if ( rol_we( *first ) )   
+      if ( left_turn(*e, *w, *first ) )   
       {
-          if ( rol_ws( *first ) )        region1.push_back( *first );
-          else if ( rol_se( *first ) )   region2.push_back( *first );
+          if ( left_turn( *s, *w, *first ) )       region1.push_back( *first );
+          else if ( left_turn( *e, *s, *first ) )  region2.push_back( *first );
       }
       else
       {
-          if ( rol_en( *first ) )        region3.push_back( *first );
-          else if ( rol_nw( *first ) )   region4.push_back( *first );
+          if ( left_turn( *n, *e, *first ) )       region3.push_back( *first );
+          else if ( left_turn( *w, *n, *first ) )  region4.push_back( *first );
       }
   }
 

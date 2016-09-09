@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/predicates_on_planes_3.h
-// package       : C3 (5.2)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2000/06/27 14:06:48 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/21 14:30:06 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -59,7 +59,17 @@ Oriented_side
 side_of_oriented_plane(const PlaneC3<R CGAL_CTAG> &h,
                        const PointC3<R CGAL_CTAG> &p)
 { 
-  return side_of_oriented_planeC3(h.a(),h.b(),h.c(),h.d(),p.x(),p.y(),p.z());
+  return side_of_oriented_planeC3(h.a(), h.b(), h.c(), h.d(),
+	                          p.x(), p.y(), p.z());
+}
+
+template < class R >
+inline
+bool
+equal_plane(const PlaneC3<R CGAL_CTAG> &h, const PlaneC3<R CGAL_CTAG> &p)
+{ 
+  return equal_planeC3(h.a(), h.b(), h.c(), h.d(),
+	               p.a(), p.b(), p.c(), p.d());
 }
 
 CGAL_END_NAMESPACE

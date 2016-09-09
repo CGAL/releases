@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Iso_rectangle_2.fw
 // file          : include/CGAL/Iso_rectangle_2.h
-// package       : _2 (3.6)
-// revision      : 3.6
-// revision_date : 30 Jul 2000 
+// package       : _2 (3.19)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/06/27 14:51:30 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -45,35 +44,11 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_ISO_RECTANGLE_2_H
 #define CGAL_ISO_RECTANGLE_2_H
 
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#ifdef CGAL_HOMOGENEOUS_H
-#ifndef CGAL_ISO_RECTANGLEH2_H
-#include <CGAL/Iso_rectangleH2.h>
-#endif // CGAL_ISO_RECTANGLEH2_H
-#endif // CGAL_HOMOGENEOUS_H
-
-#ifdef CGAL_CARTESIAN_H
-#ifndef CGAL_ISO_RECTANGLEC2_H
-#include <CGAL/Cartesian/Iso_rectangle_2.h>
-#endif // CGAL_ISO_RECTANGLEC2_H
-#endif // CGAL_CARTESIAN_H
-
-#ifdef CGAL_SIMPLE_CARTESIAN_H
-#include <CGAL/SimpleCartesian/Iso_rectangleS2.h>
-#endif // CGAL_SIMPLE_CARTESIAN_H
-
-
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -98,20 +73,19 @@ public:
     : RIso_rectangle_2(r)
   {}
 
-  Iso_rectangle_2(const CGAL::Point_2<R> &p,
-                       const CGAL::Point_2<R> &q)
+  Iso_rectangle_2(const CGAL::Point_2<R> &p, const CGAL::Point_2<R> &q)
     : RIso_rectangle_2(p,q)
   {}
 
+  Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
+                  const RT& max_hx, const RT& max_hy)
+    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy)
+  {}
 
-  bool
-  operator==(const CGAL::Iso_rectangle_2<R> &r) const
-  { return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2); }
-
-  bool
-  operator!=(const CGAL::Iso_rectangle_2<R> &r) const
-  { return !(*this == r); }
-
+  Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
+                  const RT& max_hx, const RT& max_hy, const RT& hw)
+    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy, hw)
+  {}
 
   CGAL::Point_2<R>
   min() const
@@ -121,22 +95,6 @@ public:
   max() const
   { return RIso_rectangle_2::max(); }
 
-  FT
-  xmin() const
-  { return RIso_rectangle_2::xmin(); }
-
-  FT
-  ymin() const
-  { return RIso_rectangle_2::ymin(); }
-
-  FT
-  xmax() const
-  { return RIso_rectangle_2::xmax(); }
-
-  FT
-  ymax() const
-  { return RIso_rectangle_2::ymax(); }
-
   CGAL::Point_2<R>
   vertex(int i) const
   { return RIso_rectangle_2::vertex(i); }
@@ -145,33 +103,12 @@ public:
   operator[](int i) const
   { return vertex(i); }
 
-  Bounded_side
-  bounded_side(const CGAL::Point_2<R> &p) const
-  { return RIso_rectangle_2::bounded_side(p); }
-
-  bool
-  has_on_boundary(const CGAL::Point_2<R> &p) const
-  { return RIso_rectangle_2::has_on_boundary(p); }
-
-  bool
-  has_on_bounded_side(const CGAL::Point_2<R> &p) const
-  { return RIso_rectangle_2::has_on_bounded_side(p); }
-
-  bool
-  has_on_unbounded_side(const CGAL::Point_2<R> &p) const
-  { return RIso_rectangle_2::has_on_unbounded_side(p); }
-
-  bool
-  is_degenerate() const
-  { return RIso_rectangle_2::is_degenerate(); }
-
   CGAL::Iso_rectangle_2<R>
   transform(const CGAL::Aff_transformation_2<R> &t) const
   { return  RIso_rectangle_2::transform(t); }
-
 };
 
-#ifndef NO_OSTREAM_INSERT_ISO_RECTANGLE_2
+#ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
 template < class R >
 std::ostream &
 operator<<(std::ostream &os, const Iso_rectangle_2<R> &r)
@@ -179,9 +116,9 @@ operator<<(std::ostream &os, const Iso_rectangle_2<R> &r)
   typedef typename R::Iso_rectangle_2_base  RIso_rectangle_2;
   return  os << (const RIso_rectangle_2&)r;
 }
-#endif // NO_OSTREAM_INSERT_ISO_RECTANGLE_2
+#endif // CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
 
-#ifndef NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
+#ifndef CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
 template < class R >
 std::istream &
 operator>>(std::istream &is, Iso_rectangle_2<R> &r)
@@ -190,9 +127,8 @@ operator>>(std::istream &is, Iso_rectangle_2<R> &r)
   is >> (RIso_rectangle_2&)r;
   return is;
 }
-#endif // NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
+#endif // CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_ISO_RECTANGLE_2_H

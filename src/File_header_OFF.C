@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/File_header_OFF.C
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/19 00:20:27 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -238,10 +238,10 @@ std::ostream& operator<<( std::ostream& out, const File_header_OFF& h) {
         out << "OFF";
     if ( h.binary()) {
         out << " BINARY\n";
-        _Binary_write_integer32( out, h.size_of_vertices());
-        _Binary_write_integer32( out, h.size_of_facets());
+        I_Binary_write_big_endian_integer32( out, h.size_of_vertices());
+        I_Binary_write_big_endian_integer32( out, h.size_of_facets());
         if ( h.off())
-            _Binary_write_integer32( out, 0);
+            I_Binary_write_big_endian_integer32( out, 0);
     } else {
         out << '\n';
         out << h.size_of_vertices() << ' '<< h.size_of_facets();
@@ -362,14 +362,14 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
     int n_h;
     if ( h.binary()) {
         Integer32 a, b, c;
-        _Binary_read_integer32( in, a);
+        I_Binary_read_big_endian_integer32( in, a);
         if ( h.n_dimensional()) {
             h.set_dimension( a);
-            _Binary_read_integer32( in, a);
+            I_Binary_read_big_endian_integer32( in, a);
         }
-        _Binary_read_integer32( in, b);
+        I_Binary_read_big_endian_integer32( in, b);
         if ( h.off())
-            _Binary_read_integer32( in, c);
+            I_Binary_read_big_endian_integer32( in, c);
         else
             c = 0;
         h.set_vertices( a);

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Interval_base.h
-// package       : Interval_arithmetic (4.58)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2000/09/06 17:39:58 $
+// package       : Interval_arithmetic (4.114)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2001/05/16 15:39:55 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -53,6 +53,11 @@
 
 #include <CGAL/basic.h>
 #include <utility>				// Relational operators.
+#include <CGAL/double.h>                        // is_finite(double)
+
+#ifdef __GNUG__
+#  define CGAL_IA_NEW_FILTERS   // VC++ is not ready.
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -71,7 +76,9 @@ struct Interval_base
   Interval_base (const double i, const double s)
     : inf_(i), sup_(s)
   {
-    CGAL_assertion_msg(i<=s,
+      // VC++ should use instead : (i<=s) || !is_valid(i) || !is_valid(s)
+      // Or should I use is_valid() ? or is_valid_or_nan() ?
+    CGAL_assertion_msg(!(i>s),
 	      " Variable used before being initialized (or CGAL bug)");
   }
 
@@ -87,6 +94,11 @@ struct Interval_base
     if (inf_ >= d.sup_) return false;
     overlap_action();
     return false;
+  }
+
+  bool operator>  (const IA &d) const
+  {
+    return d < *this;
   }
 
   bool operator<= (const IA &d) const
@@ -108,6 +120,11 @@ struct Interval_base
     if (d.inf_ == sup_ && d.sup_ == inf_) return true;
     overlap_action();
     return false;
+  }
+
+  bool operator!= (const IA &d) const
+  {
+    return !(*this == d);
   }
 
   bool is_point() const
@@ -133,10 +150,61 @@ struct Interval_base
 };
 
 inline
+Interval_base
+to_interval (const Interval_base & d)
+{
+  return d;
+}
+
+// We put all the to_interval() of the builtin types here, because of #include
+// circular dependencies otherwise.
+inline
+Interval_base
+to_interval (const double & d)
+{
+  return Interval_base(d);
+}
+
+inline
+Interval_base
+to_interval (const float & f)
+{
+  return Interval_base(double(f));
+}
+
+inline
+Interval_base
+to_interval (const int & i)
+{
+  return Interval_base(double(i));
+}
+
+inline
+Interval_base
+to_interval (const short & s)
+{
+  return Interval_base(double(s));
+}
+
+inline
+Interval_base
+to_interval (const long & l)
+{
+  // actually we would like to compare number of mantissa bits,
+  // this seems to be a sufficient approximation
+  CGAL_assertion( sizeof(double) > sizeof(long) );
+  // need something else for 64 bits longs.
+  return Interval_base(double(l));
+}
+
+// to_interval(long long) is in Interval_arithmetic.h
+
+inline
 double
 to_double (const Interval_base & d)
 {
   return (d.sup_ + d.inf_) * 0.5;
+  // This may overflow...
 }
 
 inline
@@ -144,7 +212,7 @@ bool
 is_valid (const Interval_base & d)
 {
 #if defined _MSC_VER || defined __sgi || defined __BORLANDC__
-  return is_valid(d.inf_) && is_valid(d.sup_) && d.inf_ <= d.sup_;
+  return CGAL::is_valid(d.inf_) && CGAL::is_valid(d.sup_) && d.inf_ <= d.sup_;
 #else
   // The 2 first is_valid() are implicitely done by the 3rd test ;-)
   return d.inf_ <= d.sup_;
@@ -155,7 +223,7 @@ inline
 bool
 is_finite (const Interval_base & d)
 {
-  return is_finite(d.inf_) && is_finite(d.sup_);
+  return CGAL::is_finite(d.inf_) && CGAL::is_finite(d.sup_);
 }
 
 inline

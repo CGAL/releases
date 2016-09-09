@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Regular_triangulation_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Regular_triangulation_2.h,v $
-// revision      : $Revision: 1.25 $
-// revision_date : $Date: 2000/06/30 09:22:01 $
-// author(s)     : Frederic Fichel, Mariette Yvinec
+// revision      : $Revision: 1.33 $
+// revision_date : $Date: 2001/06/20 12:02:39 $
+// author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
 //
 // coordinator   : Mariette Yvinec
 //
@@ -55,7 +55,10 @@
 
 CGAL_BEGIN_NAMESPACE 
 
-template < class Gt, class Tds >
+template < class Gt, 
+           class Tds  = Triangulation_data_structure_using_list_2 <
+                        Triangulation_vertex_base_2<Gt>,
+		        Regular_triangulation_face_base_2<Gt> > >
 class Regular_triangulation_2 : public Triangulation_2<Gt,Tds>
 {
 public:
@@ -70,13 +73,13 @@ public:
   typedef typename Triangulation::Edge           Edge;
   typedef typename Triangulation::Locate_type    Locate_type;
   typedef typename Triangulation::Face_circulator       Face_circulator;
+  typedef typename Triangulation::Edge_circulator       Edge_circulator;
   typedef typename Triangulation::Finite_edges_iterator Finite_edges_iterator;
   typedef typename Triangulation::Finite_faces_iterator Finite_faces_iterator;
   typedef typename Triangulation::Finite_vertices_iterator 
                                                      Finite_vertices_iterator;
   // a list to memorise temporary the faces around a point
   typedef std::list<Face_handle>      Faces_around_stack; 
-
   // point list
   typedef std::list<Weighted_point>   Weighted_point_list;
 
@@ -103,6 +106,16 @@ public:
   
   bool is_valid(bool verbose = false, int level = 0) const;
   void affiche_tout();	
+
+  // DUAL
+  Point dual (Face_handle f) const;
+  Object dual(const Edge &e) const ;
+  Object dual(const Edge_circulator& ec) const;
+  Object dual(const Finite_edges_iterator& ei) const;
+  Point weighted_circumcenter(Face_handle f) const; 
+  Point weighted_circumcenter(const Weighted_point& p0, 
+			      const Weighted_point& p1, 
+			      const Weighted_point& p2) const;
 
   // Insertion, Deletion and Flip
   Vertex_handle push_back(const Weighted_point &p);
@@ -153,6 +166,22 @@ public:
       }
       return number_of_vertices() - n;
   }
+
+  template < class Stream>
+  Stream& draw_dual(Stream & ps) const
+    {
+      Finite_edges_iterator eit= finite_edges_begin();
+      for (; eit != finite_edges_end(); ++eit) {
+	Object o = dual(eit);
+	typename Geom_traits::Line_2  l;
+	typename Geom_traits::Ray_2   r;
+	typename Geom_traits::Segment_2 s;
+	if (CGAL::assign(s,o)) ps << s;
+	if (CGAL::assign(r,o)) ps << r;
+	if (CGAL::assign(l,o)) ps << l;
+      }
+      return ps;
+    }
     
 };
 
@@ -242,17 +271,17 @@ is_valid(bool verbose, int level) const
       if (!is_infinite(it->vertex(i)))
 	  result = result && ON_POSITIVE_SIDE != 
 	           power_test(it->neighbor(i), it->vertex(i)->point());
-      if (!result)
-      {
-        std::cerr << "face : " << (void*)&(*it)<< "  " 
-		  <<"["<< it->vertex(0)->point()
-		  <<"/"<< it->vertex(1)->point()
-		  <<"/"<< it->vertex(2)->point()<<"]"<< std::endl
-		  << "voisin : " << (void*)&(*(it->neighbor(i)))<< "  "
-		  <<"["<<(it->neighbor(i))->vertex(0)->point()
-		  <<"/"<<(it->neighbor(i))->vertex(1)->point()
-		  <<"/"<<(it->neighbor(i))->vertex(2)->point()<<"]" << std::endl;
-      }
+//       if (!result)
+//       {
+//         std::cerr << "face : " << (void*)&(*it)<< "  " 
+// 		  <<"["<< it->vertex(0)->point()
+// 		  <<"/"<< it->vertex(1)->point()
+// 		  <<"/"<< it->vertex(2)->point()<<"]"<< std::endl
+// 		  << "voisin : " << (void*)&(*(it->neighbor(i)))<< "  "
+// 		  <<"["<<(it->neighbor(i))->vertex(0)->point()
+// 		  <<"/"<<(it->neighbor(i))->vertex(1)->point()
+// 		  <<"/"<<(it->neighbor(i))->vertex(2)->point()<<"]" << std::endl;
+//       }
       CGAL_triangulation_assertion(result);
     }
     
@@ -358,6 +387,105 @@ affiche_tout()
   }
 }
 
+
+//DUALITY
+template < class Gt, class Tds >
+inline
+Regular_triangulation_2<Gt,Tds>::Point
+Regular_triangulation_2<Gt,Tds>::
+dual (Face_handle f) const
+{
+  return weighted_circumcenter(f);
+}
+
+template < class Gt, class Tds >
+inline
+Regular_triangulation_2<Gt,Tds>::Point
+Regular_triangulation_2<Gt,Tds>::
+weighted_circumcenter(Face_handle f) const
+{
+  CGAL_triangulation_precondition (dimension()==2 || !is_infinite(f));
+  return weighted_circumcenter(f->vertex(0)->point(),
+			       f->vertex(1)->point(),
+			       f->vertex(2)->point());
+}
+
+template<class Gt, class Tds>
+inline
+Regular_triangulation_2<Gt,Tds>::Point
+Regular_triangulation_2<Gt,Tds>::
+weighted_circumcenter(const Weighted_point& p0, 
+		      const Weighted_point& p1, 
+		      const Weighted_point& p2) const
+{
+  return 
+    geom_traits().construct_weighted_circumcenter_2_object()(p0,p1,p2);
+}
+
+template < class Gt, class Tds >
+inline
+Object
+Regular_triangulation_2<Gt,Tds>::
+dual(const Edge &e) const
+{
+  typedef typename Geom_traits::Line_2        Line;
+  typedef typename Geom_traits::Ray_2         Ray;
+  typedef typename Geom_traits::Direction_2   Direction;
+  typedef typename Geom_traits::Segment       Segment;
+  
+  CGAL_triangulation_precondition (! is_infinite(e));
+  if( dimension()== 1 ){
+    Weighted_point p = (e.first)->vertex(cw(e.second))->point();
+    Weighted_point q = (e.first)->vertex(ccw(e.second))->point();
+    Line l  = geom_traits().construct_radical_axis_2_object()(p,q);
+    return Object(new Wrapper< Line >(l));
+  }
+  
+  // dimension==2
+  if( (! is_infinite(e.first)) &&
+      (! is_infinite(e.first->neighbor(e.second))) ) {
+    Segment s = geom_traits().construct_segment_2_object()
+      (dual(e.first),dual(e.first->neighbor(e.second)));
+    return CGAL::Object(new CGAL::Wrapper< Segment >(s));
+  } 
+
+  // one of the adjacent face is infinite
+  Face_handle f; int i;
+  if ( is_infinite(e.first)) {
+    f=e.first->neighbor(e.second); f->has_neighbor(e.first,i);
+  } 
+  else {
+    f=e.first; i=e.second;
+  }
+  Weighted_point p = f->vertex( cw(i))->point();
+  Weighted_point q = f->vertex( ccw(i))->point();
+  Line l  = geom_traits().construct_radical_axis_2_object()(p,q);
+  Direction d =
+    geom_traits().construct_direction_of_line_2_object()(l);
+  Ray r = geom_traits().construct_ray_2_object()(dual(f), d);
+  return CGAL::Object(new CGAL::Wrapper< Ray >(r));
+}
+  
+
+template < class Gt, class Tds >
+inline 
+Object
+Regular_triangulation_2<Gt,Tds>::  
+dual(const Edge_circulator& ec) const
+{
+  return dual(*ec);
+}
+  
+template < class Gt, class Tds >
+inline 
+Object
+Regular_triangulation_2<Gt,Tds>::
+dual(const Finite_edges_iterator& ei) const
+{
+  return dual(*ei);
+}
+
+//INSERTION-REMOVAL
 template < class Gt, class Tds >
 Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
@@ -565,7 +693,7 @@ fill_hole_regular(std::list<Edge> & first_hole)
   Hole hole;
   Hole_list hole_list;
   Face_handle ff, fn;
-  int i=0, ii=0, in=0;
+  int i, ii, in;
 	
   hole_list.push_front(first_hole);
   
@@ -961,8 +1089,8 @@ stack_flip_4_2(Face_handle f, int i, int j, Faces_around_stack & faces_around)
     _tds.flip( &(*f), i); //not using flip because the vertex j is flat.
     update_hidden_points_2_2(f,fn);
     Face_handle h1 = ( f->has_vertex(vq) ? fn : f);
-    remove_degree_3(vq,g);
     hide_vertex(h1, vq->point());
+    remove_degree_3(vq,g);
     faces_around.push_front(g);
     faces_around.push_front(h1);    
 }

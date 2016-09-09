@@ -36,8 +36,8 @@
 // file          : include/CGAL/Weighted_alpha_shape_2.h
 // package       : Alpha_shapes_2 (1.0)
 // source        : $RCSfile: weights_heuristic_2.h,v $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/07/11 15:52:06 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/06/15 15:01:57 $
 // author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec@sophia.inria.fr>)
@@ -53,31 +53,16 @@
 
 #include <CGAL/basic.h>
 
-// SGI MIPSpro C++ 7.x
-#ifdef STL_HASH_TABLES
-#include <hash_set>
-#include <hash_map>
-#include <map>
-#else
-#include <set>
-#include <map>
-#endif
-
-#include <algorithm>
-#include <utility>
-#include <iostream>
-
 #include <CGAL/Alpha_shape_2.h>
-#include <CGAL/Delaunay_triangulation_2.h>
 
-#include <CGAL/less_partial.h>
+#include <CGAL/Delaunay_triangulation_2.h>
 
 //-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
 //-------------------------------------------------------------------
 
 template < class Rt >
-class Weighted_alpha_shape_2 : public Alpha_shape_2<Rt>
+class Weighted_alpha_shape_2: public Alpha_shape_2<Rt>
 {
 
   //------------------------- TYPES ------------------------------------

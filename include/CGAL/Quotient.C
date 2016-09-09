@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Quotient.fw
 // file          : include/CGAL/Quotient.C
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/06 07:51:06 $
 //
 // author(s)     :
 //
@@ -53,11 +52,10 @@
 //
 // ======================================================================
 
-
-#include <CGAL/Quotient.h>
-
 #ifndef CGAL_QUOTIENT_C
 #define CGAL_QUOTIENT_C
+
+#include <CGAL/Quotient.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -174,12 +172,12 @@ quotient_cmp(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
     // on the sign of  den  are made
 
     // code assumes that SMALLER == - 1;
-    CGAL_kernel_precondition( SMALLER == (Comparison_result)(-1) );
+    CGAL_kernel_precondition( SMALLER == static_cast<Comparison_result>(-1) );
 
     int xsign = CGAL_NTS sign(x.num) * CGAL_NTS sign(x.den) ;
     int ysign = CGAL_NTS sign(y.num) * CGAL_NTS sign(y.den) ;
-    if (xsign == 0) return (Comparison_result) -ysign;
-    if (ysign == 0) return (Comparison_result)  xsign;
+    if (xsign == 0) return static_cast<Comparison_result>(-ysign);
+    if (ysign == 0) return static_cast<Comparison_result>(xsign);
     // now (x != 0) && (y != 0)
     int diff = xsign - ysign;
     if (diff == 0)
@@ -260,6 +258,7 @@ inline
 io_Operator
 io_tag(const Quotient<NumberType>&)
 { return io_Operator(); }
+
 template <class NumberType>
 inline
 NumberType
@@ -271,6 +270,7 @@ inline
 NumberType
 Quotient<NumberType>::denominator() const
 { return den; }
+
 template <class NumberType>
 CGAL_KERNEL_INLINE
 Quotient<NumberType>
@@ -381,6 +381,7 @@ operator/(const Quotient<NumberType>& x, const NumberType& y)
   Quotient<NumberType> z = x;
   return z /= y;
 }
+
 template <class NumberType>
 CGAL_KERNEL_INLINE
 NumberType
@@ -400,6 +401,7 @@ operator<(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
 {
   return quotient_cmp(x,y) == SMALLER; // < 0
 }
+
 template <class NumberType>
 CGAL_KERNEL_INLINE
 bool
@@ -427,7 +429,7 @@ operator<(const NumberType& x, const Quotient<NumberType>& y)
 {
   return quotient_cmp(Quotient<NumberType>(x),y) == SMALLER; // < 0
 }
-#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
+
 template <class NumberType>
 CGAL_KERNEL_INLINE
 bool
@@ -442,23 +444,6 @@ operator<=(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
   return quotient_cmp(x,y) != LARGER; // <= 0
 }
 
-template <class NumberType>
-CGAL_KERNEL_INLINE
-bool
-operator>(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
-{
-  return  quotient_cmp(x,y) == LARGER; // > 0
-}
-
-template <class NumberType>
-CGAL_KERNEL_INLINE
-bool
-operator>=(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
-{
-  return quotient_cmp(x,y) != SMALLER; // >= 0
-}
-#endif // CGAL_NO_STL_PROVIDED_REL_OPS
-#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
 template <class NumberType>
 CGAL_KERNEL_INLINE
 bool
@@ -518,7 +503,22 @@ operator>=(const NumberType& x, const Quotient<NumberType>& y)
 {
   return quotient_cmp(Quotient<NumberType>(x),y) != SMALLER; // >= 0
 }
-#endif // CGAL_NO_STL_PROVIDED_REL_OPS
+
+template <class NumberType>
+CGAL_KERNEL_INLINE
+bool
+operator>(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
+{
+  return  quotient_cmp(x,y) == LARGER; // > 0
+}
+
+template <class NumberType>
+CGAL_KERNEL_INLINE
+bool
+operator>=(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
+{
+  return quotient_cmp(x,y) != SMALLER; // >= 0
+}
 
 template <class NumberType>
 double
@@ -585,6 +585,5 @@ gcd(const NumberType&, const NumberType&)
 { return NumberType(1); }
 
 CGAL_END_NAMESPACE
-
 
 #endif  // CGAL_QUOTIENT_C

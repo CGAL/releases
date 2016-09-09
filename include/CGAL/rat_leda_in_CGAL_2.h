@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,24 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/rat_leda_in_CGAL_2.h
-// package       : Convex_hull (3.3)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
+// package       : Convex_hull_2 (3.21)
+// revision      : $Release$
+// revision_date : $Date: 2001/06/25 12:26:24 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -188,22 +187,26 @@ cmp_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
   }
   else
   {
-      return 
-        (Comparison_result)(r_or *( CGAL::sign(l.sqr_dist(r) - l.sqr_dist(s) )));
+     return 
+      (Comparison_result)(r_or *( CGAL::sign(l.sqr_dist(r) - l.sqr_dist(s) )));
   }
 #endif  // __LEDA__ >= 360
 }
 
 inline
 bool
-has_smaller_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
-                                const leda_rat_point& r, const leda_rat_point& s)
+has_smaller_signed_dist_to_line(const leda_rat_point& p, 
+                                const leda_rat_point& q,
+                                const leda_rat_point& r, 
+                                const leda_rat_point& s)
 { return ( cmp_signed_dist_to_line(p,q,r,s) == SMALLER ); }
 
 inline
 bool
-has_larger_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
-                               const leda_rat_point& r, const leda_rat_point& s)
+has_larger_signed_dist_to_line(const leda_rat_point& p, 
+                               const leda_rat_point& q,
+                               const leda_rat_point& r, 
+                               const leda_rat_point& s)
 { return ( cmp_signed_dist_to_line(p,q,r,s) == LARGER ); }
 
 CGAL_END_NAMESPACE

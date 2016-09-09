@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Planar_map_2/Planar_map_misc.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // source        :
 // revision      :
 // revision_date :
@@ -117,8 +117,12 @@ public:
   
   bool point_is_same( const Point  & p1, const Point  & p2 ) const
   { 
+#ifdef PM_MISC_USE_ISSAME
+    return is_same(p1, p2);
+#else
     return ( (compare_y(p1, p2) == EQUAL) &&
              (compare_x(p1, p2) == EQUAL)   );	
+#endif
   }
   
   bool point_is_left_low( const Point  & p1,  
@@ -166,38 +170,41 @@ public:
   }
   Point curve_leftlow_most(const X_curve& cv) const 
   {
-	  if (!curve_is_vertical(cv)) return curve_leftmost(cv);
-	  return curve_lowest(cv);
+    if (!curve_is_vertical(cv)) return curve_leftmost(cv);
+    return curve_lowest(cv);
   }
   Point curve_righttop_most(const X_curve& cv) const
   {
-	  if (!curve_is_vertical(cv)) return curve_rightmost(cv);
-	  return curve_highest(cv);
+    if (!curve_is_vertical(cv)) return curve_rightmost(cv);
+    return curve_highest(cv);
   }
-  bool curve_merge_condition(const X_curve& whole,const X_curve& part1,const X_curve& part2) const
+  bool curve_merge_condition(const X_curve& whole,
+			     const X_curve& part1,
+			     const X_curve& part2) const
   {
-	  return 
-		  point_is_same(curve_leftlow_most(whole),curve_leftlow_most(part1))&&
-		  point_is_same(curve_righttop_most(part1),curve_leftlow_most(part2))&&
-		  point_is_same(curve_righttop_most(whole),curve_righttop_most(part2))||
-		  point_is_same(curve_leftlow_most(whole),curve_leftlow_most(part2))&&
-		  point_is_same(curve_righttop_most(part2),curve_leftlow_most(part1))&&
-		  point_is_same(curve_righttop_most(whole),curve_righttop_most(part1));
+    return 
+      point_is_same(curve_leftlow_most(whole),curve_leftlow_most(part1))&&
+      point_is_same(curve_righttop_most(part1),curve_leftlow_most(part2))&&
+      point_is_same(curve_righttop_most(whole),curve_righttop_most(part2))||
+      point_is_same(curve_leftlow_most(whole),curve_leftlow_most(part2))&&
+      point_is_same(curve_righttop_most(part2),curve_leftlow_most(part1))&&
+      point_is_same(curve_righttop_most(whole),curve_righttop_most(part1));
   }
   inline bool curve_is_degenerate(const X_curve& cv) const
   {
-	  return point_is_same(curve_source(cv),curve_target(cv));
+    return point_is_same(curve_source(cv),curve_target(cv));
   }
 public:
   /* precondition:
-		cv1,cv2 are adjacent to q
-	 postcondition:
-		returns which of cv1,cv2 is first in clockwise sweep around q
-		starting from bottom direction.
-	*/
+       cv1,cv2 are adjacent to q
+     postcondition:
+       returns which of cv1,cv2 is first in clockwise sweep around q
+       starting from bottom direction.
+  */
   Comparison_result 
-  curve_compare_at_x_from_bottom(const X_curve &cv1, const X_curve &cv2, const Point& q) 
-    const 
+  curve_compare_at_x_from_bottom(const X_curve &cv1, 
+				 const X_curve &cv2, 
+				 const Point& q) const 
     {
       if (!curve_is_vertical(cv1))
         if (!curve_is_vertical(cv2))
@@ -228,7 +235,8 @@ public:
             }
         else // cv2 is vertical, cv1 is not vertical 
           {
-            if (point_is_same(curve_rightmost(cv1),q)&&point_is_same(curve_lowest(cv2),q))
+            if (point_is_same(curve_rightmost(cv1),q) && 
+		point_is_same(curve_lowest(cv2),   q))
               return SMALLER;
             else
               return LARGER;
@@ -251,7 +259,9 @@ public:
     }
   
   Comparison_result 
-  curve_compare_at_x_from_top(const X_curve &cv1, const X_curve &cv2, const Point& q) 
+  curve_compare_at_x_from_top(const X_curve &cv1, 
+			      const X_curve &cv2, 
+			      const Point& q) 
     const 
     {
       if (!curve_is_vertical(cv1))
@@ -283,7 +293,8 @@ public:
             }
         else // cv2 is vertical, cv1 is not vertical 
           {
-            if (point_is_same(curve_leftmost(cv1),q)&&point_is_same(curve_highest(cv2),q))
+            if (point_is_same(curve_leftmost(cv1),q) &&
+		point_is_same(curve_highest(cv2), q))
               return SMALLER;
             else
               return LARGER;

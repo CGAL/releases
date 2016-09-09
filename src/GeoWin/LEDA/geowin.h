@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/GeoWin/LEDA/geowin.h
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.3.5)
+// revision      : 1.2.2
+// revision_date : 30 January 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
@@ -44,6 +44,7 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
 
 #ifndef LEDA_GEOWIN_H
 #define LEDA_GEOWIN_H
@@ -75,7 +76,7 @@
 #include<LEDA/rat_triangle.h>
 #endif
 
-#if defined(_MSC_VER) || defined(NO_STATIC_DATA_MEMBER)
+#if defined(_MSC_VER) || defined(__KCC) || defined(NO_STATIC_DATA_MEMBER)
 #define NO_STATIC_DATA_MEMBER2
 #endif
 
@@ -98,20 +99,6 @@
 #  define GEOWIN_END_NAMESPACE
 #endif
 
-// ps_file output operator for the (rat_)triangle
-#if (__LEDA__ >= 420)
-
-inline ps_file& operator<<(ps_file& F,const triangle& t) 
-{
-  F.draw_filled_triangle(t.point1(),t.point2(),t.point3(),F.get_fill_color());
-  F.draw_triangle(t.point1(),t.point2(),t.point3()); 
-  return F; 
-}
-
-inline ps_file& operator<<(ps_file& F,const rat_triangle& t) 
-{ F << t.to_float(); return F; }
-
-#endif
 
 // for d3_points/d3_rat_points in GeoWin...
 inline window& operator<<(window& w,const d3_point& p)
@@ -157,6 +144,8 @@ inline ostream& operator<<(ostream& o, const list<T>::iterator&)
 
 GEOWIN_BEGIN_NAMESPACE
 
+// redraw objects ....
+
 class _exportC geowin_redraw
 {
 public:
@@ -175,6 +164,7 @@ public:
  }
 };
 
+
 // templated variant of geowin redraw redraw class
 template<class T>
 class _exportC geowin_redraw_container
@@ -192,11 +182,14 @@ public:
  }
 };
 
+
 template<class S,class R> class geowin_update
 {
  typedef __typename S::value_type InpObject;
  typedef __typename R::value_type ResObject;
  typedef __typename R::iterator   iterator;
+
+ void* generic_function;
 
  void (*ptr0)(const S& in,R& out);
  void (*ptr1)(const S& in, ResObject& obj);
@@ -210,6 +203,7 @@ template<class S,class R> class geowin_update
  }
   
 public:
+  void* get_gen_fcn() { return generic_function; }
 
   virtual bool insert(const InpObject& new_in)
   // new_in: new inserted object
@@ -258,15 +252,22 @@ public:
      }  
   }
   
-  geowin_update() { ptr0 = NULL; ptr1= NULL; ptr2=NULL; }
+  geowin_update() { ptr0 = NULL; ptr1= NULL; ptr2=NULL; generic_function = NULL; }
   
-  geowin_update(void (*fpt)(const S& in,R& out)) { ptr0 = fpt; ptr1= NULL; ptr2=NULL; }
+  // new constructor for generic functions ...
+  // not for SUN PRO (has no member templates)...
+#if !defined(__SUNPRO_CC)  
+  template<class T>
+  geowin_update(T fptr, int dummy) { ptr0 = NULL; ptr1= NULL; ptr2=NULL; generic_function = (void*) fptr; }
+#endif
+  
+  geowin_update(void (*fpt)(const S& in,R& out)) { ptr0 = fpt; ptr1= NULL; ptr2=NULL; generic_function = NULL; }
   
   geowin_update(void (*fpt)(const S& in,ResObject& obj)) 
-  { ptr0 = NULL; ptr1 = fpt; ptr2 = NULL; }
+  { ptr0 = NULL; ptr1 = fpt; ptr2 = NULL; generic_function = NULL; }
 
   geowin_update(ResObject (*fpt)(const S& in))           
-  { ptr0 = NULL; ptr1 = NULL; ptr2 = fpt; }
+  { ptr0 = NULL; ptr1 = NULL; ptr2 = fpt; generic_function = NULL; }
   
 };
 
@@ -331,7 +332,8 @@ class _exportC GeoInputObject {
 #define zoom_menu        view_menu + 1
 #define algo_menu        zoom_menu + 1
 #define option_menu      algo_menu+ 1
-#define scene_opt_menu   option_menu + 1
+#define scene_desc_menu  option_menu + 1
+#define scene_opt_menu   scene_desc_menu + 1
 #define run_menu         scene_opt_menu + 1
 
 #define algo_algorithm_menu run_menu + 1
@@ -347,11 +349,11 @@ class _exportC GeoInputObject {
 // last_menu only counter
 
 // constants for GeoScene::id
-#define geo_max_ids          3
+#define geo_max_ids          4
 #define geo_activ_id         0
 #define geo_opt_id           1
 #define geo_cont_id          2
-
+#define geo_desc_id          3
 
 // constants for GeoScene::labels
 #define geo_max_labels       3
@@ -363,6 +365,7 @@ class _exportC GeoInputObject {
 #define GEO_CM_NEW           0
 #define GEO_CM_WRITE         1
 #define GEO_CM_EXPORT        6
+#define GEO_CM_IMPORT        13
 #define GEO_CM_POST          7
 #define GEO_CM_POSTVIS       8
 
@@ -375,7 +378,7 @@ class _exportC GeoInputObject {
 #define GEO_CM_CLEAR         9
 #define GEO_CM_VISIBLE       10
 #define GEO_CM_Z             11
-#define GEO_CM_BUTTONS       13
+#define GEO_CM_BUTTONS       14
 
 // as defined in GraphWin
 #define A_LEFT	    (1 << 0)
@@ -396,6 +399,8 @@ enum PresentationType {geowin_normal, geowin_selected, geowin_focus};
 
 enum geowin_defining_points {geowin_show, geowin_hide, geowin_highlight};
 
+enum geowin_font_type  { roman_font, bold_font, italic_font, fixed_font,user_font };
+
 extern _exportF void setup_font(window &w, double sz);
 
 class _exportC GeoScene;
@@ -407,88 +412,114 @@ template<class S,class R> class GeoResultScene;
 class _exportC GeoSceneBuilder;
 class _exportC GeoEditor;
 
+// animation class
+/*
+class _exportC geowin_animation { 
+public:
+ virtual void init(const GeoWin&) { }
 
-class _exportC GeoRemark {
-  double posx; // x and y - position of the remark
-  double posy;
-  double sizex; // size
+ virtual bool is_running(const GeoWin&) { return true; }
+ 
+ virtual point get_next_point(const GeoWin&) = 0;
+ 
+ virtual long  get_next_action(const GeoWin&) = 0;
+};
+*/
+
+
+class _exportC geowin_text {
+  void (*position_fcn)(double x1, double x2, double y1, double y2, void* obj_ptr,bool b, double& xp, double& yp);
+  typedef  void (*PFCN)(double, double, double, double, void*, bool, double&, double&);
+
+  double x_offs;  
+  double y_offs;
+  
+  double size;  // size
+  
   string remark;// text of the remark
+  
+  geowin_font_type  ft_type; // font type
+  
+  string user_font;
+  
+  color  clr;   // text color
 
   friend class _exportC GeoWin;
+  
+  void construct();
 
   public:
-  GeoRemark(double x,double y) { posx=x; posy=y; sizex=20; }
-  GeoRemark(double x,double y,double sx) { posx=x; posy=y; sizex=sx;  } 
-  GeoRemark(){}
-
-  string set_remark(string st);
-  string get_remark() const;
-  double get_size() const { return sizex; }
-  double xcoord() const { return posx; }
-  double ycoord() const { return posy; }
-
-  friend _exportF ostream& operator<<(ostream& o,const GeoRemark& g);
-  friend _exportF istream& operator>>(istream& i,GeoRemark& g);
   
+  geowin_text(string t, double ox, double oy, geowin_font_type ft, double sz, string uf, color c = black);
+  geowin_text(string t, geowin_font_type ft, double sz);
+  geowin_text(string t) { construct(); remark = t; }
+  geowin_text() { construct(); }
+  
+  PFCN   get_position_fcn() const { return position_fcn; }
+  PFCN   set_position_fcn(PFCN n) { 
+    PFCN prev = position_fcn; position_fcn=n; return prev; 
+  }
+  
+  string get_text() const;
+  string set_text(const string&);
+  
+  double get_size() const; 
+  double set_size(double);
+  
+  geowin_font_type get_font_type() const;
+  geowin_font_type set_font_type(geowin_font_type);
+  
+  string get_user_font() const;
+  string set_user_font(const string&);
+  
+  color get_color() const; 
+  color set_color(color);
+  
+  double get_x_offset() const;
+  double set_x_offset(double);
+  
+  double get_y_offset() const;
+  double set_y_offset(double);
+
+  friend _exportF ostream& operator<<(ostream& o,const geowin_text&);
+  friend _exportF istream& operator>>(istream& i,geowin_text&); 
 };
 
-inline window& operator << (window& w,const GeoRemark& g)
-{
-  double wert;
-  double sx = g.get_size();
-  if (sx >0) wert=sx; else wert=-sx;
+inline ostream& operator<<(ostream& o,const geowin_text& gt)
+{  o << gt.get_text(); return o; }
 
-  setup_font(w,3);
-  w.text_box(g.xcoord(),g.ycoord()+wert,g.ycoord(),g.get_remark());
-  return w; 
-}
+inline istream& operator>>(istream& i,geowin_text& gt)
+{ return i; }
 
-inline ps_file& operator << (ps_file& p,const GeoRemark& g)
+extern _exportF void geowin_draw_text_object(window&  w, double x1, double x2, double y1, double y2, void*
+adr, const geowin_text& gt, bool b);
+extern _exportF void geowin_draw_text_object(window&  w, ps_file&  ps, double x1, double x2, double y1, double y2, void*
+adr, const geowin_text& gt, bool b);
+
+
+inline ps_file& operator << (ps_file& p,const geowin_text& gt)
 { return p; }
 
-typedef GeoRemark* geo_remark;
+// ------------------------------------------------
+//  generator objects ...
+// ------------------------------------------------
 
-
-class _exportC GeoWin_GeoObj {
- GeoScene* my_scene;
- int mode;
- // =0 ... no object allocated
- // =7 ... GeoRemark
- 
- void* object_ptr; // pointer to the object...
- 
- //attributes of the GeoWin_GeoObj
- color interior;
- color boundary;
- line_style l_style;
- int l_width;
- 
- public:
-   GeoWin_GeoObj() {mode =0; }
-   GeoWin_GeoObj(const GeoRemark&);
-   GeoWin_GeoObj(const GeoWin_GeoObj&);
+template<class T>
+class _exportC geowin_generator {
+protected:
+   string name;
+public:
+   geowin_generator() { name = ""; } 
+   geowin_generator(const string& s) { name = s; }
    
-   ~GeoWin_GeoObj();
-   int get_mode() const;
-   void* get_ptr();
-   void draw(window& w) const;
-   void write_ps(ps_file& ps) const;
-   void init();
+   virtual ~geowin_generator() { }
    
-   color get_color() const;
-   color set_color(color c);
-   color get_fill_color() const;
-   color set_fill_color(color c);
-   line_style get_line_style() const;
-   line_style set_line_style(line_style l);
-   int get_line_width() const;
-   int set_line_width(int l);
+   string get_name() const { return name; }
+   
+   virtual void set_parameters(GeoWin& gw) { }
+   
+   virtual void operator()(T& cnt) { }
 };
-
-inline int compare(const GeoWin_GeoObj& o1,const GeoWin_GeoObj& o2){ return 0;}
-inline ostream& operator<<(ostream& o, const GeoWin_GeoObj& obj) { return o; }
-inline istream& operator>>(istream& i, GeoWin_GeoObj& obj) { return i; }
-
 
 // ------------------------------------------------
 
@@ -542,7 +573,7 @@ class _exportC GeoEditor
   
   int id;
   
-  GeoEditor(int d = 0) : id(d) {}
+  GeoEditor(int d = 0) : id(d) { }
   
   public :
   
@@ -551,24 +582,17 @@ class _exportC GeoEditor
   
   virtual void scene_read_object(int n) { }    // reads in a geoobject (n=0: mouse, else keyboard)
   virtual void generate() { }             // generates objects
-  
-  virtual void toggle_selection() { }     // changes the selectionstate of the object with focus
-  virtual void select_in_rect(bool uflag,double x1, double y1, double x2, double y2, bool b) { }
-  virtual bool fill_rect(double&, double&, double&, double&) { return true; }  
   virtual void copy()  { }
   virtual void paste() { }
   virtual void del_sel()   { }
-  virtual void del_focus() { }
-  virtual void setup_focus_or_raise(bool b) { }
   virtual void obj_focus()   { }
-  virtual void obj_edit()    { }
   virtual void clear()       { }
 
-  virtual bool start_changing() { return true; } // called, when the position of an object is changed
   virtual void move_or_rotate_sel(double, double, double, bool, bool) { }
-  virtual void stop_changing() { }
- 
 };
+
+class _exportC geowin_import;
+class _exportC geowin_export;
 
 
 typedef GeoEditor* geo_editor;
@@ -579,13 +603,19 @@ class _exportC GeoScene
   friend class _exportC GeoWin;  
   friend class _exportC GeoScenePrototypes;
   friend class _exportC GeoSceneBuilder;
-  friend class _exportC GeoRemark;
+  friend class _exportC geowin_text;
   
   // Each scene has an unique |name| 
   // the name is constructed by gw
 
   string name; 
   string base_name;
+  
+  // short name for buttons ...
+  string short_name;
+  
+  // The user can add a string desribing the scene ...
+  string description;
   
   protected :
   
@@ -600,12 +630,20 @@ class _exportC GeoScene
   bool copy_attr;
   
   int fcn_state;   // number of input function (0...default input)
+  
+  // use scene color for 3d output ??
+  bool       d3_use_scene_color;
     
   // drawing parameters :
   color      col1;  //color for normal drawing  
-  color      col2;  //color for selected drawing
   color      filling_color; // color for filled objects
   color      text_color;    // color for drawing text 
+  
+  // drawing parameters for selected objects ...
+  color      col2;  //color for selected drawing
+  color      sel_filling_color;
+  line_style sel_l_style;
+  int        sel_line_width;
 
   int        back_line_width;   // for objects, if the scene is not active
   int        active_line_width; // for objects in the currently active scene
@@ -617,10 +655,14 @@ class _exportC GeoScene
   int        cyclic_fill_colors_counter;
   int        cyclic_colors_counter;
   
+  // limit for edit scenes ...
+  int limit;
+  
+  // export/ import objects
+  list<geowin_export*> export_objects;
+  list<geowin_import*> import_objects;
 
   geowin_redraw* redraw_pt;
-
-  list<GeoWin_GeoObj> additional_objects; //additional objects of the scene ...
   
   // flag used by |GeoWin| for marking the scene with input focus
   bool active;
@@ -644,6 +686,8 @@ class _exportC GeoScene
   // geo_activ_id ... button number in "activate" submenu of the "Scenes" menu
   // geo_opt_id ... button number in "options" submenu of the "Scenes" menu
   // geo_cont_id ... button number in "contents" submenu of the "Scenes" menu
+  // geo_desc_id ... button number in "description" submenu of the "Scenes" menu
+  
   int    ids[geo_max_ids];
 
   // internal used labels
@@ -657,9 +701,21 @@ class _exportC GeoScene
 
   bool mouse_changing;
   
+  // client data pointers of the scene ...
+  void*  cl_data[16];
+  
+  // names of the generators of the scene 
+  // (will be filled by generate function in edit scenes ...)
+  list<string> generator_names;
+  
   public :
   
-  int edit_mode; // parameter for edit_obj fucntion in edit scenes ...
+  // alternative draw function
+  void (*draw_fcn)(...);
+  
+  list<geowin_text> additional_objects;
+  
+  int edit_mode; // parameter for edit_obj function in edit scenes ...
   
   list<string> draw_object_parameters; // names of different drawing modes ...
   int draw_mode_number;
@@ -671,17 +727,17 @@ class _exportC GeoScene
   bool     high_light;
   bool     mouse_obj_exist;
   bool     base_mode;
-  int     change_mode; // 0 ... added, 1 ... deleted, 2 ... changed; negative: call update, not 
+  int      change_mode; // 0 ... added, 1 ... deleted, 2 ... changed; negative: call update, not 
                         // insert/del or change ...  
-  int     but;
+  int      but;
   string   nval;
   int oldwl;
   line_style oldstl;
   point_style oldpstl; 
   
   void (*init_d3_window)(GeoScene* sc, d3_window& W, GRAPH<d3_point,int>& H);  
-  virtual void compute_d3_output(GeoScene* sc, d3_window& W, GRAPH<d3_point,int>& H)
-  { if (init_d3_window!=NULL) init_d3_window(sc,W,H); }
+  
+  void compute_d3_output(GeoScene* sc, d3_window& W, GRAPH<d3_point,int>& H);
   
   virtual list<string> get_fcn_names(int&, bool flag) 
   { list<string> LS; return LS; }
@@ -716,6 +772,13 @@ class _exportC GeoScene
   void set_type_name(string str);
   string get_type_name() const;
   
+  int generator_number;
+  list<string> get_generator_names() const;
+  int get_generator_number() const;
+  void set_generator_number(int n);
+  
+  string get_short_name() { return short_name; }
+  
   color get_color() const { return col1; }
   void  set_color(color c) { col1 = c ; }
   color get_color2() const { return col2; }
@@ -742,8 +805,11 @@ class _exportC GeoScene
   void set_active(bool ac) {  active = ac; }
   bool is_visible() const { return (gw && (visible || active)); }
   
-  list_item add_remark(double x,double y,string rem);
-  list_item add_remark(double x,double y,double wd,string rem);
+  void add_owner(GeoScene*);
+  
+  // client data operations...
+  void* set_client_data(void*,int i=0);
+  void* get_client_data(int i=0);
   
   void delete_additional_objects() { additional_objects.clear(); }
 
@@ -754,7 +820,8 @@ class _exportC GeoScene
 
   virtual void init_data();
 
-  virtual void redraw(window* w, double x1, double y1, double x2, double y2); 
+  virtual void call_redraw_objects(bool& b,window* w, double x1, double y1, double x2, double y2) {}
+  void redraw(window* w, double x1, double y1, double x2, double y2); 
   
   virtual void mouse_at_pos(double, double, long& MASK);
   /* informs this scene about current mouse position. |MASK| will
@@ -762,9 +829,16 @@ class _exportC GeoScene
 
   virtual void update();
   
+  virtual void update(GeoScene* sc){}
+  
   void update_and_redraw();
   
   virtual void clear_op_objs() {}
+  
+  virtual void copy_clip_buffer(GeoScene* sc) { }
+  // sc must have same type ...
+  
+  void    scene_description();
   
   void    scene_options()  { options((panel*)0); }
   virtual void scene_input_options() { }
@@ -773,16 +847,242 @@ class _exportC GeoScene
 
   virtual bool options(panel* p = 0);
   virtual void contents();
+  
+  // helper function for computing "contents"
+  bool (*contents_fcn)(GeoScene*, list<string>&);
 
-  virtual string information();
+  string information();
   virtual void edit(); 
  
   virtual void read(istream& is, bool) = 0;
   virtual void write(ostream& os, string tr) = 0;
   virtual void write_postscript(ps_file& f);  
+  
+  virtual void* get_untyped_objptr()  { return NULL; }
+  virtual void* get_untyped_mouseobjptr() { return NULL; }
+  virtual void  set_mouse_object(void* adr) {}
+  
+  void get_export_object_names_and_descriptions(list<string>& N, list<string>& D);
+  void get_import_object_names_and_descriptions(list<string>& N, list<string>& D); 
+  
+  // was GeoProp
+  protected:
+
+  map<void*, void*> * original; 
+
+  // color of the boundary of the object :
+  map<void*, color>* color1_map;
+
+  // color of the interior of the object :
+  map<void*, color>* color2_map;
+
+  map<void*, line_style>* lst_map;  
+  map<void*, int>* lw_map;
+
+  // labels for the objects
+  map<void*, string>* label_map;
+  
+  // geowin_texts for the objects
+  map<void*, geowin_text>* text_map;
+  
+  // address list of selected objects ...  
+  list<void*>             sel_objs;
+
+public:
+
+  // Methods on colormap1 :
+  bool colors_defined1()  { return  color1_map != 0; }
+  void undefine_colors1();
+
+  color get_obj_color(void* o); 
+  color set_obj_color(void* obj, color c);
+
+  // Methods on colormap2 :
+  bool colors_defined2()  { if (color2_map==NULL) return false; else return true; }
+  void undefine_colors2();
+
+  color get_obj_fill_color(void* o);
+  color set_obj_fill_color(void* obj, color c);
+  
+  // Methods on line_style_map :
+  bool line_styles_defined()   { if (lst_map==NULL) return false; else return true; }
+  void undefine_line_styles();
+
+  line_style get_obj_line_style(void* o);
+  line_style set_obj_line_style(void* obj, line_style lst);
+
+  // Methods on line_width_map :
+  bool line_width_defined()   { if (lw_map==NULL) return false; else return true; }
+  void undefine_line_width();
+
+  int get_obj_line_width(void* o);
+  int set_obj_line_width(void* obj, int w);
+
+  // methods on label_map
+  bool labels_defined()   { if (label_map==NULL) return false; else return true; }
+  void undefine_labels();  
+
+  bool get_obj_label(void* o,string& label);
+  void set_obj_label(void* obj, string label);
+  
+  // methods on text_map
+  bool texts_defined() { if (text_map==NULL) return false; else return true; }
+  void undefine_texts(); 
+  bool get_obj_text(void* o, geowin_text& t);
+  void set_obj_text(void* obj, geowin_text t);  
+  
+  
+  void setup_focus_dialog(window&,void*);
+
+  void set_original_properties(void* other, void* orig);
+
+  void set_def_properties(void* o);
+
+  void original_properties(void* o);
+  
+  void set_default_properties(void* o);
+
+  void undefine_all();
+ 
+  int keyboard_panel(window& w, string& nval);
+  
+  int focus_dialog(string& nval, window& w);
+
+  color oldcl;
+  color oldfl;
+  line_style old_ls;
+  int oldw;
+  color text_clr;
+  point_style old_ps;
+  
+  void set_window_params(GeoWin* gw, window& w, void* adr, PresentationType pt);
+
+  void restore_window_params(window& w);
+  
+  void set_ps_params(ps_file& F, void* adr); 
+  
+  // removed from templated class - T is a type of a geometric object
+
+  //bool (*box_intersection_fcn)(const T& , double, double, double, double,bool);
+  //void (*get_bounding_box_fcn)(const T&, double&, double&, double&, double&);
+  
+  bool (*box_intersection_fcn)(...);
+  void (*get_bounding_box_fcn)(...);
+
+  //void (*move_fcn)(T& obj, double, double);
+  //void (*rotate_fcn)(T& obj, double, double, double);
+  
+  void (*move_fcn)(...);
+  void (*rotate_fcn)(...);   
+  
+  //string (*info_fcn)(const T&);
+  string (*info_fcn)(...);
+  
+  //void  (*objects_init_d3_window)(const T&,d3_window&, GRAPH<d3_point,int>&);
+  void  (*objects_init_d3_window)(...);
+  
+  //void (*move_point_fcn)(GeoObj&, double, double, int);
+  void (*move_point_fcn)(...);
+  
+  //void (*edit_obj_fcn)(GeoWin&, GeoObj&, int);
+  void (*edit_obj_fcn)(...);
+  
+  //bool (*start_change_fcn)(GeoWin&, const GeoObj&);
+  bool (*start_change_fcn)(...);
+  
+  //void (*end_change_fcn)(GeoWin&, const GeoObj&);
+  void (*end_change_fcn)(...);
+  
+  //void  (*defining_points_fcn)(const GeoObj&, list<point>&);
+  void (*defining_points_fcn)(...);
+  geowin_defining_points     handle_defining_points;
+  
+  virtual void window_output(window& w, void* obj_adr) { }
+
+  void draw_object(void* adr, window& w, PresentationType pt);
+  
+  bool obj_defining_points_change;
+  int obj_pnr;  
+  
+  void move_point(void* obj_adr, double dx, double dy);
+  
+  bool fill_rect(double&, double&, double&, double&);
+  
+  void obj_edit();
+  
+  void ps_draw_text(ps_file& F, void* adr);
+  
+  // operations for iteration on the scene container ...
+  virtual void init_iteration() { }  
+  virtual void* get_next_obj_adr() { return NULL; }  
+  virtual void iterate() { }
+  virtual bool  no_end_reached() { return false; }  
+  
+  virtual void set_select(void* adr, bool b);
+  void set_select(const list<void*>& L, bool b);
+  
+  virtual bool get_select(void* obj_adr);
+  void select_in_rect(bool uflag, double x1, double y1, double x2, double y2,bool b);  
+  
+  bool start_changing();
+  void stop_changing();
+  
+  // operation for deletion of mouse object in editable scenes 
+  // (+ appends copy to changed objects list, if f true ...)
+  virtual bool del_mouse_object(bool f);
+  
+  virtual void add_mouse_object_copy(void*& new_adr);
+  
+  void del_focus(geo_editor ed);
+  
+  void setup_focus_or_raise(bool flag);  
+  
+  void toggle_selection(); 
+  
+  void draw_object_with_properties(void* obj_adr);
+  
+  //operation for editable scenes ...
+  bool find_object(double x, double y);  
 };
 
 typedef GeoScene* geo_scene;
+
+
+// import/export objects ...
+
+class _exportC geowin_import {
+public:
+  string name, description;
+  virtual void operator()(geo_scene sc, string in_file) { }
+  
+  string get_name() const { return name; }
+  string get_description() const { return description; }
+  
+  virtual ~geowin_import() { }
+};
+
+class _exportC geowin_export {
+public:
+  string name, description;
+
+  virtual void operator()(geo_scene sc, string out_file) { }
+  
+  string get_name() const { return name; }
+  string get_description() const { return description; } 
+  
+  virtual ~geowin_export() { } 
+};
+
+// ------------------  some operators necessary for lists ----------------------------
+inline int compare(const geowin_import& , const geowin_import& ){ return 0; }
+inline istream& operator>>(istream& i, geowin_import&){ return i; }
+inline ostream& operator<<(ostream& o, const geowin_import&){ return o; }
+
+inline int compare(const geowin_export& , const geowin_export& ){ return 0; }
+inline istream& operator>>(istream& i, geowin_export&){ return i; }
+inline ostream& operator<<(ostream& o, const geowin_export&){ return o; }
+// -----------------------------------------------------------------------------------
+
 
 
 class _exportC GeoSceneGroup 
@@ -887,51 +1187,69 @@ class _exportC GeoWin
 {
   /*{\Mdefinition
     An instance of data type |\Mname| is an editor 
-    for sets of geometric objects. It can be used for the visualization of 
-    result and progression of geometric algorithms.
+    for |sets of geometric objects|. It can be used for the visualization of 
+    result and progression of geometric algorithms. 
+    |\Mname| provides an |interactive interface| and a |programming interface|
+    to visualize and manipulate geometric objects and data structures.
     
-    |\Mname| manages the geometric objects in so called scenes.
-    A scene contains a container storing geometric objects (the contents of the
-    scene) and provides all operations that |\Mname| needs to edit it. 
-    Every scene maintains a set of parameters:
+    Sets of geometric objects are maintained by a |\Mname| in so-called
+    |scenes|.
     
-    \begin{itemize}
-    \item |name| is the name of the scene 
-          (type |string|)
-    \item |color| is the color for drawing the boundaries of the objects
-          (type |color|)
-    \item |color2| is the color for drawing the selected boundaries of the objects
-          (type |color|)
-    \item |fill_color| is the color for drawing the interior of the objects
-          (type |color|)
-    \item |text_color| is the color for drawing text labels
-    \item |line_width| is the line width used for drawing the objects
-          (type |int|)
-    \item |active_line_width| is the line width used for drawing the objects if the
-          scene is active (type |int|)
-    \item |line_style| is the line style used for drawing the objects
-          (type |line_style|)
-    \item |point_style| is the point style used for drawing points
-          (type |point_style|)	  
-    \item |active| is |true| if the scene has input focus (is currently edited) in
-          its |GeoWin|, |false| otherwise (type |bool|)	   
-    \item |visible| is |true| if the scene is visible in its |GeoWin|, |false| otherwise;
-          note that the |active| scene will always be displayed, whether or not the
-	  |visible| flag is set for this scene
-          (type |bool|)
-    \end{itemize}
+    {\bf Scenes}    
     
-    There are three kinds of scenes:
+    |Scenes| are instances of the various scene data types supported by |\Mname|.
+    They are used to
+    store collections of geometric objects and attributes of the objects and collections.
+    Furthermore the scene classes have to provide functionality for |\Mname| to
+    handle the geometric objects of a scene. 
+    
+    Each |scene| stores geometric objects in a |container| (a LEDA-list or STL-list).
+    We call these geometric objects stored in a container of a |scene| the |contents|
+    of a scene. The scenes and their |contents| can be manipulated by the interactive
+    interface and the programming interface of |\Mname|.
+    
+    With every |scene| a set of attributes is associated. Most of them describe the visual 
+    representation of the scene (and it's contents) in the |\Mname| maintaining it, for
+    instance the boundary- and fill-color of the objects, the visibility of the scene,... .
+    
+    We use the type |geo_scene| as the scene item type of |\Mname|; for some readers it may 
+    be useful to interpret it as pointers to scenes.
+    
+    We distinguish the following kinds of scene classes:
+    
     \begin{enumerate}
     
-    \item {\em Basic Scenes}
+    \item {\em Edit Scenes}, type |GeoEditScene<CONTAINER>|
     
-    The basic scene  type |GeoBaseScene<CONTAINER>| works on  every 
-    container type  that provides an interface as the list of the STL library. 
+    where |CONTAINER| is the type of the scene's container storing the contents of the scene,
+    for instance |list<point>|. These scenes are editable by the user through the interactive
+    interface interface of |\Mname|. Note that the Edit Scenes have some special features.
+    An important feature is the possibility to |select| objects of such scenes through the
+    interactive interface. These selected objects have special attributes, see the table
+    of scene attributes.
+      
+    \item {\em Result Scenes}, type |GeoResultScene<I,R>|
+    
+    These scenes are not independently editable by the user. Instead the contents of such scenes is
+    computed by a user-defined |update function| or |update object| executing a geometric algorithm.
+    This recomputation of the scene contents will be done every time when another scene (the input scene of
+    the result scene) changes. The contents of the result scene is stored in a container of type |R|.
+    The input scene must be a |Basic Scene| with a container of type |I|.
+    The update function  
+      |void (*f_update)(const I& input, R& result)|
+    gets the contents of this input scene and computes
+    the contents |result| of the result scene.
+    We say that the result scene |depends| on its input scene.   
+  
+    \item {\em Basic Scenes}, type |GeoBaseScene<CONTAINER>|   
+
+    |Edit Scenes| and |Result Scenes| are derived from |Basic Scenes|.
+    The basic scene type works on 
+    container types providing an interface as the list of the STL library. 
     More precisely, |CONTAINER| has to support the following type definitions 
     and operations:
     \begin{itemize}
-    \item |value_type| - the type |T| of values the container holds
+    \item |value_type| - the type |T| of the values the container holds
     \item |iterator| 
     \item operations |begin()| and |end()| returning an iterator that can be used
           for begining (ending) the traversal of the container
@@ -940,37 +1258,123 @@ class _exportC GeoWin
     \item |void erase(iterator it)| for erasing an element at position |it|
     \item operation |bool empty()| returning |true| if the container is empty, false
           otherwise
-    \end{itemize}
-    
+    \end{itemize}  
     That means, that LEDA lists can be used as well as containers.
+    
+    \end{enumerate}
+    
+    The programming interface of |\Mname| provides various operations to create 
+    |Edit Scenes| and |Result Scenes|. |Basic Scenes| are not created directly by
+    the operations of the programming interface, but they are used for derivation
+    of the other scene types, and we will find them in the programming interface, 
+    when both Edit and Result Scenes are supported by an operation.
 
-    \item {\em Edit Scenes}
+    {\bf GeoWin - class}
+  
+    It follows the description of some important terms of the |\Mname| data type.
+    Every instance |GW| of |\Mname| can maintain a number of |geo_scenes|. \\
+    |Visible| scenes will be displayed by |GW|, non-visible scenes will not be displayed.
+    Displayed means, that the contents of the scene will be displayed.
+    A special case is the |active| scene of |GW|. Every |\Mname| can have at most one |active|
+    scene. The active scene is an Edit Scene with input focus. That means that this scene
+    is currently edited by the user through the interactive interface. Note that the
+    currently active scene will be displayed. \\
+    Another important topic is the display order of scenes. Every scene has an associated non-negative
+    z-coordinate. When a scene is created, it gets z-coordinate |0|.
+    When |GW| redraws a scene, the contents of this scene and the contents of its visible
+    dependent scenes is drawn.
+    In the redraw-operation of |\Mname| the scenes with higher z-coordinates will be drawn
+    in the background of scenes with lower z-coordinate.The scenes with z-coordinate |0| will
+    be drawn on top in the order of their creation in its instance of |\Mname| (the scene, that
+    was created last and has z-coordinae |0| is the scene on top).
+  
+    {\bf Attributes of scenes} 
     
-    A scene of type |GeoEditScene<CONTAINER>| is a user editable scene.
-    |\Mname| is an editor for this kind of scenes.
+    The following attributes are associated with every scene.
+
+\begin{center}
+\begin{tabular} {|l|l|l|}\hline
+ 
+\hline
+{\bf Name}             & {\bf Type}      & {\bf Description} \\
+\hline
+\hline
+|name|              & |string|         & the name of the scene\\
+\hline
+|description|       & |string|                   & a string describing the scene\\
+\hline
+|color|             & |color|                & boundary color of non-selected objects\\
+\hline
+|selection_color|   & |color|                  & boundary color selected objects\\
+\hline
+|fill_color|        & |color|                  & fill color of objects\\
+\hline
+|selection_fill_color|  & |color|              & fill color of selected objects\\
+\hline
+|text_color|        & |color|           & text label color\\
+\hline
+|line_width|        & |int|                    & line width used for drawing objects of non-active scenes\\
+\hline
+|active_line_width| & |int|                  & line width used for drawing objects of active scenes\\
+\hline
+|line_style|        & |line_style|           & line style used for drawing objects\\
+\hline
+|point_style|       & |point_style|          & point style used for drawing objects\\
+\hline
+|active|            & |bool|                  & activity status of a scene\\
+\hline
+|visible|           & |bool|           & visibility of a scene in its |GeoWin|\\
+\hline 
+|z_order|           & |int|           & z-coordinate of a scene in its |GeoWin|\\
+\hline
+|client_data|       & |void*|                    & a number of |void*|-pointers that can be associated with a scene\\
+\hline 
+\end{tabular}
+\end{center}
+
+   {\bf Attributes and parameters of instances of |\Mname|}    
     
+    Every instance of type |\Mname| uses the following attributes and parameters. The parameters starting with |d3_|
+    are influencing the 3-d output option of |\Mname|. This 3-d output option uses the LEDA-class |d3_window| for
+    displaying geometric objects. See also the |d3_window| - Manualpages for a description of the 3-d output
+    parameters.
+
+\begin{center}
+\begin{tabular} {|l|l|l|}\hline
+ 
+\hline
+{\bf Name}             & {\bf Type}      & {\bf Description} \\
+\hline
+\hline
+|active_scene|         & |geo_scene|    & the active scene\\
+\hline
+|show_grid|            & |bool|         & defines if a grid should be used in the drawing area of the window\\
+\hline
+|grid_dist|            & |double|       & width of the grid in the drawing area\\
+\hline
+|grid_style|           & |grid_style|   & style of the grid in the drawing area\\
+\hline
+|bg_pixmap|            & |string|       & name of the used window background pixmap\\
+\hline
+|bg_color|             & |color|        & window background color\\
+\hline
+|show_position|        & |bool|         & |true| - the coordinates of the mouse cursor are displayed\\
+\hline
+|d3_elimination|       & |bool|         & |true| - in the d3-output hidden lines will be eliminated\\
+\hline
+|d3_solid|             & |bool|         & |true| - in the d3-output faces will be drawn in different grey scales\\
+\hline
+|d3_show_edges|        & |bool|         & enables/disables the redraw of edges in the d3-output\\
+\hline
+\end{tabular}
+\end{center}
     
-    \item {\em Result Scenes}
-    
-    A scene of type |GeoResultScene<I,R>| is not independently 
-    editable. Instead its contents (a container of type |R|) is computed by a user
-    defined update
-    function or update object with an update function. The update function computes
-    the contents of the result scene every time when another scene (the input scene for
-    the result scene) changes. The update function
-      |void (*f_update)(const I& input, R& result)|
-    gets the contents of this input scene (a container |input| of type |I|) and computes
-    the contents |result| of the result scene.
-    We say that the result scene |depends| on its input scene.
-   \end{enumerate}    
-   
-    Both Edit and Result scenes are derived from Basic scenes.
+    {\bf The geometric objects}
+
     The objects stored in the containers of the scenes have to support input and
     output operators for streams and the LEDA window and the output operator
     to the |ps_file|.
-    
-    Please note that the type |geo_scene| is the scene item type used in |\Mname|.
-    You can interpret them as pointers to scenes.
+
 }*/
 
   friend class _exportC GeoScene;
@@ -981,8 +1385,9 @@ class _exportC GeoWin
   // **************************
   window* Wp;
   window* msg_win;
+  window* quick_access;
+  
   d3_window* d3_win;
-  window* Whelpd3;
   
   // input mode ...
   int input_mode;
@@ -1004,6 +1409,9 @@ class _exportC GeoWin
   // or if no grid display is wished
   double grid;
   bool   show_grid;    // |true| if no grid is displayed, false otherwise
+  bool   allow_moving_from_grid;  // if grid is enabled, this flag enables moving 
+                      //  defining points away and other points of an object to the grid
+  
   bool   show_coords;  // |true| if coordinates are displayed, false otherwise
 
   bool   time_meas;    // |true| if time measurement is on
@@ -1013,6 +1421,9 @@ class _exportC GeoWin
   double scribble_x,scribble_y; // last scribbled x and y coordinate ...
 
   string bg_pixmap;    // name of the window background pixmap 
+  
+  //show the quick access window ...
+  bool show_quick_access_window;
 
   // parameter for 3d output
   bool   gw_elim;      // elimination in the 3d window ?
@@ -1052,17 +1463,13 @@ class _exportC GeoWin
   int     button_info[GEO_CM_BUTTONS];  // and infos about their status
                          // 0 = inactive, 1 = active, 2 = button depend
 
+  int VISIB_CHOICE;
   private:
   // mouse handling parameter :
   // **************************
   
   // actions for certain mouse or key events
   map<long, geo_action> mouse_actions;
-  
-  // double click timeout
-  int time_out1;
-  // time after which for a motion event is tested
-  int time_out2;
   
   list<string> help_list;
   
@@ -1091,7 +1498,9 @@ class _exportC GeoWin
   // node colors / edge colors for d3 output window ...
   map<node,color> node_color_map;
   map<edge,color> edge_color_map; 
-
+  
+  // for exporting the scene contents ...
+  string replace_by_blanks;
 
   // geometrical parameters :
   // ************************
@@ -1116,20 +1525,20 @@ class _exportC GeoWin
   bool DEFAULT_gw_solid;
   int DEFAULT_gw_anim_speed;
   int DEFAULT_anim_steps;
-  int DEFAULT_time_out1;
-  int DEFAULT_time_out2;
   
   //visible range when the GeoWin is constructed...
   double START_XMIN,START_YMIN,START_XMAX,START_YMAX;
   
-  //z-order for redraw ?
-  bool redraw_z_order;
+  // test file existence when saving ...
+  bool file_existence_test;
   
   bool save_defaults(string fname); //save the current default values 
   bool save_defaults();             //write them to ~/.geowinrc
   bool read_defaults(string fname); //read the current default values 
   bool read_defaults();             //read them from ~/.geowinrc 
   void reset_defaults();            //reset the default values ...
+
+  void replace_characters(string& strh);
 
   // Methods :
   // *********
@@ -1167,15 +1576,21 @@ class _exportC GeoWin
 
  // calls member |contents| for the scene, for which |ids[geo_cont_id] == id|  
   void scene_contents(int id);
+  
+ // calls member |scene_description| for the scene with |ids[geo_desc_id] == id|  
+  void scene_description(int id);  
+  
+  
   void active_scene_options();
   
   friend void geo_scene_option(int n);
+  friend void geo_scene_description(int n);
   friend void geo_scene_algo(int n);
   friend void geo_scene_contents(int n);
   friend void geo_scene_groups(int n);
 
   // create a new scene of type editables[n] :
-  void new_scene(int n);
+  void new_scene(int n, double dummy);
   friend void geo_new_scene_handler(int n);
   
   // close the currently active scene :
@@ -1215,7 +1630,7 @@ class _exportC GeoWin
   friend _exportF void geo_move(GeoWin& gw, const point& p);
   friend _exportF void geo_rotate(GeoWin& gw, const point& p);
   friend _exportF void geo_object_dragging(GeoWin& gw, const point& p);
-
+  
   friend _exportF void geo_scroll_scene(GeoWin& gw, const point& p);
 
   // rotate selected object around pin point :
@@ -1228,6 +1643,7 @@ class _exportC GeoWin
   void   move(const point& p);
   
   void   show_sel();
+  void   paste_from();
  
   void rotate_menu() { rotate(); }
   void move_menu()   { move();   }
@@ -1241,7 +1657,8 @@ class _exportC GeoWin
   
   void help_user();  
 
- 
+  list<geo_scene> quick_access_scenes; // scenes with buttons in quick access window ...
+  
   // visibility :
   // ------------
   
@@ -1250,6 +1667,11 @@ class _exportC GeoWin
   void scenegroup_dialog(geo_scenegroup gsg);
 
   public :
+
+  void init_quick_access_window(); // initialize quick access window ...
+  
+  bool* visib;
+  void change_visibility(bool*);
   
   // visibility/activate buttons ...
   bool vis_buttons;
@@ -1260,9 +1682,9 @@ class _exportC GeoWin
   list<geo_scene> VAR_1;  // visibility of these scenes will be shown (string buttons)...
   list<geo_scene> VAR_2;  // visibility of these scenes will be shown (bitmap buttons)...
   list<string> VLABEL;    // button labels ...
-  list<unsigned char*> VPIC_LIST;  // bitmap pictures ....
-  int VWIDTH, VHEIGHT;    // width and height of the buttons ...
-  unsigned char** VPICS;  // bitmaps for buttons ...
+  list<unsigned char*> VPIC_LIST; // bitmap pictures ....
+  int VWIDTH, VHEIGHT; // width and height of the buttons ...
+  unsigned char** VPICS;        // pixmaps for buttons ...
   
   list<geo_scene> ACT_SCN; 
   list<unsigned char*>    APIC_LIST;
@@ -1277,6 +1699,9 @@ class _exportC GeoWin
   int ACT_STATE;
   int INP_STATE;
   
+  // for quick access window (scene activation)
+  geo_scene get_quick_access_scene(int n);
+  
   // file operations...
   void save_ps();
   void save_ps_vis(); // writes all visible scenes in ps - format...
@@ -1284,9 +1709,11 @@ class _exportC GeoWin
   void file_open();
   void write_ps(string filename);
   void write_ps_vis(string filename);
-  void write_scene_woh(string filename);
+  void export_scene(string filename);
   void file_save();
-  void file_save_woh();
+  void file_save_active();
+  void file_import();
+  void file_export();
   void save_screen(); 
   void round_to_grid(double&,double&);
   void init_and_set_visible(geo_scene sc);
@@ -1313,7 +1740,7 @@ class _exportC GeoWin
   GeoWin(const char* label = "GEOWIN"); 
   /*{\Mcreate creates a GeoWin $GW$. |\Mvar| is constructed with 
               frame label $label$}*/ 
-
+	      
   GeoWin(int w, int h, const char* label = "GEOWIN"); 
   /*{\Mcreate creates a GeoWin $GW$ with frame label $label$ and 
               window size $w\times h$ pixels. }*/  
@@ -1329,6 +1756,9 @@ class _exportC GeoWin
 
   /*{\Mtext
     \medskip
+    |In this section you find operations for creating scenes and for starting|
+    |the interactive mode of GeoWin.|
+    
     The |new_scene| and |get_objects| operations use member templates. If your 
     compiler does not support member templates, you should use instead
     the templated functions |geowin_new_scene| and |geowin_get_objects| with
@@ -1394,18 +1824,33 @@ void segments_d3(const list<segment>& L,d3_window& W,
     object of data type |\Mvar| is constructed).    
     }*/ 
     
-
-  template<class CONTAINER> GeoEditScene<CONTAINER>* new_scene(CONTAINER& c, D3_FCN f = NULL) 
-    /*{\Mopl creates a new edit scene for |c|. |c| will be edited by |\Mvar|.}*/
+  template<class CONTAINER> GeoEditScene<CONTAINER>* new_scene(CONTAINER& c) 
+    /*{\Mopl creates a new edit scene and returns a pointer to the created scene.
+     |c| will be the container storing the contents of the scene.}*/
   {
-    return geowin_new_scene(*this, c, f);
-  }
+    return geowin_new_scene(*this, c, "", NULL);
+  }       
+
+  template<class CONTAINER> GeoEditScene<CONTAINER>* new_scene(CONTAINER& c, D3_FCN f) 
+  { return geowin_new_scene(*this, c, "", f); } 
+  
+  template<class CONTAINER> GeoEditScene<CONTAINER>* new_scene(CONTAINER& c, string str) 
+  { return geowin_new_scene(*this, c, str, NULL); }       
+
+  template<class CONTAINER> GeoEditScene<CONTAINER>* new_scene(CONTAINER& c, string str, D3_FCN f) 
+    /*{\Mopl creates a new edit scene and returns a pointer to the created scene. 
+       |c| will be the container storing the contents of the scene.
+        The name of the scene will be set to |str|.
+    }*/
+  {
+    return geowin_new_scene(*this, c, str, f);
+  } 
   
   /*{\Mtext
     \medskip
     The following |new_scene| operations can be used to create result scenes.
     Result scenes use the contents of another scene (the input scene) 
-    as the input for a function (the update function). 
+    as  input for a function (the update function). 
     This function computes the contents of the result scene. The update function 
     is called every time when the contents of the input scene changes.
     Instead of using an update function you can use an update object that encapsulates
@@ -1427,8 +1872,10 @@ void segments_d3(const list<segment>& L,d3_window& W,
      
      |geowin_update(R::value_type (*f)(const I& in)|
     
-    These functions |(*f)| will be called in the update function of the update object.
-    The first is the normal update function that gets the contents |in| of the input 
+    When the update object is constructed by calling the constructor with one of these
+    function pointers, the function |(*f)| will be called in the update method of the 
+    update object.
+    The first variant is the normal update function that gets the contents |in| of the input 
     scene and computes the contents |res| of the output scene. 
     In the second variant the contents of the result scene will first be cleared, then the
     update function will be called and |obj| will be inserted in the result scene.
@@ -1440,8 +1887,7 @@ void segments_d3(const list<segment>& L,d3_window& W,
  
      |bool del(const InpObject& new)|
  
-     |bool change(const InpObject& old_obj, 
-                  const InpObject& new_obj)|
+     |bool change(const InpObject& old_obj,const InpObject& new_obj)|
 		  
     where 
     |new| is a new inserted or deleted object and |old_obj| and |new_obj| are 
@@ -1450,11 +1896,13 @@ void segments_d3(const list<segment>& L,d3_window& W,
     With these functions it is possible to support incremental algorithms. The functions will
     be called, when in the input scene new objects are added ($insert$), deleted ($del$) or 
     changed when performing a move or rotate operation ($change$).
-    In the base class these functions return |false|. That means, that the standard update-function
+    In the base class |geowin_update<I,R>| these functions return |false|. 
+    That means, that the standard update-function
     of the update object should be used. But in derived classes it is possible to overwrite
     these functions and provide user-defined update operations for these three incremental
     operations. Then the function has to return
     |true|. That means, that the standard update function of the update object should not be used.
+    Instead the incremental operation performs the update-operation.
     
     It is also possible to provide user defined redraw for a scene.
     For this purpose we use redraw objects derived from |geowin_redraw|.
@@ -1470,9 +1918,27 @@ void segments_d3(const list<segment>& L,d3_window& W,
      |bool draw_container()|
      
     that returns |false| in the base class. If you want the user defined redraw of the scene
-    (provided by the redraw function |draw|) and the normal redraw of the scene as well
+    (provided by the redraw function |draw|) and the execution of the 'normal' redraw of the scene as well
     (output of the objects stored in the container of the scene), you have to overwrite
     |draw_container| in a derived class by a function returning |true|. 
+    A virtual method
+     
+     |bool write_postscript(ps_file& PS,color c1,color c2)|
+          
+    is provided for output to a LEDA postscript file |PS|. |c1| and |c2| are the first and 
+    second drawing color (|color| and |color2|) of the scene.
+    Another class that can be used for user defined redraw is the templated class
+    |geowin_redraw_container<CONTAINER>|. This class has as well virtual functions for redraw and postscript
+    output, but provides a slighly changed interface:
+    
+     |bool draw(const CONTAINER& c, window& w, color c1, color c2, double,double,double,double)|
+     \\
+     \\
+     |bool write_postscript(const CONTAINER& c, ps_file& ps, color c1, color c2)|
+     
+    The parameters of these two virtual functions are like the parameters of the members with the same name
+    of |geowin_redraw|, but there is an additional first parameter. This parameter is a reference to the container of
+    the scene that has to be redrawn.
     
     In update- and redraw- functions and objects the following static member functions 
     of the |GeoWin| class can be used:
@@ -1492,6 +1958,7 @@ void segments_d3(const list<segment>& L,d3_window& W,
     a |d3_point| or a |d3_rat_point|.
     |S| is the type of the contents of the input scene, |R| the type of the contents
     of the created result scene.
+    All operations creating result scenes return a pointer to the created result scene.
     
  }*/
 
@@ -1504,6 +1971,19 @@ void segments_d3(const list<segment>& L,d3_window& W,
 
   //result scene for update objects...
   template<class S,class R>
+  GeoResultScene<S,R>* new_scene(geowin_update<S,R>& up, list<geo_scene>& infl, string str, D3_FCN f = NULL)
+    /*{\Mopl  creates a new result scene |scr| with name |str|.
+             The input scene for this new result scene will be the first scene in |infl|.
+             The update object will be |up|. |up| has to be constructed by a call |up(fu,0)|, where |fu| is a function of
+	     type |void fu(const C0&, const C1&, ..., const Cn&, R&)|.
+	     |infl| is a list of scenes influencing the result scene. 
+	     |C0|,...,|Cn| are the types of the containers of the scenes in |infl|. When  one of the 
+	     scenes in |infl| changes, |fu| will be called to update the contents of |scr|.
+	     \precond |infl| must not be empty.}*/
+  { return geowin_new_scene(*this,up,infl,str,f); }  
+  
+  
+  template<class S,class R>
   GeoResultScene<S,R>* new_scene(geowin_update<S,R>& up, geo_scene sc_input, string str, D3_FCN f = NULL)
     /*{\Mopl  creates a new result scene with name |str|.
              The input scene for this new result scene will be |sc_input|.
@@ -1512,14 +1992,15 @@ void segments_d3(const list<segment>& L,d3_window& W,
   
   template<class S,class R>
   void set_update(geo_scene res, geowin_update<S,R>& up)
-  /*{\Mopl    makes |up| the update object of |res|.\precond |res| points to a scene of type
+  /*{\Mopl    makes |up| the update object of |res|. \precond |res| points to a scene of type
               |GeoResultScene<S,R>| .}*/
   { geowin_set_update(res,up); }
   
   template<class S,class R>
   void set_update(geo_scene res, void (*f_update)(const S&, R&))
-  /*{\Mopl    makes |f_update| the update function of |res|.\precond |res| points to a scene of type
-              |GeoResultScene<S,R>| .}*/
+  /*{\Mopl    makes |f_update| the update function of |res|. \precond |res| points to a scene of type
+              |GeoResultScene<S,R>| .
+  }*/
   { geowin_set_update(res,f_update); }  
      
   template<class S,class R>
@@ -1539,25 +2020,39 @@ void segments_d3(const list<segment>& L,d3_window& W,
   { return geowin_new_scene(*this,up,rd,sc_input,str,f); }
 
   template<class CONTAINER> bool get_objects(CONTAINER& c)
-    /*{\Mopl  If the contents of the current edit scene matches type |CONTAINER|, 
+    /*{\Mopl  If the container storing the contents of the current edit scene has type |CONTAINER|, 
              then the contents of this scene is copied to |c|. }*/
   {
     return get_objects(get_active_scene(), c);
   }
   
   template<class CONTAINER> bool get_objects(geo_scene sc, CONTAINER& c)
-    /*{\Mopl  If the contents of scene |sc| matches type |CONTAINER|, 
+    /*{\Mopl  If the container storing the contents of scene |sc| has type |CONTAINER|, 
              then the contents of scene |sc| is copied to |c|. }*/
   {
     if( sc ) return geowin_get_objects(*this, sc, c);
     else return false;
   }
+
+  template<class CONTAINER> bool set_objects(geo_scene sc, CONTAINER& c)
+  {
+    if( sc ) return geowin_set_objects(*this, sc, c);
+    else return false;
+  }
+
   
   template <class CONTAINER>
   void get_selected_objects(GeoEditScene<CONTAINER>* sc, CONTAINER& cnt)
     /*{\Mopl  returns the selected objects of scene |sc| in container |cnt|.}*/  
   {
     geowin_get_selected_objects(*this, sc, cnt);
+  }
+  
+  //insert set_selected_objects ...
+  template <class CONTAINER>
+  void set_selected_objects(GeoEditScene<CONTAINER>* sc,const list<__typename CONTAINER::iterator>& LIT)
+  {
+    geowin_set_selected_objects(*this, sc, LIT);
   }
 #endif
 
@@ -1569,6 +2064,8 @@ void segments_d3(const list<segment>& L,d3_window& W,
   /*{\Mop  edits scene $sc$. Returns |false| if the Quit-Button was pressed,
           |true| otherwise. }*/
   
+  //bool animate(geo_scene sc, geowin_animation& anim);
+  /*{\Xopl  starts animation $anim$ for scene $sc$.}*/
 
   /*{\Mtext
     \medskip
@@ -1647,15 +2144,12 @@ void segments_d3(const list<segment>& L,d3_window& W,
   void   activate(geo_scene sc);
   /*{\Mopl  makes scene |sc| the active scene of |\Mvar|. }*/ 
   
-  // operations for setting/ getting z - values for scenes
+  // operations for setting/ getting z - values for scenes 
+  int get_z_order(geo_scene sc) const;
+  /*{\Mopl  returns the |z|-coordinate of |sc|.}*/
   
-  bool get_redraw_z_order() const;
-  
-  bool set_redraw_z_order(bool b);
-  
-  int get_z(geo_scene sc) const;
-  
-  int set_z(geo_scene sc,int n);
+  int set_z_order(geo_scene sc,int n);
+  /*{\Mopl  sets the |z|-coordinate of |sc| to |n| and returns its previous value.}*/
   
   geo_scene get_active_scene() const;
   /*{\Mopl  returns the active scene of |\Mvar|. }*/ 
@@ -1685,6 +2179,10 @@ void segments_d3(const list<segment>& L,d3_window& W,
 	   based on |nm| and is given to |sc|. The operation 
 	   will return the given name.
  }*/ 
+ 
+  string get_short_name(geo_scene sc);
+ 
+  string set_short_name(geo_scene sc, string sn);
   
   color get_color(geo_scene sc) const;
   /*{\Mopl returns the boundary drawing color of scene |sc|. }*/
@@ -1706,6 +2204,19 @@ void segments_d3(const list<segment>& L,d3_window& W,
   void set_selection_color(geo_scenegroup gs, color c);
   /*{\Mopl sets the boundary drawing color for selected objects
           of all scenes in |gs| to |c|. }*/  
+	  
+  color get_selection_fill_color(geo_scene sc) const;  
+	  
+  color set_selection_fill_color(geo_scene sc, color c);  
+  
+  line_style get_selection_line_style(geo_scene sc) const;
+  
+  line_style set_selection_line_style(geo_scene sc, line_style l) const;  
+  
+  int get_selection_line_width(geo_scene sc) const;
+  
+  int set_selection_line_width(geo_scene sc, int w) const;    
+  
 
   color get_color2(geo_scene sc) const;
   color set_color2(geo_scene sc, color c);
@@ -1794,20 +2305,53 @@ void segments_d3(const list<segment>& L,d3_window& W,
   
   void set_cyclic_colors_counter(geo_scene sc, int c) 
   {sc->cyclic_colors_counter = c; }  
+
+  string get_description(geo_scene sc) const;
+  /*{\Mopl returns the description string of scene |sc|.}*/
   
-#ifdef __HAS_MEMBER_TEMPLATES__
-  template<class T>    
-  void set_handle_defining_points(GeoEditScene<T>* sc, geowin_defining_points gdp)
-  { geowin_set_handle_defining_points(sc,gdp); } 
-#endif
+  string set_description(geo_scene sc, string desc); 
+  /*{\Mopl sets the description string of scene |sc| to |desc|. The description string has the task
+           to describe the scene in a more detailed way than the name of the scene does.}*/
+
+  void* get_client_data(geo_scene sc, int i=0) const { return sc->get_client_data(i); }
+  /*{\Mop   returns the $i$-th client data pointer of of scene |sc|. 
+            \precond $i < 16$. }*/ 
+  
+  void* set_client_data(geo_scene sc, void* p, int i=0) { return sc->set_client_data(p,i); }
+  /*{\Mopl    sets the $i$-th client data pointer of scene |sc| to $p$ and 
+              returns its previous value. \precond $i < 16$. }*/  
+	      
+  bool get_highlight(geo_scene sc) const;
+  /*{\Xopl    returns the highlight flag of scene |sc|. If it is true, the object under
+              the mouse cursor will be drawn with the color of the selected objects, if |sc|
+	      is active.
+  }*/
+  
+  bool set_highlight(geo_scene sc, bool hl);
+  /*{\Xopl    sets the highlight flag of scene |sc| to |hl| and returns its previous value.}*/
+  
+
+  void set_handle_defining_points(geo_scene sc, geowin_defining_points gdp);
+  /*{\Mopl    sets the attribute for handling of defining points of editable scene |(*sc)| to
+              |gdp|. Options for |gdp| are |geowin_show| (show the defining points of all objects of
+	      the scene, |geowin_hide| (hide the defining points of all objects of the scene) and
+	      |geowin_highlight| (shows only the defining points of the object under the mousepointer).
+  }*/
+
+  geowin_defining_points get_handle_defining_points(geo_scene sc);
+  /*{\Mopl    returns the attribute for handling of defining points of editable scene |(*sc)|. 
+  }*/
 
   /*{\Mtext
     \medskip
+    It is not only possible to assign (graphical)  attributes to a whole scene.
+    
     The following operations can be used to set/get 
     individual attributes of objects in scenes.
     All set operations return the previous value.
     The first parameter is the scene, where the object belongs to.
-    The second parameter is a generic pointer to the object.
+    The second parameter is a generic pointer to the object or an iterator
+    pointing to the position of the object in the container of a scene.
     Precondition: the object belongs to the scene (is in the container
     of the scene).
   }*/
@@ -1818,11 +2362,29 @@ void segments_d3(const list<segment>& L,d3_window& W,
   color get_obj_color(GeoBaseScene<T>* sc, void* adr)
   /*{\Mopl returns the boundary color of the object at |(*adr)|.}*/
   { return sc->get_obj_color(adr); }
+  
+  //iterator variant ...
+  template<class T>
+  color get_obj_color(GeoBaseScene<T>* sc, __typename T::iterator it)
+  /*{\Mopl returns the boundary color of the object $it$ points to.}*/  
+  {
+    __typename T::value_type & obj = *it;
+    return sc->get_obj_color((void*)(&obj)); 
+  }
 
   template<class T>    
   color set_obj_color(GeoBaseScene<T>* sc, void* adr, color c)
   /*{\Mopl sets the boundary color of the object at |(*adr)| to |c|.}*/  
   { return sc->set_obj_color(adr,c); } 
+  
+  //iterator variant ...
+  template<class T>    
+  color set_obj_color(GeoBaseScene<T>* sc, __typename T::iterator it, color c)
+  /*{\Mopl sets the boundary color of the object $it$ points to  to |c|.}*/  
+  { 
+    __typename T::value_type & obj = *it;  
+    return sc->set_obj_color((void*)(&obj),c); 
+  }   
 
   // -------------- new --------------
   template<class T>
@@ -1846,22 +2408,24 @@ void segments_d3(const list<segment>& L,d3_window& W,
   }
 
   template<class T>    
-  bool set_obj_color(GeoBaseScene<T>* sc, const __typename T::value_type& obj, color c)
+  bool set_obj_color(GeoBaseScene<T>* sc, const __typename T::value_type& obj, color c, bool all=true)
   /*{\Mopl if there is an object $o$ in the container of scene $sc$ with
   $o==obj$ the boundary color of $o$ is set to $c$ and true will be
   returned. Otherwise false will be returned.}*/
   { 
     T& cnt = sc->get_objref();
     __typename T::iterator it;
+    bool flag = false;
     
     for(it=cnt.begin();it != cnt.end(); it++){
        if ((*it) == obj){
           __typename T::value_type& of = *it;
           sc->set_obj_color((void*)(&of),c);
-	  return true;
+	  flag=true;
+	  if (flag && !all) return true;
        }
     }
-    return false;  
+    return flag;  
   }
   // ---------------------------------
 
@@ -1869,11 +2433,26 @@ void segments_d3(const list<segment>& L,d3_window& W,
   color get_obj_fill_color(GeoBaseScene<T>* sc, void* adr)
   /*{\Mopl returns the interior color of the object at |(*adr)|.}*/ 
   { return sc->get_obj_fill_color(adr); }
+  
+  template<class T>  
+  color get_obj_fill_color(GeoBaseScene<T>* sc, __typename T::iterator it)  
+  {
+    __typename T::value_type & obj = *it;
+    return sc->get_obj_fill_color((void*)(&obj)); 
+  }
 
   template<class T>  
   color set_obj_fill_color(GeoBaseScene<T>* sc, void* adr, color c)
   /*{\Mopl sets the interior color of the object at |(*adr)| to |c|.}*/    
   { return sc->set_obj_fill_color(adr,c); }  
+  
+
+  template<class T>  
+  color set_obj_fill_color(GeoBaseScene<T>* sc, __typename T::iterator it, color c)    
+  { 
+    __typename T::value_type & obj = *it;  
+    return sc->set_obj_fill_color((void*)(&obj),c); 
+  }
 
   // -------------- new --------------
   template<class T>
@@ -1897,34 +2476,51 @@ void segments_d3(const list<segment>& L,d3_window& W,
   }
 
   template<class T>    
-  bool set_obj_fill_color(GeoBaseScene<T>* sc, const __typename T::value_type& obj, color c)
+  bool set_obj_fill_color(GeoBaseScene<T>* sc, const __typename T::value_type& obj, color c, bool all=true)
   /*{\Mopl if there is an object $o$ in the container of scene $sc$ with
   $o==obj$ the interior color of $o$ is set to $c$ and true will be
   returned. Otherwise false will be returned.}*/
   { 
     T& cnt = sc->get_objref();
     __typename T::iterator it;
+    bool flag = false;
     
     for(it=cnt.begin();it != cnt.end(); it++){
        if ((*it) == obj){
           __typename T::value_type& of = *it;
           sc->set_obj_fill_color((void*)(&of),c);
+	  flag=true;
+	  if (flag && !all) return true;
 	  return true;
        }
     }
-    return false;  
+    return flag;  
   }
   // ---------------------------------
   
   template<class T>
   line_style get_obj_line_style(GeoBaseScene<T>* sc, void* adr)
   /*{\Mopl returns the line style of the object at |(*adr)|.}*/
-  { return sc->get_obj_line_style(adr); }    
+  { return sc->get_obj_line_style(adr); }  
+  
+  template<class T>  
+  line_style get_obj_line_style(GeoBaseScene<T>* sc, __typename T::iterator it)  
+  {
+    __typename T::value_type & obj = *it;
+    return sc->get_obj_line_style((void*)(&obj)); 
+  }    
 
   template<class T>    
   line_style set_obj_line_style(GeoBaseScene<T>* sc, void* adr, line_style l)
   /*{\Mopl sets the line style of the object at |(*adr)| to |l|.}*/
   { return sc->set_obj_line_style(adr,l); }  
+  
+  template<class T>  
+  line_style set_obj_line_style(GeoBaseScene<T>* sc, __typename T::iterator it, line_style l)    
+  { 
+    __typename T::value_type & obj = *it;  
+    return sc->set_obj_line_style((void*)(&obj),l); 
+  }  
   
   // -------------- new --------------
   template<class T>
@@ -1948,34 +2544,50 @@ void segments_d3(const list<segment>& L,d3_window& W,
   }
 
   template<class T>    
-  bool set_obj_line_style(GeoBaseScene<T>* sc, const __typename T::value_type& obj, line_style l)
+  bool set_obj_line_style(GeoBaseScene<T>* sc, const __typename T::value_type& obj, line_style l, bool all=true)
   /*{\Mopl if there is an object $o$ in the container of scene $sc$ with
   $o==obj$ the line style of $o$ is set to $l$ and true will be
   returned. Otherwise false will be returned.}*/
   { 
     T& cnt = sc->get_objref();
     __typename T::iterator it;
+    bool flag = false;
     
     for(it=cnt.begin();it != cnt.end(); it++){
        if ((*it) == obj){
           __typename T::value_type& of = *it;
           sc->set_obj_line_style((void*)(&of),l);
-	  return true;
+	  flag=true;
+	  if (flag && !all) return true;
        }
     }
-    return false;  
+    return flag;  
   }
   // ---------------------------------
 
   template<class T>  
   int get_obj_line_width(GeoBaseScene<T>* sc, void* adr)
   /*{\Mopl returns the line width of the object at |(*adr)|.}*/
-  { return sc->get_obj_line_width(adr); }   
+  { return sc->get_obj_line_width(adr); } 
+  
+  template<class T>  
+  int get_obj_line_width(GeoBaseScene<T>* sc, __typename T::iterator it)  
+  {
+    __typename T::value_type & obj = *it;
+    return sc->get_obj_line_width((void*)(&obj)); 
+  }        
 
   template<class T>    
   int set_obj_line_width(GeoBaseScene<T>* sc, void* adr, int w)  
   /*{\Mopl sets the line width of the object at |(*adr)| to |w|.}*/
-  { return sc->set_obj_line_width(adr,w); }    
+  { return sc->set_obj_line_width(adr,w); }  
+  
+  template<class T>  
+  int set_obj_line_width(GeoBaseScene<T>* sc, __typename T::iterator it, int w)    
+  { 
+    __typename T::value_type & obj = *it;  
+    return sc->set_obj_line_width((void*)(&obj),w); 
+  }      
 
   // -------------- new --------------
   template<class T>
@@ -1999,10 +2611,75 @@ void segments_d3(const list<segment>& L,d3_window& W,
   }
 
   template<class T>    
-  bool set_obj_line_width(GeoBaseScene<T>* sc, const __typename T::value_type& obj, int l)
+  bool set_obj_line_width(GeoBaseScene<T>* sc, const __typename T::value_type& obj, int l,bool all=true)
   /*{\Mopl if there is an object $o$ in the container of scene $sc$ with
   $o==obj$ the line width of $o$ is set to $l$ and true will be
   returned. Otherwise false will be returned.}*/
+  { 
+    T& cnt = sc->get_objref();
+    __typename T::iterator it;
+    bool flag=false;
+    
+    for(it=cnt.begin();it != cnt.end(); it++){
+       if ((*it) == obj){
+          __typename T::value_type& of = *it;
+          sc->set_obj_line_width((void*)(&of),l);
+	  flag=true;
+	  if (flag && !all) return true;
+       }
+    }
+    return flag;  
+  }
+  // ---------------------------------
+  
+  // setting labels ...
+  
+  template<class T>
+  string get_obj_label(GeoBaseScene<T>* sc, void* adr)
+  /*{\Mopl returns the label of the object at |(*adr)|.}*/
+  { string lb;
+    sc->get_obj_label(adr, lb); 
+    return lb;
+  }
+  
+  //iterator variant ...
+  template<class T>
+  string get_obj_label(GeoBaseScene<T>* sc, __typename T::iterator it)
+  /*{\Mopl returns the label of the object $it$ points to.}*/  
+  {
+    __typename T::value_type & obj = *it;
+    string lb;
+    sc->get_obj_label((void*)(&obj), lb); 
+    return lb;
+  }
+
+  template<class T>    
+  string set_obj_label(GeoBaseScene<T>* sc, void* adr, string lb)
+  /*{\Mopl sets the label of the object at |(*adr)| to |lb|.}*/  
+  { string prev;
+    sc->get_obj_label(adr, prev);
+    sc->set_obj_label(adr,lb); 
+    return prev;
+  } 
+  
+  //iterator variant ...
+  template<class T>    
+  string set_obj_label(GeoBaseScene<T>* sc, __typename T::iterator it, string lb)
+  /*{\Mopl sets the label of the object $it$ points to  to |lb|.}*/  
+  { 
+    __typename T::value_type & obj = *it;  
+    string prev;
+    sc->get_obj_label((void*)(&obj),prev); 
+    sc->set_obj_label((void*)(&obj),lb); 
+    
+    //sc->get_obj_label((void*)(&obj),prev);
+    //cout << prev << "\n"; cout.flush();
+    
+    return prev;
+  }   
+  
+  template<class T>
+  bool get_obj_label(GeoBaseScene<T>* sc, const __typename T::value_type& obj, string& l)
   { 
     T& cnt = sc->get_objref();
     __typename T::iterator it;
@@ -2010,13 +2687,138 @@ void segments_d3(const list<segment>& L,d3_window& W,
     for(it=cnt.begin();it != cnt.end(); it++){
        if ((*it) == obj){
           __typename T::value_type& of = *it;
-          sc->set_obj_line_width((void*)(&of),l);
-	  return true;
+          bool b = sc->get_obj_label((void*)(&of), l);
+	  return b;
        }
     }
-    return false;  
+    return false;
   }
-  // ---------------------------------
+
+  template<class T>    
+  bool set_obj_label(GeoBaseScene<T>* sc, const __typename T::value_type& obj, string l, bool all=true)
+  { 
+    T& cnt = sc->get_objref();
+    __typename T::iterator it;
+    bool flag=false;
+    
+    for(it=cnt.begin();it != cnt.end(); it++){
+       if ((*it) == obj){
+          __typename T::value_type& of = *it;
+          sc->set_obj_label((void*)(&of),l);
+	  flag=true;
+	  if (flag && !all) return true;
+       }
+    }
+    return flag;  
+  }  
+  
+  
+  // ----------------------------------------------------------------------
+  // setting geowin_text objects
+  // ----------------------------------------------------------------------
+  
+  /*{\Mtext
+    \medskip
+    {\bf Object texts}
+    \\ 
+    The following operations can be used to add/retrieve objects of type |geowin_text| to
+    objects in scenes. The class |geowin_text| is used to store graphical representations
+    of texts. It stores a string (the text) and the following attributes:
+    \begin{itemize}
+    \item |x-offset| : Offset in |x|-direction to the drawing position, type |double|.
+    \item |y-offset| : Offset in |y|-direction to the drawing position, type |double|.
+    \item |size| : Font size, type |double|.
+    \item |font type| : Type of the font (can be |roman_font|, |bold_font|, |italic_font|, 
+                       |fixed_font| or |user_font|), type |geowin_font_type|.
+    \item |user font| : If |user_font| is spezified in |font type|, this attribute is used to
+                       specify a font (type |string|).
+    \item |text color| : Color of the text (type |color|). 
+    \end{itemize}
+    The class |geowin_text| has the following constructors:   
+\begin{verbatim}    
+    geowin_text(string t, double ox, double oy, geowin_font_type ft, 
+                double sz, string uf, color c = black);
+    geowin_text(string t, geowin_font_type ft, double sz);
+    geowin_text(string t);
+\end{verbatim}  
+    The arguments are: |t| - the text, |ox,oy| - the x/y offsets, |ft| - the font type, |sz| - the font size,
+    |uf| - the user font and |c| - the text color.  If a text is assoziated with an object, it will be drawn
+    at centered at the center of the objects bounding box translated by the |x/y| - offset parameters. Note that
+    it is also possible to add texts to a whole scene. Then the |x/y| - offset parameters specify the
+    position (see |add_text| operation).
+  }*/  
+  
+  template<class T>
+  bool get_obj_text(GeoBaseScene<T>* sc, void* adr, geowin_text& gt)
+/*{\Mopl  Gets the text associated with the object at |adr| in the container of scene |sc| and assigns it to
+          |gt|. If no text is associated with the object, |false| will be returned, otherwise |true|.  }*/  
+  {
+    bool b = sc->get_obj_text(adr, gt); 
+    return b;
+  }
+  
+  //iterator variant ...
+  template<class T>
+  bool get_obj_text(GeoBaseScene<T>* sc, __typename T::iterator it, geowin_text& gt)
+/*{\Mopl  Gets the text associated with the object |it| points to and assigns it to
+          |gt|. If no text is associated with the object, |false| will be returned, otherwise |true|.  }*/    
+  {
+    __typename T::value_type & obj = *it;
+    bool b = sc->get_obj_text((void*)(&obj), gt); 
+    return b;
+  }   
+  
+  template<class T>    
+  void set_obj_text(GeoBaseScene<T>* sc, void* adr, const geowin_text& gt)
+/*{\Mopl Assigns |gt| to the object at |adr| in scene |sc|.}*/  
+  { sc->set_obj_text(adr,gt); } 
+  
+  //iterator variant ...
+  template<class T>    
+  void set_obj_text(GeoBaseScene<T>* sc, __typename T::iterator it, const geowin_text& gt)
+/*{\Mopl Assigns |gt| to the object |it| points to in scene |sc|.}*/    
+  { __typename T::value_type & obj = *it;  
+    sc->set_obj_text((void*)(&obj),gt); 
+  }     
+  
+
+  template<class T>
+  bool get_obj_text(GeoBaseScene<T>* sc, const __typename T::value_type& obj, geowin_text& gt)
+  { 
+    T& cnt = sc->get_objref();
+    __typename T::iterator it;
+    
+    for(it=cnt.begin();it != cnt.end(); it++){
+       if ((*it) == obj){
+          __typename T::value_type& of = *it;
+          bool b = sc->get_obj_text((void*)(&of), gt);
+	  return b;
+       }
+    }
+    return false;
+  }
+
+  template<class T>    
+  bool set_obj_text(GeoBaseScene<T>* sc, const __typename T::value_type& obj,const geowin_text& gt, bool all=true)
+  { 
+    T& cnt = sc->get_objref();
+    __typename T::iterator it;
+    bool flag=false;
+    
+    for(it=cnt.begin();it != cnt.end(); it++){
+       if ((*it) == obj){
+          __typename T::value_type& of = *it;
+          sc->set_obj_text((void*)(&of),gt);
+	  flag=true;
+	  if (flag && !all) return true;
+       }
+    }
+    return flag;  
+  }  
+  
+
+  // --------------------------------------------------------------------
+  
     
   template<class T>
   void reset_obj_attributes(GeoBaseScene<T>* sc)
@@ -2025,6 +2827,8 @@ void segments_d3(const list<segment>& L,d3_window& W,
   
 
 #endif
+
+  void set_font(geowin_font_type font_t, double size, string fn_user);
   
   void set_active(geo_scene sc,bool ac) { sc->set_active(ac); }
   
@@ -2055,12 +2859,16 @@ void segments_d3(const list<segment>& L,d3_window& W,
 	    become the contents of this scene.
 	    
  }*/
+ 
+ void import_scene(string filename);
+ 
+ 
   void write_scene(string filename);
   /*{\Xopl  writes the contents of the active scene of |\Mvar| to file 
             $filename$.
 	    }*/
 
-  void write_scene(geo_scene sc, string filename,bool check_file_exists = true);
+  void write_scene(geo_scene sc, string filename, bool check_file_exists = true);
   /*{\Xopl  writes the contents of scene |sc| of |\Mvar| to file 
             $filename$.
 	    }*/
@@ -2082,7 +2890,13 @@ void segments_d3(const list<segment>& L,d3_window& W,
            currently active scene fill the window. }*/
 
   void reset_window();
-  // resets the visible range to the values that where current when constructing |\Mvar| 
+  /*{\Mopl resets the visible range to the values that where current when constructing |\Mvar|.}*/
+  
+  /*{\Mtext
+    \medskip
+    {\bf f) Parameter Operations}\\
+    The following operations allow the set and retrieve the various parameters of |\Mname|.
+  }*/  
 
   string get_bg_pixmap() const { return bg_pixmap; }
   /*{\Mopl returns the name of the current background pixmap.}*/
@@ -2122,23 +2936,42 @@ void segments_d3(const list<segment>& L,d3_window& W,
   bool  set_show_position(bool sp);
   /*{\Mopl sets the show position flag to |sp| and returns the previous value.}*/  
   
+  bool  get_show_quick_access_window() const;
+  
+  bool  set_show_quick_access_window(bool b);
+  
+  
   // parameters for d3 output
+  /*{\Mtext  
+  The following operations set or return various parameters that are used in the three-dimensional
+  output of |\Mname|. The three-dimensional
+  output can be started by pressing the |Show D3 Output| button in the Window menu.
+  }*/
   
   bool get_d3_elimination() const;
+  /*{\Mopl returns true, if elimination of hidden lines in the 3d-output mode is enabled, false otherwise.}*/
   
   bool set_d3_elimination(bool b);
+  /*{\Mopl sets the |d3_elimination| flag of |\Mvar| to |b| and returns its previous value.}*/
   
   bool get_d3_solid() const;
+  /*{\Mopl return true, if faces in the 3d-output mode have to be drawn in different grey scales, false
+           otherwise.}*/
   
   bool set_d3_solid(bool b);  
+  /*{\Mopl sets the |d3_solid| flag of |\Mvar| to |b| and returns its previous value.}*/
 
   int get_d3_animation_speed() const;
-  
   int set_d3_animation_speed(int s);
   
-  bool get_show_d3_edges() const;
+  bool get_d3_use_scene_color(geo_scene sc) const;
+  bool set_d3_use_scene_color(geo_scene sc, bool b);
   
-  bool set_show_d3_edges(bool b);
+  bool get_d3_show_edges() const;
+  /*{\Mopl returns true, if the redraw of edges is enabled in the 3d-output mode, false otherwise.}*/
+  
+  bool set_d3_show_edges(bool b);
+  /*{\Mopl sets the |d3_show_edges| flag of |\Mvar| to |b| and returns its previous value.}*/
   
   double get_d3_z_value() const { return gw_d3_zvalue; }
   
@@ -2149,10 +2982,14 @@ void segments_d3(const list<segment>& L,d3_window& W,
   void select();
   void unselect();
 
+  // help for object generation...
+  list<string> get_generator_names(geo_scene sc) const { return sc->get_generator_names(); }
+  void set_generator_number(geo_scene sc, int n) { sc->set_generator_number(n); }
+
    
   /*{\Mtext
     \medskip
-    {\bf f) Handling of events} 
+    {\bf g) Handling of events} 
 
    \Mname provides operations for changing its default handling of events. 
    As in |GraphWin| (cf. \ref{Graph Windows}) the user can define what 
@@ -2330,7 +3167,7 @@ void segments_d3(const list<segment>& L,d3_window& W,
   template<class T,class F>
   bool set_post_rotate_handler(GeoEditScene<T>* sc, F handler)
   /*{\Mopl sets the handler that is called after every rotate operation.
-  |handler| must have type |void (*handler)(GeoWin&, const T::value_type &, double x, double x, double a)|. 
+  |handler| must have type |void (*handler)(GeoWin&, const T::value_type&, double x, double x, double a)|. 
   }*/
   { return geowin_set_post_rotate_handler(sc,handler); } 
   
@@ -2359,15 +3196,56 @@ void segments_d3(const list<segment>& L,d3_window& W,
   }*/
   { return geowin_set_generate_fcn(sc,f); }
   
+  template<class T>
+  bool add_generator(GeoEditScene<T>* sc, geowin_generator<T>& Gen)
+  { return geowin_add_generator(sc, Gen); }
+  
+  /*{\Mtext
+    \medskip
+     {\bf Editing of objects in a scene:}
+     It is possible to edit single objects in an editable scene.
+     For this purpose an |edit_object| - function can be set for
+     editable scenes. This function has type
+     
+      |void (*f)(GeoWin& gw, T& obj, int nr)|
+      
+     where |gw| is the $GeoWin$-object where the scene belongs to,
+     |obj| is a reference to the object that will be edited
+     and |nr| is the edit mode of the scene.    
+  }*/
+  
   template<class T,class T2>
-  bool set_edit_object_fcn(GeoEditScene<T>* sc, T2 f)  
+  bool set_edit_object_fcn(GeoEditScene<T>* sc, T2 f) 
+  /*{\Mopl sets the edit object - function of scene |sc| to |f|.}*/ 
   { return geowin_set_edit_object_fcn(sc,f); }  
+  
+  template<class T>
+  void*   get_edit_object_fcn(GeoEditScene<T>* sc)
+  /*{\Mopl returns the edit object - function of scene |sc| .}*/
+  { return geowin_get_edit_object_fcn(sc); }
+  
+  // new
+  template <class T,class T2>
+  bool set_defining_points_fcn(GeoBaseScene<T>* sc, T2 f) 
+  { return geowin_set_defining_points_fcn(sc,f); }
+  
+  template <class T,class T2>
+  bool set_move_point_fcn(GeoEditScene<T>* sc, T2 f)
+  { return geowin_set_move_point_fcn(sc,f); }
   
   
   template<class T>
-  bool add_buffer_fcn(GeoEditScene<T>* sc, void (*f)(GeoWin&, list<__typename T::value_type>&), const char* name)  
+  bool add_algorithm(GeoEditScene<T>* sc, void (*f)(GeoWin&, list<__typename T::value_type>&), string name)  
   {
-    return geowin_add_buffer_fcn(sc,f,name);
+    return geowin_add_algorithm(sc,f,name);
+  }
+  
+  // new version of add_algorithm ...
+  template<class S,class R>
+  GeoResultScene<S,R>* add_algorithm(geowin_update<S,R>& up, GeoEditScene<S>* sc, string scene_name, string algo_name,
+                                     D3_FCN f = NULL)
+  {
+    return geowin_add_algorithm(*this, up, sc, scene_name, algo_name, f);
   }
   
   template<class S, class R>
@@ -2386,12 +3264,12 @@ void segments_d3(const list<segment>& L,d3_window& W,
      the templated functions prefixed with  $geowin$.
      A GeoInputObject\<GeoObj\> has the following virtual functions:
      
-        void operator()(GeoWin\&\ gw, list\<GeoObj\>\&\ L);
+        |void operator()(GeoWin& gw, list<GeoObj>& L);|
 	
      This virtual function is called for the input of objects. The new objects have to be
      returned in $L$.
     
-        void options(GeoWin\&\ gw);   
+        |void options(GeoWin& gw);|   
 	
      This function is called for setting options for the input object.
      
@@ -2439,10 +3317,18 @@ void segments_d3(const list<segment>& L,d3_window& W,
           the
           done menu button. |f| should return true for allowing quiting,
 	  false otherwise. }*/
+
+  void set_contents_fcn(geo_scene sc, bool (*f)(geo_scene, list<string>&));
+
+  int set_edit_mode(geo_scene sc, int emode);
+  /*{\Mopl sets the edit mode of scene |sc| to |emode|.}*/
+  
+  int get_edit_mode(geo_scene sc) const;
+  /*{\Mopl return the edit mode of scene |sc|.}*/
   
   /*{\Mtext
     \medskip
-    {\bf g) Scene Group Operations\\} 
+    {\bf h) Scene group Operations\\} 
     |GeoWin| can manage scenes in groups. It is possible to add and remove
     scenes to/from groups.
     Various parameters and dependences can be set for whole groups.
@@ -2468,10 +3354,11 @@ void segments_d3(const list<segment>& L,d3_window& W,
   /*{\Mopl removes |sc| from scene group |GS| and returns true, if the operation
            was succesful (false: |sc| was not in |GS|).
   }*/
-    
+  
   /*{\Mtext
     \medskip
-    {\bf h) Further Operations} }*/
+    {\bf i) Further Operations} }*/
+      
 
   double get_mfct() { return mouse_fct; }
   void init_data(geo_scene sc) { sc->init_data(); }
@@ -2483,7 +3370,7 @@ void segments_d3(const list<segment>& L,d3_window& W,
   { bool rt = sc->debug_mode;
     sc->debug_mode=mode;
     return rt; 
-  }
+  }  
   
   int set_button_width(int w);
   /*{\Mopl sets the width of the scene visibility buttons in |\Mvar| and
@@ -2519,16 +3406,16 @@ void segments_d3(const list<segment>& L,d3_window& W,
   The button for the n-th scene in $Ls$ gets the n-th bitmap in $bm$. The bitmaps have
   width $w$ and height $h$.}*/
   
-  list<geo_scene> get_scenes() { return scenes; }
+  list<geo_scene> get_scenes() const { return scenes; }
   /*{\Mopl  returns the scenes of |\Mvar|.}*/
   
-  list<geo_scenegroup> get_scenegroups() { return scene_groups; }
+  list<geo_scenegroup> get_scenegroups() const { return scene_groups; }
   /*{\Mopl  returns the scene groups of |\Mvar|.}*/  
   
-  list<geo_scene> get_scenes(geo_scenegroup gs) { return gs->group_members; }
+  list<geo_scene> get_scenes(geo_scenegroup gs) const { return gs->group_members; }
   /*{\Mopl  returns the scenes of group |gs|.}*/
   
-  list<geo_scene> get_visible_scenes();
+  list<geo_scene> get_visible_scenes() const;
   /*{\Mopl  returns the visible scenes of |\Mvar|.}*/
  
   void add_dependence(geo_scene sc1, geo_scene sc2) { sc1->add_dependence(sc2);}
@@ -2539,7 +3426,7 @@ void segments_d3(const list<segment>& L,d3_window& W,
   /*{\Mopl deletes the dependence of scene |sc2| from |sc1|. }*/
 
   void set_frame_label(const char* label) { Wp->set_frame_label(string(label)); }
-/*{\Mopl   makes |label| the frame label of |\Mvar|. }*/
+  /*{\Mopl   makes |label| the frame label of |\Mvar|. }*/
 
 
   int open_panel(panel& P);
@@ -2554,16 +3441,12 @@ void segments_d3(const list<segment>& L,d3_window& W,
   map<node,color>& get_node_color_map() { return node_color_map; }
   map<edge,color>& get_edge_color_map() { return edge_color_map; }
   
-  // add additional objects to scenes ...
-  // returns the list item of the added object
   
- /*{\Xtext
-    \medskip
-    {\bf Additional objects} 
- }*/  
+  void add_text(geo_scene sc, const geowin_text& gt);
+  /*{\Mopl   adds a text |gt| to scene |sc|.}*/
   
-  list_item add_remark(geo_scene sc,double x,double y,string rem);
-  list_item add_remark(geo_scene sc,double x,double y,double wd,string rem);
+  void remove_texts(geo_scene sc);
+  /*{\Mopl   removes all texts from scene |sc|.}*/
   
   void enable_menus();
   /*{\Mopl enables the menus of |\Mvar|.}*/
@@ -2646,6 +3529,18 @@ void segments_d3(const list<segment>& L,d3_window& W,
 
 #ifdef __HAS_MEMBER_TEMPLATES__
 
+  // we can now set a limit for user input in edit scenes ...
+  
+  template<class T>
+  int get_limit(GeoEditScene<T> *es) { return es->limit; }
+  
+  template<class T>
+  int set_limit(GeoEditScene<T> *es, int limit) {
+    int old_limit = es->limit;
+    es->limit = limit;
+    return old_limit;
+  }
+
   /*{\Mtext
     \medskip
     The templated |add_user_call| operation uses member templates. If your 
@@ -2664,7 +3559,31 @@ void segments_d3(const list<segment>& L,d3_window& W,
     geowin_add_user_call(*this, label, f);
   }
 #endif 
- 
+
+  // function for calling new update functions ...
+  // void call_update_fcn(void (*fcn)(...),void* input, void* output,const list<void*>& infl);
+  void call_update_fcn(void (*fcn)(...),void* input, void* output,const list<void*>& infl);
+  
+  /*{\Mtext    
+  Import- and export objects can be used to import and export the contents of scenes in various formats.\\
+  The classes |geowin_import| and |geowin_export| are used for implementing import- and export objects.
+  The classes |geowin_import| and |geowin_export| have virtual |()| - operators:
+  
+     |virtual void operator()(geo_scene sc, string filename)|
+     
+  This virtual operator can be overwritten in derived classes to provide import and export functionality
+  for own formats. The first parameter is the scene |sc| that will be used as source for the output or target
+  for the input. The second parameter $filename$ is the name of the input (import objects) or output (export 
+  objects) file.
+  }*/  
+  
+  void add_import_object(geo_scene sc, geowin_import& io, string name, string desc);
+  /*{\Mopl Adds an import object |io| to scene |sc|. The import object gets the name |name|
+  and the description |desc|.}*/
+  
+  void add_export_object(geo_scene sc, geowin_export& eo, string name, string desc);
+  /*{\Mopl Adds an export object |eo| to scene |sc|. The export object gets the name |name|
+  and the description |desc|.}*/  
 };
 
 // removed from templates ...
@@ -2674,187 +3593,7 @@ extern _exportF bool geowin_show_options2(GeoScene* scn,panel* p,GeoWin *gw,colo
 				     int& number, geowin_defining_points& hdp);
 extern _exportF void mouse_pos(long& MASK,GeoWin* gw, bool b);
 
-class _exportC GeoProp {
-  protected:
-  
-  geo_scene prop_my_scene;
 
-  map<void*, void*> * original; 
-
-  // color of the boundary of the object :
-  map<void*, color>* color1_map;
-
-  // color of the interior of the object :
-  map<void*, color>* color2_map;
-
-  map<void*, line_style>* lst_map;  
-  map<void*, int>* lw_map;
-
-  // labels for the objects
-  map<void*, string>* label_map;
-  
-  GeoProp();
-
-public:
-
-  // Methods on colormap1 :
-  bool colors_defined1()  { return  color1_map != 0; }
-
-  void undefine_colors1() { if(color1_map) delete color1_map; color1_map = 0;}
-
-  color get_obj_color(void* o); 
-  color  set_obj_color(void* obj, color c);
-
-  // Methods on colormap2 :
-  bool colors_defined2()  { if (color2_map==NULL) return false; else return true; }
-  void undefine_colors2() { if(color2_map) delete color2_map; color2_map = 0; }
-
-  color get_obj_fill_color(void* o);
-  color set_obj_fill_color(void* obj, color c);
-  
-  // Methods on line_style_map :
-  bool line_styles_defined()   { if (lst_map==NULL) return false; else return true; }
-  void undefine_line_styles()  { if(lst_map) delete lst_map; lst_map = 0; }
-
-  line_style get_obj_line_style(void* o);
-  line_style set_obj_line_style(void* obj, line_style lst);
-
-  // Methods on line_width_map :
-  bool line_width_defined()   { if (lw_map==NULL) return false; else return true; }
-  void undefine_line_width()  { if(lw_map) delete lw_map; lw_map = 0; }
-
-  int get_obj_line_width(void* o);
-  int set_obj_line_width(void* obj, int w);
-
-  // methods on label_map
-  bool labels_defined()   { if (label_map==NULL) return false; else return true; }
-  void undefine_labels()  { 
-   if(label_map) delete label_map; 
-   label_map = 0; 
-  }
-
-  bool get_obj_label(void* o,string& label);
-  void set_obj_label(void* obj, string label);
-  
-  void setup_focus_dialog(window&,void*);
-
-  void set_original_properties(void* other, void* orig);
-
-  void set_def_properties(void* o);
-
-  void original_properties(void* o);
-  
-  void set_default_properties(void* o);
-
-  void undefine_all();
- 
-  int keyboard_panel(window& w, string& nval);
-  
-  int focus_dialog(string& nval, window& w);
-
-  color oldcl;
-  color oldfl;
-  line_style old_ls;
-  int oldw;
-  color text_clr;
-  point_style old_ps;
-  
-  void set_window_params(window& w, void* adr, PresentationType pt);
-
-  void restore_window_params(window& w);
-  
-  void set_ps_params(ps_file& F, void* adr);
-
-};
-
-template<class T> class _exportC GeoTEditScene : public GeoEditor, public GeoProp
-{  
-  protected :
-  
-  bool (*box_intersection_fcn)(const T& , double, double, double, double,bool);
-  void (*get_bounding_box_fcn)(const T&, double&, double&, double&, double&);
-
-  void (*move_fcn)(T& obj, double, double);
-  void (*rotate_fcn)(T& obj, double, double, double);
-
-  public :
-
-  void (*move_point_fcn)(T&, double, double, int);
-  bool obj_defining_points_change;
-  int obj_pnr;
-  
-  // alternative draw function
-  //window& (*draw_fcn)(window&, const T&);
-  void* draw_fcn;
-  
-  // handler function
-  bool (*pre_add_fcn)(GeoWin&, const T&);
-  bool (*pre_add_changer)(GeoWin&, const T&, T&);
-  void (*post_add_fcn)(GeoWin&, const T&);
-  
-  bool (*pre_del_fcn)(GeoWin&, const T&);
-  void (*post_del_fcn)(GeoWin&, const T&);
-  
-  bool (*start_change_fcn)(GeoWin&, const T&);
-  
-  bool (*pre_move_fcn)(GeoWin&, const T&, double x, double y);
-  void (*post_move_fcn)(GeoWin&, const T&, double x, double y);
-
-  bool (*pre_rotate_fcn)(GeoWin&, const T&, double x, double y, double a);
-  void (*post_rotate_fcn)(GeoWin&, const T&, double x, double y, double a);  
-  
-  void (*end_change_fcn)(GeoWin&, const T&);
-
-  
-  GeoTEditScene() : GeoEditor(), GeoProp() 
-  {
-   draw_fcn = 0;
-    
-   box_intersection_fcn = 0;
-   get_bounding_box_fcn = 0;
-   move_fcn = 0;
-   rotate_fcn = 0;
-    
-   pre_add_fcn = 0;
-   pre_add_changer = 0;
-   post_add_fcn = 0;
-   pre_del_fcn = 0;
-   post_del_fcn = 0;
-   start_change_fcn = 0;
-   pre_move_fcn = 0;
-   post_move_fcn = 0;
-   pre_rotate_fcn = 0;
-   post_rotate_fcn = 0;
-   end_change_fcn = 0;
-  } 
-
-  void move_point(T& t, double dx, double dy)
-  { if (move_point_fcn) move_point_fcn(t,dx,dy,obj_pnr); }
-  
- 
-  T read_object(istream& is)          { T t; is >> t; return t; }
-  void write_object(ostream& os, T t) { os << t; }
-  
-  void move (T& t,  double dx, double dy)
-  { if (move_fcn) move_fcn(t, dx, dy);  }
-
-  void rotate (T& t,  double x, double y, double alpha)
-  { if (rotate_fcn) rotate_fcn(t, x, y, alpha); }
-  
-  void set_box_intersection_fcn(bool (*f)(const T& , double, double, 
-					  double, double,bool))
-  { box_intersection_fcn = f; }
-  
-  void set_get_bounding_box_fcn(void (*f)(const T&, double&, double&, 
-					  double&, double&))
-  { get_bounding_box_fcn = f; }
-
-  void set_move_fcn(void (*f)(T&, double, double))
-  { move_fcn = f; }
-  
-  void set_rotate_fcn(void (*f)(T&, double, double, double))
-  { rotate_fcn = f;}
-};
 
 template<class iterator>  struct _exportC geo_object_properties
 {
@@ -2891,7 +3630,12 @@ template<class T> class GeoBaseSceneBuilder : public GeoSceneBuilder
   public :
   
   GeoBaseSceneBuilder() 
-    : GeoSceneBuilder(new GeoBaseScene<T>)  { }
+    : GeoSceneBuilder(new GeoBaseScene<T>)  { 
+    /*
+        GeoBaseScene<T>* sc = 
+      (GeoBaseScene<T>*)(GeoScenePrototypes::get_prototype(prototypeid));
+    sc->id = prototypeid; */
+  }
 };
 
 template<class T> 
@@ -2900,14 +3644,17 @@ template<class T>
 GeoBaseScene<T>* get_base_prototype(T* t);
 
 
-template<class T> class GeoBaseScene : public GeoScene, public GeoTEditScene<__typename T::value_type>
+template<class T> class GeoBaseScene : public GeoScene, public GeoEditor
 {  
   protected :
 
   typedef __typename T::iterator                iterator;
   typedef __typename T::value_type              GeoObj;
   typedef geo_object_properties<iterator>       geo_props;
-  typedef window& (*FUNC3) (window&, const GeoObj&, int);
+  
+  typedef void   (*fu_help_void)(...);
+  typedef bool   (*fu_help_bool)(...);
+  typedef string (*fu_help_string)(...);
   
   friend GeoBaseScene<T>* make_base_prototype __temp_friend_decl(T* t, string str);
   friend GeoBaseScene<T>* get_base_prototype __temp_friend_decl (T* t);
@@ -2916,6 +3663,21 @@ template<class T> class GeoBaseScene : public GeoScene, public GeoTEditScene<__t
   friend class _exportC GeoWin;
   
 public:
+  
+  // handler functions
+  bool (*pre_add_fcn)(GeoWin&, const GeoObj&);
+  bool (*pre_add_changer)(GeoWin&, const GeoObj&, GeoObj&);
+  void (*post_add_fcn)(GeoWin&, const GeoObj&);
+  
+  bool (*pre_del_fcn)(GeoWin&, const GeoObj&);
+  void (*post_del_fcn)(GeoWin&, const GeoObj&);
+  
+  bool (*pre_move_fcn)(GeoWin&, const GeoObj&, double x, double y);
+  void (*post_move_fcn)(GeoWin&, const GeoObj&, double x, double y);
+
+  bool (*pre_rotate_fcn)(GeoWin&, const GeoObj&, double x, double y, double a);
+  void (*post_rotate_fcn)(GeoWin&, const GeoObj&, double x, double y, double a);  
+
 
 #ifdef NO_STATIC_DATA_MEMBER
   
@@ -2936,11 +3698,6 @@ public:
 
   T*                     objs;    //dataobject to display
   geowin_redraw_container<T>* gw_redraw_cnt;
-  
-  string (*info_fcn)(const T&);
-  void  (*objects_init_d3_window)(const T&,d3_window&, GRAPH<d3_point,int>&);
-  void  (*defining_points_fcn)(const GeoObj&, list<point>&);
-  geowin_defining_points     handle_defining_points;
 
   iterator mouse_obj; 
   map<void*, geo_props>  props;
@@ -2951,15 +3708,19 @@ public:
   
   GeoBaseScene() : GeoScene(0)
   {
-    //b1();
+    //b1(); 
     // set myobjs true in GeoScene constructor ...
-    prop_my_scene = this; 
     objs          = new T;
-    info_fcn      = 0;
-    objects_init_d3_window = NULL;
-    defining_points_fcn = NULL;
-    handle_defining_points = geowin_highlight;
-    gw_redraw_cnt = NULL;
+    gw_redraw_cnt = NULL;   
+    pre_add_fcn = 0;
+    pre_add_changer = 0;
+    post_add_fcn = 0;
+    pre_del_fcn = 0;
+    post_del_fcn = 0;
+    pre_move_fcn = 0;
+    post_move_fcn = 0;
+    pre_rotate_fcn = 0;
+    post_rotate_fcn = 0;
   } 
   
   ~GeoBaseScene()
@@ -2983,21 +3744,63 @@ public:
   
   public : 
   
+  // -------------------------------------------------------------
+  // iteration on the scene container ...
+  iterator act_iter, stop_iter;
+  
+  void init_iteration() { 
+    act_iter = objs->begin();
+    stop_iter = objs->end();  
+  }
+  
+  void* get_next_obj_adr() { return (void*)(&(*act_iter)); }  
+  void  iterate() { act_iter++; }
+  bool  no_end_reached() { return (act_iter != stop_iter); }
+  // -------------------------------------------------------------  
+  
+  //---------------------------------------------------------------------------
+  void move (GeoObj& t,  double dx, double dy)
+  { if (move_fcn) move_fcn((void*)(&t), dx, dy);  }
+
+  void rotate (GeoObj& t,  double x, double y, double alpha)
+  { if (rotate_fcn) rotate_fcn((void*)(&t), x, y, alpha); }
+  
+  void set_box_intersection_fcn(bool (*f)(const GeoObj& , double, double, 
+					  double, double,bool))
+  { box_intersection_fcn =  (fu_help_bool) f; }
+  
+  void set_get_bounding_box_fcn(void (*f)(const GeoObj&, double&, double&, 
+					  double&, double&))
+  { get_bounding_box_fcn = (fu_help_void) f; }
+
+  void set_move_fcn(void (*f)(GeoObj&, double, double))
+  { move_fcn = (fu_help_void) f; }
+  
+  void set_rotate_fcn(void (*f)(GeoObj&, double, double, double))
+  { rotate_fcn = (fu_help_void) f;}  
+   
+  GeoObj read_object(istream& is)          { GeoObj t; is >> t; return t; }
+  void write_object(ostream& os, GeoObj t) { os << t; }  
+  //----------------------------------------------------------------------------
+  
   void set_objects_init_d3_window(void  (*f)(const T&,d3_window&, GRAPH<d3_point,int>&))
-  { objects_init_d3_window = f; }
+  { objects_init_d3_window = (fu_help_void) f; }
   
   void set_defining_points_fcn(void (*f)(const GeoObj&, list<point>&))
-  { defining_points_fcn = f; }  
+  { defining_points_fcn = (fu_help_void)f; }  
   
-  void set_handle_defining_points(geowin_defining_points gdp)
-  { handle_defining_points = gdp; }
-
   // operations for lists of changed/added/deleted objects ...
 
   virtual void clear_op_objs() { changed.clear(); changed2.clear(); change_mode=-1; }
   
   // returns a reference to the container :
   T&   get_objref()   { return *objs; }
+  
+  virtual void* get_untyped_objptr()  { return (void*)objs; }
+  virtual void* get_untyped_mouseobjptr() {
+    if (mouse_obj_exist) return (void*)(&(*mouse_obj));
+    else return NULL; 
+  }
   
   // sets the container reference:
   void set_objref(T& t)   
@@ -3020,110 +3823,45 @@ public:
   // fills the container with a copy of cp
   void set_objects(T cp) { *objs = cp; init_data();  }
   
-  virtual int GeoSceneId() const { return b1().prototypeid; }
+  virtual int GeoSceneId() const { 
+    return b1().prototypeid; 
+  }
 
   virtual void init_from_prototype(GeoScene* proto)
   {
     GeoScene::init_from_prototype(proto);
     GeoBaseScene<T>* pr = (GeoBaseScene<T>*)proto;
-    set_info_fcn(pr->info_fcn);
     draw_fcn = pr->draw_fcn;
-    objects_init_d3_window = pr->objects_init_d3_window;
-    defining_points_fcn = pr->defining_points_fcn;
+    import_objects = pr->import_objects;
+    export_objects = pr->export_objects;
   }
   
-  virtual string information()
-  {
-    string str(GeoScene::information());
-    if( info_fcn && objs!=NULL) str += info_fcn(*objs);
-    return str;
+  void set_info_fcn( string (*f)(const T&)  ) { 
+    info_fcn = (fu_help_string)f;
   }
   
-  void set_info_fcn( string (*f)(const T&)  ) { info_fcn = f; }
+  bool get_select(void* obj_adr)
+  { return (props.defined(obj_adr) && props[obj_adr].selected); }
 
   bool get_select(const GeoObj& obj) 
   { 
     return (props.defined((void*)(&obj)) && props[(void*)(&obj)].selected);
   }
-
-  virtual void compute_d3_output(GeoScene* sc, d3_window& W, GRAPH<d3_point,int>& H)
-  {
-    if (init_d3_window!=NULL) init_d3_window(sc,W,H); 
-    else if (objects_init_d3_window!=NULL) objects_init_d3_window(*objs,W,H);
-  }
-
-  void draw_object(const GeoObj& obj, window& w, PresentationType pt)
-  {
-    void*      adr  = (void*)(&obj);
-    
-    set_window_params(w,adr,pt);
-
-    if (draw_fcn) { // if draw_fcn is set, use it ...
-     ((FUNC3)draw_fcn)(w, obj, draw_mode_number);
-    }
-    else w << obj; 
-
-    string label;
-    if (get_obj_label(adr,label))
-    { // get bounding box and draw label
-      double xw1,xw2,yw1,yw2;
-      get_bounding_box_fcn(obj,xw1,xw2,yw1,yw2);
-      w.draw_ctext((xw1+xw2)/2,(yw1+yw2)/2,label, text_clr);
-    }     
-    
-    restore_window_params(w);
-  } 
+  
+  virtual void window_output(window& w, void* obj_adr)
+  { GeoObj* g = (GeoObj*)(obj_adr); w << *g; } 
+  
 
   void draw_object_with_properties(const GeoObj& obj)
-  {
-    window& w = gw->get_window();
-    bool draw_flag=false;
-    
-    PresentationType pt = geowin_normal;
-    if( get_select(obj) )  pt = geowin_selected; 
-
-    if( mouse_obj_exist ) {  
-      if ( !(mouse_obj != props[(void*)(&obj)].pos) ) 
-      {  if (high_light) pt = geowin_focus; 
-         if (handle_defining_points==geowin_highlight) draw_flag=true; 
-      } 
-    }
-
-    draw_object(obj, w, pt);
-    list<point> hcont; 
-    
-    if (defining_points_fcn && (handle_defining_points==geowin_show || draw_flag)) 
-       defining_points_fcn(obj,hcont);
-    show_points(hcont);
-  }
-
-  virtual void redraw(window* w, double x1, double y1, double x2, double y2)
-  {
-    //set calling GeoWin and scene 
-    GeoWin::call_win = gw;
-    GeoWin::call_scene = this;
+  { GeoScene::draw_object_with_properties((void*)(&obj)); }
   
-    oldwl  = w->set_line_width(get_line_width());
-    oldstl = w->set_line_style(l_style);
-    oldpstl = w->set_point_style(p_style);
-    bool b=true;
-    
+  virtual void call_redraw_objects(bool& b,window* w, double x1, double y1, double x2, double y2)
+  {
     if (gw_redraw_cnt) { b = gw_redraw_cnt->operator() (*objs,*w,col1,col2,x1,y1,x2,y2); }
     else {
      if (redraw_pt) { b = redraw_pt->operator() (*w,col1,col2,x1,y1,x2,y2); }
     }
-    
-    if (b) { // iteration on the container storing the objects ...
-       iterator it = objs->begin();
-       while( it != objs->end() ) 
-       { 
-        draw_object_with_properties(*it); 
-	it++;
-       }
-    }
-
-    GeoScene::redraw(w, x1, y1, x2, y2);
-  }
+  }  
   
   // Read - Write
   void write(ostream& os, string tr){
@@ -3143,11 +3881,12 @@ public:
      while(it != stop)
      {
 	GeoObj& obj = *it;
-        set_ps_params(F,(void*)(&obj));
-        F << obj;
+	void* adr = (void*)(&obj);
+        set_ps_params(F,adr);
+        F << obj;	
+	ps_draw_text(F, adr);
 	it++;
-     }
-     
+     }   
      GeoScene::write_postscript(F);
   }
 
@@ -3170,6 +3909,7 @@ template<class T> GeoBaseSceneBuilder<T> GeoBaseScene<T>::sb1;
 template<class T> GeoBaseScene<T>* make_base_prototype(T* t, string str)
 {
   int id =  GeoBaseScene<T>::b1().get_id();
+  //cout << id << "\n";
   GeoScenePrototypes::set_type_name(id, str);
   return (GeoBaseScene<T>*)(GeoScenePrototypes::get_prototype(id));
 }
@@ -3208,19 +3948,24 @@ class _exportC GeoInputObjectWrapper {
   string name;
   GeoInputObject<GeoObj>* alternative_input_object;
   void (*f)(GeoWin&, list<GeoObj>&);
+  geo_scene res;
 
   public:
    GeoInputObjectWrapper() { }
    
    GeoInputObjectWrapper(const GeoInputObject<GeoObj>& obj, string n)
-   { alternative_input_object = (GeoInputObject<GeoObj>*) (&obj); f=NULL; name=n; }
+   { alternative_input_object = (GeoInputObject<GeoObj>*) (&obj); f=NULL; res=NULL; name=n; }
    
    GeoInputObjectWrapper(void (*fcn)(GeoWin&, list<GeoObj>&), string n)
-   { alternative_input_object = NULL; f=fcn; name=n; }
+   { alternative_input_object = NULL; f=fcn; res=NULL; name=n; }
+   
+   GeoInputObjectWrapper(geo_scene sc_res, string n)
+   { alternative_input_object = NULL; f=NULL; res=sc_res; name=n; }   
    
    GeoInputObject<GeoObj>* get_obj_ptr() { return alternative_input_object; }
    FCN get_fcn() { return f; }
    string  get_name(){ return name; }
+   geo_scene get_scene() { return res; }
 };
 
 template<class GeoObj>
@@ -3235,26 +3980,6 @@ template<class GeoObj>
 inline ostream& operator<<(ostream& o, const GeoInputObjectWrapper<GeoObj>&)
 { return o; }
 
-template<class T>
-class GeoIteratorWrapper{
-public:
-  T it;
-  GeoIteratorWrapper() { }
-  GeoIteratorWrapper(T t) { it=t;}
-  GeoIteratorWrapper(const GeoIteratorWrapper& gi) { it=gi.it; }
-};
-
-template<class GeoIt>
-inline int compare(const GeoIteratorWrapper<GeoIt>&, const GeoIteratorWrapper<GeoIt>& )
-{ return 0; }
-
-template<class GeoIt>
-inline istream& operator>>(istream& i, GeoIteratorWrapper<GeoIt>&)
-{ return i; }
-
-template<class GeoIt>
-inline ostream& operator<<(ostream& o, const GeoIteratorWrapper<GeoIt>&)
-{ return o; }
 
 template<class T> 
 class  GeoEditScene : public GeoBaseScene<T>
@@ -3284,26 +4009,26 @@ class  GeoEditScene : public GeoBaseScene<T>
   typedef __typename T::iterator                iterator; 
   typedef geo_object_properties<iterator>       geo_props;
   typedef GeoInputObjectWrapper<GeoObj>         INP_FCN;
-  typedef GeoIteratorWrapper<iterator>          ITW;
   typedef list<GeoObj>                          GeoObjList;
   typedef __typename GeoObjList::iterator       iterator2;   
   
 
   void (*generate_fcn)(GeoWin&, T&);
-  void (*edit_obj_fcn)(GeoWin&, GeoObj&, int);
   void (*post_window_default_input_handler)(GeoWin&, GeoObj&);
+  
+  // list of additional generators (pointers to them ...)
+  list<geowin_generator<T>* >  generators;
 
   // here are the various functions for the buffer
   list<INP_FCN>           buffer_operations;
   
-  INP_FCN *alternative_input_fcn; 
+  INP_FCN*                alternative_input_fcn; 
   list<INP_FCN>           input_fcns;
 
   protected:
 
-  list<ITW>               sel_objs;
   list<GeoObj>            clip_objs;
-  ITW                     itw_obj1;
+  void*                   itw_obj1;
                     
 
   GeoEditScene() : GeoBaseScene<T>()
@@ -3325,9 +4050,17 @@ class  GeoEditScene : public GeoBaseScene<T>
     if( b2().prototypeid == sc->GeoSceneId() ) return true; 
     return GeoBaseScene<T>::IsSuperOrEqual(sc);
   }
+  
+  // gets address of the new mouse object
+  virtual void set_mouse_object(void* obj_adr)
+  {
+    if (props.defined(obj_adr)) { mouse_obj = props[obj_adr].pos; }
+  }
     
   bool add_object(const GeoObj& obj,iterator& back)
   {
+    if ((limit < 0) || ((int) objs->size()<limit)) {
+  
     if( !pre_add_fcn || pre_add_fcn(*gw, obj) )
       {
         iterator it;
@@ -3358,9 +4091,9 @@ class  GeoEditScene : public GeoBaseScene<T>
 	 }
 	 
 	 if(post_add_fcn) post_add_fcn(*gw, nwob);
-
 	 return true;
 	}
+      }
       }
     return false;
   }
@@ -3371,7 +4104,7 @@ class  GeoEditScene : public GeoBaseScene<T>
   
     if( !pre_del_fcn || pre_del_fcn(*gw, obj) )
       {
-	set_select(it, false);
+	set_select((void*)(&(*it)), false);
 	if( mouse_obj_exist && !(mouse_obj != it)) mouse_obj_exist = false; 
 	//objs->erase(it);
 
@@ -3385,28 +4118,30 @@ class  GeoEditScene : public GeoBaseScene<T>
     return false;
   }
 
-  void set_select(iterator it, bool b)
+public:
+
+  void set_select(void* adr, bool b)
   {
-    GeoObj& obj = *it;  
-  
+    GeoObj& obj = *((GeoObj*)adr);
     if( b != get_select(obj) )
-      if( b ) props[(void*)(&obj)].selected = sel_objs.append(ITW(it));
+      if( b ) props[adr].selected = sel_objs.append(adr);
       else
 	{
-	  sel_objs.del_item(props[(void*)(&obj)].selected);
-	  props[(void*)(&obj)].selected = nil;
+	  sel_objs.del_item(props[adr].selected);
+	  props[adr].selected = nil;
 	}
-  }
+  }  
   
-  void set_select(const list<ITW>& L, bool b)
-  { forall(itw_obj1, L) set_select(itw_obj1.it, b); }
-  
-  public :
-  
-  void add_buffer_fcn(void (*f)(GeoWin&, list<GeoObj>&), const char* fcn_name)
+  void add_algorithm(void (*f)(GeoWin&, list<GeoObj>&), string fcn_name)
   {
-    buffer_operations.append(GeoInputObjectWrapper<GeoObj>(f,string(fcn_name)));    
+    buffer_operations.append(GeoInputObjectWrapper<GeoObj>(f,fcn_name));    
   }
+
+  void add_algorithm(geo_scene sc_res, string fcn_name)
+  {
+    buffer_operations.append(GeoInputObjectWrapper<GeoObj>(sc_res,fcn_name));    
+  }  
+  
   
   void set_alternative_input_object(const GeoInputObject<GeoObj>& obj, string n)
   { 
@@ -3449,65 +4184,12 @@ class  GeoEditScene : public GeoBaseScene<T>
     return fcns;
   }
 
-  bool find_object(double x, double y)
-  {
-    if ( !gw ) return false;
-    window& w = gw->get_window();
-    double d  = w.pix_to_real(1)* gw->get_mfct();
-    double x1=x-d, x2=x+d, y1=y-d, y2=y+d;
-    
-    iterator it = objs->begin(), stop = objs->end();
-    GeoObj obj;
-    list<point> hcont;  
-    
-    iterator old_mouse_obj = mouse_obj;
-    bool old_mouse_obj_exist = mouse_obj_exist;
-
-    mouse_obj_exist = false;
-    obj_defining_points_change = false;
-    
-    if (defining_points_fcn && (handle_defining_points!=geowin_hide)){
-      while (it != stop){
-        defining_points_fcn(*it,hcont);
-        point piter;
-	int cnt=0;
-        forall(piter,hcont){
-	  double xw = piter.xcoord(), yw = piter.ycoord();
-	  if ((xw>=x1) && (xw<=x2) && (yw>=y1) && (yw<=y2)) {
-	     obj_defining_points_change=true;
-	     obj_pnr= cnt;
-	  }
-	  cnt++;
-	}
-        hcont.clear();	
-	it++;
-      }
-    }
-
-    it = objs->begin();
-    while(it != stop)
-      {
-	obj = *it;
-	if( box_intersection_fcn(obj, x1, y1, x2, y2,true) )
-	  {
-	    mouse_obj_exist = true;
-	    mouse_obj = it;
-	  }
-	it++;
-      }
-
-    if ((high_light || (defining_points_fcn && (handle_defining_points == geowin_highlight))) && 
-        (old_mouse_obj != mouse_obj || old_mouse_obj_exist != mouse_obj_exist))
-    { gw->redraw();
-      if (mouse_obj_exist) draw_object_with_properties(*mouse_obj); 
-     }
-       
-    return mouse_obj_exist;
-  }
-  
   // virtual GeoScene members
   
-  virtual int GeoSceneId() const { return b2().prototypeid; }
+  virtual int GeoSceneId() const { 
+    return b2().prototypeid; 
+  }
+    
   virtual GeoEditor* type_editor()  { return this; }
   
   virtual void init_from_prototype(geo_scene proto)
@@ -3518,14 +4200,8 @@ class  GeoEditScene : public GeoBaseScene<T>
     
     GeoEditScene<T>* pr = (GeoEditScene<T>*)proto;    
     
-    set_box_intersection_fcn(pr->box_intersection_fcn);
-    set_get_bounding_box_fcn(pr->get_bounding_box_fcn);    
-    set_move_fcn(pr->move_fcn);
-    rotate_fcn = pr->rotate_fcn;
     generate_fcn = pr->generate_fcn;
-    edit_obj_fcn = pr->edit_obj_fcn;
     post_window_default_input_handler = pr->post_window_default_input_handler;
-    move_point_fcn = pr->move_point_fcn;
     input_fcns = pr->input_fcns;
     buffer_operations= pr->buffer_operations;
     
@@ -3534,12 +4210,13 @@ class  GeoEditScene : public GeoBaseScene<T>
     post_add_fcn = pr->post_add_fcn;
     pre_del_fcn = pr->pre_del_fcn;
     post_del_fcn = pr->post_del_fcn;
-    start_change_fcn = pr->start_change_fcn;
     pre_move_fcn = pr->pre_move_fcn;
     post_move_fcn = pr->post_move_fcn;
     pre_rotate_fcn = pr->pre_rotate_fcn;
     post_rotate_fcn = pr->post_rotate_fcn;    
-    end_change_fcn = pr->end_change_fcn;
+    
+    // new - additional generators
+    generators = pr->generators;
   }
 
   virtual void init_data()
@@ -3567,7 +4244,6 @@ class  GeoEditScene : public GeoBaseScene<T>
   
   virtual void mouse_at_pos(double x, double y, long& MASK)
   {
-    //cout << x << " " << y << "\n";
     mouse_pos(MASK,gw, find_object(x,y));
   }
   
@@ -3606,7 +4282,6 @@ class  GeoEditScene : public GeoBaseScene<T>
       update_and_redraw(); 
       return;
      }
-     //cout << "read!\n"; cout.flush();
      w >> t;
      if (post_window_default_input_handler) post_window_default_input_handler((*gw),t);
     } 
@@ -3618,18 +4293,9 @@ class  GeoEditScene : public GeoBaseScene<T>
     }
     
     if( !add_object(t,hl) )  return; 
-    results_handle(t);
+    
+    results_handle(*hl);
     gw->update_status_line();
-  }
-
-  virtual void toggle_selection() 
-  {
-    if( mouse_obj_exist )
-      {
-	GeoObj& obj  = *mouse_obj;
-	set_select(mouse_obj, !get_select(obj));
-	if( gw ) draw_object_with_properties(obj);
-      }
   }
   
   virtual bool options(panel* p)
@@ -3641,34 +4307,11 @@ class  GeoEditScene : public GeoBaseScene<T>
     return true;
   }
 
-  void select_in_rect(bool uflag, double x1, double y1, double x2, double y2,bool b)
-  // uflag false : select in rect, true: unselect
-  {
-    bool sel = false;
-    list<ITW> tmp;
-    
-    if (! uflag){
-     iterator it = objs->begin();
-     iterator stop = objs->end();
-    
-     while(it != stop ) 
-     {
-       if(b || box_intersection_fcn(*it, x1, y1, x2, y2,true) ) tmp.push(ITW(it)); 
-       it++;
-     }
-     forall(itw_obj1, tmp)    if( !get_select(*(itw_obj1.it)) )   { sel = true; break; }
-    }
-    else  tmp = sel_objs; 
-    
-    set_select(tmp, sel);
-    if( !tmp.empty() && gw ) gw->redraw();
-  }
-
   void get_selected_objects(list<GeoObj>& cnt)
   {
 	GeoObj obj2;
 	forall(itw_obj1, sel_objs) { 
-	  obj2 = *(itw_obj1.it);
+	  obj2 = *((GeoObj*)itw_obj1);
           cnt.push_back(obj2); 
         }  
   }  
@@ -3680,7 +4323,7 @@ class  GeoEditScene : public GeoBaseScene<T>
 	clip_objs.clear();
 	get_selected_objects(clip_objs);
 	
-	set_select(sel_objs, false);
+	GeoScene::set_select(sel_objs, false);
 	gw->redraw();
       }
   }
@@ -3696,7 +4339,7 @@ class  GeoEditScene : public GeoBaseScene<T>
 	  {
 	    if (add_object(obj,it)) changed.append(obj);
             GeoObj& obnew= *it;
-            set_select(it,true);
+            set_select((void*)(&(*it)),true);
 	    draw_object_with_properties(obnew);
 	  }
 
@@ -3709,54 +4352,26 @@ class  GeoEditScene : public GeoBaseScene<T>
       }
   }
   
-  virtual bool start_changing()
+  virtual void copy_clip_buffer(geo_scene sc)
   {
-    original = new map<void*, void*>;
-    
-    if( mouse_obj_exist  && !get_select(*mouse_obj) )
+    GeoEditScene<T>* esc = (GeoEditScene<T>*) sc;
+    if ( ! esc->clip_objs.empty() )
       {
-	if( !start_change_fcn || start_change_fcn(*gw, *mouse_obj) )
-	  mouse_changing = true;
-	else return false;
-        GeoObj& mob= *mouse_obj;
-	(*original)[(void*) (&mob)] = (void*) (&mob);
-      }
-    else
-      {
-	mouse_changing = false;
-	
-	forall(itw_obj1, sel_objs) 
+	GeoObj obj;
+        iterator it;
+	forall(obj, esc->clip_objs)
 	  {
-	    if( start_change_fcn && !start_change_fcn(*gw, *(itw_obj1.it)) ) return false;
-	    GeoObj& ob = *(itw_obj1.it);
-	    (*original)[(void*)(&ob)] = (void*)(&ob);
+	    if (add_object(obj,it)) changed.append(obj);
+            GeoObj& obnew= *it;
+            set_select((void*)(&(*it)),true);
+	    draw_object_with_properties(obnew);
 	  }
+
+	esc->clip_objs.clear();
+	change_mode=0;
+	update_and_redraw();
+	gw->update_status_line();
       }
-    while_dragging = true;
-    return true;
-  }
-  
-  virtual void stop_changing()
-  {
-    if( mouse_changing )
-      {
-	if ( end_change_fcn ) end_change_fcn(*gw, *mouse_obj);
-	mouse_changing = false;
-        GeoObj& mob= *mouse_obj;
-	original_properties((void*)(&mob)); 
-      }
-    else
-      forall(itw_obj1, sel_objs)
-      {
-	if ( end_change_fcn ) end_change_fcn(*gw, *(itw_obj1.it));
-	GeoObj& ob = *(itw_obj1.it);
-	original_properties((void*)(&ob));
-      }
-    
-    while_dragging = false;
-    delete original;
-    original = 0;
-    update_and_redraw();
   }
   
   virtual void call_buffer_fcn(int w, bool flag)
@@ -3764,11 +4379,15 @@ class  GeoEditScene : public GeoBaseScene<T>
   { 
      list<GeoObj> L;
      forall(itw_obj1,sel_objs) {
-       if (flag) L.append(*(itw_obj1.it));
-       else cout << *(itw_obj1.it) << "\n";
+       if (flag) L.append(*((GeoObj*)itw_obj1));
+       else cout << *((GeoObj*)itw_obj1) << "\n";
      }
      list_item it = buffer_operations.get_item(w);
-     if (flag) buffer_operations[it].get_fcn()(*gw,L);
+     if (flag) {
+       geo_scene resscn = buffer_operations[it].get_scene();
+       if (resscn==NULL) buffer_operations[it].get_fcn()(*gw,L);
+       else resscn->update(this);
+     }
   }
 
   virtual void move_or_rotate_sel(double dx, double dy, double alpha, bool b, bool update_flag)
@@ -3783,7 +4402,7 @@ class  GeoEditScene : public GeoBaseScene<T>
 	 if ( !pre_move_fcn  || (pre_move_fcn(*gw,obj1,dx,dy))){
 	  changed.append(obj1);
 	  if (!obj_defining_points_change) move( obj1, dx, dy);
-	  else move_point(obj1, dx, dy);
+	  else move_point((void*)(&obj1), dx, dy);
 	  changed2.append(obj1);
 	  if (post_move_fcn) post_move_fcn(*gw,obj1,dx,dy);
 	 }
@@ -3801,27 +4420,28 @@ class  GeoEditScene : public GeoBaseScene<T>
       {
  	forall(itw_obj1, sel_objs)
 	  {
+	   GeoObj& ob = *((GeoObj*)itw_obj1);
 	   if (b) { // move
-	    if (!pre_move_fcn  || (pre_move_fcn(*gw,*(itw_obj1.it),dx,dy))){	
-	      changed.append(*(itw_obj1.it));  
-	      move( *(itw_obj1.it), dx, dy);
-	      changed2.append(*(itw_obj1.it));
-	      if (post_move_fcn) post_move_fcn(*gw,*(itw_obj1.it),dx,dy);
+	    if (!pre_move_fcn  || (pre_move_fcn(*gw,ob,dx,dy))){	
+	      changed.append(ob);  
+	      move(ob, dx, dy);
+	      changed2.append(ob);
+	      if (post_move_fcn) post_move_fcn(*gw,ob,dx,dy);
 	    }
 	   }
 	   else { // rotate 
-	    if (!pre_rotate_fcn || (pre_rotate_fcn(*gw,*(itw_obj1.it),dx,dy,alpha))){	 
-	     changed.append(*(itw_obj1.it)); 
-	     rotate( *(itw_obj1.it), dx, dy, alpha);
-	     changed2.append(*(itw_obj1.it));
-	     if (post_rotate_fcn) post_rotate_fcn(*gw,*(itw_obj1.it),dx,dy,alpha);
+	    if (!pre_rotate_fcn || (pre_rotate_fcn(*gw,ob,dx,dy,alpha))){	 
+	     changed.append(ob); 
+	     rotate( ob, dx, dy, alpha);
+	     changed2.append(ob);
+	     if (post_rotate_fcn) post_rotate_fcn(*gw,ob,dx,dy,alpha);
 	    }	   
 	   }
 	  }
       }	
       
      change_mode=2;	
-     if (update_flag) update_and_redraw();
+     if (update_flag) { update(); gw->redraw(); }
   }
 
   virtual void del_sel()
@@ -3829,34 +4449,16 @@ class  GeoEditScene : public GeoBaseScene<T>
     if ( !sel_objs.empty() )
       {
 	forall(itw_obj1, sel_objs)  {
-	  GeoObj ob = *(itw_obj1.it);
-	  if(del_object(itw_obj1.it)) {
+	  GeoObj ob = *((GeoObj*)itw_obj1);
+	  geo_props pr = props[itw_obj1];
+	  
+	  if(del_object(pr.pos)) {
 	     changed.append(ob);
 	  }
 	}
 	change_mode=1;
 	update_and_redraw();
       }
-  }
-  
-  virtual bool fill_rect(double& x1, double& x2, double& y1, double& y2)
-  {
-    iterator it = objs->begin();
-    iterator stop = objs->end();
-   
-    if ( it != stop ) get_bounding_box_fcn( *it++, x1, x2, y1, y2 );
-    else return false;
-
-    double x1akt,x2akt,y1akt,y2akt;
-
-    while( it != stop ) {
-       get_bounding_box_fcn( *it++, x1akt, x2akt, y1akt, y2akt );
-       if (x1akt<x1) x1=x1akt;
-       if (x2akt>x2) x2=x2akt;
-       if (y1akt<y1) y1=y1akt;
-       if (y2akt>y2) y2=y2akt;
-    }
-    return true;
   }
 
   virtual void clear()
@@ -3896,44 +4498,30 @@ class  GeoEditScene : public GeoBaseScene<T>
   virtual void generate()
   {
     T tmp;
+    
+    // get the generator names ...
+    generator_names.clear();
+    geowin_generator<T>* gi;   
+    forall(gi, generators) generator_names.append(gi->get_name());
+    set_generator_number(-1);
+    
+    // set calling scene ...
+    GeoWin::call_scene = this;
+    
     generate_fcn(*gw, tmp);
+    int nb = get_generator_number();
+    if ((nb >= 0) && (nb < generators.length())) { // call one of the generators ...
+      list_item lit = generators.get_item(nb);
+      generators[lit]->set_parameters(*gw);
+      generators[lit]->operator()(tmp);
+    }
+    
     iterator it = tmp.begin(),hlp;
     while( it != tmp.end() ) {
       if (add_object(*it,hlp)) changed.append(*it); it++; 
     }
     change_mode = 0;
     update_and_redraw(); 
-  }
-  
-  virtual void setup_focus_or_raise(bool flag)
-  {
-    if( mouse_obj_exist )
-      {
-	GeoObj& objct    = *mouse_obj;
-        void* objptr        = (void*)(&objct);
-	
-	if (flag) { // setup focus ...
-	 window& w = gw->get_window();
-         setup_focus_dialog(w, objptr);
-	}
-	else {	
-         GeoObj obj2 = objct;
-         iterator zg;
-
-         if (add_object(obj2,zg)){
-          GeoObj& zlo = *zg;
-          set_original_properties((void*)(&zlo) ,objptr);
-          del_object(mouse_obj);
-         } 
-         update();
-	}
-	
-	gw->redraw();
-      }
-  }
-  
-  virtual void obj_edit(){
-	if (mouse_obj_exist && edit_obj_fcn) edit_obj_fcn(*gw,*mouse_obj,edit_mode);
   }
 
   virtual void obj_focus(){
@@ -3952,6 +4540,10 @@ class  GeoEditScene : public GeoBaseScene<T>
         IS >> obj2;
  
         iterator zg;
+	
+	//switch off limit...
+	int prevl = limit;
+	limit = -1;
 
         if (add_object(obj2,zg)){
          GeoObj& zlo = *mouse_obj;
@@ -3959,25 +4551,33 @@ class  GeoEditScene : public GeoBaseScene<T>
          set_original_properties((void*)(&zln),(void*)(&zlo));
          del_object(mouse_obj);
         }
+	// switch on the limit
+	limit = prevl;
        
         update_and_redraw();
       }
   }
-
-  virtual void del_focus()
-  {  
-    if (mouse_obj_exist)
-    { if (get_select(*mouse_obj))  del_sel(); 
-      else {
-        GeoObj gob = *mouse_obj;
-        if (del_object(mouse_obj))
-        { 
-	  change_mode=1;
-	  changed.append(gob);
-	  update_and_redraw();
-         }
+  
+  // add a copy of the mouse object ...
+  // (prec: mouse object exists)
+  virtual void add_mouse_object_copy(void*& new_adr)
+  {
+      GeoObj objct       = *mouse_obj; //copy of mouse object ...
+      iterator zg;
+      
+      if (add_object(objct,zg)) {
+        GeoObj& zln = *zg;
+	new_adr = (void*)(&zln);
       }
-    }
+      else new_adr = NULL;
+  }
+  
+  // delete the mouse object ...
+  virtual bool del_mouse_object(bool cf)
+  { 
+     GeoObj gob = *mouse_obj;
+     if (del_object(mouse_obj)) { if (cf) changed.append(gob); return true;}
+     return false;
   }
 
 };
@@ -3986,19 +4586,61 @@ class  GeoEditScene : public GeoBaseScene<T>
 template<class T> GeoEditSceneBuilder<T> GeoEditScene<T>::sb2;
 #endif
 
-template<class T> GeoEditScene<T>* geowin_new_scene(GeoWin& gw, T& t, void (*f)(geo_scene, d3_window&, GRAPH<d3_point,int>&)=NULL)
+template<class T> GeoEditScene<T>* geowin_new_scene(GeoWin& gw, T& t, string str, void (*f)(geo_scene, d3_window&, GRAPH<d3_point,int>&))
 {
-  GeoEditScene<T>* sc = (GeoEditScene<T>*)(GeoEditScene<T>::b2().new_scene());
+  GeoEditScene<T>* sc = (GeoEditScene<T>*)(GeoEditScene<T>::b2().new_scene());  
   sc->set_objref(t);
   gw.insert_scene(sc);
   sc->init_default_values();
   if (f != NULL) sc->init_d3_window = f;
+  if (str != "") gw.set_name(sc,str);
   return sc;
 }
+
+template<class T> GeoEditScene<T>* geowin_new_scene(GeoWin& gw, T& t)
+{
+  void (*f)(geo_scene, d3_window&, GRAPH<d3_point,int>&) = NULL;
+  string str = "";
+  
+  GeoEditScene<T>* sc = (GeoEditScene<T>*)(GeoEditScene<T>::b2().new_scene());  
+  sc->set_objref(t);
+  gw.insert_scene(sc);
+  sc->init_default_values();
+  if (f != NULL) sc->init_d3_window = f;
+  if (str != "") gw.set_name(sc,str);
+  return sc;
+}
+
+template<class T> GeoEditScene<T>* geowin_new_scene(GeoWin& gw, T& t, void (*f)(geo_scene, d3_window&, GRAPH<d3_point,int>&))
+{
+  string str = "";
+  GeoEditScene<T>* sc = (GeoEditScene<T>*)(GeoEditScene<T>::b2().new_scene());  
+  sc->set_objref(t);
+  gw.insert_scene(sc);
+  sc->init_default_values();
+  if (f != NULL) sc->init_d3_window = f;
+  if (str != "") gw.set_name(sc,str);
+  return sc;
+}
+
+template<class T> GeoEditScene<T>* geowin_new_scene(GeoWin& gw, T& t, string str)
+{
+  void (*f)(geo_scene, d3_window&, GRAPH<d3_point,int>&) = NULL;
+  GeoEditScene<T>* sc = (GeoEditScene<T>*)(GeoEditScene<T>::b2().new_scene());  
+  sc->set_objref(t);
+  gw.insert_scene(sc);
+  sc->init_default_values();
+  if (f != NULL) sc->init_d3_window = f;
+  if (str != "") gw.set_name(sc,str);
+  return sc;
+}
+
+
 
 template<class T> GeoEditScene<T>* make_edit_prototype(T* t, string str)
 {
   int id = GeoEditScene<T>::b2().get_id();
+  //cout << id << "\n";
   GeoScenePrototypes::set_type_name(id, str);
   return (GeoEditScene<T>*)(GeoScenePrototypes::get_prototype(id));
 }
@@ -4106,6 +4748,7 @@ public:
 #endif
    
   GeoBaseScene<S>* input_scene;
+  list<geo_scene>  influencing_scenes;
   
   bool (*test_fcn)(color&,color&,line_style&,int&, IteratorInput&, IteratorResult&,int);
 
@@ -4118,6 +4761,7 @@ public:
   GeoResultScene() : GeoBaseScene<R>() 
   { 
     //b3();
+    input_scene = NULL;
     update_fcn=NULL;
     test_fcn = NULL;
     pt_update=NULL;
@@ -4138,7 +4782,13 @@ public:
     return GeoBaseScene<R>::IsSuperOrEqual(sc);
   }
    
-  virtual int GeoSceneId() const { return b3().prototypeid; }
+  virtual int GeoSceneId() const //{ return b3().prototypeid; }
+  { 
+    return GeoBaseScene<R>::b1().get_id(); 
+    //cout << "Resultscene - GeoSceneId:" << nr << "\n" << flush;
+    //return nr;
+  }
+  
   
   virtual void init_from_prototype(geo_scene)
   {
@@ -4169,8 +4819,41 @@ public:
   void set_update_fcn( void (*f)(const S&, R&) )
   { update_fcn = f; }
   
+  virtual void update(geo_scene scn)
+  {
+    GeoEditScene<S>* sc = (GeoEditScene<S>*) scn;
+    list<GeoObjInput> selected_objs;
+    sc->get_selected_objects(selected_objs);
+    
+    S input_container;
+    GeoObjInput obj_iter;
+    
+    forall(obj_iter, selected_objs) input_container.push_back(obj_iter);
+  
+    //set calling GeoWin and scene 
+    GeoWin::call_win = gw;
+    GeoWin::call_scene = this;
+    GeoWin::call_inp_scene = input_scene;   
+    
+    if (pt_update != NULL) { // function object   
+      pt_update->update(input_container, *objs);
+    }  
+    else { // function
+      if (update_fcn != NULL) update_fcn(input_container, *objs);
+    }
+    
+    GeoBaseScene<R>::update();
+    
+    gw->redraw();
+  }
+  
   virtual void update()
   {
+    if (input_scene == NULL) {
+     //cout << "No Input scene !\n";
+     return;
+    }
+  
     //set calling GeoWin and scene 
     GeoWin::call_win = gw;
     GeoWin::call_scene = this;
@@ -4221,7 +4904,23 @@ public:
        }
       }
       // update function of the update object ...
-      if (! ret) pt_update->update(input_scene->get_objref(),*objs) ;  
+      if (! ret) {
+          if (influencing_scenes.empty()) pt_update->update(input_scene->get_objref(),*objs) ;  
+	  else {  // new call ...
+	    // get addresses (void*) of the containers of the scenes in influencing_scenes ...
+	    list<void*> ptr_list;
+
+	    geo_scene sc_iter;
+	    
+	    forall(sc_iter,influencing_scenes) ptr_list.append(sc_iter->get_untyped_objptr());
+
+	    typedef void (*FU_HELP)(...);
+	    
+	    FU_HELP helper_fcn = (FU_HELP) pt_update->get_gen_fcn();
+            // call of helper function ...
+	    if (helper_fcn) gw->call_update_fcn(helper_fcn,input_scene->get_untyped_objptr(), (void*)objs, ptr_list);
+	  }
+      }
     }
     
     else { // function
@@ -4267,6 +4966,7 @@ GeoResultScene<S,R>* geowin_new_scene(GeoWin& gw,
 }
 
 
+
 template<class S, class R>
 GeoResultScene<S,R>* geowin_new_scene(GeoWin& gw,
 					  void (*f)(const S&,R&), geo_scene sc, 
@@ -4292,6 +4992,43 @@ GeoResultScene<S,R>* geowin_new_scene(GeoWin& gw, geowin_update<S,R>& up, geo_sc
   if (d3f != NULL) res->init_d3_window = d3f;
   return res;  
 }
+
+
+// NEW ----------------------------------------------
+
+template<class S, class R>
+GeoResultScene<S,R>* geowin_new_scene(GeoWin& gw, geowin_update<S,R>& up, const list<geo_scene>& infl, const char* name, 
+                                      void (*d3f)(geo_scene, d3_window&, GRAPH<d3_point,int>&) = NULL)
+{
+  if (infl.empty()) return NULL; // infl must not be empty ...
+  geo_scene sc = infl.head();
+
+  GeoResultScene<S,R>* res =  (GeoResultScene<S,R>*)(GeoResultScene<S,R>::b3().new_scene());
+  res->set_base_name(name);
+  res->set_input_scene((GeoBaseScene<S>*)sc); 
+  res->set_update_object(&up);
+  
+  list<geo_scene> infl2 = infl;
+  infl2.pop();
+  res->influencing_scenes = infl2;
+ 
+  gw.insert_scene(res);
+  res->init_default_values();
+  res->update();  
+  
+  // add dependences ...
+  geo_scene sc_iter;
+  forall(sc_iter, infl) gw.add_dependence(sc_iter, res);
+  
+  if (d3f != NULL) res->init_d3_window = d3f;
+  return res;  
+}
+
+// --------------------------------------------------
+
+
+
+
 
 template<class S, class R>
 GeoResultScene<S,R>* geowin_new_scene(GeoWin& gw, geowin_update<S,R>& up,geowin_redraw& rb, geo_scene sc,const char* name,
@@ -4399,12 +5136,20 @@ inline GeoWin* get_geowin(geo_scene sc)
   returns a pointer to the |GeoWin| of |sc|.}*/
 { return sc->get_geowin(); }
 
+template<class CONTAINER>
+inline bool get_objects(geo_scene sc, CONTAINER& c)
+/*{\Mfuncl
+ If the contents of scene |sc| matches type |CONTAINER|, then the contents of scene |sc| is copied to |c|.}*/
+{ GeoWin* gw = sc->get_geowin(); 
+  return gw->get_objects(sc,c);
+}
+
 
 void _exportF geo_call(GeoWin& gw, void (*fkt)(GeoWin&), string);
 void _exportF geo_call(GeoWin& gw, void (*fkt)(), string);
 
 template<class T> bool geowin_get_objects(GeoWin& gw, geo_scene sc, T& t)
-  {
+{
     GeoBaseScene<T>* pr=get_base_prototype(&t);
     if( pr->IsMyKindOfScene(sc) )
       {
@@ -4413,7 +5158,20 @@ template<class T> bool geowin_get_objects(GeoWin& gw, geo_scene sc, T& t)
 	return true;
       }
     return false;
-  }
+}
+
+template<class T> bool geowin_set_objects(GeoWin& gw, geo_scene sc, T& t)
+{
+    GeoBaseScene<T>* pr=get_base_prototype(&t);
+    if( pr->IsMyKindOfScene(sc) )
+      {
+	pr = (GeoBaseScene<T>*)sc;
+	pr->set_objects(t);
+	return true;
+      }
+    return false;
+}
+
   
 template <class T>
 void geowin_get_selected_objects(GeoWin& gw,GeoEditScene<T>* sc, T& cnt)
@@ -4426,6 +5184,13 @@ void geowin_get_selected_objects(GeoWin& gw,GeoEditScene<T>* sc, T& cnt)
    forall(iter,HL) cnt.push_back(iter);
 }
 
+template <class T>
+void geowin_set_selected_objects(GeoWin& gw,GeoEditScene<T>* sc,const list<__typename T::iterator>& LIT)
+{
+   typedef __typename T::iterator iterator;
+   iterator it;
+   forall(it,LIT) sc->set_select((void*)(&(*it)),true);
+}
 
 inline void GeowinMember::call(GeoWin& gw) { (gw.*f)(); }
 
@@ -4479,8 +5244,9 @@ bool geowin_set_post_del_handler(GeoEditScene<T>* sc, F handler )
 template<class T,class F>
 bool geowin_set_start_change_handler(GeoEditScene<T>* sc, F handler )
 {
+ typedef bool (*FU)(...);
  if (sc == NULL) return false;
- sc->start_change_fcn = handler; 
+ sc->start_change_fcn = (FU) handler; 
  return true;
 }
 
@@ -4519,8 +5285,9 @@ bool geowin_set_post_rotate_handler(GeoEditScene<T>* sc, F handler )
 template<class T,class F>
 bool geowin_set_end_change_handler(GeoEditScene<T>* sc, F handler )
 {
+ typedef void (*FU)(...);
  if (sc == NULL) return false;
- sc->end_change_fcn = handler; 
+ sc->end_change_fcn = (FU) handler; 
  return true; 
 }
 
@@ -4532,21 +5299,73 @@ bool geowin_set_generate_fcn(GeoEditScene<T>* sc, void (*f)(GeoWin& gw,T& L))
  return true;
 }
 
-template<class T, class T2>
-bool geowin_set_edit_object_fcn(GeoEditScene<T>* sc, T2 f)
-{
+template<class T>
+bool geowin_add_generator(GeoEditScene<T>* sc, geowin_generator<T>& Gen)
+{ 
  if (sc == NULL) return false;
- sc->edit_obj_fcn = f;
+ sc->generators.append(&Gen);
  return true;
 }
 
+template<class T, class T2>
+bool geowin_set_edit_object_fcn(GeoEditScene<T>* sc, T2 f)
+{
+ typedef void (*FU)(...);
+ if (sc == NULL) return false;
+ sc->edit_obj_fcn =  (FU) f;
+ return true;
+}
+
+template<class T>
+void*  geowin_get_edit_object_fcn(GeoEditScene<T>* sc)
+{
+ return (void*) (sc->edit_obj_fcn);
+}
+
+template <class T,class T2>
+bool geowin_set_defining_points_fcn(GeoBaseScene<T>* sc, T2 f) 
+{ 
+ if (sc == NULL) return false;
+ sc->set_defining_points_fcn(f);
+ return true;
+}
+  
+template <class T,class T2>
+bool geowin_set_move_point_fcn(GeoEditScene<T>* sc, T2 f)
+{
+ typedef void (*FU)(...);
+ if (sc == NULL) return false;
+ sc->move_point_fcn = (FU) f;
+ return true;
+}
 
 template<class T,class F>
-bool geowin_add_buffer_fcn(GeoEditScene<T>* sc, F f, const char* name)
+bool geowin_add_algorithm(GeoEditScene<T>* sc, F f, string name)
 {
  if (sc == NULL) return false;
- sc->add_buffer_fcn(f,name);
+ sc->add_algorithm(f,name);
  return true;
+}
+
+template<class S,class R>
+GeoResultScene<S,R>* geowin_add_algorithm(GeoWin& gw, geowin_update<S,R>& up, GeoEditScene<S>* sc, string scene_name,
+                     string algo_name,
+                     void (*d3f)(geo_scene, d3_window&, GRAPH<d3_point,int>&) = NULL)
+{
+  GeoResultScene<S,R>* res =  (GeoResultScene<S,R>*)(GeoResultScene<S,R>::b3().new_scene());
+  res->set_base_name(scene_name);
+
+  res->set_update_object(&up);
+  res->add_owner(sc); // new !!!
+
+  gw.insert_scene(res);
+  res->init_default_values();
+  
+  if (d3f != NULL) res->init_d3_window = d3f;  
+  // add algorithm to sc...
+  sc->add_algorithm((geo_scene)res, algo_name);  
+  
+  return res;  
 }
 
 // third template argument because of SUN CC ...
@@ -4578,7 +5397,10 @@ bool geowin_add_input_object(GeoEditScene<T>* sc, const GeoInputObject<T2>& obj,
 
 template<class T, class T2>
 void geowin_set_draw_object_fcn(GeoBaseScene<T>* sc, T2 fcn)
-{ sc->draw_fcn = (void*) fcn; }
+{
+ typedef void (*FU)(...);  
+ sc->draw_fcn = (FU) fcn; 
+}
 
 
 // set object properties in scenes
@@ -4605,11 +5427,6 @@ template<class T> int geowin_get_obj_line_width(GeoBaseScene<T>* sc, void* adr)
 
 template<class T> int geowin_set_obj_line_width(GeoBaseScene<T>* sc, void* adr, int w)  
 { return sc->set_obj_line_width(adr,w); }    
-
-// handle defining points ...
-template<class T>    
-void geowin_set_handle_defining_points(GeoEditScene<T>* sc, geowin_defining_points gdp)
-{ sc->set_handle_defining_points(gdp); } 
 
 
 GEOWIN_END_NAMESPACE

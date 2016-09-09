@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/print_OFF.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/07/02 20:58:55 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -51,41 +51,59 @@
 
 #ifndef CGAL_IO_PRINT_OFF_H
 #define CGAL_IO_PRINT_OFF_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_IO_FILE_WRITER_OFF_H
 #include <CGAL/IO/File_writer_OFF.h>
-#endif // CGAL_IO_FILE_WRITER_OFF_H
-#ifndef CGAL_IO_GENERIC_PRINT_POLYHEDRON_H
 #include <CGAL/IO/generic_print_polyhedron.h>
-#endif // CGAL_IO_GENERIC_PRINT_POLYHEDRON_H
-#ifndef CGAL_POLYHEDRON_3_H
 #include <CGAL/Polyhedron_3.h>
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
 template <class Traits, class HDS>
 void
 print_OFF( std::ostream& out,
            const Polyhedron_3<Traits,HDS>& P,
            bool verbose = false) {
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class Traits,
+           class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void
+print_OFF( std::ostream& out,
+           const Polyhedron_3<Traits,Items,HDS,Alloc>& P,
+           bool verbose = false) {
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
     File_writer_OFF  writer( verbose);
+    writer.header().set_binary( is_binary( out));
+    writer.header().set_no_comments( ! is_pretty( out));
     writer.header().set_polyhedral_surface( true);
     writer.header().set_halfedges( P.size_of_halfedges());
     generic_print_polyhedron( out, P, writer);
 }
 
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
 template <class Traits, class HDS>
 void
 print_OFF( std::ostream& out,
            const Polyhedron_3<Traits,HDS>& P,
            const File_header_OFF& header) {
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class Traits,
+           class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void
+print_OFF( std::ostream& out,
+           const Polyhedron_3<Traits,Items,HDS,Alloc>& P,
+           const File_header_OFF& header) {
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
     File_writer_OFF  writer( header);
     writer.header().set_polyhedral_surface( true);
     writer.header().set_halfedges( P.size_of_halfedges());

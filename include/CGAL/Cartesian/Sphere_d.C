@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian/Sphere_d.C
-// package       : Cd (1.5)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/07/09 10:55:31 $
+// package       : Cd (1.14)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2000/11/17 14:52:08 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -381,6 +381,7 @@ template < class R >
 CGAL_KERNEL_INLINE
 std::istream& operator>>(std::istream &is, SphereC3<R CGAL_CTAG> &c)
 {
+    // FIXME : SphereC3 ????
     typename SphereC3<R CGAL_CTAG>::Point_3 center;
     typename R::FT squared_radius;
     int o;
@@ -398,7 +399,8 @@ std::istream& operator>>(std::istream &is, SphereC3<R CGAL_CTAG> &c)
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
     }
-    c = SphereC3<R CGAL_CTAG>(center, squared_radius, (Orientation)o);
+    if (is)
+        c = SphereC3<R CGAL_CTAG>(center, squared_radius, (Orientation)o);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SPHERECD

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : all_furthest_neighbors_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:24:34 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:46 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -50,10 +50,11 @@
 // ======================================================================
 
 
-#ifdef CGAL_USE_LEDA
+#include <CGAL/basic.h>
+
+#if (defined(CGAL_USE_LEDA) || defined(CGAL_USE_CGAL_WINDOW))
 
 #include <CGAL/Cartesian.h>
-#include <CGAL/Point_2.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/random_convex_set_2.h>
@@ -78,7 +79,9 @@ using CGAL::all_furthest_neighbors_2;
 using CGAL::cgalize;
 using CGAL::RED;
 
+
 typedef double                                 FT;
+typedef CGAL::Window_stream                    Window;
 typedef Cartesian< FT >                              R;
 typedef CGAL::Point_2< R >                           Point;
 typedef Polygon_traits_2< R >                        P_traits;
@@ -88,19 +91,23 @@ typedef CGAL::Polygon_2< P_traits, Point_cont >      Polygon;
 typedef Creator_uniform_2< FT, Point >               Creator;
 typedef Random_points_in_square_2< Point, Creator >  Point_generator;
 void
-wait_for_button_release( leda_window& W)
+wait_for_button_release( Window& W)
 {
   // wait until mouse button is released
   double x, y;
   int v;
   do {}
+#ifdef CGAL_USE_LEDA
   while ( W.read_event( v, x, y) != button_release_event);
+#else
+  while ( W.read_event( v, x, y) != CGAL::button_release_event);
+#endif // CGAL_USE_LEDA
 }
 
 int
 main()
 {
-  leda_window W;
+  Window W;
   cgalize(W);
   W.init(-1.25, 1.25, -1.25);
   W.display();
@@ -128,8 +135,12 @@ main()
     p.vertices_end(),
     back_inserter( neighbors));
   // output solution:
+  #ifdef CGAL_USE_LEDA
   W.set_mode(leda_xor_mode);
-  W.set_fg_color(leda_blue);
+  #else
+  W.set_mode(CGAL::xor_mode);
+  #endif // CGAL_USE_LEDA
+  W << CGAL::BLUE;
   // first click, no need to clear old query from screen:
   int last_button;
   int nearest = 0;

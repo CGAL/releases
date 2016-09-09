@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/rectangular_p_center_2.h
-// package       : Matrix_search (1.43)
+// package       : Matrix_search (1.49)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2000/09/15 07:25:34 $
+// revision      : $Revision: 1.47 $
+// revision_date : $Date: 2001/07/12 07:17:57 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -53,7 +53,7 @@
 #define CGAL_RECTANGULAR_P_CENTER_2_H 1
 
 #include <CGAL/pierce_rectangles_2.h>
-#include <CGAL/function_objects.h>
+#include <CGAL/functional.h>
 #include <CGAL/sorted_matrix_search.h>
 #include <CGAL/rectangular_3_center_2.h>
 #include <algorithm>
@@ -151,17 +151,6 @@ cartesian_matrix_horizontally_flipped(
     RandomAccessIC_column >
   ( r_f, r_l, c_f, c_l, o);
 }
-#if defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
-// gcc-2.91 gives funny ices when I try to do this with
-// bind/compose adaptors
-template < class NT >
-struct Pcenter_gcc291_operation
-: public CGAL_STD::binary_function< NT, NT, NT >
-{
-  NT operator()(const NT& n1, const NT& n2) const
-  { return max(NT(0), n1 - n2); }
-};
-#endif // defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
 /*
 template < class ForwardIterator,
            class OutputIterator,
@@ -307,7 +296,6 @@ rectangular_p_center_2_matrix_search(
 
 #ifndef CGAL_CFG_NO_NAMESPACE
   using std::minus;
-  using std::bind1st;
   using std::sort;
 #endif
 
@@ -414,7 +402,6 @@ rectangular_p_center_2_matrix_search(
 #endif
 #ifndef CGAL_CFG_NO_NAMESPACE
   using std::minus;
-  using std::bind1st;
 #endif
 
   return rectangular_p_center_2_matrix_search(
@@ -424,14 +411,7 @@ rectangular_p_center_2_matrix_search(
     r,
     pf,
     t,
-#if defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
-    // gcc-2.91 gives funny ices when I try to do this with
-    // bind/compose adaptors
-    Pcenter_gcc291_operation< FT >()
-#else
-    compose1_2(bind1st(Max< FT >(), 0), minus< FT >())
-#endif // defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
-    );
+    compose(bind_1(Max< FT >(), 0), minus< FT >()));
 
 } // Pcenter_matrix_search( ... )
 

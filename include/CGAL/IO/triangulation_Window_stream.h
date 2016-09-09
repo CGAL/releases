@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/triangulation_Window_stream.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: triangulation_Window_stream.h,v $
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1999/09/01 15:38:04 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2001/06/18 20:19:20 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //                 Monique Teillaud
@@ -54,7 +54,9 @@
 #ifdef CGAL_TRIANGULATION_2_H
 #ifndef CGAL_WINDOW_STREAM_TRIANGULATION_2_H
 #define CGAL_WINDOW_STREAM_TRIANGULATION_2_H
+
 CGAL_BEGIN_NAMESPACE
+
 template < class Gt, class Tds>
 Window_stream&
 operator<<(Window_stream& os,  const Triangulation_2<Gt, Tds> &t)
@@ -104,10 +106,10 @@ operator<<(Window_stream& os, const Weighted_point< Point, We > &p)
 {
   double cx = to_double(p.point().x()),
          cy = to_double(p.point().y()),
-         r = to_double(p.weight());
+         rr = to_double(p.weight());
 
   os<<p.point();
-  os.draw_circle(cx, cy , /*sqrt*/(r));
+  os.draw_circle(cx, cy , CGAL_CLIB_STD::sqrt(rr));
   return os;
 }
 
@@ -117,12 +119,14 @@ Window_stream& operator>>(Window_stream &os, Weighted_point< Point, We > &wp)
   double cx, cy, x1, y1;
   os.read_mouse(cx,cy);
   os.read_mouse_circle(cx,cy, x1, y1);
-  Point center(cx, cy);
+  //os.read_mouse(x1,y1);
+  Point center(cx,cy);
 
-  We sr = We (sqrt( square(cx-x1)+square(cy-y1) ) );
+  We sr = We(CGAL_CLIB_STD::sqrt( CGAL_NTS square(cx-x1)+ 
+				 CGAL_NTS square(cy-y1) ) );
 
-  os.draw_circle(cx, cy , sr );
-  wp = Weighted_point< Point, We >(center, sr);
+  os.draw_circle(cx, cy , sr);
+  wp = Weighted_point< Point, We >(center, CGAL_NTS square(sr));
   return os;
 }
 

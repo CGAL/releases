@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : predicates_on_pointsH3.fw
 // file          : include/CGAL/predicates_on_pointsH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2001/07/23 17:35:23 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,39 +50,37 @@
 #ifndef CGAL_PREDICATES_ON_POINTSH3_H
 #define CGAL_PREDICATES_ON_POINTSH3_H
 
-#ifndef CGAL_PVDH3_H
 #include <CGAL/PVDH3.h>
-#endif // CGAL_PVDH3_H
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-x_equal(const PointH3<FT,RT> &p,
-        const PointH3<FT,RT> &q)
+x_equal(const PointH3<R> &p,
+        const PointH3<R> &q)
 { return p.x()*q.hw() == q.x()*p.hw(); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-y_equal(const PointH3<FT,RT> &p,
-        const PointH3<FT,RT> &q)
+y_equal(const PointH3<R> &p,
+        const PointH3<R> &q)
 { return p.y()*q.hw() == q.y()*p.hw(); }
 
-template < class FT, class RT >
+template < class R >
 inline
 bool
-z_equal(const PointH3<FT,RT> &p,
-        const PointH3<FT,RT> &q)
+z_equal(const PointH3<R> &p,
+        const PointH3<R> &q)
 { return p.z()*q.hw() == q.z()*p.hw(); }
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
-compare_lexicographically_xyz(const PointH3<FT,RT>& p,
-                                   const PointH3<FT,RT>& q)
+compare_xyz(const PointH3<R>& p, const PointH3<R>& q)
 {
+  typedef typename R::RT RT;
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
   if ( pV < qV )
@@ -118,12 +115,23 @@ compare_lexicographically_xyz(const PointH3<FT,RT>& p,
   }
 }
 
-template < class FT, class RT >
+#ifndef CGAL_NO_DEPRECATED_CODE
+template < class R>
+inline
+Comparison_result
+compare_lexicographically_xyz(const PointH3<R>& p, const PointH3<R>& q)
+{
+   return compare_xyz(p, q);
+}
+#endif
+
+template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-lexicographically_xyz_smaller_or_equal(const PointH3<FT,RT> &p,
-                                            const PointH3<FT,RT> &q)
+lexicographically_xyz_smaller_or_equal(const PointH3<R> &p,
+                                            const PointH3<R> &q)
 {
+  typedef typename R::RT RT;
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
   if ( qV < pV )    //   ( pV > qV )
@@ -155,11 +163,12 @@ lexicographically_xyz_smaller_or_equal(const PointH3<FT,RT> &p,
   return true;
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
-bool lexicographically_xyz_smaller(const PointH3<FT,RT> &p,
-                                   const PointH3<FT,RT> &q)
+bool lexicographically_xyz_smaller(const PointH3<R> &p,
+                                   const PointH3<R> &q)
 {
+  typedef typename R::RT RT;
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
   if ( pV < qV )
@@ -191,11 +200,12 @@ bool lexicographically_xyz_smaller(const PointH3<FT,RT> &p,
   return false;
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
-bool lexicographically_xy_smaller(const PointH3<FT,RT> &p,
-                                  const PointH3<FT,RT> &q)
+bool lexicographically_xy_smaller(const PointH3<R> &p,
+                                  const PointH3<R> &q)
 {
+  typedef typename R::RT RT;
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
   if ( pV < qV )
@@ -216,12 +226,12 @@ bool lexicographically_xy_smaller(const PointH3<FT,RT> &p,
   return false;
 }
 
-template < class FT, class RT>
+template < class R>
 CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
-compare_lexicographically_xy(const PointH3<FT,RT>& p,
-                             const PointH3<FT,RT>& q)
+compare_xy(const PointH3<R>& p, const PointH3<R>& q)
 {
+  typedef typename R::RT RT;
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
   if ( pV < qV )
@@ -247,90 +257,109 @@ compare_lexicographically_xy(const PointH3<FT,RT>& p,
   return EQUAL;
 }
 
-template < class FT, class RT >
+#ifndef CGAL_NO_DEPRECATED_CODE
+template < class R>
 inline
 Comparison_result
-compare_x(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+compare_lexicographically_xy(const PointH3<R>& p, const PointH3<R>& q)
+{
+   return compare_xy(p, q);
+}
+#endif
+
+template < class R >
+inline
+Comparison_result
+compare_x(const PointH3<R> &p, const PointH3<R> &q)
 { return CGAL_NTS compare(p.hx() * q.hw(), q.hx() * p.hw() ); }
 
-template < class FT, class RT >
+template < class R >
 inline
 Comparison_result
-compare_y(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+compare_y(const PointH3<R> &p, const PointH3<R> &q)
 { return CGAL_NTS compare(p.hy() * q.hw(), q.hy() * p.hw() ); }
 
-template < class FT, class RT >
+template < class R >
 inline
 Comparison_result
-compare_z(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+compare_z(const PointH3<R> &p, const PointH3<R> &q)
 { return CGAL_NTS compare(p.hz() * q.hw(), q.hz() * p.hw() ); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-equal_xy(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+equal_xy(const PointH3<R> &p, const PointH3<R> &q)
 {
   return   (p.hx_ref() * q.hw_ref() == q.hx_ref() * p.hw_ref() )
         && (p.hy_ref() * q.hw_ref() == q.hy_ref() * p.hw_ref() );
 }
 
-template < class FT, class RT >  // ???  ->   ==
+template < class R >  // ???  ->   ==
 CGAL_KERNEL_INLINE
 bool
-equal_xyz(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+equal_xyz(const PointH3<R> &p, const PointH3<R> &q)
 {
   return   (p.hx_ref() * q.hw_ref() == q.hx_ref() * p.hw_ref() )
         && (p.hy_ref() * q.hw_ref() == q.hy_ref() * p.hw_ref() )
         && (p.hz_ref() * q.hw_ref() == q.hz_ref() * p.hw_ref() );
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-less_x(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+less_x(const PointH3<R> &p, const PointH3<R> &q)
 { return   (p.hx_ref() * q.hw_ref() < q.hx_ref() * p.hw_ref() ); }
 
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-less_y(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+less_y(const PointH3<R> &p, const PointH3<R> &q)
 { return   (p.hy_ref() * q.hw_ref() < q.hy_ref() * p.hw_ref() ); }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-less_z(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+less_z(const PointH3<R> &p, const PointH3<R> &q)
 { return   (p.hz_ref() * q.hw_ref() < q.hz_ref() * p.hw_ref() ); }
 
 
 CGAL_END_NAMESPACE
 
-#ifndef ORIENTATION_PREDICATESH3_H
 #include <CGAL/orientation_predicatesH3.h>
-#endif // ORIENTATION_PREDICATESH3_H
+
 CGAL_BEGIN_NAMESPACE
 
-template < class FT, class RT >
+template < class R>
+CGAL_KERNEL_MEDIUM_INLINE
+Angle
+angle( const PointH3<R>& p,
+       const PointH3<R>& q,
+       const PointH3<R>& r)
+{
+  return (Angle) CGAL_NTS sign((p-q)*(r-q));
+}
+
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-collinear(const PointH3<FT,RT> &p,
-          const PointH3<FT,RT> &q,
-          const PointH3<FT,RT> &r)
+collinear(const PointH3<R> &p,
+          const PointH3<R> &q,
+          const PointH3<R> &r)
 {
-  DirectionH3<FT,RT> dir_pq = (p - q).direction();
-  DirectionH3<FT,RT> dir_rq = (r - q).direction();
+  DirectionH3<R> dir_pq = (p - q).direction();
+  DirectionH3<R> dir_rq = (r - q).direction();
 
   return    ( dir_pq == dir_rq ) || (dir_pq == -dir_rq)
          || ( p == q ) || ( p == r ) || ( q == r ) ;
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-are_ordered_along_line(const PointH3<FT,RT> &p,
-                            const PointH3<FT,RT> &q,
-                            const PointH3<FT,RT> &r)
+are_ordered_along_line(const PointH3<R> &p,
+                            const PointH3<R> &q,
+                            const PointH3<R> &r)
 {
   if (!collinear(p, q, r))
   {
@@ -339,13 +368,14 @@ are_ordered_along_line(const PointH3<FT,RT> &p,
   return collinear_are_ordered_along_line(p, q, r);
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-collinear_are_ordered_along_line(const PointH3<FT,RT> &p,
-                                      const PointH3<FT,RT> &q,
-                                      const PointH3<FT,RT> &r)
+collinear_are_ordered_along_line(const PointH3<R> &p,
+                                      const PointH3<R> &q,
+                                      const PointH3<R> &r)
 {
+  typedef typename R::RT RT;
   CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   const RT phx = p.hx();
   const RT phw = p.hw();
@@ -406,42 +436,41 @@ collinear_are_ordered_along_line(const PointH3<FT,RT> &p,
   return  ((rqx == qrx) && (rqy == qry) && (rqz == qrz));
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-are_strictly_ordered_along_line(const PointH3<FT,RT> &p,
-                                     const PointH3<FT,RT> &q,
-                                     const PointH3<FT,RT> &r)
+are_strictly_ordered_along_line(const PointH3<R> &p,
+                                     const PointH3<R> &q,
+                                     const PointH3<R> &r)
 {
   if ( ! collinear(p, q, r) ) return false;
   return collinear_are_strictly_ordered_along_line( p, q, r);
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_INLINE
 bool
-collinear_are_strictly_ordered_along_line(const PointH3<FT,RT> &p,
-                                               const PointH3<FT,RT> &q,
-                                               const PointH3<FT,RT> &r)
+collinear_are_strictly_ordered_along_line(const PointH3<R> &p,
+                                               const PointH3<R> &q,
+                                               const PointH3<R> &r)
 {
   CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   if ( p == r) return false;
-  DirectionH3<FT,RT> dir_pq = (p - q).direction();
-  DirectionH3<FT,RT> dir_rq = (r - q).direction();
+  DirectionH3<R> dir_pq = (p - q).direction();
+  DirectionH3<R> dir_rq = (r - q).direction();
   return (dir_pq == -dir_rq);
 }
 
-
-
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_LARGE_INLINE
 Oriented_side
-side_of_oriented_sphere(const PointH3<FT,RT> &p,
-                             const PointH3<FT,RT> &q,
-                             const PointH3<FT,RT> &r,
-                             const PointH3<FT,RT> &s,
-                             const PointH3<FT,RT> &t)
+side_of_oriented_sphere(const PointH3<R> &p,
+                             const PointH3<R> &q,
+                             const PointH3<R> &r,
+                             const PointH3<R> &s,
+                             const PointH3<R> &t)
 {
+  typedef typename R::RT RT;
   CGAL_kernel_precondition( !coplanar(p,q,r,s) );
   const RT phx = p.hx();
   const RT phy = p.hy();
@@ -489,14 +518,53 @@ side_of_oriented_sphere(const PointH3<FT,RT> &p,
   }
 }
 
-template < class FT, class RT >
+template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 Bounded_side
-side_of_bounded_sphere(const PointH3<FT,RT> &p,
-                            const PointH3<FT,RT> &q,
-                            const PointH3<FT,RT> &r,
-                            const PointH3<FT,RT> &s,
-                            const PointH3<FT,RT> &test)
+side_of_bounded_sphere(const PointH3<R> &p,
+                       const PointH3<R> &q,
+                       const PointH3<R> &t)
+{
+  typedef typename R::RT RT;
+
+  const RT& phx = p.hx_ref();
+  const RT& phy = p.hy_ref();
+  const RT& phz = p.hz_ref();
+  const RT& phw = p.hw_ref();
+  const RT& qhx = q.hx_ref();
+  const RT& qhy = q.hy_ref();
+  const RT& qhz = q.hz_ref();
+  const RT& qhw = q.hw_ref();
+  const RT& thx = t.hx_ref();
+  const RT& thy = t.hy_ref();
+  const RT& thz = t.hz_ref();
+  const RT& thw = t.hw_ref();
+
+  return Bounded_side( CGAL_NTS sign((thx*phw-phx*thw)*(qhx*thw-thx*qhw)
+	                           + (thy*phw-phy*thw)*(qhy*thw-thy*qhw)
+	                           + (thz*phw-phz*thw)*(qhz*thw-thz*qhw)) );
+}
+
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+Bounded_side
+side_of_bounded_sphere(const PointH3<R> &p,
+                       const PointH3<R> &q,
+                       const PointH3<R> &r,
+                       const PointH3<R> &t)
+{
+    PointH3<R> center = circumcenter(p, q, r);
+    return Bounded_side( cmp_dist_to_point(center, p, t) );
+}
+
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+Bounded_side
+side_of_bounded_sphere(const PointH3<R> &p,
+                       const PointH3<R> &q,
+                       const PointH3<R> &r,
+                       const PointH3<R> &s,
+                       const PointH3<R> &test)
 {
   Oriented_side  oside = side_of_oriented_sphere(p,q,r,s,test);
   if ( are_positive_oriented( p,q,r,s) )
@@ -520,8 +588,20 @@ side_of_bounded_sphere(const PointH3<FT,RT> &p,
   return ON_BOUNDARY;  // Pls, no warnings anylonger
 }
 
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+Bounded_side
+coplanar_side_of_bounded_circle(const PointH3<R> &p,
+                                const PointH3<R> &q,
+                                const PointH3<R> &r,
+                                const PointH3<R> &t)
+{
+    CGAL_kernel_precondition( coplanar(p,q,r,t) );
+    CGAL_kernel_precondition( !collinear(p,q,r) );
+    return (Bounded_side)
+	   side_of_oriented_sphere(p, q, r, t+cross_product(q-p, r-p), t);
+}
 
 CGAL_END_NAMESPACE
 
-
-#endif // PREDICATES_ON_POINTSH3_H
+#endif // CGAL_PREDICATES_ON_POINTSH3_H

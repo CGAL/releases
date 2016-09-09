@@ -1,5 +1,5 @@
-// hds_prog_compact.C
-// ---------------------------------------------------
+// examples/Halfedge_DS/hds_prog_compact.C
+// ---------------------------------------
 #include <CGAL/Halfedge_data_structure_bases.h>
 #include <CGAL/Halfedge_data_structure_using_vector.h>
 #include <CGAL/Halfedge_data_structure_decorator.h>
@@ -43,9 +43,8 @@ public:
     bool is_border() const       { return f == NULL;}
 
     void  set_opposite( void* g) {
-        const size_t SIZE = sizeof( My_halfedge);
         char* h = (char*)g;
-        CGAL_assertion( size_t( abs( h - (char*)this)) == SIZE);
+        CGAL_assertion( size_t( abs( h - (char*)this)) == sizeof(My_halfedge));
         if ( h > (char*)this)
             nxt |= 1;
         else

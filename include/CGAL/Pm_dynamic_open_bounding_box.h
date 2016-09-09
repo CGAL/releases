@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Pm_dynamic_open_bounding_box.h
-// package       : pm (5.43)
+// package       : Planar_map (5.73)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -118,7 +118,8 @@ public:
 
     Token(const Bounding_box& t) : b(t) {};
 
-    virtual void rebuild_bounding_box(const Point_location_base* p) const {((Traits*)p->get_traits())->set_bounding_box(b);}
+    virtual void rebuild_bounding_box(const Point_location_base* p) const 
+    {((Traits*)p->get_traits())->set_bounding_box(b);}
   private:
     const Bounding_box& b;
   };
@@ -300,7 +301,8 @@ public:
               return false;
             else {++it;++it;}
           }
-        // make sure that the intersection of the curve with the vertical ray is inside the bounding box
+        // make sure that the intersection of the curve with the vertical ray 
+	// is inside the bounding box
         // (if such intersection exists).
       }
     else if (lt==Planar_map::VERTEX)
@@ -405,7 +407,8 @@ protected:
         CGAL_precondition(
           traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_UP || 
           traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_DOWN);
-        return (traits->point_is_higher(t,s)==(traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_UP));
+        return (traits->point_is_higher(t,s) ==
+		(traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_UP));
       }
     else
       {
@@ -500,10 +503,13 @@ protected:
             traits->curve_source(h->curve()),
             h->target()->point()) &&
           traits->point_is_same(
-                                traits->curve_target(h->curve()),h->source()->point())))
+                                traits->curve_target(h->curve()),
+				h->source()->point())))
           {
-            std::cout << "\ncurve_source(h->curve())=" << traits->curve_source(h->curve());
-            std::cout << " curve_target(h->curve())=" << traits->curve_target(h->curve());
+            std::cout << "\ncurve_source(h->curve())=" 
+		      << traits->curve_source(h->curve());
+            std::cout << " curve_target(h->curve())=" 
+		      << traits->curve_target(h->curve());
             std::cout << " h->source()->point()=" << h->source()->point();
             std::cout << " h->target()->point()=" << h->target()->point();
           }

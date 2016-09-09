@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,41 +18,37 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : enum.fw
 // file          : include/CGAL/enum.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/07/23 17:36:52 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_ENUM_H
 #define CGAL_ENUM_H
 
 CGAL_BEGIN_NAMESPACE
-
 
 enum  Sign
       {
@@ -63,8 +59,13 @@ enum  Sign
 
 typedef Sign Orientation;
 
+const Orientation  LEFT_TURN  = POSITIVE;
+const Orientation  RIGHT_TURN = NEGATIVE;
+
+#ifndef CGAL_NO_DEPRECATED_CODE
 const Orientation  LEFTTURN   = POSITIVE;
 const Orientation  RIGHTTURN  = NEGATIVE;
+#endif
 
 const Orientation  CLOCKWISE  = NEGATIVE;
 const Orientation  COUNTERCLOCKWISE = POSITIVE;
@@ -73,15 +74,12 @@ const Orientation  COLLINEAR  = ZERO;
 const Orientation  COPLANAR   = ZERO;
 const Orientation  DEGENERATE = ZERO;
 
-
-
 enum  Oriented_side
       {
         ON_NEGATIVE_SIDE = -1,
         ON_ORIENTED_BOUNDARY,
         ON_POSITIVE_SIDE
       };
-
 
 enum  Bounded_side
       {
@@ -90,7 +88,6 @@ enum  Bounded_side
         ON_BOUNDED_SIDE
       };
 
-
 enum  Comparison_result
       {
         SMALLER   = -1,
@@ -98,11 +95,15 @@ enum  Comparison_result
         LARGER
       };
 
+enum  Angle
+      {
+	  OBTUSE = -1,
+	  RIGHT,
+	  ACUTE
+      };
+
 CGAL_END_NAMESPACE
 
-
-#ifndef CGAL_FUNCTIONS_ON_ENUMS_H
 #include <CGAL/functions_on_enums.h>
-#endif // CGAL_FUNCTIONS_ON_ENUMS_H
 
 #endif // CGAL_ENUM_H

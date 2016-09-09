@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : PointVectorDirectionH3.fw
 // file          : include/CGAL/RepH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/02/13 15:30:40 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -57,26 +56,34 @@ template <class NT>
 class RepH3 : public Ref_counted
 {
 public:
-  NT  e0;
-  NT  e1;
-  NT  e2;
-  NT  e3;
+  NT  e0, e1, e2, e3;
 
-  RepH3()
-   // : e0(NT(42)), e1(NT(42)), e2(NT(42)), e3(NT(1))
-  {}
+  RepH3() {}
   RepH3(const NT& a0, const NT& a1, const NT& a2, const NT& a3)
-    : e0(a0), e1(a1), e2(a2), e3(a3)
-  {}
+    : e0(a0), e1(a1), e2(a2), e3(a3) {}
 
-  NT    hx() { return e0; }
-  NT    hy() { return e1; }
-  NT    hz() { return e2; }
-  NT    hw() { return e3; } // homogenizing component
+  NT    hx() const { return e0; }
+  NT    hy() const { return e1; }
+  NT    hz() const { return e2; }
+  NT    hw() const { return e3; } // homogenizing component
 };
 
+template <class NT>
+class Simple_RepH3
+{
+public:
+  NT  e0, e1, e2, e3;
+
+  Simple_RepH3() {}
+  Simple_RepH3(const NT& a0, const NT& a1, const NT& a2, const NT& a3)
+    : e0(a0), e1(a1), e2(a2), e3(a3) {}
+
+  NT    hx() const { return e0; }
+  NT    hy() const { return e1; }
+  NT    hz() const { return e2; }
+  NT    hw() const { return e3; } // homogenizing component
+};
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_REPH3_H

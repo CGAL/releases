@@ -12,14 +12,13 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_menu.c
-// package       : GeoWin (1.1.9)
-// revision      : 1.1.9
-// revision_date : 27 September 2000 
+// package       : GeoWin (1.2.2)
+// revision      : 1.2.2
+// revision_date : 30 January 2001 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
-
 
 #include<LEDA/geowin.h>
 #include "geo_localdefs.h"
@@ -62,13 +61,21 @@ void GeoWin::scene_options(int id)
     if( sc->ids[geo_opt_id] == id )  { sc->options();  return; }
 }
 
+void GeoWin::scene_description(int id)
+{
+  geo_scene sc;
+  forall(sc, scenes)
+    if( sc->ids[geo_desc_id] == id )  { sc->scene_description();  return; }
+}
+
+
 void GeoWin::scene_group_menu(int id)
 {
   //cout << id << "\n";
   geo_scenegroup gsg;
   forall(gsg, get_scenegroups()){
     if (gsg->id == id) {
-       cout << "Found\n";
+       //cout << "Found\n";
        scenegroup_dialog(gsg);
        return;
     }
@@ -92,6 +99,13 @@ void geo_scene_option(int n)
   window*    wp = window::get_call_window();
   GeoWin* gw = (GeoWin*)wp->get_inf();
   gw->scene_options(n);
+}
+
+void geo_scene_description(int n)
+{
+  window*    wp = window::get_call_window();
+  GeoWin* gw = (GeoWin*)wp->get_inf();
+  gw->scene_description(n); 
 }
 
 void geo_scene_algo(int n)
@@ -118,8 +132,9 @@ void geo_scene_contents(int n)
 }
 
 
-void GeoWin::new_scene(int n)
+void GeoWin::new_scene(int n, double dummy)
 {
+  dummy=dummy+1;
   string type_name = editables[editables[n]];
   //cout << type_name << "\n";
   geo_scene sc = GeoScene::new_scene(type_name);
@@ -132,7 +147,7 @@ void geo_new_scene_handler(int n)
 { 
   window*    wp = window::get_call_window();
   GeoWin* gw = (GeoWin*)wp->get_inf();
-  gw->new_scene(n);
+  gw->new_scene(n, 0.5); 
 }
 
 void geo_call(GeoWin& gw, void (*fkt)(GeoWin&), string)
@@ -181,14 +196,18 @@ void GeoWin::init_menu()
   menu_init = true;
 
   Wp->buttons_per_line(8);  
-  int but,but2, but3,but4;
+  int but,but2, but3,but4, but5;
   
   // File menu
   add_call( new GeowinMember(&GeoWin::file_open), "&Load Scene",
 	    menus[io_menu]);
-  but = add_call( new GeowinMember(&GeoWin::file_save), "&Save Scene",menus[io_menu]);
-  // new save-option Export without Header
-  but2= add_call( new GeowinMember(&GeoWin::file_save_woh), "E&xport Scene",menus[io_menu]);
+  but = add_call( new GeowinMember(&GeoWin::file_save_active), "&Save active Scene",menus[io_menu]);
+  
+  add_call( new GeowinMember(&GeoWin::file_save), "Save Scene",menus[io_menu]);
+ 
+  but5= add_call( new GeowinMember(&GeoWin::file_import), "Import Data",menus[io_menu]);
+ 
+  but2= add_call( new GeowinMember(&GeoWin::file_export), "E&xport Data",menus[io_menu]);
   menus[io_menu]->new_line();
 
   but3= add_call( new GeowinMember(&GeoWin::save_ps), "PS &active scene",menus[io_menu]);
@@ -197,6 +216,9 @@ void GeoWin::init_menu()
   add_call( new GeowinMember(&GeoWin::save_screen), "&Screenshot",menus[io_menu]);
 
   menus[io_menu]->new_line();
+   
+  buttons[GEO_CM_IMPORT]=but5;
+  button_info[GEO_CM_IMPORT]=1;
 
   buttons[GEO_CM_EXPORT]=but2;
   button_info[GEO_CM_EXPORT]=1;
@@ -233,22 +255,19 @@ void GeoWin::init_menu()
 	    menus[operate_menu]);
   add_call( new GeoEditorMember(&GeoEditor::paste), "Paste",
 	    menus[operate_menu]);
+  add_call( new GeowinMember(&GeoWin::paste_from), "Paste from",
+            menus[operate_menu]);
   add_call( new GeowinMember(&GeoWin::move_menu), "Move", menus[operate_menu]);
   add_call( new GeowinMember(&GeoWin::rotate_menu), "Rotate",  
 	    menus[operate_menu]); 
-  add_call( new GeowinMember(&GeoWin::show_sel), "Show Buffer",  
+  add_call( new GeowinMember(&GeoWin::show_sel), "Show selected",  
 	    menus[operate_menu]);     
   add_call( new GeoEditorMember(&GeoEditor::del_sel), "Delete", 
 	    menus[operate_menu]);
 	
   menus[edit_menu2]->button("Edit Selection", menu_const + edit_menu2,
 			    *(menus[operate_menu]));
-/*  
-  add_call(new GeoEditorMember(&GeoEditor::mouse_read_object), 
-	   "Mouse Read Object",  menus[readobject_menu]);
-  add_call(new GeoEditorMember(&GeoEditor::keyboard_read_object), 
-	   "Keyboard Read Object",  menus[readobject_menu]);
-*/
+
   add_call(new GeowinMember(&GeoWin::call_mouse_read_object), 
 	   "Mouse Read Object",  menus[readobject_menu]);
   add_call(new GeowinMember(&GeoWin::call_keyboard_read_object), 
@@ -343,6 +362,9 @@ void GeoWin::init_menu()
     add_call( new GeowinMember(&GeoWin::z_scenes) , "z-order", 
 	    menus[scene_menu]);
   button_info[GEO_CM_Z]=1;
+  
+  menus[scene_menu]->button("desription", menu_const + scene_desc_menu,
+			     *(menus[scene_desc_menu]));  
 
   menus[scene_menu]->button("options", menu_const + scene_opt_menu,
 			     *(menus[scene_opt_menu]));
@@ -416,6 +438,10 @@ void   GeoWin::make_scene_menu()
     {
       menu* m1 = menus[scene_list_menu] = new menu;
       m1->set_inf(this);
+      
+      menu* m6 = menus[scene_desc_menu] = new menu;
+      m6->set_inf(this);
+      
       menu* m2 = menus[scene_opt_menu] = new menu;
       m2->set_inf(this);
       menu* m3 = menus[scene_cont_menu] = new menu;
@@ -450,6 +476,9 @@ void   GeoWin::make_scene_menu()
 		m2->button(sc->get_name(),geo_scene_option);
 	      sc->ids[geo_cont_id] = 
 		m3->button(sc->get_name(),geo_scene_contents);	
+	      sc->ids[geo_desc_id] = 
+		m6->button(sc->get_name(),geo_scene_description);			
+		
 	    }
 	  // scene groups ...
 	  geo_scenegroup gsg;
@@ -471,6 +500,7 @@ void   GeoWin::make_scene_menu()
 	}
       else menus[scene_menu]->disable_button(menu_const + scene_list_menu);
       delete menus[scene_menu]->set_window(menu_const + scene_opt_menu,  m2);
+      delete menus[scene_menu]->set_window(menu_const + scene_desc_menu,  m6);
       delete menus[scene_menu]->set_window(menu_const + scene_cont_menu,  m3);
       delete menus[scene_menu]->set_window(menu_const + scene_groups_menu, m4);
       delete menus[algo_menu]->set_window(menu_const + algo_algorithm_menu, m5);
@@ -566,12 +596,14 @@ void GeoWin::no_scene_on()
   if( !is_open ) return;
   menus[io_menu]->disable_button(buttons[GEO_CM_WRITE]);
   menus[io_menu]->disable_button(buttons[GEO_CM_EXPORT]);
+  menus[io_menu]->disable_button(buttons[GEO_CM_IMPORT]);
   menus[io_menu]->disable_button(buttons[GEO_CM_POST]);
 
   menus[scene_menu]->disable_button(menu_const + scene_list_menu);
   menus[scene_menu]->disable_button(buttons[GEO_CM_CLEAR]);
   menus[scene_menu]->disable_button(buttons[GEO_CM_Z]);  
   menus[scene_menu]->disable_button(buttons[GEO_CM_VISIBLE]);
+  menus[scene_menu]->disable_button(menu_const + scene_desc_menu);  
   menus[scene_menu]->disable_button(menu_const + scene_opt_menu);
   menus[scene_menu]->disable_button(menu_const + scene_cont_menu); 
   menus[scene_menu]->disable_button(menu_const + scene_groups_menu);
@@ -587,12 +619,14 @@ void GeoWin::no_scene_off()
   if( !is_open ) return;
   menus[io_menu]->enable_button(buttons[GEO_CM_WRITE]);
   menus[io_menu]->enable_button(buttons[GEO_CM_EXPORT]);
+  menus[io_menu]->enable_button(buttons[GEO_CM_IMPORT]);
   menus[io_menu]->enable_button(buttons[GEO_CM_POST]);
 
   menus[scene_menu]->enable_button(menu_const + scene_list_menu);
   menus[scene_menu]->enable_button(buttons[GEO_CM_CLEAR]);
   menus[scene_menu]->enable_button(buttons[GEO_CM_Z]);
   menus[scene_menu]->enable_button(buttons[GEO_CM_VISIBLE]);
+  menus[scene_menu]->enable_button(menu_const + scene_desc_menu);  
   menus[scene_menu]->enable_button(menu_const + scene_opt_menu);
   menus[scene_menu]->enable_button(menu_const + scene_cont_menu);  
   menus[scene_menu]->enable_button(menu_const + scene_groups_menu);  
@@ -660,7 +694,7 @@ void geo_toggle_selection(GeoWin& gw , const point&)
   geo_scene  sc = gw.get_active_scene();
   geo_editor ed = sc ? sc->type_editor() : 0;
   
-  if (ed) ed->toggle_selection();
+  if (ed) sc->toggle_selection();
 }
 
 void geo_move(GeoWin& gw, const point& p)          
@@ -717,12 +751,12 @@ void geo_local_object_menu(GeoWin& gw, const point& p)
   
   switch (but) 
     {
-    case 1 :  ed->setup_focus_or_raise(true); break;  // setup focus
-    case 2 :  ed->toggle_selection(); break;
-    case 3 :  ed->del_focus(); break;
+    case 1 :  sc->setup_focus_or_raise(true); break;  // setup focus
+    case 2 :  sc->toggle_selection(); break;
+    case 3 :  sc->del_focus(ed); break;
     case 4 :  ed->obj_focus(); break;
-    case 5 :  ed->setup_focus_or_raise(false); break; // raise
-    case 6 :  ed->obj_edit(); break;
+    case 5 :  sc->setup_focus_or_raise(false); break; // raise
+    case 6 :  sc->obj_edit(); break;
     default :  break;
     }
   

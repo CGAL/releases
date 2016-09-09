@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,26 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_iterators_2.h
-// package       : Triangulation (4.69)
+// package       : Triangulation_2 (5.18)
 // source        : $RCSfile: Triangulation_iterators_2.h,v $
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 1999/10/25 12:55:09 $
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2001/06/14 15:06:46 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -55,9 +55,14 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_utils_2.h>
+#include <CGAL/Triangulation_face_2.h>
+#include <CGAL/Triangulation_vertex_2.h>
+#include <CGAL/Triangulation_handles_2.h>
 #include <CGAL/Triangulation_ds_iterators_2.h>
 
 CGAL_BEGIN_NAMESPACE
+
+template <class Gt, class Tds> class Triangulation_2;
 
 template < class Gt, class Tds>
 class Triangulation_all_faces_iterator_2 
@@ -66,7 +71,7 @@ class Triangulation_all_faces_iterator_2
 public:
   typedef typename Tds::Face_iterator  Base;
   typedef Triangulation_2<Gt,Tds> Triangulation;
-  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face Face;
+  typedef typename Triangulation::Face Face;
   typedef Triangulation_all_faces_iterator_2<Gt,Tds>  All_faces;
 
   typedef Face      value_type;
@@ -131,12 +136,12 @@ class Triangulation_all_vertices_iterator_2
 public:
   typedef typename Tds::Vertex_iterator  Base;
   typedef Triangulation_2<Gt,Tds> Triangulation;
-  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Vertex Vertex;
+  typedef typename Triangulation::Vertex Vertex;
   typedef Triangulation_all_vertices_iterator_2<Gt,Tds> All_vertices;
 
   typedef Vertex       value_type;
-  typedef Vertex *     pointer;
-  typedef Vertex &     reference;
+  typedef const Vertex *     pointer;
+  typedef const Vertex &     reference;
   typedef std::size_t     size_type;
   typedef std::ptrdiff_t  difference_type;
   typedef std::bidirectional_iterator_tag   iterator_category;
@@ -171,13 +176,15 @@ class Triangulation_finite_vertices_iterator_2
 public:
   typedef Triangulation_all_vertices_iterator_2<Gt,Tds>    All_vertices;
   typedef Triangulation_finite_vertices_iterator_2<Gt,Tds> Finite_vertices;
+  // typedef Triangulation_2<Gt,Tds>                          Triangulation;
   typedef typename All_vertices::Triangulation             Triangulation;
+
 private:
   const Triangulation* _tr; 
 
 public:
   Triangulation_finite_vertices_iterator_2()    : All_vertices(),_tr(NULL)   {}
-        
+          
   Triangulation_finite_vertices_iterator_2(const Triangulation *tr);
     
   Triangulation_finite_vertices_iterator_2(const Triangulation *tr, int )
@@ -196,9 +203,9 @@ class Triangulation_all_edges_iterator_2
 {
 public:
   typedef Triangulation_2<Gt,Tds>     Triangulation;
-  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Edge  Edge;
-  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face        Face;
-  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face_handle  Face_handle;
+  typedef typename Triangulation::Edge  Edge;
+  typedef typename Triangulation::Face        Face;
+  typedef typename Triangulation::Face_handle  Face_handle;
   typedef typename Tds::Edge_iterator Base;
   typedef Triangulation_all_edges_iterator_2<Gt,Tds> All_edges;
 
@@ -253,6 +260,42 @@ public:
   Finite_edges  operator++(int);
   Finite_edges  operator--(int);
 };
+
+  //Helping classes
+ //  to be used as adaptators from iterators value_type
+ //   Edge of the triangulation
+ //  to an iterator with Tds::Edge as value type
+  template<class It, class TdsEdge>
+  class To_tds_edge_iterator : public It {
+  public:
+    typedef TdsEdge  Tds_Edge;
+    typedef typename std::iterator_traits<It>::value_type Edge;
+    To_tds_edge_iterator() {}
+    To_tds_edge_iterator(It i) : It(i) {} 
+    Tds_Edge  operator*() {
+      Edge e = It::operator*();
+      return Tds_Edge( &*(e.first), e.second);
+    }
+  };
+
+ //  to be used as adaptators from iterators with Face_handle value_type
+ //   to an iterator with Tds::Face* as value type
+  template<class It, class TdsFace>
+  class To_tds_face_iterator : public It {
+  public:
+    typedef TdsFace  Tds_Face;
+    To_tds_face_iterator() {}
+    To_tds_face_iterator(It i) : It(i) {} 
+    Tds_Face* operator*() { return  &*(It::operator*() ); }
+  };
+
+
+
+
+
+
+
+
 
 template < class Gt, class Tds>
 inline

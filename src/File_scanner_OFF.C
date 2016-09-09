@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : src/File_scanner_OFF.C
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/06/19 00:20:29 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -76,18 +76,18 @@ skip_to_next_vertex( int current_vertex) {
     if ( binary()) {
         float f;
         if ( has_normals() && ! normals_read) {
-            _Binary_read_float32( m_in, f);
-            _Binary_read_float32( m_in, f);
-            _Binary_read_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
+            I_Binary_read_big_endian_float32( m_in, f);
             if ( is_homogeneous())
-                _Binary_read_float32( m_in, f);
+                I_Binary_read_big_endian_float32( m_in, f);
         }
         if ( has_colors()) {
             // It is not well stated in the Geomview manual
             // how color is coded following a vertex. It is
             // parsed similar to the optional color for facets.
             Integer32 k;
-            _Binary_read_integer32( m_in, k);
+            I_Binary_read_big_endian_integer32( m_in, k);
             if (k<0 || k>4) {
                 m_in.clear( std::ios::badbit);
                 if ( verbose()) {
@@ -102,7 +102,7 @@ skip_to_next_vertex( int current_vertex) {
             }
             while (k--) {
                 float dummy;
-                _Binary_read_float32( m_in, dummy);
+                I_Binary_read_big_endian_float32( m_in, dummy);
             }
         }
     } else {
@@ -138,7 +138,7 @@ skip_to_next_facet( int current_facet) {
     // Take care of trailing informations like color triples.
     if ( binary()) {
         Integer32 k;
-        _Binary_read_integer32( m_in, k);
+        I_Binary_read_big_endian_integer32( m_in, k);
         if (k<0 || k>4) {
             m_in.clear( std::ios::badbit);
             if ( verbose()) {
@@ -153,7 +153,7 @@ skip_to_next_facet( int current_facet) {
         }
         while (k--) {
             float dummy;
-            _Binary_read_float32( m_in, dummy);
+            I_Binary_read_big_endian_float32( m_in, dummy);
         }
     } else {
         m_in >> skip_until_EOL;

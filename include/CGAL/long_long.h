@@ -1,10 +1,10 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2001 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,37 +18,36 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : webNT/Long_long.fw
 // file          : include/CGAL/long_long.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/01/17 13:50:56 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
-// !!!  ANSI C++ does not support `long long'  !!!
+// ISO C++ does not support `long long', but ISO C does, which means the next
+// revision of ISO C++ probably will too.  However, currently, g++ -pedantic
+// produces a warning so we don't include this file by default.
 
 #ifndef CGAL_LONG_LONG_H
 #define CGAL_LONG_LONG_H
@@ -56,7 +55,6 @@
 #include <CGAL/number_type_tags.h>
 
 CGAL_BEGIN_NAMESPACE
-
 
 inline
 double
@@ -84,7 +82,8 @@ is_valid(long long int)
     (defined(__powerpc__) || defined(__powerpc) || defined(powerpc))
 typedef  long long int           Integer64;
 typedef  unsigned long long int  UInteger64;
-#endif // __sparc__ || ...
+#define CGAL_HAS_INTEGER64
+#endif
 
 CGAL_END_NAMESPACE
 

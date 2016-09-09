@@ -1,4 +1,4 @@
-//example9.C
+//examples/Arrangement_2/example9.C
 
 // Define shorter names to please linker (g++/egcs)
 #define Arrangement_2 Ar
@@ -6,7 +6,6 @@
 #define Cartesian CRTS
 #define Arr_polyline_traits APT
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 
 #include <CGAL/Arr_2_bases.h>

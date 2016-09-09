@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/IO/Polyhedron_scan_OFF.h
-// package       : Polyhedron_IO (2.11)
+// package       : Polyhedron_IO (3.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/06/22 16:00:50 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/07/02 20:58:54 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -51,32 +51,15 @@
 
 #ifndef CGAL_IO_POLYHEDRON_SCAN_OFF_H
 #define CGAL_IO_POLYHEDRON_SCAN_OFF_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_PROTECT_CSTDDEF
-#include <cstddef>
-#define CGAL_PROTECT_CSTDDEF
-#endif
-#ifndef CGAL_IO_FILE_HEADER_OFF_H
 #include <CGAL/IO/File_header_OFF.h>
-#endif // CGAL_IO_FILE_HEADER_OFF_H
-#ifndef CGAL_IO_FILE_SCANNER_OFF_H
 #include <CGAL/IO/File_scanner_OFF.h>
-#endif // CGAL_IO_FILE_SCANNER_OFF_H
-#ifndef CGAL_MODIFIER_BASE_H
 #include <CGAL/Modifier_base.h>
-#endif
-#ifndef CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H
 #include <CGAL/Polyhedron_incremental_builder_3.h>
-#endif // CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H
-#ifndef CGAL_POLYHEDRON_3_H
 #include <CGAL/Polyhedron_3.h>
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
+#include <cstddef>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -124,8 +107,12 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
                      scanner.size_of_facets(),
                      scanner.size_of_halfedges());
 
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
     typedef typename HDS::Point Point;
-    typedef typename Point::RT  RT;
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+    typedef typename HDS::Traits     Traits;
+    typedef typename Traits::Point_3 Point;
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
     // read in all vertices
     int  i;

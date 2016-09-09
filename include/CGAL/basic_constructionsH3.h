@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : basic_constructionsH3.fw
 // file          : include/CGAL/basic_constructionsH3.h
-// package       : H3 (2.12)
-// revision      : 2.12
-// revision_date : 16 Aug 2000 
+// package       : H3 (2.34)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/19 19:17:09 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -53,10 +52,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class FT, class RT>
-PointH3<FT,RT>
-_projection(const PointH3<FT,RT>& p, const PlaneH3<FT,RT>& pl)
+template <class R>
+PointH3<R>
+_projection(const PointH3<R>& p, const PlaneH3<R>& pl)
 {
+  typedef typename R::RT RT;
   if ( pl.has_on(p) ) return p;
 
   RT A = pl.a();
@@ -71,33 +71,33 @@ _projection(const PointH3<FT,RT>& p, const PlaneH3<FT,RT>& pl)
   RT num = A * phx  +  B * phy  +  C * phz  +  D * phw;
   RT den = A * A    +  B * B    +  C * C;
 
-  return PointH3<FT,RT>( num * A  -  den * phx,
+  return PointH3<R>( num * A  -  den * phx,
                               num * B  -  den * phy,
                               num * C  -  den * phz,
                              -den );
 }
 
-template <class FT, class RT>
-PointH3<FT,RT>
-midpoint( const PointH3<FT,RT>& p,
-               const PointH3<FT,RT>& q )
+template <class R>
+PointH3<R>
+midpoint( const PointH3<R>& p, const PointH3<R>& q )
 {
+  typedef typename R::RT RT;
   RT phw = p.hw();
   RT qhw = q.hw();
-  return PointH3<FT,RT>( p.hx()*qhw + q.hx()*phw,
+  return PointH3<R>( p.hx()*qhw + q.hx()*phw,
                               p.hy()*qhw + q.hy()*phw,
                               p.hz()*qhw + q.hz()*phw,
                               RT(2) * phw * qhw );
 }
 
 
-template <class FT, class RT>
-PointH3<FT,RT>
-gp_linear_intersection(const PlaneH3<FT,RT> &f,
-                       const PlaneH3<FT,RT> &g,
-                       const PlaneH3<FT,RT> &h)
+template <class R>
+PointH3<R>
+gp_linear_intersection(const PlaneH3<R> &f,
+                       const PlaneH3<R> &g,
+                       const PlaneH3<R> &h)
 {
-  return PointH3<FT,RT>(
+  return PointH3<R>(
                       det3x3_by_formula(-f.d(), f.b(), f.c(),
                                         -g.d(), g.b(), g.c(),
                                         -h.d(), h.b(), h.c()),
@@ -113,27 +113,70 @@ gp_linear_intersection(const PlaneH3<FT,RT> &f,
 }
 
 
-template <class FT, class RT>
+template <class R>
 CGAL_KERNEL_INLINE
-FT
-squared_distance( PointH3<FT,RT> const& p, PointH3<FT,RT> const& q)
+typename R::FT
+squared_distance( PointH3<R> const& p, PointH3<R> const& q)
 { return (p-q)*(p-q); }
 
 
-template <class FT, class RT>
+template <class R>
 inline
-PlaneH3<FT,RT>
-bisector( PointH3<FT,RT> const& p,
-          PointH3<FT,RT> const& q)
-{ return PlaneH3<FT,RT>( midpoint(p,q), q-p); }
+PlaneH3<R>
+bisector( PointH3<R> const& p,
+          PointH3<R> const& q)
+{ return PlaneH3<R>( midpoint(p,q), q-p); }
 
-template <class FT, class RT>
-PointH3<FT,RT>
-circumcenter( PointH3<FT,RT> const& p,
-              PointH3<FT,RT> const& q,
-              PointH3<FT,RT> const& r,
-              PointH3<FT,RT> const& s)
+template <class R>
+CGAL_KERNEL_MEDIUM_INLINE
+PointH3<R>
+centroid( PointH3<R> const& p,
+          PointH3<R> const& q,
+          PointH3<R> const& r,
+          PointH3<R> const& s)
 {
+   typedef typename R::RT  RT;
+   const RT phw(p.hw());
+   const RT qhw(q.hw());
+   const RT rhw(r.hw());
+   const RT shw(s.hw());
+   RT hx(p.hx()*qhw*rhw*shw + q.hx()*phw*rhw*shw + r.hx()*phw*qhw*shw
+         + s.hx()*phw*qhw*rhw);
+   RT hy(p.hy()*qhw*rhw*shw + q.hy()*phw*rhw*shw + r.hy()*phw*qhw*shw
+         + s.hy()*phw*qhw*rhw);
+   RT hz(p.hz()*qhw*rhw*shw + q.hz()*phw*rhw*shw + r.hz()*phw*qhw*shw
+         + s.hz()*phw*qhw*rhw);
+   RT hw( phw*qhw*rhw*shw * 4);
+   return PointH3<R>(hx, hy, hz, hw);
+}
+
+template <class R>
+CGAL_KERNEL_MEDIUM_INLINE
+PointH3<R>
+centroid( PointH3<R> const& p,
+          PointH3<R> const& q,
+          PointH3<R> const& r)
+{
+   typedef typename R::RT  RT;
+   const RT phw(p.hw());
+   const RT qhw(q.hw());
+   const RT rhw(r.hw());
+   RT hx(p.hx()*qhw*rhw + q.hx()*phw*rhw + r.hx()*phw*qhw);
+   RT hy(p.hy()*qhw*rhw + q.hy()*phw*rhw + r.hy()*phw*qhw);
+   RT hz(p.hz()*qhw*rhw + q.hz()*phw*rhw + r.hz()*phw*qhw);
+   RT hw( phw*qhw*rhw * 3);
+   return PointH3<R>(hx, hy, hz, hw);
+}
+
+template <class R>
+PointH3<R>
+circumcenter( PointH3<R> const& p,
+              PointH3<R> const& q,
+              PointH3<R> const& r,
+              PointH3<R> const& s)
+{
+  typedef typename R::RT RT;
+
   RT phw( p.hw() );
   RT qhw( q.hw() );
   RT rhw( r.hw() );
@@ -191,21 +234,42 @@ circumcenter( PointH3<FT,RT> const& p,
                                    rhx, rhy, rhz, rhw,
                                    shx, shy, shz, shw );
 
- return PointH3<FT,RT>( chx, -chy, chz, RT(2)*chw);
+ return PointH3<R>( chx, -chy, chz, RT(2)*chw);
 }
-template <class FT, class RT>
+
+template <class R>
 CGAL_KERNEL_INLINE
-PointH3<FT,RT>
-circumcenter( PointH3<FT,RT> const& p,
-              PointH3<FT,RT> const& q,
-              PointH3<FT,RT> const& r)
+PointH3<R>
+circumcenter( PointH3<R> const& p,
+              PointH3<R> const& q,
+              PointH3<R> const& r)
 {
-  return gp_linear_intersection( PlaneH3<FT,RT>(p,q,r),
+  return gp_linear_intersection( PlaneH3<R>(p,q,r),
                                  bisector(p,q),
                                  bisector(p,r));
 }
 
-CGAL_END_NAMESPACE
+template <class R>
+CGAL_KERNEL_INLINE
+typename R::FT
+squared_radius( const PointH3<R>& p,
+                const PointH3<R>& q,
+                const PointH3<R>& r )
+{
+  return squared_distance(p, circumcenter(p, q, r));
+}
 
+template <class R>
+CGAL_KERNEL_INLINE
+typename R::FT
+squared_radius( const PointH3<R>& p,
+                const PointH3<R>& q,
+                const PointH3<R>& r,
+                const PointH3<R>& s )
+{
+  return squared_distance(p, circumcenter(p, q, r, s));
+}
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BASIC_CONSTRUCTIONSH3_H

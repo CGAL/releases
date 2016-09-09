@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,28 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Triangulation_handles_3.h
-// package       : Triangulation3 (1.42)
-// revision      : $Revision: 1.11 $
+// package       : Triangulation_3 (1.83)
+// revision      : $Revision: 1.15 $
 // author(s)     : Monique Teillaud
 //
-// coordinator   : INRIA Sophia Antipolis 
-//                 (Mariette Yvinec)
+// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
 //
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
@@ -49,69 +48,55 @@
 #ifndef CGAL_TRIANGULATION_HANDLES_3_H
 #define CGAL_TRIANGULATION_HANDLES_3_H
 
+#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/Pointer.h>
 #include <CGAL/Triangulation_vertex_3.h>
 #include <CGAL/Triangulation_cell_3.h>
 #include <CGAL/Triangulation_iterators_3.h>
 #include <CGAL/Triangulation_circulators_3.h>
-  
-#include <CGAL/Triangulation_short_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Tds >
-class Triangulation_cell_3;
-
-template <  class Gt, class Tds >
-class Triangulation_vertex_3;
-
-template <  class Gt, class Tds>
-class Triangulation_cell_iterator_3;
-
-template <  class Gt, class Tds>
-class Triangulation_vertex_iterator_3;
-
-template <  class Gt, class Tds>
-class Triangulation_cell_circulator_3;
+template < class Gt, class Tds > class Triangulation_cell_3;
+template < class Gt, class Tds > class Triangulation_vertex_3;
+template < class Gt, class Tds > class Triangulation_cell_iterator_3;
+template < class Gt, class Tds > class Triangulation_vertex_iterator_3;
+template < class Gt, class Tds > class Triangulation_cell_circulator_3;
 
 template < class Gt, class Tds>
 class Triangulation_vertex_handle_3
-  :public Pointer<Triangulation_vertex_3<Gt,Tds> > 
+  : public Pointer<Triangulation_vertex_3<Gt,Tds> >
 {
 public:
-  typedef Pointer<Triangulation_vertex_3<Gt,Tds> > Ptr;
-  typedef Triangulation_vertex_3<Gt,Tds> Vertex;
-  typedef Triangulation_vertex_handle_3<Gt,Tds> Vertex_handle;
-  
-  typedef Triangulation_vertex_iterator_3<Gt,Tds>      Vertex_iterator;
-  
-  inline 
+  typedef Pointer<Triangulation_vertex_3<Gt,Tds> >   Ptr;
+  typedef Triangulation_vertex_3<Gt,Tds>             Vertex;
+  typedef Triangulation_vertex_handle_3<Gt,Tds>      Vertex_handle;
+
+  typedef Triangulation_vertex_iterator_3<Gt,Tds>    Vertex_iterator;
+
   Triangulation_vertex_handle_3()
     : Ptr(NULL)
   {}
 
-  inline  
-  Triangulation_vertex_handle_3(const Vertex* v)
-    : Ptr((Vertex*)v)
-    {}
+  Triangulation_vertex_handle_3(Vertex * v)
+    : Ptr(v)
+  {}
 
-  inline  
   Triangulation_vertex_handle_3(const Vertex_iterator & vit)
     : Ptr(&(*vit))
-    {}
-  
-  inline Vertex_handle & operator=(const Vertex* & v)
+  {}
+
+  Vertex_handle & operator=(Vertex * v)
   {
-    ptr() = const_cast<Vertex*>(v) ;
+    ptr() = v;
     return *this;
   }
-    
-  inline Vertex_handle & operator=(const Vertex_handle & v)
+
+  Vertex_handle & operator=(const Vertex_handle & v)
   {
     ptr() = v.ptr();
     return *this;
   }
-  
 };
 
 template <class Gt, class Tds>
@@ -123,52 +108,47 @@ handle2pointer(const Triangulation_vertex_handle_3<Gt,Tds> v)
 
 template <class Gt, class Tds>
 class Triangulation_cell_handle_3
-  :public Pointer<Triangulation_cell_3<Gt,Tds> > 
+  : public Pointer<Triangulation_cell_3<Gt,Tds> >
 {
 public:
-  typedef Pointer<Triangulation_cell_3<Gt,Tds> > Ptr;
-  typedef Triangulation_cell_3<Gt,Tds> Cell;
-  typedef Triangulation_cell_handle_3<Gt,Tds> Cell_handle;
-  
-  typedef Triangulation_cell_iterator_3<Gt,Tds> Cell_iterator;
-  typedef Triangulation_cell_circulator_3<Gt,Tds> Cell_circulator;
-  
-  inline 
+  typedef Pointer<Triangulation_cell_3<Gt,Tds> >    Ptr;
+  typedef Triangulation_cell_3<Gt,Tds>              Cell;
+  typedef Triangulation_cell_handle_3<Gt,Tds>       Cell_handle;
+
+  typedef Triangulation_cell_iterator_3<Gt,Tds>     Cell_iterator;
+  typedef Triangulation_cell_circulator_3<Gt,Tds>   Cell_circulator;
+
   Triangulation_cell_handle_3()
     : Ptr(NULL)
   {}
 
-  inline  
-  Triangulation_cell_handle_3(const Cell* c)
-    : Ptr((Cell*)c)
+  Triangulation_cell_handle_3(Cell * c)
+    : Ptr(c)
   {}
 
-  inline  
   Triangulation_cell_handle_3(const Cell_iterator & cit)
     : Ptr(&(*cit))
   {}
-  
-  inline  
+
   Triangulation_cell_handle_3(const Cell_circulator & ccir)
     : Ptr(&(*ccir))
   {}
 
-  inline Cell_handle & operator=(const Cell* & c)
+  Cell_handle & operator=(Cell * c)
   {
-    ptr() = const_cast<Cell*>(c) ;
+    ptr() = c;
     return *this;
   }
-    
-  inline Cell_handle & operator=(const Cell_handle & c)
+
+  Cell_handle & operator=(const Cell_handle & c)
   {
     ptr() = c.ptr();
     return *this;
   }
-  
 };
 
 template <class Gt, class Tds>
-Triangulation_cell_3<Gt,Tds> * 
+Triangulation_cell_3<Gt,Tds> *
 handle2pointer(const Triangulation_cell_handle_3<Gt,Tds> c)
 {
   return c.ptr();

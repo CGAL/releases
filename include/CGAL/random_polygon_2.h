@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,27 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/random_polygon_2.h
-// package       : Generator (2.34)
+// package       : Generator (2.40)
 // chapter       : Geometric Object Generators
 //
-// revision      : $Revision: 1.0 $
-// revision_date : $Date: 2000/05/05 16:19:47 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/07/12 18:31:00 $
 //
 // author(s)     : Susan Hert
 //
@@ -118,7 +118,7 @@ inline
 OutputIterator random_polygon_2( int n,  OutputIterator result, 
                                  const PointGenerator& pg )
 {
-   typedef typename PointGenerator::value_type  Point_2;
+   typedef typename std::iterator_traits<PointGenerator>::value_type  Point_2;
    return _random_polygon_2(n, result, pg, reinterpret_cast<Point_2*>(0));
 }
 
@@ -131,31 +131,45 @@ OutputIterator _random_polygon_2( int n,  OutputIterator result,
 }
 
 
-
 template <class ForwardIterator, class Traits>
 bool duplicate_points(ForwardIterator first, ForwardIterator beyond, 
-                      const Traits& traits)
+                      const Traits& )
 {
-   typedef typename Traits::Point_2    Point_2;
-   typedef typename Traits::Less_yx    Less_yx;
-   std::set<Point_2,Less_yx>  point_set;
+   typedef typename Traits::Point_2      Point_2;
+   typedef typename Traits::Less_yx_2    Less_yx_2;
+   std::set<Point_2,Less_yx_2>  point_set;
    int i = 0;
    for (; first != beyond; first++, i++)
       if (!(point_set.insert(*first)).second) return true;
    return false;
 }
 
+template <class ForwardIterator>
+bool duplicate_points(ForwardIterator first, ForwardIterator beyond)
+{
+   typedef typename std::iterator_traits<ForwardIterator>::value_type  Point_2;
+   return _duplicate_points(first, beyond, reinterpret_cast<Point_2*>(0));
+}
+
+template <class ForwardIterator, class R>
+bool _duplicate_points(ForwardIterator first, ForwardIterator beyond,
+                       Point_2<R>*)
+{
+   return duplicate_points(first, beyond, Random_polygon_traits_2<R>());
+}
+
 // Copies the first n points from the input iterator to the output iterator,
 // removing any duplicates.  Thus fewer than n points may be inserted into
 // the output iterator.
 template <class InputIterator, class Size, class OutputIterator, class Traits>
-OutputIterator copy_n_unique(InputIterator first, Size n, OutputIterator result,
-                             const Traits& traits)
+OutputIterator copy_n_unique(InputIterator first, Size n, 
+                             OutputIterator result,
+                             const Traits& )
 {
    typedef typename Traits::Point_2    Point_2;
-   typedef typename Traits::Less_yx    Less_yx;
+   typedef typename Traits::Less_yx_2  Less_yx_2;
 
-   std::set<Point_2, Less_yx>    sorted_point_set;
+   std::set<Point_2, Less_yx_2>    sorted_point_set;
    int i;
    for (i = 0; i < n; i++)
    {
@@ -169,6 +183,23 @@ OutputIterator copy_n_unique(InputIterator first, Size n, OutputIterator result,
    return result;
 }
 
+template <class InputIterator, class Size, class OutputIterator>
+inline
+OutputIterator copy_n_unique(InputIterator first, Size n, 
+                             OutputIterator result)
+{
+   typedef typename std::iterator_traits<InputIterator>::value_type  Point_2;
+   return _copy_n_unique(first, n, result, reinterpret_cast<Point_2*>(0));
 }
+
+template <class InputIterator, class Size, class OutputIterator, class R>
+inline
+OutputIterator _copy_n_unique(InputIterator first, Size n, 
+                              OutputIterator result, Point_2<R>*)
+{
+   return copy_n_unique(first, n, result, Random_polygon_traits_2<R>());
+}
+
+} // namespace CGAL
 
 #endif

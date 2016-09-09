@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Bbox_3.fw
 // file          : include/CGAL/Bbox_3.h
-// package       : _3 (3.7)
-// revision      : 3.7
-// revision_date : 16 Aug 2000 
+// package       : _3 (3.23)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/06/20 12:25:22 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -46,19 +45,12 @@
 //
 // ======================================================================
  
-
 #ifndef CGAL_BBOX_3_H
 #define CGAL_BBOX_3_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-#ifndef CGAL_CARTESIAN_CLASSES_H
 #include <CGAL/cartesian_classes.h>
-#endif // CGAL_CARTESIAN_CLASSES_H
-#ifndef SIXTUPLE_H
 #include <CGAL/Sixtuple.h>
-#endif // SIXTUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -120,6 +112,7 @@ inline
 double
 Bbox_3::zmax() const
 { return ptr->e5; }
+
 inline Bbox_3 Bbox_3::operator+(const Bbox_3& b) const
 {
   return Bbox_3(std::min(xmin(), b.xmin()),
@@ -129,6 +122,7 @@ inline Bbox_3 Bbox_3::operator+(const Bbox_3& b) const
                 std::max(ymax(), b.ymax()),
                 std::max(zmax(), b.zmax()));
 }
+
 inline bool do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
 {
     // check for emptiness ??
@@ -140,7 +134,8 @@ inline bool do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
         return false;
     return true;
 }
-#ifndef NO_OSTREAM_INSERT_BBOX_3
+
+#ifndef CGAL_NO_OSTREAM_INSERT_BBOX_3
 inline
 std::ostream&
 operator<<(std::ostream &os, const Bbox_3& b)
@@ -167,11 +162,9 @@ operator<<(std::ostream &os, const Bbox_3& b)
         return os;
   }
 }
-#endif // NO_OSTREAM_INSERT_BBOX_3
+#endif // CGAL_NO_OSTREAM_INSERT_BBOX_3
 
-
-
-#ifndef NO_ISTREAM_EXTRACT_BBOX_3
+#ifndef CGAL_NO_ISTREAM_EXTRACT_BBOX_3
 inline
 std::istream&
 operator>>(std::istream &is, Bbox_3& b)
@@ -196,10 +189,8 @@ operator>>(std::istream &is, Bbox_3& b)
   return is;
 }
 
-#endif // NO_ISTREAM_EXTRACT_BBOX_3
-
+#endif // CGAL_NO_ISTREAM_EXTRACT_BBOX_3
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_BBOX_3_H

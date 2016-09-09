@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,25 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Cartesian_dynamic_d.h
-// package       : Cartesian_basic (4.2)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2000/06/27 14:52:40 $
+// package       : Cartesian_kernel (6.24)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/10/19 16:15:19 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -49,13 +49,9 @@
 #define CGAL_CARTESIAN_DYNAMIC_D_H
 
 #include <CGAL/basic.h>
+#include <CGAL/basic_classes.h>
 #include <CGAL/cartesian_classes.h>
-
-#ifdef CGAL_CFG_NO_ADVANCED_KERNEL
-  // Because we cannot use Michael's scheme, we need the wrapper classes
-  // We include them (they are common to Cartesian and Homogeneous)
-  #include <CGAL/user_classes.h>
-#endif // CGAL_CFG_NO_ADVANCED_KERNEL
+#include <CGAL/user_classes.h>
 
 #define CGAL_REP_CLASS_DEFINED
 #define CGAL_CARTESIAN_CLASS_DEFINED
@@ -74,7 +70,7 @@ struct Cartesian_base_dynamic_d
     // Because of partial specialization, CGAL::Point_d<R> is selected as
     // CGAL::Point_d<Cartesian_d<FT>,Cartesian_tag>
     // CAUTION: This is not yet done, so we revert to the old class PointCd
-    typedef PointCd<FT>                          Point_d;
+    typedef CGAL::Point_d<R,Rep_tag>             Point_d;
 #else
     typedef PointCd<FT>                          Point_d;
 #endif // CGAL_CFG_NO_ADVANCED_KERNEL

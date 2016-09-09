@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : geometric_predicates.fw
 // file          : include/CGAL/predicates_on_directionsH2.h
-// package       : H2 (2.12)
-// revision      : 2.12
-// revision_date : 03 Aug 2000 
+// package       : H2 (2.37)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/06/21 14:21:01 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,53 +50,51 @@
 #ifndef CGAL_PREDICATES_ON_DIRECTIONSH2_H
 #define CGAL_PREDICATES_ON_DIRECTIONSH2_H
 
-#ifndef PVDH2_H
 #include <CGAL/PVDH2.h>
-#endif // PVDH2_H
-#ifndef CGAL_PREDICATES_ON_POINTSH2_H
 #include <CGAL/predicates_on_pointsH2.h>
-#endif // CGAL_PREDICATES_ON_POINTSH2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class FT, class RT>
+template < class R >
 CGAL_KERNEL_LARGE_INLINE
 Comparison_result
-compare_angles_with_x_axis(const DirectionH2<FT,RT>& d1,
-                           const DirectionH2<FT,RT>& d2)
+compare_angle_with_x_axis(const DirectionH2<R>& d1,
+                          const DirectionH2<R>& d2)
 {
-  CGAL_kernel_precondition( (
-        (Comparison_result)COUNTERCLOCKWISE == LARGER
-      &&(Comparison_result)COLLINEAR        == EQUAL
-      &&(Comparison_result)CLOCKWISE        == SMALLER ) );
+  typedef typename R::RT  RT;
+  CGAL_kernel_precondition(
+        static_cast<int>(COUNTERCLOCKWISE) == static_cast<int>(LARGER)
+     && static_cast<int>(COLLINEAR)        == static_cast<int>(EQUAL)
+     && static_cast<int>(CLOCKWISE)        == static_cast<int>(SMALLER) );
 
   const RT RT0(0);
 
-  CGAL::VectorH2<FT,RT> dirvec1(d1.x(), d1.y());      // Added
-  CGAL::PointH2<FT,RT>   p1 = CGAL::ORIGIN + dirvec1; // Added
-  CGAL::VectorH2<FT,RT> dirvec2(d2.x(), d2.y());      // Added
-  PointH2<FT,RT>   p2 = ORIGIN + dirvec2;             // Added
-//  PointH2<FT,RT>   p1 = ORIGIN + d1.vector(); // Commented out
-//  PointH2<FT,RT>   p2 = ORIGIN + d2.vector(); // Commented out
+  CGAL::VectorH2<R> dirvec1(d1.x(), d1.y());      // Added
+  CGAL::PointH2<R>   p1 = CGAL::ORIGIN + dirvec1; // Added
+  CGAL::VectorH2<R> dirvec2(d2.x(), d2.y());      // Added
+  PointH2<R>   p2 = ORIGIN + dirvec2;             // Added
+//  PointH2<R>   p1 = ORIGIN + d1.vector(); // Commented out
+//  PointH2<R>   p2 = ORIGIN + d2.vector(); // Commented out
 
   CGAL_kernel_precondition( RT0 < p1.hw_ref() );
   CGAL_kernel_precondition( RT0 < p2.hw_ref() );
 
-  int       x_sign1 = (int)CGAL_NTS sign( p1.hx_ref() );
-  int       x_sign2 = (int)CGAL_NTS sign( p2.hx_ref() );
-  int       y_sign1 = (int)CGAL_NTS sign( p1.hy_ref() );
-  int       y_sign2 = (int)CGAL_NTS sign( p2.hy_ref() );
+  int       x_sign1 = static_cast<int>(CGAL_NTS sign( p1.hx_ref() ));
+  int       x_sign2 = static_cast<int>(CGAL_NTS sign( p2.hx_ref() ));
+  int       y_sign1 = static_cast<int>(CGAL_NTS sign( p1.hy_ref() ));
+  int       y_sign2 = static_cast<int>(CGAL_NTS sign( p2.hy_ref() ));
 
   if ( y_sign1 * y_sign2 < 0)
   {
       return (0 < y_sign1 ) ? SMALLER : LARGER;
   }
 
-  PointH2<FT,RT>   origin( RT0  , RT0   );
+  PointH2<R>   origin( RT0  , RT0   );
 
   if ( 0 < y_sign1 * y_sign2 )
   {
-      return ( (Comparison_result) orientation(origin, p2, p1) );
+      return static_cast<Comparison_result>(static_cast<int>(
+		  orientation(origin, p2, p1)));
 
       // Precondition on the enums:
       // COUNTERCLOCKWISE == LARGER   ( ==  1 )
@@ -119,12 +116,11 @@ compare_angles_with_x_axis(const DirectionH2<FT,RT>& d1,
   else
   {
       return (orientation(origin, p1, p2) == COUNTERCLOCKWISE) ?
-                                   (Comparison_result) SMALLER :
-                                   (Comparison_result) LARGER;
+                                   static_cast<Comparison_result>(SMALLER) :
+                                   static_cast<Comparison_result>(LARGER);
   }
 }
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_PREDICATES_ON_DIRECTIONSH2_H

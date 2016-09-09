@@ -1,3 +1,7 @@
+// demo/Arrangement_2/Polyline_arr_from_file.C
+//
+//constructs an arrangement of polylines from file
+
 #include <CGAL/config.h> // needed for the LONGNAME flag
 
 #ifdef CGAL_CFG_NO_LONGNAME_PROBLEM
@@ -28,8 +32,6 @@
 //constructs a ployline arrangement from a file.
 // We use the leda traits (therefore we use leda functions).
 
-// PARTIALLY CHANGED
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 
 #include <CGAL/Arr_2_bases.h>
@@ -38,7 +40,7 @@
 #include <CGAL/Arr_polyline_traits.h>
 
 #ifndef CGAL_USE_LEDA
-int main(int argc, char* argv[])
+int main()
 {
 
   std::cout << "Sorry, this demo needs LEDA for visualisation.";
@@ -50,7 +52,7 @@ int main(int argc, char* argv[])
 #else
 
 #include <CGAL/leda_real.h>
-#include <CGAL/IO/Window_stream.h>
+#include <CGAL/Draw_preferences.h>
 
 typedef leda_real                            NT;
 typedef CGAL::Cartesian<NT>                  Rep;
@@ -100,25 +102,18 @@ CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
   return os;
 }
 
-// draw an arrangement with polyline traits
-CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
-                                Arr_2 &A)
+CGAL_BEGIN_NAMESPACE
+Window_stream& operator<<(Window_stream& os, Arr_2 &A)
 {
-   Arr_2::Halfedge_iterator it = A.halfedges_begin();
-   
-   os << CGAL::BLUE;
-   while(it != A.halfedges_end()){
-
-      os << (*it).curve();
-      ++it; ++it;
-    }
-   it = A.halfedges_begin();
-
-    os.set_flush( 1 );
-    os.flush();
-
-    return os;
+  My_Arr_drawer< Arr_2,
+                 Arr_2::Ccb_halfedge_circulator, 
+                 Arr_2::Holes_iterator> drawer(os);
+  
+  draw_pm(arr, drawer, os);
+  
+  return os;
 }
+CGAL_END_NAMESPACE
 
 void read_arr(Arr_2 & arr, char * filename)
 {  

@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,27 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : orientation.fw
 // file          : demo/Robustness/cocircular_2.C
-// revision      : 1.5
-// revision_date : 20 Sep 2000 
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/06/26 11:52:28 $
 // author(s)     : Stefan Schirra
-//
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : contact@cgal.org
@@ -46,60 +44,65 @@
 //
 // ======================================================================
  
-
-#include <CGAL/basic.h>
-#ifndef CGAL_USE_LEDA
-int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
-#else
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
+
 #include <cassert>
 #include <vector>
 #include <algorithm>
-#include <CGAL/Point_2.h>
-#include <CGAL/Segment_2.h>
+
 #include <CGAL/point_generators_2.h>
 #include <CGAL/copy_n.h>
-#include <CGAL/IO/leda_window.h>
 #include <CGAL/IO/Ostream_iterator.h>
-#include <CGAL/leda_real.h>
+#ifdef CGAL_USE_LEDA
+#  include <CGAL/leda_real.h>
+typedef leda_real exact_NT;
+#else
+#  include <CGAL/MP_Float.h>
+#  include <CGAL/Quotient.h>
+typedef CGAL::Quotient<CGAL::MP_Float> exact_NT;
+#endif
+
 #include <CGAL/Interval_arithmetic.h>
-#include <CGAL/kernel_to_kernel.h>
-#include <CGAL/orientation_test_statistics.h>
 
 #include <CGAL/Min_circle_2_traits_2.h>
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_ellipse_2_traits_2.h>
 #include <CGAL/Min_ellipse_2.h>
-#include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/IO/Window_stream.h>
+
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_window  CGAL::window
+#define leda_string  std::string
+#define leda_blue    CGAL::blue
+#define leda_pink    CGAL::pink
+#define leda_grey1   CGAL::grey1
+#endif
+
+#include <CGAL/orientation_test_statistics.h>
+
+
 typedef CGAL::Cartesian<double>                          CartesianDouble;
-typedef CGAL::Point_2<CartesianDouble>                   Point;
+typedef CartesianDouble::Point_2                         Point;
 typedef CGAL::Creator_uniform_2<double,Point>            Pt_creator;
 typedef std::vector<Point>                               Vector;
-typedef CGAL::Cartesian<leda_real>                       CartesianLedaReal;
+typedef CGAL::Cartesian<exact_NT>                        CartesianLedaReal;
 typedef CGAL::Min_circle_2_traits_2<CartesianDouble>     Traits;
 
 typedef CGAL::Min_circle_2_traits_2<CartesianDouble>     Traits;
 typedef CGAL::Min_circle_2<Traits>                       Min_circle;
 typedef CGAL::Min_ellipse_2_traits_2<CartesianDouble>    ETraits;
 typedef CGAL::Min_ellipse_2<ETraits>                     Min_ellipse;
-typedef CGAL::Triangulation_euclidean_traits_2<CartesianDouble> Gtd;
-typedef CGAL::Triangulation_vertex_base_2<Gtd>           Vbd;
-typedef CGAL::Triangulation_face_base_2<Gtd>             Fbd;
-typedef CGAL::Triangulation_default_data_structure_2<Gtd,Vbd,Fbd> Tdsd;
-typedef CGAL::Delaunay_triangulation_2<Gtd,Tdsd>         DT_double;
-
+typedef CGAL::Delaunay_triangulation_2<CartesianDouble>  DT_double;
 
 int
 main(int argc, char** argv)
 {
     int N = (argc > 1) ? CGAL_CLIB_STD::atoi(argv[1]) : 30;
     
-    typedef leda_window  CGAL_Stream;
-    CGAL_Stream W( 500, 550);
-    CGAL_Stream W1( 400, 400);
+    CGAL::Window_stream W( 500, 550);
+    CGAL::Window_stream W1( 400, 400);
     CGAL::cgalize(W);
     CGAL::cgalize(W1);
     
@@ -108,7 +111,6 @@ main(int argc, char** argv)
     W.display();
     W1.display(W,50,50);
     
-    
     Vector points1;
     typedef CGAL::Random_points_on_circle_2<Point,Pt_creator>   P_on_circle;
     P_on_circle  pc1( 0.1);
@@ -116,7 +118,7 @@ main(int argc, char** argv)
     
     W1.set_fg_color(leda_pink);
     std::copy( points1.begin(), points1.end(),
-               CGAL::Ostream_iterator< Point, CGAL_Stream>( W1));
+               CGAL::Ostream_iterator< Point, CGAL::Window_stream>( W1));
 
     Min_circle  mc2( points1.begin(), points1.end(), true);
     W1 << mc2.circle();
@@ -137,11 +139,10 @@ main(int argc, char** argv)
     W1 << me2.ellipse();
     W1.set_fg_color(leda_pink);
     std::copy( points1.begin(), points1.end(),
-               CGAL::Ostream_iterator< Point, CGAL_Stream>( W1));
+               CGAL::Ostream_iterator< Point, CGAL::Window_stream>( W1));
     W.draw_ctext(250, 40, "Delaunay triangulation computed");
 
     W.read_mouse();
 
     return 0;
 }
-#endif // USE_LEDA

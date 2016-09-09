@@ -2,9 +2,9 @@
 //
 // Copyright (c) 2000 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,23 +18,23 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 //
 // file          : include/CGAL/Random_polygon_traits_2.h
-// package       : Generator (2.34)
+// package       : Generator (2.40)
 // chapter       : Geometric Object Generators
 //
 // revision      : 1.0
@@ -75,10 +75,21 @@ class Random_polygon_traits_2
   public:
     typedef R_                            R;
     typedef typename R::FT                FT;
-    typedef Point_2<R>                    Point_2;
-    typedef ::CGAL::Segment_2<R>          Segment_2;
-    typedef ::CGAL::Vector_2<R>           Vector_2;
-    typedef ::CGAL::p_Less_yx<Point_2>    Less_yx;
+    typedef typename R::Point_2           Point_2;
+    typedef typename R::Segment_2         Segment_2;
+    typedef typename R::Direction_2       Direction_2;
+    typedef typename R::Vector_2          Vector_2;
+    typedef typename R::Less_yx_2         Less_yx_2;
+    typedef typename R::Less_xy_2         Less_xy_2;
+    typedef typename R::Orientation_2     Orientation_2;
+
+    Less_xy_2
+    less_xy_2_object()
+    { return Less_xy_2(); }
+
+    Orientation_2
+    orientation_2_object()
+    { return Orientation_2(); }
 
     bool lexicographically_yx_smaller_or_equal(const Point_2& p,
                                                const Point_2& q) const
@@ -93,6 +104,7 @@ class Random_polygon_traits_2
       // to distinguish between cartesian and homogeneous coordinates
       // (for efficiency reasons)
     }
+
 
     bool is_negative(const FT& x) const
     {
@@ -120,7 +132,7 @@ class Random_polygon_traits_2
     bool have_equal_direction(const Vector_2& v1,
                               const Vector_2& v2 ) const
     {
-       return ::CGAL::Direction_2<R>(v1) == ::CGAL::Direction_2<R>(v2);
+       return Direction_2(v1) == Direction_2(v2);
     }
 };
 

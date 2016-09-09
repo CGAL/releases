@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : functions_on_enums.fw
 // file          : include/CGAL/functions_on_enums.h
-// package       : Kernel_basic (3.14)
-// revision      : 3.14
-// revision_date : 15 Sep 2000 
+// package       : Kernel_basic (3.53)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/04/27 16:49:49 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -46,18 +45,12 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_FUNCTIONS_ON_ENUMS_H
 #define CGAL_FUNCTIONS_ON_ENUMS_H
 
-#ifndef CGAL_CONFIG_H
 #include <CGAL/config.h>
-#endif  // CGAL_CONFIG_H
-
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -67,25 +60,26 @@ T
 opposite(const T& t)
 { return -t; }
 
-CGAL_TEMPLATE_NULL
 inline
 Sign
-opposite(const Sign& o)
-{ return (Sign)(-(int)o); }
+opposite(Sign o)
+{ return static_cast<Sign>( - static_cast<int>(o)); }
 
-CGAL_TEMPLATE_NULL
 inline
 Oriented_side
-opposite(const Oriented_side& os)
-{ return (Oriented_side)(-(int)os); }
+opposite(Oriented_side os)
+{ return static_cast<Oriented_side>( - static_cast<int>(os)); }
 
-CGAL_TEMPLATE_NULL
 inline
 Bounded_side
-opposite(const Bounded_side &bs)
-{ return (Bounded_side)(-(int)bs); }
+opposite(Bounded_side bs)
+{ return static_cast<Bounded_side>( - static_cast<int>(bs)); }
+
+inline
+Angle
+opposite(Angle a)
+{ return static_cast<Angle>( - static_cast<int>(a)); }
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_FUNCTIONS_ON_ENUMS_H

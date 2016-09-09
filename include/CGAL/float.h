@@ -2,9 +2,9 @@
 //
 // Copyright (c) 1999 The CGAL Consortium
 
-// This software and related documentation is part of the Computational
+// This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
+// This software and documentation are provided "as-is" and without warranty
 // of any kind. In no event shall the CGAL Consortium be liable for any
 // damage of any kind. 
 //
@@ -18,26 +18,25 @@
 //
 // Commercial licenses
 // - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
+//   markets LEDA (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//   (Andreas.Fabri@geometryfactory.com). 
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.2
-// release_date  : 2000, September 30
+// release       : CGAL-2.3
+// release_date  : 2001, August 13
 // 
-// source        : Float.fw
 // file          : include/CGAL/float.h
-// package       : Number_types (3.4)
-// revision      : 3.4
-// revision_date : 13 Jul 2000 
+// package       : Number_types (4.30)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/06/14 13:03:06 $
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -48,16 +47,17 @@
  
 
 #ifndef CGAL_FLOAT_H
-#define CGAL_FLOAT_H 1
+#define CGAL_FLOAT_H
 
 #include <CGAL/basic.h>
-#ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
-#endif // CGAL_TAGS_H
 #include <cmath>
-#include <CGAL/IEEE_754_unions.h>
+#if defined(_MSC_VER) || defined(__BORLANDC__) || \
+    defined(CGAL_MASK_FINITE_VALID)
+#  include <CGAL/IEEE_754_unions.h>
+#endif
 #ifdef __sgi
-#include <fp_class.h>
+#  include <fp_class.h>
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -65,23 +65,13 @@ CGAL_BEGIN_NAMESPACE
 inline
 double
 to_double(float f)
-{ return (double)f; }
+{ return static_cast<double>(f); }
 
 inline
 Number_tag
 number_type_tag(float)
 { return Number_tag(); }
 
-#ifdef OLD_FINITE_VALID
-extern
-bool
-is_finite(float d);
-
-extern
-bool
-is_valid(float d);
-
-#else
 #ifdef __sgi
 
 inline
@@ -124,8 +114,8 @@ bool is_valid(float d)
     return false; // NOT REACHED
 }
 
-#else
-#if defined(_MSC_VER) || defined(CGAL_MASK_FINITE_VALID) || defined(__BORLANDC__)
+#elif defined(_MSC_VER) || defined(__BORLANDC__) || \
+      defined(CGAL_MASK_FINITE_VALID)
 
 #define CGAL_EXPONENT_FLOAT_MASK   0x7f800000
 #define CGAL_MANTISSA_FLOAT_MASK   0x007fffff
@@ -165,8 +155,6 @@ is_valid( const float& flt)
   return !is_nan_by_mask_float( p->c );
 }
 
-
-
 #else
 
 inline
@@ -179,10 +167,7 @@ bool
 is_finite(float d)
 { return (d == d) && (is_valid(d-d)); }
 
-#endif // MSC_VER || ...
-#endif // __sgi
-
-#endif // OLD_FINITE_VALID
+#endif
 
 inline
 io_Operator
