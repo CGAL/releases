@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 62376 2011-04-12 10:08:00Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 65391 2011-09-14 10:18:57Z lrineau $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -3328,11 +3328,11 @@ side_of_oriented_circle(const Point &p0, const Point &p1, const Point &p2,
 
     // We successively look whether the leading monomial, then 2nd monomial
     // of the determinant has non null coefficient.
-    // 2 iterations are enough (cf paper)
+    // 2 iterations are enough if p0p1p2 is positive (cf paper)
     for (int i=3; i>0; --i) {
         if (points[i] == &p)
             return ON_NEGATIVE_SIDE; // since p0 p1 p2 are non collinear
-	                             // and positively oriented
+	                             // and "conceptually" positively oriented
         Orientation o;
         if (points[i] == &p2 && (o = orientation(p0,p1,p)) != COLLINEAR )
             return Oriented_side(o);
@@ -3341,7 +3341,8 @@ side_of_oriented_circle(const Point &p0, const Point &p1, const Point &p2,
         if (points[i] == &p0 && (o = orientation(p,p1,p2)) != COLLINEAR )
             return Oriented_side(o);
     }
-    CGAL_triangulation_assertion(false);
+    // CGAL_triangulation_assertion(false);
+    //no reason for such precondition and it invalidates fast removal in Delaunay
     return ON_NEGATIVE_SIDE;
 }
 

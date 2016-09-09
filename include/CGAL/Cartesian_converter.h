@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
 // $Id: Cartesian_converter.h 64278 2011-06-21 13:36:00Z sloriot $
 // 
 //

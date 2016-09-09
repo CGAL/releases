@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/isole_1.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Algebraic_kernel_d/include/CGAL/RS/isole_1.h $
 // $Id: isole_1.h 63972 2011-06-08 06:51:17Z sloriot $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>

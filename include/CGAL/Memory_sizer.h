@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Profiling_tools/include/CGAL/Memory_sizer.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Profiling_tools/include/CGAL/Memory_sizer.h $
 // $Id: Memory_sizer.h 63737 2011-05-30 11:28:15Z lrineau $
 // 
 // Author(s)     : Sylvain Pion, Andreas Fabri

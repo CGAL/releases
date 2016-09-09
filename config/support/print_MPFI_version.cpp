@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/print_MPFI_version.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Installation/config/support/print_MPFI_version.cpp $
 // $Id: print_MPFI_version.cpp 61901 2011-03-22 08:07:15Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
 // $Id: Poisson_refine_cells_3.h 61888 2011-03-21 12:42:24Z glisse $
 // 
 //

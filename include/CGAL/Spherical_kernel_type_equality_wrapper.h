@@ -18,7 +18,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Circular_kernel_3/include/CGAL/Spherical_kernel_type_equality_wrapper.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Circular_kernel_3/include/CGAL/Spherical_kernel_type_equality_wrapper.h $
 // $Id: Spherical_kernel_type_equality_wrapper.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

@@ -16,7 +16,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
 // $Id: intersection_3_1_impl.h 63566 2011-05-20 08:52:12Z sloriot $
 // 
 //

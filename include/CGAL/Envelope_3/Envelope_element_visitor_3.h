@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
 // $Id: Envelope_element_visitor_3.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>

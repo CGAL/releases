@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpfr_type.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Number_types/include/CGAL/GMP/Gmpfr_type.h $
 // $Id: Gmpfr_type.h 61900 2011-03-22 07:59:52Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>

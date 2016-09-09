@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
 // $Id: Delaunay_mesh_size_criteria_2.h 61939 2011-03-23 17:45:59Z lrineau $
 // 
 //

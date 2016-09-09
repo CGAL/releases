@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_2/include/CGAL/Envelope_diagram_1.h $
-// $Id: Envelope_diagram_1.h 61401 2011-02-24 11:20:04Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Envelope_2/include/CGAL/Envelope_diagram_1.h $
+// $Id: Envelope_diagram_1.h 65394 2011-09-14 13:44:16Z lrineau $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 

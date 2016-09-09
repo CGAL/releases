@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_reconstruction_points_3/include/CGAL/Poisson_reconstruction_function.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_reconstruction_function.h $
 // $Id: Poisson_reconstruction_function.h 63231 2011-04-29 15:50:56Z lrineau $
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez

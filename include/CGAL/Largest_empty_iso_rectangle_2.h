@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
 // $Id: Largest_empty_iso_rectangle_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //

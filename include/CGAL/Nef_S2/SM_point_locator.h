@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
 // $Id: SM_point_locator.h 63822 2011-06-01 13:47:17Z sloriot $
 // 
 //

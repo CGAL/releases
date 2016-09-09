@@ -30,7 +30,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/Filter.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Core/include/CGAL/CORE/Filter.h $
  * $Id: Filter.h 64637 2011-07-06 11:11:58Z lrineau $
  ***************************************************************************/
 

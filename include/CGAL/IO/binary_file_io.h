@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Stream_support/include/CGAL/IO/binary_file_io.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Stream_support/include/CGAL/IO/binary_file_io.h $
 // $Id: binary_file_io.h 64106 2011-06-14 15:52:53Z pmoeller $
 // 
 //

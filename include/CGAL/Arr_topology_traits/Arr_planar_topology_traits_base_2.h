@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
-// $Id: Arr_planar_topology_traits_base_2.h 64639 2011-07-06 11:41:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
+// $Id: Arr_planar_topology_traits_base_2.h 65392 2011-09-14 12:33:57Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -422,6 +422,20 @@ is_in_face(const Face *f, const Point_2& p, const Vertex *v) const
   // Note that if p coincides with this vertex, p is obviously not in the
   // interior of the component.
   const Halfedge    *first = *(f->outer_ccbs_begin());
+
+  
+  // Some left ends of curves may not yet have the curve assigned, 
+  // In case they are at TOP/BOTTOM they are not comparable to p 
+  // We advance first until we find a comparable vertex to start with.
+  // We always find such a vertex since on the ccb there is at least one 
+  // interior vertex or a vertex at LEFT/RIGHT which are comparable. 
+  while( first->vertex()->parameter_space_in_x()==ARR_INTERIOR 
+      && first->has_null_curve() 
+      && first->next()->has_null_curve()){ 
+    first = first->next(); 
+  }
+
+  
   const Halfedge    *curr = first;
   Comparison_result  res_source;
   Comparison_result  res_target;
@@ -440,7 +454,15 @@ is_in_face(const Face *f, const Point_2& p, const Vertex *v) const
     // the component.
     if (curr->vertex() == v)
       return (false);
-
+    
+    // We jump over vertices at TOP/BOTTOM that do not yet have a curve 
+    if(    curr->vertex()->parameter_space_in_x()==ARR_INTERIOR 
+        && curr->has_null_curve() 
+        && curr->next()->has_null_curve()){ 
+      curr = curr->next(); 
+      continue;
+    }
+    
     res_target = compare_xy (p, curr->vertex());
 
     // In case the current halfedge belongs to an "antenna", namely its

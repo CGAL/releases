@@ -14,7 +14,7 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/leaks/develop/CGALimageIO/src/CGALImageIO/convert.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/CGALimageIO/src/CGALImageIO/convert.cpp $
 // $Id: convert.cpp 45554 2008-09-15 14:30:53Z lrineau $
 //
 //

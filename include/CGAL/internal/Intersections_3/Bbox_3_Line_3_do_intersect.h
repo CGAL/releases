@@ -13,7 +13,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Line_3_do_intersect.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Line_3_do_intersect.h $
 // $Id: Bbox_3_Line_3_do_intersect.h 64772 2011-07-13 14:35:58Z sloriot $
 //
 //

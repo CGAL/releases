@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
 // $Id: Projection_traits_3.h 64319 2011-06-23 11:59:29Z sloriot $
 // 
 //

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/functors_1.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Algebraic_kernel_d/include/CGAL/RS/functors_1.h $
 // $Id: functors_1.h 63062 2011-04-20 13:56:23Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>

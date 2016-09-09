@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_STATIC_ASSERT.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_STATIC_ASSERT.cpp $
 // $Id: CGAL_CFG_NO_CPP0X_STATIC_ASSERT.cpp 63457 2011-05-11 10:14:02Z glisse $
 //
 // Author(s)     : Marc Glisse

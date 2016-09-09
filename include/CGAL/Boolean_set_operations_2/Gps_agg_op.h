@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
 // $Id: Gps_agg_op.h 64639 2011-07-06 11:41:06Z lrineau $ $Date: 2011-07-06 13:41:06 +0200 (Wed, 06 Jul 2011) $
 // 
 //

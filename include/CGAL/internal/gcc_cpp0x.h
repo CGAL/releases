@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Installation/include/CGAL/internal/gcc_cpp0x.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Installation/include/CGAL/internal/gcc_cpp0x.h $
 // $Id: gcc_cpp0x.h 63457 2011-05-11 10:14:02Z glisse $
 //
 // Author(s)     : Sylvain Pion

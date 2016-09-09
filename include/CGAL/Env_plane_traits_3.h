@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Envelope_3/include/CGAL/Env_plane_traits_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
 // $Id: Env_plane_traits_3.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>

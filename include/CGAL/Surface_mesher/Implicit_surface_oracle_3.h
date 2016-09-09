@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
 // $Id: Implicit_surface_oracle_3.h 64637 2011-07-06 11:11:58Z lrineau $
 //
 //

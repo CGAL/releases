@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_function_canonicalized_pair.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_function_canonicalized_pair.h $
 // $Id: Rational_function_canonicalized_pair.h 64317 2011-06-23 11:49:10Z efif $
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >

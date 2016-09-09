@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kernel_d/include/CGAL/Cartesian_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Kernel_d/include/CGAL/Cartesian_d.h $
 // $Id: Cartesian_d.h 63930 2011-06-07 08:20:54Z sloriot $
 // 
 //

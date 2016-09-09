@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
 // $Id: triangulate_power_diagram_3.h 64513 2011-06-30 22:17:00Z afabri $
 // 
 //
