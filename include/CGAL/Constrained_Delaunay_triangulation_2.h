@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1997-2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,8 +30,9 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
+// release       : CGAL-2.1, patch 1
 // release_date  : 2000, January 11
+// patch_date    : 2000, Feb 21
 //
 // file          : include/CGAL/Constrained_Delaunay_triangulation_2.h
 // package       : Triangulation (4.30)
@@ -87,14 +88,14 @@ public:
 
   Constrained_Delaunay_triangulation_2(std::list<Constraint>& lc, 
 					    const Gt& gt=Gt())
-      : Constrained_Delaunay_triangulation_2(gt)
+      : Constrained_triangulation(gt)
   {
     std::list<Constraint>::iterator itc;
     itc=lc.begin();      
       do{
 	insert((*itc).first, (*itc).second);
 	++itc;
-      } while (itc != list_contraintes.end());
+      } while (itc != lc.end());
       CGAL_triangulation_postcondition( is_valid() );
   }
 
@@ -102,7 +103,7 @@ public:
   Constrained_Delaunay_triangulation_2(InputIterator first,
 			      InputIterator last,
 			      const Gt& gt=Gt() )
-     : Constrained_Delaunay_triangulation_2(gt)
+     : Constrained_triangulation(gt)
   {
     while(first != last){
           insert((*first).first, (*first).second);

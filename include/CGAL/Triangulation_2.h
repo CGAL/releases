@@ -30,8 +30,9 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
+// release       : CGAL-2.1, patch 1
 // release_date  : 2000, January 11
+// patch_date    : 2000, Feb 21
 //
 // file          : include/CGAL/Triangulation_2.h
 // package       : Triangulation (4.30)
@@ -592,7 +593,7 @@ includes_edge(Vertex_handle va, Vertex_handle & vb,
   Orientation orient;
   int indv;
   Edge_circulator ec = va->incident_edges(), done(ec);
-  if (va != 0) {
+  if (ec != 0) {
     do { 
       //find the index of the other vertex of *ec
       indv = 3 - ((*ec).first)->index(va) - (*ec).second ; 
