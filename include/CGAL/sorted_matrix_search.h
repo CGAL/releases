@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/sorted_matrix_search.h
-// package       : Matrix_search (1.17)
+// package       : Matrix_search (1.30)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : fjsearch.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:08:21 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:51 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,35 +48,23 @@
 //
 // ======================================================================
 
-#if ! (SORTED_MATRIX_SEARCH_H)
-#define SORTED_MATRIX_SEARCH_H 1
+#if ! (CGAL_SORTED_MATRIX_SEARCH_H)
+#define CGAL_SORTED_MATRIX_SEARCH_H 1
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_ALGORITHM
+#include <CGAL/Optimisation/assertions.h>
 #include <algorithm>
-#define CGAL_PROTECT_ALGORITHM
-#endif
-#ifndef CGAL_PROTECT_FUNCTIONAL
 #include <functional>
-#define CGAL_PROTECT_FUNCTIONAL
-#endif
-#ifndef CGAL_PROTECT_VECTOR
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 #include <CGAL/Sorted_matrix_search_traits_adaptor.h>
-#endif // CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 
 CGAL_BEGIN_NAMESPACE
 template < class Matrix >
-class _Padded_matrix {
+class Padded_matrix {
 public:
   typedef typename Matrix::Value Value;
 
-  _Padded_matrix( const Matrix& m) : matrix( &m) {}
+  Padded_matrix( const Matrix& m) : matrix( &m) {}
 
   Value
   operator()( int x, int y) const
@@ -98,8 +83,8 @@ public:
   // the elements appear in increasing order
   // time complexity is proportional to the number of elements
   {
-    for ( int i = 0; i < matrix->x_dimension(); ++i)
-      for ( int j = 0; j < matrix->y_dimension(); ++j) {
+    for ( int i = 0; i < matrix->number_of_columns(); ++i)
+      for ( int j = 0; j < matrix->number_of_rows(); ++j) {
         if ( i > 0 && (*matrix)( i - 1, j) > (*matrix)( i, j))
           return false;
         if ( j > 0 && (*matrix)( i, j - 1) > (*matrix)( i, j))
@@ -112,43 +97,47 @@ private:
   const Matrix* matrix;
 };
 template < class PaddedMatrix >
-class _Matrix_cell {
+class Matrix_cell {
 public:
   typedef typename PaddedMatrix::Value Value;
 
-  _Matrix_cell( PaddedMatrix m, int xpos = 0, int ypos = 0)
-  : base_matrix( m), x( xpos), y( ypos)
+  Matrix_cell(PaddedMatrix m, int xpos = 0, int ypos = 0)
+  : base_matrix(m), x(xpos), y(ypos)
   {}
 
   Value
   min() const
-  { return base_matrix( x, y); }
+  { return base_matrix(x, y); }
 
   Value
-  max( int offset) const
+  max(int offset) const
   // offset denotes the cell's dimension
-  { return base_matrix( x + offset - 1, y + offset - 1); }
+  { return base_matrix(x + offset - 1, y + offset - 1); }
 
-  int
-  x_min() const
-  { return x; }
-
-  int
-  y_min() const
-  { return y; }
-
-  PaddedMatrix
-  matrix() const
-  { return base_matrix; }
+  int          x_min() const  { return x; }
+  int          y_min() const  { return y; }
+  PaddedMatrix matrix() const { return base_matrix; }
 
   void
-  output( ostream& o, int dim) const
+  output(std::ostream& o, int dim) const
   {
-    for ( int i = 0; i < dim; ++i) {
-      for ( int j = 0; j < dim; ++j)
-        o << base_matrix( x + i, y + j) << " ";
-      o << endl;
+    for (int i = 0; i < dim; ++i) {
+      for (int j = 0; j < dim; ++j)
+        o << base_matrix(x + i, y + j) << " ";
+      o << std::endl;
     }
+  }
+
+  bool
+  check_for(Value v, int dim) const {
+    for (int i = 0; i < dim; ++i)
+      for (int j = 0; j < dim; ++j) {
+        if (CGAL::abs(base_matrix(x + i, y + j) - v) < Value(1E-10))
+          cerr << "***" <<        base_matrix(x + i, y + j) << endl;
+        if (base_matrix(x + i, y + j) == v)
+          return true;
+      }
+    return false;
   }
 
 private:
@@ -157,7 +146,7 @@ private:
   int y;
 };
 template < class Cell >
-struct _Cell_min
+struct Cell_min
 : public CGAL_STD::unary_function< Cell, typename Cell::Value >
 {
   typename Cell::Value
@@ -166,10 +155,10 @@ struct _Cell_min
 };
 
 template < class Cell >
-struct _Cell_max
+struct Cell_max
 : public CGAL_STD::unary_function< Cell, typename Cell::Value > {
 
-  _Cell_max( int offset) : ofs( offset) {}
+  Cell_max( int offset) : ofs( offset) {}
 
   typename Cell::Value
   operator()( const Cell& c) const
@@ -180,78 +169,51 @@ private:
 };
 
 
-#ifdef CGAL_CFG_RETURN_TYPE_BUG_1
-template < class T >
-struct Traits_value_bug_fix1
-{
-  typedef typename T::Value Value;
-  Traits_value_bug_fix1( Value xt)
-  { _xt = xt; }
-
-  operator Value() const
-  { return _xt; }
-
-private:
-  Value _xt;
-};
-#endif
-
 template < class InputIterator, class Traits >
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_1
 typename Traits::Value
-#else
-Traits_value_bug_fix1< Traits >
-#endif
-sorted_matrix_search( InputIterator f,
-                           InputIterator l,
-                           Traits t)
+sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
 {
   #ifndef CGAL_CFG_NO_NAMESPACE
   using std::max;
   using std::nth_element;
   using std::iter_swap;
+  using std::find_if;
   using std::remove_if;
   using std::logical_or;
+  using std::equal_to;
   using std::compose1;
   using std::compose2;
   using std::bind1st;
   using std::bind2nd;
   #endif
   
-  typedef typename Traits::Matrix            Matrix;
-  typedef typename Traits::Value             Value;
-  typedef _Padded_matrix< Matrix >           PaddedMatrix;
-  typedef _Matrix_cell< PaddedMatrix >       Cell;
-  typedef std::vector< Cell >                Cell_container;
-  typedef typename Cell_container::iterator  Cell_iterator;
-  typedef typename Cell_container::reverse_iterator
-    Cell_reverse_iterator;
+  typedef typename Traits::Matrix                   Matrix;
+  typedef typename Traits::Value                    Value;
+  typedef Padded_matrix< Matrix >                   PaddedMatrix;
+  typedef Matrix_cell< PaddedMatrix >               Cell;
+  typedef std::vector< Cell >                       Cell_container;
+  typedef typename Cell_container::iterator         Cell_iterator;
+  typedef typename Cell_container::reverse_iterator Cell_reverse_iterator;
   
   Cell_container active_cells;
-  #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-  cerr << "insert a cell for every matrix" << endl;
-  #endif
   
   // set of input matrices must not be empty:
-  CGAL_precondition( f != l);
+  CGAL_optimisation_precondition( f != l);
   
   // for each input matrix insert a cell into active_cells:
   InputIterator i( f);
   int maxdim( -1);
   while ( i != l) {
-    CGAL_expensive_precondition(
+    CGAL_optimisation_expensive_precondition(
       PaddedMatrix( *i).is_sorted());
     active_cells.push_back( Cell( PaddedMatrix( *i)));
-    maxdim = max( max( (*i).number_of_columns(),
-                       (*i).number_of_rows()),
-                  maxdim);
+    maxdim = std::max( std::max( (*i).number_of_columns(),
+                                 (*i).number_of_rows()),
+                       maxdim);
     ++i;
   }
-  CGAL_precondition( maxdim > 0);
+  CGAL_optimisation_precondition( maxdim > 0);
   
-  #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-  cerr << "\ncomputing ccd" << endl;
-  #endif
   
   // current cell dimension:
   int ccd( 1);
@@ -259,24 +221,10 @@ sorted_matrix_search( InputIterator f,
   while ( ccd < maxdim)
     ccd <<= 1;
   
-  /*
-  #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-  for ( Cell_iterator j( active_cells.begin());
-  j != active_cells.end();
-  ++j) {
-    (*j).output( cerr, ccd);
-    cerr << "-------------------------------------\n";
-  }
-  cerr << "ccd is " << ccd << endl;
-  #endif
-  */
   
   
 
   // now start the search:
-  #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-  cerr << "start search ..." << endl;
-  #endif
 
   for (;;) {
     if ( ccd > 1) {
@@ -284,9 +232,6 @@ sorted_matrix_search( InputIterator f,
       // divide cells:
       ccd >>= 1;
     
-      #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-      cerr << "divide cells" << endl;
-      #endif
     
       // reserve is required here!
       // otherwise one of the insert operations might cause
@@ -328,70 +273,55 @@ sorted_matrix_search( InputIterator f,
       break;
     
     // there has to be at least one cell left:
-    CGAL_assertion( active_cells.size() > 0);
+    CGAL_optimisation_assertion( active_cells.size() > 0);
     
-    #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-    cerr << "\ncurrently there are " << active_cells.size()
-         << " cells\n=======================================\n";
-    
-    /*
-    cerr << "listing active cells:\n";
-    for ( Cell_iterator j( active_cells.begin());
-    j != active_cells.end();
-    ++j) {
-      cerr << "------------------------------\n";
-      (*j).output( cerr, ccd);
-    }
-    */
-    
-    cerr << "\nccd is " << ccd << endl;
-    #endif
     // ------------------------------------------------------
     // compute medians of smallest and largest elements:
     
-    #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-    cerr << "compute medians" << endl;
-    #endif
     
-    int lower_median_rank = ( active_cells.size() - 1) >> 1;
-    int upper_median_rank = ( active_cells.size() >> 1);
+    int lower_median_rank = (active_cells.size() - 1) >> 1;
+    int upper_median_rank = (active_cells.size() >> 1);
     
     // compute upper median of cell's minima:
-    nth_element( active_cells.begin(),
-                 active_cells.begin() + upper_median_rank,
-                 active_cells.end(),
-                 compose2_2(
-                   t.compare_strictly(),
-                   _Cell_min< Cell >(),
-                   _Cell_min< Cell >()));
+    nth_element(active_cells.begin(),
+                active_cells.begin() + upper_median_rank,
+                active_cells.end(),
+                compose2_2(
+                  t.compare_strictly(),
+                  Cell_min< Cell >(),
+                  Cell_min< Cell >()));
     
     Cell_iterator lower_median_cell =
       active_cells.begin() + upper_median_rank;
-    Value lower_median = (*lower_median_cell).min();
+    Value lower_median = lower_median_cell->min();
     
     // compute lower median of cell's maxima:
-    nth_element( active_cells.begin(),
-                 active_cells.begin() + lower_median_rank,
-                 active_cells.end(),
-                 compose2_2(
-                   t.compare_strictly(),
-                   _Cell_max< Cell >( ccd),
-                   _Cell_max< Cell >( ccd)));
+    nth_element(active_cells.begin(),
+                active_cells.begin() + lower_median_rank,
+                active_cells.end(),
+                compose2_2(
+                  t.compare_strictly(),
+                  Cell_max< Cell >(ccd),
+                  Cell_max< Cell >(ccd)));
     
     Cell_iterator upper_median_cell =
       active_cells.begin() + lower_median_rank;
-    Value upper_median = (*upper_median_cell).max( ccd);
+    Value upper_median = upper_median_cell->max(ccd);
+    
+    // restore lower_median_cell, if it has been displaced
+    // by the second search
+    if (lower_median_cell->min() != lower_median)
+      lower_median_cell =
+        find_if(active_cells.begin(),
+                active_cells.end(),
+                compose1(
+                  bind1st(equal_to< Value >(), lower_median),
+                  Cell_min< Cell >()));
+    CGAL_optimisation_assertion(lower_median_cell != active_cells.end());
     // ------------------------------------------------------
     // test feasibility of medians and remove cells accordingly:
     Cell_iterator new_end;
     
-    #ifdef CGAL_SORTED_MATRIX_SEARCH_TRACE
-    cerr << "lower_median is " << lower_median << " and " <<
-      ( t.is_feasible( lower_median) ? "f" : "inf") <<
-      "easible" << "\nupper median is " << upper_median << " and " <<
-      ( t.is_feasible( upper_median) ? "f" : "inf") <<
-      "easible" << endl;
-    #endif
     
     if ( t.is_feasible( lower_median))
       if ( t.is_feasible( upper_median)) {
@@ -421,7 +351,7 @@ sorted_matrix_search( InputIterator f,
             active_cells.end(),
             compose1(
               bind1st( t.compare_non_strictly(), min_median),
-              _Cell_min< Cell >()));
+              Cell_min< Cell >()));
     
       } // lower_median and upper_median are feasible
       else { // lower_median is feasible, but upper_median is not
@@ -443,12 +373,12 @@ sorted_matrix_search( InputIterator f,
                 bind1st(
                   t.compare_non_strictly(),
                   lower_median),
-                _Cell_min< Cell >()),
+                Cell_min< Cell >()),
               compose1(
                 bind2nd(
                   t.compare_non_strictly(),
                   upper_median),
-                _Cell_max< Cell >( ccd))));
+                Cell_max< Cell >( ccd))));
     
       } // lower_median is feasible, but upper_median is not
     else
@@ -472,12 +402,12 @@ sorted_matrix_search( InputIterator f,
                 bind1st(
                   t.compare_non_strictly(),
                   upper_median),
-                _Cell_min< Cell >()),
+                Cell_min< Cell >()),
               compose1(
                 bind2nd(
                   t.compare_non_strictly(),
                   lower_median),
-                _Cell_max< Cell >( ccd))));
+                Cell_max< Cell >( ccd))));
     
       } // upper_median is feasible, but lower_median is not
       else { // both upper_median and lower_median are infeasible
@@ -492,8 +422,8 @@ sorted_matrix_search( InputIterator f,
             compose1(
               bind2nd(
                 t.compare_non_strictly(),
-                max( lower_median, upper_median)),
-              _Cell_max< Cell >( ccd)));
+                CGAL::max( lower_median, upper_median)),
+              Cell_max< Cell >( ccd)));
     
       } // both upper_median and lower_median are infeasible
     
@@ -501,14 +431,15 @@ sorted_matrix_search( InputIterator f,
   } // for (;;)
 
   // there must be only one cell left:
-  CGAL_assertion( active_cells.size() == 1);
-  CGAL_assertion( ccd == 1);
+  CGAL_optimisation_assertion( active_cells.size() == 1);
+  CGAL_optimisation_assertion( ccd == 1);
 
   return (*active_cells.begin()).min();
 }
+
 CGAL_END_NAMESPACE
 
-#endif // ! (SORTED_MATRIX_SEARCH_H)
+#endif // ! (CGAL_SORTED_MATRIX_SEARCH_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

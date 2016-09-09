@@ -1,9 +1,9 @@
-This is Computational Geometry Algorithms Library version 2.0 (CGAL-2.0).
+This is Computational Geometry Algorithms Library version 2.1 (CGAL-2.1).
 
 Installation notes are available in several formats. 
 A PostScript file named installation.ps can be found in directory doc_ps.
 The pdf file installation.pdf can be found in doc_pdf.
-The HTML version is in doc_html/installation/contents.html.
+The HTML version is in doc_html/installation/main.html.
 
 The documentation of CGAL is available in various formats (HTML, PostScript,
 PDF). It is not bundled with the software but can be downloaded separately.
@@ -13,38 +13,84 @@ For more information on CGAL, see the URL http://www.cs.uu.nl/CGAL/.
 The CGAL software falls under the license below. 
 // ============================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997-2000 The CGAL Consortium
+
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ============================================================================
 
 The directory auxiliary contains the gmp library. This library is not part of
 CGAL and has its own license.
+
+The directory stlport contains an stl library, patched by cgal. This library
+has its own license.
+
+Changes
+=======
+
+The major changes of CGAL-2.1 with respect to release CGAL-2.0.
+
+Supported platforms
+-------------------
+
+We support the newest gnu compiler (2.95.2) on Sun, Mips, Linux and Windows.
+We support the Microsoft Visual C++ compiler, version 6.
+We support the mips CC compiler version 7.3 under Irix.
+Support for the old g++ compiler (2.8) and for mips CC 7.2 has been dropped.
+
+
+The following functionality has been added
+------------------------------------------
+
+Alpha shapes and weighted alpha shapes in 2D. Alpha shapes are a
+generalization of the convex hull of a point set.
+
+Arrangements in 2D. Arrangements are related to and based on planar maps.
+The major difference between the two is that curves are allowed to intersect
+in the case of arrangements.
+
+Extensions to triangulations in 2D.
+Constrained triangulations are now dynamic: they support insertions of new 
+constraint as well as  removal of constraints.
+There are also constrained Delaunay triangulations.
+
+Triangulations in 3D were added, both Delaunay triangulations and regular
+triangulations.
+
+Min_quadrilateral optimisations have been added..
+This are algorithms to compute the minimum enclosing rectangle/parallelogram
+(arbitrary orientation) and the minimum enclosing strip of a convex point set. 
+
+2d Point_set is a package for 2d range search operations, Delaunay
+triangulation, nearest neighbor queries. This package works only if LEDA
+is installed.
+
+Support for GeoWin visualization library. This depends also on LEDA.
+
+Support for using the CLN number type together with CGAL.
+The CLN library is available at http://clisp.cons.org/~haible/packages-cln.html

@@ -2,7 +2,6 @@
 // This is just a small sample application for testing the makefile.
 //----------------------------------------------------------------------//
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
 #include <iostream>
@@ -15,5 +14,6 @@ int main()
   Point p(0, 0);
   CGAL::set_ascii_mode(std::cout);
   std::cout << "p = " << p << std::endl;
+  return 0;
 }
 

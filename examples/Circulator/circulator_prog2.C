@@ -1,18 +1,17 @@
 // circulator_prog2.C
-// -------------------------------
+// ------------------------
 #include <CGAL/basic.h>
 #include <cassert>
 #include <vector>
 #include <algorithm>
 #include <CGAL/circulator.h>
 
-typedef std::vector<int> V;
-typedef CGAL::Random_access_circulator_from_container<V>  Circulator;
-typedef CGAL::Random_access_container_from_circulator<Circulator> Container;
-typedef Container::iterator Iterator;
+typedef CGAL::Circulator_from_container< std::vector<int> >  Circulator;
+typedef CGAL::Container_from_circulator<Circulator>          Container;
+typedef Container::iterator                                  Iterator;
 
 int main() {
-    V v;
+    std::vector<int> v;
     v.push_back(5);
     v.push_back(2);
     v.push_back(9);

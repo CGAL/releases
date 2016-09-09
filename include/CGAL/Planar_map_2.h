@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Planar_map_2.h
-// package       : pm (3.07)
+// package       : pm (4.20)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -56,15 +53,12 @@
 #define CGAL_PLANAR_MAP_2_H
 
 #ifndef CGAL_PLANAR_MAP_MISC_H
-#include <CGAL/Planar_map_misc.h>
+#include <CGAL/Planar_map_2/Planar_map_misc.h>
 #endif
 
 #ifndef CGAL_TOPOLOGICAL_MAP_H
 #include <CGAL/Topological_map.h>
 #endif
-
-
-
 
 #ifndef CGAL_PM_DEFAULT_POINT_LOCATION_H
 #include <CGAL/Pm_default_point_location.h>
@@ -88,18 +82,37 @@ public:
   typedef Planar_map_traits_wrap<Traits> Traits_wrap;
   typedef typename Traits::X_curve X_curve;
   typedef typename Traits::Point Point;
-  
+  typedef std::list<X_curve> X_curve_container;
+
+  typedef Topological_map<_Dcel> TPM;
+  typedef typename TPM::Vertex_iterator Vertex_iterator;
+  typedef typename TPM::Halfedge_iterator Halfedge_iterator;
+  typedef typename TPM::Face_iterator Face_iterator;
+  typedef typename TPM::Vertex_const_iterator Vertex_const_iterator;
+  typedef typename TPM::Halfedge_const_iterator Halfedge_const_iterator;
+  typedef typename TPM::Face_const_iterator Face_const_iterator;
+  typedef typename TPM::Vertex_handle Vertex_handle;
+  typedef typename TPM::Halfedge_handle Halfedge_handle;
+  typedef typename TPM::Face_handle Face_handle;
+  typedef typename TPM::Vertex_const_handle Vertex_const_handle;
+  typedef typename TPM::Halfedge_const_handle Halfedge_const_handle;
+  typedef typename TPM::Face_const_handle Face_const_handle;
+  typedef typename TPM::Halfedge_around_vertex_circulator Halfedge_around_vertex_circulator;
+  typedef typename TPM::Holes_iterator Holes_iterator;
+  typedef typename TPM::Holes_const_iterator Holes_const_iterator;
+  typedef typename TPM::Ccb_halfedge_const_circulator Ccb_halfedge_const_circulator;
+  typedef typename TPM::Ccb_halfedge_circulator Ccb_halfedge_circulator;
+
+  typedef typename TPM::Size Size;
+
   typedef enum{ VERTEX = 1 , EDGE , FACE , UNBOUNDED_FACE } Locate_type ;
-
-
-
   
-  Planar_map_2 () :traits(),pl(new Pm_default_point_location<Self>),use_delete_pl(true)
+  Planar_map_2 (const Traits& tr_=Traits()) :traits(tr_),pl(new Pm_default_point_location<Self>),use_delete_pl(true)
   {
       pl->init(*this,traits);
   }    
 
-  Planar_map_2 (Pm_point_location_base<Self> *pl_ptr) : traits(),pl(pl_ptr),use_delete_pl(false) {
+  Planar_map_2 (Pm_point_location_base<Self> *pl_ptr,const Traits& tr_=Traits()) : traits(tr_),pl(pl_ptr),use_delete_pl(false) {
     pl->init(*this,traits);
   }
 
@@ -203,12 +216,15 @@ public:
       
       Holes_iterator it=of->holes_begin();
       while (it!=of->holes_end()) {
+				
         //check if the hole is inside new face
-        if ( point_is_in((*it)->target()->point(),nf) ) {
+        //        if ( point_is_in((*it)->target()->point(),nf) ) {
+        //new for arrangement
+        if ( point_is_in((*it)->target()->point(),h,cv) ) {
           Holes_iterator tmp=it;  //deletion invalidates iterators so... 
           ++it;   //assumes only the erased iterator is invalidated (like stl
           //list) 
-					
+	
           move_hole( tmp,of,nf); 
         }
         else
@@ -226,8 +242,28 @@ public:
 
     return h;
   }   
-	
+
+  // Note that the return type is point_location_base
+  const Pm_point_location_base<Self>* point_location() const {return pl;}
+
+  // used in implementation of operator=(
+  void clear() 
+    {
+      Halfedge_iterator it=halfedges_begin(),prev=it,it_e=halfedges_end();
+      while (it!=it_e) {++it;++it;remove_edge(prev);prev=it;}
+    }
+
+
 private:
+
+  // used in implementation of operator=(
+  X_curve_container x_curve_container() const
+    {
+      Halfedge_iterator it=halfedges_begin(),it_e=halfedges_end();
+      X_curve_container l;
+      while (it!=it_e) {l.insert(*it);++it;++it;}
+    }
+
   //a private implementation which defines if previous1 is on an outer ccb of 
   //the new face (returns true) or on an inner ccb (returns false)
   bool prev1_inside_hole(Halfedge_handle previous1,Halfedge_handle previous2,
@@ -367,7 +403,15 @@ public:
     return Halfedge_handle();
 		
   }
-	
+
+  template <class X_curve_iterator>
+  Halfedge_iterator insert(const X_curve_iterator& begin,const X_curve_iterator& end) {
+    X_curve_iterator it=begin;
+    Halfedge_iterator out;
+    if (it!=end) out=insert(*it);
+    while (it!=end) insert(*it);
+    return out;
+  }
 	
   Halfedge_handle split_edge(Halfedge_handle e, const typename Traits::X_curve& c1, const typename Traits::X_curve& c2)
   {
@@ -511,13 +555,28 @@ public:
   {
     return pl->locate(p,lt);
   }
-	
+  
+  Self& operator=(const Self& pm)
+    {
+      if (this != &pm)
+      {
+        X_curve_container l=pm.x_curve_container();
+        clear();
+        insert(l.begin(),l.end());
+      }
+      return *this;
+    }
 	
 	
 protected:  //private implementation
   //returns true if the point  is inside (in the strict sense) of nf
   //algorithm: count the intersections of a vertical ray shoot - are they odd ?
   //assumes outer ccb exists
+
+  //CHANGE - for this to work in the arrangement, it should not pass over
+  //the curve just inserted (i.e the halfedge)
+
+  /*
   bool point_is_in(const typename Traits::Point& p, Face_const_handle nf) const
   {
     int count = 0;
@@ -575,15 +634,102 @@ protected:  //private implementation
     return (count%2 != 0);  //if count is odd return true
     
   }
+  */
+
+
+  bool point_is_in(const typename Traits::Point& p, Halfedge_const_handle ne,
+                   const typename Traits::X_curve& ncv) const
+  {
+    int count = 0;
+    
+    //    Ccb_halfedge_const_circulator circ = nf->outer_ccb();
+    Ccb_halfedge_const_circulator circ = ne;
+    do {
+      ++circ;
+    } while (circ!=ne && traits.curve_is_vertical(circ->curve()));
+    if (circ==ne && traits.curve_is_vertical(ncv) )
+      return false; 
+    //if the whole ccb is vertical then the point is out.
+    //else advance to a non vertical curve 
+		
+    Ccb_halfedge_const_circulator last = circ;
+    
+    
+    do {
+      X_curve circv;
+      if (circ!=ne) { //not on the new halfedge (circ has a curve
+        circv=circ->curve();
+      }
+      else { //maybe doesn't have a curve yet (e.g in arrangement)
+        circv=ncv;
+      }
+        
+      if (traits.point_is_same(circ->target()->point(), p)) //point is on outer ccb 
+          return false;
+        if (!traits.curve_is_vertical(circv)) {
+          
+          if ( (traits.curve_get_point_status(circv,p) == 
+                Traits::UNDER_CURVE) && 
+               !(traits.point_is_same_x(circ->source()->point(),p)) ) {  
+            //point is under curve in the range (source,target]
+            
+            if (traits.point_is_same_x(circ->target()->point(),p)) {
+              //p is exactly under a vertex of the ccb - if next is not on the 
+              //same side of the vertical line from p as circ is, 
+              //we count one more intersection
+              
+              Ccb_halfedge_const_circulator next=circ;
+              ++next;
+              X_curve nextcv;
+              if (next!=ne) {
+                nextcv=next->curve();
+              }
+              else {
+                nextcv=ncv;
+              }
+              if (traits.curve_is_vertical(nextcv)) {
+                //advance to non-vertical edge
+                while (traits.curve_is_vertical(nextcv)) {
+                  if (next!=ne) {
+                    nextcv=next->curve();
+                  }
+                  else {
+                    nextcv=ncv;
+                  }
+                  ++next;
+
+                }
+              }
+              if ( (traits.point_is_right(circ->source()->point(),p)&&
+                    traits.point_is_left(next->target()->point(),p)) ||
+                   (traits.point_is_left(circ->source()->point(),p)&&
+                    traits.point_is_right(next->target()->point(),p)) ) {
+                
+                ++count;
+              }
+            }
+            else {
+              ++count;
+            }
+          }
+        }
+      
+    
+    } while (++circ!=last);
+		
+    return (count%2 != 0);  //if count is odd return true
+    
+  }
+
 
 
 	
-#ifdef CGAL_PM_DEBUG // for private debug use
+#ifdef CGAL_PM_DEBUG // for private debugging use
   
 public:
   void debug()
   {
-    if (pl) ((Pm_default_point_location<Self>*)pl)->debug();
+    if (pl) (pl->debug());
   }
   
 #else

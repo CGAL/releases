@@ -1,48 +1,46 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/Point_d.h
-// package       : _d (2.1)
-// revision      : 2.1
-// revision_date : 26 Feb 1999 
+// package       : _d (2.2.7)
+// revision      : 2.2.7
+// revision_date : 08 Oct 1999 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
+// maintained by   Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
@@ -66,19 +64,20 @@
 #ifdef CGAL_CARTESIAN_H
 #ifndef CGAL_POINTCD_H
 #include <CGAL/PointCd.h>
+// #include <CGAL/Cartesian/Point_d.h>
 #endif // CGAL_POINTCD_H
 #endif // CGAL_CARTESIAN_H
 
 CGAL_BEGIN_NAMESPACE
 
 template < class _R >
-class Point_d : public _R::Point_d
+class Point_d : public _R::Point_d_base
 {
 public:
     typedef  _R   R;
     typedef typename R::RT              RT;
     typedef typename R::FT              FT;
-    typedef typename R::Point_d         Point;
+    typedef typename R::Point_d_base    Point;
 
     Point_d()
     {}
@@ -95,20 +94,10 @@ public:
         : Point(p)
     {}
 
-#ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-
     template <class InputIterator>
     Point_d (int dim, InputIterator first, InputIterator last)
         : Point (dim, first, last)
     {}
-
-#else
-
-    Point_d (int dim, RT* first, RT* last)
-        : Point (dim, first, last)
-    {}
-
-#endif // CGAL_CFG_NO_MEMBER_TEMPLATES
 
     Point_d<R>& operator=(const Point_d<R>& p)
     {
@@ -165,23 +154,23 @@ public:
 };
 
 #ifndef NO_OSTREAM_INSERT_POINT_D
-    template < class R >
-    ostream &
-    operator<<(ostream &os, const Point_d<R>& p)
-    {
-      typedef typename  R::Point_d    Point;
-      return os << (const Point&)p;
-    }
+template < class R >
+std::ostream& 
+operator<<(std::ostream& os, const Point_d<R>& p)
+{
+  typedef typename  R::Point_d_base    Point;
+  return os << (const Point&)p;
+}
 #endif // NO_OSTREAM_INSERT_POINT_D
 
 #ifndef NO_ISTREAM_EXTRACT_POINT_D
-    template < class R >
-    istream &
-    operator>>(istream &is, Point_d<R> &p)
-    {
-      typedef typename  R::Point_d    Point;
-      return is >> (Point&)p;
-    }
+template < class R >
+std::istream& 
+operator>>(std::istream& is, Point_d<R> &p)
+{
+  typedef typename  R::Point_d_base    Point;
+  return is >> (Point&)p;
+}
 #endif // NO_ISTREAM_EXTRACT_POINT_D
 CGAL_END_NAMESPACE
 

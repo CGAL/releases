@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Triangulation_iterators_2.h
-// package       : Triangulation (3.17)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_iterators_2.h,v $
-// revision      : $Revision: 1.2.1.7 $
-// revision_date : $Date: 1999/04/12 16:25:46 $
+// package       : Triangulation (4.30)
+// source        : $RCSfile: Triangulation_iterators_2.h,v $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 1999/10/25 12:55:09 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -52,8 +49,6 @@
 #ifndef CGAL_TRIANGULATION_ITERATORS_2_H
 #define CGAL_TRIANGULATION_ITERATORS_2_H
 
-
-
 #include <utility>
 #include <iterator>
 #include <CGAL/triangulation_assertions.h>
@@ -63,265 +58,148 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Tds >
-class Triangulation_face_2;
-
-template < class Gt, class Tds >
-class Triangulation_vertex_2;
-
 template < class Gt, class Tds>
-class Triangulation_face_iterator_2;
-
-template < class Gt, class Tds>
-class Triangulation_vertex_iterator_2;
-
-template < class Gt, class Tds>
-class Triangulation_edge_iterator_2;
-
-
-template < class Gt, class Tds>
-class Triangulation_face_iterator_2
- : 
-  //public bidirectional_iterator<Triangulation_face_2<Gt,Tds>,ptrdiff_t>,
-  public Triangulation_cw_ccw_2
+class Triangulation_all_faces_iterator_2 
+  : public Tds::Face_iterator
 {
 public:
-  typedef Triangulation_face_2<Gt,Tds>       value_type;
-  typedef Triangulation_face_2<Gt,Tds> *     pointer;
-  typedef Triangulation_face_2<Gt,Tds> &     reference;
+  typedef typename Tds::Face_iterator  Base;
+  typedef Triangulation_2<Gt,Tds> Triangulation;
+  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face Face;
+  typedef Triangulation_all_faces_iterator_2<Gt,Tds>  All_faces;
+
+  typedef Face      value_type;
+  typedef Face*     pointer;
+  typedef Face&     reference;
   typedef std::size_t     size_type;
   typedef std::ptrdiff_t  difference_type;
   typedef std::bidirectional_iterator_tag   iterator_category;
 
-  typedef typename Tds::Vertex Ve;
-  typedef typename Tds::Face Fa;
-  typedef typename Tds::Face_iterator  Iterator_base;
-
-  typedef Triangulation_face_2<Gt,Tds> Face;
-  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef typename Vertex::Vertex_handle Vertex_handle;
-  typedef typename Face::Face_handle Face_handle;
-  typedef std::pair<Face_handle, int>     Edge;
-
-  typedef Triangulation_face_iterator_2<Gt,Tds>      Face_iterator;
-  typedef Triangulation_edge_iterator_2<Gt,Tds>      Edge_iterator;
-  typedef Triangulation_vertex_iterator_2<Gt,Tds>    Vertex_iterator;
-
+public:
+  Triangulation_all_faces_iterator_2()     : Base()    {}
+  Triangulation_all_faces_iterator_2(const Triangulation_2<Gt,Tds> *tr)
+    : Base(&(tr->_tds))
+    {}
+   Triangulation_all_faces_iterator_2(const Triangulation_2<Gt,Tds> *tr, int)
+    : Base(&(tr->_tds),1) 
+    {}
   
-  Triangulation_face_iterator_2()
-    : _ib()
-  {}
-        
-  Triangulation_face_iterator_2(Triangulation_2<Gt,Tds> *tr)
-            : _ib( &(tr->_tds))
-  { }
-        
-  Triangulation_face_iterator_2(Triangulation_2<Gt,Tds> *tr, int i)
-    : _ib( &(tr->_tds), i)
-  { }
-       
-  Triangulation_face_iterator_2(const Face_iterator& fi)
-          : _ib(fi._ib)
-  {}
-        
-        
-   Face_iterator&
-        operator=(const Face_iterator& fi)
-  { 
-    _ib = fi._ib;
-    return *this;
-  }
-  
-  bool
-  operator==(const Face_iterator& fi) const
-  {
-    return ( _ib == fi._ib);
-  }
-
-  bool
-  operator!=(const Face_iterator& fi)
-  {
-    return !(*this == fi);
-  }
-
-  Face_iterator&
-  operator++()
-  {
-    ++_ib; 
-    return *this;   
-  }
-
-  Face_iterator&
-  operator--()
-  {
-    --_ib;
-    return *this;   
-  }
-
-  Face_iterator
-  operator++(int)
-  {
-    Face_iterator tmp(*this);
-    ++(*this);
-    return tmp;
-  }
-        
-        
-  Face_iterator
-  operator--(int)
-  {
-    Face_iterator tmp(*this);
-    --(*this);
-    return tmp;
-  }
-        
-  inline Face& operator*() const
-  {
-    return (Face &)(*_ib);
-  }
-
-  inline Face* operator->() const
-  {
-    return   (Face*)( & (*_ib));
-  }
-     
-private:
-  Iterator_base   _ib;
+  All_faces&  operator++();
+  All_faces&  operator--();
+  All_faces  operator++(int);
+  All_faces  operator--(int);
+  Face& operator*() const
+    {return static_cast<Face &>(All_faces::Base::operator*());}
+  Face* operator->() const
+    {return static_cast<Face *>(All_faces::Base::operator->());}
 };
 
 
 template < class Gt, class Tds>
-class Triangulation_vertex_iterator_2
- : 
-  //public bidirectional_iterator<Triangulation_vertex_2<Gt,Tds>,ptrdiff_t>,
-   public Triangulation_cw_ccw_2
+class Triangulation_finite_faces_iterator_2
+ : public Triangulation_all_faces_iterator_2<Gt,Tds>
 {
 public:
-  typedef Triangulation_vertex_2<Gt,Tds>       value_type;
-  typedef Triangulation_vertex_2<Gt,Tds> *     pointer;
-  typedef Triangulation_vertex_2<Gt,Tds> &     reference;
-  typedef std::size_t     size_type;
-  typedef std::ptrdiff_t  difference_type;
-  typedef std::bidirectional_iterator_tag   iterator_category;
+  typedef Triangulation_all_faces_iterator_2<Gt,Tds>     All_faces;
+  typedef Triangulation_finite_faces_iterator_2<Gt,Tds>  Finite_faces;
+  typedef typename All_faces::Triangulation              Triangulation;
 
-  typedef typename Tds::Vertex Ve;
-  typedef typename Tds::Face Fa;
-  typedef typename Tds::Vertex_iterator  Iterator_base;
-
-  typedef Triangulation_face_2<Gt,Tds> Face;
-  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef typename Vertex::Vertex_handle Vertex_handle;
-  typedef typename Face::Face_handle Face_handle;
-  typedef std::pair<Face_handle, int>     Edge;
-
-  typedef Triangulation_face_iterator_2<Gt,Tds>      Face_iterator;
-  typedef Triangulation_edge_iterator_2<Gt,Tds>      Edge_iterator;
-  typedef Triangulation_vertex_iterator_2<Gt,Tds>    Vertex_iterator;
-
+private:
+   const Triangulation*  _tr;
  
-  Triangulation_vertex_iterator_2()
-    : _ib()
-  {}
+public:
+  Triangulation_finite_faces_iterator_2()    : All_faces(), _tr()  {}
         
-  Triangulation_vertex_iterator_2(Triangulation_2<Gt,Tds> *tr)
-            : _ib( &(tr->_tds))
+  Triangulation_finite_faces_iterator_2(const Triangulation* tr);
+
+  Triangulation_finite_faces_iterator_2(const Triangulation* tr, int)
+    : All_faces(tr,1), _tr(tr)
   { }
-        
-  Triangulation_vertex_iterator_2(Triangulation_2<Gt,Tds> *tr, int i)
-    : _ib( &(tr->_tds), i)
-  { }
-       
-  Triangulation_vertex_iterator_2(const Vertex_iterator& vi)
-          : _ib(vi._ib)
-  {}
-        
-        
-   Vertex_iterator&
-        operator=(const Vertex_iterator& vi)
-  { 
-    _ib = vi._ib;
-    return *this;
-  }
   
-  bool
-  operator==(const Vertex_iterator& vi) const
-  {
-    return ( _ib == vi._ib);
-  }
-
-  bool
-  operator!=(const Vertex_iterator& vi)
-  {
-    return !(*this == vi);
-  }
-
-  Vertex_iterator&
-  operator++()
-  {
-    ++_ib; 
-    return *this;   
-  }
-
-  Vertex_iterator&
-  operator--()
-  {
-    --_ib;
-    return *this;   
-  }
-
-  Vertex_iterator
-  operator++(int)
-  {
-    Vertex_iterator tmp(*this);
-    ++(*this);
-    return tmp;
-  }
-        
-        
-  Vertex_iterator
-  operator--(int)
-  {
-    Vertex_iterator tmp(*this);
-    --(*this);
-    return tmp;
-  }
-        
-  inline Vertex& operator*() const
-  {
-    return (Vertex &)(*_ib);
-  }
-
-  inline Vertex* operator->() const
-  {
-    return   (Vertex*)( & (*_ib));
-  }
-     
-private:
-  Iterator_base   _ib;
+  Finite_faces&  operator++();
+  Finite_faces&  operator--();
+  Finite_faces   operator++(int);
+  Finite_faces   operator--(int);
 };
 
 
 template < class Gt, class Tds>
-class Triangulation_edge_iterator_2
- : 
-  //  public bidirectional_iterator<typename
-  //  Triangulation_2<Gt,Tds>::Edge ,ptrdiff_t>,
-  public Triangulation_cw_ccw_2
+class Triangulation_all_vertices_iterator_2
+  : public Tds::Vertex_iterator
 {
 public:
-  typedef typename Tds::Vertex Ve;
-  typedef typename Tds::Face Fa;
-  typedef typename Tds::Edge_iterator  Iterator_base;
+  typedef typename Tds::Vertex_iterator  Base;
+  typedef Triangulation_2<Gt,Tds> Triangulation;
+  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Vertex Vertex;
+  typedef Triangulation_all_vertices_iterator_2<Gt,Tds> All_vertices;
 
-  typedef Triangulation_face_2<Gt,Tds> Face;
-  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef typename Vertex::Vertex_handle Vertex_handle;
-  typedef typename Face::Face_handle Face_handle;
-  typedef std::pair<Face_handle, int>     Edge;
+  typedef Vertex       value_type;
+  typedef Vertex *     pointer;
+  typedef Vertex &     reference;
+  typedef std::size_t     size_type;
+  typedef std::ptrdiff_t  difference_type;
+  typedef std::bidirectional_iterator_tag   iterator_category;
 
-  typedef Triangulation_face_iterator_2<Gt,Tds>      Face_iterator;
-  typedef Triangulation_edge_iterator_2<Gt,Tds>      Edge_iterator;
-  typedef Triangulation_vertex_iterator_2<Gt,Tds>    Vertex_iterator;
+
+public:
+  Triangulation_all_vertices_iterator_2()
+    : Base() 
+  {}
+        
+  Triangulation_all_vertices_iterator_2(const Triangulation * tr)
+    : Base( &(tr->_tds))
+  { }
+
+  Triangulation_all_vertices_iterator_2(const Triangulation *tr, int)
+    : Base( &(tr->_tds),1)
+  { }
+  
+  All_vertices&   operator++();
+  All_vertices&   operator--();
+  All_vertices    operator++(int);
+  All_vertices    operator--(int);
+  Vertex& operator*() const;
+  Vertex* operator->() const;
+};
+
+
+template < class Gt, class Tds>
+class Triangulation_finite_vertices_iterator_2
+ : public Triangulation_all_vertices_iterator_2<Gt,Tds>
+{
+public:
+  typedef Triangulation_all_vertices_iterator_2<Gt,Tds>    All_vertices;
+  typedef Triangulation_finite_vertices_iterator_2<Gt,Tds> Finite_vertices;
+  typedef typename All_vertices::Triangulation             Triangulation;
+private:
+  const Triangulation* _tr; 
+
+public:
+  Triangulation_finite_vertices_iterator_2()    : All_vertices(),_tr(NULL)   {}
+        
+  Triangulation_finite_vertices_iterator_2(const Triangulation *tr);
+    
+  Triangulation_finite_vertices_iterator_2(const Triangulation *tr, int )
+    : All_vertices(tr,1), _tr(tr)
+  { }
+
+  Finite_vertices&  operator++();
+  Finite_vertices&  operator--();
+  Finite_vertices   operator++(int);
+  Finite_vertices   operator--(int);
+};
+
+template < class Gt, class Tds>
+class Triangulation_all_edges_iterator_2
+  : public Tds::Edge_iterator
+{
+public:
+  typedef Triangulation_2<Gt,Tds>     Triangulation;
+  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Edge  Edge;
+  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face        Face;
+  typedef CGAL_TYPENAME_MSVC_NULL Triangulation::Face_handle  Face_handle;
+  typedef typename Tds::Edge_iterator Base;
+  typedef Triangulation_all_edges_iterator_2<Gt,Tds> All_edges;
 
   typedef Edge       value_type;
   typedef Edge *     pointer;
@@ -329,86 +207,391 @@ public:
   typedef std::size_t     size_type;
   typedef std::ptrdiff_t  difference_type;
   typedef std::bidirectional_iterator_tag   iterator_category;
+  
 
-
-  Triangulation_edge_iterator_2()
-    : _ib()
-  {}
+  Triangulation_all_edges_iterator_2()    : Base()    {}
         
-  Triangulation_edge_iterator_2(Triangulation_2<Gt,Tds> *tr)
-            : _ib( &(tr->_tds))
-  { }
-        
-  Triangulation_edge_iterator_2(Triangulation_2<Gt,Tds> *tr, int i)
-    : _ib( &(tr->_tds), i)
+  Triangulation_all_edges_iterator_2(const Triangulation *tr)
+    : Base(&(tr->_tds))
+    {} 
+  
+  Triangulation_all_edges_iterator_2(const Triangulation *tr, int )
+    : Base(&(tr->_tds),1)
   { }
        
-  Triangulation_edge_iterator_2(const Edge_iterator& ei)
-          : _ib(ei._ib)
-  {}
-        
-        
-   Edge_iterator&
-        operator=(const Edge_iterator& ei)
-  { 
-    _ib = ei._ib;
-    return *this;
-  }
-  
-  bool
-  operator==(const Edge_iterator& ei) const
-  {
-    return ( _ib == ei._ib);
-  }
-
-  bool
-  operator!=(const Edge_iterator& ei)
-  {
-    return !(*this == ei);
-  }
-
-  Edge_iterator&
-  operator++()
-  {
-    ++_ib; 
-     return *this;   
-  }
-
-  Edge_iterator&
-  operator--()
-  {
-    --_ib;
-    return *this;   
-  }
-
-  Edge_iterator
-  operator++(int)
-  {
-    Edge_iterator tmp(*this);
-    ++(*this);
-    return tmp;
-  }
-        
-        
-  Edge_iterator
-  operator--(int)
-  {
-    Edge_iterator tmp(*this);
-    --(*this);
-    return tmp;
-  }
-        
-  inline Edge  operator*() const
-  {
-    Face_handle fh = (Face *)((*_ib).first);
-    return std::make_pair( fh  , (*_ib).second );
-  }
-
-  
-     
-private:
-  Iterator_base   _ib ;
+  All_edges&  operator++();
+  All_edges&  operator--();
+  All_edges   operator++(int);
+  All_edges   operator--(int);
+  Edge  operator*() const;
 };
+
+template < class Gt, class Tds>
+class Triangulation_finite_edges_iterator_2
+ : public Triangulation_all_edges_iterator_2<Gt,Tds>
+{
+public:
+  typedef Triangulation_all_edges_iterator_2<Gt,Tds>    All_edges;
+  typedef Triangulation_finite_edges_iterator_2<Gt,Tds> Finite_edges;
+  typedef typename All_edges::Triangulation             Triangulation;
+  
+private:
+  const Triangulation* _tr;
+
+public:  
+  Triangulation_finite_edges_iterator_2()  : All_edges(), _tr(NULL)  {}
+        
+  Triangulation_finite_edges_iterator_2(const Triangulation *tr);
+  
+  Triangulation_finite_edges_iterator_2(const Triangulation *tr, int )
+    : All_edges(tr,1), _tr(tr)
+  { }
+       
+  Finite_edges& operator++();
+  Finite_edges& operator--();
+  Finite_edges  operator++(int);
+  Finite_edges  operator--(int);
+};
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_faces_iterator_2<Gt,Tds>&
+Triangulation_all_faces_iterator_2<Gt,Tds>::
+operator++()
+{
+  Base::operator++();
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_faces_iterator_2<Gt,Tds>&
+Triangulation_all_faces_iterator_2<Gt,Tds>::
+operator--()
+{
+  Base::operator--();
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_faces_iterator_2<Gt,Tds>
+Triangulation_all_faces_iterator_2<Gt,Tds>::
+operator++(int)
+{
+  All_faces tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_all_faces_iterator_2<Gt,Tds>
+Triangulation_all_faces_iterator_2<Gt,Tds>::
+operator--(int)
+{
+  All_faces tmp(*this);
+  --(*this);
+  return tmp;
+}
+        
+// template < class Gt, class Tds>
+// inline
+// typename Triangulation_2<Gt,Tds>::Face &
+// Triangulation_all_faces_iterator_2<Gt,Tds>::
+// operator*() const
+// {
+//   return static_cast<Face &>(Base::operator*());
+// }
+
+// template < class Gt, class Tds>
+// inline
+// typename Triangulation_2<Gt,Tds>::Face *
+// Triangulation_all_faces_iterator_2<Gt,Tds>::
+// operator->() const
+// {
+//   return static_cast<Face *>(Base::operator->());
+// }
+     
+template < class Gt, class Tds>
+inline
+Triangulation_finite_faces_iterator_2<Gt,Tds>::
+Triangulation_finite_faces_iterator_2(const Triangulation* tr)
+    : All_faces(tr), _tr(tr)
+{ 
+  while ( *this != All_faces(tr,1) && ( _tr->is_infinite(& **this))) 
+    All_faces::operator++();
+  return;
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_faces_iterator_2<Gt,Tds>&
+Triangulation_finite_faces_iterator_2<Gt,Tds>::
+operator++()
+{
+  do { All_faces::operator++();}
+  while ( *this != All_faces(_tr,1)  && _tr->is_infinite(*this));
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_faces_iterator_2<Gt,Tds>&
+Triangulation_finite_faces_iterator_2<Gt,Tds>::
+operator--()
+{
+  do {All_faces::operator--();}
+  while ( *this !=  All_faces(_tr,1) &&  _tr->is_infinite(*this));
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_faces_iterator_2<Gt,Tds>
+Triangulation_finite_faces_iterator_2<Gt,Tds>::
+operator++(int)
+{
+  Finite_faces tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_finite_faces_iterator_2<Gt,Tds>
+Triangulation_finite_faces_iterator_2<Gt,Tds>::        
+operator--(int)
+{
+  Finite_faces tmp(*this);
+  --(*this);
+  return tmp;
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>&
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator++()
+{
+  Base::operator++();
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>&
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator--()
+{
+  Base::operator--();
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator++(int)
+{
+  All_vertices tmp(*this);
+  ++(*this);
+  return tmp;
+}
+         
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator--(int)
+{
+  All_vertices tmp(*this);
+  --(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>::Vertex &
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator*() const
+{
+  return static_cast<Vertex&>(Base::operator*());
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_vertices_iterator_2<Gt,Tds>::Vertex*
+Triangulation_all_vertices_iterator_2<Gt,Tds>::
+operator->() const
+{
+  return static_cast<Vertex*>(Base::operator->());   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_vertices_iterator_2<Gt,Tds> ::
+Triangulation_finite_vertices_iterator_2(const Triangulation *tr)
+  : All_vertices(tr), _tr(tr)
+{ 
+  while ( *this != All_vertices(_tr,1) && _tr->is_infinite(*this)) 
+    All_vertices::operator++();
+  return;
+} 
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_vertices_iterator_2<Gt,Tds>&
+Triangulation_finite_vertices_iterator_2<Gt,Tds> ::
+operator++()
+{
+  do All_vertices::operator++();
+  while ( *this != All_vertices(_tr,1)  && _tr->is_infinite(*this));
+  return *this;  
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_vertices_iterator_2<Gt,Tds>&
+Triangulation_finite_vertices_iterator_2<Gt,Tds> ::
+operator--()
+{
+  do All_vertices::operator--();
+  while ( *this != All_vertices(_tr,1)  && _tr->is_infinite(*this));
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_vertices_iterator_2<Gt,Tds>
+Triangulation_finite_vertices_iterator_2<Gt,Tds> ::
+operator++(int)
+{
+  Finite_vertices tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_finite_vertices_iterator_2<Gt,Tds>
+Triangulation_finite_vertices_iterator_2<Gt,Tds> ::        
+operator--(int)
+{
+  Finite_vertices tmp(*this);
+  --(*this);
+  return tmp;
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_edges_iterator_2<Gt,Tds>&
+Triangulation_all_edges_iterator_2<Gt,Tds>::
+operator++()
+{
+  Base::operator++();
+  return *this;
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_edges_iterator_2<Gt,Tds>&
+Triangulation_all_edges_iterator_2<Gt,Tds>::
+operator--()
+{
+  Base::operator--();
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_all_edges_iterator_2<Gt,Tds>
+Triangulation_all_edges_iterator_2<Gt,Tds>::
+operator++(int)
+{
+  All_edges tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_all_edges_iterator_2<Gt,Tds>
+Triangulation_all_edges_iterator_2<Gt,Tds>::
+operator--(int)
+{
+  All_edges tmp(*this);
+  --(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_all_edges_iterator_2<Gt,Tds>::Edge
+Triangulation_all_edges_iterator_2<Gt,Tds>::
+operator*() const
+{
+  Face_handle fh = static_cast<Face *>(Base::operator*().first);
+  return std::make_pair( fh  , Base::operator*().second );
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_edges_iterator_2<Gt,Tds>::
+Triangulation_finite_edges_iterator_2(const Triangulation *tr)
+  : All_edges(tr),_tr(tr) 
+{ 
+  while ( *this != All_edges(tr,1) &&   _tr->is_infinite(*this) ) {
+    All_edges::operator++();
+  }
+  return;
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_edges_iterator_2<Gt,Tds>&
+Triangulation_finite_edges_iterator_2<Gt,Tds>::
+operator++()
+{
+  do {
+    All_edges::operator++();
+  }  while ( *this != All_edges(_tr,1) &&  _tr->is_infinite(*this));
+  return *this;   
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_edges_iterator_2<Gt,Tds>&
+Triangulation_finite_edges_iterator_2<Gt,Tds>::
+operator--()
+{
+  do {
+    All_edges::operator--();
+  } while ( *this != All_edges(_tr,1) &&  _tr->is_infinite(*this));
+  return *this;  
+}
+
+template < class Gt, class Tds>
+inline
+Triangulation_finite_edges_iterator_2<Gt,Tds>
+Triangulation_finite_edges_iterator_2<Gt,Tds>:: 
+operator++(int)
+{
+  Finite_edges tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template < class Gt, class Tds>
+inline
+Triangulation_finite_edges_iterator_2<Gt,Tds>
+Triangulation_finite_edges_iterator_2<Gt,Tds>:: 
+operator--(int)
+{
+  Finite_edges tmp(*this);
+  --(*this);
+  return tmp;
+}
 
 CGAL_END_NAMESPACE
 

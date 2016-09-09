@@ -15,8 +15,8 @@
 // 
 // source        : (leda_window.fw)
 // file          : IO/esprit_logo.xpm
-// revision      : 2.2.7
-// revision_date : 27 May 1999 
+// revision      : 2.5.8
+// revision_date : 13 Jan 2000 
 // author(s)     : created automatically using ...
 //
 // coordinator   : MPI, Saarbruecken (<Stefan.Schirra@mpi-sb.mpg.de>)
@@ -26,7 +26,11 @@
 CGAL_BEGIN_NAMESPACE
 
 /* XPM */
-static char *esprit_logo[] = {
+#if (__LEDA__ > 400)
+static const char* esprit_logo[] = {
+#else
+static char* esprit_logo[] = {
+#endif // __LEDA__
 /* width height num_colors chars_per_pixel */
 "    89    87       27            1",
 /* colors */

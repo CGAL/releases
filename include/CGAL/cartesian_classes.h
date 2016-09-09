@@ -1,95 +1,135 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/cartesian_classes.h
-// package       : Cartesian_basic (2.1)
-// source        : web/Cartesian.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/02/28 09:20:04 $
-// author(s)     : Andreas.Fabri
-//
+// package       : Cartesian_basic (3.3.7)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/11/22 13:44:11 $
+// authors       : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
-// (Herve.Bronnimann)
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-
 #ifndef CGAL_CARTESIAN_CLASSES_H
 #define CGAL_CARTESIAN_CLASSES_H
 
-#ifndef CGAL_BASIC_CLASSES_H
 #include <CGAL/basic_classes.h>
-#endif // CGAL_BASIC_CLASSES_H
+
+#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
 
 CGAL_BEGIN_NAMESPACE
 
-template < class FT > class PointC2;
-template < class FT > class VectorC2;
-template < class FT > class DirectionC2;
-template < class FT > class LineC2;
-template < class FT > class RayC2;
-template < class FT > class SegmentC2;
-template < class FT > class TriangleC2;
-template < class FT > class CircleC2;
-template < class FT > class ParabolaC2;
-template < class FT > class Parabola_arcC2;
+// The following scheme is proposed by Michael Hoffmann
+// It uses partial specialization and default template parameters
+// and a curiously recurring pattern
+// It allows for a fully extendible kernel
+
+template < class R, class T = typename R::Rep_tag > class Point_2;
+template < class R, class T = typename R::Rep_tag > class Vector_2;
+template < class R, class T = typename R::Rep_tag > class Direction_2;
+template < class R, class T = typename R::Rep_tag > class Line_2;
+template < class R, class T = typename R::Rep_tag > class Ray_2;
+template < class R, class T = typename R::Rep_tag > class Segment_2;
+template < class R, class T = typename R::Rep_tag > class Triangle_2;
+template < class R, class T = typename R::Rep_tag > class Circle_2;
+template < class R, class T = typename R::Rep_tag > class Data_accessor_2;
 template < class PT, class DA > class ConicCPA2;
-template < class FT > class Iso_rectangleC2;
-template < class FT > class Iso_rectangleC3;
-template < class FT > class Aff_transformation_baseC2;
-template < class R > class Aff_transformation_base_2;
-template < class FT > class Aff_transformationC2;
+template < class R, class T = typename R::Rep_tag > class Iso_rectangle_2;
+template < class R, class T = typename R::Rep_tag > class Aff_transformation_2;
 
-template < class FT > class PlaneC3;
-template < class FT > class PointC3;
-template < class FT > class VectorC3;
-template < class FT > class DirectionC3;
-template < class FT > class LineC3;
-template < class FT > class RayC3;
-template < class FT > class SegmentC3;
-template < class FT > class TriangleC3;
-template < class FT > class TetrahedronC3;
-template < class FT > class Aff_transformationC3;
+template < class R, class T = typename R::Rep_tag > class Plane_3;
+template < class R, class T = typename R::Rep_tag > class Point_3;
+template < class R, class T = typename R::Rep_tag > class Vector_3;
+template < class R, class T = typename R::Rep_tag > class Direction_3;
+template < class R, class T = typename R::Rep_tag > class Line_3;
+template < class R, class T = typename R::Rep_tag > class Ray_3;
+template < class R, class T = typename R::Rep_tag > class Segment_3;
+template < class R, class T = typename R::Rep_tag > class Triangle_3;
+template < class R, class T = typename R::Rep_tag > class Tetrahedron_3;
+template < class R, class T = typename R::Rep_tag > class Iso_rectangle_3;
+template < class R, class T = typename R::Rep_tag > class Aff_transformation_3;
 
-template < class FT > class PointCd;
+template < class R > class PointCd;
 
 CGAL_END_NAMESPACE
+
+#else 
+
+CGAL_BEGIN_NAMESPACE
+
+// The following scheme is proposed by Stefan Schirra
+// It does not use partial specialization
+// It is a partially extendible kernel, but you have to redefine and
+// reinstantiate all the member classes in a new kernel
+// even if only one differs
+
+template < class R > class PointC2;
+template < class R > class VectorC2;
+template < class R > class DirectionC2;
+template < class R > class LineC2;
+template < class R > class RayC2;
+template < class R > class SegmentC2;
+template < class R > class TriangleC2;
+template < class R > class CircleC2;
+template < class R > class Data_accessorC2;
+template < class PT, class DA > class ConicCPA2;
+template < class R > class Iso_rectangleC2;
+template < class R > class Aff_transformationC2;
+
+template < class R > class PlaneC3;
+template < class R > class PointC3;
+template < class R > class VectorC3;
+template < class R > class DirectionC3;
+template < class R > class LineC3;
+template < class R > class RayC3;
+template < class R > class SegmentC3;
+template < class R > class TriangleC3;
+template < class R > class TetrahedronC3;
+template < class R > class Iso_rectangleC3;
+template < class R > class Aff_transformationC3;
+
+template < class R > class PointCd;
+
+CGAL_END_NAMESPACE
+
+// We also need the wrapper classes Point_2<R> etc.
+// We include them (they are common to Cartesian and Homogeneous)
+#include <CGAL/user_classes.h>
+
+#endif // CGAL_CFG_NO_ADVANCED_KERNEL
 
 #endif // CGAL_CARTESIAN_CLASSES_H

@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,16 +14,19 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -30,20 +34,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                min_sphere_d_example 
+                min_sphere_d_example$(EXE_EXT) 
 
-min_sphere_d_example: min_sphere_d_example.o
-	$(CGAL_CXX) -o min_sphere_d_example min_sphere_d_example.o $(LDFLAGS)
+min_sphere_d_example$(EXE_EXT): min_sphere_d_example$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_d_example min_sphere_d_example$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   min_sphere_d_example \
-                   core
+clean: \
+                   min_sphere_d_example.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

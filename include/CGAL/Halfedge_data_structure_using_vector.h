@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Halfedge_data_structure_using_vector.h
-// package       : Halfedge_DS (2.4)
+// package       : Halfedge_DS (2.7)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
 // revision      : $Revision: 1.3 $
@@ -193,15 +190,7 @@ public:
     // typedef typename Halfedge_vector::size_type     size_type;
     typedef typename Halfedge_vector::difference_type
                                                     Difference;
-protected:
-    Vertex_vector    vertices;
-    Halfedge_vector  halfedges;
-    Facet_vector     facets;
-    Size             nb_border_halfedges;
-    Size             nb_border_edges;
-    Halfedge*        border_halfedges;
 
-public:
     typedef typename Vertex::Supports_vertex_halfedge Supports_vertex_halfedge;
     typedef typename Halfedge::Supports_halfedge_prev Supports_halfedge_prev;
     typedef typename Halfedge::Supports_halfedge_vertex
@@ -239,23 +228,33 @@ public:
                                 std::ptrdiff_t,
                                 iterator_category>  Edge_const_iterator;
 
+protected :
+    Vertex_vector     vertices;
+    Halfedge_vector   halfedges;
+    Facet_vector      facets;
+    Size              nb_border_halfedges;
+    Size              nb_border_edges;
+    Halfedge_iterator border_halfedges;
+
 // CREATION
 
 private:
-    void pointer_update( const Vertex*   v_old,
-                         const Halfedge* h_old,
-                         const Facet*    f_old);
+    void pointer_update( Vertex_const_iterator   v_old,
+                         Halfedge_const_iterator h_old,
+                         Facet_const_iterator    f_old);
         // Update own pointers assuming that they lived previously
         // in a halfedge data structure with vector starting addresses
         // as given as parameters v_old, h_old, f_old.
 
 public:
     Halfedge_data_structure_using_vector()
-        : nb_border_halfedges(0), nb_border_edges(0), border_halfedges(NULL) {}
+        : nb_border_halfedges(0), nb_border_edges(0),
+          border_halfedges( Halfedge_iterator(NULL)) {}
         // the empty polyhedron `P'.
 
     Halfedge_data_structure_using_vector( Size v, Size h, Size f)
-        : nb_border_halfedges(0), nb_border_edges(0), border_halfedges(NULL) {
+        : nb_border_halfedges(0), nb_border_edges(0),
+          border_halfedges( Halfedge_iterator(NULL)) {
         // a polyhedron `P' with storage reserved for v vertices, h
         // halfedges, and f facets. The reservation sizes are a hint for
         // optimizing storage allocation. They are not used here.
@@ -270,9 +269,9 @@ public:
         // If the `capacity' is already greater than the requested size
         // nothing happens. If the `capacity' changes all iterators and
         // circulators invalidates. Function is void here.
-        Vertex*   v_old = vertices.begin();
-        Halfedge* h_old = halfedges.begin();
-        Facet*    f_old = facets.begin();
+        Vertex_iterator   v_old = vertices.begin();
+        Halfedge_iterator h_old = halfedges.begin();
+        Facet_iterator    f_old = facets.begin();
         if ( check_tag( Supports_halfedge_vertex()))
             vertices.reserve(v);
         halfedges.reserve(h);
@@ -439,7 +438,7 @@ public:
                 facets.erase(    facets.begin(),    facets.end());
                 nb_border_halfedges = 0;
                 nb_border_edges = 0;
-                border_halfedges = NULL;
+                border_halfedges = Halfedge_iterator(NULL);
     }
 
     void vertex_pop_back() { vertices.pop_back(); }
@@ -453,28 +452,32 @@ public:
 
 // Special Operations on Polyhedral Surfaces
 protected:
-    void update_opposite( Halfedge* h) {
-                Halfedge* g = h + 1;
-                h->H::set_opposite(g);
-                g->H::set_opposite(h);
+    void update_opposite( Halfedge_iterator h) {
+                Halfedge_iterator g = h + 1;
+                h->H::set_opposite( &*g);
+                g->H::set_opposite( &*h);
+    }
+    void update_opposite( Edge_iterator h) {
+        update_opposite( Halfedge_iterator( &* h));
     }
 
-    void update_prev( Halfedge*, Halfedge*, std::vector<Halfedge*>,Tag_false){}
-    void update_prev( Halfedge* h, Halfedge* base, std::vector<Halfedge*> inv,
-                      Tag_true){
-        h->set_prev( inv[ h->prev() - base]);
+    void update_prev( Halfedge_iterator, Halfedge_iterator,
+                      std::vector<Halfedge_iterator>,Tag_false){}
+    void update_prev( Halfedge_iterator h, Halfedge_iterator base,
+                      std::vector<Halfedge_iterator> inv, Tag_true){
+        h->set_prev( &*(inv[ Halfedge_iterator(h->prev()) - base]));
     }
-    void update_vertex( Halfedge*  , Tag_false, Tag_false){}
-    void update_vertex( Halfedge*  , Tag_true,  Tag_false){}
-    void update_vertex( Halfedge*  , Tag_false, Tag_true){}
-    void update_vertex( Halfedge* h, Tag_true,  Tag_true){
-        h->vertex()->set_halfedge(h);
+    void update_vertex( Halfedge_iterator  , Tag_false, Tag_false){}
+    void update_vertex( Halfedge_iterator  , Tag_true,  Tag_false){}
+    void update_vertex( Halfedge_iterator  , Tag_false, Tag_true){}
+    void update_vertex( Halfedge_iterator h, Tag_true,  Tag_true){
+        h->vertex()->set_halfedge(&*h);
     }
-    void update_facet( Halfedge*  , Tag_false, Tag_false){}
-    void update_facet( Halfedge*  , Tag_true,  Tag_false){}
-    void update_facet( Halfedge*  , Tag_false, Tag_true){}
-    void update_facet( Halfedge* h, Tag_true,  Tag_true){
-        h->facet()->set_halfedge(h);
+    void update_facet( Halfedge_iterator  , Tag_false, Tag_false){}
+    void update_facet( Halfedge_iterator  , Tag_true,  Tag_false){}
+    void update_facet( Halfedge_iterator  , Tag_false, Tag_true){}
+    void update_facet( Halfedge_iterator h, Tag_true,  Tag_true){
+        h->facet()->set_halfedge(&*h);
     }
 
 public:
@@ -512,8 +515,11 @@ public:
     }
 
     Halfedge_const_iterator border_halfedges_begin() const {
-        CGAL_assertion( border_halfedges);
-        return Halfedge_const_iterator( border_halfedges);
+        // CGAL_assertion( border_halfedges);
+        // return Halfedge_const_iterator( border_halfedges);
+        return // static_cast -- MSVC identity loss... DVP
+        Halfedge_const_iterator(static_cast<Halfedge_iterator>
+                    (border_halfedges));
     }
 
     Edge_const_iterator border_edges_begin()  const {
@@ -527,45 +533,47 @@ public:
         // the facet right before the halfedge incident to the hole.
 };
 
-#define V_UPDATE(v) (v_new + ((v) - v_old))
-#define H_UPDATE(h) (h_new + ((h) - h_old))
-#define F_UPDATE(f) (f_new + ((f) - f_old))
+#define CGAL_V_UPDATE(v) (&*(v_new + (Vertex_const_iterator(v)   - v_old)))
+#define CGAL_H_UPDATE(h) (&*(h_new + (Halfedge_const_iterator(h) - h_old)))
+#define CGAL_H_UPDATE_I(h) (h_new + (Halfedge_const_iterator(h) - h_old))
+#define CGAL_F_UPDATE(f) (&*(f_new + (Facet_const_iterator(f)    - f_old)))
 
 template < class V, class H, class F>
 void
 Halfedge_data_structure_using_vector<V,H,F>::
-pointer_update( const Vertex*   v_old,
-                const Halfedge* h_old,
-                const Facet*    f_old) {
+pointer_update( Vertex_const_iterator   v_old,
+                Halfedge_const_iterator h_old,
+                Facet_const_iterator    f_old) {
     // Update own pointers assuming that they lived previously
     // in a halfedge data structure with vector starting addresses
     // as given as parameters v_old, h_old, f_old.
     Halfedge_data_structure_decorator<Self> D;
-    Vertex*   v_new = vertices.begin();
-    Halfedge* h_new = halfedges.begin();
-    Facet*    f_new = facets.begin();
+    Vertex_iterator   v_new = vertices.begin();
+    Halfedge_iterator h_new = halfedges.begin();
+    Facet_iterator    f_new = facets.begin();
     for ( Halfedge_iterator h = halfedges.begin(); h != halfedges.end(); ++h) {
-        h->set_next( H_UPDATE( h->next()));
-        h->H::set_opposite( H_UPDATE( h->opposite()));
-        D.set_prev( h, H_UPDATE( D.get_prev(h)));
-        D.set_vertex( h, V_UPDATE( D.get_vertex(h)));
-        D.set_vertex_halfedge( h);
-        D.set_facet( h, F_UPDATE( D.get_facet(h)));
+        h->set_next( CGAL_H_UPDATE( h->next()));
+        h->H::set_opposite( CGAL_H_UPDATE( h->opposite()));
+        D.set_prev( &*h, CGAL_H_UPDATE( D.get_prev( &*h)));
+        D.set_vertex( &*h, CGAL_V_UPDATE( D.get_vertex( &*h)));
+        D.set_vertex_halfedge( &*h);
+        D.set_facet( &*h, CGAL_F_UPDATE( D.get_facet( &*h)));
         if ( ! h->is_border())
-            D.set_facet_halfedge( h);
+            D.set_facet_halfedge( &*h);
     }
-    border_halfedges = H_UPDATE( border_halfedges);
+    border_halfedges = CGAL_H_UPDATE_I( border_halfedges);
 }
-#undef V_UPDATE
-#undef H_UPDATE
-#undef F_UPDATE
+#undef CGAL_V_UPDATE
+#undef CGAL_H_UPDATE
+#undef CGAL_H_UPDATE_I
+#undef CGAL_F_UPDATE
 
 template < class V, class H, class F>
 void
 Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
     nb_border_halfedges = 0;
     nb_border_edges = 0;
-    border_halfedges = &*(halfedges_end());
+    border_halfedges = halfedges_end();
     // Lets run one partition step over the array of halfedges.
     // First find a pivot -- that means a border edge.
     Edge_iterator ll = edges_begin();
@@ -577,12 +585,12 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
         return;
 
     // An array of pointers to update the changed halfedge pointers.
-    typedef std::vector<Halfedge*> HVector;
+    typedef std::vector<Halfedge_iterator> HVector;
     HVector hvector;
     hvector.reserve( halfedges.size());
     // Initialize it.
     for ( Halfedge_iterator i = halfedges_begin(); i!=halfedges_end();++i){
-        hvector.push_back( &*i);
+        hvector.push_back( i);
     }
     CGAL_assertion( hvector.size() == halfedges.size());
     typename HVector::iterator llhv = hvector.begin()+2*(ll-edges_begin());
@@ -601,7 +609,7 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
                             (*rr).opposite()->is_border())) {
             if ( ! (*rr).opposite()->is_border()) {
                 std::swap( *rr, *((*rr).opposite()));
-                update_opposite( &*rr);
+                update_opposite( rr);
                 std::swap( *rrhv, *(rrhv+1));
             }
             --rr;
@@ -612,8 +620,8 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
                           // *rr <= pivot, ll <= rr.
         std::swap( *((*ll).opposite()), *((*rr).opposite()));
         std::swap( *ll, *rr);
-        update_opposite( &*ll);
-        update_opposite( &*rr);
+        update_opposite( ll);
+        update_opposite( rr);
         std::swap( *(llhv+1), *(rrhv+1));
         std::swap( *llhv, *rrhv);
                           // Elements in [begin..ll) < pivot
@@ -630,13 +638,13 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
         CGAL_assertion( llhv <= rrhv);
         std::swap( *((*ll).opposite()), *((*rr).opposite()));
         std::swap( *ll, *rr);
-        update_opposite( &*ll);
-        update_opposite( &*rr);
+        update_opposite( ll);
+        update_opposite( rr);
         std::swap( *(llhv+1), *(rrhv+1));
         std::swap( *llhv, *rrhv);
         if ( ! (*rr).opposite()->is_border()) {
             std::swap( *rr, *((*rr).opposite()));
-            update_opposite( &*rr);
+            update_opposite( rr);
             std::swap( *rrhv, *(rrhv+1));
         }
         --rr;
@@ -654,7 +662,7 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
         // Check for the possibly missed swap.
         if ( (*rr).is_border() && ! ((*rr).opposite()->is_border())) {
             std::swap( *rr, *((*rr).opposite()));
-            update_opposite( &*rr);
+            update_opposite( rr);
             std::swap( *rrhv, *(rrhv+1));
         }
     }
@@ -662,7 +670,7 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
     CGAL_assertion( ll == edges_begin() || ! (*(ll-1)).is_border());
     CGAL_assertion( ll == edges_begin() ||
                ! (*(ll-1)).opposite()->is_border());
-    border_halfedges = &*ll;
+    border_halfedges = Halfedge_iterator( &*ll);
     nb_border_edges = (edges_end() - ll);
     nb_border_halfedges = 0;
 
@@ -676,24 +684,24 @@ Halfedge_data_structure_using_vector<V,H,F>::normalize_border() {
 
     // Update halfedge pointers.
     for (Halfedge_iterator h =halfedges_begin(); h != halfedges_end();++h){
-        (*h).set_next( inv_vector[ (*h).next() - &(halfedges.front())]);
-        update_prev(   &*h, &(halfedges.front()), inv_vector,
-                            Supports_halfedge_prev());
-        update_vertex( &*h, Supports_halfedge_vertex(),
-                            Supports_vertex_halfedge());
+        (*h).set_next( &* (inv_vector[ (*h).next() - &(halfedges.front())]));
+        update_prev(   h, halfedges.begin(), inv_vector,
+                       Supports_halfedge_prev());
+        update_vertex( h, Supports_halfedge_vertex(),
+                          Supports_vertex_halfedge());
         if ( (*h).is_border())
             nb_border_halfedges++;
         else
-            update_facet(  &*h, Supports_halfedge_facet(),
-                                Supports_facet_halfedge());
+            update_facet(  h, Supports_halfedge_facet(),
+                              Supports_facet_halfedge());
     }
 }
 
 CGAL_END_NAMESPACE
 
 // Undef shorter names (g++/egcs)
-#undef _HDS_vector_vertex
-#undef _HDS_vector_halfedge
-#undef _HDS_vector_facet
+//#undef _HDS_vector_vertex
+//#undef _HDS_vector_halfedge
+//#undef _HDS_vector_facet
 #endif // CGAL_HALFEDGE_DATA_STRUCTURE_USING_VECTOR_H //
 // EOF //

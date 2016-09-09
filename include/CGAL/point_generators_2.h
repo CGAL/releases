@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/point_generators_2.h
-// package       : Generator (2.10)
+// package       : Generator (2.23)
 // chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 1999/04/20 15:58:18 $
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 1999/06/03 19:55:31 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
@@ -91,7 +88,7 @@ generate_point() {
     double alpha = _rnd.get_double() * 2.0 * M_PI;
     double r     = d_range * std::sqrt( _rnd.get_double());
     Creator creator;
-    d_item = creator( r * std::cos(alpha), r * std::sin(alpha));
+    d_item = creator( r * CGAL_CLIB_STD::cos(alpha), r * CGAL_CLIB_STD::sin(alpha));
 }
 
 
@@ -126,7 +123,7 @@ Random_points_on_circle_2<P,Creator>::
 generate_point() {
     double a = _rnd.get_double() * 2.0 * M_PI;
     Creator creator;
-    d_item = creator( d_range * std::cos(a), d_range * std::sin(a));
+    d_item = creator( d_range * CGAL_CLIB_STD::cos(a), d_range * CGAL_CLIB_STD::sin(a));
 }
 
 
@@ -310,6 +307,7 @@ template < class P >
 void
 Points_on_segment_2<P>::
 generate_point() { d_item = _p + (_q-_p) * d_i / (d_mx-1); }
+
 template <class OutputIterator, class Creator>
 OutputIterator
 points_on_square_grid_2( double a, std::size_t n, OutputIterator o,
@@ -317,7 +315,7 @@ points_on_square_grid_2( double a, std::size_t n, OutputIterator o,
 {
     if  (n == 0)
         return o;
-    int m = int(std::ceil(std::sqrt(n)));
+    int m = int(CGAL_CLIB_STD::ceil(std::sqrt(static_cast<double>(n))));
     double base = -a;  // Left and bottom boundary.
     double step = (2*a)/(m - 1);
     int j = 0;

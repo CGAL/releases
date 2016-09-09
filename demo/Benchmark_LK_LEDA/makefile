@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,12 +14,16 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(CGAL_CXXFLAGS) \
-           -g
+           -O2 \
+           $(EXTRA_FLAGS) \
+           $(CGAL_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(CGAL_WINDOW_LDFLAGS)
@@ -31,22 +36,20 @@ all:            \
                 convex_hull \
                 convex_hull_LEDA 
 
-convex_hull: convex_hull.o
-	$(CGAL_CXX) -o convex_hull convex_hull.o $(LDFLAGS)
+convex_hull$(EXE_EXT): convex_hull$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)convex_hull convex_hull$(OBJ_EXT) $(LDFLAGS)
 
-convex_hull_LEDA: convex_hull_LEDA.o
-	$(CGAL_CXX) -o convex_hull_LEDA convex_hull_LEDA.o $(LDFLAGS)
+convex_hull_LEDA$(EXE_EXT): convex_hull_LEDA$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)convex_hull_LEDA convex_hull_LEDA$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   convex_hull \
-                   convex_hull_LEDA \
-                   core
+clean: \
+                   convex_hull.clean \
+                   convex_hull_LEDA.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

@@ -16,6 +16,8 @@ struct Point_mass {
     Point_mass() {}
 };
 
+CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(Point_mass);
+
 template <class Iterator>
 Point centre_of_mass(Iterator cur, Iterator beyond)
 {
@@ -36,7 +38,7 @@ void write(const Point &centre)
          << centre.x() <<", "<< centre.y() <<")\n";
 }
 
-main()
+int main()
 {
     const int N = 4;
     Point_mass points1[N] = {
@@ -52,4 +54,5 @@ main()
 
     std::list<Point_mass> points3(points1, points1+N);
     write(centre_of_mass(points3.begin(), points3.end()));
+    return 0;
 }

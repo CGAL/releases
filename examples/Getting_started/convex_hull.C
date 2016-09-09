@@ -39,9 +39,10 @@ void array_version()
     write(out, beyond);
 }
 
-main()
+int main()
 {
     list_version();
     std::cout<<'\n';
     array_version();
+    return 0;
 }

@@ -1,50 +1,47 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointCd.h
-// package       : _d (2.1)
-// revision      : 2.1
-// revision_date : 26 Feb 1999 
+// package       : Cd (1.1.1)
+// revision      : 2.2.3
+// revision_date : 14 Sep 1999 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : INRIA, Sophia-Antipolis (<Herve.Bronnimann>)
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -72,14 +69,25 @@ class PointCd : public Handle
     PointCd (int dim, const Origin&);
     PointCd (const PointCd<FT> &p);
 
-#ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-
     template <class InputIterator>
-    PointCd (int dim, InputIterator first, InputIterator last);
-#else
-    PointCd (int dim, const FT* first, const FT* last);
-
-#endif // CGAL_CFG_NO_MEMBER_TEMPLATES
+    PointCd (int dim, InputIterator first, InputIterator last)
+    {
+      CGAL_kernel_precondition( dim >= 0);
+      PTR = new _d_tuple<FT>(dim);
+      FT* o;
+      FT* e = ptr()->e;
+      InputIterator i;
+      for ( i=first, o=e; ( i < last)&&( o < e+dim ); *(o++) = *(i++) ) {};
+      CGAL_kernel_precondition( o == e+dim );
+      if ( i < last ) 
+      {
+        FT h = *(i++);
+        CGAL_kernel_precondition( !is_zero (h) );
+        CGAL_kernel_precondition( i == last );
+        for ( o=e; o < e+dim; *(o++) /= h ) ;
+        // if ( h != FT(1) ) { for ( o=e; o < e+dim; *(o++) /= h ) {}; }
+      }
+    }
 
     ~PointCd();
 
@@ -143,52 +151,6 @@ PointCd<FT>::PointCd(const PointCd<FT> &p)
   : Handle((Handle&)p)
 {}
 
-#ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-
-template < class FT >
-CGAL_KERNEL_CTOR_INLINE
-template <class InputIterator>
-PointCd<FT>::
-PointCd(int dim, InputIterator first, InputIterator last)
-{
-    CGAL_kernel_precondition (dim>=0);
-    PTR = new _d_tuple<FT>(dim);
-    FT *e = ptr()->e, *o;
-    InputIterator i;
-    for (i=first, o=e; (i<last) && (o<e+dim); *(o++) = *(i++));
-    CGAL_kernel_precondition (o==e+dim);
-    if (i<last) {
-    FT h = *(i++);
-    CGAL_kernel_precondition (!is_zero (h));
-    CGAL_kernel_precondition (i==last);
-    for (o=e; o<e+dim; *(o++)/=h);
-    }
-}
-
-#else
-
-template < class FT >
-CGAL_KERNEL_CTOR_INLINE
-PointCd<FT>::PointCd(int dim,
-                  const FT* first,
-                  const FT* last)
-{
-    CGAL_kernel_precondition (dim>=0);
-    PTR = new _d_tuple<FT>(dim);
-    FT *e = ptr()->e, *o;
-    const FT *i;
-    for (i=first, o=e; (i<last) && (o<e+dim); *(o++) = *(i++));
-    CGAL_kernel_precondition (o==e+dim);
-    if (i<last) {
-    FT h = *(i++);
-    CGAL_kernel_precondition (!is_zero (h));
-    CGAL_kernel_precondition (i==last);
-    for (o=e; o<e+dim; *(o++)/=h);
-    }
-}
-
-
-#endif // CGAL_CFG_NO_MEMBER_TEMPLATES
 
 template < class FT >
 inline
@@ -210,28 +172,27 @@ bool PointCd<FT>::operator==(const PointCd<FT>& p) const
   int d = dimension();
   if (d != p.dimension()) return false;
   FT *e = ptr()->e, *ep = p.ptr()->e;
-  for (FT *i=e, *j=ep; i<e+d; ++i, ++j)
+  FT *i, *j;
+  for (i=e, j=ep; i<e+d; ++i, ++j)
       if (*i != *j) return false;
   return true;
 }
 
 template < class FT >
 inline
-bool PointCd<FT>::operator!=(const PointCd<FT>& p) const
-{
-  return !(*this == p);
-}
+bool 
+PointCd<FT>::operator!=(const PointCd<FT>& p) const
+{ return !(*this == p); }
 
 template < class FT >
 inline
 int PointCd<FT>::id() const
-{
-  return (int)PTR;
-}
+{ return (int)PTR; }
 
 template < class FT >
 inline
-FT  PointCd<FT>::homogeneous(int i) const
+FT  
+PointCd<FT>::homogeneous(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<=dimension()) );
     if (i<dimension())
@@ -242,7 +203,8 @@ FT  PointCd<FT>::homogeneous(int i) const
 
 template < class FT >
 CGAL_KERNEL_INLINE
-FT  PointCd<FT>::cartesian(int i) const
+FT  
+PointCd<FT>::cartesian(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<dimension()) );
     return ptr()->e[i];
@@ -250,91 +212,87 @@ FT  PointCd<FT>::cartesian(int i) const
 
 template < class FT >
 inline
-FT  PointCd<FT>::operator[](int i) const
-{
-  return cartesian(i);
-}
+FT  
+PointCd<FT>::operator[](int i) const
+{ return cartesian(i); }
 
 
 template < class FT >
 inline
-int PointCd<FT>::dimension() const
-{
-  return ptr()->d;
-}
+int 
+PointCd<FT>::dimension() const
+{ return ptr()->d; }
 
 template < class FT >
 inline
-const FT* PointCd<FT>::begin() const
-{
-  return ptr()->e;
-}
+const FT* 
+PointCd<FT>::begin() const
+{ return ptr()->e; }
 
 template < class FT >
 inline
 const FT* PointCd<FT>::end() const
-{
-  return ptr()->e + dimension();
-}
+{ return ptr()->e + dimension(); }
 
 #ifndef NO_OSTREAM_INSERT_POINTCD
 template < class FT >
-ostream &operator<<(ostream &os, const PointCd<FT> &p)
+std::ostream& 
+operator<<(std::ostream& os, const PointCd<FT> &p)
 {
-    int d = p.dimension();
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII : {
-    os << d << ' ';
-        for (int i=0; i<d-1; ++i)
-        os << p.cartesian(i) << ' ';
-    return os << p.cartesian(d-1);
-    }
-    case IO::BINARY : {
-    write(os, d);
-    for (int i=0; i<d; ++i)
+    int d = p.dimension(), i;
+    switch(os.iword(IO::mode)) 
+    {
+      case IO::ASCII : 
+        os << d << ' ';
+        for (i=0; i<d-1; ++i) { os << p.cartesian(i) << ' '; }
+        os << p.cartesian(d-1); 
+        return os;
+      case IO::BINARY :
+        write(os, d);
+        for (i=0; i<d; ++i)
            write(os, p.cartesian(i));
         return os;
-    }
-    default:
+      default:
         os << "PointCd(";
-    os << d << ", (";
-    for (int i=0; i<d-1; ++i)
-        os << p.cartesian(i) << ", ";
-    return os << p.cartesian(d-1) << "))";
+        os << d << ", (";
+        for (i=0; i<d-1; ++i)
+            os << p.cartesian(i) << ", ";
+        return os << p.cartesian(d-1) << "))";
     }
 }
 #endif // NO_OSTREAM_INSERT_POINTCD
 
 #ifndef NO_ISTREAM_EXTRACT_POINTCD
 template < class FT >
-istream &operator>>(istream &is, PointCd<FT> &p)
+std::istream& 
+operator>>(std::istream& is, PointCd<FT> &p)
 {
     int d=0, i;
     FT* e=0;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-    is >> d;
-    e = new FT[d];
-    for (i=0; i<d; ++i)
-            is >> e[i];
-    break;
-    case IO::BINARY :
-    read(is, d);
-    e = new FT[d];
-    for (i=0; i<d; ++i)
-            read(is, e[i]);
+    switch(is.iword(IO::mode)) 
+    {
+      case IO::ASCII :
+        is >> d;
+        e = new FT[d];
+        for (i=0; i < d; ++i) { is >> e[i]; }
         break;
-    default:
-        cerr << "" << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+      case IO::BINARY :
+        read(is, d);
+        e = new FT[d];
+        for (i=0; i<d; ++i) { read(is, e[i]); }
+        break;
+      default:
+        CGAL_kernel_assertion_msg(false,\
+                                  "Stream must be in ascii or binary mode"); 
+        // throw ios_base::failure("Stream must be in ascii or binary mode");
         return is;
     }
-    p = PointCd<FT>(d,e,e+d);
+    p = PointCd<FT>( d, e, e+d);
     delete[] e;
     return is;
 }
 #endif // NO_ISTREAM_EXTRACT_POINTCD
-CGAL_END_NAMESPACE
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_POINTCD_H

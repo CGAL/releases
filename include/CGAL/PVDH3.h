@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : PointVectorDirectionH3.fw
 // file          : include/CGAL/PVDH3.h
-// package       : H3 (2.2.1)
-// revision      : 2.2.1
-// revision_date : 26 May 1999 
+// package       : H3 (2.3.7)
+// revision      : 2.3.7
+// revision_date : 03 Dec 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -175,16 +172,16 @@ public:
   bool  operator!=( const PointH3<FT,RT>& p) const;
   bool  identical(  const PointH3<FT,RT>& p) const;
 
-friend inline
+friend CGAL_FRIEND_INLINE
        PointH3<FT,RT>
        operator+  CGAL_NULL_TMPL_ARGS (const Origin &,
                                        const VectorH3<FT,RT> & v);
-friend inline
+friend CGAL_FRIEND_INLINE
        PointH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS (const Origin &,
                                        const VectorH3<FT,RT> & v);
 protected:
-  _RepH3<RT>*         ptr() const;
+  iRepH3<RT>*         ptr() const;
 };
 
 
@@ -234,53 +231,55 @@ public:
 
 // friends:
 
-friend inline
+/*
+friend CGAL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const PointH3<FT,RT> &,
                                         const Origin & );
-friend inline
+friend CGAL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const Origin &,
                                         const PointH3<FT,RT> & );
-friend inline
-       PointH3<FT,RT>
-       operator+  CGAL_NULL_TMPL_ARGS ( const Origin &,
-                                        const VectorH3<FT,RT> & );
-friend inline
+friend CGAL_FRIEND_INLINE
        PointH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const Origin &,
                                         const VectorH3<FT,RT> & );
-friend CGAL_KERNEL_INLINE
-       VectorH3<FT,RT>
-       operator+  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
-                                        const VectorH3<FT,RT> & );
-friend CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
                                         const VectorH3<FT,RT> & );
-friend CGAL_KERNEL_INLINE
+*/
+friend CGAL_FRIEND_INLINE
+       PointH3<FT,RT>
+       operator+  CGAL_NULL_TMPL_ARGS ( const Origin &,
+                                        const VectorH3<FT,RT> & );
+friend CGAL_KERNEL_FRIEND_INLINE
+       VectorH3<FT,RT>
+       operator+  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
+                                        const VectorH3<FT,RT> & );
+friend CGAL_KERNEL_FRIEND_INLINE
        FT
        operator*  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
                                         const VectorH3<FT,RT> & );
-friend CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator*  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
                                         const RT & );
-friend CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator*  CGAL_NULL_TMPL_ARGS ( const RT &,
                                         const VectorH3<FT,RT> & );
-friend CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator/  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
                                         const RT & );
-friend CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        cross_product  CGAL_NULL_TMPL_ARGS (const VectorH3<FT,RT>& a,
-                                                const VectorH3<FT,RT>& b);
+                                           const VectorH3<FT,RT>& b);
 
 protected:
-  _RepH3<RT>*    ptr() const;
+  iRepH3<RT>*    ptr() const;
 };
 
 
@@ -310,7 +309,8 @@ public:
   bool  operator!=( const DirectionH3<FT,RT>& d) const;
   bool  identical ( const DirectionH3<FT,RT>& d) const;
 
-  VectorH3<FT,RT>    vector() const;
+  VectorH3<FT,RT>    to_vector() const;
+  // VectorH3<FT,RT>    vector() const { return to_vector(); }
 
   RT    dx() const;
   RT    dy() const;
@@ -324,14 +324,13 @@ public:
 
   RT    delta(int i) const;
 
-friend
-CGAL_KERNEL_INLINE
+friend CGAL_KERNEL_FRIEND_INLINE
 DirectionH3<FT,RT>
 cross_product CGAL_NULL_TMPL_ARGS (const DirectionH3<FT,RT>& d1,
                                    const DirectionH3<FT,RT>& d2);
 
 protected:
-  _RepH3<RT>*    ptr()    const;
+  iRepH3<RT>*    ptr()    const;
 };
 
 
@@ -339,29 +338,29 @@ protected:
 
 template < class FT, class RT >
 inline
-_RepH3<RT>*
+iRepH3<RT>*
 PointH3<FT,RT>::ptr() const
-{ return (_RepH3<RT>*) PTR; }
+{ return (iRepH3<RT>*) PTR; }
 
 
 
 template < class FT, class RT >
 inline
-_RepH3<RT>*
+iRepH3<RT>*
 VectorH3<FT,RT>::ptr() const
-{ return (_RepH3<RT>*)PTR; }
+{ return (iRepH3<RT>*)PTR; }
 
 template <class FT, class RT >
 inline
-_RepH3<RT>*
+iRepH3<RT>*
 DirectionH3<FT,RT>::ptr() const
-{ return (_RepH3<RT>*) PTR; }
+{ return (iRepH3<RT>*) PTR; }
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3()
-{ PTR = new _RepH3<RT>(); }
+{ PTR = new iRepH3<RT>(); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -369,7 +368,7 @@ PointH3<FT,RT>::PointH3(const Origin&)
 {
  const RT RT0(0);
  const RT RT1(1);
- PTR = new _RepH3<RT>( RT0, RT0, RT0, RT1 );
+ PTR = new iRepH3<RT>( RT0, RT0, RT0, RT1 );
 }
 
 template < class FT, class RT >
@@ -387,7 +386,7 @@ PointH3<FT,RT>::PointH3(const VectorH3<FT,RT>& v)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3(const RT& x, const RT& y, const RT& z)
-{ PTR = new _RepH3<RT>(x,y,z, RT(1)); }
+{ PTR = new iRepH3<RT>(x,y,z, RT(1)); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -396,11 +395,11 @@ PointH3<FT,RT>::PointH3(const RT& x, const RT& y,
 {
   if ( w < RT(0) )
   {
-      PTR = new _RepH3<RT>(-x,-y,-z,-w);
+      PTR = new iRepH3<RT>(-x,-y,-z,-w);
   }
   else
   {
-      PTR = new _RepH3<RT>(x,y,z,w);
+      PTR = new iRepH3<RT>(x,y,z,w);
   }
 }
 
@@ -581,8 +580,8 @@ std::istream &operator>>(std::istream &is, PointH3<FT,RT> &p)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3()
-{ PTR = new _RepH3<RT>();
-  // std::cout << "default ctor VectorH3 allocates _RepH3"
+{ PTR = new iRepH3<RT>();
+  // std::cout << "default ctor VectorH3 allocates iRepH3"
   //      << (int)PTR << std::endl << flush;
 }
 
@@ -595,7 +594,7 @@ VectorH3<FT,RT>::VectorH3(const VectorH3<FT,RT>& tbc)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const Null_vector&)
-{ PTR = new _RepH3<RT>( RT(0), RT(0), RT(0), RT(1) ); }
+{ PTR = new iRepH3<RT>( RT(0), RT(0), RT(0), RT(1) ); }
 
 
 template < class FT, class RT >
@@ -607,28 +606,28 @@ VectorH3<FT,RT>::VectorH3(const PointH3<FT,RT> & p)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const DirectionH3<FT,RT> & d)
-  : Handle( (Handle&) d )
+  : Handle( static_cast<const Handle&>(d) )
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const RT& x, const RT& y,
-                                    const RT& z, const RT& w)
+                          const RT& z, const RT& w)
 {
   if ( w >= RT(0) )
   {
-      PTR = new _RepH3<RT>(x, y, z, w);
+      PTR = new iRepH3<RT>(x, y, z, w);
   }
   else
   {
-      PTR = new _RepH3<RT>(-x,-y,-z,-w);
+      PTR = new iRepH3<RT>(-x,-y,-z,-w);
   }
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const RT& x, const RT& y, const RT& z)
-{ PTR = new _RepH3<RT>(x, y, z, RT(1) ); }
+{ PTR = new iRepH3<RT>(x, y, z, RT(1) ); }
 
 template < class FT, class RT >
 inline
@@ -764,7 +763,7 @@ VectorH3<FT,RT>::operator-() const
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 DirectionH3<FT,RT>::DirectionH3()
-{ PTR = new _RepH3<RT>(); }
+{ PTR = new iRepH3<RT>(); }
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -791,11 +790,11 @@ DirectionH3<FT,RT>::DirectionH3(const RT& x, const RT& y,
 {
   if ( w >= RT(0) )
   {
-     PTR = new _RepH3<RT>(x,y,z,w);
+     PTR = new iRepH3<RT>(x,y,z,w);
   }
   else
   {
-     PTR = new _RepH3<RT>(-x,-y,-z,-w);
+     PTR = new iRepH3<RT>(-x,-y,-z,-w);
   }
 }
 
@@ -921,7 +920,7 @@ DirectionH3<FT,RT>::operator-() const
 template <class FT, class RT >
 inline
 VectorH3<FT,RT>
-DirectionH3<FT,RT>::vector() const
+DirectionH3<FT,RT>::to_vector() const
 { return VectorH3<FT,RT>(*this); }
 
 
@@ -931,9 +930,9 @@ VectorH3<FT,RT>
 operator+(const VectorH3<FT,RT>& u, const VectorH3<FT,RT>& v)
 {
   return VectorH3<FT,RT>(u.hx()*v.hw() + v.hx()*u.hw(),
-                              u.hy()*v.hw() + v.hy()*u.hw(),
-                              u.hz()*v.hw() + v.hz()*u.hw(),
-                              u.hw()*v.hw() );
+                         u.hy()*v.hw() + v.hy()*u.hw(),
+                         u.hz()*v.hw() + v.hz()*u.hw(),
+                         u.hw()*v.hw() );
 }
 
 template <class FT, class RT>
@@ -942,9 +941,9 @@ VectorH3<FT,RT>
 operator-(const VectorH3<FT,RT>& u, const VectorH3<FT,RT>& v)
 {
   return VectorH3<FT,RT>(u.hx()*v.hw() - v.hx()*u.hw(),
-                              u.hy()*v.hw() - v.hy()*u.hw(),
-                              u.hz()*v.hw() - v.hz()*u.hw(),
-                              u.hw()*v.hw() );
+                         u.hy()*v.hw() - v.hy()*u.hw(),
+                         u.hz()*v.hw() - v.hz()*u.hw(),
+                         u.hw()*v.hw() );
 }
 
 template <class FT, class RT>
@@ -1052,7 +1051,7 @@ CGAL_KERNEL_INLINE
 DirectionH3<FT,RT>
 cross_product( const DirectionH3<FT,RT>& d1,
                const DirectionH3<FT,RT>& d2)
-{ return cross_product(d1.vector(),d2.vector()).direction(); }
+{ return cross_product(d1.to_vector(),d2.to_vector()).direction(); }
 
 CGAL_END_NAMESPACE
 

@@ -12,7 +12,7 @@ typedef Triangulation::Vertex  Vertex;
 typedef Face::Face_handle Face_handle;
 typedef Vertex::Vertex_handle Vertex_handle;
 
-main()
+int main()
 {
     const int numPoints = 50;
     CGAL::Random_points_in_square_2<Point> g(100.0);  // random points generator
@@ -58,6 +58,8 @@ main()
        }
 
        // opposite vertex 1 and 2 not inside circle, output edge as segment
-       std::cout << Segment(edgev1->point(), edgev2->point()) << endl;
+       std::cout << Segment(edgev1->point(), edgev2->point())
+                 << std::endl;
     }
+    return 0;
 }

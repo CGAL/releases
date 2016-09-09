@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : Aff_transformation_2.fw
 // file          : include/CGAL/Aff_transformation_2.h
-// package       : _2 (2.1.2)
-// revision      : 2.1.2
-// revision_date : 09 May 1999 
+// package       : _2 (2.8.1)
+// revision      : 2.8.1
+// revision_date : 07 Nov 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -74,22 +71,22 @@
 
 #ifdef CGAL_CARTESIAN_H
 #ifndef CGAL_AFF_TRANSFORMATIONC2_H
-#include <CGAL/Aff_transformationC2.h>
+#include <CGAL/Cartesian/Aff_transformation_2.h>
 #endif // CGAL_AFF_TRANSFORMATIONC2_H
 #endif // CGAL_CARTESIAN_H
 
 CGAL_BEGIN_NAMESPACE
 
 template <class _R>
-class Aff_transformation_2 : public _R::Aff_transformation_2
+class Aff_transformation_2 : public _R::Aff_transformation_2_base
 {
 public:
   typedef  _R                               R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Line_2                RLine_2;
-  typedef typename R::Direction_2           RDirection_2;
-  typedef typename R::Aff_transformation_2  RAff_transformation_2;
+  typedef typename R::Line_2_base  RLine_2;
+  typedef typename R::Direction_2_base  RDirection_2;
+  typedef typename R::Aff_transformation_2_base  RAff_transformation_2;
 
   // default constructor
   Aff_transformation_2()
@@ -97,7 +94,7 @@ public:
   {}
 
   // copy constructor
-  Aff_transformation_2(const Aff_transformation_2<R> &t)
+  Aff_transformation_2(const CGAL::Aff_transformation_2<R> &t)
     : RAff_transformation_2(t)
   {}
 
@@ -106,15 +103,20 @@ public:
     : RAff_transformation_2(t)
   {}
 
+  // Identity:
+  Aff_transformation_2(const Identity_transformation tag)
+    : RAff_transformation_2(tag)
+  {}
+
   // Translation:
   Aff_transformation_2(const Translation tag,
-                       const Vector_2<R> &v)
+                       const CGAL::Vector_2<R> &v)
     : RAff_transformation_2(tag, v)
   {}
 
   // Rational Rotation:
   Aff_transformation_2(const Rotation tag,
-                       const Direction_2<R> &d,
+                       const CGAL::Direction_2<R> &d,
                        const RT &num,
                        const RT &den = RT(1))
     : RAff_transformation_2(tag, RDirection_2(d), num, den)
@@ -160,32 +162,32 @@ public:
   ~Aff_transformation_2()
   {}
 
-  Aff_transformation_2<R>& operator=(const Aff_transformation_2<R>& t)
+  CGAL::Aff_transformation_2<R>& operator=(const CGAL::Aff_transformation_2<R>& t)
   {
     RAff_transformation_2::operator=(t);
     return *this;
   }
 
 
-  Point_2<R>     transform(const Point_2<R> &p) const
+  CGAL::Point_2<R>     transform(const CGAL::Point_2<R> &p) const
                       { return RAff_transformation_2::transform(p); }
 
-  Point_2<R>     operator()(const Point_2<R> &p) const
+  CGAL::Point_2<R>     operator()(const CGAL::Point_2<R> &p) const
                       { return transform(p); }
 
-  Vector_2<R>    transform(const Vector_2<R> &v) const
+  CGAL::Vector_2<R>    transform(const CGAL::Vector_2<R> &v) const
                       { return RAff_transformation_2::transform(v); }
 
-  Vector_2<R>    operator()(const Vector_2<R> &v) const
+  CGAL::Vector_2<R>    operator()(const CGAL::Vector_2<R> &v) const
                       { return transform(v); }
 
-  Direction_2<R> transform(const Direction_2<R> &d) const
+  CGAL::Direction_2<R> transform(const CGAL::Direction_2<R> &d) const
                       { return RAff_transformation_2::transform(d); }
 
-  Direction_2<R> operator()(const Direction_2<R> &d) const
+  CGAL::Direction_2<R> operator()(const CGAL::Direction_2<R> &d) const
                       { return transform(d); }
 
-  Line_2<R>      transform(const Line_2<R> &l) const
+  CGAL::Line_2<R>      transform(const CGAL::Line_2<R> &l) const
   {
 #ifndef CGAL_NO_LINE_TRANSFORM_IN_AT
                         return RAff_transformation_2::transform(l);
@@ -195,11 +197,11 @@ public:
 #endif // CGAL_NO_LINE_TRANSFORM_IN_AT
                       }
 
-  Line_2<R>      operator()(const Line_2<R> &l) const
+  CGAL::Line_2<R>      operator()(const CGAL::Line_2<R> &l) const
                       { return transform(l); }
 
 
-  Aff_transformation_2<R>
+  CGAL::Aff_transformation_2<R>
                       inverse() const
                       { return RAff_transformation_2::inverse(); }
 
@@ -209,8 +211,8 @@ public:
   bool                is_odd() const
                       { return !is_even(); }
 
-  Aff_transformation_2<R>
-                      operator*(const Aff_transformation_2<R> &t) const
+  CGAL::Aff_transformation_2<R>
+                      operator*(const CGAL::Aff_transformation_2<R> &t) const
                       { return RAff_transformation_2::operator*(t); }
 
   FT          cartesian(int i, int j) const
@@ -227,9 +229,9 @@ public:
 #ifndef NO_OSTREAM_INSERT_AFF_TRANSFORMATION_2
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const Aff_transformation_2<R> &t)
+operator<<(std::ostream &os, const CGAL::Aff_transformation_2<R> &t)
 {
-  typedef typename  R::Aff_transformation_2   RAff_transformation_2;
+  typedef typename  R::Aff_transformation_2_base  RAff_transformation_2;
   return os << (const RAff_transformation_2&)t;
 }
 #endif // NO_OSTREAM_INSERT_AFF_TRANSFORMATION_2
@@ -237,9 +239,9 @@ operator<<(std::ostream &os, const Aff_transformation_2<R> &t)
 #ifndef NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_2
 template < class R >
 std::istream &
-operator>>(std::istream &is, Aff_transformation_2<R> &t)
+operator>>(std::istream &is, CGAL::Aff_transformation_2<R> &t)
 {
-  typedef typename  R::Aff_transformation_2   RAff_transformation_2;
+  typedef typename  R::Aff_transformation_2_base  RAff_transformation_2;
   return is >> (RAff_transformation_2&)t;
 }
 #endif // NO_ISTREAM_EXTRACT_AFF_TRANSFORMATION_2

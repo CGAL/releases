@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : src/File_header_OFF.C
-// package       : Polyhedron_IO (2.5)
+// package       : Polyhedron_IO (2.9)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/03/24 11:16:26 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/06/22 16:00:50 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
@@ -287,12 +284,12 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
     char keyword[max_keyword] = "";
     int i = 0;
     keyword[i++] = c;
-    while( i < max_keyword - 1 && in.get(c) && std::isalnum(c))
+    while( i < max_keyword - 1 && in.get(c) && CGAL_CLIB_STD::isalnum(c))
         keyword[i++] = c;
     keyword[i] = '\0';
-    if ( i < 2 || ( std::isdigit(keyword[0]) && keyword[0] != '4')
-               || std::isdigit(keyword[1])) {
-        h.set_vertices( std::atoi( keyword));
+    if ( i < 2 || (CGAL_CLIB_STD::isdigit(keyword[0]) && keyword[0] != '4')
+               || CGAL_CLIB_STD::isdigit(keyword[1])) {
+        h.set_vertices( CGAL_CLIB_STD::atoi( keyword));
     } else {
         h.set_index_offset( 0);
         int j = 0;
@@ -332,7 +329,7 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
             }
         }
         in >> skip_comment_OFF >> c;
-        if ( std::isdigit(c)) {
+        if ( CGAL_CLIB_STD::isdigit(c)) {
             in.putback(c);
             int n;
             in >> n;
@@ -340,10 +337,11 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
         } else {
             i = 0;
             keyword[i++] = c;
-            while( i < max_keyword - 1 && in.get(c) && std::isalnum(c))
+            while( i < max_keyword - 1 && in.get(c) &&
+                   CGAL_CLIB_STD::isalnum(c))
                 keyword[i++] = c;
             keyword[i] = '\0';
-            if ( strcmp( keyword, "BINARY") == 0) {
+            if ( CGAL_CLIB_STD::strcmp( keyword, "BINARY") == 0) {
                 h.set_binary( true);
                 if ( c != '\n')
                     in >> skip_until_EOL;

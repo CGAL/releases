@@ -22,21 +22,15 @@
 #include <CGAL/ch_bykat.h>
 #include <CGAL/ch_jarvis.h>
 
-#ifndef USE_LEDA
-#include <cstdlib>
-extern "C" long clock();
-#endif // USE_LEDA
+#include <CGAL/Timer.h>
 
 #include <CGAL/ch_timing_2.h>
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 using namespace std;
-using namespace CGAL;
-#endif // CGAL_CFG_NO_NAMESPACE
 
 typedef double                                      nu_type;
-typedef Cartesian< nu_type >                        RepCls;
-typedef convex_hull_traits_2<RepCls>                TraitsCls;
+typedef CGAL::Cartesian< nu_type >                  RepCls;
+typedef CGAL::convex_hull_traits_2<RepCls>          TraitsCls;
 typedef TraitsCls::Point_2                          Point2;
 
 int
@@ -51,12 +45,12 @@ main( int argc, char* argv[] )
   vector< Point2 > V;
   vector< Point2 > VE;
   ifstream F(argv[1]);
-  set_ascii_mode( F );
-  istream_iterator< Point2, ptrdiff_t>  in_start( F );
-  istream_iterator< Point2, ptrdiff_t>  in_end;
+  CGAL::set_ascii_mode( F );
+  istream_iterator< Point2>  in_start( F );
+  istream_iterator< Point2>  in_end;
   copy( in_start, in_end , back_inserter(V) );
   copy( V.begin(), V.end(), back_inserter(VE) );
   int iterations = atoi( argv[2] );
-  ch_timing(V.begin(), V.end(), VE.begin(), iterations, TraitsCls() ); 
+  CGAL::ch_timing(V.begin(), V.end(), VE.begin(), iterations, TraitsCls() ); 
   return 0;
 }

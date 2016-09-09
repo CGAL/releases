@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/rectangular_p_center_2.h
-// package       : Matrix_search (1.17)
+// package       : Matrix_search (1.30)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:08:18 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:50 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,33 +48,31 @@
 //
 // ======================================================================
 
-#if ! (RECTANGULAR_P_CENTER_2_H)
-#define RECTANGULAR_P_CENTER_2_H 1
+#if ! (CGAL_RECTANGULAR_P_CENTER_2_H)
+#define CGAL_RECTANGULAR_P_CENTER_2_H 1
 
-#ifndef CGAL_PIERCE_RECTANGLES_2_H
 #include <CGAL/pierce_rectangles_2.h>
-#endif // CGAL_PIERCE_RECTANGLES_2_H
-#ifndef CGAL_FUNCTION_OBJECTS_H
 #include <CGAL/function_objects.h>
-#endif // CGAL_FUNCTION_OBJECTS_H
-#ifndef CGAL_SORTED_MATRIX_SEARCH_H
 #include <CGAL/sorted_matrix_search.h>
-#endif // CGAL_SORTED_MATRIX_SEARCH_H
+#include <CGAL/rectangular_3_center_2.h>
 #include <algorithm>
+#include <CGAL/number_utils_classes.h>
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_RECTANGULAR_P_CENTER_2_TRAITS_H
-#include <CGAL/rectangular_p_center_2_traits.h>
-#endif // CGAL_RECTANGULAR_P_CENTER_2_TRAITS_H
+#include <CGAL/Rectangular_p_center_traits_2.h>
 #endif // CGAL_REP_CLASS_DEFINED
 
 CGAL_BEGIN_NAMESPACE
 CGAL_END_NAMESPACE
 
-#ifndef CGAL_CARTESIAN_MATRIX_H
 #include <CGAL/Cartesian_matrix.h>
-#endif // CGAL_CARTESIAN_MATRIX_H
 
 CGAL_BEGIN_NAMESPACE
+
+#ifdef _MSC_VER
+// that compiler cannot even distinguish between global
+// and class scope, so ...
+#define Base B_B_Base
+#endif // _MSC_VER
 
 template < class Operation,
            class RandomAccessIC_row,
@@ -93,6 +88,8 @@ public:
                            RandomAccessIC_row,
                            RandomAccessIC_column >
   Base;
+  typedef typename Base::Value      Value;
+
 
   /*
   Cartesian_matrix_horizontally_flipped(
@@ -127,6 +124,10 @@ public:
   }
 };
 
+#ifdef _MSC_VER
+#undef Base
+#endif // _MSC_VER
+
 template < class Operation,
            class RandomAccessIC_row,
            class RandomAccessIC_column >
@@ -149,6 +150,18 @@ cartesian_matrix_horizontally_flipped(
     RandomAccessIC_column >
   ( r_f, r_l, c_f, c_l, o);
 }
+#if defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
+// gcc-2.91 gives funny ices when I try to do this with
+// bind/compose adaptors
+template < class NT >
+struct Pcenter_gcc291_operation
+: public CGAL_STD::binary_function< NT, NT, NT >
+{
+  NT operator()(const NT& n1, const NT& n2) const
+  { return CGAL::max(NT(0), n1 - n2); }
+};
+#endif // defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
+/*
 template < class ForwardIterator,
            class OutputIterator,
            class FT,
@@ -169,7 +182,7 @@ rectangular_p_center_2_binary_search(
     r,
     pf,
     CGAL_reinterpret_cast(
-      Pcenter_default_traits< PiercingFunction >, 0));
+      Rectangular_p_center_matrix_search_traits_2< PiercingFunction >, 0));
 } // rectangular_p_center_2_binary_search( ... )
 
 template < class ForwardIterator,
@@ -205,9 +218,6 @@ rectangular_p_center_2_binary_search(
 //
 {
   CGAL_optimisation_precondition( f != l);
-  #ifdef CGAL_PCENTER_TRACE
-  cerr << "Pcenter binary search" << endl;
-  #endif
 
   // typedefs:
 #ifndef CGAL_CFG_MATCHING_BUG_1
@@ -221,19 +231,19 @@ rectangular_p_center_2_binary_search(
 
   // check, if input data is trivial
   bool ok;
-  OutputIterator oi( pierce_it( FT( 0), o, ok));
-  if ( ok)
+  OutputIterator oi = pierce_it(FT(0), o, ok);
+  if (ok) {
+    r = 0;
     return oi;
+  }
   // create vector with absolute coordinate differences:
-  vector< FT > c_diffs;
-  X x;
-  Y y;
+  std::vector< FT > c_diffs;
   c_diffs.reserve( pierce_it.number_of_points() *
                    (pierce_it.number_of_points() - 1));
   for ( ForwardIterator i( f); i != l; ++i)
     for ( ForwardIterator j( i + 1); j != l; ++j) {
-      c_diffs.push_back( abs( x(*i) - x(*j)));
-      c_diffs.push_back( abs( y(*i) - y(*j)));
+      c_diffs.push_back( abs( i->x() - j->x()));
+      c_diffs.push_back( abs( i->y() - j->y()));
     }
   CGAL_optimisation_assertion(
     c_diffs.size() == pierce_it.number_of_points() *
@@ -250,23 +260,13 @@ rectangular_p_center_2_binary_search(
   // forall e <= a < c_diffs.size(): c_diffs[a] is feasible
   while ( e > b) {
     int c = ( e + b) >> 1;
-    #ifdef CGAL_PCENTER_TRACE
-    cerr << "* (" << b << "-" << e << ") try diameter c_diffs[" <<
-      c << "] = " << c_diffs[c] << endl;
-    #endif
     if ( pierce_it( c_diffs[c])) {
       // c_diffs[c] is feasible
       e = c;
-      #ifdef CGAL_PCENTER_TRACE
-      cerr << "feasible" << endl;
-      #endif
     }
     else {
       // c_diffs[c] is infeasible
       b = c + 1;
-      #ifdef CGAL_PCENTER_TRACE
-      cerr << "infeasible" << endl;
-      #endif
     }
   } // while ( e > b)
   CGAL_optimisation_assertion( e == b);
@@ -278,53 +278,13 @@ rectangular_p_center_2_binary_search(
   return o_return;
 
 } // rectangular_p_center_2_binary_search( ... )
+*/
 template < class RandomAccessIC,
            class OutputIterator,
 #ifdef CGAL_CFG_MATCHING_BUG_1
            class FT,
 #endif
-           class PiercingFunction >
-inline
-OutputIterator
-rectangular_p_center_2_matrix_search(
-  RandomAccessIC f,
-  RandomAccessIC l,
-  OutputIterator o,
-#ifndef CGAL_CFG_MATCHING_BUG_1
-  typename PiercingFunction::FT& r,
-#else
-  FT& r,
-#endif
-  const PiercingFunction& pf)
-{
-#ifndef CGAL_CFG_MATCHING_BUG_1
-  typedef typename PiercingFunction::FT FT;
-#endif
-#ifndef CGAL_CFG_NO_NAMESPACE
-  using std::minus;
-  using std::bind1st;
-#endif
-
-  return rectangular_p_center_2_matrix_search(
-    f,
-    l,
-    o,
-    r,
-    pf,
-    CGAL_reinterpret_cast(
-      Pcenter_default_traits< PiercingFunction >*, 0),
-    compose1_2(
-      bind1st( Max< FT >(), 0),
-      minus< FT >()));
-
-} // Pcenter_matrix_search( ... )
-
-template < class RandomAccessIC,
-           class OutputIterator,
-#ifdef CGAL_CFG_MATCHING_BUG_1
-           class FT,
            class PiercingFunction,
-#endif
            class Traits,
            class MatrixOperator >
 OutputIterator
@@ -334,19 +294,15 @@ rectangular_p_center_2_matrix_search(
   OutputIterator o,
 #ifndef CGAL_CFG_MATCHING_BUG_1
   typename Traits::FT& r,
-  const typename Traits::PiercingFunction& pf,
 #else
   FT& r,
-  PiercingFunction& pf,
 #endif
-  Traits*,
-  const MatrixOperator&)
+  PiercingFunction pf,
+  const Traits& t,
+  const MatrixOperator& mop)
 {
   int number_of_points( iterator_distance( f, l));
   CGAL_optimisation_precondition( number_of_points > 0);
-  #ifdef CGAL_PCENTER_TRACE
-  cerr << "Pcenter matrix search" << endl;
-  #endif
 
 #ifndef CGAL_CFG_NO_NAMESPACE
   using std::minus;
@@ -356,46 +312,44 @@ rectangular_p_center_2_matrix_search(
 
   // typedefs:
 #ifndef CGAL_CFG_MATCHING_BUG_1
-  typedef typename Traits::FT       FT;
-  typedef typename Traits::PiercingFunction
-    PiercingFunction;
+  typedef typename Traits::FT        FT;
 #endif
-  typedef typename Traits::X        X;
-  typedef typename Traits::Y        Y;
-  typedef vector< FT >              FT_cont;
-  typedef FT_cont::iterator         FT_iterator;
+  typedef std::vector< FT >          FT_cont;
+  typedef typename FT_cont::iterator FT_iterator;
   typedef Cartesian_matrix_horizontally_flipped<
     MatrixOperator,
     FT_iterator,
     FT_iterator >
   Matrix;
-  typedef vector< Matrix >          MatrixContainer;
-  typedef Sorted_matrix_search_traits_adaptor<
-    Traits, Matrix >
-  Matrix_search_traits;
+  typedef std::vector< Matrix >      MatrixContainer;
+  typedef
+    Rectangular_p_center_matrix_search_traits_2< Traits, PiercingFunction >
+  MSTraits;
+  typedef Sorted_matrix_search_traits_adaptor< MSTraits&, Matrix >
+    Matrix_search_traits;
 
   // create Traits object:
-  Traits pierce_it( f, l, pf);
+  MSTraits pierce_it(f, l, t, pf);
 
   // check, if input data is trivial
   bool ok;
-  OutputIterator oi( pierce_it( FT( 0), o, ok));
-  if ( ok)
+  OutputIterator oi = pierce_it(FT(0), o, ok);
+  if (ok) {
+    r = 0;
     return oi;
+  }
 
   // create matrix search traits:
-  Matrix_search_traits search_it( pierce_it);
+  Matrix_search_traits search_it(pierce_it);
 
   // copy x and y coordinates from [f,l):
-  vector< FT > x_coords;
-  vector< FT > y_coords;
-  X x;
-  Y y;
+  std::vector< FT > x_coords;
+  std::vector< FT > y_coords;
   x_coords.reserve( number_of_points);
   y_coords.reserve( number_of_points);
   for ( RandomAccessIC p( f); p != l; ++p) {
-    x_coords.push_back( x( *p));
-    y_coords.push_back( y( *p));
+    x_coords.push_back(p->x());
+    y_coords.push_back(p->y());
   }
   
   // sort coordinates:
@@ -411,31 +365,96 @@ rectangular_p_center_2_matrix_search(
             x_coords.end(),
             x_coords.begin(),
             x_coords.end(),
-            compose1_2(
-              bind1st( Max< FT >(), 0),
-              minus< FT >())));
+            mop));
+  
   // create matrix of y-differences:
   matrices.push_back(
     Matrix( y_coords.begin(),
             y_coords.end(),
             y_coords.begin(),
             y_coords.end(),
-            compose1_2(
-              bind1st( Max< FT >(), 0),
-              minus< FT >())));
+            mop));
 
   // do the actual search:
-  r = sorted_matrix_search( matrices.begin(),
-                                 matrices.end(),
-                                 search_it);
+  r = sorted_matrix_search(matrices.begin(),
+                           matrices.end(),
+                           search_it);
 
   // return result:
-  OutputIterator o_return( pierce_it( r, o, ok));
-  CGAL_optimisation_assertion( ok);
+  OutputIterator o_return(pierce_it(r, o, ok));
+  CGAL_optimisation_assertion(ok);
   return o_return;
 
 } // P_center_matrix_search
 
+template < class RandomAccessIC,
+           class OutputIterator,
+#ifdef CGAL_CFG_MATCHING_BUG_1
+           class FT,
+#endif
+           class PiercingFunction,
+           class Traits >
+inline
+OutputIterator
+rectangular_p_center_2_matrix_search(
+  RandomAccessIC f,
+  RandomAccessIC l,
+  OutputIterator o,
+#ifndef CGAL_CFG_MATCHING_BUG_1
+  typename Traits::FT& r,
+#else
+  FT& r,
+#endif
+  const PiercingFunction& pf,
+  const Traits& t)
+{
+#ifndef CGAL_CFG_MATCHING_BUG_1
+  typedef typename Traits::FT FT;
+#endif
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::minus;
+  using std::bind1st;
+#endif
+
+  return rectangular_p_center_2_matrix_search(
+    f,
+    l,
+    o,
+    r,
+    pf,
+    t,
+#if defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
+    // gcc-2.91 gives funny ices when I try to do this with
+    // bind/compose adaptors
+    Pcenter_gcc291_operation< FT >()
+#else
+    compose1_2(bind1st(Max< FT >(), 0), minus< FT >())
+#endif // defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
+    );
+
+} // Pcenter_matrix_search( ... )
+
+
+
+template < class ForwardIterator, class OutputIterator, class FT >
+inline OutputIterator
+rectangular_p_center_matrix_search_2(
+  ForwardIterator f,
+  ForwardIterator l,
+  OutputIterator o,
+  FT& r,
+  int p)
+{
+  CGAL_optimisation_precondition(p >= 2 && p < 5);
+  if (p == 2)
+    return rectangular_p_center_2_matrix_search(
+      f, l, o, r, Two_covering_algorithm(), t);
+  else if (p == 3)
+    return rectangular_p_center_2_matrix_search(
+      f, l, o, r, Three_covering_algorithm(), t);
+  return rectangular_p_center_2_matrix_search(
+    f, l, o, r, Four_covering_algorithm(), t);
+} // rectangular_p_center_matrix_search_2(f, l, o, r, p)
 
 template < class ForwardIterator,
            class OutputIterator,
@@ -443,62 +462,49 @@ template < class ForwardIterator,
            class FT,
 #endif
            class Traits >
-inline
-OutputIterator
-rectangular_p_center_2(
-  ForwardIterator f,
-  ForwardIterator l,
-  OutputIterator o,
+inline OutputIterator
+rectangular_p_center_2(ForwardIterator f,
+                       ForwardIterator l,
+                       OutputIterator o,
 #ifndef CGAL_CFG_MATCHING_BUG_1
-  typename Traits::FT& r,
+                       typename Traits::FT& r,
 #else
-  FT& r,
+                       FT& r,
 #endif
-  int p,
-  const Traits&)
+                       int p,
+                       Traits& t)
 {
-  CGAL_optimisation_precondition( p >= 2 && p <= 4);
-  if ( p == 2)
-    return rectangular_p_center_2_matrix_search(
-      f,
-      l,
-      o,
-      r,
-      Two_piercing_algorithm< Traits >());
-  else if ( p == 3)
-    return rectangular_p_center_2_matrix_search(
-      f,
-      l,
-      o,
-      r,
-      Three_piercing_algorithm< Traits >());
-  else
-    return rectangular_p_center_2_matrix_search(
-      f,
-      l,
-      o,
-      r,
-      Four_piercing_algorithm< Traits >());
+  CGAL_optimisation_precondition(p >= 2 && p < 5);
+
+  if (p == 2)
+    return rectangular_2_center_2(f, l, o, r, t);
+  else if (p == 3)
+    return rectangular_3_center_2(f, l, o, r, t);
+  return rectangular_p_center_2_matrix_search(
+    f, l, o, r, Four_covering_algorithm(), t);
+
 } // rectangular_p_center_2( ... )
 
-template < class ForwardIterator,
-           class OutputIterator,
-           class FT >
-inline
-OutputIterator
-rectangular_p_center_2( ForwardIterator f,
-                             ForwardIterator l,
-                             OutputIterator o,
-                             FT& r,
-                             int p)
+template < class ForwardIterator, class OutputIterator, class FT >
+inline OutputIterator
+rectangular_p_center_2(ForwardIterator f,
+                       ForwardIterator l,
+                       OutputIterator o,
+                       FT& r,
+                       int p)
 {
-  return _CGAL_rectangular_p_center_2(
-    f, l, o, r, p, std::value_type( f));
+  CGAL_optimisation_precondition(p >= 2 && p < 5);
+  typedef typename
+    std::iterator_traits< ForwardIterator >::value_type::R R;
+  Rectangular_p_center_default_traits_2< R > t;
+
+  return rectangular_p_center_2(f, l, o, r, p, t);
 } // rectangular_p_center_2( ... )
+
 
 CGAL_END_NAMESPACE
 
-#endif // ! (RECTANGULAR_P_CENTER_2_H)
+#endif // ! (CGAL_RECTANGULAR_P_CENTER_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

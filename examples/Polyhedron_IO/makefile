@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,13 +15,18 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
@@ -43,54 +49,52 @@ all:            \
                 polyhedron_copy \
                 terr_trian 
 
-iv2off: iv2off.o
-	$(CGAL_CXX) -o iv2off iv2off.o $(LDFLAGS)
+iv2off$(EXE_EXT): iv2off$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)iv2off iv2off$(OBJ_EXT) $(LDFLAGS)
 
-off2iv: off2iv.o
-	$(CGAL_CXX) -o off2iv off2iv.o $(LDFLAGS)
+off2iv$(EXE_EXT): off2iv$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2iv off2iv$(OBJ_EXT) $(LDFLAGS)
 
-off2off: off2off.o
-	$(CGAL_CXX) -o off2off off2off.o $(LDFLAGS)
+off2off$(EXE_EXT): off2off$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2off off2off$(OBJ_EXT) $(LDFLAGS)
 
-off2vrml: off2vrml.o
-	$(CGAL_CXX) -o off2vrml off2vrml.o $(LDFLAGS)
+off2vrml$(EXE_EXT): off2vrml$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2vrml off2vrml$(OBJ_EXT) $(LDFLAGS)
 
-off2wav: off2wav.o
-	$(CGAL_CXX) -o off2wav off2wav.o $(LDFLAGS)
+off2wav$(EXE_EXT): off2wav$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2wav off2wav$(OBJ_EXT) $(LDFLAGS)
 
-off_bbox: off_bbox.o
-	$(CGAL_CXX) -o off_bbox off_bbox.o $(LDFLAGS)
+off_bbox$(EXE_EXT): off_bbox$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off_bbox off_bbox$(OBJ_EXT) $(LDFLAGS)
 
-off_glue: off_glue.o
-	$(CGAL_CXX) -o off_glue off_glue.o $(LDFLAGS)
+off_glue$(EXE_EXT): off_glue$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off_glue off_glue$(OBJ_EXT) $(LDFLAGS)
 
-off_transform: off_transform.o
-	$(CGAL_CXX) -o off_transform off_transform.o $(LDFLAGS)
+off_transform$(EXE_EXT): off_transform$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off_transform off_transform$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_copy: polyhedron_copy.o
-	$(CGAL_CXX) -o polyhedron_copy polyhedron_copy.o $(LDFLAGS)
+polyhedron_copy$(EXE_EXT): polyhedron_copy$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_copy polyhedron_copy$(OBJ_EXT) $(LDFLAGS)
 
-terr_trian: terr_trian.o
-	$(CGAL_CXX) -o terr_trian terr_trian.o $(LDFLAGS)
+terr_trian$(EXE_EXT): terr_trian$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)terr_trian terr_trian$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   iv2off \
-                   off2iv \
-                   off2off \
-                   off2vrml \
-                   off2wav \
-                   off_bbox \
-                   off_glue \
-                   off_transform \
-                   polyhedron_copy \
-                   terr_trian \
-                   core
+clean: \
+                   iv2off.clean \
+                   off2iv.clean \
+                   off2off.clean \
+                   off2vrml.clean \
+                   off2wav.clean \
+                   off_bbox.clean \
+                   off_glue.clean \
+                   off_transform.clean \
+                   polyhedron_copy.clean \
+                   terr_trian.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

@@ -1,0 +1,13 @@
+In this directory there are 8 example program for the arrangement package.
+
+example1-5 : The example programs from the documentation.
+
+example6   : Demonstrates the use of the cached traits and the walk point
+location strategy.
+
+example7   : Demonstrates the use of update mode, and how to add info to
+the objects of the class.
+
+example8   : Reads an arrangement of segments from standard input and
+performs a vertical ray shoot on it.
+

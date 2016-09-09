@@ -27,6 +27,10 @@ CXXFLAGS = -I../../include\
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
           $(CGAL_LDFLAGS) \
@@ -46,27 +50,27 @@ all:            \
 #		example5 \
 #		example6
 
+example1: example1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
 
-example1: example1.o
-	$(CGAL_CXX) -o example1 example1.o $(LDFLAGS)
+example2: example2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
 
-example2: example2.o
-	$(CGAL_CXX) -o example2 example2.o $(LDFLAGS)
+example3: example3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example3 example3$(OBJ_EXT) $(LDFLAGS)
 
-example3: example3.o
-	$(CGAL_CXX) -o example3 example3.o $(LDFLAGS)
+#example4: example4$(OBJ_EXT)
+#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
 
-#example4: example4.o
-#	$(CGAL_CXX) -o example4 example4.o $(LDFLAGS)
+#example5: example5$(OBJ_EXT)
+#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example5 example5$(OBJ_EXT) $(LDFLAGS)
 
-#example5: example5.o
-#	$(CGAL_CXX) -o example5 example5.o $(LDFLAGS)
+#example6: example6$(OBJ_EXT)
+#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example6 example6$(OBJ_EXT) $(LDFLAGS)
 
-#example6: example6.o
-#	$(CGAL_CXX) -o example6 example6.o $(LDFLAGS)
 
 clean:
-	/bin/rm -f -r *.o \
+	rm -f -r *$(OBJ_EXT) \
 	 	   ii_files \
                    example1 \
                    example2 \
@@ -74,20 +78,13 @@ clean:
                    example4 \
 		   example5 \
 		   example6 \
-                   core
+                   core \
+		   *.exe *.tds
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
+.C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) -c $<
-
-
-
-
-
-
-
-
 

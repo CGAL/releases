@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Topological_map.h
-// package       : pm (3.07)
+// package       : pm (4.20)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -54,12 +51,8 @@
 #ifndef  CGAL_TOPOLOGICAL_MAP_H
 #define  CGAL_TOPOLOGICAL_MAP_H
 
-#ifndef CGAL_PM_CONFIG_H
-#include <CGAL/Pm_config.h>
-#endif
-
 #ifndef CGAL_PLANAR_MAP_MISC_H
-#include  <CGAL/Planar_map_misc.h>
+#include  <CGAL/Planar_map_2/Planar_map_misc.h>
 #endif
 
 
@@ -98,8 +91,8 @@ protected:
   typedef typename  Dcel::Face_iterator           TR_FI;
   typedef typename  Dcel::Face_const_iterator     TR_C_FI;
     
-  typedef typename  Dcel::Face::Holes_iterator TR_HOI;
-  typedef typename  Dcel::Face::Holes_const_iterator TR_C_HOI;
+  typedef typename Dcel::Face::Holes_iterator TR_HOI;
+  typedef typename Dcel::Face::Holes_const_iterator TR_C_HOI;
 
 
 public:
@@ -439,7 +432,7 @@ public:
 
     {
       dedge* dummy;
-      return (Topological_map<Dcel>::is_halfedge_on_inner_ccb(&(*e),(typename Dcel::Face*)this,dummy)); 
+      return (/*Topological_map<Dcel>::*/is_halfedge_on_inner_ccb(&(*e),(typename Dcel::Face*)this,dummy)); 
 // oren corrections (dummy parameter - for bug in MSC)
     }
     
@@ -449,7 +442,7 @@ public:
 #endif
     {
       dedge* dummy;
-      return Topological_map<Dcel>::is_halfedge_on_outer_ccb(&(*e),this,dummy);
+      return /*Topological_map<Dcel>::*/is_halfedge_on_outer_ccb(&(*e),this,dummy);
 // oren corrections (dummy parameter - bug in MSC)
     }
 	
@@ -782,16 +775,13 @@ private:
     
     return prev;
 }
-
-#if _MSC_VER>=1100
-static 
-#endif
-bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e, 
+  /*
+friend bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e, 
                               typename Dcel::Face* f, 
                               typename Dcel::Halfedge* &iccb) 
 {
-  //move over all holes in face and check 
-  for (typename dface::Holes_iterator dhi=f->holes_begin();dhi!=f->holes_end();++dhi)
+  //move over all holes in face and check
+    for (typename dface::Holes_iterator dhi=f->holes_begin();dhi!=f->holes_end();++dhi)
     {
       iccb=(*dhi);
       const typename Dcel::Halfedge* aux=iccb;
@@ -800,17 +790,16 @@ bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e,
           if (aux==e) 
             return true;
           aux=aux->next() ;
-        } while (aux!=(*dhi));
+        } while (aux!=(*dhi)); 
     }
   iccb=NULL;
   return false;
+
 }
 
+
 //returns the representative halfedge of outer ccb in occb, or false
-#if _MSC_VER>=1100
-static 
-#endif
-bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e, 
+friend bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e, 
                               typename Dcel::Face* f, 
                               typename Dcel::Halfedge* &occb)
 {
@@ -828,7 +817,7 @@ bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e,
   occb=NULL;  
   return false;
 }
-
+*/
 bool find_and_erase_hole(typename Dcel::Halfedge* e, typename Dcel::Face* f)
 {
   typename Dcel::Face::Holes_iterator it=f->holes_begin();
@@ -854,6 +843,57 @@ protected:
 /////////////////////////////////////////////////////////////////
 //                  implementation
 /////////////////////////////////////////////////////////////////
+
+template <class Dcel>
+bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e, 
+                              typename Dcel::Face* f, 
+                              typename Dcel::Halfedge* &iccb) 
+{
+  typedef typename Dcel::Vertex	         dvertex;
+  typedef typename Dcel::Halfedge        dedge;
+  typedef typename Dcel::Face	         dface;
+  //move over all holes in face and check 
+  for (typename dface::Holes_iterator dhi=f->holes_begin();dhi!=f->holes_end();++dhi)
+    {
+      iccb=(*dhi);
+      const typename Dcel::Halfedge* aux=iccb;
+      do
+        {
+          if (aux==e) 
+            return true;
+          aux=aux->next() ;
+        } while (aux!=(*dhi));
+    }
+  iccb=NULL;
+  return false;
+}
+
+//returns the representative halfedge of outer ccb in occb, or false
+template <class Dcel>
+bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e, 
+                              typename Dcel::Face* f, 
+                              typename Dcel::Halfedge* &occb)
+{
+  typedef typename Dcel::Vertex	         dvertex;
+  typedef typename Dcel::Halfedge        dedge;
+  typedef typename Dcel::Face	         dface;
+  occb=f->halfedge();
+  if ( occb ) {  //if f isn't the unbounded face
+  const typename Dcel::Halfedge* aux=occb;    
+    do
+      {
+        if (aux==e)
+          return true;
+        aux=aux->next();
+      }while (aux!=f->halfedge());
+  }
+  
+  occb=NULL;  
+  return false;
+}
+
+
+
 
 
 //insertion from vertices may invalidate the holes containers (since a new
@@ -888,10 +928,10 @@ insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)
   typename Dcel::Face* df=prev1->face();
 
   typename Dcel::Halfedge *ccb1,*ccb2; //will hold represantative halfedge of prev1/2
-  if (!(is_halfedge_on_outer_ccb(prev1,df,ccb1)) ) 
-    is_halfedge_on_inner_ccb(prev1,df,ccb1);
-  if (!(is_halfedge_on_outer_ccb(prev2,df,ccb2)) )
-    is_halfedge_on_inner_ccb(prev2,df,ccb2);
+  if (!(is_halfedge_on_outer_ccb<Dcel>(prev1,df,ccb1)) ) 
+    is_halfedge_on_inner_ccb<Dcel>(prev1,df,ccb1);
+  if (!(is_halfedge_on_outer_ccb<Dcel>(prev2,df,ccb2)) )
+    is_halfedge_on_inner_ccb<Dcel>(prev2,df,ccb2);
 
 
   bool ccb1_is_inner = !(ccb1==df->halfedge());
@@ -1263,7 +1303,7 @@ remove_edge(Halfedge_handle e)
 
     //find the ccb of de1/de2        
     typename Dcel::Halfedge *ccb1;
-    if (is_halfedge_on_outer_ccb(prev1,df1,ccb1)) { 
+    if (is_halfedge_on_outer_ccb<Dcel>(prev1,df1,ccb1)) { 
       //antenna is connected to outer ccb, split a hole from it.
       //we assume in this case that de1->next is the hole 
       //(to be determined genoetrically by the user) 
@@ -1273,7 +1313,7 @@ remove_edge(Halfedge_handle e)
     }
 
     else { //antenna is a hole - split it into two holes
-      is_halfedge_on_inner_ccb(prev1,df1,ccb1); 
+      is_halfedge_on_inner_ccb<Dcel>(prev1,df1,ccb1); 
       CGAL_assertion(find_and_erase_hole(ccb1,df1)) ;//ccb1 must be a hole in df1
       df1->add_hole(prev1);
       df1->add_hole(prev2);
@@ -1297,8 +1337,8 @@ remove_edge(Halfedge_handle e)
 
   else {    //case b. edge between faces - merge faces
     typename Dcel::Halfedge* ccb;
-    bool de1_is_on_hole=!(is_halfedge_on_outer_ccb(de1,df1,ccb));
-    bool de2_is_on_hole=!(is_halfedge_on_outer_ccb(de2,df2,ccb));
+    bool de1_is_on_hole=!(is_halfedge_on_outer_ccb<Dcel>(de1,df1,ccb));
+    bool de2_is_on_hole=!(is_halfedge_on_outer_ccb<Dcel>(de2,df2,ccb));
     if ( !de1_is_on_hole && !de2_is_on_hole ) {
       //b.1 both halfedges are on outer boundary
       prev1=get_prev(de1);

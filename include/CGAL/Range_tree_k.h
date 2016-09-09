@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Range_tree_k.h
-// package       : SearchStructures (2.3)
+// package       : SearchStructures (2.50)
 // source        : include/CGAL/Range_tree_k.h
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:03 $
@@ -106,92 +103,31 @@ public:
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
   }
 
- 
-  typedef std::list<Key>::iterator L_iterator;
-
-  Range_tree_1(std::list<Key>::iterator& first, 
-		   std::list<Key>::iterator& last)  {
+  template <class T>
+  Range_tree_1(T& first, 
+	       T& last)  {
    Tree_anchor = new Tree_anchor_type;
    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
    (*CRange_tree_1).make_tree(first,last);
   }
 
-#ifdef stlvector
-  typedef std::vector<Key>::iterator V_iterator;
-  Range_tree_1(V_iterator& first, 
-		    V_iterator& last)
+  template <class T>
+  bool make_tree(T& first, 
+		 T& last)
   {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    (*CRange_tree_1).make_tree(first,last);
-  }
-#endif
-
-#ifdef carray
-  Range_tree_1(Key * first, 
-		    Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    (*CRange_tree_1).make_tree(first,last);
-  }
-#endif
-
-
-  bool make_tree(std::list<Key>::iterator& first, 
-		 std::list<Key>::iterator& last)
-  {
+    delete CRange_tree_1;
+    delete Tree_anchor;
     Tree_anchor = new Tree_anchor_type;
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
     return (*CRange_tree_1).make_tree(first,last);
   }
-#ifdef stlvector
-  bool make_tree(V_iterator& first, 
-		 V_iterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    return (*CRange_tree_1).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  bool make_tree(Key * first, 
-		 Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    return (*CRange_tree_1).make_tree(first,last);
-  }
-#endif
 
-  std::back_insert_iterator<std::list<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::list<Key> > result)
+  template <class T>
+  T  window_query(Interval const &win,  
+		  T result)
   {
     return (*CRange_tree_1).window_query(win, result);
   }
-  std::back_insert_iterator<std::vector<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::vector<Key> > result)
-  {
-    return (*CRange_tree_1).window_query(win, result);
-  }
-#ifdef carray
-  Key * 
-    window_query(Interval const &win,  
-		 Key *result)
-  {
-    return (*CRange_tree_1).window_query(win, result);
-  }
-#endif
-#ifdef ostreamiterator
-  std::ostream_iterator<Key>  
-    window_query(Interval const &win,  
-		 std::ostream_iterator<Key> result)
-  {
-    return (*CRange_tree_1).window_query(win, result);
-  }
-#endif
 
   ~Range_tree_1()
   {
@@ -255,92 +191,35 @@ public:
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
     CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
   }
-typedef std::list<Key>::iterator Literator;
- Range_tree_2(Literator& first, 
-		   Literator& last)  {
+
+  template <class T>
+  Range_tree_2(T& first, 
+	       T& last)  {
    Tree_anchor = new Tree_anchor_type;
    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
    (*CRange_tree_2).make_tree(first,last);
   }
-#ifdef stlvector
-typedef std::vector<Key>::iterator Viterator
-  Range_tree_2(Viterator& first, 
-		    Viterator& last)
+
+  template <class T>
+  bool make_tree(T& first, 
+		 T& last)
   {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    (*CRange_tree_2).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  Range_tree_2(Key * first, 
-		    Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    (*CRange_tree_2).make_tree(first,last);
-  }
-#endif
-  bool make_tree(Literator& first, 
-		 Literator& last)
-  {
+    delete CRange_tree_2;
+    delete CRange_tree_1;
+    delete Tree_anchor;
     Tree_anchor = new Tree_anchor_type;
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
     CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
     return (*CRange_tree_2).make_tree(first,last);
   }
-#ifdef stlvector
-  bool make_tree(Viterator& first, 
-		 Viterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    return (*CRange_tree_2).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  bool make_tree(Key * first, 
-		 Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    return (*CRange_tree_2).make_tree(first,last);
-  }
-#endif
   
-  std::back_insert_iterator<std::list<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::list<Key> > result)
+  template <class T>
+  T window_query(Interval const &win,  
+		 T result)
   {
     return (*CRange_tree_2).window_query(win, result);
   }
-  std::back_insert_iterator<std::vector<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::vector<Key> > result)
-  {
-    return (*CRange_tree_2).window_query(win, result);
-  }
-#ifdef carray
-  Key * 
-    window_query(Interval const &win,  
-		 Key *result)
-  {
-    return (*CRange_tree_2).window_query(win, result);
-  }
-#endif
-#ifdef ostreamiterator
-  std::ostream_iterator<Key>  
-    window_query(Interval const &win,  
-		 std::ostream_iterator<Key> result)
-  {
-    return (*CRange_tree_2).window_query(win, result);
-  }
-#endif
 
   ~Range_tree_2()
   {
@@ -410,97 +289,37 @@ public:
     CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
     CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
   }
-  Range_tree_3(std::list<Key>::iterator& first, 
-		   std::list<Key>::iterator& last)  {
+  template <class T>
+  Range_tree_3(T& first, 
+	       T& last)  {
    Tree_anchor = new Tree_anchor_type;
    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
    (*CRange_tree_3).make_tree(first,last);
   }
-#ifdef stlvector
-  Range_tree_3(std::vector<Key>::iterator& first, 
-		    std::vector<Key>::iterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    (*CRange_tree_3).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  Range_tree_3(Key * first, 
-		    Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    (*CRange_tree_3).make_tree(first,last);
-  }
-#endif
 
-  bool make_tree(std::list<Key>::iterator& first, 
-		 std::list<Key>::iterator& last)
+  template <class T>
+  bool make_tree(T& first, 
+		 T& last)
   {
+    delete CRange_tree_3;
+    delete CRange_tree_2;
+    delete CRange_tree_1;
+    delete Tree_anchor;
     Tree_anchor = new Tree_anchor_type;
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
     CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
     CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
     return (*CRange_tree_3).make_tree(first,last);
   }
-#ifdef stlvector
-  bool make_tree(std::vector<Key>::iterator& first, 
-		 std::vector<Key>::iterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    return (*CRange_tree_3).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  bool make_tree(Key * first, 
-		 Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    return (*CRange_tree_3).make_tree(first,last);
-  }
-#endif
   
-  std::back_insert_iterator<std::list<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::list<Key> > result)
+  template <class T>
+  T  window_query(Interval const &win,  
+		  T result)
   {
     return (*CRange_tree_3).window_query(win, result);
   }
-  std::back_insert_iterator<std::vector<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::vector<Key> > result)
-  {
-    return (*CRange_tree_3).window_query(win, result);
-  }
-#ifdef carray
-  Key * 
-    window_query(Interval const &win,  
-		 Key *result)
-  {
-    return (*CRange_tree_3).window_query(win, result);
-  }
-#endif
-#ifdef ostreamiterator
-  std::ostream_iterator<Key>  
-    window_query(Interval const &win,  
-		 std::ostream_iterator<Key> result)
-  {
-    return (*CRange_tree_3).window_query(win, result);
-  }
-#endif
 
   ~Range_tree_3()
   {
@@ -587,8 +406,10 @@ public:
     CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
     CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
   }
- Range_tree_4(std::list<Key>::iterator& first, 
-		   std::list<Key>::iterator& last)  {
+
+  template <class T>
+  Range_tree_4(T& first, 
+	       T& last)  {
    Tree_anchor = new Tree_anchor_type;
    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
@@ -596,34 +417,16 @@ public:
    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
    (*CRange_tree_4).make_tree(first,last);
   }
-#ifdef stlvector
-  Range_tree_4(std::vector<Key>::iterator& first, 
-		    std::vector<Key>::iterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-    (*CRange_tree_4).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  Range_tree_4(Key * first, 
-		    Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-    (*CRange_tree_4).make_tree(first,last);
-  }
-#endif
 
-  bool make_tree(std::list<Key>::iterator& first, 
-		 std::list<Key>::iterator& last)
+  template <class T>
+  bool make_tree(T& first, 
+		 T& last)
   {
+    delete CRange_tree_4;
+    delete CRange_tree_3;
+    delete CRange_tree_2;
+    delete CRange_tree_1;
+    delete Tree_anchor;
     Tree_anchor = new Tree_anchor_type;
     CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
     CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
@@ -631,59 +434,13 @@ public:
     CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
     return (*CRange_tree_4).make_tree(first,last);
   }
-#ifdef stlvector
-  bool make_tree(std::vector<Key>::iterator& first, 
-		 std::vector<Key>::iterator& last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-    return (*CRange_tree_4).make_tree(first,last);
-  }
-#endif
-#ifdef carray
-  bool make_tree(Key * first, 
-		 Key * last)
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-    return (*CRange_tree_4).make_tree(first,last);
-  }
-#endif
-  
-  std::back_insert_iterator<std::list<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::list<Key> > result)
+
+  template <class T>
+  T  window_query(Interval const &win,  
+		  T result)
   {
     return (*CRange_tree_4).window_query(win, result);
   }
-  std::back_insert_iterator<std::vector<Key> >  
-    window_query(Interval const &win,  
-		 std::back_insert_iterator<std::vector<Key> > result)
-  {
-    return (*CRange_tree_4).window_query(win, result);
-  }
-#ifdef carray
-  Key * 
-    window_query(Interval const &win,  
-		 Key *result)
-  {
-    return (*CRange_tree_4).window_query(win, result);
-  }
-#endif
-#ifdef ostreamiterator
-  std::ostream_iterator<Key>  
-    window_query(Interval const &win,  
-		 std::ostream_iterator<Key> result)
-  {
-    return (*CRange_tree_4).window_query(win, result);
-  }
-#endif
 
   ~Range_tree_4()
   {

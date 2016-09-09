@@ -280,22 +280,22 @@ int main(int argc, char *argv[])
 
 		if (use_rational)
 		{
-			std::cout << "Create random file using rationals with " << atoi(argv[3]) 
+			std::cout << "Create random file using rationals with " << CGAL_CLIB_STD::atoi(argv[3]) 
 				 << "segments" << std::endl;
 			std::cout << "Attention: the segments are not intersected" << std::endl;
 			pminpR rnd;
-			random(atoi(argv[3]), rnd);
+			random(CGAL_CLIB_STD::atoi(argv[3]), rnd);
 			std::ofstream f(argv[4]);
 			f << rnd;
 			f.close();
 		}
 		else
 		{
-			std::cout << "Create random file using doubles with " << atoi(argv[3]) 
+			std::cout << "Create random file using doubles with " << CGAL_CLIB_STD::atoi(argv[3]) 
 				 << " segments" << std::endl;
 			std::cout << "Attention: the segments are not intersected" << std::endl;
 			pminpD rnd;
-			random(atoi(argv[3]), rnd);
+			random(CGAL_CLIB_STD::atoi(argv[3]), rnd);
 			std::ofstream f(argv[4]);
 			f << rnd;
 			f.close();

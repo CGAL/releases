@@ -10,7 +10,7 @@
 //#ifdef  __GNUG__ 
 //#include  <typeinfo>
 //#endif  /* __GNUG__ */ 
-
+#include <CGAL/config.h>
 #include <iostream>
 #include <ctime>
 #include <cassert>
@@ -75,7 +75,7 @@ int   main()
   
   std::cout << "Listing of random points:\n" ;
   std::copy (l.begin(),l.end(),std::ostream_iterator<point>(std::cout,"\n") );
-  std::cout << endl;
+  std::cout << std::endl;
   
   // building the tree for the random points
   tree.build( l );
@@ -92,7 +92,7 @@ int   main()
   
   std::cout << "Listing of the points in the box (2,2,2)-(7,7,7) : \n" ;
   std::copy (res.begin(),res.end(),std::ostream_iterator<point>(std::cout,"\n") );
-  std::cout << endl;
+  std::cout << std::endl;
   
   tree.delete_all();
   

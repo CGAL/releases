@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,14 +15,18 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
-	  $(LONG_NAME_PROBLEM_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -29,135 +34,128 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                advanced_hull \
-                advanced_hull_2 \
-                basic \
-                basic_io \
-                boundingbox \
-                centre_of_mass \
-                circulate \
-                convex_hull \
-                copyex \
-                exact_orientation \
-                exact_orientation_gmpz \
-                file_io \
-                incircle \
-                inters_check \
-                inters_comp \
-                listmanip \
-                orientation \
-                polygon_centre \
-                polygon_match \
-                templ_centre_of_mass \
-                triangulation1 \
-                triangulation2 \
-                vectorex \
-                vectorex1 
+                advanced_hull$(EXE_EXT) \
+                advanced_hull_2$(EXE_EXT) \
+                basic$(EXE_EXT) \
+                basic_io$(EXE_EXT) \
+                boundingbox$(EXE_EXT) \
+                centre_of_mass$(EXE_EXT) \
+                circulate$(EXE_EXT) \
+                convex_hull$(EXE_EXT) \
+                copyex$(EXE_EXT) \
+                exact_orientation$(EXE_EXT) \
+                exact_orientation_gmpz$(EXE_EXT) \
+                file_io$(EXE_EXT) \
+                incircle$(EXE_EXT) \
+                inters_check$(EXE_EXT) \
+                inters_comp$(EXE_EXT) \
+                listmanip$(EXE_EXT) \
+                orientation$(EXE_EXT) \
+                polygon_centre$(EXE_EXT) \
+                templ_centre_of_mass$(EXE_EXT) \
+                triangulation1$(EXE_EXT) \
+                triangulation2$(EXE_EXT) \
+                vectorex$(EXE_EXT) \
+                vectorex1$(EXE_EXT) 
 
-advanced_hull: advanced_hull.o
-	$(CGAL_CXX) -o advanced_hull advanced_hull.o $(LDFLAGS)
+advanced_hull$(EXE_EXT): advanced_hull$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)advanced_hull advanced_hull$(OBJ_EXT) $(LDFLAGS)
 
-advanced_hull_2: advanced_hull_2.o
-	$(CGAL_CXX) -o advanced_hull_2 advanced_hull_2.o $(LDFLAGS)
+advanced_hull_2$(EXE_EXT): advanced_hull_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)advanced_hull_2 advanced_hull_2$(OBJ_EXT) $(LDFLAGS)
 
-basic: basic.o
-	$(CGAL_CXX) -o basic basic.o $(LDFLAGS)
+basic$(EXE_EXT): basic$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)basic basic$(OBJ_EXT) $(LDFLAGS)
 
-basic_io: basic_io.o
-	$(CGAL_CXX) -o basic_io basic_io.o $(LDFLAGS)
+basic_io$(EXE_EXT): basic_io$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)basic_io basic_io$(OBJ_EXT) $(LDFLAGS)
 
-boundingbox: boundingbox.o
-	$(CGAL_CXX) -o boundingbox boundingbox.o $(LDFLAGS)
+boundingbox$(EXE_EXT): boundingbox$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)boundingbox boundingbox$(OBJ_EXT) $(LDFLAGS)
 
-centre_of_mass: centre_of_mass.o
-	$(CGAL_CXX) -o centre_of_mass centre_of_mass.o $(LDFLAGS)
+centre_of_mass$(EXE_EXT): centre_of_mass$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)centre_of_mass centre_of_mass$(OBJ_EXT) $(LDFLAGS)
 
-circulate: circulate.o
-	$(CGAL_CXX) -o circulate circulate.o $(LDFLAGS)
+circulate$(EXE_EXT): circulate$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circulate circulate$(OBJ_EXT) $(LDFLAGS)
 
-convex_hull: convex_hull.o
-	$(CGAL_CXX) -o convex_hull convex_hull.o $(LDFLAGS)
+convex_hull$(EXE_EXT): convex_hull$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)convex_hull convex_hull$(OBJ_EXT) $(LDFLAGS)
 
-copyex: copyex.o
-	$(CGAL_CXX) -o copyex copyex.o $(LDFLAGS)
+copyex$(EXE_EXT): copyex$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)copyex copyex$(OBJ_EXT) $(LDFLAGS)
 
-exact_orientation: exact_orientation.o
-	$(CGAL_CXX) -o exact_orientation exact_orientation.o $(LDFLAGS)
+exact_orientation$(EXE_EXT): exact_orientation$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)exact_orientation exact_orientation$(OBJ_EXT) $(LDFLAGS)
 
-exact_orientation_gmpz: exact_orientation_gmpz.o
-	$(CGAL_CXX) -o exact_orientation_gmpz exact_orientation_gmpz.o $(LDFLAGS)
+exact_orientation_gmpz$(EXE_EXT): exact_orientation_gmpz$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)exact_orientation_gmpz exact_orientation_gmpz$(OBJ_EXT) $(LDFLAGS)
 
-file_io: file_io.o
-	$(CGAL_CXX) -o file_io file_io.o $(LDFLAGS)
+file_io$(EXE_EXT): file_io$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)file_io file_io$(OBJ_EXT) $(LDFLAGS)
 
-incircle: incircle.o
-	$(CGAL_CXX) -o incircle incircle.o $(LDFLAGS)
+incircle$(EXE_EXT): incircle$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)incircle incircle$(OBJ_EXT) $(LDFLAGS)
 
-inters_check: inters_check.o
-	$(CGAL_CXX) -o inters_check inters_check.o $(LDFLAGS)
+inters_check$(EXE_EXT): inters_check$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)inters_check inters_check$(OBJ_EXT) $(LDFLAGS)
 
-inters_comp: inters_comp.o
-	$(CGAL_CXX) -o inters_comp inters_comp.o $(LDFLAGS)
+inters_comp$(EXE_EXT): inters_comp$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)inters_comp inters_comp$(OBJ_EXT) $(LDFLAGS)
 
-listmanip: listmanip.o
-	$(CGAL_CXX) -o listmanip listmanip.o $(LDFLAGS)
+listmanip$(EXE_EXT): listmanip$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)listmanip listmanip$(OBJ_EXT) $(LDFLAGS)
 
-orientation: orientation.o
-	$(CGAL_CXX) -o orientation orientation.o $(LDFLAGS)
+orientation$(EXE_EXT): orientation$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)orientation orientation$(OBJ_EXT) $(LDFLAGS)
 
-polygon_centre: polygon_centre.o
-	$(CGAL_CXX) -o polygon_centre polygon_centre.o $(LDFLAGS)
+polygon_centre$(EXE_EXT): polygon_centre$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polygon_centre polygon_centre$(OBJ_EXT) $(LDFLAGS)
 
-polygon_match: polygon_match.o
-	$(CGAL_CXX) -o polygon_match polygon_match.o $(LDFLAGS)
+templ_centre_of_mass$(EXE_EXT): templ_centre_of_mass$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)templ_centre_of_mass templ_centre_of_mass$(OBJ_EXT) $(LDFLAGS)
 
-templ_centre_of_mass: templ_centre_of_mass.o
-	$(CGAL_CXX) -o templ_centre_of_mass templ_centre_of_mass.o $(LDFLAGS)
+triangulation1$(EXE_EXT): triangulation1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)triangulation1 triangulation1$(OBJ_EXT) $(LDFLAGS)
 
-triangulation1: triangulation1.o
-	$(CGAL_CXX) -o triangulation1 triangulation1.o $(LDFLAGS)
+triangulation2$(EXE_EXT): triangulation2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)triangulation2 triangulation2$(OBJ_EXT) $(LDFLAGS)
 
-triangulation2: triangulation2.o
-	$(CGAL_CXX) -o triangulation2 triangulation2.o $(LDFLAGS)
+vectorex$(EXE_EXT): vectorex$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)vectorex vectorex$(OBJ_EXT) $(LDFLAGS)
 
-vectorex: vectorex.o
-	$(CGAL_CXX) -o vectorex vectorex.o $(LDFLAGS)
+vectorex1$(EXE_EXT): vectorex1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)vectorex1 vectorex1$(OBJ_EXT) $(LDFLAGS)
 
-vectorex1: vectorex1.o
-	$(CGAL_CXX) -o vectorex1 vectorex1.o $(LDFLAGS)
-
-clean:
-	rm -f *.o \
-                   advanced_hull \
-                   advanced_hull_2 \
-                   basic \
-                   basic_io \
-                   boundingbox \
-                   centre_of_mass \
-                   circulate \
-                   convex_hull \
-                   copyex \
-                   exact_orientation \
-                   exact_orientation_gmpz \
-                   file_io \
-                   incircle \
-                   inters_check \
-                   inters_comp \
-                   listmanip \
-                   orientation \
-                   polygon_centre \
-                   polygon_match \
-                   templ_centre_of_mass \
-                   triangulation1 \
-                   triangulation2 \
-                   vectorex \
-                   vectorex1 \
-                   core
+clean: \
+                   advanced_hull.clean \
+                   advanced_hull_2.clean \
+                   basic.clean \
+                   basic_io.clean \
+                   boundingbox.clean \
+                   centre_of_mass.clean \
+                   circulate.clean \
+                   convex_hull.clean \
+                   copyex.clean \
+                   exact_orientation.clean \
+                   exact_orientation_gmpz.clean \
+                   file_io.clean \
+                   incircle.clean \
+                   inters_check.clean \
+                   inters_comp.clean \
+                   listmanip.clean \
+                   orientation.clean \
+                   polygon_centre.clean \
+                   templ_centre_of_mass.clean \
+                   triangulation1.clean \
+                   triangulation2.clean \
+                   vectorex.clean \
+                   vectorex1.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

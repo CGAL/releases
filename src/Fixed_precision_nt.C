@@ -1,45 +1,42 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : src/Fixed_precision_nt.C
-// package       : Fixed_precision_nt (2.5)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/04/30 10:02:01 $
+// package       : Fixed_precision_nt (2.13)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/11/17 14:29:58 $
 // author(s)     : Olivier Devillers
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -281,6 +278,34 @@ inline void Fixed_split
 //--------- geometric predicates
 // ======================================================================
 
+
+CGAL_Fixed_public
+int Fixed_cmp_dist(float x0, float y0, 
+		   float x1, float y1, 
+		   float x2, float y2)
+{
+  double X1 = (double)x1-(double)x0;
+  double Y1 = (double)y1-(double)y0;
+  double X2 = (double)x2-(double)x0;
+  double Y2 = (double)y2-(double)y0;
+  X1 = (X2*X2+Y2*Y2)-(X1*X1+Y1*Y1);         // exact
+  return (X1>0) ? 1 : (X1==0) ? 0 : -1;
+}
+
+CGAL_Fixed_public
+int Fixed_cmp_dist(float x0, float y0, float z0, 
+		   float x1, float y1, float z1,
+		   float x2, float y2, float z2)
+{
+  double X1 = (double)x1-(double)x0;
+  double Y1 = (double)y1-(double)y0;
+  double Z1 = (double)z1-(double)z0;
+  double X2 = (double)x2-(double)x0;
+  double Y2 = (double)y2-(double)y0;
+  double Z2 = (double)z2-(double)z0;
+  X1 = (X2*X2+Y2*Y2+Z2*Z2)-(X1*X1+Y1*Y1+Z1*Z1);         // exact
+  return (X1>0) ? 1 : (X1==0) ? 0 : -1;
+}
 
 CGAL_Fixed_public
 int Fixed_orientation(float x0, float y0, 
@@ -826,10 +851,12 @@ void  Fixed_precision_nt::unperturb_insphere()
 bool  Fixed_precision_nt::is_perturbed_insphere() 
 {return Fixed_is_perturbed_insphere();}
 
+extern void force_ieee_double_precision();
+
 bool Fixed_precision_nt::init(float b) 
 { 
 #ifdef __i386               // processor Intel 386
-  FPU_set_cw(FPU_cw_near);
+  force_ieee_double_precision();
 #endif
   return Fixed_init(b);
 }
@@ -837,6 +864,35 @@ bool Fixed_precision_nt::init(float b)
 // ======================================================================
 //--------- geometric predicates
 // ======================================================================
+
+//template <>
+Comparison_result
+cmp_dist_to_pointC2(
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2)
+{
+  return (Comparison_result) sign(Fixed_cmp_dist(
+			     x0.to_float(),  y0.to_float(), 
+			     x1.to_float(),  y1.to_float(), 
+			     x2.to_float(),  y2.to_float()));
+}
+
+//template <>
+Comparison_result
+cmp_dist_to_pointC3(
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt z0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt z1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2,
+  const Fixed_precision_nt z2)
+{
+  return (Comparison_result) sign(Fixed_cmp_dist(
+			     x0.to_float(),  y0.to_float(), z0.to_float(),
+			     x1.to_float(),  y1.to_float(), z1.to_float(),
+			     x2.to_float(),  y2.to_float(), z2.to_float()));
+}
 
 //template <>
 Orientation orientationC2

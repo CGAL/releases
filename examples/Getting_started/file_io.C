@@ -1,20 +1,21 @@
 #include "tutorial.h"
-#include <fstream.h>
+#include <fstream>
 
 struct MySegment {int i;};
 
-istream& operator>>(istream& is,  MySegment &seg)
+std::istream& operator>>(std::istream& is,  MySegment &seg)
 { return is >> seg.i; }
 
-ostream& operator<<(ostream& os, const MySegment &seg)
+std::ostream& operator<<(std::ostream& os, const MySegment &seg)
 { return os << seg.i; }
 
-main()
+int main()
 {
     MySegment seg;
-    ifstream fin("segin");
-    ofstream fout("segout");
+    std::ifstream fin("segin");
+    std::ofstream fout("segout");
     fin >> seg;
     if (fin.good())
     fout << seg << '\n';
+    return 0;
 }

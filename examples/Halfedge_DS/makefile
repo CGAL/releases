@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,13 +15,18 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
@@ -41,46 +47,44 @@ all:            \
                 hds_prog_halfedge_iterator \
                 hds_prog_vector 
 
-hds_prog_color: hds_prog_color.o
-	$(CGAL_CXX) -o hds_prog_color hds_prog_color.o $(LDFLAGS)
+hds_prog_color$(EXE_EXT): hds_prog_color$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_color hds_prog_color$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_compact: hds_prog_compact.o
-	$(CGAL_CXX) -o hds_prog_compact hds_prog_compact.o $(LDFLAGS)
+hds_prog_compact$(EXE_EXT): hds_prog_compact$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_compact hds_prog_compact$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_compact2: hds_prog_compact2.o
-	$(CGAL_CXX) -o hds_prog_compact2 hds_prog_compact2.o $(LDFLAGS)
+hds_prog_compact2$(EXE_EXT): hds_prog_compact2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_compact2 hds_prog_compact2$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_default: hds_prog_default.o
-	$(CGAL_CXX) -o hds_prog_default hds_prog_default.o $(LDFLAGS)
+hds_prog_default$(EXE_EXT): hds_prog_default$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_default hds_prog_default$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_graph: hds_prog_graph.o
-	$(CGAL_CXX) -o hds_prog_graph hds_prog_graph.o $(LDFLAGS)
+hds_prog_graph$(EXE_EXT): hds_prog_graph$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_graph hds_prog_graph$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_graph2: hds_prog_graph2.o
-	$(CGAL_CXX) -o hds_prog_graph2 hds_prog_graph2.o $(LDFLAGS)
+hds_prog_graph2$(EXE_EXT): hds_prog_graph2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_graph2 hds_prog_graph2$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_halfedge_iterator: hds_prog_halfedge_iterator.o
-	$(CGAL_CXX) -o hds_prog_halfedge_iterator hds_prog_halfedge_iterator.o $(LDFLAGS)
+hds_prog_halfedge_iterator$(EXE_EXT): hds_prog_halfedge_iterator$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_halfedge_iterator hds_prog_halfedge_iterator$(OBJ_EXT) $(LDFLAGS)
 
-hds_prog_vector: hds_prog_vector.o
-	$(CGAL_CXX) -o hds_prog_vector hds_prog_vector.o $(LDFLAGS)
+hds_prog_vector$(EXE_EXT): hds_prog_vector$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_vector hds_prog_vector$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   hds_prog_color \
-                   hds_prog_compact \
-                   hds_prog_compact2 \
-                   hds_prog_default \
-                   hds_prog_graph \
-                   hds_prog_graph2 \
-                   hds_prog_halfedge_iterator \
-                   hds_prog_vector \
-                   core
+clean: \
+                   hds_prog_color.clean \
+                   hds_prog_compact.clean \
+                   hds_prog_compact2.clean \
+                   hds_prog_default.clean \
+                   hds_prog_graph.clean \
+                   hds_prog_graph2.clean \
+                   hds_prog_halfedge_iterator.clean \
+                   hds_prog_vector.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

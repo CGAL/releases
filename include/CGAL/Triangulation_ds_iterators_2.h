@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Triangulation_ds_iterators_2.h
-// package       : Triangulation (3.17)
+// package       : Triangulation (4.30)
 // source        : $RCSfile: Triangulation_ds_iterators_2.h,v $
-// revision      : $Revision: 1.3.1.13 $
-// revision_date : $Date: 1999/05/11 07:18:01 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 1999/10/04 09:58:26 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -63,156 +60,13 @@
 
 CGAL_BEGIN_NAMESPACE
 
-//template < class Gt , class Vb, class Fb>
+// The  iterator_base visits all the full dimensional faces 
+// of the Tds
+// whatever may be the dimension of the Tds
+
 template <class Tds>
 class Triangulation_ds_iterator_base_2
   : public Triangulation_cw_ccw_2
-{
-public:
-  typedef typename Tds::Geom_traits Geom_traits;
-  typedef typename Tds::Vertex Vertex;
-  typedef typename Tds::Face  Face;
-  typedef typename Tds::Edge Edge;
-
-  Triangulation_ds_iterator_base_2()
-     : _tds(NULL), pos(NULL)
-        {}
-
-  Triangulation_ds_iterator_base_2(Tds* tds)
-     : _tds(tds), pos(NULL)
-  {
-    if(_tds->number_of_vertices() < 2) {
-      return;
-    }
-    pos = _tds->infinite_face();
-  }
-
- Triangulation_ds_iterator_base_2(Tds* tds, int)
-     :  _tds(tds), pos(NULL)
- {}
-
-  Triangulation_ds_iterator_base_2(Tds* tds, Face* f)
-    : _tds(tds), pos(f)
-  {}
-   
-protected:
-        Tds*  _tds;
-        Face* pos;
-        
-        void
-        increment()
-        {
-            int max = maximum(pos);
-            Face* next=pos->neighbor(max);         // tentative first child
-            Face* parent;
-            int max2 = maximum(next);
-            if ( next->neighbor(cw(max2))== pos){
-              // next is the first child of pos
-              pos = next;
-              return;
-            }
-            // look for the second child of an ancestor of pos
-            next=pos->neighbor(ccw(max));          // tentatative second child
-            while (1){
-                max2 = maximum(next);
-                if ( next->neighbor(cw(max2))== pos) 
-		  // next is the second child of pos
-                    { pos = next; return;}
-                while (1){
-                    parent = pos->neighbor(cw(max)); // go to parent
-                    max = maximum(parent);
-                    next=parent->neighbor(ccw(max));// tentatative second child
-                    if (next==pos)   // already coming back from this child
-                        { pos = parent; continue; }
-                    else
-                        { pos = parent; break; }
-                }
-            }
-        }
-        
-
-        void
-        decrement()
-        {
-            int max = maximum(pos);
-            Face* next=pos->neighbor(cw(max)); // parent of pos
-            int max2 = maximum(next);
-            if ( next->neighbor(max2) == pos)  
-	      // pos is the first child of next
-                { pos = next; return;}
-            pos = next->neighbor(max2);        // tentative first child
-            max = maximum(pos);
-            if ( pos->neighbor(cw(max))!=next) 
-	      // pos is not the first child of next
-                { pos = next; return;}
-            // look for "last" node in first subtree of next
-            while (1){
-                next = pos->neighbor(ccw(max));// tentatative second child
-                max2 = maximum(next);
-                if (next->neighbor(cw(max2))!= pos){
-                    //next is not the second child of pos
-                    next=pos->neighbor(max);         // tentative first child
-                    max2 = maximum(next);
-                    if ( next->neighbor(cw(max2))!= pos){
-                        //next is not first child of pos
-                        return;
-                    }
-                }
-                pos=next;
-                max=max2;
-            }
-        }
-
-        int maximum(const Face* f) const
-        {
-            if ( _tds->is_infinite(f) ){
-                return f->index( _tds->infinite_vertex() );
-            }
-            if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-					     f->vertex(1)->point()) == CGAL::SMALLER)
-	      //  v0 < v1
-	      if(_tds->geom_traits().compare_y(f->vertex(2)->point(),
-						 f->vertex(1)->point())==CGAL::SMALLER)
-		//  v0,v2 < v1
-		{ return 1; }
-	      else
-		//  v0 < v1 <= v2
-		{ return 2; }
-            else
-	      //  v1 <= v0
-        
-	      if(_tds->geom_traits().compare_y(f->vertex(1)->point(),
-					       f->vertex(2)->point())!=CGAL::SMALLER)
-		//  v2 <= v1 <= v0
-		if(_tds->geom_traits().compare_y(
-						 f->vertex(0)->point(),
-						 f->vertex(1)->point()) == CGAL::EQUAL)
-		  //  v2 <= v1 == v0
-		  { return 1; }
-		else
-		  //  v2 <= v1 < v0
-		  { return 0; }
-	      else
-		//  v1<=v0, v1<v2
-		if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-						 f->vertex(2)->point())
-		   ==CGAL::SMALLER)
-		  //  v1 <= v0 < v2
-		  { return 2; }
-		else
-		  //  v1 < v2 <= v0
-		  { return 0; }
-        
-        }
-};
-
-
-template<class Tds>
-class Triangulation_ds_face_iterator_2
-  : public Triangulation_ds_iterator_base_2<Tds>
-    //    public bidirectional_iterator<typename Tds::Face, ptrdiff_t>
-    // public CGAL_STD::iterator<std::bidirectional_iterator_tag,
-    //                          typename Tds::Face>
 {
 public:
   typedef typename Tds::Face       value_type;
@@ -222,124 +76,98 @@ public:
   typedef std::ptrdiff_t  difference_type;
   typedef std::bidirectional_iterator_tag   iterator_category;
 
-
   typedef typename Tds::Geom_traits Geom_traits;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
 
   typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
+
+  Triangulation_ds_iterator_base_2()
+     : _tds(NULL), pos(NULL)
+        {}
+
+  Triangulation_ds_iterator_base_2(const Tds* tds)
+     : _tds(tds), pos(NULL)
+  {
+    if(_tds->dimension() < 0) { //no faces
+      return;
+    }
+    pos = _tds->infinite_vertex()->face();
+  }
+
+ Triangulation_ds_iterator_base_2(const Tds* tds, int)
+     :  _tds(tds), pos(NULL)
+ {}
+
+  Triangulation_ds_iterator_base_2(const Tds* tds, const Face* f)
+    : _tds(tds), pos(f)
+  {}
+   
+protected:
+  const Tds*  _tds;
+  const Face* pos;
+
+  void increment();
+  void decrement();
+  int  maximum(const Face* f) const;
+
+public:
+  Iterator_base&  operator=(const Iterator_base& fi);
+  bool   operator==(const Iterator_base& fi) const;
+  bool   operator!=(const Iterator_base& fi) const;
+  
+  Iterator_base&  operator++();
+  Iterator_base&  operator--();
+  Iterator_base   operator++(int);
+  Iterator_base   operator--(int);
+
+  Face& operator*() const
+    {
+      CGAL_triangulation_precondition(pos != NULL);
+      return const_cast<Face&>(*pos);
+    }
+
+  Face*  operator->() const
+    {
+      CGAL_triangulation_precondition(pos != NULL);
+      return const_cast<Face*>(pos);
+    }
+
+};
+
+
+// The following iterator visit the 2-faces
+
+template<class Tds>
+class Triangulation_ds_face_iterator_2
+  : public Triangulation_ds_iterator_base_2<Tds>
+{
+public:
+  typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
   typedef Triangulation_ds_face_iterator_2<Tds> Face_iterator;
 
-        Triangulation_ds_face_iterator_2()
-            : Iterator_base()
-        {}
-        Triangulation_ds_face_iterator_2(Tds * tds)
-            : Iterator_base(tds)
-        {
-	  if (tds->number_of_vertices()<2){
-	    pos = NULL;                   // there is no faces
-	    return;
-	  }
-	  Face* start = pos;
-            while (_tds->is_infinite(pos)){
-                increment();
-                if(pos == start){
-                    pos = NULL;                  // there is no finite triangle
-                    return;
-                }
-            }
-	}
+  Triangulation_ds_face_iterator_2() : Iterator_base() {}
+   
+  Triangulation_ds_face_iterator_2(const Tds * tds) : Iterator_base(tds)
+    {
+      if (tds->dimension() <2) pos=NULL;
+    }
 
-        Triangulation_ds_face_iterator_2(Tds* tds, int i)
-	  : Iterator_base(tds,i)
-        {}
+  Triangulation_ds_face_iterator_2(const Tds* tds, int i)
+    : Iterator_base(tds,i)
+    {}
 
-        Triangulation_ds_face_iterator_2(const Face_iterator& fi)
-          : Iterator_base(fi._tds, fi.pos)
-        {}
+  Triangulation_ds_face_iterator_2(const Face_iterator& fi)
+    : Iterator_base(fi._tds, fi.pos)
+    {}
         
-        Face_iterator&
-        operator=(const Face_iterator& fi)
-        {
-	  pos = fi.pos;
-	  _tds = fi._tds;
-	  return *this;
-        }
+  Face_iterator&   operator=(const Face_iterator& fi);
 
-        bool
-        operator==(const Face_iterator& fi) const
-        {
-            return ((pos == fi.pos )&&(_tds==fi._tds));
-        }
-        
-        
-        bool
-        operator!=(const Face_iterator& fi) const
-        {
-            return !(*this == fi);
-        }
-
-        Face_iterator&
-        operator++()
-        {
-            if ( pos == NULL ){
-                return *this;    //  past-the-end iterator cannot advance
-            }
-            do{
-                increment();
-                if ( pos == (_tds->infinite_face()) ){
-                    pos = NULL;  // complete tour
-                    return *this;
-                }
-            }while (_tds->is_infinite(pos));
-	    return *this;           // next finite triangle found
-        }
-
-        Face_iterator&
-        operator--()
-        {
-            if ( pos == NULL ) {//  past the end iterator can decrease
-                *this = Face_iterator(_tds); // first finite triangle
-            }              //next loop will go to last finite triangle
-        
-            do{
-                decrement();
-                if ( pos == _tds->infinite_face()){
-                    pos = NULL;  // complete tour
-		    return *this;
-                }
-           }while (_tds->is_infinite(pos));
-	   return *this;           // next finite triangle found
-        }
-        
-        Face_iterator
-        operator++(int)
-        {
-            Face_iterator tmp(*this);
-            ++(*this);
-            return tmp;
-        }
-        
-        
-        Face_iterator
-        operator--(int)
-        {
-            Face_iterator tmp(*this);
-            --(*this);
-            return tmp;
-        }
-        
-  inline Face& operator*() const
-  {
-        return *pos;
-  }
-    
-  inline Face*  operator->() const
-  {
-        return pos;
-  }
-
+  Face_iterator&  operator++();
+  Face_iterator&  operator--();
+  Face_iterator   operator++(int);
+  Face_iterator   operator--(int);
 
 };
 
@@ -347,389 +175,665 @@ public:
 template < class Tds>
 class Triangulation_ds_vertex_iterator_2
 : public Triangulation_ds_iterator_base_2<Tds>
-  //public bidirectional_iterator<typename Tds::Vertex, ptrdiff_t>
-  //public CGAL_STD::iterator<std::bidirectional_iterator_tag,
-  //                          typename Tds::Vertex>
 {
 public:
-  typedef typename Tds::Vertex      value_type;
-  typedef typename Tds::Vertex *     pointer;
-  typedef typename Tds::Vertex &     reference;
-  typedef std::size_t     size_type;
-  typedef std::ptrdiff_t  difference_type;
-  typedef std::bidirectional_iterator_tag   iterator_category;
-
-  typedef typename Tds::Geom_traits Geom_traits;
-  typedef typename Tds::Vertex Vertex;
-  typedef typename Tds::Face  Face;
-  typedef typename Tds::Edge Edge;
+  typedef typename Tds::Vertex       Vertex;
+  
+  typedef Vertex       value_type;
+  typedef Vertex *     pointer;
+  typedef Vertex &     reference;
 
   typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
   typedef Triangulation_ds_vertex_iterator_2<Tds> Vertex_iterator;
 
+private :
+  int index;
 
-     Triangulation_ds_vertex_iterator_2()
-            : Iterator_base()
-        {}
+public:
+  Triangulation_ds_vertex_iterator_2()
+    : Iterator_base(), index(0)
+    {}
     
-    
-    Triangulation_ds_vertex_iterator_2(Tds * tds)
-        :  Iterator_base(tds)
-    {
-        switch( _tds->number_of_vertices() ){
-        case 0: // past-the-end
-            pos = NULL;
-            return;
-        case 1:
-            pos = (Face*)1 ; // different from any pointer;
-            return;         // "points" to the only vertex of the triangulation
-        default:
-            {
-                pos = _tds->infinite_face();
-                while ( associated_vertex() ==NULL){
-                    increment();
-                }
-                return;
-            }
-        }
-    }
-    
-    Triangulation_ds_vertex_iterator_2(Tds* tds, int i)
-            : Iterator_base(tds,i)
+  Triangulation_ds_vertex_iterator_2(const Tds* tds);
+   
+  Triangulation_ds_vertex_iterator_2(const Tds* tds, int i)
+    : Iterator_base(tds,i), index(0)
     {}
 
-    Vertex_iterator&
-    operator++()
-    {
-        if (pos==NULL){
-	  return *this;            // cannot advance past-the-end iterator
-        }
-        if (_tds->number_of_vertices()==1){
-            pos = NULL; // past-the-end
-	    return *this;
-        }
-        do{
-            increment();
-            if ( pos == _tds->infinite_face()){
-                pos = NULL;   // complete tour
-		return *this;
-            }
-        }while ( associated_vertex() ==NULL);
-        return *this;
-    }
-    
-    
-    Vertex_iterator&
-    operator--()
-    {
-        switch(_tds->number_of_vertices()) {
-        case 0:
-	  return *this;
-        case 1:
-            if(pos == NULL){
-                *this = Vertex_iterator(_tds);
-            } else {
-                pos = NULL;
-            }
-	    return *this;            // can decrease past-the-end iterator
-        default:
-            if (pos==NULL){
-                *this = Vertex_iterator(_tds);
-                --*this;
-		return *this;            // can decrease past-the-end iterator
-            }
-            do{
-                decrement();
-                if ( pos == _tds->infinite_face()){
-                    pos = NULL;   // complete tour
-		    return *this;
-                }
-            }while ( associated_vertex()  ==NULL);
-            return *this;
-        }
-    }
-    
-    
-    Vertex_iterator operator++(int)
-    {
-        Vertex_iterator tmp(*this);
-        ++(*this);
-        return tmp;
-    }
-    
-    
-    Vertex_iterator operator--(int)
-    {
-        Vertex_iterator tmp(*this);
-        --(*this);
-        return tmp;
-    }
-    
-    bool operator==(const Vertex_iterator& fi) const
-    {
-        return ( (pos == fi.pos ) && (_tds ==fi._tds) );
-    }
-    
-    bool operator!=(const Vertex_iterator& fi) const
-    {
-        return !(*this == fi);
-    }
-    
-  inline Vertex& operator*() const
-  {
-        return *(associated_vertex());
-  }
-    
-  inline Vertex*  operator->() const
-  {
-        return associated_vertex();
-  }
+  Vertex_iterator&  operator++();
+  Vertex_iterator&  operator--();
+  Vertex_iterator operator++(int);
+  Vertex_iterator operator--(int);
+  bool operator==(const Vertex_iterator& fi) const;
+  bool operator!=(const Vertex_iterator& fi) const;
 
-    
-    Vertex*
-    associated_vertex() const
+  Vertex& operator*() const  
     {
-        if(pos == NULL) {
-            return NULL;
-        }
-        switch(_tds->number_of_vertices() ){
-        case 0:
-            return NULL;
-        case 1:
-            return _tds->finite_vertex();
-        case 2:
-             return pos->vertex(cw(maximum(pos)));
-        default:
-            {
-                int i = cw(maximum(pos));    // candidate associate vertex
-                if(_tds->geom_traits().compare_y(pos->vertex(i)->point(),
-						 pos->vertex(cw(i))->point())
-                   ==CGAL::LARGER){
-                    //   vcw(i) < vi
-                    return pos->vertex(i);
-                }
-                if ( _tds->is_infinite(pos)){
-                    Face* f=pos->neighbor(cw(i));
-                                   // next edge on the CH in cw order
-                    int   j=f->index(_tds->infinite_vertex() );
-                    CGAL::Comparison_result comp =
-                        _tds->geom_traits().compare_y(pos->vertex(i)->point(),
-						      f->vertex(cw(j))->point());
-                    if (comp == CGAL::SMALLER){         //  vi smaller vertex
-                        return pos->vertex(i);
-                    }
-                    if(comp ==CGAL::EQUAL){            // horizontal part of CH
-                        comp = _tds->geom_traits().compare_x(
-                                                 pos->vertex(i)->point(),
-						 f->vertex(cw(j))->point());
-                        if(comp == CGAL::LARGER){        // lower hull
-                            return pos->vertex(i);
-                        }
-                        if(pos->vertex(cw(i)) == f->vertex(cw(j))){ 
-			  // 1 dim. horiz.
-                            return pos->vertex(i);
-                        }
-                    }
-                }
-            }
-        }
-        return NULL;
+      CGAL_triangulation_assertion( pos != NULL);
+      if (pos == (Face*)1) {// only one vertex;
+	return *(_tds->infinite_vertex());
+      }
+      return *(pos->vertex(index));
     }
-    
-};
+
+  Vertex*  operator->() const
+    {
+      CGAL_triangulation_assertion( pos != NULL);
+      if (pos == (Face*)1) {// only one vertex;
+	return _tds->infinite_vertex();
+      }
+      return pos->vertex(index);
+    }
+
+private:
+  void increment();
+  void decrement() ;
+  bool associated_vertex();
+
+ };
 
 
 template <class Tds>
 class Triangulation_ds_edge_iterator_2
  : public Triangulation_ds_iterator_base_2<Tds>
-   //public bidirectional_iterator<typename Tds::Edge, ptrdiff_t>
-   //public CGAL_STD::iterator<std::bidirectional_iterator_tag,
-   //                          typename Tds::Edge>
 {
 public:
-  typedef typename Tds::Edge      value_type;
-  typedef typename Tds::Edge *     pointer;
-  typedef typename Tds::Edge &     reference;
-  typedef std::size_t     size_type;
-  typedef std::ptrdiff_t  difference_type;
-  typedef std::bidirectional_iterator_tag   iterator_category;
-
+  typedef typename Tds::Edge       Edge;
   typedef typename Tds::Geom_traits Geom_traits;
-  typedef typename Tds::Vertex Vertex;
-  typedef typename Tds::Face  Face;
-  typedef typename Tds::Edge Edge;
+
+  typedef Edge            value_type;
+  typedef Edge *          pointer;
+  typedef Edge &          reference;
 
   typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
   typedef Triangulation_ds_edge_iterator_2<Tds> Edge_iterator;
 
-     Triangulation_ds_edge_iterator_2()
-            : Iterator_base(),status(0)
-        {}
-    
-    
-    Triangulation_ds_edge_iterator_2(Tds * tds)
-        :  Iterator_base(tds)
-    {
-      if (tds->number_of_vertices()<2){
-	pos = NULL;                   // there is no finite edge
-	return;
-      }
-      pos = tds->infinite_face();
-      Face* start = pos;
-      while ( ! compute_status(true) ){
-	increment();
-	if(pos == start){
-	  pos=NULL;                   // there is no finite triangle
-	  return;
-	}
-      }
-    } 
-    
-    Triangulation_ds_edge_iterator_2(Tds* tds, int i)
-            : Iterator_base(tds,i),status(0)
-    {}
+private:
+int index;
 
-  bool
-  operator==(const Edge_iterator& fi) const
-  {
-    if ((pos==fi.pos)&&(_tds==fi._tds)){
-      if (pos==NULL) {
-	return true;
-      }else{
-	return (status==fi.status);
-      }
+public:
+  Triangulation_ds_edge_iterator_2()
+            : Iterator_base(),index(0)
+        {}
+ 
+  Triangulation_ds_edge_iterator_2(const Tds * tds);
+   
+     
+  Triangulation_ds_edge_iterator_2(const Tds* tds, int i)
+            : Iterator_base(tds,i),index(0)
+    {
+       if (_tds->dimension() == 1) {index = 2;}
     }
-    else{
-      return false;
+
+  bool  operator==(const Edge_iterator& fi) const ;
+  bool  operator!=(const Edge_iterator& fi) const {return !(*this== fi);}
+  Edge_iterator&    operator++();
+  Edge_iterator&    operator--();
+  Edge_iterator    operator++(int);
+  Edge_iterator    operator--(int);
+
+  Edge      operator*() const
+    {return std::make_pair(const_cast<Face*>(pos), index);}
+
+private: 
+  void increment();
+  void decrement();
+  bool associated_edge();
+};
+
+
+// Iterator base implementation
+
+template<class Tds>
+void 
+Triangulation_ds_iterator_base_2<Tds>::
+increment()
+{
+  if (_tds->dimension() == 1 || _tds->dimension() == 0){
+    pos = pos->neighbor(0);
+    return;
+  }
+
+  int max = maximum(pos);
+  Face* next=pos->neighbor(max);         // tentative first child
+  Face* parent;
+  int max2 = maximum(next);
+  if ( next->neighbor(cw(max2))== pos){
+    // next is the first child of pos
+    pos = next;
+    return;
+  }
+  // look for the second child of an ancestor of pos
+  next=pos->neighbor(ccw(max));          // tentatative second child
+  while (1){
+    max2 = maximum(next);
+    if ( next->neighbor(cw(max2))== pos) 
+      // next is the second child of pos
+      { pos = next; return;}
+    while (1){
+      parent = pos->neighbor(cw(max)); // go to parent
+      max = maximum(parent);
+      next=parent->neighbor(ccw(max));// tentatative second child
+      if (next==pos)   // already coming back from this child
+	{ pos = parent; continue; }
+      else
+	{ pos = parent; break; }
     }
   }
-    
-    
-    bool
-    operator!=(const Edge_iterator& fi) const
-    {
-        return ! (*this == fi);
-    }
-    
-Edge_iterator&
-    operator++()
-    {
-        if (pos==NULL){
-            return *this;            // cannot advance past-the-end iterator
-        }
-        if ( (status >=3) && (status <=5) ) {
-            // current status is 3 + ccw(i), next status is 6+i
-            status = 6 + cw( status -3);
-        } else do{
-            increment();
-            if ( pos == _tds->infinite_face()){
-                pos = NULL;   // tour complete
-                return *this;
-            }
-        }while (!compute_status(true));
-        return *this;
-    }
-    
-
-
-
- Edge_iterator&
-    operator--()
-    {
-        if (pos==NULL){
-            *this = Edge_iterator(_tds);
-            --*this;
-            return *this;            // can decrease past-the=end iteartor
-        }
-        if ( (status >=3) && (status <=5) ) {
-            // current status is 6+i, next status is 3 + ccw(i)
-            status = 3 + ccw( status -6);
-        } else do{
-            decrement();
-            if ( pos == triangulation->infinite_face()){
-                pos = NULL;   // tour complete
-                return *this;
-            }
-        }while (compute_status(false));
-        return *this;
-    }
-    
-    
-    Edge_iterator
-    operator++(int)
-    {
-        Edge_iterator tmp(*this);
-        ++(*this);
-        return tmp;
-    }
-    
-    
-    Edge_iterator
-    operator--(int)
-    {
-        Edge_iterator tmp(*this);
-        --(*this);
-        return tmp;
-    }
-    
-    Edge
-    operator*() const
-    {
-        int j = (status<3) ? status : (status<6) ? status-3 : status-6;
-        return std::make_pair(pos, j);
-    }
-    
-    
-private:
+}
         
-    int status;
 
-    bool
-    compute_status(bool forward)
-    {
-        if (pos == NULL){
-            return false;
-        }
-        int i = maximum(pos);            // higher point
-        if ( ! _tds->is_infinite(pos)){
-            if(_tds->geom_traits().compare_y(
-				       pos->vertex(cw(i))->point(),
-				       pos->vertex(ccw(i))->point())
-               == CGAL::LARGER){
-                //  vccw(i) < vcw(i)
-                // right edges = i cw(i)  cw(i) ccw(i)
-                status = (forward) ? 3+ccw(i) : 6+i;
-            } else {
-                // right edge = i cw(i)
-                status = ccw(i);
-            }
-            return true;
-        }
-        CGAL::Comparison_result comp = _tds->geom_traits().compare_y(
-						pos->vertex(cw(i))->point(),
-						pos->vertex(ccw(i))->point());
-        if( comp==CGAL::SMALLER){
-            return false;
-        }
-        if( comp==CGAL::LARGER){
-            //  vccw(i) < vcw(i)
-            // right edge =  cw(i) ccw(i)
-            status = i;
-            return true;
-        }
-        // comp = CGAL::EQUAL
-        if ( _tds->geom_traits().compare_x(pos->vertex(cw(i))->point(),
-					   pos->vertex(ccw(i))->point())
-             == CGAL::SMALLER){
-            //  vccw(i) < vcw(i)
-            // upper horizontal edge =  cw(i) ccw(i)
-            status = i;
-            return true;
-        }
-    
-        return false;
+template<class Tds>
+void 
+Triangulation_ds_iterator_base_2<Tds>::
+decrement()
+{
+  if(_tds->dimension() == 0){
+    pos = pos->neighbor(0);
+    return;
+  }
+
+  if (_tds->dimension() == 1){
+    pos = pos->neighbor(1);
+    return;
+  }
+
+  // dimension() ==2
+  int max = maximum(pos);
+  Face* next=pos->neighbor(cw(max));     // parent of pos
+
+  int max2 = maximum(next);
+  if ( next->neighbor(max2) == pos)  
+    // pos is the first child of next
+    { pos = next; return;}
+  pos = next->neighbor(max2);        // tentative first child
+  max = maximum(pos);
+  if ( pos->neighbor(cw(max))!=next) 
+    // pos is not the first child of next
+    { pos = next; return;}
+  // look for "last" node in first subtree of next
+  while (1){
+    next = pos->neighbor(ccw(max));// tentatative second child
+    max2 = maximum(next);
+    if (next->neighbor(cw(max2))!= pos){
+      //next is not the second child of pos
+      next=pos->neighbor(max);         // tentative first child
+      max2 = maximum(next);
+      if ( next->neighbor(cw(max2))!= pos){
+	//next is not first child of pos
+	return;
+      }
     }
-};
+    pos=next;
+    max=max2;
+  }
+}
+
+template<class Tds>
+int 
+Triangulation_ds_iterator_base_2<Tds>::
+maximum(const Face* f) const
+{
+  if ( _tds->is_infinite(f) ){
+    return f->index( _tds->infinite_vertex() );
+  }
+  if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
+				   f->vertex(1)->point()) == CGAL::SMALLER)
+    //  v0 < v1
+    if(_tds->geom_traits().compare_y(f->vertex(2)->point(),
+				     f->vertex(1)->point())==CGAL::SMALLER)
+      //  v0,v2 < v1
+      { return 1; }
+    else
+      //  v0 < v1 <= v2
+      { return 2; }
+  else
+    //  v1 <= v0
+        
+    if(_tds->geom_traits().compare_y(f->vertex(1)->point(),
+				     f->vertex(2)->point())!=CGAL::SMALLER)
+      //  v2 <= v1 <= v0
+      if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
+				       f->vertex(1)->point()) == CGAL::EQUAL)
+	//  v2 <= v1 == v0
+	{ return 1; }
+      else
+	//  v2 <= v1 < v0
+	{ return 0; }
+    else
+      //  v1<=v0, v1<v2
+      if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
+				       f->vertex(2)->point())
+	 ==CGAL::SMALLER)
+	//  v1 <= v0 < v2
+	{ return 2; }
+      else
+	//  v1 < v2 <= v0
+	{ return 0; }
+        
+}
+
+template<class Tds>
+inline
+Triangulation_ds_iterator_base_2<Tds>&
+Triangulation_ds_iterator_base_2<Tds> ::
+operator=(const Iterator_base& fi)
+{
+  pos = fi.pos;
+  _tds = fi._tds;
+  return *this;
+}
+
+template<class Tds>
+inline bool
+Triangulation_ds_iterator_base_2<Tds> ::
+operator==(const Iterator_base& fi) const
+{
+  return ((pos == fi.pos )&&(_tds==fi._tds));
+}
+        
+template<class Tds>
+inline bool
+Triangulation_ds_iterator_base_2<Tds> ::        
+operator!=(const Iterator_base& fi) const
+{
+  return !(*this == fi);
+}
+
+template<class Tds>
+Triangulation_ds_iterator_base_2<Tds>&
+Triangulation_ds_iterator_base_2<Tds> ::
+operator++()
+{
+  CGAL_triangulation_precondition(pos != NULL);
+  increment();
+  if ( pos == _tds->infinite_face() ){ // complete tour
+    pos = NULL;  
+  }  
+  return *this;           
+}
+
+template<class Tds>
+Triangulation_ds_iterator_base_2<Tds>&
+Triangulation_ds_iterator_base_2<Tds> ::
+operator--()
+{
+  CGAL_triangulation_precondition( pos != NULL ); //past the end
+  if(pos == _tds->infinite_face())   pos = NULL; //first, return past the end
+  else decrement(); 
+  return *this;
+}
+        
+template<class Tds>
+Triangulation_ds_iterator_base_2<Tds>
+Triangulation_ds_iterator_base_2<Tds> ::
+operator++(int)
+{
+  Iterator_base tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template<class Tds>
+Triangulation_ds_iterator_base_2<Tds>
+Triangulation_ds_iterator_base_2<Tds> ::        
+operator--(int)
+{
+  Iterator_base tmp(*this);
+  --(*this);
+  return tmp;
+}
+        
+// template<class Tds>
+// inline 
+// typename Tds::Face& 
+// Triangulation_ds_iterator_base_2<Tds> ::
+// operator*() const
+// {
+//   CGAL_triangulation_precondition(pos != NULL);
+//   return const_cast<Face&>(*pos);
+// }
+    
+// template<class Tds>
+// inline 
+// typename Tds::Face* 
+// Triangulation_ds_iterator_base_2<Tds> ::
+// operator->() const
+// {
+//   CGAL_triangulation_precondition(pos != NULL);
+//   return const_cast<Face*>(pos);
+// }
+
+// Face iterator implementation
+template<class Tds>
+inline 
+Triangulation_ds_face_iterator_2<Tds>&
+Triangulation_ds_face_iterator_2<Tds>::
+operator=(const Face_iterator& fi)
+{
+  Iterator_base::operator=(fi);
+  return *this;
+}
+
+template<class Tds>
+inline 
+Triangulation_ds_face_iterator_2<Tds>&
+Triangulation_ds_face_iterator_2<Tds>::
+operator++()
+{
+  Iterator_base::operator++();    
+  return *this;           
+}
+
+template<class Tds>
+inline 
+Triangulation_ds_face_iterator_2<Tds>&
+Triangulation_ds_face_iterator_2<Tds>::
+operator--()
+{
+  Iterator_base::operator--();    
+  return *this;           
+}
+
+template<class Tds>
+inline 
+Triangulation_ds_face_iterator_2<Tds>
+Triangulation_ds_face_iterator_2<Tds>::
+operator++(int)
+{
+  Face_iterator tmp(*this);
+  ++(*this);
+  return tmp;
+}
+        
+template<class Tds>
+inline 
+Triangulation_ds_face_iterator_2<Tds>
+Triangulation_ds_face_iterator_2<Tds>::
+operator--(int)
+{
+  Face_iterator tmp(*this);
+  --(*this);
+  return tmp;
+}
+
+
+// Vertex iterator implementation
+
+template<class Tds>
+Triangulation_ds_vertex_iterator_2<Tds> ::
+Triangulation_ds_vertex_iterator_2(const Tds * tds)
+  : Iterator_base(tds), index(0)
+{
+  switch( tds->number_of_vertices() ){
+  case 0: // past-the-end
+    pos = NULL;
+    return;
+  case 1:
+    pos = (Face*)1 ; // different from any pointer;
+    return;         // the iterator points to the only vertex 
+	
+  default:
+    pos = tds->infinite_face();
+    while ( *this!=Vertex_iterator(tds,1) && !associated_vertex()){
+      increment();
+    }
+    return;
+  }
+}
+
+template<class Tds>
+void   
+Triangulation_ds_vertex_iterator_2<Tds> ::
+increment()
+{
+  if ( index==_tds->dimension()) {Iterator_base::increment(); index = 0;}
+  else { index +=1; }
+  return;
+}
+
+template<class Tds>
+void   
+Triangulation_ds_vertex_iterator_2<Tds> ::
+decrement()
+{
+  if (index == 0) { 
+    Iterator_base::decrement();
+    index = _tds->dimension();
+  }
+  else {index -= 1;}
+  return;
+}
+
+template<class Tds>
+inline bool 
+Triangulation_ds_vertex_iterator_2<Tds> ::
+associated_vertex()
+{
+  return ( pos->vertex(index)->face() == pos ); // marche en toute dimension
+}
+   
+template<class Tds>
+Triangulation_ds_vertex_iterator_2<Tds>&
+Triangulation_ds_vertex_iterator_2<Tds> ::
+operator++()
+{
+   CGAL_triangulation_precondition(*this != Vertex_iterator(_tds,1));
+   do{
+     increment();
+     if (*this == Vertex_iterator(_tds)) *this= Vertex_iterator(_tds,1);
+   }while ( *this!=Vertex_iterator(_tds,1) &&  !associated_vertex() );
+   return *this;
+}
+    
+template<class Tds>
+Triangulation_ds_vertex_iterator_2<Tds>&
+Triangulation_ds_vertex_iterator_2<Tds> ::    
+operator--()
+{
+   CGAL_triangulation_assertion( *this != Vertex_iterator(_tds,1));
+   if( *this == Vertex_iterator(_tds)){
+     return *this=Vertex_iterator(_tds,1) ;
+   }
+   do   
+   decrement();
+   while ( *this != Vertex_iterator(_tds,1) && !associated_vertex()); 
+   return *this;
+}
+    
+template<class Tds>
+Triangulation_ds_vertex_iterator_2<Tds>
+Triangulation_ds_vertex_iterator_2<Tds> ::      
+operator++(int)
+{
+  Vertex_iterator tmp(*this);
+  ++(*this);
+  return tmp;
+}
+
+template<class Tds>
+Triangulation_ds_vertex_iterator_2<Tds>
+Triangulation_ds_vertex_iterator_2<Tds> ::      
+operator--(int)
+{
+  Vertex_iterator tmp(*this);
+  --(*this);
+  return tmp;
+}
+    
+template<class Tds>
+bool
+Triangulation_ds_vertex_iterator_2<Tds> :: 
+operator==(const Vertex_iterator& fi) const
+{
+  if (pos==NULL || pos==(Face*)1)
+    return (pos==fi.pos) && (_tds==fi._tds) ;
+  return (pos==fi.pos) && (_tds==fi._tds) &&  (index == fi.index);
+}
+ 
+template<class Tds>
+inline bool
+Triangulation_ds_vertex_iterator_2<Tds> ::     
+operator!=(const Vertex_iterator& fi) const
+{
+  return !(*this == fi);
+}
+    
+// template<class Tds>
+// inline 
+// typename Tds::Vertex&
+// Triangulation_ds_vertex_iterator_2<Tds> :: 
+// operator*() const
+// {
+//   CGAL_triangulation_assertion( pos != NULL);
+//   if (pos == (Face*)1) {// only one vertex;
+//       return *(_tds->infinite_vertex());
+//   }
+//   return *(pos->vertex(index));
+// }
+    
+// template<class Tds>
+// inline 
+// typename Tds::Vertex*
+// Triangulation_ds_vertex_iterator_2<Tds> :: 
+// operator->() const
+// {
+//   CGAL_triangulation_assertion( pos != NULL);
+//   if (pos == (Face*)1) {// only one vertex;
+//       return _tds->infinite_vertex();
+//   }
+//   return pos->vertex(index);
+// }
+
+
+// Edge iterator implementation
+
+template<class Tds>
+Triangulation_ds_edge_iterator_2<Tds> ::
+Triangulation_ds_edge_iterator_2(const Tds * tds)
+ :  Iterator_base(tds), index(0) 
+{
+  if (_tds->dimension()<= 0){
+    pos = NULL;                  // there is no edge
+    return;
+  }
+  pos = _tds->infinite_face();
+  index = (_tds->dimension() == 1) ? 2 : 0 ;
+  while ( *this!= Edge_iterator(_tds,1) && !associated_edge() ) increment();
+}
+
+
+template<class Tds>
+bool
+Triangulation_ds_edge_iterator_2<Tds> ::
+operator==(const Edge_iterator& fi) const
+{
+  return ( _tds==fi._tds &&
+	   ( (pos==NULL && fi.pos==NULL) || 
+	     (pos==fi.pos && index==fi.index)) );
+}
+
+template<class Tds>
+void
+Triangulation_ds_edge_iterator_2<Tds> ::
+increment()
+{
+  if (_tds->dimension() == 1) {Iterator_base::increment();}
+  else {
+    if (index == 2) {
+      Iterator_base::increment();
+      index =  0;
+    }
+    else{
+      index +=1;
+    }
+  }
+  return;
+}
+
+template<class Tds>
+void
+Triangulation_ds_edge_iterator_2<Tds> ::
+decrement()
+{
+  if (_tds->dimension() == 1) {Iterator_base::decrement();}
+  else {
+    if (index == 0) {
+      Iterator_base::decrement();
+      index = 2;
+    }
+    else {index -= 1;}
+    return;
+  }
+}
+
+template<class Tds>
+bool
+Triangulation_ds_edge_iterator_2<Tds> ::
+associated_edge()
+{
+  if (_tds->dimension() == 1) {return true;}
+  return std::less<const Face*>()(pos, pos->neighbor(index));
+}
+
+template<class Tds>
+Triangulation_ds_edge_iterator_2<Tds>&
+Triangulation_ds_edge_iterator_2<Tds> ::
+operator++()
+{
+  CGAL_triangulation_precondition(*this != Edge_iterator(_tds,1));
+  do {
+    increment();
+    if (*this == Edge_iterator(_tds)) *this= Edge_iterator(_tds,1);
+  } while( *this != Edge_iterator(_tds,1) && !associated_edge());
+  return *this;
+}
+    
+
+template<class Tds>
+Triangulation_ds_edge_iterator_2<Tds>&
+Triangulation_ds_edge_iterator_2<Tds> ::
+operator--()
+{
+  CGAL_triangulation_assertion(*this != Edge_iterator(_tds,1));
+  if( *this == Edge_iterator(_tds)){
+     return *this=Edge_iterator(_tds,1) ;
+   }
+  do   
+   decrement();
+  while ( *this != Edge_iterator(_tds,1) && !associated_edge()); 
+  return *this;
+}
+
+    
+template<class Tds>
+Triangulation_ds_edge_iterator_2<Tds>
+Triangulation_ds_edge_iterator_2<Tds> ::    
+operator++(int)
+{
+  Edge_iterator tmp(*this);
+  ++(*this);
+  return tmp;
+}
+    
+template<class Tds>
+Triangulation_ds_edge_iterator_2<Tds>
+Triangulation_ds_edge_iterator_2<Tds> ::     
+operator--(int)
+{
+  Edge_iterator tmp(*this);
+  --(*this);
+  return tmp;
+}
+    
+// template<class Tds>
+// typename Tds::Edge
+// Triangulation_ds_edge_iterator_2<Tds> ::     
+// operator*() const
+// {
+//   return std::make_pair(const_cast<Face*>(pos), index);
+// }
+
 
 CGAL_END_NAMESPACE
 

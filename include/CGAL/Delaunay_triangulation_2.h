@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Delaunay_triangulation_2.h
-// package       : Triangulation (3.17)
+// package       : Triangulation (4.30)
 // source        : $RCSfile: Delaunay_triangulation_2.h,v $
-// revision      : $Revision: 1.4.1.17 $
-// revision_date : $Date: 1999/05/12 09:30:54 $
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 1999/10/25 12:30:27 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -61,618 +58,390 @@ CGAL_BEGIN_NAMESPACE
 template < class Gt, class Tds>
 class Delaunay_triangulation_2 : public Triangulation_2<Gt,Tds>
 {
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
-                (std::istream& is, Delaunay_triangulation_2<Gt,Tds> &T);
 public:
   typedef Gt Geom_traits;
+  typedef typename Geom_traits::Point Point;
   typedef typename Geom_traits::Distance Distance;
   typedef typename Geom_traits::Ray Ray;
   typedef typename Geom_traits::Line Line;
   typedef typename Geom_traits::Direction Direction;
 
-  Delaunay_triangulation_2()
-    : Triangulation_2<Gt,Tds>() {}
+  typedef Triangulation_2<Gt,Tds>              Triangulation;
+  typedef typename Triangulation::Locate_type           Locate_type;
+  typedef typename Triangulation::Face_handle           Face_handle;
+  typedef typename Triangulation::Vertex_handle         Vertex_handle;
+  typedef typename Triangulation::Edge                  Edge;
+  typedef typename Triangulation::Edge_circulator       Edge_circulator;
+  typedef typename Triangulation::Finite_edges_iterator Finite_edges_iterator;
   
-  Delaunay_triangulation_2(const Gt& gt)
+  Delaunay_triangulation_2(const Gt& gt = Gt())
   : Triangulation_2<Gt,Tds>(gt) {}
   
-  
-  Delaunay_triangulation_2(const Vertex_handle& v, const Gt& gt=Gt())
-    : Triangulation_2<Gt,Tds>(v,gt)
-  {   CGAL_triangulation_postcondition( is_valid() );  }
-  
-  
-  // copy constructor duplicates vertices and faces
-  // no copy constructed needed :
-  // the default will invoke the copy constructor of Triangulation_2 ?
   Delaunay_triangulation_2(
 	       const Delaunay_triangulation_2<Gt,Tds> &tr)
       : Triangulation_2<Gt,Tds>(tr)
   {   CGAL_triangulation_postcondition( is_valid() );  }
   
-  #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
+// CHECK -QUERY
+  bool is_valid(bool verbose = false, int level = 0) const;
+
+  Vertex_handle
+  nearest_vertex(const Point& p, Face_handle f= Face_handle()) const;
+   
+  // DUAL
+  Point dual (Face_handle f) const;
+  Object dual(const Edge &e) const ;
+  Object dual(const Edge_circulator& ec) const;
+  Object dual(const Finite_edges_iterator& ei) const;
+ 
+  //INSERTION-REMOVAL
+  Vertex_handle  insert(const Point  &p, Face_handle start = Face_handle() );
+  Vertex_handle insert(const Point& p,
+		       Locate_type lt,
+		       Face_handle loc, int li );
+  Vertex_handle push_back(const Point &p);
+
+  void  remove(Vertex_handle v );
+  
+
+  
+private:
+  void restore_Delaunay(Vertex_handle v);
+  void propagating_flip(Face_handle& f,int i);
+  void remove_2D(Vertex_handle v );
+
+  Vertex_handle nearest_vertex_2D(const Point& p, Face_handle f) const;
+  Vertex_handle nearest_vertex_1D(const Point& p) const;
+
+  void  look_nearest_neighbor(const Point& p,
+			      Face_handle f,
+			      int i,
+			      int& min,
+			      Vertex_handle& nn,
+			      Distance& closer) const;
+
+public:
+  template < class Stream>
+  Stream& draw_dual(Stream & ps)
+    {
+      Finite_edges_iterator eit= finite_edges_begin();
+      for (; eit != finite_edges_end(); ++eit) {
+	Object o = dual(eit);
+	Ray r;
+	Segment s;
+	Line l;
+	if (CGAL::assign(s,o)) ps << s;
+	if (CGAL::assign(r,o)) ps << r;
+	if (CGAL::assign(l,o)) ps << l;
+      }
+      return ps;
+    }
+
   template < class InputIterator >
   int
   insert(InputIterator first, InputIterator last)
-  {
+    {
       int n = number_of_vertices();
       while(first != last){
-          insert(*first);
-          ++first;
+	insert(*first);
+	++first;
       }
       return number_of_vertices() - n;
-  }
-  #else
-  #if defined(LIST_H) || defined(__SGI_STL_LIST_H)
-  int
-  insert(std::list<Point>::const_iterator first,
-         std::list<Point>::const_iterator last)
-  {
-      int n = number_of_vertices();
-      while(first != last){
-          insert(*first);
-          ++first;
-      }
-      return number_of_vertices() - n;
-  }
-  #endif // LIST_H
-  #if defined(VECTOR_H) || defined(__SGI_STL_VECTOR_H)
-  int
-  insert(std::vector<Point>::const_iterator first,
-         std::vector<Point>::const_iterator last)
-  {
-      int n = number_of_vertices();
-      while(first != last){
-          insert(*first);
-          ++first;
-      }
-      return number_of_vertices() - n;
-  }
-  #endif // VECTOR_H
-  #ifdef ITERATOR_H
-  int
-  insert(std::istream_iterator<Point, std::ptrdiff_t> first,
-         std::istream_iterator<Point, std::ptrdiff_t> last)
-  {
-      int n = number_of_vertices();
-      while(first != last){
-          insert(*first);
-          ++first;
-      }
-      return number_of_vertices() - n;
-  }
-  #endif // ITERATOR_H
-  
-  int
-  insert(Point* first,
-         Point* last)
-  {
-      int n = number_of_vertices();
-      while(first != last){
-          insert(*first);
-          ++first;
-      }
-      return number_of_vertices() - n;
-   }
-  #endif // TEMPLATE_MEMBER_FUNCTIONS
+    }
 
-  Oriented_side
-  side_of_oriented_circle(const Face_handle& f, const Point & p) const;
-  
-  Vertex_handle
-  nearest_vertex(const Point& p, const Face_handle& f) const;
- 
-  
-  inline Vertex_handle
-  nearest_vertex(const Point  &p) const
-  {
-      Face_handle f = locate(p);
-      return nearest_vertex(p, f);
-  }
-
-   Vertex_handle
-  insert(const Point  &p,
-         Face_handle f = Face_handle() )
-  {
-      Locate_type lt;
-      return insert(p,lt,f);
-  }
-  
-  Vertex_handle
-  push_back(const Point &p)
-  {
-      Locate_type lt;
-      return insert(p, lt, NULL);
-  }
-  
-  Vertex_handle
-  insert(const Point  &p,
-         Triangulation_2<Gt,Tds>::Locate_type& lt,
-         Face_handle f = Face_handle() )
-  {
-      Vertex_handle v = Triangulation_2<Gt,Tds>::insert(p,lt,f);
-      restore_Delaunay(v);
-      return(v);
-  }
-
-private:
-  void restore_Delaunay(Vertex_handle v);
-  
-
-  public :
-  void  remove(Vertex_handle v );
-  
-  bool is_valid(bool verbose = false, int level = 0) const;
-  
-  
-private:
-  void
-  look_nearest_neighbor(const Point& p,
-                        const Face_handle& f,
-                        int i,
-                        int& min,
-                        Vertex_handle& nn,
-                        Distance& closer) const;
- 
-
-  void
-  propagating_flip(Face_handle& f,int i);
-  
-
-
-  void remove_2D(Vertex_handle v );
-  
-
-  public:
-  Point dual (const Face_handle &f) const
-  {
-    return geom_traits().circumcenter(f->vertex(0)->point(),
-                   f->vertex(1)->point(),
-                   f->vertex(2)->point());
-  }
-  
-  Object dual(const Edge &e) const ;
-  
-  
-  Object dual(const Edge_circulator& ec) const
-  {
-      return dual(*ec);
-  }
-  
-  Object dual(const Edge_iterator& ei) const
-  {
-      return dual(*ei);
-  }
-  
 };
 
-template < class Gt, class Tds >
-Oriented_side
-Delaunay_triangulation_2<Gt,Tds>::
-side_of_oriented_circle(const Face_handle& f, const Point & p) const
-{
-    //Orientation o;
-      if ( ! is_infinite(f) ) {
-          return geom_traits().side_of_oriented_circle(f->vertex(0)->point(),
-                                                  f->vertex(1)->point(),
-                                                  f->vertex(2)->point(),p);
-      }
 
-      int i = f->index(infinite_vertex());
-      Orientation o =
-	geom_traits().orientation(f->vertex(ccw(i))->point(),
-				  f->vertex(cw(i))->point(),
-				  p);
-						     
-      return (o == NEGATIVE) ? ON_NEGATIVE_SIDE :
-          (o == POSITIVE) ? ON_POSITIVE_SIDE :
-          ON_ORIENTED_BOUNDARY;
+template < class Gt, class Tds >
+bool
+Delaunay_triangulation_2<Gt,Tds>::
+is_valid(bool verbose, int level) const
+{
+  bool result = Triangulation_2<Gt,Tds>::is_valid(verbose, level);
+
+  for( Finite_faces_iterator it = finite_faces_begin(); 
+       it != finite_faces_end() ; it++) {
+    for(int i=0; i<3; i++) {
+      if ( ! is_infinite( it->mirror_vertex(i))) {
+	result = result &&  ON_POSITIVE_SIDE != 
+	  side_of_oriented_circle( it, it->mirror_vertex(i)->point());
+      }
+      CGAL_triangulation_assertion( result );
+    }
   }
+  return result;
+}
 
 template < class Gt, class Tds >
 Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
-Delaunay_triangulation_2<Gt,Tds>::
-nearest_vertex(const Point& p, const Face_handle& f) const
- {
-      Vertex_handle nn;
-      Distance closer(p,&geom_traits());
-      int min;
-      int i;
-  
-      if (number_of_vertices() == 0) return NULL;
-      if (number_of_vertices() == 1) return finite_vertex();
-  
-      i = ( ! is_infinite(f->vertex(0)) ) ? 0 : 1;
-  
-      closer.set_point(1,f->vertex(i)->point());
-      min = 1;
-      nn = f->vertex(i);
-      if ( ! is_infinite(f->vertex(ccw(i)))){
-         closer.set_point( 3-min, f->vertex(ccw(i))->point() );
-          if (  ( (min==1)? LARGER : SMALLER )
-                == closer.compare() ) {
-              min = 3-min;
-              nn=f->vertex(ccw(i));
-          }
-      }
-      if ( ! is_infinite(f->vertex(cw(i)))){
-          closer.set_point( 3-min, f->vertex(cw(i))->point() );
-          if (  ( (min==1)? LARGER : SMALLER )
-                == closer.compare() ) {
-              min = 3-min;
-              nn=f->vertex(cw(i));
-          }
-      }
-      look_nearest_neighbor(p,f,0,min,nn,closer);
-      look_nearest_neighbor(p,f,1,min,nn,closer);
-      look_nearest_neighbor(p,f,2,min,nn,closer);
-      return nn;
+Delaunay_triangulation_2<Gt,Tds>:: 
+nearest_vertex(const Point  &p, Face_handle f) const
+{
+  switch (dimension()) {
+  case 0:
+    if (number_of_vertices() == 0) return NULL;
+    if (number_of_vertices() == 1) return finite_vertex();
+    break;
+  case 1:
+    return nearest_vertex_1D(p);
+    break;      
+  case 2:
+    return nearest_vertex_2D(p,f);
+    break;
   }
+  return NULL;
+}
+  
+template < class Gt, class Tds >
+Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_2<Gt,Tds>:: 
+nearest_vertex_2D(const Point& p, Face_handle f) const
+{
+  CGAL_triangulation_precondition(dimension() == 2);
+  Vertex_handle nn;
+  if (f== Face_handle()) f = locate(p);
+  else CGAL_triangulation_precondition(oriented_side(f,p) != ON_NEGATIVE_SIDE);
+  Distance closer(p,&geom_traits());
+  int min;
+  int i;
+  
+  i = ( ! is_infinite(f->vertex(0)) ) ? 0 : 1;
+  closer.set_point(1,f->vertex(i)->point());
+  min = 1;
+  nn = f->vertex(i);
+  if ( ! is_infinite(f->vertex(ccw(i)))){
+    closer.set_point( 3-min, f->vertex(ccw(i))->point() );
+    if (  ( (min==1)? LARGER : SMALLER )
+	  == closer.compare() ) {
+      min = 3-min;
+      nn=f->vertex(ccw(i));
+    }
+  }
+  if ( ! is_infinite(f->vertex(cw(i)))){
+    closer.set_point( 3-min, f->vertex(cw(i))->point() );
+    if (  ( (min==1)? LARGER : SMALLER )
+	  == closer.compare() ) {
+      min = 3-min;
+      nn=f->vertex(cw(i));
+    }
+  }
+  look_nearest_neighbor(p,f,0,min,nn,closer);
+  look_nearest_neighbor(p,f,1,min,nn,closer);
+  look_nearest_neighbor(p,f,2,min,nn,closer);
+  return nn;
+}
+
+template < class Gt, class Tds >
+Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_2<Gt,Tds>:: 
+nearest_vertex_1D(const Point& p) const
+{
+  Vertex_handle nn;
+  Distance closer(p,&geom_traits());
+  int min;
+
+  Finite_vertices_iterator vit=finite_vertices_begin();
+  closer.set_point(1,vit->point());
+  min = 1;
+  nn = vit->handle();
+  do {
+    closer.set_point( 3-min, (++vit)->point());
+     if (  ( (min==1)? LARGER : SMALLER )
+	  == closer.compare() ) {
+      min = 3-min;
+      nn=vit->handle();
+    }
+  }while( vit != finite_vertices_end());
+  return nn;
+}
+  
+template < class Gt, class Tds >
+void
+Delaunay_triangulation_2<Gt,Tds>::
+look_nearest_neighbor(const Point& p,
+                      Face_handle f,
+		      int i,
+		      int& min,
+		      Vertex_handle& nn,
+		      Distance& closer) const
+{
+  Face_handle  ni=f->neighbor(i);
+  if ( ON_POSITIVE_SIDE != side_of_oriented_circle(ni,p) ) {
+    return;
+  }
+  i = ni->index(f);
+  if ( ! is_infinite(ni->vertex(i))){
+    closer.set_point( 3-min, ni->vertex(i)->point() );
+    if (  ( (min==1)? LARGER : SMALLER )
+	  == closer.compare() ) {
+      min = 3-min;
+      nn=ni->vertex(i);
+    }
+  }
+  // recursive exploration of triangles whose circumcircle contains p
+  look_nearest_neighbor(p, ni, ccw(i), min, nn, closer);
+  look_nearest_neighbor(p, ni, cw(i),  min, nn, closer);
+} 
+
+//DUALITY
+template<class Gt, class Tds>
+Delaunay_triangulation_2<Gt,Tds>::Point
+Delaunay_triangulation_2<Gt,Tds>::
+dual (Face_handle f) const
+{
+  CGAL_triangulation_precondition (dimension()==2);
+  return geom_traits().circumcenter(f->vertex(0)->point(),
+				    f->vertex(1)->point(),
+				    f->vertex(2)->point());
+}
+  
+template < class Gt, class Tds >
+Object
+Delaunay_triangulation_2<Gt,Tds>::
+dual(const Edge &e) const
+{
+  CGAL_triangulation_precondition (!is_infinite(e));
+  if( dimension()== 1 ){
+    Line l = geom_traits().bisector(segment(e)).opposite();
+    return Object(new Wrapper< Line >(l));
+  }
+  
+  // dimension==2
+  if( (!is_infinite(e.first)) &&
+      (!is_infinite(e.first->neighbor(e.second))) ) {
+    Segment s(dual(e.first),dual(e.first->neighbor(e.second)));
+    return Object(new Wrapper< Segment >(s));
+  } 
+  // one of the adjacent face is infinite
+  Face_handle f; int i;
+  if (is_infinite(e.first)) {
+    f=e.first->neighbor(e.second); f->has_neighbor(e.first,i);
+  } 
+  else {
+    f=e.first; i=e.second;
+  }
+  Line l = geom_traits().bisector(segment(f,i)).opposite();
+  Ray r(dual(f),l.direction());
+  return Object(new Wrapper< Ray >(r));
+}
+  
+template < class Gt, class Tds >
+inline Object
+Delaunay_triangulation_2<Gt,Tds>::  
+dual(const Edge_circulator& ec) const
+{
+  return dual(*ec);
+}
+  
+template < class Gt, class Tds >
+inline Object
+Delaunay_triangulation_2<Gt,Tds>::
+dual(const Finite_edges_iterator& ei) const
+{
+  return dual(*ei);
+}
+  
+template < class Gt, class Tds >
+inline
+Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_2<Gt,Tds>::
+insert(const Point  &p,  Face_handle start)
+{
+  Locate_type lt;
+  int li;
+  Face_handle loc = locate (p, lt, li, start);
+  return insert(p, lt, loc, li);
+}
+  
+template < class Gt, class Tds >
+inline
+Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_2<Gt,Tds>::
+push_back(const Point &p)
+{
+  return insert(p);
+}
+  
+template < class Gt, class Tds >
+inline
+Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_2<Gt,Tds>::
+insert(const Point  &p, Locate_type lt, Face_handle loc, int li)
+{
+  Vertex_handle v = Triangulation_2<Gt,Tds>::insert(p,lt,loc,li);
+  restore_Delaunay(v);
+  return(v);
+}
+
 
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_2<Gt,Tds>::
 restore_Delaunay(Vertex_handle v)
 {
-      if(dimension() <= 1) return;
+  if(dimension() <= 1) return;
 
-      Face_handle f=v->face();
-      Face_handle next;
-      int i;
-      Face_handle start(f);
-      do {
-          i = f->index(v);
-          next = f->neighbor(ccw(i));  // turn ccw around v
-          propagating_flip(f,i);
-          f=next;
-      } while(next != start);
-      return;
-  }
+  Face_handle f=v->face();
+  Face_handle next;
+  int i;
+  Face_handle start(f);
+  do {
+    i = f->index(v);
+    next = f->neighbor(ccw(i));  // turn ccw around v
+    propagating_flip(f,i);
+    f=next;
+  } while(next != start);
+  return;
+}
 
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_2<Gt,Tds>::
 remove(Vertex_handle v )
 {
-    //CGAL_triangulation_precondition(v != (CGAL_NULL_TYPE) NULL);
-    CGAL_triangulation_precondition(! v.is_null());
-     CGAL_triangulation_precondition( !is_infinite(v));
-  
-       if  (number_of_vertices() == 1) {
-        Triangulation_2<Gt,Tds>::remove(v);
-        return;
-      }
-       
-     //  take care of finite_vertex data member
-     if (finite_vertex() == v){
-       Face_handle f = v->face();
-       int i=f->index(v);
-       Vertex_handle vv= is_infinite(f->vertex(cw(i))) ?
-                          f->vertex(ccw(i)) : f->vertex(cw(i));
-       set_finite_vertex( vv);
-     }
-  
-     if (number_of_vertices() == 2) {
-      Face_handle f = v->face();
-      Face_handle ff = f->neighbor(0);
-      ff.Delete();
-      f.Delete();
-    }
-    else{
-      if ( dimension() == 1) remove_1D(v);
-      else  remove_2D(v);
-    }
-    v.Delete();
-    set_number_of_vertices(number_of_vertices()-1);
-    return;
-   }
-
-template < class Gt, class Tds >
-bool
-Delaunay_triangulation_2<Gt,Tds>::
-is_valid(bool verbose = false, int level = 0) const
-{
-       if(number_of_vertices() <= 1){
-            return true;
-       }
-
-    bool result = Triangulation_2<Gt,Tds>::is_valid();
-
-    for( Face_iterator it = faces_begin(); it != faces_end() ; it++) {
-
-      for(int i=0; i<3; i++) {
-	if ( ! is_infinite( it->vertex(i))) {
-	  result = result &&
-	    ON_POSITIVE_SIDE != 
-	    side_of_oriented_circle( it->neighbor(i), it->vertex(i)->point());
-	}
-	if ( !result) {
-	  cerr << "face : " << (void*)&(*it)<< "  " 
-	       <<"["<< it->vertex(0)->point()
-	       <<"/"<< it->vertex(1)->point()
-	       <<"/"<< it->vertex(2)->point()<<"]"	<<endl;
-	  cerr << "voisin : " << (void*)&(*(it->neighbor(i)))<< "  "
-	       <<"["<<(it->neighbor(i))->vertex(0)->point()
-	       <<"/"<<(it->neighbor(i))->vertex(1)->point()
-	       <<"/"<<(it->neighbor(i))->vertex(2)->point()<<"]" <<endl;
-	}
-	CGAL_triangulation_assertion( result );
-      }
-    }
-    return result;
-  }
-
-template < class Gt, class Tds >
-void
-Delaunay_triangulation_2<Gt,Tds>::
-look_nearest_neighbor(const Point& p,
-                        const Face_handle& f,
-                        int i,
-                        int& min,
-                        Vertex_handle& nn,
-                        Distance& closer) const
- {
-      Face_handle  ni=f->neighbor(i);
-      if ( ON_POSITIVE_SIDE != side_of_oriented_circle(ni,p) ) {
-          return;
-      }
-      i = ni->index(f);
-      if ( ! is_infinite(ni->vertex(i))){
-          closer.set_point( 3-min, ni->vertex(i)->point() );
-          if (  ( (min==1)? LARGER : SMALLER )
-                == closer.compare() ) {
-              min = 3-min;
-              nn=ni->vertex(i);
-          }
-      }
-      // recursive exploration of triangles whose circumcircle contains p
-      look_nearest_neighbor(p, ni, ccw(i), min, nn, closer);
-      look_nearest_neighbor(p, ni, cw(i),  min, nn, closer);
-  }
+  CGAL_triangulation_precondition( v != Vertex_handle());
+  CGAL_triangulation_precondition( !is_infinite(v));
+        
+  if ( dimension() <= 1) Triangulation::remove(v);
+  else  remove_2D(v);
+        
+  return;
+}
 
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_2<Gt,Tds>::
 propagating_flip(Face_handle& f,int i)
 {
-      Face_handle n = f->neighbor(i);
+  Face_handle n = f->neighbor(i);
       
-      if ( ON_POSITIVE_SIDE != 
-	   side_of_oriented_circle(n,  f->vertex(i)->point()) ) {          
-	return;
-      }
-      flip(f, i);
-      propagating_flip(f,i);
-      i = n->index(f->vertex(i));
-      propagating_flip(n,i);
+  if ( ON_POSITIVE_SIDE != 
+       side_of_oriented_circle(n,  f->vertex(i)->point()) ) {          
+    return;
   }
+  flip(f, i);
+  propagating_flip(f,i);
+  i = n->index(f->vertex(i));
+  propagating_flip(n,i);
+}
 
-template < class Gt, class Tds >
+template <class Gt, class Tds >
 void
 Delaunay_triangulation_2<Gt,Tds>::
-remove_2D(Vertex_handle v )
+remove_2D(Vertex_handle v)
 {
-    // General case
-  
-    // remove incident faces
-    // set up list of faces neighboring the hole
-    // in ccw order around the hole
-  
-    // problem with gcc link
-    typedef std::pair<void *, int> Hole_neighbor;
-    //typedef pair<Face_handle  , int>  Hole_neighbor;
-    typedef std::list<Hole_neighbor> Hole;
-    typedef std::list<Hole> Hole_list;
-  
-    Hole hole;
-    Hole_list hole_list;
-    std::list<Face_handle> to_delete;
-  
-    Face_handle  f, ff, fn;
-    int i =0,ii =0, in =0;
-    Vertex_handle vv;
-  
-    Face_circulator fc = v->incident_faces();
-    Face_circulator done(fc);
-     do {
-       f = (*fc).handle(); fc++;
-        i  = f->index(v);
-        fn = f->neighbor(i);
-        vv = f->vertex(f->cw(i));
-        if( vv->face()== f) vv->set_face(fn);
-        vv = f->vertex(f->ccw(i));
-        if( vv->face()== f) vv->set_face(fn);
-        in = fn->index( f );
-        fn->set_neighbor(in, NULL);
-        hole.push_back(Hole_neighbor(&(*fn),in));
-        to_delete.push_back(f);
-      }
-    while(fc != done);
-
-       while (! to_delete.empty()){
-	 to_delete.front().Delete();
-	 to_delete.pop_front();
-       }
-      
-    hole_list.push_front(hole);
-  
-    while( ! hole_list.empty())
-      {
-        hole = hole_list.front();
-        hole_list.pop_front();
-        Hole::iterator hit = hole.begin();
-  
-        // if the hole has only three edges, create the triangle
-          if (hole.size() == 3) {
-          Face_handle  newf = new Face();
-          hit = hole.begin();
-          for(int j = 0;j<3;j++){
-            ff = (Face *) ((*hit).first);
-            ii = (*hit).second;
-            hit++;
-            ff->set_neighbor(ii,newf);
-            newf->set_neighbor(j,ff);
-            newf->set_vertex(newf->ccw(j),ff->vertex(ff->cw(ii)));
-  
-          }
-          continue;
-        }
-  
-        // else find an edge with two finite vertices
-        // on the hole boundary
-        // and the new triangle adjacent to that edge
-       //  cut the hole and push it back
-  
-          // first, ensure that a neighboring face
-          // whose vertices on the hole boundary are finite
-          // is the first of the hole
-       bool finite= false;
-       while (!finite){
-          ff = (Face *) ((hole.front()).first);
-          ii = (hole.front()).second;
-          if ( is_infinite(ff->vertex(cw(ii))) ||
-               is_infinite(ff->vertex(ccw(ii)))) {
-          hole.push_back(hole.front());
-          hole.pop_front();
-          }
-          else finite=true;
-        }
-  
-        // take the first neighboring face and pop it;
-        ff = (Face *) ((hole.front()).first);
-        ii =(hole.front()).second;
-        hole.pop_front();
-  
-  
-        Vertex_handle v0 = ff->vertex(ff->cw(ii)); Point p0 =v0->point();
-        Vertex_handle v1 = ff->vertex(ff->ccw(ii)); Point p1 =v1->point();
-        Vertex_handle v2 = infinite_vertex(); Point p2;
-        Vertex_handle vv; Point p;
-  
-        Hole::iterator hdone = hole.end();
-        hit =  hole.begin();
-        Hole::iterator cut_after(hit);
-  
-        // if tested vertex is c with respect to the vertex opposite
-        // to NULL neighbor,
-        // stop at the before last face;
-        hdone--;
-        while( hit != hdone) {
-          fn = (Face *) ((*hit).first);
-          in = (*hit).second;
-          vv = fn->vertex(ccw(in));
-          if (is_infinite(vv)) {
-            if(is_infinite(v2)) cut_after = hit;
-          }
-          else {     // vv is a finite vertex
-            p = vv->point();
-            if (geom_traits().orientation(p0,p1,p) == COUNTERCLOCKWISE) {
-              if(is_infinite(v2)) { v2=vv; p2=p; cut_after=hit;}
-              else{
-                if( geom_traits().side_of_oriented_circle (p0,p1,p2,p) ==
-                    ON_POSITIVE_SIDE){
-               v2=vv; p2=p; cut_after=hit;}
-              }
-            }
-          }
-          ++hit;
-        }
-  
-  
-        // create new triangle and update adjacency relations
-        Face_handle  newf = new Face(v0,v1,v2);
-        newf->set_neighbor(2,ff);
-        ff->set_neighbor(ii, newf);
-  
-  
-        //update the hole and push back in the Hole_List stack
-        // if v2 belongs to the neighbor following or preceding *f
-        // the hole remain a single hole
-        // otherwise it is split in two holes
-  
-        fn = (Face *) ((hole.front()).first);
-        in = (hole.front()).second;
-        if (fn->has_vertex(v2, i) && i == (int) fn->ccw(in)) {
-          newf->set_neighbor(0,fn);
-          fn->set_neighbor(in,newf);
-          hole.pop_front();
-          hole.push_front(Hole_neighbor( &(*newf),1));
-          hole_list.push_front(hole);
-        }
-        else{
-          fn = (Face *) ((hole.back()).first);
-          in = (hole.back()).second;
-          if (fn->has_vertex(v2, i) && i== (int) fn->cw(in)) {
-            newf->set_neighbor(1,fn);
-            fn->set_neighbor(in,newf);
-            hole.pop_back();
-            hole.push_back(Hole_neighbor(&(*newf),0));
-            hole_list.push_front(hole);
-          }
-          else{
-            // split the hole in two holes
-            Hole new_hole;
-            ++cut_after;
-            while( hole.begin() != cut_after )
-            {
-              new_hole.push_back(hole.front());
-              hole.pop_front();
-            }
-  
-            hole.push_front(Hole_neighbor( &(*newf),1));
-            new_hole.push_front(Hole_neighbor( &(*newf),0));
-            hole_list.push_front(hole);
-            hole_list.push_front(new_hole);
-          }
-        }
-      }
+  if (test_dim_down(v)) {  _tds.remove_dim_down(&(*v));  }
+  else {
+    std::list<Edge> hole;
+    make_hole(v, hole);
+    fill_hole_delaunay(hole);
+    delete &(*v);
+    set_number_of_vertices(number_of_vertices()-1);
   }
-
-template < class Gt, class Tds >
-Object
-Delaunay_triangulation_2<Gt,Tds>::
-dual(const Edge &e) const
- {
-    if( (!is_infinite(e.first)) 
-	&& (!is_infinite(e.first->neighbor(e.second))) ) {
-      	Segment s(dual(e.first),dual(e.first->neighbor(e.second)));
-      	return Object(new Wrapper< Segment >(s));
-    } 
-    // at least one of the adjacent face is infinite
-    Face_handle f; int i;
-    if (is_infinite(e.first)) {
-      f=e.first->neighbor(e.second); f->has_neighbor(e.first,i);
-    } 
-    else {
-      f=e.first; i=e.second;
-    }
-    Line l = geom_traits().bisector(segment(f,i)).opposite();
-
-    if (! is_infinite(f)) {
-      Ray r(dual(f),l.direction());
-      return Object(new Wrapper< Ray >(r));
-    } 
-    // both adjacent faces are infinite
-    return Object(new Wrapper< Line >(l));
-  }
-  
-
-template < class Gt, class Tds >
-std::ostream&
-operator<<(std::ostream& os, const Delaunay_triangulation_2<Gt,Tds> &DT)
-{
-  return os << (const Triangulation_2<Gt,Tds>&)DT;
+  return;       
 }
 
 
-template < class Gt, class Tds >
-std::istream&
-operator>>(std::istream& is, Delaunay_triangulation_2<Gt,Tds> &dt)
-{
-  is >> (Triangulation_2<Gt,Tds>&)dt;
-  dt.is_valid();
-  return is;
-}
 
 CGAL_END_NAMESPACE
 

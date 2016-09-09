@@ -1,48 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997,1998,1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/ConicCPA2.h
-// package       : Min_ellipse_2 (3.2.3)
+// package       : Min_ellipse_2 (3.5.4)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Conic_2.aw
-// revision      : $Revision: 5.7 $
-// revision_date : $Date: 1999/04/19 16:19:47 $
+// revision      : $Revision: 5.14 $
+// revision_date : $Date: 1999/12/20 19:07:59 $
 // author(s)     : Bernd Gärtner
 //                 Sven Schönherr
 //
@@ -61,7 +58,7 @@
 #  include <CGAL/Conic_misc.h>
 #endif
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/optimisation_assertions.h>
+#  include <CGAL/Optimisation/assertions.h>
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -94,8 +91,8 @@ class ConicCPA2
     
     
     void
-    set_linear_combination (const FT &a1, const ConicCPA2<PT,DA> &c1,
-                            const FT &a2, const ConicCPA2<PT,DA> &c2)
+    set_linear_combination (const FT& a1, const ConicCPA2<PT,DA>& c1,
+                            const FT& a2, const ConicCPA2<PT,DA>& c2)
     {
         _r = a1 * c1.r() + a2 * c2.r();
         _s = a1 * c1.s() + a2 * c2.s();
@@ -105,12 +102,12 @@ class ConicCPA2
         _w = a1 * c1.w() + a2 * c2.w();
     }
     
-    static void set_two_linepairs (const PT &p1,
-                                   const PT &p2,
-                                   const PT &p3,
-                                   const PT &p4,
-                                   ConicCPA2<PT,DA> &pair1,
-                                   ConicCPA2<PT,DA> &pair2)
+    static void set_two_linepairs (const PT& p1,
+                                   const PT& p2,
+                                   const PT& p3,
+                                   const PT& p4,
+                                   ConicCPA2<PT,DA>& pair1,
+                                   ConicCPA2<PT,DA>& pair2)
     {
         FT x1, y1, x2, y2, x3, y3, x4, y4;
         const DA& da = pair1.da();
@@ -148,8 +145,8 @@ class ConicCPA2
         }
     }
     
-    void set_ellipse (const ConicCPA2<PT,DA> &pair1,
-                      const ConicCPA2<PT,DA> &pair2)
+    void set_ellipse (const ConicCPA2<PT,DA>& pair1,
+                      const ConicCPA2<PT,DA>& pair2)
     {
         FT b = FT(2) * (pair1.r() * pair2.s() + pair1.s() * pair2.r()) -
                pair1.t() * pair2.t();
@@ -157,9 +154,9 @@ class ConicCPA2
                                 pair1.det()-b, pair2);
     }
     
-    void set (const ConicCPA2<PT,DA> &c1,
-              const ConicCPA2<PT,DA> &c2,
-              const PT &p)
+    void set (const ConicCPA2<PT,DA>& c1,
+              const ConicCPA2<PT,DA>& c2,
+              const PT& p)
     {
         set_linear_combination (c2.evaluate(p), c1, -c1.evaluate(p), c2);
     }
@@ -204,15 +201,15 @@ class ConicCPA2
     
            double roots[3];
            int nr_roots = solve_cubic
-                                (to_double(c3), to_double(c2),
-                                 to_double(c1), to_double(c0),
+                                (CGAL::to_double(c3), CGAL::to_double(c2),
+                                 CGAL::to_double(c1), CGAL::to_double(c0),
                                  roots[0], roots[1], roots[2]);
            CGAL_optimisation_precondition (nr_roots > 0); // minimum exists
            return best_value (roots, nr_roots,
-                                 to_double(a2), to_double(a1),
-                                 to_double(a0), to_double(b3),
-                                 to_double(b2), to_double(b1),
-                                 to_double(b0));
+                                 CGAL::to_double(a2), CGAL::to_double(a1),
+                                 CGAL::to_double(a0), CGAL::to_double(b3),
+                                 CGAL::to_double(b2), CGAL::to_double(b1),
+                                 CGAL::to_double(b0));
     }
     
     
@@ -226,7 +223,7 @@ class ConicCPA2
     void analyse( )
     {
         FT d = det();
-        type = (Conic_type)(sign(d));
+        type = (Conic_type)(CGAL::sign(d));
         switch (type) {
         case HYPERBOLA:
             {
@@ -323,7 +320,7 @@ class ConicCPA2
         }
     }
     
-    FT evaluate (const PT &p) const
+    FT evaluate (const PT& p) const
     {
         FT x, y;
         dao.get (p, x, y);
@@ -430,7 +427,7 @@ class ConicCPA2
     }
     
     
-    Convex_side convex_side (const PT &p) const
+    Convex_side convex_side (const PT& p) const
     {
         switch (o) {
         case CGAL::POSITIVE:
@@ -444,12 +441,12 @@ class ConicCPA2
         return( Convex_side( 0));
     }
     
-    bool has_on_convex_side (const PT &p) const
+    bool has_on_convex_side (const PT& p) const
     {
         return (convex_side (p) == ON_CONVEX_SIDE);
     }
     
-    bool has_on_nonconvex_side (const PT &p) const
+    bool has_on_nonconvex_side (const PT& p) const
     {
         return (convex_side (p) == ON_NONCONVEX_SIDE);
     }
@@ -496,7 +493,7 @@ class ConicCPA2
         o = CGAL::opposite(orientation());
     }
     
-    void set_linepair (const PT &p1, const PT &p2, const PT &p3, const PT &p4)
+    void set_linepair (const PT& p1, const PT& p2, const PT& p3, const PT& p4)
     {
         FT x1, y1, x2, y2, x3, y3, x4, y4;
         dao.get (p1, x1, y1);
@@ -526,7 +523,7 @@ class ConicCPA2
         analyse();
     }
     
-    void set_ellipse (const PT &p1, const PT &p2, const PT &p3)
+    void set_ellipse (const PT& p1, const PT& p2, const PT& p3)
     {
         FT x1, y1, x2, y2, x3, y3;
         dao.get (p1, x1, y1);
@@ -573,8 +570,8 @@ class ConicCPA2
         if (CGAL::is_positive (det)) set_opposite();
     }
     
-    void set_ellipse (const PT &p1, const PT &p2,
-                      const PT &p3, const PT &p4,
+    void set_ellipse (const PT& p1, const PT& p2,
+                      const PT& p3, const PT& p4,
                       CGAL::Orientation _o = POSITIVE)
     {
         ConicCPA2<PT,DA> pair1, pair2;
@@ -584,8 +581,8 @@ class ConicCPA2
         if (o != _o) set_opposite();
     }
     
-    void set (const PT &p1, const PT &p2, const PT &p3, const PT &p4,
-              const PT &p5, CGAL::Orientation _o = POSITIVE)
+    void set (const PT& p1, const PT& p2, const PT& p3, const PT& p4,
+              const PT& p5, CGAL::Orientation _o = POSITIVE)
     {
         ConicCPA2<PT,DA> c1; c1.set_linepair (p1, p2, p3, p4);
         ConicCPA2<PT,DA> c2; c2.set_linepair (p1, p4, p2, p3);
@@ -603,14 +600,14 @@ class ConicCPA2
 
 #ifndef CGAL_NO_OSTREAM_INSERT_CONICCPA2
 template< class _PT, class _DA>
-ostream& operator << ( ostream& os, const ConicCPA2<_PT,_DA>& c)
+std::ostream& operator << ( std::ostream& os, const ConicCPA2<_PT,_DA>& c)
 {
     return( os << c.r() << ' ' << c.s() << ' ' << c.t() << ' '
                << c.u() << ' ' << c.v() << ' ' << c.w());
 }
 
 template< class _PT, class _DA>
-istream& operator >> ( istream& is, ConicCPA2<_PT,_DA>& c)
+std::istream& operator >> ( std::istream& is, ConicCPA2<_PT,_DA>& c)
 {
     typedef           ConicCPA2<_PT,_DA>  Conic;
     typedef  typename _DA::FT                  FT;

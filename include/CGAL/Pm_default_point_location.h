@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Pm_default_point_location.h
-// package       : pm (3.07)
+// package       : pm (4.20)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -54,20 +51,13 @@
 #ifndef CGAL_PM_DEFAULT_POINT_LOCATION_H
 #define CGAL_PM_DEFAULT_POINT_LOCATION_H
 
-#ifndef CGAL_PM_CONFIG_H
-#include <CGAL/Pm_config.h>
-#endif
-
 #ifndef CGAL_PM_POINT_LOCATION_BASE_H
 #include <CGAL/Pm_point_location_base.h>
 #endif
 
-
-#ifndef CGAL_TRAPEZOIDAL_MAP_2_H
-#include <CGAL/Trapezoidal_map_2.h>
+#ifndef CGAL_TRAPEZOIDAL_DECOMPOSITION_2_H
+#include <CGAL/Planar_map_2/Trapezoidal_decomposition_2.h>
 #endif
-
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -128,30 +118,34 @@ class Pm_default_point_location : public Pm_point_location_base<Planar_map> {
 
 protected:
  
-  typedef _X_curve_plus<Planar_map> X_curve_plus;
-  
-
+  typedef typename Planar_map::Traits Traits;
   typedef typename Planar_map::Traits_wrap Traits_wrap;
-  typedef Trapezoidal_map_2<Traits_wrap,X_curve_plus> TM;
+  typedef typename Planar_map::Locate_type Locate_type;
+  typedef typename Planar_map::Halfedge_handle Halfedge_handle;
+
+  typedef typename Traits::Point Point;
+  typedef typename Traits::X_curve X_curve;
+  typedef _X_curve_plus<Planar_map> X_curve_plus;
+
+  typedef Trapezoidal_decomposition_2<Traits_wrap,X_curve_plus> TD;
   typedef Planar_map PM;
 
-
 public:
-  Pm_default_point_location(bool preprocess=false) 
-    {tm.set_needs_update(preprocess);}
+  Pm_default_point_location(bool rebuild=true) 
+    {td.set_needs_update(rebuild);}
   
 
 
   void init(Planar_map& pmp, Traits& tr) {
     pm = &pmp;
     traits = (Traits_wrap*)&tr;
-    tm.init_traits(traits);
+    td.init_traits(traits);
   }
   ~Pm_default_point_location() {}
   /* 
      Postcondition:
      h->curve() with a reference back to h
-     is inserted into TM.
+     is inserted into TD.
   */
   
   
@@ -162,8 +156,8 @@ public:
               //end additions
               )
     {
-      //	tm.insert(X_curve_plus(h));
-      tm.insert(X_curve_plus(cv,h));
+      //	td.insert(X_curve_plus(h));
+      td.insert(X_curve_plus(cv,h));
     }
   
   /* postconditions:
@@ -177,18 +171,18 @@ public:
     {
       //there are different internal compiler errors if we
       // typedef the Locate_type
-      typename TM::Locate_type tm_lt; 
+      typename TD::Locate_type td_lt; 
       
-      const X_curve_plus& cv = tm.locate(p,tm_lt).top();
+      const X_curve_plus& cv = td.locate(p,td_lt).top();
       // treat special case, where trapezoid is unbounded.
       //	for then get_parent() is not defined
-      if (tm_lt==TM::UNBOUNDED_TRAPEZOID)
+      if (td_lt==TD::UNBOUNDED_TRAPEZOID)
 	{
           lt=PM::UNBOUNDED_FACE;
           return halfedge_representing_unbounded_face();
 	}
       Halfedge_handle h = cv.get_parent();
-      lt=convert(p,tm_lt,h);
+      lt=convert(p,td_lt,h);
       return h;
     }
   /* postconditions:
@@ -203,18 +197,18 @@ public:
   Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up) // const
     {
       //trying to workaround internal compiler error
-      typename TM::Locate_type tm_lt;
+      typename TD::Locate_type td_lt;
       
-      X_curve_plus cv = tm.vertical_ray_shoot(p,tm_lt,up);
+      X_curve_plus cv = td.vertical_ray_shoot(p,td_lt,up);
       // treat special case, where trapezoid is unbounded.
       //	for then get_parent() is not defined
-      if (tm_lt==TM::UNBOUNDED_TRAPEZOID)
+      if (td_lt==TD::UNBOUNDED_TRAPEZOID)
 	{
           lt=PM::UNBOUNDED_FACE;
           return halfedge_representing_unbounded_face();
 	}
       Halfedge_handle h=cv.get_parent();
-      lt=convert(p,tm_lt,h,up);
+      lt=convert(p,td_lt,h,up);
       return h;
     }
   
@@ -228,8 +222,8 @@ public:
                   //end additions
                   )
     {
-      //	  tm.split_edge(X_curve_plus(cv),X_curve_plus(e1),X_curve_plus(e2));
-     tm.split_edge(X_curve_plus(cv),X_curve_plus(cv1,e1),X_curve_plus(cv2,e2));
+      //	  td.split_edge(X_curve_plus(cv),X_curve_plus(e1),X_curve_plus(e2));
+     td.split_edge(X_curve_plus(cv),X_curve_plus(cv1,e1),X_curve_plus(cv2,e2));
     }
   
   /*
@@ -244,7 +238,7 @@ public:
                   //end additions
                   )
     {
-      tm.merge_edge(
+      td.merge_edge(
                     X_curve_plus(cv1),
                     X_curve_plus(cv2),
                     //		X_curve_plus(e)
@@ -255,25 +249,32 @@ public:
   //called before combinatoric deletion
   void remove_edge(Halfedge_handle e)
     {
-      tm.remove(X_curve_plus(e));
+      td.remove(X_curve_plus(e));
     }
-  
-#ifndef CGAL_PM_DEFAULT_POINT_LOCATION_DEBUG
-  
-protected:
-  TM tm;
-private:
-  
-#else
-  
+
+  const TD* trapezoidal_decomposition() const {return &td;}
+#ifdef CGAL_PM_DEFAULT_POINT_LOCATION_DEBUG
+
 public:
   void debug()
     {
-      tm.debug();
+      td.debug();
     }
 
-  TM tm;
-  
+  TD td;
+
+#else
+#ifdef CGAL_PM_DEBUG
+
+public:
+  void debug() {}
+
+#endif
+
+protected:
+  TD td;
+private:
+
 #endif
   
   Planar_map* pm;
@@ -323,16 +324,16 @@ public:
   
   //use the latter
   //to workaround internal compiler error in egcs1.1
-  //	Locate_type convert(const Point& p,const typename TM::Locate_type& lt,Halfedge_handle& h,bool up=true) const	
+  //	Locate_type convert(const Point& p,const typename TD::Locate_type& lt,Halfedge_handle& h,bool up=true) const	
   Locate_type convert(const Point& p,const int& lt,Halfedge_handle& h,bool up=true) const
     {
       switch(lt)
         {
           // h->target() should represent p
-        case TM::POINT:
+        case TD::POINT:
           if (!halfedge_represents_point(h,p)) h=h->twin();
           return PM::VERTEX;
-        case TM::CURVE:
+        case TD::CURVE:
           /* special case:
              h->source()->point(),p,h->target()->point() have same x
              coardinates.
@@ -341,18 +342,18 @@ public:
           // orientation of h
           if (up==traits->point_is_left(h->source()->point(),h->target()->point())) h=h->twin();
           return PM::EDGE;
-        case TM::TRAPEZOID:
+        case TD::TRAPEZOID:
           if (!halfedge_represents_point_inside_face(h,p)) h=h->twin();
           CGAL_postcondition(halfedge_represents_point_inside_face(h,p));
           if (!h->face()->is_unbounded())
             return PM::FACE;
           // otherwise pass to UNBOUNDED_TRAPEZOID case
-        case TM::UNBOUNDED_TRAPEZOID:
+        case TD::UNBOUNDED_TRAPEZOID:
           h=halfedge_representing_unbounded_face();
           CGAL_postcondition(h->face()->is_unbounded());
           return PM::UNBOUNDED_FACE;
         default:
-          CGAL_assertion(lt==TM::POINT||lt==TM::CURVE||lt==TM::TRAPEZOID||lt==TM::UNBOUNDED_TRAPEZOID);
+          CGAL_assertion(lt==TD::POINT||lt==TD::CURVE||lt==TD::TRAPEZOID||lt==TD::UNBOUNDED_TRAPEZOID);
         }
       return Locate_type();
     }

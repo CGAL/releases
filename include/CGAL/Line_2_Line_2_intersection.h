@@ -1,44 +1,41 @@
 
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Line_2_Line_2_intersection.h
-// package       : Intersections_2 (2.1.2)
+// package       : Intersections_2 (2.2.2)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -99,12 +96,12 @@ public:
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
-    if (!is_finite(nom1)) {
+    if (!::CGAL::is_finite(nom1)) {
         ncthis->_result = NO;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
-    if (!is_finite(nom2)) {
+    if (!::CGAL::is_finite(nom2)) {
         ncthis->_result = NO;
         return _result;
     }
@@ -178,11 +175,11 @@ template <class R, class POINT, class RT>
 bool construct_if_finite(POINT &pt, RT x, RT y, RT w, R &)
 {
     typedef typename R::FT FT;
-    CGAL_kernel_precondition(is_finite(x)
-                             && is_finite(y)
+    CGAL_kernel_precondition(::CGAL::is_finite(x)
+                             && ::CGAL::is_finite(y)
                              && w != RT(0));
 
-    if (!is_finite(FT(x)/FT(w)) || !is_finite(FT(y)/FT(w)))
+    if (!::CGAL::is_finite(FT(x)/FT(w)) || !::CGAL::is_finite(FT(y)/FT(w)))
         return false;
     pt = POINT(x, y, w);
     return true;
@@ -232,12 +229,12 @@ Line_2_Line_2_pair<R>::intersection_type() const
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
-    if (!is_finite(nom1)) {
+    if (!::CGAL::is_finite(nom1)) {
         ncthis->_result = NO;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
-    if (!is_finite(nom2)) {
+    if (!::CGAL::is_finite(nom2)) {
         ncthis->_result = NO;
         return _result;
     }

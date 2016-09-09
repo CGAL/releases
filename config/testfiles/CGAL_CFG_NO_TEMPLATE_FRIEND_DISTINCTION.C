@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : config/testfiles/CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION.C
-// package       : Configuration (1.30)
+// package       : Configuration (1.54)
 // source        :
 // revision      : 1.11
 // revision_date : 29 Mar 1998
@@ -51,44 +48,30 @@
 
 // CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION.C
 // ---------------------------------------------------------------------
-// A short test program to evaluate a C++ compiler whether it distinguishes
-// a template instantiation and a non-templated function with the same
-// signature in a friend declaration.
+// A short test program to evaluate a C++ compiler.
 // This program is used by cgal_configure.
 // The following documentation will be pasted in the generated configfile.
-// Perhaps this file should be called CGAL_CFG_NO_EMPTY_TEMPLATE_ARGUMENT_LIST
 // ---------------------------------------------------------------------
 
-//| If a compiler doesn't distinguish a template instantiation and 
-//| a non-templated function with the same signature, 
-//| CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION is set.
-
-double y( int i) { return (double)i; }
+//| Checks whether the compiler wants to have a <> in friend declarations
+//| of template functions.
 
 template < class T >
-int y( const T& t) {
-  return t.a;
-}
+inline int y(T t);
 
-template < class T >
-T
-operator+(const T& a, const T&) {
-  return a;
-}
-
-class X {
-  int a;
-  friend int y<>( const X&);
-  friend X operator+<>(const X&, const X&);
+struct A {
+  A(int i_) : i(i_) {}
+  friend int y<>(A);
+private:
+  int i;
 };
+
+template < class T >
+int y(T t) { return t.i - 1; }
 
 int main()
 {
-  X x;
-  y( x);
-  X z = x + x;
-  return 0;
+  A a(3);
+  return (y(a) == 2)?0:1;
 }
-
-// EOF //
 

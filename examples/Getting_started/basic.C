@@ -3,7 +3,7 @@
 #include <CGAL/Vector_2.h>
 #include <iostream>
 
-main()
+int main()
 {
     Point p1(1.0, -1.0), p2(4.0, 3.0), p3;
     Vector v1(-1, 10);
@@ -14,4 +14,5 @@ main()
          << v2.x() <<", "<<v2.y() <<")\n";
     std::cout << "Point p3 has coordinates: ("
          << p3.x() <<", "<<p3.y() <<")\n";
+    return 0;
 }

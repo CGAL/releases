@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Tree_base.h
-// package       : SearchStructures (2.3)
+// package       : SearchStructures (2.50)
 // source        : include/CGAL/Tree_base.h 
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:18 $
@@ -85,11 +82,8 @@
 #define CGAL__reinterpret_cast(TYPE,EXPR) (TYPE)(EXPR)
 #endif
 
-//#ifndef typename
-//#define typename
-//#endif
 
-#define carray
+#define stlvector
 
 CGAL_BEGIN_NAMESPACE
 
@@ -125,57 +119,72 @@ struct tree_node_base {
 template <class _Data, class _Window>
 class tree_base
 {
-protected:
-  typedef tree_base<_Data, _Window> tree_base_type;
 
+protected:
   tree_base(tree_base const &); // prevent access
   void operator= (tree_base const &); // prevent access
 
 public:
+  typedef double vit;
+  typedef int lit;
+  typedef int lbit;
+  typedef double vbit;
+  typedef char oit;
+  //  typedef std::vector<_Data>::iterator vit;
+  //typedef std::list<_Data>::iterator lit;
+  //typedef std::back_insert_iterator<lit>  lbit;
+  //typedef std::back_insert_iterator<vit>  vbit;
+  typedef tree_base<_Data, _Window> tree_base_type;
   tree_base() {}
   virtual ~tree_base() {}
 
   // 'clone()' returns an object which can be used as argument to 'delete'
-  virtual tree_base_type   *clone() const = 0;
+  virtual tree_base<_Data, _Window>  *clone() const = 0;
+  //virtual tree_base_type   *clone() const = 0;
 
   // 'make_tree()' returns an object which can be used as argument to 'delete'
-  virtual bool make_tree(std::list<_Data>::iterator& beg, 
-			 std::list<_Data>::iterator& end) =0;
+  virtual bool make_tree(typename std::list<_Data>::iterator& beg, 
+			 typename std::list<_Data>::iterator& end,
+			 lit *dummy=0) =0;
 #ifdef stlvector
-  virtual bool make_tree(std::vector<_Data>::iterator& beg, 
-			 std::vector<_Data>::iterator& end) =0;
+  virtual bool make_tree(typename std::vector<_Data>::iterator& beg, 
+			 typename std::vector<_Data>::iterator& end,
+			 vit *dummy=0) =0;
 #endif
 #ifdef carray
   virtual bool make_tree(_Data *beg, 
                          _Data *end) =0;
 #endif
-  virtual std::back_insert_iterator<std::list<_Data> > 
-    window_query(_Window const &win, std::back_insert_iterator<
-		 std::list<_Data> > out) = 0; 
-  virtual std::back_insert_iterator<std::vector<_Data> >
-    window_query(_Window const &win, std::back_insert_iterator<
-		 std::vector<_Data> > out) = 0; 
+  virtual std::back_insert_iterator< std::list<_Data> > 
+    window_query(_Window const &win,  std::back_insert_iterator<
+		 std::list<_Data> > out,lbit *dummy=0 ) = 0; 
+  virtual std::back_insert_iterator< std::vector<_Data> >
+    window_query(_Window const &win,  std::back_insert_iterator<
+		  std::vector<_Data> > out,vbit *dummy=0) = 0; 
 #ifdef carray
   virtual _Data * window_query( _Window const &win, 
 			        _Data * out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual std::ostream_iterator< _Data> window_query( _Window const &win, 
-				    std::ostream_iterator< _Data> out) = 0; 
+  typedef std::ostream_iterator< _Data> oit;
+  virtual  std::ostream_iterator< _Data> window_query( _Window const &win, 
+				     std::ostream_iterator< _Data> out,
+					oit *dummy=0	       ) = 0; 
 #endif
-  virtual std::back_insert_iterator<std::list< _Data> > 
-    enclosing_query( _Window const &win, std::back_insert_iterator<
-		    std::list< _Data> > out) = 0; 
-  virtual std::back_insert_iterator<std::vector< _Data> > 
-    enclosing_query( _Window const &win, std::back_insert_iterator<
-		    std::vector< _Data> > out) = 0; 
+  virtual  std::back_insert_iterator< std::list< _Data> > 
+    enclosing_query( _Window const &win,  std::back_insert_iterator<
+		     std::list< _Data> > out, lbit *dummy=0 ) = 0; 
+  virtual  std::back_insert_iterator< std::vector< _Data> > 
+    enclosing_query( _Window const &win,  std::back_insert_iterator<
+		     std::vector< _Data> > out,vbit *dummy=0 ) = 0; 
 #ifdef carray
   virtual   _Data * enclosing_query( _Window const &win, 
 				    _Data *out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
-				       std::ostream_iterator< _Data> out) = 0; 
+  virtual  std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
+				           std::ostream_iterator< _Data> out,
+					   oit *dummy=0) = 0; 
 #endif
   virtual bool is_inside( _Window const &win,
 			  _Data const& object)=0;  
@@ -196,18 +205,22 @@ public:
   // Construct a factory with the given factory as sublayer
   tree_anchor() {}
   virtual ~tree_anchor(){}
-  tree_base_type *clone() const { return new tree_anchor(); }
+  tree_base<_Data, _Window> *clone() const { return new tree_anchor(); }
+  typedef tree_base<_Data, _Window> tbt;
+//  tree_base_type *clone() const { return new tree_anchor(); }
 
-  bool make_tree(std::list< _Data>::iterator& beg, 
-		 std::list< _Data>::iterator& end) 
+  bool make_tree(typename std::list< _Data>::iterator& beg, 
+		 typename std::list< _Data>::iterator& end, 
+		 typename tbt::lit *dummy=0) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
     return true;
   }
 #ifdef stlvector
-  bool make_tree(std::vector< _Data>::iterator& beg, 
-		 std::vector< _Data>::iterator& end) 
+  bool make_tree(typename std::vector< _Data>::iterator& beg, 
+		 typename std::vector< _Data>::iterator& end, 
+		 typename tbt::vit *dummy=0) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
@@ -223,14 +236,20 @@ public:
     return true;
   }
 #endif
-   std::back_insert_iterator<std::list< _Data> > window_query( _Window const &win, 
-			       std::back_insert_iterator<std::list< _Data> > out){
+   std::back_insert_iterator< std::list< _Data> > 
+      window_query( 
+       _Window const &win, 
+       std::back_insert_iterator< std::list< _Data> > out,
+       typename tbt::lbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  std::back_insert_iterator<std::vector< _Data> >  window_query( _Window const &win, 
-                               std::back_insert_iterator<std::vector< _Data> > out){
+   
+  std::back_insert_iterator< std::vector< _Data> >  
+      window_query( _Window const &win, 
+		    std::back_insert_iterator< std::vector< _Data> > out, 
+                    typename tbt::vbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -244,21 +263,24 @@ public:
   }
 #endif
 #ifdef ostreamiterator
-  std::ostream_iterator< _Data> window_query( _Window const &win, 
-				       std::ostream_iterator< _Data> out){
+   std::ostream_iterator< _Data> window_query( _Window const &win, 
+				        std::ostream_iterator< _Data> out, 
+					typename tbt::oit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
-  std::back_insert_iterator<std::list< _Data> > enclosing_query( _Window const &win, 
-                                  std::back_insert_iterator<std::list< _Data> > out){
+   std::back_insert_iterator< std::list< _Data> > enclosing_query( _Window const &win, 
+                                   std::back_insert_iterator< std::list< _Data> > out,
+				   typename tbt::lbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  std::back_insert_iterator<std::vector< _Data> > enclosing_query( _Window const &win, 
-                                  std::back_insert_iterator<std::vector< _Data> > out){
+   std::back_insert_iterator< std::vector< _Data> > enclosing_query( _Window const &win, 
+                                   std::back_insert_iterator< std::vector< _Data> > out,
+				   typename tbt::vbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out); 
     return out;
@@ -272,8 +294,9 @@ public:
   }
 #endif
 #ifdef ostreamiterator
-  std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
-					  std::ostream_iterator< _Data> out){
+   std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
+					   std::ostream_iterator< _Data> out,
+                                           typename tbt::oit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;

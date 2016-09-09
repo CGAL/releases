@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/config.h
-// package       : Configuration (1.30)
+// package       : Configuration (1.54)
 // source        :
 // revision      : 1.11
 // revision_date : 30 Mar 1998
@@ -53,8 +50,25 @@
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 2.0
-#define CGAL_VERSION_NR 1002000100
+#define CGAL_VERSION 2.1
+#define CGAL_VERSION_NR 1002001100
+
+#define CGAL_CFG_NO_ADVANCED_KERNEL 1
+
+//----------------------------------------------------------------------//
+//             STLport fix for MSVC
+//----------------------------------------------------------------------//
+
+
+#ifdef _MSC_VER
+#   define CGAL_SCOPE
+#   define CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT 1
+#   include <stl_config.h>
+#   include <stl_iterator_base.h>
+#else  // not _MSC_VER
+#   define CGAL_SCOPE CGAL::
+#   define CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(a)
+#endif // _MSC_VER
 
 
 //----------------------------------------------------------------------//
@@ -67,13 +81,13 @@
 //             do some post processing for the flags
 //----------------------------------------------------------------------//
 
-#ifdef CGAL_CFG_NO_TYPENAME
-#  define typename
+
+#ifdef CGAL_CFG_TYPENAME_BUG
+#   define CGAL_TYPENAME_MSVC_NULL
+#else
+#   define CGAL_TYPENAME_MSVC_NULL typename
 #endif
 
-#ifdef CGAL_CFG_NO_EXPLICIT
-#define explicit
-#endif
 
 #ifdef CGAL_CFG_NO_NAMESPACE
 #  define CGAL_USING_NAMESPACE_STD
@@ -111,22 +125,25 @@
 #  define CGAL_TEMPLATE_NULL template <>
 #endif
 
+
+#ifdef CGAL_CFG_NO_STDC_NAMESPACE
+#define CGAL_CLIB_STD
+#else
+#define CGAL_CLIB_STD std
+#endif
+
 //----------------------------------------------------------------------//
 //             include separate workaround files
 //----------------------------------------------------------------------//
 
+#ifdef _MSC_VER
+#  include <CGAL/MSVC_standard_header_fixes.h>
+#endif
+#if defined(__BORLANDC__) && __BORLANDC__ > 0x520
+#include <CGAL/Borland_fixes.h>
+#endif
 #include <CGAL/workaround_return_type.h>
 #include <CGAL/workaround_casts.h>
-//#include <CGAL/workaround_stl.h>
-
-//----------------------------------------------------------------------//
-//             definition of type bool
-//----------------------------------------------------------------------//
-
-// if there is no built-in bool then we borrow the definition from STL
-#ifdef CGAL_CFG_NO_BUILTIN_BOOL
-#  include <pair.h>
-#endif
 
 //----------------------------------------------------------------------//
 //             select old or new style headers

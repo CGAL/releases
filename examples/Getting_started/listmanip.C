@@ -5,7 +5,7 @@ using std::list;
 
 void remove_2(list<int> &l)
 {
-    list<int>::iterator x, cur(l.begin());
+    std::list<int>::iterator x, cur(l.begin());
     while (cur != l.end()) {
         if (*cur == 2) {
             x = cur;
@@ -19,14 +19,14 @@ void remove_2(list<int> &l)
 
 void insert_7(list<int> &l)
 {
-    list<int>::iterator cur(l.begin());
+    std::list<int>::iterator cur(l.begin());
     while (cur != l.end())
         l.insert(++cur, 7);
 }
 
 int count_7(const list<int> & l)
 {
-    list<int>::const_iterator cur;
+    std::list<int>::const_iterator cur;
     int n = 0;
     for (cur = l.begin(); cur != l.end(); ++cur) {
         if (*cur == 7)

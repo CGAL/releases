@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.h
-// package       : Min_sphere_d (1.13)
+// package       : Min_sphere_d (2.12)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/02/26 12:13:50 $
+// revision      : $Revision: 2.12 $
+// revision_date : $Date: 1999/12/20 12:02:17 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
@@ -55,7 +52,6 @@
 #ifndef CGAL_MIN_SPHERE_D_H
 #define CGAL_MIN_SPHERE_D_H
 
-
 // Class declarations
 // ==================
 
@@ -68,11 +64,11 @@
 #endif
 
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/optimisation_assertions.h>
+#  include <CGAL/Optimisation/assertions.h>
 #endif
 
 #ifndef CGAL_OPTIMISATION_BASIC_H
-#  include <CGAL/optimisation_basic.h>
+#  include <CGAL/Optimisation/basic.h>
 #endif
 
 #ifndef CGAL_MIN_SPHERE_D_TRAITS_2_H
@@ -101,39 +97,79 @@
 #  define CGAL_PROTECT_IOSTREAM
 #endif
 
+#ifdef _MSC_VER
+#ifdef _VIRTUAL
+#pragma message("Min_sphere_d.h: this code may not compile due to a problem")
+#pragma message("in xlocnum. Please consult the installation guide for a fix.")
+#endif
+#endif
+
 CGAL_BEGIN_NAMESPACE
 
 template <class Rep_tag, class NT>
-class NT_rep_traits;
+struct NT_rep_traits;
 
-template <class NT>
-class NT_rep_traits<Cartesian_tag, NT>
+#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
+
+   template <class NT>
+   struct NT_rep_traits<Cartesian_tag, NT>
+   {
+            typedef NT           FT;
+            typedef NT           RT;
+   };
+
+   template <class NT>
+   struct  NT_rep_traits<Homogeneous_tag, NT>
+   {
+            typedef Quotient<NT> FT;
+            typedef NT           RT;
+   };
+
+#else
+
+template <class Rep_tag, class _NT>
+struct NT_rep_traits
 {
-     public:
-         typedef NT           FT;
-         typedef NT           RT;
+  typedef _NT NT;
+
+  template <class Rep_tag>
+  struct A
+  {};
+
+  template <>
+  struct A<Cartesian_tag>
+  {
+    typedef NT           FT;
+    typedef NT           RT;
+  };
+
+  template <>
+  struct A<Homogeneous_tag>
+  {
+    typedef Quotient<NT> FT;
+    typedef NT           RT;
+  };
+
+  typedef typename A<Rep_tag>::FT FT;
+  typedef typename A<Rep_tag>::RT RT;
 };
 
-template <class NT>
-class NT_rep_traits<Homogeneous_tag, NT>
-{
-     public:
-         typedef Quotient<NT> FT;
-         typedef NT           RT;
-};
+#endif
 
 
 
 template <class Traits>
 class Min_sphere_d
 {
+    
+    
     public:
         typedef typename Traits::Rep_tag        Rep_tag;
         typedef typename Traits::NT             NT;
         typedef typename NT_rep_traits<Rep_tag, NT>::FT FT;
         typedef typename NT_rep_traits<Rep_tag, NT>::RT RT;
-        typedef typename Traits::Point          Point;  // Point type
-        typedef typename Traits::DA             DA;     // Data accessor type
+        typedef typename Traits::Point          Point; // Point type
+        typedef typename Traits::DA             DA; // Data accessor type
     
         typedef typename std::list<Point>::const_iterator
                 Point_iterator;
@@ -148,9 +184,13 @@ class Min_sphere_d
         int                                     d;            // ambient dim
         std::list<Point>                        points;       // keeps P = Q_n
         Optimisation_sphere_d<Rep_tag, FT, RT, Point,DA>
-                                                ms_basis;     // keeps (ms,B)
+                                                ms_basis; // keeps  miniball
         It                                      support_end;  // delimites S
         Traits                                  tco;          // traits object
+    
+    #ifdef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
+            #define ms_basis(X) ms_basis(typename Traits::Rep_tag(), X)
+    #endif
     
     
 public:
@@ -170,32 +210,34 @@ public:
         if (points.size()>0) {
             d = tco.da.get_dimension (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim(d));
-            ms_basis.set_size (d);
+            ms_basis.get_sphere(Rep_tag()).set_size (d);
             pivot_ms();
         }
     }
-    Min_sphere_d (const Min_sphere_d& ms)
-        : d(ms.ambient_dim()), points (ms.points_begin(), ms.points_end()),
-          ms_basis (ms.traits().da), support_end (points.begin()),
-          tco (ms.traits())
+    Min_sphere_d (const Min_sphere_d& msph)
+    : d(msph.ambient_dim()),
+      points (msph.points_begin(), msph.points_end()),
+          ms_basis (msph.traits().da), support_end (points.begin()),
+          tco (msph.traits())
     {
         if (d != -1) {
-            ms_basis.set_size (d);
+            ms_basis.get_sphere(Rep_tag()).set_size (d);
             pivot_ms();
         }
     }
     
-    Min_sphere_d& operator=(const Min_sphere_d& ms)
+    Min_sphere_d& operator=(const Min_sphere_d& msph)
     {
-        if (this != &ms) {
+        if (this != &msph) {
             points.erase (points.begin(), points.end());
-            d = ms.ambient_dim();
-            points.insert (points.begin(), ms.points_begin(), ms.points_end());
-            ms_basis.set_da(ms.traits().da);
+            d = msph.ambient_dim();
+            points.insert
+              (points.begin(), msph.points_begin(), msph.points_end());
+            ms_basis.get_sphere(Rep_tag()).set_da(msph.traits().da);
             support_end = points.begin();
-            tco = ms.traits();
+            tco = msph.traits();
             if (d != -1) {
-                ms_basis.set_size (d);
+                ms_basis.get_sphere(Rep_tag()).set_size (d);
                 pivot_ms();
             }
         }
@@ -210,7 +252,7 @@ public:
     
     int number_of_support_points() const
     {
-        return ms_basis.number_of_support_points();
+        return ms_basis.get_sphere(Rep_tag()).number_of_support_points();
     }
     
     Point_iterator points_begin () const
@@ -241,13 +283,13 @@ public:
     Point center () const
     {
         CGAL_optimisation_precondition (!is_empty());
-        return ms_basis.center();
+        return ms_basis.get_sphere(Rep_tag()).center();
     }
     
     FT squared_radius () const
     {
         CGAL_optimisation_precondition (!is_empty());
-        return ms_basis.squared_radius();
+        return ms_basis.get_sphere(Rep_tag()).squared_radius();
     }
     
     
@@ -257,7 +299,8 @@ public:
            return ON_UNBOUNDED_SIDE;
         else {
            CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (Bounded_side (-CGAL::sign (ms_basis.excess (p))));
+           return (Bounded_side
+               (-CGAL::sign (ms_basis.get_sphere(Rep_tag()).excess (p))));
         }
     }
     
@@ -267,7 +310,7 @@ public:
            return false;
         else {
            CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_negative (ms_basis.excess (p)));
+           return (is_negative (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -277,7 +320,7 @@ public:
            return true;
         else {
            CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_positive (ms_basis.excess (p)));
+           return (is_positive (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -287,7 +330,7 @@ public:
            return false;
         else {
            CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_zero (ms_basis.excess (p)));
+           return (is_zero (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -298,7 +341,7 @@ public:
     
     bool is_degenerate () const
     {
-        return (ms_basis.number_of_support_points() < 2);
+        return (ms_basis.get_sphere(Rep_tag()).number_of_support_points() < 2);
     }
     
     
@@ -306,7 +349,7 @@ public:
     {
          d = -1;
          points.erase (points.begin(), points.end());
-         ms_basis.set_size (-1);
+         ms_basis.get_sphere(Rep_tag()).set_size (-1);
          support_end = points.begin();
     }
     
@@ -321,11 +364,11 @@ public:
         if (points.size()>0) {
             d = tco.da.get_dimension (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim (d));
-            ms_basis.set_size (d);
+            ms_basis.get_sphere(Rep_tag()).set_size (d);
             pivot_ms();
         } else {
             d = -1;
-            ms_basis.set_size (-1);
+            ms_basis.get_sphere(Rep_tag()).set_size (-1);
         }
     }
     
@@ -335,11 +378,12 @@ public:
             if (is_empty()) {
                 d = tco.da.get_dimension (p);
                 CGAL_optimisation_precondition (d>=0);
-                ms_basis.set_size (d);
+                ms_basis.get_sphere(Rep_tag()).set_size (d);
             }
-            ms_basis.push (p);      // ensure precondition of pivot_ms
+            // ensure precondition of pivot_ms
+            ms_basis.get_sphere(Rep_tag()).push (p);
             pivot_ms ();
-            ms_basis.pop ();
+            ms_basis.get_sphere(Rep_tag()).pop ();
             points.push_front (p);  // ensure postcondition of insert
         } else
             points.push_back (p);   // just append p
@@ -360,7 +404,7 @@ public:
     
         // sphere verification
         verr << "  (a) sphere verification..." << flush;
-        if (ms_basis.is_valid (verbose))
+        if (ms_basis.get_sphere(Rep_tag()).is_valid (verbose))
             verr << "passed." << endl;
         else
             return false;
@@ -397,13 +441,13 @@ private:
     void mtf_ms (It k)
     {
         support_end = points.begin();
-        if (ms_basis.size_of_basis()==d+1) return;
+        if (ms_basis.get_sphere(Rep_tag()).size_of_basis()==d+1) return;
         for (It i = points.begin(); i!=k;) {
             It j = i++;
-            if (is_positive (ms_basis.excess(*j))) {
-                ms_basis.push (*j);
+            if (is_positive (ms_basis.get_sphere(Rep_tag()).excess(*j))) {
+                ms_basis.get_sphere(Rep_tag()).push (*j);
                 mtf_ms (j);
-                ms_basis.pop();
+                ms_basis.get_sphere(Rep_tag()).pop();
                 move_to_front (j);
             }
         }
@@ -421,7 +465,7 @@ private:
             excess = RT(0);
             It pivot;
             for (It i=t; i!=points.end(); ++i) {
-                e = ms_basis.excess(*i);
+                e = ms_basis.get_sphere(Rep_tag()).excess(*i);
                 if (e > excess) {
                    excess = e;
                    pivot = i;
@@ -430,9 +474,9 @@ private:
             if (is_positive (excess)) {
                 t = support_end;
                 if (t==pivot) ++t; //  inserted from the esa code
-                ms_basis.push (*pivot);
+                ms_basis.get_sphere(Rep_tag()).push (*pivot);
                 mtf_ms (support_end);
-                ms_basis.pop();
+                ms_basis.get_sphere(Rep_tag()).pop();
                 move_to_front (pivot);
             }
         } while (is_positive (excess));
@@ -464,10 +508,12 @@ private:
 // ---
 
 template < class Traits >
-ostream& operator << ( ostream& os, const Min_sphere_d<Traits>& ms);
+std::ostream&
+operator << ( std::ostream& os, const Min_sphere_d<Traits>& ms);
 
 template < class Traits >
-istream& operator >> ( istream& is, Min_sphere_d<Traits> & ms);
+std::istream&
+operator >> ( std::istream& is, Min_sphere_d<Traits> & ms);
 
 CGAL_END_NAMESPACE
 

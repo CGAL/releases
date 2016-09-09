@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/monotone_matrix_search.h
-// package       : Matrix_search (1.17)
+// package       : Matrix_search (1.30)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:08:14 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:49 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,20 +48,12 @@
 //
 // ======================================================================
 
-#if ! (MONOTONE_MATRIX_SEARCH_H)
-#define MONOTONE_MATRIX_SEARCH_H 1
+#if ! (CGAL_MONOTONE_MATRIX_SEARCH_H)
+#define CGAL_MONOTONE_MATRIX_SEARCH_H 1
 
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#include <CGAL/optimisation_assertions.h>
-#endif // CGAL_OPTIMISATION_ASSERTIONS_H
-#ifndef CGAL_PROTECT_VECTOR
+#include <CGAL/Optimisation/assertions.h>
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_PROTECT_FUNCTIONAL
 #include <functional>
-#define CGAL_PROTECT_FUNCTIONAL
-#endif
 
 CGAL_BEGIN_NAMESPACE
 template < class Matrix, class RandomAccessIterator >
@@ -102,38 +91,19 @@ monotone_matrix_search(
   // divide
   // ------
   // get even rows of M:
-  #ifdef CGAL_MON_SEARCH_TRACE
-  cerr << "construct new matrix" << endl;
-  #endif
-  Matrix* M_new( M.extract_all_even_rows());
+  Matrix* M_new = M.extract_all_even_rows();
   CGAL_optimisation_assertion(
     M_new->number_of_columns() == M.number_of_columns());
   CGAL_optimisation_assertion(
     M_new->number_of_rows() == 0 ||
       M_new->number_of_rows() == ( M.number_of_rows() + 1) >> 1);
   
-  #ifdef CGAL_MON_SEARCH_TRACE
-  {
-    for ( int i1( 0); i1 < M_new->number_of_rows(); ++i1) {
-      for ( int i2( 0); i2 < M_new->number_of_columns(); ++i2) {
-        cerr << i1 << " - " << i2 << endl;
-        cout.width( 4);
-        cout << (*M_new)( i1, i2) << "  ";
-      }
-      cout << endl;
-    }
-    cout << "----------------------" << endl;
-  }
-  #endif
 
   // reduce M_new to a quadratic matrix:
-  #ifdef CGAL_MON_SEARCH_TRACE
-  cerr << "reduce" << endl;
-  #endif
   
   // table to store the reduction permutation:
   // (incl. sentinel)
-  int* reduction_table( new int[ M_new->number_of_rows() + 1]);
+  int* reduction_table = new int[ M_new->number_of_rows() + 1];
   
   if ( M_new->number_of_rows() < M_new->number_of_columns()) {
     // set sentinel:
@@ -143,23 +113,6 @@ monotone_matrix_search(
     CGAL_optimisation_assertion(
       M_new->number_of_columns() == M_new->number_of_rows());
   
-    #ifdef CGAL_MON_SEARCH_TRACE
-    {
-      int i1;
-      for ( i1 = 0; i1 < M_new->number_of_rows(); ++i1) {
-        for ( int i2( 0); i2 < M_new->number_of_columns(); ++i2) {
-          cout.width( 4);
-          cout << (*M_new)( i1, i2) << "  ";
-        }
-        cout << endl;
-      }
-      cout << "----------------------\n reduction table:" << endl;
-      for ( i1 = 0; i1 < M_new->number_of_rows(); ++i1) {
-        cout << reduction_table[i1] << ", ";
-      }
-      cout << "\n----------------------" << endl;
-    }
-    #endif
   } // if ( M_new->number_of_rows() < M_new->number_of_columns())
   else {
     // no reduction -> reduction_table is identity table:
@@ -179,12 +132,9 @@ monotone_matrix_search(
   
   // table to store the rmax values of M_new:
   // (incl. sentinel)
-  int* t_new( new int[M_new->number_of_rows() + 1]);
+  int* t_new = new int[M_new->number_of_rows() + 1];
   t_new[M_new->number_of_rows()] = M_new->number_of_columns();
   
-  #ifdef CGAL_MON_SEARCH_TRACE
-  cerr << "recursive call" << endl;
-  #endif
   if ( M_new->number_of_rows() == 1)
     // recursion anchor:
     // we have just one element ==> no choice
@@ -192,48 +142,20 @@ monotone_matrix_search(
   else
     monotone_matrix_search( *M_new, t_new);
   
-  #ifdef CGAL_MON_SEARCH_TRACE
-  cerr << "maximum entries:\n";
-  int i = 0;
-  while ( i < M_new->number_of_rows())
-    cerr << t_new[i++] << "  ";
-  cerr << endl;
-  #endif
 
   // and conquer
   // -----------
-  #ifdef CGAL_MON_SEARCH_TRACE
-  {
-    cerr << "find maxima in odd rows" << endl;
-    for ( int i1( 0); i1 < M.number_of_rows(); ++i1) {
-      for ( int i2( 0); i2 < M.number_of_columns(); ++i2) {
-        cout.width( 4);
-        cout << M( i1, i2) << "  ";
-      }
-      cout << endl;
-    }
-    cout << "----------------------" << endl;
-  }
-  #endif
   
   int j( 0);       // actual index in t
   int j_new( 0);   // actual index in t_new
   do {
     // even row ==> we know
     *(t+j) = reduction_table[t_new[j_new++]];
-    #ifdef CGAL_MON_SEARCH_TRACE
-    cerr << " # maximum of row " << j << " was at " << *(t+j) << endl;
-    #endif
     if ( ++j >= M.number_of_rows())
       break;
   
     // odd row
     // search *(t+j) between *(t+j-1) and t_new[j_new]:
-    #ifdef CGAL_MON_SEARCH_TRACE
-    cerr << "search row " << j << " between " <<
-      *(t+j-1) << " and " <<
-      reduction_table[t_new[j_new]] << endl;
-    #endif
     *(t+j) = reduction_table[t_new[j_new]];
     int j_tmp( *(t+j-1));
     while ( j_tmp < reduction_table[t_new[j_new]]) {
@@ -313,7 +235,7 @@ _reduce_matrix(
 } // _reduce_matrix( M, t)
 CGAL_END_NAMESPACE
 
-#endif // ! (MONOTONE_MATRIX_SEARCH_H)
+#endif // ! (CGAL_MONOTONE_MATRIX_SEARCH_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

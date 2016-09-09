@@ -1,42 +1,39 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
-// file          : src/examples/RangeSegmentTrees/segment_tree_set_3.C
+// file          : examples/RangeSegmentTrees/segment_tree_set_3.C
 // source        : src/examples/RangeSegmentTrees/segment_tree_set_3.C
 // revision      : $Revision: 1.5$
 // revision_date : $Date: 1998/09/28 19:18:42 $/
@@ -59,7 +56,6 @@
 #include <utility>
 #include <vector>
 #include <iterator>
-#include <tempbuf.h>
 #include <list>
 #include <CGAL/Segment_tree_k.h>
 #include <CGAL/Range_segment_tree_traits.h>
@@ -93,29 +89,29 @@ int main()
 
   // output of the querey elements on stdout
   std::list<Interval>::iterator j = OutputList.begin();
-  cerr << "\n window_query (3,6,5),(7,12,8) \n";
+  std::cerr << "\n window_query (3,6,5),(7,12,8) \n";
   while(j!=OutputList.end())
   {
-    cerr << (*j).first.x() << "," << (*j).first.y() << "," << (*j).first.z() 
+    std::cerr << (*j).first.x() << "," << (*j).first.y() << "," << (*j).first.z() 
 	 <<", " << (*j).second.x() << "," << (*j).second.y() << "," 
-	 << (*j).second.z() << endl; 
+	 << (*j).second.z() << std::endl; 
     j++;
   }
   Interval b(Key(6,10,7),Key(7,11,8));
   Segment_tree_3.enclosing_query(b,std::back_inserter(N));
   j = N.begin();
-  cerr << "\n enclosing_query (6,10,7), (7,11,8)\n";
+  std::cerr << "\n enclosing_query (6,10,7), (7,11,8)\n";
   while(j!=N.end())
   {
-    cerr << (*j).first.x() << "," << (*j).first.y() << "," << (*j).first.z() 
+    std::cerr << (*j).first.x() << "," << (*j).first.y() << "," << (*j).first.z() 
 	 <<", " << (*j).second.x() << "," << (*j).second.y() << "," 
-	 << (*j).second.z() << endl; 
+	 << (*j).second.z() << std::endl; 
     j++;
   }
   if(Segment_tree_3.CSegment_tree_3->is_valid())
-    cerr << "Tree is valid\n";
+    std::cerr << "Tree is valid\n";
   else
-    cerr << "Tree is not valid\n";
+    std::cerr << "Tree is not valid\n";
   return 0;
 }
 

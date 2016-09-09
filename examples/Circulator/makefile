@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,12 +15,17 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
@@ -34,26 +40,24 @@ all:            \
                 circulator_prog2 \
                 circulator_prog3 
 
-circulator_prog1: circulator_prog1.o
-	$(CGAL_CXX) -o circulator_prog1 circulator_prog1.o $(LDFLAGS)
+circulator_prog1$(EXE_EXT): circulator_prog1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circulator_prog1 circulator_prog1$(OBJ_EXT) $(LDFLAGS)
 
-circulator_prog2: circulator_prog2.o
-	$(CGAL_CXX) -o circulator_prog2 circulator_prog2.o $(LDFLAGS)
+circulator_prog2$(EXE_EXT): circulator_prog2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circulator_prog2 circulator_prog2$(OBJ_EXT) $(LDFLAGS)
 
-circulator_prog3: circulator_prog3.o
-	$(CGAL_CXX) -o circulator_prog3 circulator_prog3.o $(LDFLAGS)
+circulator_prog3$(EXE_EXT): circulator_prog3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circulator_prog3 circulator_prog3$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   circulator_prog1 \
-                   circulator_prog2 \
-                   circulator_prog3 \
-                   core
+clean: \
+                   circulator_prog1.clean \
+                   circulator_prog2.clean \
+                   circulator_prog3.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

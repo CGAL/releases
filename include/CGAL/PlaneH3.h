@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : PlaneH3.fw
 // file          : include/CGAL/PlaneH3.h
-// package       : H3 (2.2.1)
-// revision      : 2.2.1
-// revision_date : 26 May 1999 
+// package       : H3 (2.3.7)
+// revision      : 2.3.7
+// revision_date : 03 Dec 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -292,7 +289,7 @@ template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p ,
                                   const RayH3<FT,RT>&  r)
-{ new_rep(p, r.start(), r.start() + r.direction().vector() ); }
+{ new_rep(p, r.start(), r.start() + r.direction().to_vector() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -310,14 +307,14 @@ template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const RayH3<FT,RT>&  r,
                                   const PointH3<FT,RT>& p)
-{ new_rep(r.start(), p, r.start() + r.direction().vector() ); }
+{ new_rep(r.start(), p, r.start() + r.direction().to_vector() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
                                   const DirectionH3<FT,RT>& d)
 {
-  VectorH3<FT,RT> ov = d.vector();
+  VectorH3<FT,RT> ov = d.to_vector();
   new_rep( ov.hx()*p.hw(),
            ov.hy()*p.hw(),
            ov.hz()*p.hw(),
@@ -340,7 +337,7 @@ CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
                                   const DirectionH3<FT,RT>& d1,
                                   const DirectionH3<FT,RT>& d2)
-{ new_rep( p, p + d1.vector(), p + d2.vector() ); }
+{ new_rep( p, p + d1.to_vector(), p + d2.to_vector() ); }
 
 template < class FT, class RT >
 inline
@@ -582,7 +579,7 @@ bool
 PlaneH3<FT,RT>::has_on_boundary( const LineH3<FT,RT>& l) const
 {
  PointH3<FT,RT>   p   = l.point();
- VectorH3<FT,RT>  ld  = l.direction().vector();
+ VectorH3<FT,RT>  ld  = l.direction().to_vector();
  VectorH3<FT,RT>  ov  = orthogonal_vector();
 
  return (  ( a()*p.hx() + b()*p.hy() + c()*p.hz() + d()*p.hw()   == RT(0) )

@@ -1,22 +1,12 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
 #                    include platform specific settings
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
-#PUBLIC = /home/hoffmann/tmp/CGAL/CGAL-2.0-I-8/makefile_sparc_SunOS-5.6_g++-egcs-2.91.57 
-#makefile_sparc_SunOS-5.6_g++-2.8.1_LEDA 
-#/net/blabla/export/raid/project/local/
-#CGAL_MAKEFILE = /home/hoffmann/tmp/CGAL/CGAL-2.0-I-8/make/
-#makefile_mips_IRIX64-6.5_g++-egcs-2.91.60_LEDA
-#makefile_mips_IRIX64-6.5_g++-egcs-2.91.66 
-#
-#
-#makefile_mips_IRIX64-6.5_CC-n32-7.2.1.3m_LEDA 
-#
-#makefile_sparc_SunOS-5.6_CC-5.0 
-#/pub/blabla/src/geometric/CGAL/CGAL-1.2/make/makefile_sparc_SunOS-5.6_g++-egcs-2.91.66_LEDA
 
+# CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#
@@ -24,17 +14,20 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           -I./include -I../../include \
+           -Iinclude \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -42,89 +35,78 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                range_tree_1 \
-                range_tree_2 \
-                range_tree_3 \
-                range_tree_4 \
-                range_tree_map_2 \
-                range_tree_set_2 \
-                segment_tree_1 \
-                segment_tree_2 \
-                segment_tree_3 \
-                segment_tree_4 \
-                segment_tree_map_2 \
-                segment_tree_set_2 \
-                segment_tree_set_3 
+                range_tree_1$(EXE_EXT) \
+                range_tree_2$(EXE_EXT) \
+                range_tree_3$(EXE_EXT) \
+                range_tree_4$(EXE_EXT) \
+                range_tree_map_2$(EXE_EXT) \
+                range_tree_set_2$(EXE_EXT) \
+                segment_tree_1$(EXE_EXT) \
+                segment_tree_2$(EXE_EXT) \
+                segment_tree_3$(EXE_EXT) \
+                segment_tree_4$(EXE_EXT) \
+                segment_tree_map_2$(EXE_EXT) \
+                segment_tree_set_2$(EXE_EXT) \
+                segment_tree_set_3$(EXE_EXT) 
 
+range_tree_1$(EXE_EXT): range_tree_1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_1 range_tree_1$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_1: range_tree_1.o
-	$(CGAL_CXX) -o range_tree_1 range_tree_1.o $(LDFLAGS)
+range_tree_2$(EXE_EXT): range_tree_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_2 range_tree_2$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_2: range_tree_2.o
-	$(CGAL_CXX) -o range_tree_2 range_tree_2.o $(LDFLAGS)
+range_tree_3$(EXE_EXT): range_tree_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_3 range_tree_3$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_3: range_tree_3.o
-	$(CGAL_CXX) -o range_tree_3 range_tree_3.o $(LDFLAGS)
+range_tree_4$(EXE_EXT): range_tree_4$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_4 range_tree_4$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_4: range_tree_4.o
-	$(CGAL_CXX) -o range_tree_4 range_tree_4.o $(LDFLAGS)
+range_tree_map_2$(EXE_EXT): range_tree_map_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_map_2 range_tree_map_2$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_map_2: range_tree_map_2.o
-	$(CGAL_CXX) -o range_tree_map_2 range_tree_map_2.o $(LDFLAGS)
+range_tree_set_2$(EXE_EXT): range_tree_set_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_tree_set_2 range_tree_set_2$(OBJ_EXT) $(LDFLAGS)
 
-range_tree_set_2: range_tree_set_2.o
-	$(CGAL_CXX) -o range_tree_set_2 range_tree_set_2.o $(LDFLAGS)
+segment_tree_1$(EXE_EXT): segment_tree_1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_1 segment_tree_1$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_1: segment_tree_1.o
-	$(CGAL_CXX) -o segment_tree_1 segment_tree_1.o $(LDFLAGS)
+segment_tree_2$(EXE_EXT): segment_tree_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_2 segment_tree_2$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_2: segment_tree_2.o
-	$(CGAL_CXX) -o segment_tree_2 segment_tree_2.o $(LDFLAGS)
+segment_tree_3$(EXE_EXT): segment_tree_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_3 segment_tree_3$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_3: segment_tree_3.o
-	$(CGAL_CXX) -o segment_tree_3 segment_tree_3.o $(LDFLAGS)
+segment_tree_4$(EXE_EXT): segment_tree_4$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_4 segment_tree_4$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_4: segment_tree_4.o
-	$(CGAL_CXX) -o segment_tree_4 segment_tree_4.o $(LDFLAGS)
+segment_tree_map_2$(EXE_EXT): segment_tree_map_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_map_2 segment_tree_map_2$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_map_2: segment_tree_map_2.o
-	$(CGAL_CXX) -o segment_tree_map_2 segment_tree_map_2.o $(LDFLAGS)
+segment_tree_set_2$(EXE_EXT): segment_tree_set_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_set_2 segment_tree_set_2$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_set_2: segment_tree_set_2.o
-	$(CGAL_CXX) -o segment_tree_set_2 segment_tree_set_2.o $(LDFLAGS)
+segment_tree_set_3$(EXE_EXT): segment_tree_set_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)segment_tree_set_3 segment_tree_set_3$(OBJ_EXT) $(LDFLAGS)
 
-segment_tree_set_3: segment_tree_set_3.o
-	$(CGAL_CXX) -o segment_tree_set_3 segment_tree_set_3.o $(LDFLAGS)
-
-segment_tree_12: segment_tree_12.o
-	$(CGAL_CXX) -o segment_tree_12 segment_tree_12.o $(LDFLAGS)
-
-clean:
-	/bin/rm -f *.o \
-                   range_tree_1 \
-                   range_tree_2 \
-                   range_tree_3 \
-                   range_tree_4 \
-                   range_tree_map_2 \
-                   range_tree_set_2 \
-                   segment_tree_1 \
-                   segment_tree_2 \
-                   segment_tree_3 \
-                   segment_tree_4 \
-                   segment_tree_map_2 \
-                   segment_tree_set_2 \
-                   segment_tree_set_3 \
-                   core
+clean: \
+                   range_tree_1.clean \
+                   range_tree_2.clean \
+                   range_tree_3.clean \
+                   range_tree_4.clean \
+                   range_tree_map_2.clean \
+                   range_tree_set_2.clean \
+                   segment_tree_1.clean \
+                   segment_tree_2.clean \
+                   segment_tree_3.clean \
+                   segment_tree_4.clean \
+                   segment_tree_map_2.clean \
+                   segment_tree_set_2.clean \
+                   segment_tree_set_3.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
-
-
-
-
-
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

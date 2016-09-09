@@ -1,48 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997,1998,1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Random.h
-// package       : Random_numbers (2.0.1)
+// package       : Random_numbers (2.1.2)
 // chapter       : $CGAL_Chapter: Random Numbers Generator $
 //
 // source        : web/Random_numbers/Random.aw
-// revision      : $Revision: 2.2 $
-// revision_date : $Date: 1999/03/04 16:45:35 $
+// revision      : $Revision: 2.2.2.3 $
+// revision_date : $Date: 1999/09/22 15:38:14 $
 // author(s)     : Sven Schönherr
 //
 // coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
@@ -70,13 +67,9 @@ class Random;
 // ===============
 class Random {
   public:
-    // types
-    typedef  unsigned short  State[3];                  // 48 Bits
-    
     // creation
     Random( );
-    Random( long seed);
-    Random( State state);
+    Random( unsigned int  seed);
     
     // operations
     bool    get_bool  ( );
@@ -84,17 +77,9 @@ class Random {
     double  get_double( double lower = 0.0, double upper = 1.0);
     
     int     operator () ( int upper);
-    
-    // state functions
-    void       save_state(       State& state) const;
-    void    restore_state( const State& state);
-    
-    // equality test
-    bool  operator == ( const Random& rnd) const;
-
   private:
     // data members
-    unsigned short  _state[3];                          // 48 Bits
+    const double  rand_max_plus_1;
 };
 
 // Global variables
@@ -121,7 +106,7 @@ bool
 Random::
 get_bool( )
 {
-    return( CGAL_static_cast( bool, ( erand48( _state) >= 0.5)));
+    return( static_cast< bool>( rand() & 1));
 }
 
 inline
@@ -129,8 +114,8 @@ int
 Random::
 get_int( int lower, int upper)
 {
-    return( lower + CGAL_static_cast( int,
-        CGAL_static_cast( double, upper-lower) * erand48( _state)));
+    return( lower + static_cast< int>(
+        ( static_cast< double>( upper) - lower) * rand() / rand_max_plus_1));
 }
 
 inline
@@ -138,7 +123,7 @@ double
 Random::
 get_double( double lower, double upper)
 {
-    return( lower + ( upper-lower) * erand48( _state));
+    return( lower + ( ( upper-lower) * rand() / rand_max_plus_1));
 }
 
 inline
@@ -147,17 +132,6 @@ Random::
 operator () ( int upper)
 {
     return( get_int( 0, upper));
-}
-
-inline
-bool
-Random::
-operator == ( const Random& rnd) const
-{
-    return( CGAL_static_cast( bool,
-                ( _state[ 0] == rnd._state[ 0]) &&
-                ( _state[ 1] == rnd._state[ 1]) &&
-                ( _state[ 2] == rnd._state[ 2]) ) );
 }
 
 CGAL_END_NAMESPACE

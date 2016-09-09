@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Regular_triangulation_2.h
-// package       : Triangulation (3.17)
+// package       : Triangulation (4.30)
 // source        : $RCSfile: Regular_triangulation_2.h,v $
-// revision      : $Revision: 1.3.1.9 $
-// revision_date : $Date: 1999/02/26 16:02:46 $
+// revision      : $Revision: 1.20 $
+// revision_date : $Date: 1999/10/28 16:21:10 $
 // author(s)     : Frederic Fichel, Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -52,415 +49,723 @@
 #ifndef CGAL_REGULAR_TRIANGULATION_2_H
 #define CGAL_REGULAR_TRIANGULATION_2_H
 
-#include <utility>
-#include <iostream>
-#include <list>
-#include <vector>
-#include <cassert>
-#include <stack>
-
-#include <CGAL/Triangulation_short_names_2.h>
-#include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_2.h>
-#include <CGAL/Weighted_point_2.h>
 #include <CGAL/Regular_triangulation_face_base_2.h>
-
 
 CGAL_BEGIN_NAMESPACE 
 
 template < class Gt, class Tds >
-class Regular_triangulation_2 
-  : public Triangulation_2<Gt,Tds>
+class Regular_triangulation_2 : public Triangulation_2<Gt,Tds>
 {
-
 public:
-  typedef Triangulation_2<Gt,Tds> Triangulation;
-
-  typedef typename Gt::Bare_point  Point;
+  typedef Triangulation_2<Gt,Tds>     Triangulation;
+  typedef Gt                          Geom_traits;
+  typedef typename Gt::Bare_point     Point;
   typedef typename Gt::Weighted_point Weighted_point;
-  typedef typename Gt::Weight      Weight;
+  typedef typename Gt::Weight         Weight;
   
+  // the following typedef to satisfy MIPS CC 7.3
+  typedef typename Triangulation::Face_handle    Face_handle;
+  typedef typename Triangulation::Vertex_handle  Vertex_handle;
+  typedef typename Triangulation::Edge           Edge;
+  typedef typename Triangulation::Locate_type    Locate_type;
+
   // a list to memorise temporary the faces around a point
-  typedef std::list<Face_handle > Faces_around_stack; 
+  typedef std::list<Face_handle>      Faces_around_stack; 
 
   // point list
-  typedef std::list<Weighted_point> Weighted_point_list;
+  typedef std::list<Weighted_point>   Weighted_point_list;
 
 public:
-  Regular_triangulation_2()
-    : Triangulation( )
-  {}
+  Regular_triangulation_2(const Gt& gt=Gt()) : Triangulation(gt) {}
 
-  Regular_triangulation_2(const Gt& gt) : Triangulation(gt) { }
-
-  Regular_triangulation_2(const Regular_triangulation_2 &rt )
-    : Triangulation( rt )
+  Regular_triangulation_2(const Regular_triangulation_2 &rt)
+    : Triangulation(rt)
   {   CGAL_triangulation_postcondition( is_valid() );  }
 
-  Regular_triangulation_2(const Vertex_handle&  v, const Gt& gt) 
-    : Triangulation(v,gt) 
-  {   CGAL_triangulation_postcondition( is_valid() );  }
-
-	
-  // Insertion and Deletion
-
-  Vertex_handle push_back(const Weighted_point &p)
-  {	
-    Locate_type lt;
-    return insert(p, lt, NULL);
-  }
-
-	#ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-	template < class InputIterator >
-	int
-	insert(InputIterator first, InputIterator last)
-	{	int n = number_of_vertices();
-		while(first != last)
-		{	insert(*first);
-			++first;
-		}
-		return number_of_vertices() - n;
-	}
-	#else
-	#if defined(LIST_H) || defined(__SGI_STL_LIST_H)
-	int
-	insert(std::list<Weighted_point>::const_iterator first,
-		std::list<Weighted_point>::const_iterator last)
-	{	int n = number_of_vertices();
-		while(first != last)
-		{	insert(*first);
-			++first;
-		}
-		return number_of_vertices() - n;
-	}
-	#endif // LIST_H
-	#if defined(VECTOR_H) || defined(__SGI_STL_VECTOR_H)
-	int
-	insert(std::vector<Weighted_point>::const_iterator first,
-		std::vector<Weighted_point>::const_iterator last)
-	{	int n = number_of_vertices();
-		while(first != last)
-		{	insert(*first);
-			++first;
-		}
-		return number_of_vertices() - n;
-	}
-	#endif // VECTOR_H
-	#ifdef ITERATOR_H
-	int
-	insert(std::istream_iterator<Weighted_point, ptrdiff_t> first,
-	       std::istream_iterator<Weighted_point, ptrdiff_t> last)
-	{	int n = number_of_vertices();
-		while(first != last)
-		{	insert(*first);
-			++first;
-		}
-		return number_of_vertices() - n;
-	}
-	#endif // ITERATOR_H
-  
-	int
-	insert(Weighted_point* first, Weighted_point* last)
-	{	int n = number_of_vertices();
-		while(first != last)
-		{	insert(*first);
-			++first;
-		}
-		return number_of_vertices() - n;
-	}
-	#endif // TEMPLATE_MEMBER_FUNCTIONS
-
-public:
-  Oriented_side
-  power_test(const Face_handle& f, const Weighted_point & p) const;
-  
-
-  private :
-  // add the point_list of f2 and f3 to the point list of f1
-  // for the 3-1 flip 
-  void update_hidden_points_3_1(const Face_handle& f1, 
-				const Face_handle& f2, 
-				const Face_handle& f3 )
-  {
-     (f1->point_list()).splice(f1->point_list().begin(),f2->point_list());
-     (f1->point_list()).splice(f1->point_list().begin(),f3->point_list());
-  }
-
-
-  // the points of the lists of 2 faces are sorted
-  // because of a 2-2 flip
-  void update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2);
-  
-  // The point list of f1 is separated into 3 lists
-  // for a 1-3 flip
-  void update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2, 
-				const Face_handle& f3); 
-  
-
-protected:
-  bool is_degree(Vertex_handle v, int i) const
-  {
-    Face_circulator fic = v->incident_faces(), done(fic);
-    fic++;
-    int count=1;
-    while ( fic != done && count <= i) {
-      fic ++; count++;
-    }
-    return (count==i ? true :false );
-  }
-
-bool degree_equal_3(Vertex_handle v) const
-{
-  Face_handle f = v->face();
-    if (f == NULL) 
-      {	return false;
-      }
-    int i = f->index(v);
-    Face_handle ptr1 = f->neighbor(ccw(i));
-    Face_handle ptr2 = f;
-    f = f->neighbor(cw(i));
-    
-    int count = 2;
-    
-    while(ptr1 != f)
-      {	count++;
-      i = ptr1->index(ptr2);
-      ptr2 = ptr1;
-      ptr1 = ptr1->neighbor(cw(i));
-      if (count>3)
-	break;
-      }
-    return (count==3 ? true :false );
-  }
-  
-  bool degree_equal_4(Vertex_handle v) const
-  {
-    return ( v->degree() == 4);
-  }
-  
-  void hide_vertex(const Face_handle& f,const Weighted_point& p)
-    // insert the point among the hidden points list
-  {
-
-	 f->point_list().push_back(p);
-  }
-
-
-
-public:
-void 
-regularize(Vertex_handle v);
  
-   
-private :
-void 	stack_flip(Vertex_handle v, Faces_around_stack &faces_around);
-      
-      
-void stack_flip_4_2(Face_handle f, int i, int j, 
-		    Faces_around_stack & faces_around);
+  // CHECK - QUERY
+  Oriented_side power_test(const Face_handle &f, 
+			   const Weighted_point &p) const;
+  Oriented_side power_test(const Face_handle& f, int i,
+			   const Weighted_point &p) const;
+  
+  bool is_valid(bool verbose = false, int level = 0) const;
+  void affiche_tout();	
 
-void stack_flip_3_1(Face_handle f, int i, int j,
-		    Faces_around_stack & faces_around);
-
-
-
-void stack_flip_2_2(Face_handle f, int i, Faces_around_stack & faces_around);
-
-
-
-public:
-   // INSERTION / DELETION
-   Vertex_handle
-   insert(const Weighted_point  &p,
-	  Triangulation_2<Gt,Tds>::Locate_type& lt,
-	  Face_handle f = Face_handle() ) ;
- 
-    
-public:
+  // Insertion, Deletion and Flip
+  Vertex_handle push_back(const Weighted_point &p);
+  Vertex_handle insert(const Weighted_point &p, 
+		       Face_handle f = Face_handle() );
   Vertex_handle insert(const Weighted_point &p,
-		       Face_handle f = Face_handle() )
-{
-//cerr<<endl<<"INSERT : "<<p<<endl;
-  Locate_type lt;
-  return insert(p, lt, f);
-}
-
-void insert_in_face(Vertex_handle v, Face_handle f)
-{
-  Triangulation_2<Gt,Tds>::insert_in_face(v,f);
-  update_hidden_points_1_3(f, f->neighbor(ccw(f->index(v))), 
-			   f->neighbor(cw(f->index(v))) );
-  return;
-}
-
-void insert_in_edge(Vertex_handle v, Face_handle f, int i)
-{
-  Triangulation_2<Gt,Tds>::insert_in_edge(v,f,i);
-  Face_handle g = 
-	(v==f->vertex(cw(i)) ? f->neighbor(ccw(i)) : f->neighbor(cw(i)) );
-  update_hidden_points_2_2(f,g);
-  update_hidden_points_2_2(f->neighbor(i), g->neighbor(i));
-}    
+	 	       Locate_type  lt,
+		       Face_handle loc, int li );
+  Vertex_handle insert_in_face(const Weighted_point &p, Face_handle f);
+  Vertex_handle insert_in_edge(const Weighted_point &p, Face_handle f, int i);
+  void flip(Face_handle f, int i);
+  void remove_degree_3(const Vertex_handle v, Face_handle f = Face_handle());
+  void remove(Vertex_handle v);
 
 
-void flip(Face_handle f,int i)
-{
-  Face_handle n = f->neighbor(i);
-  Triangulation_2<Gt,Tds>::flip(f,i);
-  update_hidden_points_2_2(f,n);
-  return;
-}
+private:
+  void regularize(Vertex_handle v);
+  void remove_2D(Vertex_handle v);
+  void fill_hole_regular(std::list<Edge> & hole);
+  void update_hidden_points_3_1(const Face_handle& f1, const Face_handle& f2, 
+				const Face_handle& f3);
+  void update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2);
+  void update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2,
+				const Face_handle& f3);
+  void hide_vertex(const Face_handle& f, const Weighted_point& p);
 
+  void stack_flip(Vertex_handle v, Faces_around_stack &faces_around);
+  void stack_flip_4_2(Face_handle f, int i, int j, 
+		      Faces_around_stack &faces_around);
+  void stack_flip_3_1(Face_handle f, int i, int j,
+		      Faces_around_stack &faces_around);
+  void stack_flip_2_2(Face_handle f, int i, 
+		      Faces_around_stack &faces_around);
+  void stack_flip_dim1(Face_handle f, int i);
+		       
 
-void remove_degree_3(Vertex_handle v,Face_handle f = Face_handle()) 
-{
-  if (f == Face_handle()) f=v->face();
-  update_hidden_points_3_1(f, f->neighbor(cw(f->index(v))),
-			   f->neighbor(ccw(f->index(v))));
-  Triangulation_2<Gt,Tds>::remove_degree_3(v,f);
-}
-
-
-protected :
-void remove_2D(Vertex_handle v);
 
 public:
-void  remove(Vertex_handle v );
+  template < class InputIterator >
+  int
+  insert(InputIterator first, InputIterator last)
+  {
+      int n = number_of_vertices();
+      while(first != last)
+      {
+          insert(*first);
+  	  ++first;
+      }
+      return number_of_vertices() - n;
+  }
     
-bool is_valid(bool verbose = false, int level = 0) const;
-	
-
-void affiche_tout();
-
 };
+
+
 
 
 template < class Gt, class Tds >
 Oriented_side
 Regular_triangulation_2<Gt,Tds>::
-power_test(const Face_handle& f, const Weighted_point & p) const
+power_test(const Face_handle &f, const Weighted_point &p) const
 {
-    //p is assume to be a finite point
-    Orientation o;
-    if ( ! is_infinite(f) )
+  // p is supposed to be a finite point
+  // if f is a finite face, 
+  // return  ON_NEGATIVE_SIDE if p is above f 
+  // (p has to be hidden)
+  int i;
+  if ( ! f->has_vertex(infinite_vertex(), i) )
+    return geom_traits().power_test(f->vertex(0)->point(),
+				    f->vertex(1)->point(),
+				    f->vertex(2)->point(),p);
+
+  Orientation o = geom_traits().orientation(f->vertex(ccw(i))->point(),
+					    f->vertex( cw(i))->point(),p);
+  if (o==COLLINEAR)
+    return geom_traits().power_test(f->vertex(ccw(i))->point(),
+				    f->vertex( cw(i))->point(),p);
+
+  return Oriented_side(o);
+}
+
+template < class Gt, class Tds >
+Oriented_side
+Regular_triangulation_2<Gt,Tds>::
+power_test(const Face_handle& f, int i,
+	   const Weighted_point &p) const
+{
+  // f is supposed to be a finite edge
+  // p is supposed to be on  edge (f,i)
+  // return ON_NEGATIVE_SIDE if p is above (f,i)
+  // (p has to be hidden)
+  CGAL_triangulation_precondition (!is_infinite(f,i) &&
+       geom_traits().orientation(f->vertex(ccw(i))->point(),
+			       f->vertex( cw(i))->point(),
+			       p) == COLLINEAR);
+  return geom_traits().power_test(f->vertex(ccw(i))->point(),
+				  f->vertex( cw(i))->point(),p);
+}
+
+template < class Gt, class Tds >
+bool
+Regular_triangulation_2<Gt,Tds>::
+is_valid(bool verbose, int level) const
+{
+  if (number_of_vertices() <= 1)    return true; 
+  bool result = Triangulation_2<Gt,Tds>::is_valid(verbose, level);
+ 		
+  for(Finite_faces_iterator it = finite_faces_begin(); 
+      it != finite_faces_end(); it++)
+  {
+    for(int i=0; i<3; i++)
+    {
+      if (!is_infinite(it->vertex(i)))
+	  result = result && ON_POSITIVE_SIDE != 
+	           power_test(it->neighbor(i), it->vertex(i)->point());
+      if (!result)
       {
-	return geom_traits().power_test(f->vertex(0)->point(),
-					f->vertex(1)->point(),
-					f->vertex(2)->point(),p);
+        std::cerr << "face : " << (void*)&(*it)<< "  " 
+		  <<"["<< it->vertex(0)->point()
+		  <<"/"<< it->vertex(1)->point()
+		  <<"/"<< it->vertex(2)->point()<<"]"<< std::endl
+		  << "voisin : " << (void*)&(*(it->neighbor(i)))<< "  "
+		  <<"["<<(it->neighbor(i))->vertex(0)->point()
+		  <<"/"<<(it->neighbor(i))->vertex(1)->point()
+		  <<"/"<<(it->neighbor(i))->vertex(2)->point()<<"]" << std::endl;
       }
+      CGAL_triangulation_assertion(result);
+    }
+    
+    Weighted_point_list::iterator plit   = it->point_list().begin(),
+                                  pldone = it->point_list().end();
+    for (; plit != pldone; plit++)
+    {
+      result = result && power_test(it, *plit) == ON_NEGATIVE_SIDE;
+    	
+      if (!result)
+      {
+	std::cerr << "face : " << (void*)&(*it)<< "  " 
+		  <<"["<< it->vertex(0)->point()
+		  <<"/"<< it->vertex(1)->point()
+		  <<"/"<< it->vertex(2)->point()<<"]"	<< std::endl
+		  << "hidden point : " << *plit << std::endl;
+      }
+      CGAL_triangulation_assertion(result); 
+    }
+  }
+  return result;
+}
 
-    else if ( f->vertex(0) == infinite_vertex() )
-      {	o = geom_traits().orientation(f->vertex(1)->point(),
-				 f->vertex(2)->point(),p);
-      if (o==COLLINEAR)
-	{	return geom_traits().power_test(f->vertex(1)->point(),
-			                         f->vertex(2)->point(),p);
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+affiche_tout()
+{
+  std::cerr<< "AFFICHE TOUTE LA TRIANGULATION :"<<std::endl;
+  Finite_faces_iterator fi , fi_end=finite_faces_end();
+
+  std::cerr << std::endl<<"====> "<<this<<std::endl;
+  fi=finite_faces_begin();
+  std::cerr<<"***"<<std::endl;
+  while(fi != fi_end)
+    {	
+      std::cerr << "face : "<<(void*)&(*fi)<<" => "<<std::endl;
+      std::cerr <<"point :"<<(fi->vertex(0)->point())
+	   <<" / voisin "<<&(*(fi->neighbor(0)))
+	   <<"["<<(fi->neighbor(0))->vertex(0)->point()
+	   <<"/"<<(fi->neighbor(0))->vertex(1)->point()
+	   <<"/"<<(fi->neighbor(0))->vertex(2)->point()<<"]"
+	   <<std::endl;
+      std::cerr <<"point :"<<(fi->vertex(1)->point())
+	   <<" / voisin "<<&(*(fi->neighbor(1)))
+	   <<"["<<(fi->neighbor(1))->vertex(0)->point()
+	   <<"/"<<(fi->neighbor(1))->vertex(1)->point()
+	   <<"/"<<(fi->neighbor(1))->vertex(2)->point()<<"]"
+	   <<std::endl;
+      std::cerr <<"point :"<<(fi->vertex(2)->point())
+	   <<" / voisin "<<&(*(fi->neighbor(2)))
+	   <<"["<<(fi->neighbor(2))->vertex(0)->point()
+	   <<"/"<<(fi->neighbor(2))->vertex(1)->point()
+	   <<"/"<<(fi->neighbor(2))->vertex(2)->point()<<"]"
+	   <<std::endl;
+
+      Weighted_point_list::iterator current;
+      std::cerr << "  +++++>>>    ";
+      for (current= fi->point_list().begin() ; 
+	   current!= fi->point_list().end() ; current++ )
+	{
+	  std::cerr <<"[ "<< (*current) << " ] ,  ";
 	}
+      std::cerr <<std::endl;
+      ++fi;
+    }
+  std::cerr <<"faces infinies "<<std::endl;
+			
+  if ( number_of_vertices() <= 2) {return;}
+  Face_circulator fc = 
+    infinite_vertex()->incident_faces(),fcdone(fc);
+  do {	
+    std::cerr<<(void*)&(*fc) <<" = "<< fc->vertex(0)->point()<<" / "
+	<< fc->vertex(1)->point()<<" / "<< fc->vertex(2)->point()
+	<<" / ";
+    Weighted_point_list::iterator current;
+    std::cerr << "  +++++>>>    ";
+    for (current= fc->point_list().begin() ; 
+	 current!= fc->point_list().end() ; current++ )
+      {
+	std::cerr <<"[ "<< (*current) << " ] ,  ";
       }
+    std::cerr <<std::endl;
+  }while(++fc != fcdone);
+
+  std::cerr <<std::endl;
+
+  if (number_of_vertices()>1) {
+    std::cerr << "affichage des sommets de la triangulation reguliere"
+	      <<std::endl;
+    Finite_vertices_iterator vi;
+    vi=finite_vertices_begin();
+    if (number_of_vertices()>1) {
+      while ( vi!=vertices_end() ) {
+	//std::cerr << "* "<< &(*vi) <<"  /  ";
+	std::cerr << "* "<< vi->point() <<"  / face associee : "
+	     << (void*)(&(*(vi->face())))<<std::endl;;
+	++vi;
+      }
+      std::cerr<<std::endl;
+    }
+  }
+}
+
+template < class Gt, class Tds >
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
+push_back(const Weighted_point &p)
+{	
+    return insert(p);
+}
+
+template < class Gt, class Tds >
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
+insert(const Weighted_point &p, Face_handle start)
+{
+  Locate_type lt;
+  int li;
+  Face_handle loc = locate(p, lt, li, start);
+  return insert(p, lt, loc, li);
+}
+
+template < class Gt, class Tds >
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
+insert(const Weighted_point &p, Locate_type lt, Face_handle loc, int li) 
+{
+  if (number_of_vertices() <= 1) return Triangulation::insert(p);
  
-    else if ( f->vertex(1) == infinite_vertex() )
-	{	o = geom_traits().orientation(f->vertex(2)->point(),
-					 f->vertex(0)->point(),p);
-	if (o==COLLINEAR)
-	  {	return geom_traits().power_test(f->vertex(2)->point(),
-					   f->vertex(0)->point(),p);
-	  }
-	} 
+  Vertex_handle v;
+  Oriented_side os;
+  switch (lt) {
+  case VERTEX:
+    remove(loc->vertex(li));
+    return insert(p);
+  case FACE:
+    if (power_test(loc,p) == ON_NEGATIVE_SIDE) {
+      hide_vertex(loc,p);
+      return v;
+    }
+    v = insert_in_face(p,loc);
+    break;
+  case EDGE:
+    os = dimension() == 1 ?  power_test(loc,li,p) : 
+                             power_test(loc,p);
+    if (os == ON_NEGATIVE_SIDE) {
+      hide_vertex(loc, p);
+      return v;
+    }
+    v = insert_in_edge(p,loc,li);
+    break;
+  case OUTSIDE_CONVEX_HULL:
+    v = insert_outside_convex_hull(p,loc);
+    break;
+  case OUTSIDE_AFFINE_HULL:
+    v =  insert_outside_affine_hull(p);
+    break;
+  default:
+    CGAL_triangulation_assertion_msg(false, "locate step failed");
+  }
+  regularize(v);
+  return v;
+}
 
-    else if ( f->vertex(2) == infinite_vertex() )
-      {	o = geom_traits().orientation(f->vertex(0)->point(),
-			                         f->vertex(1)->point(),p);
-      if (o==COLLINEAR)
-	{	
-	  return geom_traits().power_test(f->vertex(0)->point(),
-					  f->vertex(1)->point(),p);
-	}
-      }
+template < class Gt, class Tds >
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
+insert_in_face(const Weighted_point &p, Face_handle f)
+{
+  Vertex_handle v = Triangulation::insert_in_face(p,f);
+  update_hidden_points_1_3(f, 
+			   f->neighbor(ccw(f->index(v))), 
+			   f->neighbor( cw(f->index(v))) );
+  return v;
+}
 
-    return (o == NEGATIVE) ? ON_NEGATIVE_SIDE :
-      (o == POSITIVE) ? ON_POSITIVE_SIDE : ON_ORIENTED_BOUNDARY;
+template < class Gt, class Tds >
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
+insert_in_edge(const Weighted_point &p, Face_handle f, const int i)
+{
+  Vertex_handle v = Triangulation::insert_in_edge(p,f,i);
+  if (dimension() == 1) {
+    Face_handle g = f->neighbor(1 - f->index(v));
+    update_hidden_points_2_2(f,g);
+  }
+  else { //dimension()==2
+    Face_handle g = (v==f->vertex(cw(i))) ? f->neighbor(ccw(i))
+      : f->neighbor( cw(i));
+    update_hidden_points_2_2(f,g);
+    update_hidden_points_2_2(f->neighbor(i), g->neighbor(i));
+  }
+  return v;
+} 
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+regularize(Vertex_handle v)
+{
+  CGAL_triangulation_precondition( v != infinite_vertex());
+  Faces_around_stack faces_around;
+
+  //initialise faces_around
+  if (dimension() == 1) {
+    faces_around.push_back(v->face());
+    faces_around.push_back(v->face()->neighbor(1- v->face()->index(v)));
+  }
+  else{ //dimension==2
+    Face_circulator fit = v->incident_faces(), done(fit);
+    do {
+      faces_around.push_back(fit++);
+    } while(fit != done);
   }
 
+  while( ! faces_around.empty() )
+    stack_flip(v, faces_around);
+}
 
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+flip(Face_handle f, int i)
+{
+  Face_handle n = f->neighbor(i);
+  Triangulation_2<Gt,Tds>::flip(f,i);
+  update_hidden_points_2_2(f,n);
+}
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+remove_degree_3(const Vertex_handle v, Face_handle f) 
+{
+  if (f == Face_handle())
+    f=v->face();
+  update_hidden_points_3_1(f, f->neighbor( cw(f->index(v))),
+			   f->neighbor(ccw(f->index(v))));
+  Triangulation_2<Gt,Tds>::remove_degree_3(v,f);
+}
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+remove(Vertex_handle v )
+{
+  CGAL_triangulation_precondition(!v.is_null());
+  CGAL_triangulation_precondition(!is_infinite(v));
+
+  //if (number_of_vertices() <= 1) Triangulation::remove(v);
+   
+  // Collect in p_list
+  // the points hidden by the face to be deleted
+  Weighted_point_list p_list;
+  if (dimension() == 1) {
+    Face_handle f = v->face();
+    Face_handle n = f->neighbor(1 - f->index(v));
+    p_list.splice(p_list.begin(), f->point_list());
+    p_list.splice(p_list.begin(), n->point_list());
+  }
+  else if (dimension() == 2 ) {
+    Face_circulator fc = v->incident_faces(),done(fc);
+    do {
+      p_list.splice(p_list.begin(), fc->point_list());
+      fc++;
+    }  
+    while( fc != done);
+  }
+
+  if (dimension() <= 1) Triangulation::remove(v);
+  else remove_2D(v);
+   
+  Weighted_point p;
+  while (! p_list.empty())
+  {
+    p=p_list.front();
+    p_list.pop_front();
+    insert(p);
+  }
+}
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+remove_2D(Vertex_handle v)
+{
+  if (test_dim_down(v)) {  _tds.remove_dim_down(&(*v));  }
+  else {
+    std::list<Edge> hole;
+    make_hole(v, hole);
+    fill_hole_regular(hole);
+    delete &(*v);
+    set_number_of_vertices(number_of_vertices()-1);
+  }
+  return;   
+}
+
+
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+fill_hole_regular(std::list<Edge> & first_hole)
+{
+  typedef std::list<Edge> Hole;
+  typedef std::list<Hole> Hole_list;
+  
+  Hole hole;
+  Hole_list hole_list;
+  Face_handle ff, fn;
+  int i=0, ii=0, in=0;
+	
+  hole_list.push_front(first_hole);
+  
+  while (! hole_list.empty())
+    {
+      hole = hole_list.front();
+      hole_list.pop_front();
+      Hole::iterator hit = hole.begin();
+	    
+      // if the hole has only three edges, create the triangle
+      if (hole.size() == 3)
+	{
+	  Face_handle  newf = new Face();
+	  hit = hole.begin();
+	  for(int j=0; j<3; j++)
+	    {
+	      ff = (*hit).first;
+	      ii = (*hit).second;
+	      hit++;
+	      ff->set_neighbor(ii,newf);
+	      newf->set_neighbor(j,ff);
+	      newf->set_vertex(newf->ccw(j),ff->vertex(ff->cw(ii)));
+	    }
+	  continue;
+	}
+  
+      // else find an edge with two finite vertices
+      // on the hole boundary
+      // and the new triangle adjacent to that edge
+      //  cut the hole and push it back
+ 
+      // first, ensure that a neighboring face
+      // whose vertices on the hole boundary are finite
+      // is the first of the hole
+      bool finite = false;
+      while (!finite)
+	{
+	  ff = hole.front().first;
+	  ii = hole.front().second;
+	  if ( is_infinite(ff->vertex(cw(ii))) ||
+	       is_infinite(ff->vertex(ccw(ii))))
+	    {
+	      hole.push_back(hole.front());
+	      hole.pop_front();
+	    }
+	  else
+	    finite = true;
+	}
+ 
+      // take the first neighboring face and pop it;
+      ff = hole.front().first;
+      ii = hole.front().second;
+      hole.pop_front();
+ 
+      Vertex_handle  v0 = ff->vertex(ff->cw(ii)); 
+      Weighted_point p0 = v0->point();
+      Vertex_handle  v1 = ff->vertex(ff->ccw(ii)); 
+      Weighted_point p1 = v1->point();
+      Vertex_handle  v2 = infinite_vertex(); 
+      Weighted_point p2;
+      Vertex_handle  vv;
+      Weighted_point p;
+ 
+      Hole::iterator hdone = hole.end();
+      hit = hole.begin();
+      Hole::iterator cut_after(hit);
+ 
+      // if tested vertex is c with respect to the vertex opposite
+      // to NULL neighbor,
+      // stop at the before last face;
+      hdone--;
+      while (hit != hdone) 
+	{
+	  fn = (*hit).first;
+	  in = (*hit).second;
+	  vv = fn->vertex(ccw(in));
+	  if (is_infinite(vv))
+	    {
+	      if (is_infinite(v2))
+		cut_after = hit;
+	    }
+	  else 
+	    {	// vv is a finite vertex
+	      p = vv->point();
+	      if (geom_traits().orientation(p0,p1,p) == 
+		  COUNTERCLOCKWISE)
+		{
+		  if (is_infinite(v2))
+		    {
+		      v2=vv;
+		      p2=p;
+		      cut_after=hit;
+		    }
+		  else if (geom_traits().power_test(p0,p1,p2,p) == 
+			   ON_POSITIVE_SIDE)
+		    {
+		      v2=vv;
+		      p2=p;
+		      cut_after=hit;
+		    }
+		}
+	    }
+	  ++hit;
+	}
+ 
+      // create new triangle and update adjacency relations
+      Face_handle newf = new Face(v0,v1,v2);
+      newf->set_neighbor(2,ff);
+      ff->set_neighbor(ii, newf);
+ 
+      //update the hole and push back in the Hole_List stack
+      // if v2 belongs to the neighbor following or preceding *f
+      // the hole remain a single hole
+      // otherwise it is split in two holes
+ 
+      fn = hole.front().first;
+      in = hole.front().second;
+      if (fn->has_vertex(v2, i) && i == (int)fn->ccw(in)) 
+	{
+	  newf->set_neighbor(0,fn);
+	  fn->set_neighbor(in,newf);
+	  hole.pop_front();
+	  hole.push_front(Edge(&(*newf),1));
+	  hole_list.push_front(hole);
+	}
+      else
+	{
+	  fn = hole.back().first;
+	  in = hole.back().second;
+	  if (fn->has_vertex(v2, i) && i == (int)fn->cw(in)) 
+	    {
+	      newf->set_neighbor(1,fn);
+	      fn->set_neighbor(in,newf);
+	      hole.pop_back();
+	      hole.push_back(Edge(&(*newf),0));
+	      hole_list.push_front(hole);
+	    }
+	  else
+	    { // split the hole in two holes
+	      Hole new_hole;
+	      ++cut_after;
+	      while (hole.begin() != cut_after)
+		{
+		  new_hole.push_back(hole.front());
+		  hole.pop_front();
+		}
+ 
+	      hole.push_front(Edge(&(*newf),1));
+	      new_hole.push_front(Edge(&(*newf),0));
+	      hole_list.push_front(hole);
+	      hole_list.push_front(new_hole);
+	    }
+	}
+    }
+}
+
+
+// add the point_list of f2 and f3 to the point list of f1
+// for the 3-1 flip
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+update_hidden_points_3_1(const Face_handle& f1, const Face_handle& f2, 
+			 const Face_handle& f3)
+{
+  (f1->point_list()).splice(f1->point_list().begin(),f2->point_list());
+  (f1->point_list()).splice(f1->point_list().begin(),f3->point_list());
+}
+
+
+// the points of the lists of 2 faces are sorted
+// because of a 2-2 flip
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
 update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2)
 {	
-    CGAL_triangulation_assertion(f1->has_neighbor(f2));
+  CGAL_triangulation_assertion(f1->has_neighbor(f2));
     
-    Weighted_point_list p_list;
-    p_list.splice(p_list.begin(),f1->point_list());
-    p_list.splice(p_list.begin(),f2->point_list());
+  Weighted_point_list p_list;
+  p_list.splice(p_list.begin(),f1->point_list());
+  p_list.splice(p_list.begin(),f2->point_list());
 
-    // if both faces are infinite faces
-    //if they share the finite edge, any one hide all points
-    //if they share an infinite edge : their finite edges
-    //should be collinear
-    //split hidden points along the midpoint
-    if ( is_infinite(f1) && is_infinite(f2) ) {
-      int i1 = f1->index(infinite_vertex());
-      if (f2 == f1->neighbor(i1)) {
-	(f1->point_list()).splice(f1->point_list().begin(),p_list);
-	return;
-      }
-      // else split the hidden points according to finite edges
-      // because f2 != f1->neighbor(i1)	
-      // the following vertices are finite vertices
-      Weighted_point a1 = f1->vertex(f1->index(f2))->point();
-      Weighted_point a2 = f2->vertex(f2->index(f1))->point();
-      Weighted_point a = f1->vertex(3-(i1+f1->index(f2)))->point();
-      while ( ! p_list.empty() ){
-	if ( geom_traits().compare_x(a, p_list.front()) == 
-	     geom_traits().compare_x(a, a1)  &&
-	     geom_traits().compare_y(a, p_list.front()) == 
-	     geom_traits().compare_y(a, a1)) {
-	  (f1->point_list()).push_back(p_list.front());
-	}
-	else {
-	  (f2->point_list()).push_back(p_list.front());
-	}
-	 p_list.pop_front();
-      }
-      return;  
-    }
+  // if one of the face is infinite, 
+  // the other face hide all the points
+  if ( is_infinite(f1)) {
+    (f2->point_list()).splice(f2->point_list().begin(),p_list);
+    return;
+  }
+  if ( is_infinite(f2)) {
+    (f1->point_list()).splice(f1->point_list().begin(),p_list);
+    return;
+  }
 
-    //otherwise at least one of the face is finite
-    // if one is infinite, the finite face hide all the points
-    if ( is_infinite(f1)) {
-      (f2->point_list()).splice(f2->point_list().begin(),p_list);
-      return;
-    }
-    if ( is_infinite(f2)) {
-      (f1->point_list()).splice(f1->point_list().begin(),p_list);
-      return;
-    }
-
-    // from here f1 and f2 are finite faces
-    int idx2;
-    idx2=f1->index(f2);
-    //Vertex_handle v2=f1->vertex(idx2),
-    Vertex_handle   v0=f1->vertex(ccw(idx2)),
-      v1=f1->vertex(cw(idx2));
-    CGAL_triangulation_assertion((!is_infinite(v0)) && (!is_infinite(v1))); 
-
-    while ( ! p_list.empty() ){
-      if (orientation(v0->point(), v1->point(), p_list.front()) ==
-			     COUNTERCLOCKWISE) {
-	  (f1->point_list()).push_back(p_list.front());
-      }
-      else{(f2->point_list()).push_back(p_list.front()) ;}
+  if (dimension() == 1) {
+    Weighted_point a1 = f1->vertex(f1->index(f2))->point();
+    Weighted_point a2 = f2->vertex(f2->index(f1))->point();
+    Weighted_point a  = f1->vertex(1-f1->index(f2))->point();
+    while ( ! p_list.empty() ) {
+      if ( geom_traits().compare_x(a, p_list.front()) == 
+	   geom_traits().compare_x(a, a1)  &&
+	   geom_traits().compare_y(a, p_list.front()) == 
+	   geom_traits().compare_y(a, a1))
+	(f1->point_list()).push_back(p_list.front());
+      else
+	(f2->point_list()).push_back(p_list.front());
       p_list.pop_front();
     }
+    return;
   }
+
+  // from here f1 and f2 are finite 2-dimensional faces
+  int idx2 = f1->index(f2);
+  Vertex_handle v0=f1->vertex(ccw(idx2));
+  Vertex_handle v1=f1->vertex(cw(idx2));
+  CGAL_triangulation_assertion( !is_infinite(v0) && !is_infinite(v1)); 
+
+  while ( ! p_list.empty() )
+    {
+      if (orientation(v0->point(), v1->point(), p_list.front()) ==
+	  COUNTERCLOCKWISE)
+	(f1->point_list()).push_back(p_list.front());
+      else
+	(f2->point_list()).push_back(p_list.front());
+      p_list.pop_front();
+    }
+}
 	  
+// The point list of f1 is separated into 3 lists
+// for a 1-3 flip
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
 update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2, 
-				const Face_handle& f3)
+			 const Face_handle& f3)
 {
-    
     CGAL_triangulation_assertion(f1->has_neighbor(f2) &&
 				 f2->has_neighbor(f3) &&
 				 f3->has_neighbor(f1));
@@ -469,18 +774,18 @@ update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2,
     p_list.splice(p_list.begin(),f1->point_list());
     p_list.splice(p_list.begin(),f1->point_list());
     p_list.splice(p_list.begin(),f1->point_list());
-    if(p_list.empty()) return;
+    if (p_list.empty())
+	return;
 
     // the following does not work if 
     // two of f1,f2 and f3 are twice neighbors
     // but this cannot appear taking the assertion into account;
-    int idx2,idx3;
-    idx2=f1->index(f2);
-    idx3=f1->index(f3);
-    Vertex_handle v2=f1->vertex(idx2),
-      v3=f1->vertex(idx3),
-      v0=f1->vertex(3-(idx2+idx3)),
-      v1=f2->vertex(f2->index(f1));
+    int idx2 = f1->index(f2),
+        idx3 = f1->index(f3);
+    Vertex_handle v2 = f1->vertex(idx2),
+                  v3 = f1->vertex(idx3),
+                  v0 = f1->vertex(3-(idx2+idx3)),
+                  v1 = f2->vertex(f2->index(f1));
 
     CGAL_triangulation_assertion(f2->has_vertex(v0) && f1->has_vertex(v0));
     CGAL_triangulation_assertion(f3->has_vertex(v1));
@@ -505,113 +810,111 @@ update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2,
     }
     
     // if here, v1,v2,v3 and v0 are finite vertices
-    while(! p_list.empty()) {
+    while(! p_list.empty())
+    {
       if(orientation(v2->point(),v0->point(),p_list.front()) !=
 	 orientation(v2->point(),v0->point(),v3->point()) )
-	{ // not in f1
+      { // not in f1
 	if (orientation(v1->point(), v0->point(), p_list.front() ) !=
 	    orientation(v1->point(), v0->point(), v3->point() ) )
-	  {// not in f2
+	  // not in f2
 	    f3->point_list().push_back(p_list.front());
-	  }
-	else{
-	  f2->point_list().push_back(p_list.front());
-	}
-	}
-      else { f1->point_list().push_back(p_list.front());
+	else
+	    f2->point_list().push_back(p_list.front());
       }
+      else
+	  f1->point_list().push_back(p_list.front());
       p_list.pop_front();
     }
-  }
+}
 
-
+// insert the point among the hidden points list
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
-regularize(Vertex_handle v)
- {
-    CGAL_triangulation_precondition( v != infinite_vertex());
-    Faces_around_stack faces_around;
+hide_vertex(const Face_handle& f, const Weighted_point& p)
+{
+  f->point_list().push_back(p);
+}
 
-    //initialise faces_around
-    Face_circulator fit = v->incident_faces(), done(fit);
-    do {
-      faces_around.push_back(fit++);
-    } while(fit != done);
-
-      while( ! faces_around.empty() ){
-	stack_flip(v, faces_around);
-      }
-    return;
-  }
 
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
 stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
-  {
-    Face_handle f=faces_around.front();
-    int i = i=f->index(v);
-    faces_around.pop_front();
-
-    //test the regularity of edge (f,i)
-    Face_handle n = f->neighbor(i);
-    if( power_test(n, v->point()) == ON_NEGATIVE_SIDE){
-      return;
-    }
+{
+  Face_handle f=faces_around.front();
+  faces_around.pop_front();
+  int i = f->index(v);
+  Face_handle n = f->neighbor(i);
     
-    if(is_infinite(f,i)) {
+  // TODO : the 1dim-dimensional case
+  if (dimension() == 1 ) {
+    if ( is_infinite(f)  || is_infinite(n) ) return;
+    if ( geom_traits().power_test( v->point(),
+				   f->vertex(1-i)->point(),
+				   n->vertex(n->index(f))->point()) ==
+	 ON_NEGATIVE_SIDE) return;
+    stack_flip_dim1(f,i);
+    return;
+  }  
+
+  // now dimension() == 2
+  //test the regularity of edge (f,i)
+  if( power_test(n, v->point()) == ON_NEGATIVE_SIDE)
+    return;
+    
+  if(is_infinite(f,i))
+    {
       int j = 3 - ( i + f->index(infinite_vertex()));
-      if ( is_degree(f->vertex(j),4)) { 
+      if ( f->vertex(j)->degree() == 4)
 	stack_flip_4_2(f,i,j,faces_around);
-      }
       return;
     }
 
     // now f and n are both finite faces
-    int ni= n->index(f);
+    int ni = n->index(f);
     Orientation occw = geom_traits().orientation(f->vertex(i)->point(),
-						  f->vertex(ccw(i))->point(),
-						  n->vertex(ni)->point());
-    Orientation ocw = geom_traits().orientation(f->vertex(i)->point(),
-						  f->vertex(cw(i))->point(),
-						  n->vertex(ni)->point());
-    if(occw == LEFTTURN && ocw  ==  RIGHTTURN){
+						 f->vertex(ccw(i))->point(),
+						 n->vertex(ni)->point());
+    Orientation ocw  = geom_traits().orientation(f->vertex(i)->point(),
+						 f->vertex(cw(i))->point(),
+						 n->vertex(ni)->point());
+    if (occw == LEFTTURN && ocw == RIGHTTURN) {
       // quadrilater (f,n) is convex
       stack_flip_2_2(f,i, faces_around);
       return;
     }
-    else if (occw == RIGHTTURN && is_degree(f->vertex(ccw(i)), 3) ){
+    if (occw == RIGHTTURN && f->vertex(ccw(i))->degree() == 3) {
       stack_flip_3_1(f,i,ccw(i),faces_around);
       return;
     }
-    else if (ocw == LEFTTURN && is_degree(f->vertex(cw(i)), 3) ){
+    if (ocw == LEFTTURN && f->vertex(cw(i))->degree() == 3) {
       stack_flip_3_1(f,i,cw(i),faces_around);
       return;
     }
-    else if (occw == COLLINEAR && is_degree(f->vertex(ccw(i)), 4) ){
+    if (occw == COLLINEAR && f->vertex(ccw(i))->degree() == 4) {
       stack_flip_4_2(f,i,ccw(i),faces_around);
       return;
     }
-    else if (ocw == COLLINEAR && is_degree(f->vertex(cw(i)), 4) ){ 
+    if (ocw == COLLINEAR && f->vertex(cw(i))->degree() == 4)
       stack_flip_4_2(f,i,cw(i),faces_around);
-      return;
-    }
-    return;
-  }
+}
 
 
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
-stack_flip_4_2(Face_handle f, int i, int j, 
-		    Faces_around_stack & faces_around)
-  {
+stack_flip_4_2(Face_handle f, int i, int j, Faces_around_stack & faces_around)
+{
     int k = 3-(i+j);
     Face_handle g=f->neighbor(k);
-    if (!faces_around.empty()){
-      if (faces_around.front()== g){ faces_around.pop_front();}
-      else if ( faces_around.back() == g) { faces_around.pop_back();}
+    if (!faces_around.empty())
+    {
+      if (faces_around.front() == g)
+	  faces_around.pop_front();
+      else if (faces_around.back() == g) 
+	  faces_around.pop_back();
     }
     
     //union f with  g and f->neihgbor(i) with g->f->neihgbor(i)
@@ -626,26 +929,27 @@ stack_flip_4_2(Face_handle f, int i, int j,
     hide_vertex(h1, vq->point());
     faces_around.push_front(g);
     faces_around.push_front(h1);    
-  }
-
+}
 
 
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
-stack_flip_3_1(Face_handle f, int i, int j,
-		    Faces_around_stack & faces_around)
+stack_flip_3_1(Face_handle f, int i, int j, Faces_around_stack & faces_around)
 {
   int k = 3-(i+j);
   Face_handle g=f->neighbor(k);
-  if (!faces_around.empty()){
-    if (faces_around.front()== g){ faces_around.pop_front();}
-    else if ( faces_around.back() == g) { faces_around.pop_back();}
+  if (!faces_around.empty())
+  {
+    if (faces_around.front()== g)
+	faces_around.pop_front();
+    else if ( faces_around.back() == g)
+	faces_around.pop_back();
   }
 
   Vertex_handle vq= f->vertex(j);
-  remove_degree_3(vq,f);
   hide_vertex(f,vq->point());
+  remove_degree_3(vq,f);
   faces_around.push_front(f);
 }
 
@@ -653,9 +957,8 @@ stack_flip_3_1(Face_handle f, int i, int j,
 template < class Gt, class Tds >
 void
 Regular_triangulation_2<Gt,Tds>::
-stack_flip_2_2(Face_handle f, int i, Faces_around_stack &
-	       faces_around)
-  {
+stack_flip_2_2(Face_handle f, int i, Faces_around_stack & faces_around)
+{
     Vertex_handle vq = f->vertex(ccw(i));
     flip(f,i);
     if(f->has_vertex(vq)) {
@@ -666,489 +969,22 @@ stack_flip_2_2(Face_handle f, int i, Faces_around_stack &
       faces_around.push_front(f);
       faces_around.push_front(f->neighbor(cw(i)));
     }
-  }
-  
-
-
-template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
-Regular_triangulation_2<Gt,Tds>::
-insert(const Weighted_point  &p,
-	  Triangulation_2<Gt,Tds>::Locate_type& lt,
-	  Face_handle f ) 
- {
-    Vertex_handle v;
-   
-    if(number_of_vertices() == 0) {
-      v = new Vertex(p);
-      lt = OUTSIDE;
-      insert_first(v);
-      return v;
-    }
-		
-    if(number_of_vertices() == 1) {
-      if (geom_traits().compare(p,finite_vertex()->point())) {
-	remove_first(finite_vertex());
-	v= new Vertex(p);
-	insert_first(v);
-	return v;
-      }
-      else{
-	v = new Vertex(p);
-	lt = OUTSIDE;
-	insert_second(v);	
-	return v;
-      }
-    }
-    
-    int li;
-    Face_handle loc = locate(p, lt, li, f);
-    switch(lt){
-    case VERTEX:
-      remove(loc->vertex(li));
-      v = insert(p,lt,f);
-      return v;
-
-    case OUTSIDE:
-      v = new Vertex(p);
-      insert_outside(v,loc); 
-      break;
-	
-    case FACE:
-      if (power_test( loc ,p)==ON_NEGATIVE_SIDE) {
-	hide_vertex(loc, p );
-	return v;
-      }
-      v = new Vertex(p);
-      insert_in_face(v,loc);
-      break;
-	
-    case EDGE:
-      if (power_test( loc ,p)==ON_NEGATIVE_SIDE){
-	hide_vertex(loc, p);
-	return v;
-      }
-      v = new Vertex(p);
-      insert_in_edge(v,loc,li);
-      break;
-    
-    case COLLINEAR_OUTSIDE:
-      v = new Vertex(p);
-      insert_collinear_outside( v, loc,li);
-      break;  
-   
-    default:
-      CGAL_triangulation_assertion(false);  // locate step failed
-    }
-   
-    regularize(v);
-    return v;
-  }
-
-
-
-
-
-template < class Gt, class Tds >
-void
-Regular_triangulation_2<Gt,Tds>::
-remove_2D(Vertex_handle v)
-      {
-	// General case
-  
-	// remove incident faces
-	// set up list of faces neighboring the hole
-	// in ccw order around the hole
-  
-	// should be face_handle instead of void*
-	// but it doesn't link (maybe because of too long names
-	// generated by template classes imbrication)
-	typedef std::pair<void* , int>  Hole_neighbor;
-
-	typedef std::list<Hole_neighbor> Hole;
-	typedef std::list<Hole> Hole_list;
-  
-	Hole hole;
-	Hole_list hole_list;
-	std::list<Face_handle> to_delete;
-
-	Face_handle  f, ff, fn;
-	int i =0,ii =0, in =0;
-	Vertex_handle vv;
-		
- 	Face_circulator fc = v->incident_faces();
-	Face_circulator done(fc);
-	do 
-	  {
-	    f = (*fc).handle(); fc++;
-	    i  = f->index(v);
-	    fn = f->neighbor(i);
-	    vv = f->vertex(f->cw(i));
-	    if( vv->face()== f) vv->set_face(fn);
-	    vv = f->vertex(f->ccw(i));
-	    if( vv->face()== f) vv->set_face(fn);
-	    in = fn->index( f );
-	    fn->set_neighbor(in, NULL);
-	    hole.push_back(Hole_neighbor(&(*fn),in));
-	    to_delete.push_back(f);
-	  }
-	while(fc != done);
-
-	while (! to_delete.empty()){
-	 to_delete.front().Delete();
-	 to_delete.pop_front();
-       }
-	
-	hole_list.push_front(hole);
-  
-	while( ! hole_list.empty())
-	  {
-	    hole = hole_list.front();
-	    hole_list.pop_front();
-	    Hole::iterator hit = hole.begin();
-	    
-	    // if the hole has only three edges, create the triangle
-	    if (hole.size() == 3)
-	      {
-		Face_handle  newf = new Face();
-		hit = hole.begin();
-		for(int j = 0;j<3;j++)
-		  {
-		    ff = (Face*)(*hit).first;
-		    ii = (*hit).second;
-		    hit++;
-		    ff->set_neighbor(ii,newf);
-		    newf->set_neighbor(j,ff);
-		    newf->set_vertex(newf->ccw(j),ff->vertex(ff->cw(ii)));
-		    
-		  }
-		continue;
-	      }
-  
-			// else find an edge with two finite vertices
-			// on the hole boundary
-			// and the new triangle adjacent to that edge
-			//  cut the hole and push it back
-  
-			// first, ensure that a neighboring face
-			// whose vertices on the hole boundary are finite
-			// is the first of the hole
-			bool finite= false;
-			while (!finite)
-			{
-				ff = (Face*)(hole.front()).first;
-				ii = (hole.front()).second;
-				if ( is_infinite(ff->vertex(cw(ii))) ||
-					is_infinite(ff->vertex(ccw(ii)))) 
-				{
-					hole.push_back(hole.front());
-					hole.pop_front();
-				}
-				else 
-					finite=true;
-			}
-  
-			// take the first neighboring face and pop it;
-			ff = (Face*)(hole.front()).first;
-			ii =(hole.front()).second;
-			hole.pop_front();
-  
-  
-			Vertex_handle v0 = ff->vertex(ff->cw(ii)); 
-			Weighted_point p0 =v0->point();
-			Vertex_handle v1 = ff->vertex(ff->ccw(ii)); 
-			Weighted_point p1 =v1->point();
-			Vertex_handle v2 = infinite_vertex(); 
-			Weighted_point p2;
-			Vertex_handle vv; Weighted_point p;
-  
-			Hole::iterator hdone = hole.end();
-			hit =  hole.begin();
-			Hole::iterator cut_after(hit);
-  
-			// if tested vertex is c with respect to the vertex opposite
-			// to NULL neighbor,
-			// stop at the before last face;
-			hdone--;
-			while( hit != hdone) 
-			{
-				fn = (Face*)(*hit).first;
-				in = (*hit).second;
-				vv = fn->vertex(ccw(in));
-				if (is_infinite(vv)) 
-				{
-					if(is_infinite(v2))
-						cut_after = hit;
-				}else 
-				{	// vv is a finite vertex
-				  p = vv->point();
-				  if (
-				      geom_traits().orientation(p0,p1,p) == 
-					          COUNTERCLOCKWISE) {
-				    if(is_infinite(v2)){	
-				      v2=vv; p2=p;
-				      cut_after=hit;
-				    }
-				    else {	
-				      if( geom_traits().power_test (p0,p1,p2,p) == 
-					  ON_POSITIVE_SIDE){	
-					v2=vv; p2=p; cut_after=hit;
-				      }
-				    }
-				  }
-				}
-				++hit;
-			}
-  
-  
-			// create new triangle and update adjacency relations
-			Face_handle  newf = new Face(v0,v1,v2);
-			newf->set_neighbor(2,ff);
-			ff->set_neighbor(ii, newf);
-  
-  
-			//update the hole and push back in the Hole_List stack
-			// if v2 belongs to the neighbor following or preceding *f
-			// the hole remain a single hole
-			// otherwise it is split in two holes
-  
-			fn = (Face*)(hole.front()).first;
-			in = (hole.front()).second;
-			if (fn->has_vertex(v2, i) && i == (int)fn->ccw(in)) 
-			{
-				newf->set_neighbor(0,fn);
-				fn->set_neighbor(in,newf);
-				hole.pop_front();
-				hole.push_front(Hole_neighbor(&(*newf),1));
-				hole_list.push_front(hole);
-			}else
-			{
-				fn = (Face*)(hole.back()).first;
-				in = (hole.back()).second;
-				if (fn->has_vertex(v2, i) && i== (int)fn->cw(in)) 
-				{
-					newf->set_neighbor(1,fn);
-					fn->set_neighbor(in,newf);
-					hole.pop_back();
-					hole.push_back(Hole_neighbor(&(*newf),0));
-					hole_list.push_front(hole);
-				}else
-				{
-					// split the hole in two holes
-					Hole new_hole;
-					++cut_after;
-					while( hole.begin() != cut_after )
-					{
-						new_hole.push_back(hole.front());
-						hole.pop_front();
-					}
-  
-					hole.push_front(Hole_neighbor(&(*newf),1));
-					new_hole.push_front(Hole_neighbor(&(*newf),0));
-					hole_list.push_front(hole);
-					hole_list.push_front(new_hole);
-				}
-			}
-		}
-
-	}
-
-
-template < class Gt, class Tds >
-void
-Regular_triangulation_2<Gt,Tds>::
-remove(Vertex_handle v )
-{
-	  CGAL_triangulation_precondition(! v.is_null());
-	  CGAL_triangulation_precondition( !is_infinite(v));
-	  Weighted_point_list p_list;
-
-	  if  (number_of_vertices() == 1){
-	    _tds.remove_first(& (*v));
-	    v.clear();
-	    return;
-	  }
- 
-	  //  take care of finite_vertex data member
-	  if (finite_vertex() == v){
-	    Face_handle f = v->face();
-	    int i=f->index(v);
-	    Vertex_handle vv= is_infinite(f->vertex(cw(i))) ? 
-		f->vertex(ccw(i)) : f->vertex(cw(i));
-	    set_finite_vertex( vv);
-	  }
-	  
-	  // Collect in p_list
-	  // the points hidden by the face to be deleted
-	  Face_circulator fc = v->incident_faces(),done(fc);
-	  do {
-	    p_list.splice(p_list.begin(), fc->point_list());
-	    fc++;
-	  }  
-	  while( fc != done);
-	    
-	  if (number_of_vertices() == 2) {
-	    Face_handle f = v->face();
-	    Face_handle ff =f->neighbor(0);
-	    ff.Delete();
-	    f.Delete();
-	  }
-	  else{
-	    if ( dimension() == 1) remove_1D(v);
-	    else  remove_2D(v);
-	  }
-    
-	  v.Delete();
-	  set_number_of_vertices(number_of_vertices()-1);
-
-
-	  Weighted_point p;
-	  while ( ! p_list.empty() )
-	    {	p=p_list.front();
-	    p_list.pop_front();
-//cerr<<endl<<"re-insertion : "<<p<<endl;
-	    insert(p);
-	    }
-
-	  return;
-//cerr<<"etat APRES remove"<<endl;
-//affiche_tout();
-	}
-
-template < class Gt, class Tds >
-bool
-Regular_triangulation_2<Gt,Tds>::
-is_valid(bool verbose = false, int level = 0) const
-{
-	  if(number_of_vertices() <= 1) {
-	    return true;
-	  }
-  
-	  bool result = Triangulation_2<Gt,Tds>::is_valid();
-  		
-	  for( Face_iterator it = faces_begin(); it != faces_end() ; it++) {
-
-	    for(int i=0; i<3; i++) {
-	    if 	( ! is_infinite( it->vertex(i))) {
-	      result = result &&
-	       ON_POSITIVE_SIDE != 
-		power_test( it->neighbor(i), it->vertex(i)->point());
-	    }
-	    if ( !result) {
-	      cerr << "face : " << (void*)&(*it)<< "  " 
-		   <<"["<< it->vertex(0)->point()
-		   <<"/"<< it->vertex(1)->point()
-		   <<"/"<< it->vertex(2)->point()<<"]"	<<endl;
-	      cerr << "voisin : " << (void*)&(*(it->neighbor(i)))<< "  "
-		   <<"["<<(it->neighbor(i))->vertex(0)->point()
-		   <<"/"<<(it->neighbor(i))->vertex(1)->point()
-		   <<"/"<<(it->neighbor(i))->vertex(2)->point()<<"]" <<endl;
-	    }
-	    CGAL_triangulation_assertion( result );
-	    }
-	    
-	    Weighted_point_list::iterator plit= it->point_list().begin(),
-	      pldone= it->point_list().end();
-	    for( ; plit != pldone ; plit++) {
-	      result = result &&
-		power_test( it, *plit) == ON_NEGATIVE_SIDE ;
-	    	
-	      if ( !result) {
-		cerr << "face : " << (void*)&(*it)<< "  " 
-		     <<"["<< it->vertex(0)->point()
-		     <<"/"<< it->vertex(1)->point()
-		     <<"/"<< it->vertex(2)->point()<<"]"	<<endl;
-		cerr << "hidden point : " << *plit <<endl;
-	      }
-	     CGAL_triangulation_assertion( result ); 
-	    }
-	
-	  }
-	  return result;
-	}
-
-
-template < class Gt, class Tds >
-void
-Regular_triangulation_2<Gt,Tds>::
-affiche_tout()
-{
-  cerr<< "AFFICHE TOUTE LA TRIANGULATION :"<<endl;
-		Face_iterator fi , fi_end=faces_end();
-
-		cerr << endl<<"====> "<<this<<endl;
-		fi=faces_begin();
-cerr<<"***"<<endl;
-		while(fi != fi_end)
-		{	
-			cerr << "face : "<<(void*)&(*fi)<<" => "<<endl;
-			cerr <<"point :"<<(fi->vertex(0)->point())
-					<<" / voisin "<<&(*(fi->neighbor(0)))
-				<<"["<<(fi->neighbor(0))->vertex(0)->point()
-				<<"/"<<(fi->neighbor(0))->vertex(1)->point()
-			<<"/"<<(fi->neighbor(0))->vertex(2)->point()<<"]"
-					<<endl;
-			cerr <<"point :"<<(fi->vertex(1)->point())
-				<<" / voisin "<<&(*(fi->neighbor(1)))
-				<<"["<<(fi->neighbor(1))->vertex(0)->point()
-				<<"/"<<(fi->neighbor(1))->vertex(1)->point()
-			<<"/"<<(fi->neighbor(1))->vertex(2)->point()<<"]"
-				<<endl;
-			cerr <<"point :"<<(fi->vertex(2)->point())
-				<<" / voisin "<<&(*(fi->neighbor(2)))
-				<<"["<<(fi->neighbor(2))->vertex(0)->point()
-				<<"/"<<(fi->neighbor(2))->vertex(1)->point()
-			    <<"/"<<(fi->neighbor(2))->vertex(2)->point()<<"]"
-				<<endl;
-
-			Weighted_point_list::iterator current;
-			cerr << "  +++++>>>    ";
-			for (current= fi->point_list().begin() ; 
-			     current!= fi->point_list().end() ; current++ )
-			  {
-					cerr <<"[ "<< (*current) << " ] ,  ";
-			  }
-			cerr <<endl;
-			++fi;
-		}
- cerr <<"faces infinies "<<endl;
-			
- if ( number_of_vertices() <= 2) {return;}
-Face_circulator fc = infinite_vertex()->incident_faces(),fcdone(fc);
- do {	
-   cerr<<(void*)&(*fc) <<" = "<< fc->vertex(0)->point()<<" / "
-       << fc->vertex(1)->point()<<" / "<< fc->vertex(2)->point()
-       <<" / ";
-   Weighted_point_list::iterator current;
-   cerr << "  +++++>>>    ";
-   for (current= fc->point_list().begin() ; 
-	current!= fc->point_list().end() ; current++ )
-     {
-       cerr <<"[ "<< (*current) << " ] ,  ";
-     }
-   cerr <<endl;
- }while(++fc != fcdone);
-
-
- cerr <<endl;
-
- if (number_of_vertices()>1) {
-   cerr << "affichage des sommets de la triangulation reguliere"<<endl;
-   Vertex_iterator vi;
-   vi=vertices_begin();
-   if (number_of_vertices()>1) {
-     while ( vi!=vertices_end() ) {
-       //cerr << "* "<< &(*vi) <<"  /  ";
-       cerr << "* "<< vi->point() <<"  / face associee : "
-	    << (void*)(&(*(vi->face())))<<endl;;
-       ++vi;
-     }
-     cerr<<endl;
-   }
- }
-
 }
-
+  
+template < class Gt, class Tds >
+void
+Regular_triangulation_2<Gt,Tds>::
+//stack_flip_dim1(Face_handle f, int i, Faces_around_stack &faces_around)
+stack_flip_dim1(Face_handle f, int i)
+{
+  Face_handle n= f->neighbor(i);
+  int in = n->index(f);
+  f->set_vertex(1-i, n->vertex(in));
+  f->set_neighbor(i, n->neighbor(1-in));
+  n->neighbor(1-in)->set_neighbor(n->neighbor(1-in)->index(n), f);
+  (f->point_list()).splice(f->point_list().end(),n->point_list());
+  delete &(*n);
+}
 CGAL_END_NAMESPACE 
 
-#endif
+#endif // CGAL_REGULAR_TRIANGULATION_2_H

@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_2.h
-// package       : Triangulation (3.17)
+// package       : Triangulation (4.30)
 // source        : $RCSfile : Constrained_triangulation_sweep_2.h,v $
-// revision      : $Revision: 1.3.1.16 $
-// revision_date : $Date: 1999/05/04 08:44:02 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1999/10/18 13:36:03 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -62,61 +59,60 @@
 #include <CGAL/Triangulation_2.h>
 
 CGAL_BEGIN_NAMESPACE
+template < class Gt, class Tds>
+class Triangulation_2;
+
+template < class Gt, class Tds>
+class Constrained_triangulation_2;
 
 template < class Gt, class Tds>
 class Constrained_triangulation_sweep_2
 {
 public:
-    typedef Gt  Geom_traits;
-    typedef typename Gt::Point Point;
-    typedef typename Gt::Segment Segment;
+  typedef Gt  Geom_traits;
+  typedef typename Gt::Point Point;
+  typedef typename Gt::Segment Segment;
     
-  typedef Triangulation_face_2<Gt,Tds> Face;
-  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef Triangulation_face_handle_2<Gt,Tds> Face_handle;
-  typedef Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
-  typedef std::pair<Face_handle, int>                Edge;
+  typedef Triangulation_2<Gt,Tds> Triangulation;
+  typedef Constrained_triangulation_2<Gt,Tds> Ctriangulation;
+  
+  typedef typename Ctriangulation::Face_handle Face_handle; 
+  typedef typename Ctriangulation::Vertex_handle Vertex_handle;
+  typedef typename Ctriangulation::Edge Edge;
+  typedef typename Ctriangulation::Vertex Vertex;
+  typedef typename Ctriangulation::Face Face;
+  typedef typename Ctriangulation::Constraint Constraint;
+  typedef std::pair<Face_handle, int> Neighbor;
 
-    
- 
-  typedef std::pair<Point,Point> Constraint;
-    
   class Neighbor_list;
   class Chain;
   class Event_less;
   class Status_comp;
     
-  typedef std::list<Point> Out_edges;
-  typedef std::map<Point,Out_edges *,Event_less> Event_queue;
-  typedef std::map<Constraint,void *, Status_comp> Sweep_status;
-  // should be  
-  //typedef std::map<Constraint, Chain *, Status_comp> Sweep_status;
-  typedef std::pair<Face_handle, int> Neighbor;
-    
-    class Event_less : public CGAL_STD::binary_function<Point, Point, bool>
-    {
-    private:
-      Geom_traits t;
-    public:
-      Event_less() : t() {};
-      Event_less(const Geom_traits& traits) : t(traits) {};
-      bool operator() (const Point& p, const Point& q)
+  class Event_less : public CGAL_STD::binary_function<Point, Point, bool>
+  {
+  private:
+    Geom_traits t;
+  public:
+    Event_less() : t() {};
+    Event_less(const Geom_traits& traits) : t(traits) {};
+    bool operator() (const Point& p, const Point& q)
       {
         return(t.compare_x(p,q)== SMALLER ||
                ( t.compare_x(p,q)== EQUAL &&
                  t.compare_y(p,q) == SMALLER ) );
       }
-    };
+  };
     
-    class Status_comp : 
-      public CGAL_STD::binary_function<Constraint, Constraint, bool>
-    {
-    private:
-      Geom_traits t;
-    public:
-      Status_comp() : t() {};
-      Status_comp(const Geom_traits& traits) : t(traits){}
-      bool operator() (const Constraint& s1, const Constraint& s2)
+  class Status_comp : 
+  public CGAL_STD::binary_function<Constraint, Constraint, bool>
+  {
+  private:
+    Geom_traits t;
+  public:
+    Status_comp() : t() {};
+    Status_comp(const Geom_traits& traits) : t(traits){}
+    bool operator() (const Constraint& s1, const Constraint& s2)
       {
         Point p1= s1.first;
         Point p2= s2.first;
@@ -173,11 +169,11 @@ public:
           }
         }
 	// shouldn't get there
-	//CGAL_triangulation_assertion(false);
+	// CGAL_triangulation_assertion( false );
 	return false;
       }
       
-    };
+  };
     
     class Neighbor_list : public CGAL_STD::list<Neighbor>
     {
@@ -185,7 +181,7 @@ public:
       bool is_removable(Face_handle fh)
       {
 	return ( (*fh).vertex(1) == (*fh).vertex(2) &&
-		 !(*fh).neighbor(1).is_null() && !(*fh).neighbor(2).is_null() );
+		 !(*fh).neighbor(1).is_null() && !(*fh).neighbor(2).is_null());
       }
 
       void remove_flat(Face_handle fh) 
@@ -197,7 +193,8 @@ public:
 	if ( !f2.is_null()) { (*f2).set_neighbor( (*f2).index(fh), f1);}
 	if ( !f1.is_null()) { (*f1).set_neighbor( (*f1).index(fh), f2);}
 	( (*fh). vertex(0))->set_face( !f2.is_null() ? f2 : f1 );
-	fh.Delete();
+	//fh.Delete();
+	delete &(*fh);
 	return;
       }
 
@@ -295,55 +292,59 @@ public:
       Neighbor_list* down_list(){return &down;}
       void set_right_most(Vertex_handle v) { rm=v;}
     };
-    
-    Constrained_triangulation_sweep_2( const Gt& t = Gt())
-      : _t(t), _lc(NULL)
-    {
-    }
-    
-    Constrained_triangulation_sweep_2( std::list<Constraint>& lc,
-                                            const  Gt& t = Gt())
-      : _t(t), _lc(&lc), event_less(t), queue(event_less), status_comp(t),
-	status(status_comp),upper_chain()
-    {
-      //event_less= Event_less(_t);
-      //queue = Event_queue(event_less);
-      //status_comp = Status_comp(_t);
-      //status= Sweep_status(status_comp);
-      // upper_chain=Chain();
-      make_event_queue();
-      build_triangulation();
-    }
-    Geom_traits  traits() { return _t; }
-    Event_less  xy_less() {return event_less;}
-    Vertex_handle vertex() {return the_vertex; }
-    
-
-    // friend class Chain;
-    // friend class Event_less;
-    // friend class Status_comp;
-    friend class Neighbor_list;
-
-protected:
-    Geom_traits _t;
+  
+  typedef std::list<Point> Out_edges;
+  typedef std::map<Point,Out_edges *,Event_less> Event_queue;
+  typedef std::map<Constraint,void *, Status_comp> Sweep_status;
+  // should be  
+  //typedef std::map<Constraint, Chain *, Status_comp> Sweep_status;
+  
+  // added to please MIPS Pro
+  typedef typename Event_queue::iterator  Event_queue_iterator;
+  typedef typename Sweep_status::iterator Sweep_status_iterator;
+  
+  
+ protected:
+    Ctriangulation* _tr;
     std::list<Constraint>* _lc;
     Event_less event_less;
     Event_queue queue;
     Status_comp status_comp;
     Sweep_status status;
     Chain upper_chain;
-    Vertex_handle the_vertex;
+ 
+ public:
+    Constrained_triangulation_sweep_2()
+      : _tr(NULL), _lc(NULL)
+    {
+    }
     
+    Constrained_triangulation_sweep_2( Ctriangulation* ct,
+				       std::list<Constraint>& lc)
+       : _tr(ct), _lc(&lc), 
+      event_less(ct->geom_traits()), queue(event_less), 
+      status_comp(ct->geom_traits()), status(status_comp),
+      upper_chain()
+    {
+      make_event_queue();
+      build_triangulation();
+    }
+    
+    Geom_traits  geom_traits() { return _tr->geom_traits(); }
+    Event_less  xy_less() { return event_less;}
+     
+    friend class Neighbor_list;
 
 public:
     void make_event_queue();
     void build_triangulation();
-    Vertex_handle treat_in_edges(const Event_queue::iterator & event,
-                                 Sweep_status::iterator & loc);
-    void treat_out_edges(const Event_queue::iterator & event,
-                         Sweep_status::iterator & loc);
-    Vertex_handle set_infinite_faces();
-     bool do_intersect(const Constraint& c1, const Constraint& c2 );
+    Vertex_handle treat_in_edges(const Event_queue_iterator & event,
+                                 Sweep_status_iterator & loc);
+    void treat_out_edges(const Event_queue_iterator & event,
+                         Sweep_status_iterator & loc);
+    //Vertex_handle set_infinite_faces();
+    void set_infinite_faces();
+    bool do_intersect(const Constraint& c1, const Constraint& c2 );
     
 };
 
@@ -358,7 +359,7 @@ make_event_queue()
   std::list<Constraint>::iterator sdone=_lc->end();
   Constraint s;
   Point p,q;
-  Event_queue::iterator look_up;
+  Event_queue_iterator look_up;
     while (sit != sdone) {
       s=*sit++;
       if (event_less(s.first,s.second)) { p=s.first; q = s.second;}
@@ -402,16 +403,17 @@ build_triangulation()
   Point p;
   Vertex_handle v;
   Out_edges* out;
-  Event_queue::iterator event;
+  Event_queue_iterator event;
    while (! queue.empty()) {
         event = queue.begin();
 
     // locate (p,p) dans status
     p = (*event).first;
     out = (*event).second;
-    Sweep_status::iterator loc=status.lower_bound(Constraint(p,p));
+    Sweep_status_iterator loc=status.lower_bound(Constraint(p,p));
     // deal with the contraints finishing at p
     v = treat_in_edges(event,loc);
+    _tr->set_number_of_vertices( _tr->number_of_vertices() +1);
     // insert constraint beginning at p
     treat_out_edges(event,loc);
 
@@ -426,21 +428,22 @@ build_triangulation()
   // at this stage status is empty
   // and the lists of upper_chain correspond to the convex hull
   assert( status.empty());
-  the_vertex = set_infinite_faces();
+  //the_vertex = set_infinite_faces();
+  set_infinite_faces();
   return;
 }
 
 template<class Gt, class Tds>
 Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
 Constrained_triangulation_sweep_2<Gt,Tds>::
-treat_in_edges(const Event_queue::iterator & event,
-               Sweep_status::iterator & loc)
+treat_in_edges(const Event_queue_iterator & event,
+               Sweep_status_iterator & loc)
 {
   // loc is assumed to point to the first constraint in status
   // not less than [p,p];
   Vertex_handle  v = (new Vertex((*event).first))->handle();
   Chain* pch;
-  Sweep_status::iterator loc_start=loc;
+  Sweep_status_iterator loc_start=loc;
 
   if (loc == status.end()) { pch = &upper_chain;}
   else { pch = (Chain*)((*loc).second);}
@@ -526,8 +529,8 @@ treat_in_edges(const Event_queue::iterator & event,
 template<class Gt, class Tds>
 void
 Constrained_triangulation_sweep_2<Gt,Tds>::
-treat_out_edges(const Event_queue::iterator & event,
-                Sweep_status::iterator & loc)
+treat_out_edges(const Event_queue_iterator & event,
+                Sweep_status_iterator & loc)
 {
   Point p = (*event).first;
   Out_edges* out = (*event).second;
@@ -552,7 +555,7 @@ treat_out_edges(const Event_queue::iterator & event,
   Vertex_handle v = pc_up->right_most();
   //assert (v->point() == p);
   //c= Constraint(p,p);
-  //Sweep_status::iterator loc_bis = status.lower_bound(Constraint(p,p));
+  //Sweep_status_iterator loc_bis = status.lower_bound(Constraint(p,p));
   //assert( loc == loc_bis);
 
   while( outit != (*out).end()){
@@ -583,27 +586,71 @@ treat_out_edges(const Event_queue::iterator & event,
 }
 
 template<class Gt, class Tds>
-Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
+void
+//Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
 Constrained_triangulation_sweep_2<Gt,Tds>::
 set_infinite_faces()
 {
-  Vertex_handle infinite= (new Vertex)->handle();
+  //Vertex_handle infinite= (new Vertex)->handle();
+  Vertex_handle infinite= _tr->infinite_vertex();
+
   // Triangulation may be empty;
-  if (upper_chain.right_most().is_null()) {return(infinite);}
+  if (upper_chain.right_most().is_null()) {return;}
 
   Neighbor_list* upper_list= upper_chain.up_list();
   Neighbor_list* lower_list= upper_chain.down_list();
 //Triangulation may have only one vertex
   if (upper_list->empty() || lower_list->empty()) 
-	{return upper_chain.right_most();}
-
-//Triangulation has now at least two vertices
-  lower_list->splice(lower_list->end(), *upper_list);
-  // * lower_list now describes the convex-hull ccw
+    //	{return upper_chain.right_most();}
+    {
+      _tr->set_number_of_vertices(0);
+      _tr->insert_first(upper_chain.right_most()->point());
+      delete  &(*upper_chain.right_most());
+       return;
+    }
+ 
+  //Triangulation has now at least two vertices
   Face_handle first, last;
   Face_handle newf, fn;
   int in;
 
+  // Solve the One dimensional case
+  first = (lower_list->front()).first;
+  last = (upper_list->back()).first;
+  if (first->vertex(1) == first->vertex(2) &&
+      last->vertex(1)  == last ->vertex(2) ) { 
+    //dimension 1
+    //both test are necessary because it may remain some  flat faces
+    //in the upper chain.
+    _tr->set_dimension(1);
+    newf = new Face(infinite, first->vertex(1), NULL);
+    first = last = newf;
+    infinite->set_face(first);
+    Neighbor_list::iterator it = lower_list->begin();
+    for( ; it != lower_list->end(); it++) {
+      fn = (*it).first;
+      //turn the vertex [vww] into [wvNULL]
+      fn->set_vertex(1, fn->vertex(0));
+      fn->set_vertex(0, fn->vertex(2));
+      fn->set_vertex(2, Vertex_handle());
+      fn->vertex(0)->set_face(fn);
+      fn->set_neighbor(1,last);
+      last->set_neighbor(0,fn);
+      last = fn;
+    }
+    fn = new Face(last->vertex(1), infinite,NULL);
+    fn->vertex(0)->set_face(fn);
+    fn->set_neighbor(1,last);
+    last->set_neighbor(0,fn);
+    fn->set_neighbor(0,first);
+    first->set_neighbor(1,fn);
+    return;
+  }
+  
+    // good 2d triangulation
+  _tr->set_dimension(2);
+  lower_list->splice(lower_list->end(), *upper_list);
+  // * lower_list now describes the convex-hull ccw
   fn = (*(lower_list->begin())).first;
   in = (*(lower_list->begin())).second;
   lower_list->pop_front();
@@ -630,7 +677,7 @@ set_infinite_faces()
   last->set_neighbor(2,first);first->set_neighbor(1,last);
   (first->vertex(2))->set_face(first->neighbor(0)); //cannot be done before
   infinite->set_face(last);
-  return(infinite);
+  return;
 }
 
 
@@ -647,13 +694,13 @@ do_intersect(const Constraint& c1, const Constraint& c2 )
    if ( (!event_less(c1.second, c2.second)) &&
         (!event_less(c2.second, c1.second)) ) {return false;}
    else{
-   Orientation t1 = _t.orientation(c1.first,c1.second,c2.first);
-   Orientation t2 = _t.orientation(c1.first,c1.second,c2.second);
+   Orientation t1 = geom_traits().orientation(c1.first,c1.second,c2.first);
+   Orientation t2 = geom_traits().orientation(c1.first,c1.second,c2.second);
    if (t1 == COLLINEAR && t2 == COLLINEAR) {return true;}
 
     return ( t1 != t2 &&
-             (_t.orientation(c2.first,c2.second,c1.first) !=
-              _t.orientation(c2.first,c2.second,c1.second)));
+             (geom_traits().orientation(c2.first,c2.second,c1.first) !=
+              geom_traits().orientation(c2.first,c2.second,c1.second)));
   }
    // return false;
 }

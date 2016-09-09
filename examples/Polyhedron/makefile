@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,13 +15,18 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
@@ -39,38 +45,36 @@ all:            \
                 polyhedron_prog_simple \
                 polyhedron_prog_tetra 
 
-polyhedron_prog_incr_builder: polyhedron_prog_incr_builder.o
-	$(CGAL_CXX) -o polyhedron_prog_incr_builder polyhedron_prog_incr_builder.o $(LDFLAGS)
+polyhedron_prog_incr_builder$(EXE_EXT): polyhedron_prog_incr_builder$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_incr_builder polyhedron_prog_incr_builder$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_prog_normals: polyhedron_prog_normals.o
-	$(CGAL_CXX) -o polyhedron_prog_normals polyhedron_prog_normals.o $(LDFLAGS)
+polyhedron_prog_normals$(EXE_EXT): polyhedron_prog_normals$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_normals polyhedron_prog_normals$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_prog_off: polyhedron_prog_off.o
-	$(CGAL_CXX) -o polyhedron_prog_off polyhedron_prog_off.o $(LDFLAGS)
+polyhedron_prog_off$(EXE_EXT): polyhedron_prog_off$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_off polyhedron_prog_off$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_prog_point_iterator: polyhedron_prog_point_iterator.o
-	$(CGAL_CXX) -o polyhedron_prog_point_iterator polyhedron_prog_point_iterator.o $(LDFLAGS)
+polyhedron_prog_point_iterator$(EXE_EXT): polyhedron_prog_point_iterator$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_point_iterator polyhedron_prog_point_iterator$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_prog_simple: polyhedron_prog_simple.o
-	$(CGAL_CXX) -o polyhedron_prog_simple polyhedron_prog_simple.o $(LDFLAGS)
+polyhedron_prog_simple$(EXE_EXT): polyhedron_prog_simple$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_simple polyhedron_prog_simple$(OBJ_EXT) $(LDFLAGS)
 
-polyhedron_prog_tetra: polyhedron_prog_tetra.o
-	$(CGAL_CXX) -o polyhedron_prog_tetra polyhedron_prog_tetra.o $(LDFLAGS)
+polyhedron_prog_tetra$(EXE_EXT): polyhedron_prog_tetra$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_tetra polyhedron_prog_tetra$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   polyhedron_prog_incr_builder \
-                   polyhedron_prog_normals \
-                   polyhedron_prog_off \
-                   polyhedron_prog_point_iterator \
-                   polyhedron_prog_simple \
-                   polyhedron_prog_tetra \
-                   core
+clean: \
+                   polyhedron_prog_incr_builder.clean \
+                   polyhedron_prog_normals.clean \
+                   polyhedron_prog_off.clean \
+                   polyhedron_prog_point_iterator.clean \
+                   polyhedron_prog_simple.clean \
+                   polyhedron_prog_tetra.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

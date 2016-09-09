@@ -1,42 +1,39 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
-// file          : src/examples/RangeSegmentTrees/range_tree_set_2.C
+// file          : examples/RangeSegmentTrees/range_tree_set_2.C
 // source        : src/examples/RangeSegmentTrees/range_tree_set_2.C
 // revision      : $Revision: 1.5$
 // revision_date : $Date: 1998/09/28 19:18:42 $/
@@ -70,7 +67,7 @@ int main()
 {
   typedef Traits::Key Key;
   typedef Traits::Interval Interval;
-  Range_tree_2_type RR;
+  //  Range_tree_2_type RR;
   std::vector<Key> InputList, OutputList;
   std::vector<Key>::iterator first, last, current;
 
@@ -88,23 +85,26 @@ int main()
 
   Range_tree_2_type Range_tree_2(first,last);
 
-  Interval win(Interval(Key(4,8.1),Key(5,8.2)));
+  Key a=Key(4,8.1);
+  Key b=Key(5,8.2);
+  Interval win=Interval(a,b);
 
-  cerr << endl << "Window Query: lower left point: (4.0,5.0),";
-  cerr << "upper right point: (8.1,8.2)" << endl;
+
+  std::cerr << std::endl << "Window Query: lower left point: (4.0,5.0),";
+  std::cerr << "upper right point: (8.1,8.2)" << std::endl;
   Range_tree_2.window_query(win, std::back_inserter(OutputList));
   current=OutputList.begin();
 
   while(current!=OutputList.end())
   {
-    cerr << (*current).x()<< "-" << (*current).y() << endl;
+    std::cerr << (*current).x()<< "-" << (*current).y() << std::endl;
     current++;
   }
 
   if(Range_tree_2.CRange_tree_2->is_valid())
-    cerr << "Tree is valid\n";
+    std::cerr << "Tree is valid\n";
   else
-    cerr << "Tree is not valid\n";
+    std::cerr << "Tree is not valid\n";
 
   return 0; 
 }

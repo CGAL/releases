@@ -1,22 +1,15 @@
 
 #include <CGAL/basic.h>
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream.h>
-#include <fstream.h>
-#include <strstream.h>
-#include <iterator.h>
+#include <cassert>
+#include <iostream>
+#include <fstream>
+
 
 // Define shorter names to please linker (g++/egcs)
-#define Cartesian C
-#define Homogeneous H
+#define Cartesian Ca
+#define Homogeneous Ho
 
-//#include <CGAL/Gmpz.h>
 #include <CGAL/Cartesian.h>
-//#include <CGAL/Homogeneous.h>
-
-
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
@@ -37,14 +30,14 @@ public:
 
 void usage(char* program)
 {
-  cerr << "\nNAME\n     "
+  std::cerr << "\nNAME\n     "
        << program << " - Triangulation of a point set\n\n";
-  cerr << "SYNOPSIS\n     "
+  std::cerr << "SYNOPSIS\n     "
        << program << " [-file fname]\n";
 
-  cerr << "\nDESCRIPTION\n"
+  std::cerr << "\nDESCRIPTION\n"
        << "     Triangulates a point set that comes from a file or stdin.\n";
-  cerr << "\nOPTIONS\n"
+  std::cerr << "\nOPTIONS\n"
        << "     All options can be abbreviated by their first character\n\n";
 }
 
@@ -70,13 +63,13 @@ parse(int argc, char* argv[], Options &opt)
           return false;
       }
       else {
-          cerr << "Unrecognized option " << argv[0] << endl;
+          std::cerr << "Unrecognized option " << argv[0] << std::endl;
           usage(opt.program);
           return false;
       }
     }
   if(argc > 0){
-      cerr << "Unrecognized option " << argv[0] << endl;
+      std::cerr << "Unrecognized option " << argv[0] << std::endl;
       usage(opt.program);
       return false;
   }
@@ -85,13 +78,7 @@ parse(int argc, char* argv[], Options &opt)
 
 
 typedef double coord_type;
-//typedef leda_integer  coord_type;
-//typedef CGAL::Gmpz coord_type;
-//typedef CGAL::Fixed coord_type;
-
 typedef CGAL::Cartesian<coord_type>  Rpst;
-//typedef CGAL::Homogeneous<coord_type>  Rpst;
-
 typedef CGAL::Triangulation_euclidean_traits_2<Rpst> Gt;
 typedef CGAL::Triangulation_vertex_base_2<Gt> Vb;
 typedef CGAL::Triangulation_face_base_2<Gt>  Fb;
@@ -124,16 +111,21 @@ void input_from_file(Triangulation &T,
         return;
     }
 
-    ifstream is(opt.fname);
+    std::ifstream is(opt.fname);
     CGAL::set_ascii_mode(is);
 
     int n;
     is >> n;
-    cout << "Reading " << n << " points" << endl;
+    std::cout << "Reading " << n << " points" << std::endl;
 
-    istream_iterator<Point, ptrdiff_t> begin(is);
-    istream_iterator<Point, ptrdiff_t> end;
+    std::istream_iterator<Point> begin(is);
+    std::istream_iterator<Point> end;
     T.insert(begin, end);
+//     Point p;
+//     for(int i=0; i<n; i++) {
+//       is >> p; 
+//       T.insert(p);
+//     }
 }
 
 void input_from_range(Triangulation &T)
@@ -144,7 +136,7 @@ void input_from_range(Triangulation &T)
     L.push_front(Point(1,1));
 
     int n =T.insert(L.begin(), L.end());
-    cout << n << " points inserted from a list." << endl;
+    std::cout << n << " points inserted from a list." << std::endl;
 
     std::vector<Point> V(3);
     V[0] = Point(0, 0);
@@ -152,7 +144,7 @@ void input_from_range(Triangulation &T)
     V[2] = Point(0.3, 0.3);
 
     n = T.insert(V.begin(), V.end());
-    cout << n << " points inserted from a vector." << endl;
+    std::cout << n << " points inserted from a vector." << std::endl;
 }
 
 
@@ -160,12 +152,11 @@ void faces_along_line(Triangulation &T)
 {
     Point p(0.2, 0.6), q(0.7, 0.4);
 
-    cin >> p >> q;
     Face_handle f = T.locate(p);
     Line_face_circulator lfc = T.line_walk(p, q, f),
                          done(lfc);
     if(lfc == (CGAL_NULL_TYPE) NULL){
-        cout << "Line does not intersect convex hull" << endl;
+        std::cout << "Line does not intersect convex hull" << std::endl;
     } else {
         int count = 0;
         do{
@@ -173,7 +164,8 @@ void faces_along_line(Triangulation &T)
                 count++;
             }
         }while(++lfc != done);
-        cout << "The line intersects " << count << " finite faces" << endl;
+        std::cout << "The line intersects " 
+		  << count << " finite faces" << std::endl;
     }
 }
 
@@ -184,7 +176,7 @@ void convex_hull(Triangulation &T)
     Vertex_circulator chc = T.infinite_vertex()->incident_vertices(),
                       done(chc);
     if(chc == (CGAL_NULL_TYPE)NULL) {
-        cout << "convex hull is empty" << endl;
+        std::cout << "convex hull is empty" << std::endl;
     } else {
         p = chc->point();
         do {
@@ -199,15 +191,15 @@ void convex_hull(Triangulation &T)
 void fileIO(Triangulation &T,
             const Options& opt)
 {
-    cout << "The triangulation will be written to a file and read again\n";
+    std::cout << "The triangulation will be written to a file and read again\n";
     {
-        ofstream out("tr");
+        std::ofstream out("tr");
         CGAL::set_ascii_mode(out);
-        out << T << endl;
+        out << T << std::endl;
     }
     Triangulation T2;
 
-    ifstream in("tr");
+    std::ifstream in("tr");
     CGAL::set_ascii_mode(in);
     in >> T2;
     assert( T2.is_valid() );
@@ -230,7 +222,7 @@ main(int argc, char* argv[])
     L.push_front(Point(1,1));
 
     int n = T.insert(L.begin(), L.end());
-    cout << n << " points inserted from a list." << endl;
+    std::cout << n << " points inserted from a list." << std::endl;
     
 
     T.insert(Point(0,0));

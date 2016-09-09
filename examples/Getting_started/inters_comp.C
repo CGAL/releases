@@ -1,16 +1,16 @@
 #include "tutorial.h"
 #include <CGAL/intersections.h>
 
-main()
+int main()
 {
   Triangle t1(Point(2,6), Point(-6,5), Point(-2,-7));
   Triangle t2(Point(6,0), Point(-3,0), Point(2,-5));
 
-  cout << "The intersection of triangle 1:\n" << t1;
-  cout << "\nand triangle 2:\n" << t2 << "\nis ";
+  std::cout << "The intersection of triangle 1:\n" << t1;
+  std::cout << "\nand triangle 2:\n" << t2 << "\nis ";
 
   if ( ! CGAL::do_intersect(t1,t2) ) {
-    cout << "empty" << endl;
+    std::cout << "empty" << std::endl;
   }
   else {
     CGAL::Object result = CGAL::intersection(t1,t2);
@@ -20,17 +20,18 @@ main()
     std::vector<Point> polypoint;                   // not a Polygon !
 
     if (CGAL::assign(point, result)) {
-      cout << "point." << endl;
+      std::cout << "point." << std::endl;
     } else
     if (CGAL::assign(segment, result)) {
-      cout << "segment." << endl;
+      std::cout << "segment." << std::endl;
     } else
     if (CGAL::assign(triangle, result)) {
-      cout << "triangle." << endl;
+      std::cout << "triangle." << std::endl;
     } else
     if (CGAL::assign(polypoint, result)) {
-      cout << "a polygon." << endl;
+      std::cout << "a polygon." << std::endl;
     } else
-    cout << "unknown!" << endl;
+    std::cout << "unknown!" << std::endl;
   }
+  return 0;
 }

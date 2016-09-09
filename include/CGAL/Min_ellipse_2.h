@@ -1,48 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997,1998,1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Min_ellipse_2.h
-// package       : Min_ellipse_2 (3.2.3)
+// package       : Min_ellipse_2 (3.5.4)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.8 $
-// revision_date : $Date: 1999/04/19 16:20:39 $
+// revision      : $Revision: 5.22 $
+// revision_date : $Date: 1999/12/20 19:06:47 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
@@ -58,7 +55,7 @@
 
 // includes
 #ifndef CGAL_OPTIMISATION_BASIC_H
-#  include <CGAL/optimisation_basic.h>
+#  include <CGAL/Optimisation/basic.h>
 #endif
 #ifndef CGAL_RANDOM_H
 #  include <CGAL/Random.h>
@@ -100,27 +97,18 @@ class Min_ellipse_2 {
     typedef           const Point *                     Support_point_iterator;
     
     /**************************************************************************
-    WORKAROUND: The GNU compiler (g++ 2.7.2[.*]) does not accept types
-    with scope operator as argument type or return type in class template
-    member functions. Therefore, all member functions are implemented in
-    the class interface.
+    WORKAROUND: Some compilers are unable to match member functions defined
+    outside the class template. Therefore, all member functions are implemented
+    in the class interface.
     
     // creation
-    Min_ellipse_2( const Point*  first,
-                   const Point*  last,
+    template < class InputIterator >
+    Min_ellipse_2( InputIterator first,
+                   InputIterator last,
                    bool          randomize = false,
                    Random&       random    = default_random,
                    const Traits& traits    = Traits());
-    Min_ellipse_2( std::list<Point>::const_iterator first,
-                   std::list<Point>::const_iterator last,
-                   bool          randomize = false,
-                   Random&       random    = default_random,
-                   const Traits& traits    = Traits());
-    Min_ellipse_2( std::istream_iterator<Point,std::ptrdiff_t> first,
-                   std::istream_iterator<Point,std::ptrdiff_t> last,
-                   bool          randomize = false,
-                   Random&       random    = default_random,
-                   const Traits& traits    = Traits())
+    
     Min_ellipse_2( const Traits& traits = Traits());
     Min_ellipse_2( const Point&  p,
                    const Traits& traits = Traits());
@@ -312,7 +300,7 @@ class Min_ellipse_2 {
 
   private:
     // Private member functions
-    // -----------------------
+    // ------------------------
     // compute_ellipse
     inline
     void
@@ -360,9 +348,9 @@ class Min_ellipse_2 {
         if ( n_sp == 5) return;
     
         // test first n points
-        std::list<Point>::iterator  point_iter( points.begin());
+        typename std::list<Point>::iterator  point_iter = points.begin();
         for ( ; last != point_iter; ) {
-            const Point& p( *point_iter);
+            const Point& p = *point_iter;
     
             // p not in current ellipse?
             if ( has_on_unbounded_side( p)) {
@@ -381,13 +369,15 @@ class Min_ellipse_2 {
   public:
     // Constructors
     // ------------
-    #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-    
-        // STL-like constructor (member template)
-        template < class InputIterator >
-        Min_ellipse_2( InputIterator first,
-                       InputIterator last,
-                       bool          randomize = false,
+    // STL-like constructor (member template)
+    template < class InputIterator >
+    Min_ellipse_2( InputIterator first,
+                   InputIterator last,
+                   bool          randomize
+    #if !defined(_MSC_VER) || _MSC_VER > 1200
+                                               = false
+    #endif
+                                                      ,
                        Random&       random    = default_random,
                        const Traits& traits    = Traits())
             : tco( traits)
@@ -412,102 +402,6 @@ class Min_ellipse_2 {
             // compute me
             me( points.end(), 0);
         }
-    
-    #else
-    
-        // STL-like constructor for C array and vector<Point>
-        Min_ellipse_2( const Point*  first,
-                       const Point*  last,
-                       bool          randomize = false,
-                       Random&       random    = default_random,
-                       const Traits& traits    = Traits())
-            : tco( traits)
-        {
-            // allocate support points' array
-            support_points = new Point[ 5];
-    
-            // range of points not empty?
-            if ( first != last) {
-    
-                // store points
-                if ( randomize) {
-    
-                    // shuffle points at random
-                    std::vector<Point> v( first, last);
-                    std::random_shuffle( v.begin(), v.end(), random);
-                    std::copy( v.begin(), v.end(),
-                               std::back_inserter( points)); }
-                else
-                    std::copy( first, last, std::back_inserter( points)); }
-    
-            // compute me
-            me( points.end(), 0);
-        }
-    
-        // STL-like constructor for list<Point>
-        Min_ellipse_2( std::list<Point>::const_iterator first,
-                       std::list<Point>::const_iterator last,
-                       bool          randomize = false,
-                       Random&       random    = default_random,
-                       const Traits& traits    = Traits())
-            : tco( traits)
-        {
-            // allocate support points' array
-            support_points = new Point[ 5];
-    
-            // range of points not empty?
-            if ( first != last) {
-    
-                // store points
-                if ( randomize) {
-    
-                    // shuffle points at random
-                    std::list<Point>::size_type n = 0;
-                    distance( first, last, n);
-                    std::vector<Point> v;
-                    v.reserve( n);
-                    std::copy( first, last, std::back_inserter( v));
-                    std::random_shuffle( v.begin(), v.end(), random);
-                    std::copy( v.begin(), v.end(),
-                               std::back_inserter( points)); }
-                else
-                    std::copy( first, last, std::back_inserter( points)); }
-    
-            // compute me
-            me( points.end(), 0);
-        }
-    
-        // STL-like constructor for stream iterator istream_iterator<Point>
-        Min_ellipse_2( std::istream_iterator<Point,std::ptrdiff_t>  first,
-                       std::istream_iterator<Point,std::ptrdiff_t>  last,
-                       bool          randomize = false,
-                       Random&       random    = default_random,
-                       const Traits& traits    = Traits())
-            : tco( traits)
-        {
-            // allocate support points' array
-            support_points = new Point[ 5];
-    
-            // range of points not empty?
-            if ( first != last) {
-    
-                // store points
-                if ( randomize) {
-    
-                    // shuffle points at random
-                    std::vector<Point> v;
-                    std::copy( first, last, std::back_inserter( v));
-                    std::random_shuffle( v.begin(), v.end(), random);
-                    std::copy( v.begin(), v.end(),
-                               std::back_inserter( points)); }
-                else
-                    std::copy( first, last, std::back_inserter( points)); }
-    
-            // compute me
-            me( points.end(), 0);
-        }
-    
-    #endif // CGAL_CFG_NO_MEMBER_TEMPLATES
     
     // default constructor
     inline
@@ -540,7 +434,7 @@ class Min_ellipse_2 {
     
     // constructor for two points
     inline
-    Min_ellipse_2( const Point& p, const Point& q,
+    Min_ellipse_2( const Point& p1, const Point& p2,
                    const Traits& traits = Traits())
         : tco( traits)
     {
@@ -548,8 +442,8 @@ class Min_ellipse_2 {
         support_points = new Point[ 5];
     
         // store points
-        points.push_back( p);
-        points.push_back( q);
+        points.push_back( p1);
+        points.push_back( p2);
     
         // compute me
         me( points.end(), 0);

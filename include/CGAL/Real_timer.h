@@ -1,49 +1,42 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Real_timer.h
-// package       : Timer (1.1)
-// chapter       : $CGAL_Chapter: Timer $
-// source        : Timer/web/Real_timer.h
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/03/07 21:35:46 $ 
+// package       : Timer (1.5)
 // author(s)     : Lutz Kettner
-//
+//                 Matthias Baesken
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A timer class to measure real-time.
@@ -64,6 +57,12 @@
 #ifndef CGAL_PROTECT_CLIMITS
 #include <climits>
 #define CGAL_PROTECT_CLIMITS
+#endif
+
+#if defined (_MSC_VER)
+#define CGAL_PROTECT_SYS_TIME_H
+#include <sys/timeb.h>
+#include <sys/types.h>
 #endif
 
 // used for gettimeofday()
@@ -88,7 +87,13 @@ CGAL_BEGIN_NAMESPACE
 class Real_timer {
 private:
     double          elapsed;
+
+#if !defined (_MSC_VER)
     struct timeval  started;
+#else
+    struct _timeb   started;
+#endif
+
     int             interv;
     bool            running;
     double          eps;
@@ -103,7 +108,11 @@ public:
 
     double   time()       const;
     int      intervals()  const { return interv; }
-    double   precision()  const { return eps; }
+    double   precision()  const 
+    { 
+      return -1;
+	  // change it ...
+    }
     double   max() const        { return double(INT_MAX);}
 };
 
@@ -115,10 +124,19 @@ public:
 
 inline void Real_timer::start() {
     CGAL_assertion( ! running);
-    int res = gettimeofday( &started, NULL);
+    int res=0;
+
+#if !defined (_MSC_VER)
+    res = gettimeofday( &started, NULL);
+#else
+    _ftime(&started);  
+#endif    
+
     if ( res < 0) {
-	cerr << "Real_timer error: gettimeofday() returned -1." << endl;
-	std::abort();
+#if !defined (_MSC_VER)
+	std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
+	CGAL_CLIB_STD::abort();
+#endif
     }
     running = true;
     ++ interv;
@@ -126,14 +144,35 @@ inline void Real_timer::start() {
 
 inline void Real_timer::stop() {
     CGAL_assertion(running);
+
+#if !defined (_MSC_VER)
     struct timeval t;
-    int res = gettimeofday( &t, NULL);
+#else
+    struct _timeb t;
+#endif
+
+   int res=0;
+
+#if !defined (_MSC_VER)
+    res = gettimeofday( &t, NULL);
+#else
+    _ftime(&t);
+#endif
+
     if ( res < 0) {
-	cerr << "Real_timer error: gettimeofday() returned -1." << endl;
-	std::abort();
+#if !defined (_MSC_VER)
+	std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
+	CGAL_CLIB_STD::abort();
+#endif
     }
+
+#if !defined (_MSC_VER)
     elapsed +=   double(t.tv_sec  - started.tv_sec) 
                + double(t.tv_usec - started.tv_usec) / 1000000;
+#else
+    elapsed += ((double)(t.time - started.time)) + ((double)(t.millitm - started.millitm))/1000.0;
+#endif
+
     running  = false;
 }
 
@@ -141,10 +180,21 @@ inline void Real_timer::reset() {
     interv = 0;
     elapsed = 0;
     if (running) {
-	int res = gettimeofday( &started, NULL);
+	int res = 0;
+
+#if !defined(_MSC_VER)
+        res = gettimeofday( &started, NULL);
+#else
+        _ftime(&started);
+#endif        
+
 	if ( res < 0) {
-	    cerr << "Real_timer error: gettimeofday() returned -1." << endl;
-	    std::abort();
+#if !defined (_MSC_VER)
+	    std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
+	    CGAL_CLIB_STD::abort();
+#else
+	    std::cout << "Real_timer error!.\n";
+#endif
 	}
 	++ interv;
     }
@@ -152,14 +202,34 @@ inline void Real_timer::reset() {
 
 inline double Real_timer::time() const {
     if (running) {
+
+#if !defined (_MSC_VER)
 	struct timeval t;
-	int res = gettimeofday( &t, NULL);
+#else
+    struct _timeb t;
+#endif
+
+	int res = 0;
+
+#if !defined(_MSC_VER)
+        res = gettimeofday( &t, NULL);
+#else
+        _ftime(&t);
+#endif 
+
 	if ( res < 0) {
-	    cerr << "Real_timer error: gettimeofday() returned -1." << endl;
-	    std::abort();
+#if !defined(_MSC_VER)
+	    std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
+	    CGAL_CLIB_STD::abort();
+#endif
 	}
+#if !defined(_MSC_VER)
 	return elapsed  + double(t.tv_sec  - started.tv_sec) 
                         + double(t.tv_usec - started.tv_usec) / 1000000;
+#else
+        return elapsed  + ((double)(t.time - started.time)) 
+			            + ((double)(t.millitm - started.millitm))/1000.0;
+#endif
     }
     return elapsed;
 }

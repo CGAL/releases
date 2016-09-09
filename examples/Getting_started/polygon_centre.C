@@ -1,6 +1,6 @@
 #include "tutorial.h"
 #include <CGAL/Polygon_2.h>
-#include <fstream.h>
+#include <fstream>
 #include <assert.h>
 
 typedef Polygon::Vertex_circulator Vertex_circulator;
@@ -43,16 +43,18 @@ Point centroid (Polygon &polyg)
 }
 
 
-main()
+int main()
 {
   Polygon polygon;
 
-  ifstream from("polygon.dat");
+  std::ifstream from("polygon.dat");
   CGAL::set_ascii_mode(from);
   from >> polygon;
 
   Point centre = centroid(polygon);
-  cout << "The centroid " << centre << " lies ";
-  if (polygon.bounded_side(centre) != CGAL::ON_BOUNDED_SIDE) cout << "not ";
-  cout << "inside the polygon." << endl;
+  std::cout << "The centroid " << centre << " lies ";
+  if (polygon.bounded_side(centre) != CGAL::ON_BOUNDED_SIDE)
+      std::cout << "not ";
+  std::cout << "inside the polygon." << std::endl;
+  return 0;
 }

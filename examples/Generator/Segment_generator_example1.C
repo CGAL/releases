@@ -23,6 +23,7 @@ typedef Creator_uniform_2<double,Point>  Pt_creator;
 typedef Segment_2<R>                     Segment;
 typedef std::vector<Segment>             Vector;
 
+
 int main() {
     // Create test segment set. Prepare a vector for 200 segments.
     Vector segs;

@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,15 +15,22 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -30,35 +38,33 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                Segment_generator_example1 \
-                Segment_generator_example2 \
                 generators_example1 \
-                generators_example2 
+                generators_example2 \
+                Segment_generator_example1 \
+                Segment_generator_example2 
 
-Segment_generator_example1: Segment_generator_example1.o
-	$(CGAL_CXX) -o Segment_generator_example1 Segment_generator_example1.o $(LDFLAGS)
+generators_example1$(EXE_EXT): generators_example1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_example1 generators_example1$(OBJ_EXT) $(LDFLAGS)
 
-Segment_generator_example2: Segment_generator_example2.o
-	$(CGAL_CXX) -o Segment_generator_example2 Segment_generator_example2.o $(LDFLAGS)
+generators_example2$(EXE_EXT): generators_example2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_example2 generators_example2$(OBJ_EXT) $(LDFLAGS)
 
-generators_example1: generators_example1.o
-	$(CGAL_CXX) -o generators_example1 generators_example1.o $(LDFLAGS)
+Segment_generator_example1$(EXE_EXT): Segment_generator_example1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_example1 Segment_generator_example1$(OBJ_EXT) $(LDFLAGS)
 
-generators_example2: generators_example2.o
-	$(CGAL_CXX) -o generators_example2 generators_example2.o $(LDFLAGS)
+Segment_generator_example2$(EXE_EXT): Segment_generator_example2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_example2 Segment_generator_example2$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   Segment_generator_example1 \
-                   Segment_generator_example2 \
-                   generators_example1 \
-                   generators_example2 \
-                   core
+clean: \
+                   generators_example1.clean \
+                   generators_example2.clean \
+                   Segment_generator_example1.clean \
+                   Segment_generator_example2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

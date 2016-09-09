@@ -11,7 +11,7 @@
 //#ifdef  __GNUG__ 
 //#include  <typeinfo>
 //#endif  /* __GNUG__ */ 
-
+#include <CGAL/config.h>
 #include <iostream>
 #include <ctime>
 #include <cassert>
@@ -61,23 +61,22 @@ public:
     assert( 0 <= k  &&  k < DIM );
     return  vec[ k ];
   }
-
-  
-  // not essential by specification but nice to have
-  friend ostream &operator<<(ostream &os, const Point_float_d<DIM> &p)
-  {
-    std::cout << "(";
-    for(int i = 0; i < DIM; i++)
-      {
-        std::cout << p[i] ;
-        if (i < p.dimension() - 1) std::cout << ", ";
-      }
-    std::cout << ")";
-    return os;
-  }
-  
 };
 
+// not essential by specification but nice to have
+template <int DIM>
+std::ostream &operator<<(std::ostream &os, const Point_float_d<DIM> &p)
+{
+  std::cout << "(";
+  for(int i = 0; i < DIM; i++)
+    {
+      std::cout << p[i] ;
+      if (i < p.dimension() - 1) std::cout << ", ";
+    }
+  std::cout << ")";
+  return os;
+}
+  
 
 typedef Point_float_d<4>  point;
 typedef CGAL::Kdtree_interface<point>  kd_interface;
@@ -130,7 +129,7 @@ int   main()
   
   std::cout << "Listing of random points:\n" ;
   std::copy (l.begin(),l.end(),std::ostream_iterator<point>(std::cout,"\n") );
-  std::cout << endl;
+  std::cout << std::endl;
   
   // building the tree for the random points
   tree.build( l );
@@ -155,7 +154,7 @@ int   main()
   std::cout << "Listing of the points in the box (2,2,2,2)-(8,8,8,8) : \n" ;
   std::copy (res.begin(),res.end(),
 	     std::ostream_iterator<point>(std::cout,"\n") );
-  std::cout << endl;
+  std::cout << std::endl;
   
   tree.delete_all();
   

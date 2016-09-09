@@ -19,6 +19,8 @@ struct Special_point: public CGAL::Point_2<Rep_class> {
     Special_point *next_on_hull;
 };
 
+CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(Special_point *)
+
 struct Special_less_xy {
     bool operator()(Special_point *p, Special_point *q) const
         { return CGAL::lexicographically_xy_smaller(*p, *q); }
@@ -107,7 +109,7 @@ Special_point * link(Pointer_collection &c)
     return c.front();
 }
 
-main()
+int main()
 {
 // Initialise a vector with pointers to the input points.
     Pointer_collection pointers(IN_COUNT), out;
@@ -131,4 +133,5 @@ main()
             std::cout << *((CGAL::Point_2<Rep_class> *) cur) << '\n';
             cur = cur->next_on_hull;
         } while (cur != first);
+    return 0;
 }

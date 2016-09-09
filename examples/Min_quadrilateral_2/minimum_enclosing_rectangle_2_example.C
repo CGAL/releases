@@ -1,0 +1,95 @@
+// ============================================================================
+//
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
+//
+// Every use of CGAL requires a license. 
+//
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
+//
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
+//
+// file          : examples/Min_quadrilateral_2/minimum_enclosing_rectangle_2_example.C
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// package       : $CGAL_Package: Min_quadrilaterals $
+// source        : oops.aw
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2000/01/06 14:54:56 $
+// author(s)     : Michael Hoffmann and
+//                 Emo Welzl
+//
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Example Program: Computing a minimum enclosing rectangle
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
+
+#include <CGAL/Cartesian.h>
+#include <CGAL/Point_2.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/point_generators_2.h>
+#include <CGAL/random_convex_set_2.h>
+#include <CGAL/minimum_enclosing_quadrilateral_2.h>
+#include <vector>
+#include <iostream>
+
+using CGAL::Random_points_in_square_2;
+using CGAL::random_convex_set_2;
+using CGAL::minimum_enclosing_rectangle_2;
+using std::back_inserter;
+using std::cout;
+using std::endl;
+
+typedef CGAL::Cartesian< double >                      R;
+typedef R::Point_2                                     Point_2;
+typedef R::Line_2                                      Line_2;
+typedef CGAL::Polygon_traits_2< R >                    P_traits;
+typedef std::vector< Point_2 >                         Cont;
+typedef CGAL::Polygon_2< P_traits, Cont >              Polygon_2;
+typedef CGAL::Creator_uniform_2< double, Point_2 >     Creator;
+typedef Random_points_in_square_2< Point_2, Creator >  Point_generator;
+
+int main()
+{
+  // build a random convex 20-gon p
+  Polygon_2 p;
+  random_convex_set_2(20, back_inserter(p), Point_generator(1.0));
+  cout << p << endl;
+
+  // compute the minimal enclosing rectangle p_m of p
+  Polygon_2 p_m;
+  minimum_enclosing_rectangle_2(
+    p.vertices_begin(), p.vertices_end(), back_inserter(p_m));
+  cout << p_m << endl;
+
+  return 0;
+} 
+// ----------------------------------------------------------------------------
+// ** EOF
+// ----------------------------------------------------------------------------
+

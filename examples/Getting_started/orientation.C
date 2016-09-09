@@ -6,7 +6,7 @@
 using std::cout;
 using std::cin;
 
-main()
+int main()
 {
     double x1, x2, x3, y1, y2, y3;
     do {
@@ -29,4 +29,5 @@ main()
         }
         cout << "\n\n";
     } while (1);
+    return 0;
 }

@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,17 +14,18 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
@@ -35,22 +37,20 @@ all:            \
                 geomview_demo \
                 viewpoint2off 
 
-geomview_demo: geomview_demo.o
-	$(CGAL_CXX) -o geomview_demo geomview_demo.o $(LDFLAGS)
+geomview_demo$(EXE_EXT): geomview_demo$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)geomview_demo geomview_demo$(OBJ_EXT) $(LDFLAGS)
 
-viewpoint2off: viewpoint2off.o
-	$(CGAL_CXX) -o viewpoint2off viewpoint2off.o $(LDFLAGS)
+viewpoint2off$(EXE_EXT): viewpoint2off$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)viewpoint2off viewpoint2off$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   geomview_demo \
-                   viewpoint2off \
-                   core
+clean: \
+                   geomview_demo.clean \
+                   viewpoint2off.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

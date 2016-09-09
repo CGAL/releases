@@ -1,42 +1,39 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
-// file          : test/PmOverlay/test_homogeneous.h
+// file          : examples/PmOverlay/example.C
 // source        : test/PmOverlay/test_homogeneous.h
 // revision      : $Revision: 1.0.1 $
 // revision_date : $14/07/98 $
@@ -101,42 +98,43 @@ int main()
     Bops_planar_map::Vertex_iterator vi;
     Bops_planar_map::Face_iterator fi;
 
-    cout << "Successfully computed the overlay:\n\n";
+    std::cout << "Successfully computed the overlay:\n\n";
     
-    cout << "Vertices" << endl;
+    std::cout << "Vertices" << std::endl;
     
     for (vi=pm3.vertices_begin(); vi!=pm3.vertices_end(); ++vi){
-      cout << "(" << (*vi).point() << ")" ;
+      std::cout << "(" << (*vi).point() << ")" ;
       
       switch((int)(*vi).info()){
-      case 1: cout << " - Red" << endl;
+      case 1: std::cout << " - Red" << std::endl;
 	break;
-      case 2: cout << " - Black" << endl;
+      case 2: std::cout << " - Black" << std::endl;
 	break;
-      case 3: cout << " - Red and Black" << endl;
+      case 3: std::cout << " - Red and Black" << std::endl;
       }
     }
 
-    cout << "------------------" << endl;
-    cout << "Edges " << endl;
+    std::cout << "------------------" << std::endl;
+    std::cout << "Edges " << std::endl;
     
     for (hi=pm3.halfedges_begin(); hi!=pm3.halfedges_end(); ++hi){
       if ((*hi).source()->point().x()< (*hi).target()->point().x() ||
 	  (*hi).source()->point().x()==(*hi).target()->point().x() &&
 	  (*hi).source()->point().y()< (*hi).target()->point().y()){
-	cout << "(" << (*hi).source()->point() << ") - (" << (*hi).target()->point() << ")";
+	std::cout << "(" << (*hi).source()->point() << ") - (" 
+                  << (*hi).target()->point() << ")";
 	switch((int)(*hi).info().edge_color){
-	case 1: cout << " - Red" << endl;
+	case 1: std::cout << " - Red" << std::endl;
 	  break;
-	case 2: cout << " - Black" << endl;
+	case 2: std::cout << " - Black" << std::endl;
 	  break;
-	case 3: cout << " - Red and Black" << endl;
+	case 3: std::cout << " - Red and Black" << std::endl;
 	}
       }
     }
 
-    cout << "------------------" << endl;
-    cout << "Faces " << endl;
+    std::cout << "------------------" << std::endl;
+    std::cout << "Faces " << std::endl;
 
     Bops_planar_map::Halfedge_handle he, he_next;
 
@@ -146,27 +144,27 @@ int main()
 	 he_next = he;
 	
 	 do{
-	   cout << "(" << (*he_next).source()->point() << ") -";
+	   std::cout << "(" << (*he_next).source()->point() << ") -";
 	   he_next = (*he_next).next_halfedge();
 	 } while (he!=he_next);
 	
 	 switch((int)(*fi).info()){
-	 case 0: cout << " No color" << endl;
+	 case 0: std::cout << " No color" << std::endl;
 	   break;
-	 case 1: cout << " Red" << endl;
+	 case 1: std::cout << " Red" << std::endl;
 	   break;
-	 case 2: cout << " Black" << endl;
+	 case 2: std::cout << " Black" << std::endl;
 	   break;
-	 case 3: cout << " Red and Black" << endl;
+	 case 3: std::cout << " Red and Black" << std::endl;
 	 }
        }
        else
-	 cout << "Unbounded face - No color" << endl;
+	 std::cout << "Unbounded face - No color" << std::endl;
        }
 
   }
   else {
-    cout << "The overlay is not a valid planar map!\n";
+    std::cout << "The overlay is not a valid planar map!\n";
     return -1;
   }
 

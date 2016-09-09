@@ -4,17 +4,24 @@
 //-----------------------------------------------------------------------//
 
 #include <CGAL/basic.h>
-#include <fstream.h>
+#include <iostream>
+
+#ifdef CGAL_USE_LEDA
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/IO/Window_stream.h>
-#include <vector.h>
+#include <vector>
+
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
 
 typedef CGAL::Cartesian<double> R;
 typedef CGAL::Point_2<R> Point;
 typedef CGAL::Polygon_traits_2<R> Traits;
-typedef vector<Point> Container;
+typedef std::vector<Point> Container;
 typedef CGAL::Polygon_2<Traits, Container> Polygon;
 
 //--------------------------------------------------------------------------//
@@ -171,9 +178,22 @@ int main()
   W.init(xmin, xmax, xmin);         // logical window size
 
   W.set_show_coordinates(false);
+  W.display();
 
   PolygonDemo(W);
 
   return 0;
 }
+
+#else
+// LEDA is not available.
+// We just print a notification.
+
+int main()
+{
+  std::cout<<"Sorry, this demo runs only if the LEDA library is installed.\n";
+  return 1;
+}
+
+#endif
 

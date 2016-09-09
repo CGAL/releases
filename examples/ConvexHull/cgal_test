@@ -66,5 +66,6 @@ touch $ERRORFILE
 #                    compile and run the tests
 #---------------------------------------------------------------------#
 
+compile_and_run ch_of_polyline
 compile_and_run ch_example_from_cin_to_cout
 compile_and_run ch_example_timing

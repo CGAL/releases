@@ -1,46 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Triangulation_handles_2.h
-// package       : Triangulation (3.17)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_handles_2.h,v $
-// revision      : $Revision: 1.2.1.5 $
-// revision_date : $Date: 1999/02/26 16:02:56 $
+// package       : Triangulation (4.30)
+// source        : $RCSfile: Triangulation_handles_2.h,v $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1999/12/10 15:05:54 $
+//
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -52,7 +50,7 @@
 #ifndef CGAL_TRIANGULATION_HANDLES_2_H
 #define CGAL_TRIANGULATION_HANDLES_2_H
 
-#include <CGAL/Triangulation_short_names_2.h>
+#include <CGAL/Pointer.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -63,10 +61,16 @@ template <  class Gt, class Tds >
 class Triangulation_vertex_2;
 
 template <  class Gt, class Tds>
-class Triangulation_face_iterator_2;
+class Triangulation_all_faces_iterator_2;
 
 template <  class Gt, class Tds>
-class Triangulation_vertex_iterator_2;
+class Triangulation_all_vertices_iterator_2;
+
+template <  class Gt, class Tds>
+class Triangulation_finite_faces_iterator_2;
+
+template <  class Gt, class Tds>
+class Triangulation_finite_vertices_iterator_2;
 
 template <  class Gt, class Tds>
 class Triangulation_face_circulator_2;
@@ -74,51 +78,63 @@ class Triangulation_face_circulator_2;
 template <  class Gt, class Tds>
 class Triangulation_vertex_circulator_2;
 
+template <  class Gt, class Tds>
+class Triangulation_line_face_circulator_2;
+
 
 template <  class Gt, class Tds>
 class Triangulation_face_handle_2
   :public Pointer<Triangulation_face_2<Gt,Tds> > 
 {
 public:
-  typedef Pointer<Triangulation_face_2<Gt,Tds> > Pointer;
-  typedef Triangulation_face_2<Gt,Tds> Face;
-  typedef Triangulation_face_handle_2<Gt,Tds> Face_handle;
+  typedef Pointer<Triangulation_face_2<Gt,Tds> >        Pointer_;
+  typedef Triangulation_face_2<Gt,Tds>                  Face;
+  typedef Triangulation_face_handle_2<Gt,Tds>           Face_handle;
   
-  typedef Triangulation_face_iterator_2<Gt,Tds>      Face_iterator;
-  typedef Triangulation_face_circulator_2<Gt,Tds>    Face_circulator;
-  
-  inline 
+  typedef Triangulation_all_faces_iterator_2<Gt,Tds>    All_faces_iterator;
+  typedef Triangulation_finite_faces_iterator_2<Gt,Tds> Finite_faces_iterator;
+  typedef Triangulation_face_circulator_2<Gt,Tds>       Face_circulator;
+  typedef Triangulation_line_face_circulator_2<Gt,Tds> Line_face_circulator;
+
   Triangulation_face_handle_2()
-    : Pointer(NULL)
-  {}
+    : Pointer_(NULL)
+    {}
 
-  inline  
-  Triangulation_face_handle_2(const Face* p)
-    : Pointer((Face*)p)
-  {}
+  Triangulation_face_handle_2( Face* p)
+    : Pointer_(p)
+    {}
 
-  inline Face_handle& operator=(const Face*& p)
+  Triangulation_face_handle_2( const Face_handle& p)
+    : Pointer_(p.ptr())
+    {}
+
+  Triangulation_face_handle_2(const Finite_faces_iterator& fit)
+    : Pointer_(&(*fit))
+    {}
+  
+  Triangulation_face_handle_2(const All_faces_iterator& fit)
+    : Pointer_(&(*fit))
+    {}
+
+  Triangulation_face_handle_2(const Face_circulator& fc)
+    : Pointer_(&(*fc))
+    {}
+
+  Triangulation_face_handle_2(const Line_face_circulator& fc)
+    : Pointer_(&(*fc))
+    {}
+
+  Face_handle& operator=(Face* p)
     {
-        ptr() = p ;
-        return *this;
+      ptr() = p ;
+      return *this;
     }
     
-    inline Face_handle& operator=(const Face_handle& p)
+  Face_handle& operator=(const Face_handle& p)
     {
-        ptr() = p.ptr();
-        return *this;
+      ptr() = p.ptr();
+      return *this;
     }
-  
-   inline  
-    Triangulation_face_handle_2(const Face_iterator& fit)
-        : Pointer(&(*fit))
-    {}
-  
-
-  inline  
-   Triangulation_face_handle_2(const Face_circulator& fc)
-        : Pointer(&(*fc))
-    {}
 };
 
 template < class Gt, class Tds>
@@ -126,47 +142,53 @@ class Triangulation_vertex_handle_2
   :public Pointer<Triangulation_vertex_2<Gt,Tds> > 
 {
 public:
-  typedef Pointer<Triangulation_vertex_2<Gt,Tds> > Pointer;
-  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
+  typedef Pointer<Triangulation_vertex_2<Gt,Tds> >  Pointer_;
+  typedef Triangulation_vertex_2<Gt,Tds>            Vertex;
+  typedef Triangulation_vertex_handle_2<Gt,Tds>     Vertex_handle;
   
-  typedef Triangulation_vertex_iterator_2<Gt,Tds>      Vertex_iterator;
-  typedef Triangulation_vertex_circulator_2<Gt,Tds>    Vertex_circulator;
+  typedef Triangulation_all_vertices_iterator_2<Gt,Tds> 
+                                                    All_vertices_iterator;
+  typedef Triangulation_finite_vertices_iterator_2<Gt,Tds> 
+                                                    Finite_vertices_iterator;
+  typedef Triangulation_vertex_circulator_2<Gt,Tds> Vertex_circulator;
   
-  inline 
   Triangulation_vertex_handle_2()
-    : Pointer(NULL)
-  {}
-
-  inline  
-  Triangulation_vertex_handle_2(const Vertex* p)
-        : Pointer((Vertex*)p)
+    : Pointer_(NULL)
     {}
 
-  inline Vertex_handle& operator=(const Vertex*& p)
+  Triangulation_vertex_handle_2( Vertex* p)
+    : Pointer_(p)
+    {}
+
+  Triangulation_vertex_handle_2(const Vertex_handle& p)
+    : Pointer_(p.ptr())
+    {}
+
+  Triangulation_vertex_handle_2(const Finite_vertices_iterator& vit)
+    : Pointer_(&(*vit))
+    {}
+  
+  Triangulation_vertex_handle_2(const All_vertices_iterator& vit)
+    : Pointer_(&(*vit))
+    {}
+
+  Triangulation_vertex_handle_2(const Vertex_circulator& vc)
+    : Pointer_(&(*vc))
+    {}
+  
+  Vertex_handle& operator=(Vertex* p)
     {
         ptr() = p ;
         return *this;
     }
     
-    inline Vertex_handle& operator=(const Vertex_handle& p)
+  Vertex_handle& operator=(const Vertex_handle& p)
     {
         ptr() = p.ptr();
         return *this;
     }
   
-   inline  
-   Triangulation_vertex_handle_2(const Vertex_iterator& vit)
-        : Pointer(&(*vit))
-    {}
-
-  
-  inline  
-   Triangulation_vertex_handle_2(const Vertex_circulator& vc)
-        : Pointer(&(*vc))
-    {}
-  
-};
+ };
 
 CGAL_END_NAMESPACE
 

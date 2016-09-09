@@ -1,55 +1,54 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : src/Geomview_stream.C
-// package       : Geomview (2.2)
-// source        : $RCSfile: Geomview_stream.C,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/04/23 13:34:38 $
+// package       : Geomview (2.7)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 1999/07/29 08:16:48 $
 // author(s)     : Andreas Fabri and Herve Bronnimann
 //
-// coordinator   : Mariette Yvinec
+// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
+// Geomview doesn't work on M$ at the moment, so we don't compile this file.
+#if !defined(__BORLANDC__) && !defined(_MSC_VER)
 
+#include <CGAL/basic.h>
 #include <CGAL/IO/Geomview_stream.h>
 
 #include <unistd.h>
@@ -87,9 +86,7 @@ Geomview_stream::~Geomview_stream()
     kill(pid, SIGKILL);  // kills geomview
 }
 
-
-void Geomview_stream::setup_geomview(const char *machine,
-				     const char *login)
+void Geomview_stream::setup_geomview(const char *machine, const char *login)
 {
     bflag = 0;
     _trace = false;
@@ -102,7 +99,7 @@ void Geomview_stream::setup_geomview(const char *machine,
     // Communication between CGAL and geomview should be possible
     // in two directions. To achieve this we open two pipes
 
-    std::cout << "Starting Geomview..." << flush ;
+    std::cout << "Starting Geomview..." << std::flush ;
     if (pipe(pipe_out) < 0) {
         std::cerr << "out pipe failed" << std::endl ;
         exit(-1);
@@ -121,14 +118,13 @@ void Geomview_stream::setup_geomview(const char *machine,
         close(pipe_out[1]); // does not write to the out pipe,
         close(pipe_in[0]);  // does not read from the in pipe.
 
-
         close (0);          // this is the file descriptor of cin
         dup(pipe_out[0]);   // we connect it to the pipe
         close (1);          // this is the file descriptor of cout
         dup(pipe_in[1]);    // we connect it to the pipe
         if (machine && (strlen(machine)>0)) {
             std::ostrstream os;
-            os << " rgeomview " << machine << ":0.0" << ends ;
+            os << " rgeomview " << machine << ":0.0" << std::ends ;
             std::ostrstream logos;
             execlp("rsh", "rsh", machine, "-l", login, os.str(), (char *)0);
         } else {
@@ -163,7 +159,7 @@ void Geomview_stream::setup_geomview(const char *machine,
         char inbuf[10];
         ::read(in, inbuf, 7);
 
-        cout << "done." << std::endl;
+        std::cout << "done." << std::endl;
 
         bbox_count = 0;
         triangle_count = 0;
@@ -175,7 +171,6 @@ void Geomview_stream::setup_geomview(const char *machine,
         break;
     }
 }
-
 
 void
 Geomview_stream::pickplane(const Bbox_3 &bbox)
@@ -193,7 +188,6 @@ Geomview_stream::pickplane(const Bbox_3 &bbox)
             << "}) (pickable pickplane no)"
             << ascii ;
 }
-
 
 void
 Geomview_stream::set_binary_mode()
@@ -218,13 +212,14 @@ Geomview_stream::in_ascii_mode() const
 {
     return ! bflag;
 }
+
 Geomview_stream&
-Geomview_stream::operator<<
-(Geomview_stream&(*fct)(Geomview_stream&))
+Geomview_stream::operator<<(Geomview_stream&(*fct)(Geomview_stream&))
 {
   (*fct)(*this);
   return *this;
 }
+
 bool
 Geomview_stream::get_trace() const
 {
@@ -239,36 +234,32 @@ Geomview_stream::set_trace(bool b)
     return old;
 }
 
-
 void
 Geomview_stream::trace(const char *cptr) const
 {
-    if(_trace){
+    if (_trace)
         std::cerr << cptr;
-    }
 }
 
 void
 Geomview_stream::trace(double d) const
 {
-    if(_trace){
+    if (_trace)
         std::cerr << d << ' ';
-    }
 }
 
 void
 Geomview_stream::trace(int i) const
 {
-    if(_trace){
+    if (_trace)
         std::cerr << i << ' ';
-    }
 }
+
 double
 Geomview_stream::get_vertex_radius() const
 {
     return _radius;
 }
-
 
 double
 Geomview_stream::set_vertex_radius(double r)
@@ -277,12 +268,12 @@ Geomview_stream::set_vertex_radius(double r)
     _radius = r;
     return old;
 }
+
 int
 Geomview_stream::get_line_width() const
 {
     return _line_width;
 }
-
 
 int
 Geomview_stream::set_line_width(int w)
@@ -291,6 +282,7 @@ Geomview_stream::set_line_width(int w)
     _line_width = w;
     return old;
 }
+
 void
 Geomview_stream::clear()
 {
@@ -303,6 +295,7 @@ Geomview_stream::look_recenter() const
     Geomview_stream* ncthis = (Geomview_stream*)this;
     (*ncthis) << "(look-recenter World)";
 }
+
 Geomview_stream&
 Geomview_stream::operator<<(const char *cptr)
 {
@@ -316,6 +309,7 @@ Geomview_stream::operator<<(const char *cptr)
 
     return *this;
 }
+
 Geomview_stream&
 Geomview_stream::operator<<(int i)
 {
@@ -326,7 +320,7 @@ Geomview_stream::operator<<(int i)
     } else {
         // transform the int in a character sequence and put whitespace around
         std::ostrstream str;
-        str << i << ' ' << ends;
+        str << i << ' ' << std::ends;
         char *bptr = str.str();
         ::write(out, bptr, int(strlen(bptr)));
     }
@@ -334,6 +328,7 @@ Geomview_stream::operator<<(int i)
 
     return *this;
 }
+
 Geomview_stream&
 Geomview_stream::operator<<(double d)
 {
@@ -343,8 +338,8 @@ Geomview_stream::operator<<(double d)
         ::write(out, (char*)&f, sizeof(f));
     } else {
         // 'copy' the float in a string and append a blank
-        ostrstream str;
-        str << f << " " << ends ;
+        std::ostrstream str;
+        str << f << " " << std::ends ;
         char *bptr = str.str();
 
         ::write(out, bptr, int(strlen(bptr)));
@@ -353,13 +348,11 @@ Geomview_stream::operator<<(double d)
     return *this;
 }
 
-
 Geomview_stream&
-operator<<(Geomview_stream &gv,
-           const Bbox_2 &bbox)
+operator<<(Geomview_stream &gv, const Bbox_2 &bbox)
 {
     std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << ends ;
+    os << "bbox" << gv.bbox_count++ << std::ends ;
     char *id = os.str();
 
     gv << ascii
@@ -377,14 +370,13 @@ operator<<(Geomview_stream &gv,
 
     return gv;
 }
+
 Geomview_stream&
-operator<<(Geomview_stream &gv,
-           const Bbox_3 &bbox)
+operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
 {
     std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << ends ;
+    os << "bbox" << gv.bbox_count++ << std::ends ;
     char *id = os.str();
-
 
     gv << ascii
        << "(geometry " << id << " {appearance {material {edgecolor "
@@ -409,6 +401,7 @@ operator<<(Geomview_stream &gv,
 
     return gv;
 }
+
 void
 Geomview_stream::set_bg_color(const Color &c)
 {
@@ -423,13 +416,9 @@ Geomview_stream::set_bg_color(const Color &c)
 Geomview_stream&
 Geomview_stream::operator<<(const Color &c)
 {
-    col = c;
-    vertex_color = c;
-    edge_color = c;
-    face_color = c;
+    col = vertex_color = edge_color = face_color = c;
     return (*this);
 }
-
 
 Color
 Geomview_stream::get_vertex_color() const
@@ -437,20 +426,17 @@ Geomview_stream::get_vertex_color() const
     return vertex_color;
 }
 
-
 Color
 Geomview_stream::get_edge_color() const
 {
     return edge_color;
 }
 
-
 Color
 Geomview_stream::get_face_color() const
 {
     return face_color;
 }
-
 
 Color
 Geomview_stream::set_vertex_color(const Color &c)
@@ -460,7 +446,6 @@ Geomview_stream::set_vertex_color(const Color &c)
     return old;
 }
 
-
 Color
 Geomview_stream::set_edge_color(const Color &c)
 {
@@ -469,7 +454,6 @@ Geomview_stream::set_edge_color(const Color &c)
     return old;
 }
 
-
 Color
 Geomview_stream::set_face_color(const Color &c)
 {
@@ -477,7 +461,6 @@ Geomview_stream::set_face_color(const Color &c)
     face_color = c;
     return old;
 }
-
 
 double
 Geomview_stream::vcr() const
@@ -496,7 +479,6 @@ Geomview_stream::vcb() const
 {
     return double(vertex_color.b())/255.0;
 }
-
 
 double
 Geomview_stream::ecr() const
@@ -534,7 +516,6 @@ Geomview_stream::fcb() const
     return double(face_color.b())/255.0;
 }
 
-
 void
 Geomview_stream::frame(const Bbox_3 &bbox)
 {
@@ -542,7 +523,6 @@ Geomview_stream::frame(const Bbox_3 &bbox)
             << ascii
             << "(look-recenter g0 c0)(delete bbox0)" ;
 }
-
 
 Geomview_stream&
 Geomview_stream::operator>>(char *expr)
@@ -635,18 +615,17 @@ nth(char* s, int count)
 bool
 is_prefix(const char* p, const char* w)
 {
-    while((*p != '\0') && (*w != '\0')){
-        if(*p != *w){
+    while((*p != '\0') && (*w != '\0'))
+    {
+        if(*p != *w)
             return false;
-        }
         ++p;
         ++w;
     }
-    if((*w == '\0') && (*p != '\0')){
-        return false;
-    }
-    return true;
+
+    return ! ((*w == '\0') && (*p != '\0'));
 }
 
-
 CGAL_END_NAMESPACE
+
+#endif // ! M$

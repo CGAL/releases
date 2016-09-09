@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/bops_traits_2.h
-// package       : bops (2.1.5)
+// package       : bops (2.4)
 // source        : include/CGAL/bops_traits_2.h
-// revision      : $Revision: WIP $
-// revision_date : $Date: Wed Dec  9 13:28:54 MET 1998  $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1999/10/26 07:11:13 $
 // author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
@@ -72,16 +69,16 @@
 CGAL_BEGIN_NAMESPACE
 
 /*
-    _R should be a representation class 
+    P_Rep should be a representation class 
    (e.g. something like Cartesian<Rational> )
 */
-template <class _R> 
-struct Bops_default_I : public min_sqr_distance_traits<_R>
+template <class P_Rep> 
+struct Bops_default_I : public min_sqr_distance_traits<P_Rep>
 {
   Bops_default_I() {}
 
   /* representation class */
-  //typedef _R R;
+  //typedef P_Rep R;
   typedef CGAL::Object                          Object;
 
   /*------ constant sized objects ------*/
@@ -104,10 +101,10 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   }
 
 
-  typedef CGAL::Point_2<R>                      Point;
+  typedef CGAL::Point_2<P_Rep>                      Point;
   /* required operations:
-    R::NT Point::x() const
-    R::NT Point::y() const
+    P_Rep::NT Point::x() const
+    P_Rep::NT Point::y() const
   */
   bool is_equal(const Point& p1, const Point& p2) const {
     return p1 == p2;
@@ -118,15 +115,15 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   }
   
 
-  typedef CGAL::Segment_2<R>                    Segment;
+  typedef CGAL::Segment_2<P_Rep>                    Segment;
   /* required operations:
     Segment(Point,Point);
   */
-  typedef CGAL::Triangle_2<R>                   Triangle;
+  typedef CGAL::Triangle_2<P_Rep>                   Triangle;
   /* required operations:
     constructor with three points of type Point.
   */
-  typedef CGAL::Iso_rectangle_2<R>              Iso_rectangle;
+  typedef CGAL::Iso_rectangle_2<P_Rep>              Iso_rectangle;
   /* required operations:
     constructor with three points of type Point.
   */
@@ -139,7 +136,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   typedef std::list<Point>                          Container;
   typedef Container                            Input_polygon_container;
   typedef std::list<Point>                          Output_polygon_container;
-  typedef Polygon_2<Polygon_traits_2<R>,Container>          Polygon;
+  typedef Polygon_2<Polygon_traits_2<P_Rep>,Container>          Polygon;
   typedef Polygon                              Input_polygon;
   typedef typename Polygon::Vertex_const_iterator  
                    Polygon_vertex_const_iterator;
@@ -147,7 +144,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
      Polygon_vertex_const_iterator Polygon::vertices_begin();
      Polygon_vertex_const_iterator Polygon::vertices_end();
   */
-  typedef Polygon_2<Polygon_traits_2<R>,Output_polygon_container>
+  typedef Polygon_2<Polygon_traits_2<P_Rep>,Output_polygon_container>
           Output_polygon;
 
   bool is_leftturn(const Point& p0, const Point& p1, const Point& p2) const {
@@ -225,7 +222,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
 
 protected:
 
-  typedef CGAL::Direction_2<R>                  Direction;
+  typedef CGAL::Direction_2<P_Rep>                  Direction;
   /* required operations:
      bool operator<(Direction, Direction);
   */

@@ -1,47 +1,44 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : extremal_polygon_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:06:59 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:05 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,45 +48,25 @@
 //
 // ======================================================================
 
-#ifndef CGAL_CARTESIAN_H
 #include <CGAL/Cartesian.h>
-#endif // CGAL_CARTESIAN_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_SQUARED_DISTANCE_2_H
 #include <CGAL/squared_distance_2.h>
-#endif // CGAL_SQUARED_DISTANCE_2_H
-#ifndef CGAL_DISTANCE_PREDICATES_2_H
 #include <CGAL/distance_predicates_2.h>
-#endif // CGAL_DISTANCE_PREDICATES_2_H
-#ifndef CGAL_CONVEX_HULL_2_H
 #include <CGAL/convex_hull_2.h>
-#endif // CGAL_CONVEX_HULL_2_H
-#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
-#endif // CGAL_CIRCULATOR_H
-#ifndef CGAL_EXTREMAL_POLYGON_2_H
 #include <CGAL/extremal_polygon_2.h>
-#endif // CGAL_EXTREMAL_POLYGON_2_H
-#ifndef CGAL_POINT_GENERATORS_2_H
 #include <CGAL/point_generators_2.h>
-#endif // CGAL_POINT_GENERATORS_2_H
-#ifndef CGAL_RANDOM_CONVEX_SET_2_H
 #include <CGAL/random_convex_set_2.h>
-#endif // CGAL_RANDOM_CONVEX_SET_2_H
-#ifndef CGAL_IO_LEDA_WINDOW_H
+#include <CGAL/Timer.h>
 #include <CGAL/IO/leda_window.h>
-#endif // CGAL_IO_LEDA_WINDOW_H
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
 #include <algorithm>
 
 using CGAL::cgalize;
+using CGAL::Timer;
 using CGAL::has_smaller_dist_to_point;
 using CGAL::RED;
 using std::back_inserter;
@@ -114,7 +91,7 @@ typedef CGAL::Segment_2< RepClass >               Segment;
 typedef vector< Point >                           PointCont;
 typedef PointCont::iterator                       PointIter;
 typedef vector< PointIter >                       PointIterCont;
-typedef vector< PointIter >::iterator             PointIterIter;
+typedef PointIterCont::iterator                   PointIterIter;
 typedef RepClass::FT                              FT;
 typedef PointCont                                 Polygon;
 typedef PointCont::iterator                       Vertex_iterator;
@@ -124,22 +101,7 @@ typedef PointCont::const_iterator                 Vertex_const_iterator;
 typedef vector< Vertex_iterator >                 Vertex_iteratorCont;
 typedef Vertex_iteratorCont::iterator             Vertex_iteratorIter;
 
-#ifdef EXTREMAL_POLYGON_MEASURE
-#ifndef CGAL_PROTECT_CTIME
-#include <ctime>
-#define CGAL_PROTECT_CTIME
-#endif
-static time_t Measure;
-static long long int measure;
-#define MEASURE(comm) \
-  Measure = clock(); \
-  comm; \
-  measure = \
-    (long long int)((float)(clock() - Measure) * 1000 / CLOCKS_PER_SEC); \
-    cout << "[time: " << measure << " msec]" << endl;
-#else
-#define MEASURE(comm) comm
-#endif
+
 void
 wait_for_button_release( leda_window& W)
 {
@@ -184,7 +146,7 @@ main()
 
   PointCont points;
   Polygon p;
-  bool polygon_changed( false);
+  bool polygon_changed(false);
 
   for (;;) {
     if (polygon_changed) {
@@ -212,10 +174,15 @@ main()
       for (;;) {
         W << RED << *i;
         W.set_fg_color( leda_blue);
-        if ( (i+1) == p.end()) {
-          W << Segment( *i, *(p.begin()));
-          break;
-        }
+    #ifndef _MSC_VER
+        if ( (i+1) == p.end())
+    #else
+        if ( (i+1) == Vertex_const_iterator(p.end()))
+    #endif // _MSC_VER
+          {
+            W << Segment( *i, *(p.begin()));
+            break;
+          }
         else {
           W << Segment( *i, *(i+1));
           ++i;
@@ -232,17 +199,25 @@ main()
     
     
 
-    if ( compute_mode != 1) {
+    if (compute_mode != 1) {
       // compute maximum area inscribed k-gon:
-      k = max( 3, k);
+      k = max(3, k);
       PointCont k_gon;
-      if ( p.size() >= 3) {
-        MEASURE(maximum_area_inscribed_k_gon(
+      if (p.size() >= 3) {
+#ifdef EXTREMAL_POLYGON_MEASURE
+        Timer t;
+        t.start();
+#endif // EXTREMAL_POLYGON_MEASURE
+        maximum_area_inscribed_k_gon(
           p.begin(),
           p.end(),
           k,
-          back_inserter( k_gon));)
-        W.set_fg_color( leda_green);
+          back_inserter(k_gon));
+#ifdef EXTREMAL_POLYGON_MEASURE
+        t.stop();
+        cout << "[time: " << t.time() << " msec]" << endl;
+#endif // EXTREMAL_POLYGON_MEASURE
+        W.set_fg_color(leda_green);
         if ( !p.empty()) {
           PointIter i( k_gon.begin());
           while ( ++i != k_gon.end())
@@ -251,22 +226,30 @@ main()
         } // if ( !p.empty())
       } // if ( p.size() >= 3)
     } // if ( compute_mode != 1)
-    if ( compute_mode != 0) {
+    if (compute_mode != 0) {
       // compute maximum perimeter inscribed k-gon:
       PointCont k_gon;
+#ifdef EXTREMAL_POLYGON_MEASURE
+      Timer t;
+      t.start();
+#endif // EXTREMAL_POLYGON_MEASURE
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-      MEASURE(maximum_perimeter_inscribed_k_gon(
+      maximum_perimeter_inscribed_k_gon(
         Vertex_circulator( &p),
         Vertex_circulator( &p),
         k,
-        back_inserter( k_gon));)
+        back_inserter( k_gon));
 #else
-      MEASURE(maximum_perimeter_inscribed_k_gon(
+      maximum_perimeter_inscribed_k_gon(
         p.begin(),
         p.end(),
         k,
-        back_inserter( k_gon));)
+        back_inserter( k_gon));
 #endif
+#ifdef EXTREMAL_POLYGON_MEASURE
+      t.stop();
+      cout << "[time: " << t.time() << " msec]" << endl;
+#endif // EXTREMAL_POLYGON_MEASURE
       W.set_fg_color( leda_orange);
       if ( !p.empty()) {
         PointIter i( k_gon.begin());
@@ -295,7 +278,7 @@ main()
         // test for snapping:
         if ( squared_distance( *nearest, Point( x, y)) < FT( 0.05)) {
           int v( 0);
-          drawing_mode old_drawing_mode( W.set_mode( leda_xor_mode));
+          leda_drawing_mode old_drawing_mode( W.set_mode( leda_xor_mode));
           leda_color old_color( W.set_color( leda_grey1));
           x = (*nearest).x();
           y = (*nearest).y();
@@ -422,6 +405,8 @@ main()
       }
     } // for (;;)
   } // for (;;)
+
+  return 0;
 } // int main()
 
 

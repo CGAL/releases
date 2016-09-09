@@ -15,7 +15,7 @@ include $(CGAL_MAKEFILE)
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -35,11 +35,11 @@ LONG_LDFLAGS = \
 #---------------------------------------------------------------------#
 
 
-example: example.o
-	$(CGAL_CXX) -o example example.o $(LONG_LDFLAGS)
+example: example$(OBJ_EXT)
+	$(CGAL_CXX) -o example example$(OBJ_EXT) $(LONG_LDFLAGS)
 
 clean:
-	/bin/rm -f *.o \
+	/bin/rm -f *$(OBJ_EXT) \
                    example \
                    core
 
@@ -47,6 +47,6 @@ clean:
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
+.C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) -c $<
 

@@ -13,15 +13,22 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(TESTSUITE_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
+          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_WINDOW_LDFLAGS)
 
@@ -38,42 +45,40 @@ all:            \
                 generators_prog2 \
                 rcs_demo 
 
-Segment_generator_prog1: Segment_generator_prog1.o
-	$(CGAL_CXX) -o Segment_generator_prog1 Segment_generator_prog1.o $(LDFLAGS)
+generators_prog1$(EXE_EXT): generators_prog1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_prog1 generators_prog1$(OBJ_EXT) $(LDFLAGS)
 
-Segment_generator_prog2: Segment_generator_prog2.o
-	$(CGAL_CXX) -o Segment_generator_prog2 Segment_generator_prog2.o $(LDFLAGS)
+generators_prog2$(EXE_EXT): generators_prog2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_prog2 generators_prog2$(OBJ_EXT) $(LDFLAGS)
 
-Triangle_generator_prog1: Triangle_generator_prog1.o
-	$(CGAL_CXX) -o Triangle_generator_prog1 Triangle_generator_prog1.o $(LDFLAGS)
+rcs_demo$(EXE_EXT): rcs_demo$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)rcs_demo rcs_demo$(OBJ_EXT) $(LDFLAGS)
 
-Triangle_generator_prog2: Triangle_generator_prog2.o
-	$(CGAL_CXX) -o Triangle_generator_prog2 Triangle_generator_prog2.o $(LDFLAGS)
+Segment_generator_prog1$(EXE_EXT): Segment_generator_prog1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_prog1 Segment_generator_prog1$(OBJ_EXT) $(LDFLAGS)
 
-generators_prog1: generators_prog1.o
-	$(CGAL_CXX) -o generators_prog1 generators_prog1.o $(LDFLAGS)
+Segment_generator_prog2$(EXE_EXT): Segment_generator_prog2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_prog2 Segment_generator_prog2$(OBJ_EXT) $(LDFLAGS)
 
-generators_prog2: generators_prog2.o
-	$(CGAL_CXX) -o generators_prog2 generators_prog2.o $(LDFLAGS)
+Triangle_generator_prog1$(EXE_EXT): Triangle_generator_prog1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Triangle_generator_prog1 Triangle_generator_prog1$(OBJ_EXT) $(LDFLAGS)
 
-rcs_demo: rcs_demo.o
-	$(CGAL_CXX) -o rcs_demo rcs_demo.o $(LDFLAGS)
+Triangle_generator_prog2$(EXE_EXT): Triangle_generator_prog2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Triangle_generator_prog2 Triangle_generator_prog2$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   Segment_generator_prog1 \
-                   Segment_generator_prog2 \
-                   Triangle_generator_prog1 \
-                   Triangle_generator_prog2 \
-                   generators_prog1 \
-                   generators_prog2 \
-                   rcs_demo \
-                   core
+clean: \
+                   generators_prog1.clean \
+                   generators_prog2.clean \
+                   rcs_demo.clean \
+                   Segment_generator_prog1.clean \
+                   Segment_generator_prog2.clean \
+                   Triangle_generator_prog1.clean \
+                   Triangle_generator_prog2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

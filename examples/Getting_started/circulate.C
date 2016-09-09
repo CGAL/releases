@@ -1,14 +1,14 @@
 #include "tutorial.h"
 #include <CGAL/Polygon_2.h>
-#include <fstream.h>
+#include <fstream>
 
 typedef Polygon::Edge_const_circulator Edge_circulator;
 
-main()
+int main()
 {
   Polygon polyg;
 
-  ifstream from("polygon.dat");              // input file stream
+  std::ifstream from("polygon.dat");              // input file stream
   CGAL::set_ascii_mode(from);                 // file contains ascii
   from >> polyg;                            // read polygon
 
@@ -25,5 +25,7 @@ main()
     } while (cur != start);
   }
 
-  cout << "Perimeter of the polygon is " << perimeter << endl;
+  std::cout << "Perimeter of the polygon is "
+            << perimeter << std::endl;
+  return 0;
 }

@@ -16,44 +16,50 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = $(CGAL_LIB_CXXFLAGS) \
-           -g
+CXXFLAGS = $(CGAL_LIB_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 # Object files
 #---------------------------------------------------------------------#
 
 CGAL_OBJECTS = \
-Bbox_2.o \
-Bbox_2_intersections.o \
-Color.o \
-Double.o \
-Double_eps.o \
-File_header_OFF.o \
-File_header_extended_OFF.o \
-File_scanner_OFF.o \
-File_writer_OFF.o \
-File_writer_VRML_2.o \
-File_writer_inventor.o \
-File_writer_wavefront.o \
-Fixed_precision_nt.o \
-Float.o \
-Geomview_stream.o \
-Interval_arithmetic.o \
-Origin.o \
-Random.o \
-aff_transformation_tags.o \
-assertions.o \
-io.o \
-optimisation_basic.o
+Bbox_2$(OBJ_EXT) \
+Bbox_2_intersections$(OBJ_EXT) \
+Bbox_3_intersections$(OBJ_EXT) \
+CLN$(OBJ_EXT) \
+Color$(OBJ_EXT) \
+Double$(OBJ_EXT) \
+Double_eps$(OBJ_EXT) \
+File_header_OFF$(OBJ_EXT) \
+File_header_extended_OFF$(OBJ_EXT) \
+File_scanner_OFF$(OBJ_EXT) \
+File_writer_OFF$(OBJ_EXT) \
+File_writer_VRML_2$(OBJ_EXT) \
+File_writer_inventor$(OBJ_EXT) \
+File_writer_wavefront$(OBJ_EXT) \
+Fixed_precision_nt$(OBJ_EXT) \
+Float$(OBJ_EXT) \
+Geomview_stream$(OBJ_EXT) \
+Interval_arithmetic$(OBJ_EXT) \
+Origin$(OBJ_EXT) \
+Random$(OBJ_EXT) \
+Triangulation_3$(OBJ_EXT) \
+aff_transformation_tags$(OBJ_EXT) \
+assertions$(OBJ_EXT) \
+io$(OBJ_EXT) \
+optimisation_basic$(OBJ_EXT)
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-lib: $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
-	$(CGAL_LIB_CREATE) $(CGAL_LIB) $(CGAL_EXTRA_OBJECTS) $(CGAL_OBJECTS) $(CGAL_LIB_LDFLAGS)
-	mv $(CGAL_LIB) $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER)
+lib: lib_no_install
+	mv $(CGAL_LIB) $(CGAL_LIB_DESTINATION)
+
+lib_no_install: $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
+	$(CGAL_LIB_CREATE)$(CGAL_LIB) \
+	`ls *$(OBJ_EXT) | awk '{for (i=1; i<=NF;++i){printf "$(CGAL_OBJ_PREFIX)";print $$i}}'`\
+		$(CGAL_LIB_LDFLAGS)
 	rm $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
 
 workaround_4_irix.o:
@@ -62,11 +68,16 @@ workaround_4_irix.o:
 workaround_4_irix6.o:
 	$(CGAL_CC) $(CXXFLAGS) -c Interval_arithmetic/workaround_4_irix6.s
 
+workaround_4_ms$(OBJ_EXT):
+	cp Interval_arithmetic/workaround_4_ms.obj workaround_4_ms$(OBJ_EXT)
+
+clean:
+	rm -f $(CGAL_LIB) $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
+.C$(OBJ_EXT):
 	$(CGAL_CXX)  $(CXXFLAGS)  -c $<
 

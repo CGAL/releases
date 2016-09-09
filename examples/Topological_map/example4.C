@@ -24,7 +24,7 @@ typedef  Tpm::Vertex_handle   Vertex_handle;
 typedef  Tpm::Face_handle     Face_handle;
 
 
-main() {
+int main() {
   
   Point p1(0,0),p2(0,1),p3(1,1);
   Curve c1(p1,p2),c2(p2,p3),c3(p3,p1);

@@ -1,48 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998,1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Interval_arithmetic/_FPU.h
-// package       : Interval_arithmetic (4.15)
-// revision      : $Revision: 2.31 $
-// revision_date : $Date: 1999/05/04 15:52:14 $
+// package       : Interval_arithmetic (4.39)
+// revision      : $Revision: 2.58 $
+// revision_date : $Date: 1999/11/07 17:59:42 $
 // author(s)     : Sylvain Pion
 //
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
@@ -54,44 +51,55 @@
 // This file specifies some platform dependant functions, regarding the FPU
 // directed rounding modes.  There is only support for double precision.
 
-
 // Some useful constants
-
 #define CGAL_IA_MIN_DOUBLE (5e-324) // subnormal
 #define CGAL_IA_MAX_DOUBLE (1.7976931348623157081e+308)
 
-
-#if defined(__osf__)
-#undef __osf
-#define __osf
+// Macro to stop compiler optimization.
+#ifdef __GNUG__
+// It's slightly faster to use the following, but it's a GCC extension.
+#define CGAL_IA_STOP_COMPILER_OPT(x) ({ volatile double y(x); double z=y; z; })
+#else
+inline double IA_force_to_double(const double x)
+{ volatile double e = x; return e; }
+#define CGAL_IA_STOP_COMPILER_OPT(x) IA_force_to_double(x)
 #endif
 
-#if (	!defined(__i386__)  && \
-	!defined(__sparc__) && \
-	!defined(__alpha__) && \
-	!defined(__mips__)  && \
-	!defined(__sgi)     && \
-	!defined(_MSC_VER) \
-	)
-#error "Architecture not supported."
-#endif
+// The x86 processor keeps too wide exponents (15bits) in registers, even in
+// double precision mode !  It's a problem when the intervals overflow or
+// underflow.  To work around that, we store the variable to memory when
+// needed, using the macro below.
+// Another possible workaround would be to use intervals of "long doubles"
+// directly, but I think it would be much slower.
+#if !defined (CGAL_IA_NO_X86_OVER_UNDER_FLOW_PROTECT) && \
+    (defined __i386__ || defined _MSC_VER || defined __BORLANDC__)
+#define CGAL_IA_FORCE_TO_DOUBLE(x) CGAL_IA_STOP_COMPILER_OPT(x)
+#else
+#define CGAL_IA_FORCE_TO_DOUBLE(x) (x)
+#endif // __i386__
 
-#if defined (__GNUC__) && ! defined (CGAL_IA_DONT_USE_ASSEMBLY)
-#define CGAL_IA_USE_ASSEMBLY
+// We sometimes need to stop constant propagation.
+// (because operations are done with a wrong rounding mode).
+// With GCC, this is done using __builtin_constant_p().
+// It should also be called at more specific places rather than in the ctors.
+#ifndef CGAL_IA_DONT_STOP_CONSTANT_PROPAGATION
+#ifdef __GNUG__
+#define CGAL_IA_STOP_CPROP(x) \
+    (__builtin_constant_p (x) ? CGAL_IA_STOP_COMPILER_OPT(x) : (x) )
+#else
+#define CGAL_IA_STOP_CPROP(x) CGAL_IA_STOP_COMPILER_OPT(x)
+#endif
+#else
+#define CGAL_IA_STOP_CPROP(x) (x)
 #endif
 
 #ifdef __linux__
 #include <fpu_control.h>
-#endif
-
-#ifndef CGAL_IA_USE_ASSEMBLY
-#ifdef __sun__
+#elif defined __SUNPRO_CC
 #include <ieeefp.h>
-#endif // __sun__
-#ifdef __osf
+#elif defined __osf || defined __osf__ || defined __BORLANDC__
 #include <float.h>
-#endif // __osf
-#ifdef __sgi
+#elif defined __sgi
     // The 3 C functions do not work on IRIX 6.5 !!!!!
     // So we use precompiled (by gcc) binaries linked into libCGAL.
     // See revision 2.23 for the old code.
@@ -99,193 +107,146 @@ extern "C" {
   void CGAL_workaround_IRIX_set_FPU_cw (int);
   int  CGAL_workaround_IRIX_get_FPU_cw (void);
 }
-#endif // __sgi
-#endif // CGAL_IA_USE_ASSEMBLY
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
-#define CGAL_IA_FORCE_TO_DOUBLE(x) (x)
+#ifdef __STD_IEC_559__
+// This is a version for the upcoming C9X standard, which should be portable.
+// It should work with GNU libc 2.1.
+#define CGAL_IA_SETFPCW(CW) fesetround(CW)
+#define CGAL_IA_GETFPCW(CW) CW = fegetround()
+typedef int FPU_CW_t;
+#define CGAL_FE_TONEAREST    FE_TONEAREST
+#define CGAL_FE_TOWARDZERO   FE_TOWARDZERO
+#define CGAL_FE_UPWARD       FE_UPWARD
+#define CGAL_FE_DOWNWARD     FE_DOWNWARD
 
-#ifdef __i386__
-
-// This is compulsory to have this to force the Intel processor to output a
-// real double, and not Intel's doubles, because even when precision is
-// explicitely set to "double", the exponent still has 15 bits, and it bugs
-// when some values are in this range.
-// The other possible workaround is to use intervals of "long doubles"
-// directly, but I think it would be much slower.
-#undef CGAL_IA_FORCE_TO_DOUBLE
-#define CGAL_IA_FORCE_TO_DOUBLE(x) ( { volatile double __x = (x); __x; } )
-
-#ifdef CGAL_IA_USE_ASSEMBLY
+#elif defined __i386__
+// The GNU libc version (cf powerpc) is nicer, but doesn't work on libc 5 :(
+// This one also works with CygWin.
 #define CGAL_IA_SETFPCW(CW) asm volatile ("fldcw %0" : :"m" (CW))
-#define CGAL_IA_GETFPCW(CW) asm volatile ("fstcw %0" : "=m" (CW))
-#endif
+#define CGAL_IA_GETFPCW(CW) asm volatile ("fnstcw %0" : "=m" (CW))
 typedef unsigned short FPU_CW_t;
-enum {  //               rounding | def. mask
-    FPU_cw_near = _FPU_RC_NEAREST | 0x127f,
-    FPU_cw_zero = _FPU_RC_ZERO    | 0x127f,
-    FPU_cw_up   = _FPU_RC_UP      | 0x127f,
-    FPU_cw_down = _FPU_RC_DOWN    | 0x127f
-};
-#endif // __i386__
+#define CGAL_FE_TONEAREST    (0x000 | 0x127f)
+#define CGAL_FE_TOWARDZERO   (0xc00 | 0x127f)
+#define CGAL_FE_UPWARD       (0x800 | 0x127f)
+#define CGAL_FE_DOWNWARD     (0x400 | 0x127f)
 
-#ifdef __sparc__
-#ifdef CGAL_IA_USE_ASSEMBLY
+#elif defined __powerpc__
+#define CGAL_IA_SETFPCW(CW) _FPU_SETCW(CW)
+#define CGAL_IA_GETFPCW(CW) _FPU_GETCW(CW)
+typedef fpu_control_t FPU_CW_t;
+#define CGAL_FE_TONEAREST    (_FPU_RC_NEAREST | _FPU_DEFAULT)
+#define CGAL_FE_TOWARDZERO   (_FPU_RC_ZERO    | _FPU_DEFAULT)
+#define CGAL_FE_UPWARD       (_FPU_RC_UP      | _FPU_DEFAULT)
+#define CGAL_FE_DOWNWARD     (_FPU_RC_DOWN    | _FPU_DEFAULT)
+
+#elif defined __SUNPRO_CC
+#define CGAL_IA_SETFPCW(CW) fpsetround(fp_rnd(CW))
+#define CGAL_IA_GETFPCW(CW) CW = fpgetround()
+typedef unsigned int FPU_CW_t;
+#define CGAL_FE_TONEAREST    FP_RN
+#define CGAL_FE_TOWARDZERO   FP_RZ
+#define CGAL_FE_UPWARD       FP_RP
+#define CGAL_FE_DOWNWARD     FP_RM
+
+#elif defined __sparc__
 #define CGAL_IA_SETFPCW(CW) asm volatile ("ld %0,%%fsr" : :"m" (CW))
 #define CGAL_IA_GETFPCW(CW) asm volatile ("st %%fsr,%0" : "=m" (CW))
 typedef unsigned int FPU_CW_t;
-enum {  //        rounding   | precision  | def.mask
-    FPU_cw_near = 0x0        | 0x20000000 | 0x1f,
-    FPU_cw_zero = 0x40000000 | 0x20000000 | 0x1f,
-    FPU_cw_up   = 0x80000000 | 0x20000000 | 0x1f,
-    FPU_cw_down = 0xc0000000 | 0x20000000 | 0x1f
-};
-#else
-typedef unsigned int FPU_CW_t; // fp_rnd
-enum {
-    FPU_cw_near = FP_RN,
-    FPU_cw_zero = FP_RZ,
-    FPU_cw_up   = FP_RP,
-    FPU_cw_down = FP_RM
-};
-#endif
-#endif // __sparc__
+#define CGAL_FE_TONEAREST    (0x0        | 0x20000000 | 0x1f)
+#define CGAL_FE_TOWARDZERO   (0x40000000 | 0x20000000 | 0x1f)
+#define CGAL_FE_UPWARD       (0x80000000 | 0x20000000 | 0x1f)
+#define CGAL_FE_DOWNWARD     (0xc0000000 | 0x20000000 | 0x1f)
 
-#if defined(__mips__) || defined(__sgi)
-#ifdef CGAL_IA_USE_ASSEMBLY
+#elif defined __sgi
+#define CGAL_IA_SETFPCW(CW) CGAL_workaround_IRIX_set_FPU_cw(CW)
+#define CGAL_IA_GETFPCW(CW) CW = CGAL_workaround_IRIX_get_FPU_cw()
+typedef unsigned int FPU_CW_t;
+#define CGAL_FE_TONEAREST    (0x0)
+#define CGAL_FE_TOWARDZERO   (0x1)
+#define CGAL_FE_UPWARD       (0x2)
+#define CGAL_FE_DOWNWARD     (0x3)
+
+#elif defined __mips__ // && !defined __sgi
 #define CGAL_IA_SETFPCW(CW) asm volatile ("ctc1 %0,$31" : :"r" (CW))
 #define CGAL_IA_GETFPCW(CW) asm volatile ("cfc1 %0,$31" : "=r" (CW))
-#endif // CGAL_IA_USE_ASSEMBLY
 typedef unsigned int FPU_CW_t;
-enum {
-    FPU_cw_near = 0x0,
-    FPU_cw_zero = 0x1,
-    FPU_cw_up   = 0x2,
-    FPU_cw_down = 0x3
-};
-#endif // __mips__ || __sgi
+#define CGAL_FE_TONEAREST    (0x0)
+#define CGAL_FE_TOWARDZERO   (0x1)
+#define CGAL_FE_UPWARD       (0x2)
+#define CGAL_FE_DOWNWARD     (0x3)
 
-#ifdef __alpha__ // This one is not really supported [yet].
-#ifdef CGAL_IA_USE_ASSEMBLY
+#elif defined __osf || defined __osf__  // Not yet supported.
+#define CGAL_IA_SETFPCW(CW) write_rnd(CW)
+#define CGAL_IA_GETFPCW(CW) CW = read_rnd()
+typedef unsigned int FPU_CW_t;
+#define CGAL_FE_TONEAREST    FP_RND_RN
+#define CGAL_FE_TOWARDZERO   FP_RND_RZ
+#define CGAL_FE_UPWARD       FP_RND_RP
+#define CGAL_FE_DOWNWARD     FP_RND_RM
+
+#elif defined __alpha__  // Not yet supported.
 #define CGAL_IA_SETFPCW(CW) asm volatile ("mt_fpcr %0; excb" : :"f" (CW))
 #define CGAL_IA_GETFPCW(CW) asm volatile ("excb; mf_fpcr %0" : "=f" (CW))
 typedef unsigned long FPU_CW_t;
-enum { //         rounding
-    // I guess it won't work, because enum == int.
-    FPU_cw_zero = 0x0000000000000000UL,
-    FPU_cw_near = 0x0800000000000000UL,
-    FPU_cw_up   = 0x0c00000000000000UL,
-    FPU_cw_down = 0x0400000000000000UL
-};
+#define CGAL_FE_TONEAREST    (0x0800000000000000UL)
+#define CGAL_FE_TOWARDZERO   (0x0000000000000000UL)
+#define CGAL_FE_UPWARD       (0x0c00000000000000UL)
+#define CGAL_FE_DOWNWARD     (0x0400000000000000UL)
+
+#elif defined _MSC_VER
+// Found in http://msdn.microsoft.com/library/sdkdoc/directx/imover_7410.htm :
+#define CGAL_IA_SETFPCW(CW) __asm fldcw CW
+#define CGAL_IA_GETFPCW(CW) __asm fstcw CW
+typedef unsigned short FPU_CW_t;
+#define CGAL_FE_TONEAREST    (0x0   | 0x127f)
+#define CGAL_FE_TOWARDZERO   (0xC00 | 0x127f)
+#define CGAL_FE_UPWARD       (0x800 | 0x127f)
+#define CGAL_FE_DOWNWARD     (0x400 | 0x127f)
+
+#elif defined __BORLANDC__
+#define CGAL_IA_SETFPCW(CW) _control87(CW,~0)
+#define CGAL_IA_GETFPCW(CW) CW = _control87(0,0)
+typedef unsigned short FPU_CW_t;
+#define CGAL_FE_TONEAREST    (0x0   | 0x127f)
+#define CGAL_FE_TOWARDZERO   (0xC00 | 0x127f)
+#define CGAL_FE_UPWARD       (0x800 | 0x127f)
+#define CGAL_FE_DOWNWARD     (0x400 | 0x127f)
+
 #else
-typedef unsigned int FPU_CW_t;
-enum {
-    FPU_cw_zero = FP_RND_RZ,
-    FPU_cw_near = FP_RND_RN,
-    FPU_cw_up   = FP_RND_RP,
-    FPU_cw_down = FP_RND_RM
-};
+#error Architecture not supported
 #endif
-#endif // __alpha__
 
-#ifdef _MSC_VER
-enum float_round_style {
-  round_indeterminate = -1,
-  round_toward_zero = 0,
-  round_to_nearest = 1,
-  round_toward_infinity = 2,
-  round_toward_neg_infinity = 3
-};
-typedef unsigned int FPU_CW_t;
-enum {
-  FPU_cw_zero = round_toward_zero,
-  FPU_cw_near = round_to_nearest,
-  FPU_cw_up   = round_toward_infinity,
-  FPU_cw_down = round_toward_neg_infinity
-};
-/*
- * The enumeration describes the various methods that an implementation can
- * choose for rounding a floating-point value to an integer value:
- * 
- * round_indeterminate -- rounding method cannot be determined
- * round_toward_zero -- round toward zero
- * round_to_nearest -- round to nearest integer
- * round_toward_infinity -- round away from zero
- * round_toward_neg_infinity -- round to more negative integer
- */
-#endif //_MSC_VER
+// User interface:
 
-
-// Main functions: FPU_get_cw() and FPU_set_cw();
-
-inline FPU_CW_t FPU_get_cw (void)
+inline
+FPU_CW_t
+FPU_get_cw (void)
 {
     FPU_CW_t cw;
-#ifdef CGAL_IA_USE_ASSEMBLY
     CGAL_IA_GETFPCW(cw);
-#else
-
-#ifdef __linux__
-#error "It seems there's no C function in libc5 !!!"
-#endif
-
-#ifdef __sun__
-    cw = fpgetround();
-#endif
-
-#ifdef __sgi
-    cw = CGAL_workaround_IRIX_get_FPU_cw();
-#endif
-
-#ifdef __osf
-    cw = read_rnd();
-#endif
-
-#endif // CGAL_IA_USE_ASSEMBLY
     return cw;
 }
 
-inline void FPU_set_cw (FPU_CW_t cw)
+inline
+void
+FPU_set_cw (FPU_CW_t cw)
 {
-#ifdef CGAL_IA_USE_ASSEMBLY
     CGAL_IA_SETFPCW(cw);
-#else
-
-#ifdef __linux__
-    __setfpucw(cw);
-#endif
-
-#ifdef __sun__
-    fpsetround(fp_rnd(cw));
-#endif
-
-#ifdef __sgi
-    CGAL_workaround_IRIX_set_FPU_cw(cw);
-#endif
-
-#ifdef __osf
-    write_rnd(cw);
-#endif
-
-#endif // CGAL_IA_USE_ASSEMBLY
 }
 
-// Obscolete: wrappers for the old interface.  Will be removed after 2.0.
+inline
+FPU_CW_t
+FPU_get_and_set_cw (FPU_CW_t cw)
+{
+    FPU_CW_t old = FPU_get_cw();
+    FPU_set_cw(cw);
+    return old;
+}
 
-#if 1
-inline void FPU_set_rounding_to_zero (void)
-{ FPU_set_cw(FPU_cw_zero); }
-
-inline void FPU_set_rounding_to_nearest (void)
-{ FPU_set_cw(FPU_cw_near); }
-
-inline void FPU_set_rounding_to_infinity (void)
-{ FPU_set_cw(FPU_cw_up); }
-
-inline void FPU_set_rounding_to_minus_infinity (void)
-{ FPU_set_cw(FPU_cw_down); }
-#endif
+FPU_CW_t FPU_empiric_test(); // Only used for debug.
 
 CGAL_END_NAMESPACE
 

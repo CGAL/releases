@@ -7,99 +7,48 @@
 
 include $(CGAL_MAKEFILE)
 
-CXX = eg++
 
 
 #---------------------------------------------------------------------#
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-#CXXFLAGS = -g -I./include -I../../include $(CGAL_CXXFLAGS) -DDELAUNAY\
-#	-B $(GCC_EXEC_PREFIX)
-CXXFLAGS = -g -I./include -I../../include $(CGAL_CXXFLAGS) -DDELAUNAY
-
+CXXFLAGS = -I./include 	-I../../include \
+	$(CGAL_CXXFLAGS) \
+	$(LONG_NAME_PROBLEM_CXXFLAGS) \
+	$(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
-LDFLAGS = $(CGAL_LDFLAGS) 
-WINDOW_LDFLAGS = $(CGAL_WINDOW_LDFLAGS) 
+LIBPATH = \
+          $(CGAL_WINDOW_LIBPATH)
+
+LDFLAGS = \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
+          $(CGAL_WINDOW_LDFLAGS) 
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-# QUANTIFY = quantify
-
-#all: lfc_test demo_test grid_test voronoi_test crust_test points3D_test \
-#     triangulation_basic_example_test triangulation_terrain_test \
-#     triangulation_locate_grid_test
-
-#lfc_test: lfc
-#	./lfc
-
-#demo_test: demo
-#	./demo -check -file demo.cin
-
-#voronoi_test: voronoi
-#	./voronoi
-
-#crust_test: crust
-
-#	./crust
-
-#points3D_test: points3D
-#	./points3D points3D.cin points3D.cout
-
-#triangulation_basic_example_test: triangulation_basic_example
-#	./triangulation_basic_example
-
-#triangulation_terrain_test: triangulation_terrain
-#	./triangulation_terrain points3D.cin triangulation3D.cout
-
-#triangulation_locate_grid_test: triangulation_locate_grid
-#	./triangulation_locate_grid
+all :            \
+	demo
 
 
-#lfc: lfc.o
-#	$(CGAL_CXX) -o lfc lfc.o $(WINDOW_LDFLAGS)
+demo$(EXE_EXT): demo$(OBJ_EXT) parse$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo demo$(OBJ_EXT) parse$(OBJ_EXT) $(LDFLAGS)
 
-#voronoi: voronoi.o parse.o
-#	$(CGAL_CXX) -o voronoi voronoi.o parse.o $(WINDOW_LDFLAGS)
+clean: \
+	demo.clean \
+	parse.clean
 
-#grid: grid.o parse.o
-#	$(CGAL_CXX) -o grid grid.o parse.o $(WINDOW_LDFLAGS)
 
-demo: demo.o parse.o
-	$(CGAL_CXX) -o demo demo.o parse.o $(WINDOW_LDFLAGS)
-
-#crust: crust.o
-#	$(CGAL_CXX) -o crust crust.o $(WINDOW_LDFLAGS)
-
-#points3D: points3D.o
-#	$(CGAL_CXX) -o points3D points3D.o $(LDFLAGS) 
-
-#triangulation_basic_example: triangulation_basic_example.o
-#	$(CGAL_CXX) -o $@ $? $(WINDOW_LDFLAGS) 
-
-#triangulation_terrain: triangulation_terrain.o
-#	$(CGAL_CXX) -o $@ $? $(LDFLAGS) 
-
-#triangulation_locate_grid: triangulation_locate_grid.o
-#	$(CGAL_CXX) -o $@ $? $(WINDOW_LDFLAGS) 
-
-clean:
-	- rm -rf *~ *.o core tr
-
-realclean: clean
-	- rm -rf lfc demo grid crust points3D voronoi \
-	triangulation_basic_example triangulation_terrain \
-	triangulation_locate_grid
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS)  $(OBJ_OPT) $<

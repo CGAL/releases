@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -14,11 +15,14 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
+
+LIBPATH = \
+          $(CGAL_WINDOW_LIBPATH)
 
 LDFLAGS = \
           $(CGAL_WINDOW_LDFLAGS)
@@ -30,18 +34,16 @@ LDFLAGS = \
 all:            \
                 window_input 
 
-window_input: window_input.o
-	$(CGAL_CXX) -o window_input window_input.o $(LDFLAGS)
+window_input$(EXE_EXT): window_input$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)window_input window_input$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f *.o \
-                   window_input \
-                   core
+clean: \
+                   window_input.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

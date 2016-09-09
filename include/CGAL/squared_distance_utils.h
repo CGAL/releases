@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/squared_distance_utils.h
-// package       : Distance_2 (2.1.2)
+// package       : Distance_2 (2.3.3)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -63,27 +60,32 @@ bool is_null(const Vector_2<R> &v)
 
 
 template <class R>
-R_RT_return(R)
+typename R::RT
 wdot(const Vector_2<R> &u,
     const Vector_2<R> &v)
 {
-    return  (R_RT_return(R))(u.hx()*v.hx() + u.hy()*v.hy());
+    return  (u.hx()*v.hx() + u.hy()*v.hy());
 }
 
+
 #ifdef CGAL_HOMOGENEOUS_H
+
 template <class RT>
-RT wdot(const Point_2< Homogeneous<RT> > &p,
+inline
+RT wdot_impl(const Homogeneous<RT>*,const Point_2< Homogeneous<RT> > &p,
     const Point_2<Homogeneous<RT> > &q,
     const Point_2<Homogeneous<RT> > &r)
 {
     return  (q.hw()*p.hx() - p.hw()*q.hx())*(q.hw()*r.hx() - r.hw()*q.hx()) +
             (q.hw()*p.hy() - p.hw()*q.hy())*(q.hw()*r.hy() - r.hw()*q.hy());
 }
+
 #endif // CGAL_HOMOGENEOUS_H
 
 #ifdef CGAL_CARTESIAN_H
 template <class FT>
-FT wdot(const Point_2< Cartesian<FT> > &p,
+inline
+FT wdot_impl(const Cartesian<FT> *,const Point_2< Cartesian<FT> > &p,
     const Point_2< Cartesian<FT> > &q,
     const Point_2< Cartesian<FT> > &r)
 {
@@ -93,18 +95,28 @@ FT wdot(const Point_2< Cartesian<FT> > &p,
 #endif // CGAL_CARTESIAN_H
 
 
+template <class R>
+typename R::RT wdot(const Point_2< R > &p,
+    const Point_2< R > &q,
+    const Point_2< R > &r)
+{
+    return  wdot_impl(static_cast<R *>(0),p,q,r);
+}
+
+
 
 template <class R>
-R_RT_return(R)
+typename R::RT
 wcross(const Vector_2<R> &u,
     const Vector_2<R> &v)
 {
-    return (R_RT_return(R))(u.hx()*v.hy() - u.hy()*v.hx());
+    return (typename R::RT)(u.hx()*v.hy() - u.hy()*v.hx());
 }
 
 #ifdef CGAL_HOMOGENEOUS_H
 template <class RT>
-RT wcross(const Point_2< Homogeneous<RT> > &p,
+inline
+RT wcross_impl(const Homogeneous<RT>*,const Point_2< Homogeneous<RT> > &p,
     const Point_2< Homogeneous<RT> > &q,
     const Point_2< Homogeneous<RT> > &r)
 {
@@ -116,13 +128,23 @@ RT wcross(const Point_2< Homogeneous<RT> > &p,
 
 #ifdef CGAL_CARTESIAN_H
 template <class FT>
-FT wcross(const Point_2< Cartesian<FT> > &p,
+inline
+FT wcross_impl(const Cartesian<FT> *, const Point_2< Cartesian<FT> > &p,
     const Point_2< Cartesian<FT> > &q,
     const Point_2< Cartesian<FT> > &r)
 {
     return (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
 }
 #endif // CGAL_CARTESIAN_H
+
+template <class R>
+typename R::RT wcross(const Point_2< R > &p,
+    const Point_2< R > &q,
+    const Point_2< R > &r)
+{
+   return wcross_impl(static_cast<R*>(0), p, q, r);
+}
+
 
 
 template <class R>

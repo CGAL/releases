@@ -1,14 +1,14 @@
 #ifndef _READ_INP_H
 #define _READ_INP_H
 
-//for STD_IO
-#include <CGAL/Pm_config.h>
+#include <CGAL/basic.h>
+#include <cassert>
 
-template <class R>
+template <class Traits>
 class PM_input
 {
 public:
-	typedef CGAL::Point_2<R> Point;
+	typedef typename Traits::Point_2 Point;
 	typedef struct { int s, t; } Curve;
 
 	PM_input()
@@ -124,15 +124,29 @@ public:
 		Point p;
 		
 		is >> pmi.num_pnts;
+#ifdef CGAL_PM_READ_DEBUG
+                std::cerr << "pmi.num_pnts " << pmi.num_pnts << std::endl;
+#endif
 		pmi.pnts = new Point[pmi.num_pnts];
 		assert(pmi.pnts != NULL);
                 int i;
+#ifdef USE_LEDA_RAT_KERNEL
+                number_type x,y;
+#endif
 		for (i = 0; i < pmi.num_pnts; i++)
 		{
+#ifndef USE_LEDA_RAT_KERNEL
 			is >> pmi.pnts[i];
+#else
+                        is >> x >> y;
+                        pmi.pnts[i]=Point(x,y);
+#endif
 		}
 		
 		is >> pmi.num_cvs;
+#ifdef CGAL_PM_READ_DEBUG
+                std::cerr << "pmi.num_cvs " << pmi.num_cvs << std::endl;
+#endif
 		pmi.cvs = new Curve[pmi.num_cvs];
 		assert(pmi.cvs != NULL);
 		for (i = 0; i < pmi.num_cvs; i++)
@@ -152,3 +166,10 @@ private:
 
 
 #endif
+
+
+
+
+
+
+

@@ -21,7 +21,7 @@ Point centre_of_mass(Point_mass *cur, Point_mass *beyond)
     return CGAL::ORIGIN + sumv/sumw;
 }
 
-main()
+int main()
 {
     const int N = 4;
     Point_mass points[N] = {
@@ -33,4 +33,5 @@ main()
     Point centre = centre_of_mass(points, points+N);
     std::cout << "The centre of mass is: ("
          << centre.x() <<", "<< centre.y() <<")\n";
+    return 0;
 }

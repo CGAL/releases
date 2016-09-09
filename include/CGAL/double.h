@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : Double.fw
 // file          : include/CGAL/double.h
-// package       : Number_types (2.1.5)
-// revision      : 2.1.5
-// revision_date : 09 May 1999 
+// package       : Number_types (2.7.1)
+// revision      : 2.7.1
+// revision_date : 04 Dec 1999 
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -52,11 +49,15 @@
 #ifndef CGAL_DOUBLE_H
 #define CGAL_DOUBLE_H 1
 
-#include <CGAL/config.h>
+#include <CGAL/basic.h>
 #ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
 #endif // CGAL_TAGS_H
 #include <cmath>
+#include <CGAL/IEEE_754_unions.h>
+#ifdef __sgi
+#include <fp_class.h>
+#endif // __sgi
 
 CGAL_BEGIN_NAMESPACE
 
@@ -65,6 +66,11 @@ inline
 double
 to_double(double d)
 { return d; }
+
+inline
+double
+sqrt(double d)
+{ return std::sqrt(d); }
 
 inline
 Number_tag
@@ -83,8 +89,8 @@ is_valid(double d);
 #else
 
 #ifdef __sgi
-#include <fp_class.h>
 
+// double
 inline
 bool is_finite(double d)
 {
@@ -126,6 +132,47 @@ bool is_valid(double d)
 }
 
 #else
+#if defined(_MSC_VER) || defined(CGAL_MASK_FINITE_VALID) || defined(__BORLANDC__)
+
+#define CGAL_EXPONENT_DOUBLE_MASK   0x7ff00000
+#define CGAL_MANTISSA_DOUBLE_MASK   0x000fffff
+
+inline
+bool
+is_finite_by_mask_double(unsigned int h)
+{
+  unsigned int e = h & CGAL_EXPONENT_DOUBLE_MASK;
+  return ( ( e ^ CGAL_EXPONENT_DOUBLE_MASK ) != 0 );
+}
+
+inline
+bool
+is_nan_by_mask_double(unsigned int h, unsigned int l)
+{
+  if ( is_finite_by_mask_double(h) ) return false;
+  return ( (( h & CGAL_MANTISSA_DOUBLE_MASK ) != 0) || (( l & 0xffffffff ) != 0));
+}
+
+inline
+bool
+is_finite( const double& dble)
+{
+  double d = dble;
+  IEEE_754_double* p = reinterpret_cast<IEEE_754_double*>(&d);
+  return is_finite_by_mask_double( p->c.H );
+}
+
+inline
+bool
+is_valid( const double& dble)
+{
+  double d = dble;
+  IEEE_754_double* p = reinterpret_cast<IEEE_754_double*>(&d);
+  return ! ( is_nan_by_mask_double( p->c.H, p->c.L ));
+}
+
+
+#else
 
 inline
 bool
@@ -137,6 +184,7 @@ bool
 is_finite(double d)
 { return (d == d) && (is_valid(d-d)); }
 
+#endif // MSC_VER || ...
 #endif // __sgi
 
 #endif // OLD_FINITE_VALID
@@ -155,7 +203,7 @@ CGAL_TEMPLATE_NULL
 inline
 double
 abs(const double& d)
-{ return std::fabs(d); }
+{ return CGAL_CLIB_STD::fabs(d); }
 
 
 #endif // CGAL_CFG_NO_NAMESPACE

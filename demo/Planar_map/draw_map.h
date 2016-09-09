@@ -10,6 +10,8 @@
 #ifdef USE_RATIONAL
 #include <CGAL/Pm_segment_exact_traits.h>
 #include <CGAL/leda_rational.h>
+#elif defined (USE_LEDA_RAT_KERNEL)
+#include <CGAL/Pm_leda_segment_exact_traits.h>
 #else
 #include <CGAL/Pm_segment_epsilon_traits.h>
 #endif
@@ -24,22 +26,32 @@
 #include <CGAL/IO/Planar_map_iostream.h>
 #endif
 
-#ifdef PM_TIMER
+#ifdef CGAL_PM_TIMER
 #include <CGAL/Timer.h>
 #endif
 
-#ifdef USE_RATIONAL
+#define BUNDLE 100
+#define WIDE_PRECISION 10
+
+#if defined(USE_RATIONAL) || defined(USE_LEDA_RAT_KERNEL)
+#if defined(USE_RATIONAL) && defined(USE_LEDA_RAT_KERNEL)
+#error only one kernel should be defined
+#endif
 typedef leda_rational                          number_type;
 #else
 typedef double                                 number_type; 
 #endif
 
+#ifndef USE_LEDA_RAT_KERNEL
 typedef CGAL::Cartesian<number_type>            Rep;
+#endif
 
-#ifndef USE_RATIONAL
-typedef CGAL::Pm_segment_epsilon_traits<Rep>    Traits;
-#else
+#ifdef USE_RATIONAL
 typedef CGAL::Pm_segment_exact_traits<Rep>      Traits;
+#elif defined(USE_LEDA_RAT_KERNEL)
+typedef CGAL::Pm_leda_segment_exact_traits      Traits;
+#else
+typedef CGAL::Pm_segment_epsilon_traits<Rep>    Traits;
 #endif
 
 typedef CGAL::Pm_default_dcel<Traits>           Dcel;
@@ -75,10 +87,22 @@ extern "C" CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
 
 extern "C" void window_input(Planar_map & M, CGAL::Window_stream &W );
 
-#ifdef PM_TIMER
+#ifdef CGAL_PM_TIMER
 extern CGAL::Timer t_total,t_construction,t_insert,t_remove,t_locate,t_vertical;
 extern int n_total,n_insert,n_remove,n_locate,n_vertical;
 #endif
+
+/* move to Eyals leda_rat ? */
+#ifdef USE_LEDA_RAT_KERNEL
+inline CGAL::Window_stream& operator<<(CGAL::Window_stream& os, const Pm_point& p){
+    return os << leda_point(p.xcoordD(),p.ycoordD()); 
+  } 
+inline CGAL::Window_stream& operator<<(CGAL::Window_stream& os, const Pm_curve& c){
+    leda_segment s(c.xcoord1D(),c.ycoord1D(),c.xcoord2D(),c.ycoord2D()); 
+    return os << s; 
+  }
+#endif
+
 
 #endif
 

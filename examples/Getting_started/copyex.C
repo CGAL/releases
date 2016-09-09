@@ -11,7 +11,7 @@ using std::ostream_iterator;
 using std::cout;
 using std::endl;
 
-main()
+int main()
 {
     double d_array[2] = { 1.3, 1.2};
     std::vector<double> d_vec(3, 0.5);
@@ -30,4 +30,5 @@ main()
 // d_vec: 0.5, 0.5, 1.4, 1.3, 1.2 ;
     copy(d_vec.begin(), d_vec.end(), ostream_iterator<double>(cout, " "));
     cout<<endl;
+    return 0;
 }

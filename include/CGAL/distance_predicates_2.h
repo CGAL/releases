@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : distance_predicates_2.fw
 // file          : include/CGAL/distance_predicates_2.h
-// package       : _2 (2.1.2)
-// revision      : 2.1.2
-// revision_date : 09 May 1999 
+// package       : _2 (2.8.1)
+// revision      : 2.8.1
+// revision_date : 07 Nov 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -64,7 +61,7 @@
 
 #ifdef CGAL_CARTESIAN_H
 #ifndef CGAL_DISTANCE_PREDICATESC2_H
-#include <CGAL/distance_predicatesC2.h>
+#include <CGAL/Cartesian/distance_predicates_2.h>
 #endif // CGAL_DISTANCE_PREDICATESC2_H
 #endif // CGAL_CARTESIAN_H
 
@@ -85,7 +82,7 @@ cmp_dist_to_point(const Point_2<R>& p,
                   const Point_2<R>& q,
                   const Point_2<R>& r)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return cmp_dist_to_point((const RPoint_2& )p,
                            (const RPoint_2& )q,
                            (const RPoint_2& )r );
@@ -98,7 +95,7 @@ has_larger_dist_to_point(const Point_2<R>& p,
                          const Point_2<R>& q,
                          const Point_2<R>& r)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return has_larger_dist_to_point((const RPoint_2& )p,
                                   (const RPoint_2& )q,
                                   (const RPoint_2& )r );
@@ -111,7 +108,7 @@ has_smaller_dist_to_point(const Point_2<R>& p,
                                const Point_2<R>& q,
                                const Point_2<R>& r)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return has_smaller_dist_to_point((const RPoint_2& )p,
                                         (const RPoint_2& )q,
                                         (const RPoint_2& )r );
@@ -124,8 +121,8 @@ cmp_signed_dist_to_line(const Line_2<R>&  l,
                         const Point_2<R>& p,
                         const Point_2<R>& q)
 {
-  typedef typename  R::Point_2    RPoint_2;
-  typedef typename  R::Line_2     RLine_2 ;
+  typedef typename  R::Point_2_base  RPoint_2;
+  typedef typename  R::Line_2_base  RLine_2 ;
   return cmp_signed_dist_to_line((const RLine_2& )l,
                                       (const RPoint_2& )p,
                                       (const RPoint_2& )q );
@@ -138,8 +135,8 @@ has_larger_signed_dist_to_line(const Line_2<R>&  l,
                                     const Point_2<R>& p,
                                     const Point_2<R>& q)
 {
-  typedef typename  R::Point_2    RPoint_2;
-  typedef typename  R::Line_2     RLine_2 ;
+  typedef typename  R::Point_2_base  RPoint_2;
+  typedef typename  R::Line_2_base  RLine_2 ;
   return has_larger_signed_dist_to_line((const RLine_2& )l,
                                              (const RPoint_2& )p,
                                              (const RPoint_2& )q );
@@ -152,8 +149,8 @@ has_smaller_signed_dist_to_line(const Line_2<R>&  l,
                                      const Point_2<R>& p,
                                      const Point_2<R>& q)
 {
-  typedef typename  R::Point_2    RPoint_2;
-  typedef typename  R::Line_2     RLine_2 ;
+  typedef typename  R::Point_2_base  RPoint_2;
+  typedef typename  R::Line_2_base  RLine_2 ;
   return has_smaller_signed_dist_to_line((const RLine_2& )l,
                                               (const RPoint_2& )p,
                                               (const RPoint_2& )q );
@@ -167,7 +164,7 @@ cmp_signed_dist_to_line(const Point_2<R>& p,
                              const Point_2<R>& r,
                              const Point_2<R>& s)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return cmp_signed_dist_to_line((const RPoint_2& )p,
                                       (const RPoint_2& )q,
                                       (const RPoint_2& )r,
@@ -182,7 +179,7 @@ has_smaller_signed_dist_to_line(const Point_2<R>& p,
                                      const Point_2<R>& r,
                                      const Point_2<R>& s)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return has_smaller_signed_dist_to_line((const RPoint_2& )p,
                                               (const RPoint_2& )q,
                                               (const RPoint_2& )r,
@@ -197,7 +194,7 @@ has_larger_signed_dist_to_line(const Point_2<R>& p,
                                     const Point_2<R>& r,
                                     const Point_2<R>& s)
 {
-  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Point_2_base  RPoint_2;
   return has_larger_signed_dist_to_line((const RPoint_2& )p,
                                              (const RPoint_2& )q,
                                              (const RPoint_2& )r,

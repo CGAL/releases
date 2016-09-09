@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Extremal_polygon_traits_2.h
-// package       : Matrix_search (1.17)
+// package       : Matrix_search (1.30)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:08:03 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:46 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,21 +48,13 @@
 //
 // ======================================================================
 
-#if ! (EXTREMAL_POLYGON_TRAITS_2_H)
-#define EXTREMAL_POLYGON_TRAITS_2_H 1
+#if ! (CGAL_EXTREMAL_POLYGON_TRAITS_2_H)
+#define CGAL_EXTREMAL_POLYGON_TRAITS_2_H 1
 
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#include <CGAL/optimisation_assertions.h>
-#endif // CGAL_OPTIMISATION_ASSERTIONS_H
-#ifndef CGAL_SQUARED_DISTANCE_2_H
+#include <CGAL/Optimisation/assertions.h>
 #include <CGAL/squared_distance_2.h>
-#endif // CGAL_SQUARED_DISTANCE_2_H
-#ifndef CGAL_POLYGON_2_H
 #include <CGAL/Polygon_2.h>
-#endif // CGAL_POLYGON_2_H
-#ifndef CGAL_FUNCTION_OBJECTS_H
 #include <CGAL/function_objects.h>
-#endif // CGAL_FUNCTION_OBJECTS_H
 
 CGAL_BEGIN_NAMESPACE
 template < class R > inline
@@ -132,9 +121,9 @@ public:
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
   template < class RandomAccessIC, class OutputIterator >
 #else
-  typedef typename vector< Point_2 >::iterator
+  typedef typename std::vector< Point_2 >::iterator
     RandomAccessIC;
-  typedef typename vector< int >::reverse_iterator
+  typedef typename std::vector< int >::reverse_iterator
     OutputIterator;
 #endif
   OutputIterator
@@ -209,7 +198,7 @@ public:
   //   form a convex chain.
   {
     typedef Polygon_traits_2< R >        P_traits;
-    typedef vector< Point_2 >            Cont;
+    typedef std::vector< Point_2 >       Cont;
     typedef Polygon_2< P_traits, Cont >  Polygon_2;
   
     Polygon_2 p( points_begin, points_end);
@@ -219,31 +208,12 @@ public:
 };
 
 CGAL_END_NAMESPACE
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#include <CGAL/optimisation_assertions.h>
-#endif // CGAL_OPTIMISATION_ASSERTIONS_H
-#ifndef CGAL_PROTECT_CMATH
+#include <CGAL/Optimisation/assertions.h>
 #include <cmath>
-#define CGAL_PROTECT_CMATH
-#endif
 #ifdef CGAL_USE_LEDA
-#ifndef CGAL_LEDA_REAL_H
 #include <CGAL/leda_real.h>
-#endif // CGAL_LEDA_REAL_H
-#endif
+#endif // CGAL_USE_LEDA
 CGAL_BEGIN_NAMESPACE
-
-#ifndef CGAL_CFG_NO_NAMESPACE
-inline double
-sqrt( double x)
-{ return ::sqrt( x); }
-
-#ifdef CGAL_USE_LEDA
-inline leda_real
-sqrt( const leda_real& x)
-{ return ::sqrt( x); }
-#endif
-#endif
 
 template < class _FT >
 struct Sqrt
@@ -309,9 +279,9 @@ public:
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
   template < class RandomAccessIC, class OutputIterator >
 #else
-  typedef typename vector< Point_2 >::iterator
+  typedef typename std::vector< Point_2 >::iterator
     RandomAccessIC;
-  typedef typename vector< int >::reverse_iterator
+  typedef typename std::vector< int >::reverse_iterator
     OutputIterator;
 #endif
   OutputIterator
@@ -372,7 +342,7 @@ public:
   //   form a convex chain.
   {
     typedef Polygon_traits_2< R >        P_traits;
-    typedef vector< Point_2 >            Cont;
+    typedef std::vector< Point_2 >       Cont;
     typedef Polygon_2< P_traits, Cont >  Polygon_2;
   
     Polygon_2 p( points_begin, points_end);
@@ -412,7 +382,7 @@ maximum_area_inscribed_k_gon(
 // of $P_k$'s vertices to o and
 // returns the past-the-end iterator of that sequence.
 {
-  return _CGAL_maximum_area_inscribed_k_gon(
+  return CGAL_maximum_area_inscribed_k_gon(
     points_begin,
     points_end,
     k,
@@ -425,7 +395,7 @@ template < class RandomAccessIC,
            class R >
 inline
 OutputIterator
-_CGAL_maximum_area_inscribed_k_gon(
+CGAL_maximum_area_inscribed_k_gon(
   RandomAccessIC points_begin,
   RandomAccessIC points_end,
   int k,
@@ -458,7 +428,7 @@ _CGAL_maximum_area_inscribed_k_gon(
     k,
     o,
     Kgon_area_traits< R >());
-} // _CGAL_maximum_area_inscribed_k_gon( ... )
+} // CGAL_maximum_area_inscribed_k_gon( ... )
 
 template < class RandomAccessIC,
            class OutputIterator >
@@ -490,7 +460,7 @@ maximum_perimeter_inscribed_k_gon(
 // of $P_k$'s vertices to o and
 // returns the past-the-end iterator of that sequence.
 {
-  return _CGAL_maximum_perimeter_inscribed_k_gon(
+  return CGAL_maximum_perimeter_inscribed_k_gon(
     points_begin,
     points_end,
     k,
@@ -503,7 +473,7 @@ template < class RandomAccessIC,
            class R >
 inline
 OutputIterator
-_CGAL_maximum_perimeter_inscribed_k_gon(
+CGAL_maximum_perimeter_inscribed_k_gon(
   RandomAccessIC points_begin,
   RandomAccessIC points_end,
   int k,
@@ -536,11 +506,11 @@ _CGAL_maximum_perimeter_inscribed_k_gon(
     k,
     o,
     Kgon_perimeter_traits< R >());
-} // _CGAL_maximum_perimeter_inscribed_k_gon( ... )
+} // CGAL_maximum_perimeter_inscribed_k_gon( ... )
 
 CGAL_END_NAMESPACE
 
-#endif // ! (EXTREMAL_POLYGON_TRAITS_2_H)
+#endif // ! (CGAL_EXTREMAL_POLYGON_TRAITS_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

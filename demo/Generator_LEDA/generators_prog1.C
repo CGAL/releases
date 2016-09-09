@@ -18,6 +18,7 @@ using namespace CGAL;
 typedef Cartesian<double>                R;
 typedef Point_2<R>                       Point;
 typedef Creator_uniform_2<double,Point>  Creator;
+
 typedef std::vector<Point>               Vector;
 
 int main() {

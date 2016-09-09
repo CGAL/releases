@@ -5,7 +5,6 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-
 include $(CGAL_MAKEFILE)
 
 
@@ -14,31 +13,40 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = -g -I../include -I../../include $(CGAL_CXXFLAGS)
-           
+CXXFLAGS = \
+           $(TESTSUITE_CXXFLAGS) \
+           $(EXTRA_FLAGS) \
+           $(CGAL_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
-LDFLAGS = $(CGAL_LDFLAGS)
-WINDOW_LDFLAGS = $(CGAL_WINDOW_LDFLAGS)
+LIBPATH = \
+	  $(CGAL_WINDOW_LIBPATH)
+
+LDFLAGS = \
+	  $(LONG_NAME_PROBLEM_LDFLAGS) \
+	  $(CGAL_WINDOW_LDFLAGS)
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-# QUANTIFY = quantify
+all: delaunay$(EXE_EXT)
 
-delaunay: delaunay.o
-	$(CGAL_CXX) -o delaunay delaunay.o $(WINDOW_LDFLAGS)
+delaunay$(EXE_EXT): delaunay$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)delaunay delaunay$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	rm -f delaunay *.o
+clean: delaunay.clean
+
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<

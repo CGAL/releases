@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Range_tree_d.h
-// package       : SearchStructures (2.3)
+// package       : SearchStructures (2.50)
 // source        : include/CGAL/Range_tree_d.h
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 1998/02/03 13:15:00 $
@@ -86,7 +83,7 @@ struct range_tree_node: public tree_node_base
   typedef typename _Interface::Key Key;
   typedef  _Interface Interface;
   typedef typename tree_base< _Data,  _Window>::tree_base_type tree_base_type;
-protected:
+  protected:
   typedef Range_tree_d< _Data,  _Window,  _Interface> rT_d;
 public:
   friend rT_d;
@@ -135,9 +132,11 @@ class Range_tree_d: public tree_base< _Data,  _Window>
   typedef  _Window Window;
   typedef typename _Interface::Key Key;
   typedef  _Interface Interface;
+  typedef tree_base< _Data,  _Window>  tbt;
 protected:
   typedef Range_tree_d< _Data,  _Window,  _Interface> rT_d;
-  tree_base_type *sublayer_tree;
+  tree_base<_Data, _Window> *sublayer_tree;
+  //tree_base_type *sublayer_tree;
    _Interface interface;
   int is_build;
 
@@ -209,12 +208,13 @@ protected:
 
   // merge sort algorithms that takes O(n) time if the sequence to
   // be sorted consists of two sorted subsequences.
-  void dynamic_merge(std::list<Data>::iterator & first, std::list<Data>::iterator & last)
+  template <class T>
+  void dynamic_merge(T& first, T& last)
   {
-    std::list<Data>::iterator prev, current=first;
-    std::list<Data>::iterator current_first, current_middle, current_last;
+    T prev, current=first;
+    T current_first, current_middle, current_last;
 
-    std::list<std::list<Data>::iterator> startpoints, tmp_startpoints;
+    std::list<T> startpoints, tmp_startpoints;
     startpoints.push_back(current);
     prev = current++;
 
@@ -249,113 +249,21 @@ protected:
     }
   }
 
-#ifdef stlvector
-  // merge sort algorithms that takes O(n) time if the sequence to
-  // be sorted consists of two sorted subsequences.
-
-  void dynamic_merge(std::vector<Data>::iterator & first, 
-		     std::vector<Data>::iterator & last)
-  {
-    std::vector<Data>::iterator prev, current=first;
-    std::vector<Data>::iterator current_first, current_middle, current_last;
-
-    std::list<std::vector<Data>::iterator> startpoints, tmp_startpoints;
-    startpoints.push_back(current);
-    prev = current++;
-
-    while(current!=last)
-    {
-      if (interface.comp(interface.get_key(*current), 
-			 interface.get_key(*prev)))
-	startpoints.push_back(current);
-      prev = current++;
-    }
-    while(startpoints.size()>1)
-    {
-      while(startpoints.size()>1)
-      {
-	current_first = startpoints.front();
-	startpoints.erase(startpoints.begin());
-	current_middle = startpoints.front();
-	startpoints.erase(startpoints.begin());
-	if(startpoints.size()>0)
-	  current_last = startpoints.front();
-	else 
-	  current_last = last;
-	tmp_startpoints.push_back(current_first);
-	std::inplace_merge(current_first, current_middle, current_last, 
-		      interface.key_comp);
-      }
-      if(startpoints.size()>0)
-      {
-	tmp_startpoints.push_back(startpoints.front());
-	startpoints.erase(startpoints.begin());
-      }
-      startpoints.swap(tmp_startpoints);
-    }
-  }
-#endif
-#ifdef carray
-  // merge sort algorithms that takes O(n) time if the sequence to
-  // be sorted consists of two sorted subsequences.
-  void dynamic_merge( _Data * first,  _Data * last)
-  {
-    Data * prev;
-    Data * current=first;
-    Data * current_first;
-    Data * current_middle;
-    Data * current_last;
-
-    std::list<Data *> startpoints, tmp_startpoints;
-    startpoints.push_back(current);
-    prev = current++;
-
-    while(current!=last)
-    {
-      if (interface.comp(interface.get_key(*current), 
-			 interface.get_key(*prev)))
-	startpoints.push_back(current);
-      prev = current++;
-    }
-    while(startpoints.size()>1)
-    {
-      while(startpoints.size()>1)
-      {
-	current_first = startpoints.front();
-	startpoints.erase(startpoints.begin());
-	current_middle = startpoints.front();
-	startpoints.erase(startpoints.begin());
-	if(startpoints.size()>0)
-	  current_last = startpoints.front();
-	else 
-	  current_last = last;
-	tmp_startpoints.push_back(current_first);
-	std::inplace_merge(current_first, current_middle, current_last, 
-		      interface.key_comp);
-      }
-      if(startpoints.size()>0)
-      {
-	tmp_startpoints.push_back(startpoints.front());
-	startpoints.erase(startpoints.begin());
-      }
-      startpoints.swap(tmp_startpoints);
-    }
-  }
-#endif
 
   // recursive function 
   // (current,last) describe an interval of length n of sorted elements,
   // for this interval a tree is build containing these elements.
   // the most left child is returend in prevchild.
 
+  template <class T>
   void build_range_tree(int n, link_type& leftchild, 
 			link_type& rightchild,
 			link_type& prevchild, 
 			link_type& leftmostlink,
-			std::list<Data>::iterator& current, 
-			std::list<Data>::iterator& last,
-			std::list<Data>::iterator& sublevel_first,
-			std::list<Data>::iterator& sublevel_last)
+			T& current, 
+			T& last,
+			T& sublevel_first,
+			T& sublevel_last)
   {
     // only two elements ==> two leaves and a parent is constructed
     if (n==2)
@@ -386,10 +294,10 @@ protected:
       if ( leftmostlink == 0) //TREE_BASE_NULL
 	leftmostlink = leftchild;
 
-      tree_base_type *g = sublayer_tree->clone();
+      tree_base<_Data, _Window> *g = sublayer_tree->clone();
       
-      std::list<Data>::iterator sub_first = sublevel_first;
-      std::list<Data>::iterator sub_last = sublevel_last;
+      T sub_first = sublevel_first;
+      T sub_last = sublevel_last;
    
       g->make_tree(sub_first, sub_last);
       
@@ -412,7 +320,7 @@ protected:
       else
       {
 	// recursiv call for the construction. the interval is devided.
-	std::list<Data>::iterator sublevel_left, sublevel_right;
+	T sublevel_left, sublevel_right;
 	build_range_tree(n - (int)n/2, leftchild, rightchild, 
 			 prevchild, leftmostlink, current, last, 
 			 sublevel_first, sublevel_left);
@@ -429,204 +337,14 @@ protected:
 	vparent->right_link = prevchild;
 	prevchild->parent_link = vparent;
 	prevchild = vparent;
-	tree_base_type *g = sublayer_tree->clone();
-	std::list<Data>::iterator sub_first = sublevel_first;
-	std::list<Data>::iterator sub_last = sublevel_last;
+	tree_base<_Data, _Window> *g = sublayer_tree->clone();
+	T sub_first = sublevel_first;
+	T sub_last = sublevel_last;
 	g->make_tree(sub_first, sub_last);
 	vparent->sublayer = g;
       }
   }
 
-#ifdef stlvector
-  // recursive function 
-  // (current,last) describe an interval of length n of sorted elements,
-  // for this interval a tree is build containing these elements.
-  // the most left child is returend in prevchild.
-  void build_range_tree(int n, link_type& leftchild, 
-			link_type& rightchild,
-			link_type& prevchild, 
-			link_type& leftmostlink,
-			std::vector<Data>::iterator& current, 
-			std::vector<Data>::iterator& last,
-			std::vector<Data>::iterator& sublevel_first,
-			std::vector<Data>::iterator& sublevel_last)
-  {
-    // only two elements ==> two leaves and a parent is constructed
-    if (n==2)
-    {
-      sublevel_first = current;
-
-      link_type  vleft = new range_tree_node2( 0, 0,
-                                  (*current), interface.get_key(*current) ); 
-      // CGAL_NIL arguments
-      CGAL_Tree_assertion( vleft != 0);       // CGAL_NIL arguments
-
-      ++current;
-      link_type  vright = new range_tree_node2( 0,0,
-                                  (*current), interface.get_key(*current) ); 
-      // CGAL_NIL arguments
-      CGAL_Tree_assertion( vright != 0);       // CGAL_NIL arguments
-      current++;
-      sublevel_last = current;
-
-      link_type  vparent = new range_tree_node2( vleft, vright, vleft->key );
-      CGAL_Tree_assertion( vparent != 0);       // CGAL_NIL arguments
-
-      vleft->parent_link = vparent;
-      vright->parent_link = vparent;
-      leftchild = vleft;
-      rightchild = vright;
-      prevchild = vparent;
-      if ( leftmostlink == 0) //TREE_BASE_NULL
-	leftmostlink = leftchild;
-
-      tree_base_type *g = sublayer_tree->clone();
-      
-      std::vector<Data>::iterator sub_first = sublevel_first;
-      std::vector<Data>::iterator sub_last = sublevel_last;
-   
-      g->make_tree((std::vector<Data>::iterator&)sub_first, 
-		   (std::vector<Data>::iterator&)sub_last);
-      
-      vparent->sublayer= g;
-    }
-    else
-      // only one element ==> one leaf is constructed
-      if(n==1)
-      {
-	sublevel_first = current;
-	link_type vright = new range_tree_node2( 0, 0,
-	                           (*current), interface.get_key(*current) );
-	// CGAL_NIL arguments
-        CGAL_Tree_assertion( vright != 0);      // CGAL_NIL arguments
-	current++;
-	sublevel_last = current;
-	prevchild = vright;
-	rightchild = vright;
-      }
-      else
-      {
-	// recursiv call for the construction. the interval is devided.
-	std::vector<Data>::iterator sublevel_left, sublevel_right;
-	build_range_tree(n - (int)n/2, leftchild, rightchild, 
-			 prevchild, leftmostlink, current, last, 
-			 (std::vector<Data>::iterator&)sublevel_first, 
-			 (std::vector<Data>::iterator&)sublevel_left);
-	link_type vparent = new range_tree_node2( prevchild, 0,
-                                        rightchild->key );
-	//TREE_BASE_NULL argument
-        CGAL_Tree_assertion( vparent != 0);
-
-	prevchild->parent_link = vparent;
-
-	build_range_tree((int)n/2, leftchild, rightchild, 
-			 prevchild, leftmostlink, current, 
-			 last, (std::vector<Data>::iterator&)sublevel_right, 
-			 (std::vector<Data>::iterator&)sublevel_last);
-	vparent->right_link = prevchild;
-	prevchild->parent_link = vparent;
-	prevchild = vparent;
-	tree_base_type *g = sublayer_tree->clone();
-        std::vector<Data>::iterator sub_first = sublevel_first;
-	std::vector<Data>::iterator sub_last = sublevel_last;
-	g->make_tree((std::vector<Data>::iterator&)sub_first, 
-		     (std::vector<Data>::iterator&)sub_last);
-	vparent->sublayer = g;
-      }
-  }
-#endif
-#ifdef carray
-  // recursive function 
-  // (current,last) describe an interval of length n of sorted elements,
-  // for this interval a tree is build containing these elements.
-  // the most left child is returend in prevchild.
-  void build_range_tree(int n, link_type& leftchild, 
-			link_type& rightchild,
-			link_type& prevchild, 
-			link_type& leftmostlink,
-			 _Data *& current, 
-			 _Data *& last,
-			 _Data *& sublevel_first,
-			 _Data *& sublevel_last)
-  {
-    // only two elements ==> two leaves and a parent is constructed
-    if (n==2)
-    {
-      sublevel_first = current;
-
-      link_type  vleft = new range_tree_node2( 0, 0,
-                                  (*current), interface.get_key(*current) ); 
-      CGAL_Tree_assertion( vleft != 0);
-
-      ++current;
-      link_type  vright = new range_tree_node2( 0, 0,
-                                  (*current), interface.get_key(*current) ); 
-      CGAL_Tree_assertion( vright != 0);
-      current++;
-      sublevel_last = current;
-
-      link_type  vparent = new range_tree_node2( vleft, vright, vleft->key );
-      CGAL_Tree_assertion( vparent != 0);
-
-      vleft->parent_link = vparent;
-      vright->parent_link = vparent;
-      leftchild = vleft;
-      rightchild = vright;
-      prevchild = vparent;
-      if ( leftmostlink == 0) //TREE_BASE_NULL
-	leftmostlink = leftchild;
-
-      tree_base_type *g = sublayer_tree->clone();
-      
-      Data * sub_first = sublevel_first;
-      Data * sub_last = sublevel_last;
-   
-      g->make_tree((Data *)sub_first,(Data *)sub_last);
-      
-      vparent->sublayer= g;
-    }
-    else
-      // only one element ==> one leaf is constructed
-      if(n==1)
-      {
-	sublevel_first = current;
-	link_type vright = new range_tree_node2( 0, 0,
-	                           (*current), interface.get_key(*current) );
-        CGAL_Tree_assertion( vright !=0 );
-	current++;
-	sublevel_last = current;
-	prevchild = vright;
-	rightchild = vright;
-      }
-      else
-      {
-	// recursiv call for the construction. the interval is devided.
-	Data * sublevel_left;
-	Data * sublevel_right;
-	
-	build_range_tree(n - (int)n/2, leftchild, rightchild, 
-			 prevchild, leftmostlink, current, last, 
-			 sublevel_first, sublevel_left);
-	Data * sub_first = sublevel_first;
-	link_type vparent = new range_tree_node2( prevchild, 0,
-                                        rightchild->key );
-        CGAL_Tree_assertion( vparent != 0);
-
-	prevchild->parent_link = vparent;
-
-	build_range_tree((int)n/2, leftchild, rightchild, 
-			 prevchild, leftmostlink, current, 
-			 last, sublevel_right, sublevel_last);
-	vparent->right_link = prevchild;
-	prevchild->parent_link = vparent;
-	prevchild = vparent;
-	tree_base_type *g = sublayer_tree->clone();
-	Data * sub_last = sublevel_last;
-	g->make_tree((Data *)sub_first, (Data *)sub_last);
-	vparent->sublayer = g;
-      }
-  }
-#endif
 
 
   void delete_tree(link_type v)
@@ -661,20 +379,9 @@ protected:
     return v;
   }
 
-#ifdef carray
-  void report_subtree(link_type v, _Data *result)
-  {
-    if(left(v)!=0) //TREE_BASE_NULL
-    {
-      report_subtree(left(v), result);
-      report_subtree(right(v), result);
-    }
-    else
-      (*result++)=v->object;
-  }
-#endif
+  template <class T>
   void report_subtree(link_type v, 
-		      std::back_insert_iterator<std::vector< _Data> > result)
+		      T result)
   {
     if(left(v)!=0) //TREE_BASE_NULL
     {
@@ -684,29 +391,6 @@ protected:
     else
       (*result++)=v->object;
   }
-  void report_subtree(link_type v, std::back_insert_iterator<std::list< _Data> > result)
-  {
-    if(left(v)!=0) //TREE_BASE_NULL
-    {
-      report_subtree(left(v), result);
-      report_subtree(right(v), result);
-    }
-    else
-      (*result++)=v->object;
-  }
-#ifdef ostreamiterator
-  void report_subtree(link_type v, std::ostream_iterator< _Data> result)
-  {
-    if(left(v)!=0) //TREE_BASE_NULL
-    {
-      report_subtree(left(v), result);
-      report_subtree(right(v), result);
-    }
-    else
-      (*result++)=v->object;
-  }
-#endif
-
 
   bool is_valid(link_type& v, link_type&  leftmost_child, 
 		link_type& rightmost_child)
@@ -715,7 +399,7 @@ protected:
       rightmost_child_r;
     if (v->sublayer != 0) //(tree_base_type *)
     {
-      tree_base_type *T= v->sublayer;
+      tree_base<_Data, _Window> *T= v->sublayer;
       if(!(*T).is_valid())
 	return false;
     }
@@ -752,7 +436,7 @@ public:
   }
 
   // construction of a tree
-  Range_tree_d(tree_base_type const &fact):
+  Range_tree_d(tree_base<_Data, _Window> const &fact):
     sublayer_tree(fact.clone()), is_build(false)
   {
     header = 0; //TREE_BASE_NULL
@@ -773,15 +457,36 @@ public:
 
 
  // a prototype of the tree is returned
-  tree_base_type *clone() const 
+  tree_base<_Data, _Window> *clone() const 
   { 
     return new Range_tree_d(*this, true); 
   }
   
+  bool make_tree(typename std::list< _Data>::iterator& beg, 
+		 typename std::list< _Data>::iterator& end,
+		 typename tbt::lit *dummy=0){ 
+    return make_tree_impl(beg,end);
+  }
+
+#ifdef stlvector
+  bool make_tree(typename std::vector< _Data>::iterator& beg, 
+		 typename std::vector< _Data>::iterator& end,
+		 typename tbt::vbit *dummy=0){ 
+    return make_tree_impl(beg,end);
+  }
+#endif
+#ifdef carray
+  bool make_tree(_Data *beg, 
+		 _Data *end){
+    return make_tree_impl(beg,end);
+  }
+#endif
 
   // the tree is build according to the input elements in [first,last)
-  bool make_tree(std::list<Data>::iterator& first, 
-		 std::list<Data>::iterator& last)
+  template<class T>
+  inline  
+  bool make_tree_impl(T& first, 
+		      T& last)
   {
     link_type leftchild, rightchild, prevchild, leftmostlink;
 
@@ -800,7 +505,7 @@ public:
     dynamic_merge(first, last);
     
     leftmostlink = 0; //TREE_BASE_NULL
-    std::list<Data>::iterator sublevel_first, sublevel_last;
+    T sublevel_first, sublevel_last;
     
     build_range_tree(n, leftchild, rightchild, prevchild, 
 		     leftmostlink, first, last, 
@@ -814,312 +519,43 @@ public:
     return true;
   }
 
-#ifdef stlvector
-  // the tree is build according to the input elements in [first,last)
-  bool make_tree(std::vector<Data>::iterator& first, 
-		 std::vector<Data>::iterator& last)
-  {
-    link_type leftchild, rightchild, prevchild, leftmostlink;
-
-    if(!is_build)
-      is_build = true;
-    else
-      return false;
-
-    int n = count_elements__C( first, last );
-    if(n==0)
-    {
-      is_build = false;
-      return true;
-    }
-
-    dynamic_merge((std::vector<Data>::iterator&)first, 
-		  (std::vector<Data>::iterator&)last);
-    
-    leftmostlink = 0; //TREE_BASE_NULL
-    std::vector<Data>::iterator sublevel_first, sublevel_last;
-    
-    build_range_tree(n, leftchild, rightchild, prevchild, 
-		     leftmostlink, first, last, 
-		     (std::vector<Data>::iterator&)sublevel_first, 
-		     (std::vector<Data>::iterator&)sublevel_last);
-    
-    header = new range_tree_node2();
-    header->right_link = rightchild;
-    header->parent_link = prevchild;
-    header->left_link = leftmostlink;
-
-    return true;
+  std::back_insert_iterator< std::list< _Data> > window_query
+          ( _Window const &win, 
+	    std::back_insert_iterator< std::list< _Data> > out,
+	    typename tbt::lbit *dummy=0){
+    return window_query_impl(win,out);
   }
-#endif
+
+
+  std::back_insert_iterator< std::vector< _Data> > window_query
+          ( _Window const &win, 
+	    std::back_insert_iterator< std::vector< _Data> > out,
+	    typename tbt::vbit *dummy=0){
+    return window_query_impl(win,out);
+  }
+
 
 #ifdef carray
-  // the tree is build according to the input elements in [first,last)
-  bool make_tree( _Data * first, 
-		  _Data * last)
-  {
-    link_type leftchild, rightchild, prevchild, leftmostlink;
-
-    if(!is_build)
-      is_build = true;
-    else
-      return false;
-
-    int n = count_elements__C( first, last );
-    if(n==0)
-    {
-      is_build = false;
-      return true;
-    }
-
-    dynamic_merge((Data *)first, (Data *)last);
-    
-    leftmostlink = 0; //TREE_BASE_NULL
-    Data * sublevel_first;
-    Data * sublevel_last;
-    
-    build_range_tree(n, leftchild, rightchild, prevchild, 
-		     leftmostlink, first, last, 
-		     sublevel_first, sublevel_last);
-    
-    header = new range_tree_node2();
-    header->right_link = rightchild;
-    header->parent_link = prevchild;
-    header->left_link = leftmostlink;
-
-    return true;
+  _Data *window_query( _Window const &win, _Data *out){
+    return window_query_impl(win,out);
   }
 #endif
-  
-  // all elements that ly in win are inserted in result
-  std::back_insert_iterator<std::list< _Data> > window_query( _Window const &win,  
-			     std::back_insert_iterator<std::list< _Data> > result)
-  {
-    if(is_less_equal(interface.get_right(win), interface.get_left(win)))
-       return result;
-    if(root()==0) //TREE_BASE_NULL
-      return result;
-    link_type split_node = findSplitNode(win);
-    if(left(split_node)==0) //TREE_BASE_NULL
-    {
-      if(is_inside(win,split_node->object))
-	(*result++)=split_node->object;
-    }	  
-    else
-    {
-      link_type v = (link_type)(*split_node).left_link;
 
-      while(left(v)!=0) //TREE_BASE_NULL
-      {
-	if(is_less_equal(interface.get_left(win),v->key))
-	{
-	  link_type w = right(v);
-	  if(left(w)!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (w)->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(w,result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	    if(is_inside(win,w->object))
-	      (*result++)=(w)->object;
-	  v = left(v);
-	}
-	else
-	  v = right(v);
-      }                 // end while
-      if(is_inside(win,v->object))
-	(*result++)=v->object;
-      v = right(split_node);
-      while(right(v)!=0) //TREE_BASE_NULL
-      {
-//	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) 
-	  //half open interval
-	{
-	  if(left(left(v))!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (left(v))->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(left(v),result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	  {
-	    if(is_inside(win,left(v)->object))
-	      (*result++)=left(v)->object; 
-	  }
-	  v = right(v);
-	}
-	else
-	  v = left(v);
-      }//end while
-      if(is_inside(win,v->object))
-      {
-	(*result++)=v->object; 
-      }
-    }
-    return result;
-  }
-  // all elements that ly in win are inserted in result
-   std::back_insert_iterator<std::vector< _Data> >  window_query( _Window const &win,  
-			       std::back_insert_iterator<std::vector< _Data> > result)
-  {
-    if(is_less_equal(interface.get_right(win), interface.get_left(win)))
-       return result;
-    if(root()==0) //TREE_BASE_NULL
-      return result;
-    link_type split_node = findSplitNode(win);
-    if(left(split_node)==0) //TREE_BASE_NULL
-    {
-      if(is_inside(win,split_node->object))
-	(*result++)=split_node->object;
-    }	  
-    else
-    {
-      link_type v = (link_type)(*split_node).left_link;
-
-      while(left(v)!=0) //TREE_BASE_NULL
-      {
-	if(is_less_equal(interface.get_left(win),v->key))
-	{
-	  link_type w = right(v);
-	  if(left(w)!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (w)->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(w,result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	    if(is_inside(win,w->object))
-	      (*result++)=(w)->object;
-	  v = left(v);
-	}
-	else
-	  v = right(v);
-      }                 // end while
-      if(is_inside(win,v->object))
-	(*result++)=v->object;
-      v = right(split_node);
-      while(right(v)!=0) //TREE_BASE_NULL
-      {
-//	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) 
-	  //half open interval
-	{
-	  if(left(left(v))!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (left(v))->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(left(v),result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	  {
-	    if(is_inside(win,left(v)->object))
-	      (*result++)=left(v)->object; 
-	  }
-	  v = right(v);
-	}
-	else
-	  v = left(v);
-      }//end while
-      if(is_inside(win,v->object))
-      {
-	(*result++)=v->object; 
-      }
-    }
-    return result;
-  }
-
-#ifdef carray
-  // all elements that ly in win are inserted in result
-   _Data * window_query( _Window const &win,  
-				 _Data * result)
-  {
-    if(is_less_equal(interface.get_right(win), interface.get_left(win)))
-       return result;
-    if(root()==0) //TREE_BASE_NULL
-      return result;
-    link_type split_node = findSplitNode(win);
-    if(left(split_node)==0) //TREE_BASE_NULL
-    {
-      if(is_inside(win,split_node->object))
-	(*result++)=split_node->object;
-    }	  
-    else
-    {
-      link_type v = (link_type)(*split_node).left_link;
-
-      while(left(v)!=0) //TREE_BASE_NULL
-      {
-	if(is_less_equal(interface.get_left(win),v->key))
-	{
-	  link_type w = right(v);
-	  if(left(w)!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (w)->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(w,result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	    if(is_inside(win,w->object))
-	      (*result++)=(w)->object;
-	  v = left(v);
-	}
-	else
-	  v = right(v);
-      }                 // end while
-      if(is_inside(win,v->object))
-	(*result++)=v->object;
-      v = right(split_node);
-      while(right(v)!=0) //TREE_BASE_NULL
-      {
-//	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) 
-	   //half open interval
-	{
-	  if(left(left(v))!=0) //TREE_BASE_NULL
-	  {
-	    tree_base_type *T= (left(v))->sublayer;
-	    if(T->is_anchor())
-	      report_subtree(left(v),result);
-	    else
-	      (*T).window_query(win, result);
-	  }
-	  else
-	  {
-	    if(is_inside(win,left(v)->object))
-	      (*result++)=left(v)->object; 
-	  }
-	  v = right(v);
-	}
-	else
-	  v = left(v);
-      }//end while
-      if(is_inside(win,v->object))
-      {
-	(*result++)=v->object; 
-      }
-    }
-    return result;
-  }
-#endif
 #ifdef ostreamiterator
+  std::ostream_iterator< _Data>  window_query( _Window const &win, 
+		     std::ostream_iterator< _Data> out,
+		     typename tbt::oit *dummy=0){
+    return window_query_impl(win,out);
+  }
+#endif
+
   // all elements that ly in win are inserted in result
-  std::ostream_iterator< _Data> window_query( _Window const &win,  
-				       std::ostream_iterator< _Data>& result)
+  template <class X>
+  inline  
+  X window_query_impl( _Window const &win, X result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
-      return result;
+       return result;
     if(root()==0) //TREE_BASE_NULL
       return result;
     link_type split_node = findSplitNode(win);
@@ -1139,7 +575,7 @@ public:
 	  link_type w = right(v);
 	  if(left(w)!=0) //TREE_BASE_NULL
 	  {
-	    tree_base_type *T= (w)->sublayer;
+	    tree_base<_Data, _Window> *T= (w)->sublayer;
 	    if(T->is_anchor())
 	      report_subtree(w,result);
 	    else
@@ -1164,7 +600,7 @@ public:
 	{
 	  if(left(left(v))!=0) //TREE_BASE_NULL
 	  {
-	    tree_base_type *T= (left(v))->sublayer;
+	    tree_base<_Data, _Window> *T= (left(v))->sublayer;
 	    if(T->is_anchor())
 	      report_subtree(left(v),result);
 	    else
@@ -1187,37 +623,41 @@ public:
     }
     return result;
   }
-#endif
 
-  // a window query is performed 
-   std::back_insert_iterator<std::list< _Data> > enclosing_query(  _Window const &win,  
-				 std::back_insert_iterator<std::list< _Data> > result)
-  {
-    return window_query(win, result);
+  std::back_insert_iterator< std::list< _Data> > enclosing_query( _Window const &win, 
+			     std::back_insert_iterator< std::list< _Data> > out,
+			     typename tbt::lbit *dummy=0){
+    return enclosing_query_impl(win,out);
   }
 
-  // a window query is performed 
-  std::back_insert_iterator<std::vector< _Data> > enclosing_query( _Window const &win,  
-			       std::back_insert_iterator<std::vector< _Data> > result)
-  {
-    return window_query(win, result);
+  std::back_insert_iterator< std::vector< _Data> > enclosing_query( _Window const &win, 
+			     std::back_insert_iterator< std::vector< _Data> > out,
+			     typename tbt::vbit *dummy=0){
+    return enclosing_query_impl(win,out);
   }
+
+
 #ifdef carray
-  // a window query is performed 
-   _Data *enclosing_query( _Window const &win,  
-				   _Data * result)
-  {
-    return window_query(win, result);
+  _Data *enclosing_query( _Window const &win, _Data *out){
+    return enclosing_query_impl(win,out);
   }
 #endif
+
 #ifdef ostreamiterator
-  // a window query is performed 
-  std::ostream_iterator< _Data>  enclosing_query( _Window const &win,  
-				std::ostream_iterator< _Data> result)
-  {
-    return window_query(win, result);
+  std::ostream_iterator< _Data>  enclosing_query( _Window const &win, 
+			     std::ostream_iterator< _Data> out,
+			     typename tbt::oit *dummy=0){
+    return enclosing_query_impl(win,out);
   }
 #endif
+
+  // a window query is performed 
+  template <class T>
+  inline
+  T enclosing_query_impl(_Window const &win, T result)
+  {
+    return window_query_impl(win, result);
+  }
 
   bool is_valid()
   {
@@ -1231,3 +671,7 @@ public:
 
 CGAL_END_NAMESPACE
 #endif /* RANGE_TREE_H */
+
+
+
+

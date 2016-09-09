@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Polygon_2.h
-// package       : Polygon (2.4.7)
+// package       : Polygon (2.9.1)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -95,45 +92,49 @@ CGAL_BEGIN_NAMESPACE
 //                          Polygon_2
 //-----------------------------------------------------------------------//
 
-template <class _Traits, class _Container>
+template <class Traits_P, class Container_P>
 class Polygon_2 {
   private:
-    _Container d_container;
+    Container_P d_container;
 
   public:
     //--------------------------------------------------------
     //             Types
     //--------------------------------------------------------
 
-    typedef _Traits Traits;
-    typedef _Container Container;
+    typedef Traits_P Traits;
+    typedef Container_P Container;
 
-    typedef typename _Traits::FT FT;
-    typedef typename _Traits::Point_2 Point_2;
-    typedef typename _Traits::Segment_2 Segment_2;
+    typedef typename Traits_P::FT FT;
+    typedef typename Traits_P::Point_2 Point_2;
+    typedef typename Traits_P::Segment_2 Segment_2;
 
-    typedef typename _Container::difference_type difference_type;
-    typedef typename _Container::value_type value_type;
+    typedef typename Container_P::difference_type difference_type;
+    typedef typename Container_P::value_type value_type;
+    typedef typename Container_P::pointer pointer;
+    typedef typename Container_P::reference reference;
+    typedef typename Container_P::const_reference const_reference;
+
 
     //-------------------------------------------------------//
     // this intermediary step is required by Sun C++ 4.1
-    typedef typename _Container::iterator iterator;
-    typedef typename _Container::const_iterator const_iterator;
+    typedef typename Container_P::iterator iterator;
+    typedef typename Container_P::const_iterator const_iterator;
     //-------------------------------------------------------//
 
     typedef iterator Vertex_iterator;
     typedef const_iterator Vertex_const_iterator;
 
-    typedef Bidirectional_circulator_from_container<_Container>
+    typedef Bidirectional_circulator_from_container<Container_P>
             Vertex_circulator;
 
-    typedef Bidirectional_const_circulator_from_container<_Container>
+    typedef Bidirectional_const_circulator_from_container<Container_P>
             Vertex_const_circulator;
 
-    typedef Polygon_2_edge_iterator<_Traits,_Container>
+    typedef Polygon_2_edge_iterator<Traits_P,Container_P>
             Edge_const_iterator;
 
-    typedef Polygon_2_const_edge_circulator<_Traits,_Container>
+    typedef Polygon_2_const_edge_circulator<Traits_P,Container_P>
             Edge_const_circulator;
 
     //--------------------------------------------------------
@@ -143,11 +144,11 @@ class Polygon_2 {
     Polygon_2()
       { }
 
-    Polygon_2(const Polygon_2<_Traits,_Container>& polygon)
+    Polygon_2(const Polygon_2<Traits_P,Container_P>& polygon)
       : d_container(polygon.d_container) { }
 
-    Polygon_2<_Traits,_Container>&
-    operator=(const Polygon_2<_Traits,_Container>& polygon)
+    Polygon_2<Traits_P,Container_P>&
+    operator=(const Polygon_2<Traits_P,Container_P>& polygon)
     {
       d_container = polygon.d_container;
       return *this;
@@ -184,9 +185,22 @@ class Polygon_2 {
     Polygon_2(l_ri first, l_ri last)
       { copy(first, last, back_inserter(d_container)); }
 #else
-    template <class InputIterator>
+   template <class InputIterator>
     Polygon_2(InputIterator first, InputIterator last)
       { std::copy(first, last, std::back_inserter(d_container)); }
+
+/*
+    template <class Circulator>
+    Polygon_2(Circulator start)
+	{
+	    if (start != NULL) {
+		Circulator cur = start;
+		do {
+		    d_container.push_back(*cur); ++cur;
+		} while (cur != start);
+	    }
+	}
+*/
 #endif
 
     //--------------------------------------------------------
@@ -218,7 +232,7 @@ class Polygon_2 {
       if (size() <= 1)
         return;
 
-      typename _Container::iterator i = d_container.begin();
+      typename Container_P::iterator i = d_container.begin();
       std::reverse(++i, d_container.end());
     }
 
@@ -416,10 +430,10 @@ class Polygon_2 {
     bool is_empty() const
       { return d_container.empty(); }
 
-    const _Container& container() const
+    const Container_P& container() const
       { return d_container; }
 
-    bool identical(const Polygon_2<_Traits,_Container> &q) const
+    bool identical(const Polygon_2<Traits_P,Container_P> &q) const
       { return this == &q; }
 };
 
@@ -427,15 +441,15 @@ class Polygon_2 {
 //               Globally defined operators
 //-----------------------------------------------------------------------//
 
-template <class _Traits, class _Container1, class _Container2>
-bool operator==( const Polygon_2<_Traits,_Container1> &x,
-                 const Polygon_2<_Traits,_Container2> &y );
+template <class Traits_P, class Container1_P, class Container2_P>
+bool operator==( const Polygon_2<Traits_P,Container1_P> &x,
+                 const Polygon_2<Traits_P,Container2_P> &y );
 
-template <class _Traits, class _Container1, class _Container2>
+template <class Traits_P, class Container1_P, class Container2_P>
 inline
 bool
-operator!=(const Polygon_2<_Traits,_Container1> &x,
-           const Polygon_2<_Traits,_Container2> &y);
+operator!=(const Polygon_2<Traits_P,Container1_P> &x,
+           const Polygon_2<Traits_P,Container2_P> &y);
 
 #ifdef CGAL_REP_CLASS_DEFINED
 
@@ -447,9 +461,9 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Transformation, class _Traits, class _Container>
-Polygon_2<_Traits,_Container>
-transform(const Transformation& t, const Polygon_2<_Traits,_Container>& p);
+template <class Transformation, class Traits_P, class Container_P>
+Polygon_2<Traits_P,Container_P>
+transform(const Transformation& t, const Polygon_2<Traits_P,Container_P>& p);
 
 #endif // CGAL_REP_CLASS_DEFINED
 
@@ -457,11 +471,11 @@ transform(const Transformation& t, const Polygon_2<_Traits,_Container>& p);
 //               I/O
 //-----------------------------------------------------------------------//
 
-template <class _Traits, class _Container>
-istream &operator>>(istream &is, Polygon_2<_Traits,_Container>& p);
+template <class Traits_P, class Container_P>
+std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p);
 
-template <class _Traits, class _Container>
-ostream &operator<<(ostream &os, const Polygon_2<_Traits,_Container>& p);
+template <class Traits_P, class Container_P>
+std::ostream &operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p);
 
 //-----------------------------------------------------------------------//
 //                         implementation
@@ -475,11 +489,11 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _Traits, class _Container1, class _Container2>
+template <class Traits_P, class Container1_P, class Container2_P>
 inline
 bool
-operator!=(const Polygon_2<_Traits,_Container1> &x,
-           const Polygon_2<_Traits,_Container2> &y)
+operator!=(const Polygon_2<Traits_P,Container1_P> &x,
+           const Polygon_2<Traits_P,Container2_P> &y)
 {
   return !(x==y);
 }

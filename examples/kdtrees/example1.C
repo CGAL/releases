@@ -10,6 +10,7 @@
 //#ifdef  __GNUG__ 
 //#include  <typeinfo>
 //#endif  /* __GNUG__ */ 
+#include  <CGAL/config.h>
 
 #include <iostream>
 #include <ctime>
@@ -63,7 +64,7 @@ int   main()
     std::cin >> rx ;
     std::cout << "Enter right y coordinate: ";
     std::cin >> ry;
-    std::cout << endl; 
+    std::cout << std::endl; 
 
     box r(point(lx,ly), point(rx,ry) ,2);
 
@@ -71,7 +72,7 @@ int   main()
     
     std::cout << "Listing of the points in the square: \n" ;
     std::copy (res.begin(),res.end(),std::ostream_iterator<point>(std::cout," \n") );
-    std::cout << endl;
+    std::cout << std::endl;
 
     tree.delete_all();
 

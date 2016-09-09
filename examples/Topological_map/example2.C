@@ -29,7 +29,7 @@ typedef  Tpm::Vertex_handle   Vertex_handle;
 typedef  Tpm::Face_handle     Face_handle;
 
 
-main() {
+int main() {
   
   Tpm t;
 

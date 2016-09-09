@@ -4,7 +4,7 @@
 #include <vector>
 
 
-main()
+int main()
 {
   const int numPoints1 = 4;
 
@@ -30,7 +30,6 @@ main()
   tr.insert(point3);                            // insert exterior Point
   tr.insert(points4.begin(),points4.end());     // insert vector of Point-s
 
-  cout << tr;
-
-  
+  std::cout << tr;
+  return 0;
 }

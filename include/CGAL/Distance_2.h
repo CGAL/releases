@@ -1,47 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Distance_2.h
-// package       : Triangulation (3.17)
+// package       : Triangulation (4.30)
 // source        : $RCSfile: Distance_2.h,v $
-// revision      : $Revision: 1.1.1.5 $
-// revision_date : $Date: 1999/03/11 16:48:13 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/10/07 14:16:01 $
 // author(s)     : Mariette Yvinec
+//                 Sylvain Pion
 //
 // coordinator   : Mariette Yvinec
 //
@@ -52,78 +50,79 @@
 #ifndef CGAL_DISTANCE_2_H
 #define CGAL_DISTANCE_2_H
 
-#include<CGAL/number_utils.h>
+#include <CGAL/assertions.h>
+#include <CGAL/distance_predicates_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-
 template <class I>
-class Distance_2{
-public:
-    typedef typename I::Point Point;
-    Distance_2(const I* traits = NULL)
-    {}
+struct Distance_2
+{
+  typedef typename I::Point Point;
 
-    Distance_2(const Point& p0,
-                    const I* traits = NULL)
-        : _p0(p0)
-    {}
+  Distance_2(const I* = NULL) {}
 
+  Distance_2(const Point& p0, const I* = NULL)
+  { p[0]=p0; }
 
-    Distance_2(const Point& p0,
-                    const Point& p1,
-                    const I* traits = NULL)
-        : _p0(p0), _p1(p1)
-    {}
+  Distance_2(const Point& p0, const Point& p1, const I* = NULL)
+  { p[0]=p0; p[1]=p1; }
 
+  Distance_2(const Point& p0, const Point& p1, const Point& p2, 
+	     const I* = NULL)
+  { p[0]=p0; p[1]=p1; p[2]=p2; }
 
-    Distance_2(const Point& p0,
-                    const Point& p1,
-                    const Point& p2,
-                    const I* traits = NULL)
-        : _p0(p0), _p1(p1), _p2(p2)
-    {}
+  void set_point(int i, const Point& q)
+  {
+    CGAL_precondition( ((unsigned int) i) < 3 );
+    p[i] = q;
+  }
 
-    void
-    set_point(int i, const Point& p)
-    {
-        CGAL_triangulation_precondition(i == 0 || i == 1 || i == 2);
-        switch(i){
-        case 0:
-            _p0 = p;
-            break;
-        case 1:
-            _p1 = p;
-            break;
-        default:
-            _p2 = p;
-        }
-    }
+  Point get_point(int i) const
+  {
+    CGAL_precondition( ((unsigned int) i) < 3 );
+    return p[i];
+  }
 
-    Point
-    get_point(int i) const
-    {
-      CGAL_triangulation_precondition(i == 0 || i == 1 || i == 2);
-      switch(i){
-      case 0:
-        return _p0;
-      case 1:
-        return _p1;
-      }
-      return _p2;
-    }
-
-    Comparison_result
-    compare() const
-    {
-        return CGAL::compare(
-          (typename Point::R::FT)squared_distance(_p0, _p1),
-          (typename Point::R::FT)squared_distance(_p0, _p2));
-
-    }
+  Comparison_result compare() const
+  {
+    return cmp_dist_to_point(p[0], p[1], p[2]);
+  }
 
 private:
-    Point _p0, _p1, _p2;
+  Point p[3];
+};
+
+template <class Traits>
+struct Distance_xy_3  : public Distance_2<Traits> 
+{
+  typedef typename Distance_2<Traits>::Point Point;
+
+public:
+  Distance_xy_3(const Point& p0,
+	   const Traits* traits = NULL)
+    : Distance_2<Traits>(p0, traits) { }
+    
+    
+  Distance_xy_3(const Point& p0,
+	   const Point& p1,
+	   const Traits* traits = NULL)
+    : Distance_2<Traits>(p0,p1,traits) { }
+    
+  Distance_xy_3(const Point& p0,
+	   const Point& p1,
+	   const Point& p2,
+	   const Traits* traits = NULL)
+    : Distance_2<Traits>(p0,p1,p2,traits) { }
+    
+  Comparison_result
+  compare() const
+    {
+      Point p0 = get_point(0);
+      Point p1 = get_point(1);
+      Point p2 = get_point(2);
+      return cmp_dist_to_pointC2(x(p0),y(p0),x(p1),y(p1),x(p2),y(p2));
+    }
 };
 
 CGAL_END_NAMESPACE

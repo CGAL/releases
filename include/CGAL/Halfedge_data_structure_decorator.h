@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Halfedge_data_structure_decorator.h
-// package       : Halfedge_DS (2.4)
+// package       : Halfedge_DS (2.7)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds_decorator.fw
 // revision      : $Revision: 1.3 $
@@ -1126,7 +1123,7 @@ normalized_border_is_valid( const _HDS& hds, bool verb) const {
     bool valid = true;
     Verbose_ostream verr(verb);
     verr << "begin Halfedge_data_structure_decorator<HDS>::"
-            "normalized_border_is_valid( verb=true):" << endl;
+            "normalized_border_is_valid( verb=true):" << std::endl;
 
     Halfedge_const_iterator e = hds.halfedges_begin();
     Size count = 0;
@@ -1136,10 +1133,10 @@ normalized_border_is_valid( const _HDS& hds, bool verb) const {
         ++e;
         ++count;
     }
-    verr << "    non-border edges: " << count << endl;
+    verr << "    non-border edges: " << count << std::endl;
     if ( e != hds.border_halfedges_begin()) {
         verr << "    first border edge does not start at "
-                "border_halfedges_begin()" << endl;
+                "border_halfedges_begin()" << std::endl;
         valid = false;
     } else {
         count = 0;
@@ -1149,22 +1146,22 @@ normalized_border_is_valid( const _HDS& hds, bool verb) const {
             ++e;
             ++count;
         }
-        verr << "    border     edges: " << count << endl;
+        verr << "    border     edges: " << count << std::endl;
         verr << "    total      edges: " << hds.size_of_halfedges()/2
-             << endl;
+             << std::endl;
         if ( e != hds.halfedges_end()) {
             if ( e->is_border()) {
                 verr << "    border edge " << count
-                     << ": wrong orientation." << endl;
+                     << ": wrong orientation." << std::endl;
             }
             verr << "    the sum of full + border equals not total edges."
-                 << endl;
+                 << std::endl;
             valid = false;
         }
     }
     verr << "end of Halfedge_data_structure_decorator<HDS>::"
             "normalized_border_is_valid(): structure is "
-         << ( valid ? "valid." : "NOT VALID.") << endl;
+         << ( valid ? "valid." : "NOT VALID.") << std::endl;
     return valid;
 }
 
@@ -1189,11 +1186,11 @@ is_valid( const _HDS& hds, bool verb, int level) const {
 
     Verbose_ostream verr(verb);
     verr << "begin Halfedge_data_structure_decorator<HDS>::is_valid("
-            " verb=true, level = " << level << "):" << endl;
+            " verb=true, level = " << level << "):" << std::endl;
 
     bool valid = ( 1 != (hds.size_of_halfedges() & 1));
     if ( ! valid)
-        verr << "number of halfedges is odd." << endl;
+        verr << "number of halfedges is odd." << std::endl;
 
     // All halfedges.
     Halfedge_const_iterator begin = hds.halfedges_begin();
@@ -1201,28 +1198,31 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     Size  n = 0;
     Size nb = 0;
     for( ; valid && (begin != end); begin++) {
-        verr << "halfedge " << n << endl;
+        verr << "halfedge " << n << std::endl;
         if ( begin->is_border())
-            verr << "    is border halfedge" << endl;
+            verr << "    is border halfedge" << std::endl;
         // Pointer integrity.
         valid = valid && ( begin->next() != NULL);
         valid = valid && ( begin->opposite() != NULL);
         if ( ! valid) {
-            verr << "    pointer integrity corrupted (ptr==NULL)." << endl;
+            verr << "    pointer integrity corrupted (ptr==NULL)."
+                 << std::endl;
             break;
         }
         // opposite integrity.
         valid = valid && ( begin->opposite() != &*begin);
         valid = valid && ( begin->opposite()->opposite() == &*begin);
         if ( ! valid) {
-            verr << "    opposite pointer integrity corrupted." << endl;
+            verr << "    opposite pointer integrity corrupted."
+                 << std::endl;
             break;
         }
         // previous integrity.
         valid = valid && ( ! check_tag( Supports_halfedge_prev()) ||
                            get_prev(begin->next()) == &*begin);
         if ( ! valid) {
-            verr << "    previous pointer integrity corrupted." << endl;
+            verr << "    previous pointer integrity corrupted."
+                 << std::endl;
             break;
         }
         if ( level > 0) {
@@ -1232,7 +1232,8 @@ is_valid( const _HDS& hds, bool verb, int level) const {
             valid = valid && ( get_vertex( &*begin) ==
                                get_vertex( begin->next()->opposite()));
             if ( ! valid) {
-                verr << "    vertex pointer integrity corrupted." << endl;
+                verr << "    vertex pointer integrity corrupted."
+                     << std::endl;
                 break;
             }
             // facet integrity.
@@ -1241,7 +1242,8 @@ is_valid( const _HDS& hds, bool verb, int level) const {
             valid = valid && ( get_facet( &*begin) ==
                         get_facet( begin->next()));
             if ( ! valid) {
-                verr << "    facet pointer integrity corrupted." << endl;
+                verr << "    facet pointer integrity corrupted."
+                     << std::endl;
                 break;
             }
         }
@@ -1249,11 +1251,11 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         if ( begin->is_border())
             ++nb;
     }
-    verr << "summe border halfedges (2*nb) = " << 2 * nb << endl;
+    verr << "summe border halfedges (2*nb) = " << 2 * nb << std::endl;
     if ( valid && n != hds.size_of_halfedges())
-        verr << "counting halfedges failed." << endl;
+        verr << "counting halfedges failed." << std::endl;
     if ( valid && level >= 4 && (nb != hds.size_of_border_halfedges()))
-        verr << "counting border halfedges failed." << endl;
+        verr << "counting border halfedges failed." << std::endl;
     valid = valid && ( n  == hds.size_of_halfedges());
     valid = valid && ( level < 4 ||
                        (nb == hds.size_of_border_halfedges()));
@@ -1264,7 +1266,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     Size v = 0;
     n = 0;
     for( ; valid && (vbegin != vend); ++vbegin) {
-        verr << "vertex " << v << endl;
+        verr << "vertex " << v << std::endl;
         // Pointer integrity.
         if ( get_vertex_halfedge( &*vbegin) != NULL)
             valid = valid && ( ! check_tag(
@@ -1274,7 +1276,8 @@ is_valid( const _HDS& hds, bool verb, int level) const {
             valid = valid && (! check_tag(
                 Supports_vertex_halfedge()));
         if ( ! valid) {
-            verr << "    halfedge pointer in vertex corrupted." << endl;
+            verr << "    halfedge pointer in vertex corrupted."
+                 << std::endl;
             break;
         }
         // cycle-around-vertex test.
@@ -1282,7 +1285,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         if ( h) {
             const Halfedge* g = h;
             do {
-                verr << "    halfedge " << n << endl;
+                verr << "    halfedge " << n << std::endl;
                 ++n;
                 h = h->next()->opposite();
                 valid = valid && ( n <= hds.size_of_halfedges() && n != 0);
@@ -1291,10 +1294,10 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         ++v;
     }
     if ( valid && v != hds.size_of_vertices())
-        verr << "counting vertices failed." << endl;
+        verr << "counting vertices failed." << std::endl;
     if ( valid && level >= 2 && ( check_tag( Supports_vertex_halfedge())
          && n  != hds.size_of_halfedges()))
-        verr << "counting halfedges via vertices failed." << endl;
+        verr << "counting halfedges via vertices failed." << std::endl;
     valid = valid && ( v == hds.size_of_vertices());
     valid = valid && ( level < 2 ||
                        ! check_tag( Supports_vertex_halfedge()) ||
@@ -1306,7 +1309,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     Size f = 0;
     n = 0;
     for( ; valid && (fbegin != fend); ++fbegin) {
-        verr << "facet " << f << endl;
+        verr << "facet " << f << std::endl;
         // Pointer integrity.
         if ( get_facet_halfedge( &*fbegin) != NULL)
             valid = valid && ( ! check_tag(
@@ -1316,7 +1319,8 @@ is_valid( const _HDS& hds, bool verb, int level) const {
             valid = valid && (! check_tag(
                 Supports_facet_halfedge()) || begin->is_border());
         if ( ! valid) {
-            verr << "    halfedge pointer in facet corrupted." << endl;
+            verr << "    halfedge pointer in facet corrupted."
+                 << std::endl;
             break;
         }
         // cycle-around-facet test.
@@ -1324,7 +1328,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         if ( h) {
             const Halfedge* g = h;
             do {
-                verr << "    halfedge " << n << endl;
+                verr << "    halfedge " << n << std::endl;
                 ++n;
                 h = h->next();
                 valid = valid && ( n <= hds.size_of_halfedges() && n != 0);
@@ -1333,10 +1337,10 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         ++f;
     }
     if ( valid && f != hds.size_of_facets())
-        verr << "counting facets failed." << endl;
+        verr << "counting facets failed." << std::endl;
     if ( valid && level >= 3 && check_tag( Supports_facet_halfedge()) &&
          n + nb  != hds.size_of_halfedges())
-        verr << "counting halfedges via facets failed." << endl;
+        verr << "counting halfedges via facets failed." << std::endl;
     valid = valid && ( f == hds.size_of_facets());
     valid = valid && ( level < 3 ||
                        ! check_tag( Supports_facet_halfedge()) ||
@@ -1344,12 +1348,12 @@ is_valid( const _HDS& hds, bool verb, int level) const {
 
     if ( level >= 4) {
         verr << "level 4: normalized_border_is_valid( verbose = true)"
-             << endl;
+             << std::endl;
         valid = valid && ( normalized_border_is_valid( hds, verb));
     }
     verr << "end of Halfedge_data_structure_decorator<HDS>::"
             "is_valid(): structure is " << ( valid ? "valid." :
-            "NOT VALID.") << endl;
+            "NOT VALID.") << std::endl;
     return valid;
 }
 

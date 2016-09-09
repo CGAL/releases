@@ -1,11 +1,11 @@
 <!-- Begin of cc_manual_header -->
 <!-- ------------------------- -->
-<!-- $Revision: 3.1 $ -->
-<!-- $Date: 1998/08/05 15:50:57 $ -->
+<!-- $Revision: 3.4 $ -->
+<!-- $Date: 1999/09/27 11:47:26 $ -->
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_installation.html -->
-  <!-- by cc_extract_html, $Revision: 3.1 $. -->
+  <!-- by cc_extract_html, $Revision: 3.4 $. -->
 
 <!--  Title -->
   <HEAD>
@@ -40,8 +40,9 @@ of computational geometry available for industrial application.
 This document describes how to install C<SMALL>GAL</SMALL> on your system.  Besides
 that, you will find some information about the makefile structure of
 C<SMALL>GAL</SMALL> and the support for simultaneously using C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL>, the
-Library of Efficient Datatypes and Algorithms<A HREF="#Footnote_1"><SUP>1</SUP></A>,
-and/or the G<SMALL>NU</SMALL> Multiple Precision library GMP.
+Library of Efficient Datatypes and Algorithms<A HREF="#Footnote_1"><SUP>1</SUP></A>
+Multiple Precision library GMP<A HREF="#Footnote_2"><SUP>2</SUP></A> and/or the Class
+Library for Numbers (CLN)<A HREF="#Footnote_3"><SUP>3</SUP></A>.
 <P>
 
 <A NAME="Section_2"></A>
@@ -50,17 +51,25 @@ and/or the G<SMALL>NU</SMALL> Multiple Precision library GMP.
 <P>
 
 In order to build the C<SMALL>GAL</SMALL> libraries you need a C++ compiler.
-Currently only a small number of recent compilers on unix platforms
-are supported. The reason is that most compilers do not conform to the
-ISO 14882 standard for 
-
-C++<A HREF="#Footnote_2"><SUP>2</SUP></A>
-and some of them have so many limitations/bugs that
+Currently only a small number of recent compilers on Unix platforms
+and MS&nbsp;Windows are supported. The reason is that most compilers do not
+conform to the ISO 14882 standard for  C++<A HREF="#Footnote_4"><SUP>4</SUP></A> and some of them have so many limitations/bugs that
 we could not work around all of them.
 <P>
 
-More precisely, <TT>CGAL-2.0</TT> supports the following Unix
-compilers/operating systems:
+On MS&nbsp;Windows, one has two options for installing: one is specifically
+targeted for this OS and is described in
+section&nbsp;<A HREF="Chapter_installation.html#sec:wininst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A><A HREF="#Footnote_5"><SUP>5</SUP></A>;
+the other is using
+Cygwin<A HREF="#Footnote_6"><SUP>6</SUP></A> and the
+generic installation procedure for Unix-like environments described in
+section&nbsp;<A HREF="Chapter_installation.html#sec:sample-inst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> and subsequent sections.  If you are
+going to install C<SMALL>GAL</SMALL> using Cygwin, please read section
+<A HREF="Chapter_installation.html#sec:cygwin"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> first.
+<P>
+
+More precisely, <TT>CGAL-2.1</TT> supports the following compilers/operating
+systems:
 <P>
 
 <CENTER>
@@ -68,35 +77,47 @@ compilers/operating systems:
   
   
 <TABLE BORDER=2><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-<B>compiler</B>       
+<B>compiler</B>        
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
 <B>operating system</B>
     </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.2.1 (n32) 
+SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.3 (n32)    
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
 IRIX 6.5
     </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-G<SMALL>NU</SMALL>&nbsp;<TT>g++</TT>&nbsp;2.8.1             
+G<SMALL>NU</SMALL>&nbsp;<TT>g++</TT>&nbsp;2.95 (and later)   
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-IRIX 6.5 / Solaris 2.6 / Linux 2.0
+IRIX 6.5 / Solaris 2.6 / Linux 2.x / 
+      MS&nbsp;Windows 95/98/NT4<A HREF="#Footnote_7"><SUP>7</SUP></A>
     </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-C<SMALL>YGNUS</SMALL>&nbsp;<TT>egcs</TT>&nbsp;1.1              
+<TT>Egcs</TT>&nbsp;1.1.2 (and later) 
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-IRIX 5.3 / IRIX 6.5 / Solaris 2.6 / Linux 2.0
+IRIX 6.5 / Solaris 2.6 / Linux 2.x / 
+      MS&nbsp;Windows 95/98/NT4<A HREF="#Footnote_7"><SUP>7</SUP></A>
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0               
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+MS&nbsp;Windows 95/98/NT4
     </TD></TR></TABLE>
 
 </CENTER>
 <P>
 
-There will be support for PC compilers (M<SMALL>ICROSOFT</SMALL>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6) in the future, but
-there is no such support at the moment. The S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;4.2 compiler is
-not supported anymore, please stay with C<SMALL>GAL</SMALL>-1.2 if you have to use
-it. Support for S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;5 will be reconsidered as soon as an
-acceptable degree of standard-conformance is reached.
+There are plans to provide full support for B<SMALL>ORLAND</SMALL>&nbsp;<TT>C++</TT>&nbsp;5.4 in the future,
+but there is no such support at the moment. MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;5.0 and prior is
+not supported and there are no plans to support it in future releases.
+The S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;4.2 compiler is not supported anymore, please stay with
+C<SMALL>GAL</SMALL>-1.2 if you have to use it.  G<SMALL>NU</SMALL>&nbsp;<TT>g++</TT>&nbsp;2.8.1 is not supported
+anymore, please stay with C<SMALL>GAL</SMALL>-2.0 if you have to use it.  Support
+for S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;5 will be reconsidered as soon as an acceptable degree
+of standard-conformance is reached.  Support for I<SMALL>NTEL</SMALL>&nbsp;<TT>C++</TT>&nbsp;4.0 will be
+considered.
 <P>
 
 <A NAME="Section_3"></A>
 <H2>Getting C<SMALL>GAL</SMALL></H2>
+ <A NAME="sec:gettingcgal"></A>
+This section applies to Unix-like environments, as well as to MS&nbsp;Windows.
 <P>
 
 The C<SMALL>GAL</SMALL> library can be downloaded in two different ways: using ftp
@@ -118,25 +139,26 @@ library can be found at the following location:
 <P>
 
 in the directory <TT>/pub/CGAL</TT>. This directory contains release
-2.0 of the C<SMALL>GAL</SMALL> library. There is also a <TT>README</TT>
+2.1 of the C<SMALL>GAL</SMALL> library. There is also a <TT>README</TT>
 file that contains descriptions of the files in this directory. An
 example of an FTP-session is given below.
 <P>
 
 <PRE>
-      $ ftp ftp.cs.uu.nl 
+      &gt; ftp ftp.cs.uu.nl 
       Name (ftp.cs.uu.nl:&lt;your username&gt;): anonymous
       Password: &lt;type your email address here&gt;
       ftp&gt; cd pub/CGAL
       ftp&gt; get README
       ftp&gt; binary
-      ftp&gt; get <TT>CGAL-2.0</TT>.tar.gz
+      ftp&gt; get <TT>CGAL-2.1</TT>.tar.gz
       ftp&gt; quit
 </PRE>
 <P>
 
 After you have downloaded the file containing the C<SMALL>GAL</SMALL> library, you
-have to decompress it. For the zipfile use the command
+have to decompress it. For the zipfile use the
+command<A HREF="#Footnote_7"><SUP>7</SUP></A>.
 <P>
 
 <PRE>
@@ -153,7 +175,13 @@ and for the gzipped file use the commands
 </PRE>
 <P>
 
-In both cases the directory <TT>CGAL-2.0</TT> will be created. This directory
+Alternatively, your browser might be able to invoke the right
+decompression program by itself.
+On MS&nbsp;Windows you should use an unzip utility that can deal with long
+filenames (like WinZip or InfoZip).
+<P>
+
+In both cases the directory <TT>CGAL-2.1</TT> will be created. This directory
 contains the following subdirectories:
 <P>
 
@@ -176,7 +204,8 @@ configuration files for install script
     </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
 <TT>demo</TT>      
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
-demo programs (some of them need L<SMALL>EDA</SMALL>)
+demo programs (some of them need L<SMALL>EDA</SMALL>, geomview
+                         or other third-party products)
     </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
 <TT>doc_html</TT> 
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
@@ -213,16 +242,31 @@ some useful scripts (e.g. for creating makefiles)
 <TT>src</TT>       
         </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
 source files
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>stlport</TT>   
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+a customized version of <TT>Stlport-3.2.1</TT><A HREF="#Footnote_8"><SUP>8</SUP></A> 
+         that is used with MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0
     </TD></TR></TABLE>
 
 </CENTER>
+<P>
+
+In order to avoid problems with installation routines, please make
+sure that  the full path to <TT>CGAL-2.1</TT> does not contain spaces
+(the latter, while in principle possible on MS&nbsp;Windows, in not supported
+in the present release).
+<P>
+
+It is planned that in the future on MS&nbsp;Windows the installation procedure
+will be automated via InstallShield.
 <P>
 
 <A NAME="Section_4"></A>
 <H2>Installing C<SMALL>GAL</SMALL></H2>
 <P>
 
-The directory <TT>CGAL-2.0</TT> contains a Bourne shell script called
+The directory <TT>CGAL-2.1</TT> contains a Bourne shell script called
 <TT>install_cgal</TT>. The script can be run in two modes: a
 menu-driven interactive mode and a non-interactive mode.  Normally you
 should use the interactive mode, but in case you run into problems
@@ -248,7 +292,7 @@ section&nbsp;<A HREF="Chapter_installation.html#sec:leda"><IMG SRC="cc_ref_up_ar
 <P>
 
 In this section we sketch an example installation on a S<SMALL>UN</SMALL>
-running Solaris 2.6 with the C<SMALL>YGNUS</SMALL>&nbsp;<TT>egcs</TT>&nbsp;1.1.1 compiler. For a complete
+running Solaris 2.6 with the G<SMALL>NU</SMALL>&nbsp;<TT>g++</TT>&nbsp;2.95 compiler. For a complete
 description of the different menus and their options refer to section
 <A HREF="Chapter_installation.html#sec:interactive-mode"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
 <P>
@@ -256,7 +300,7 @@ description of the different menus and their options refer to section
 <H3>Starting the script</H3>
 <P>
 
-Go to the <TT>CGAL-2.0</TT> directory and enter the command
+Go to the <TT>CGAL-2.1</TT> directory and enter the command
 <PRE>
       ./install_cgal -i
 </PRE>
@@ -265,19 +309,19 @@ Go to the <TT>CGAL-2.0</TT> directory and enter the command
 You get a message indicating the C<SMALL>GAL</SMALL> version you are going to
 install and that you are running the interactive mode. Then it takes
 some time while the script locates a number of utility programs. You
-will not get informed about this<A HREF="#Footnote_3"><SUP>3</SUP></A>, but see some dots written to the
+will not get informed about this<A HREF="#Footnote_8"><SUP>8</SUP></A>, but see some dots written to the
 screen indicating progress.
 <P>
 
 <PRE>
 --------------------------------------------------------
-  This is the install script for CGAL 2.0
+  This is the install script for CGAL 2.1
 --------------------------------------------------------
 
 starting interactive mode - one moment, please
 ......
 
-  Choosing compiler GNU egcs-2.91.60.
+  Choosing compiler GNU gcc-2.95
   Testing for STL ... ok.
   ...
   &lt;tests for several compiler features&gt;
@@ -305,13 +349,14 @@ A menu similar to the following will appear on your screen.
 <A NAME="pic:main-menu"></A>
 <PRE>
   ****************************************************************
-  **              CGAL 2.0 Installation Main Menu               **
+  **              CGAL 2.1 Installation Main Menu               **
   **              -------------------------------               **
   **                                                            **
   **   OS:                  sparc_SunOS-5.6                     **
-  **   Compiler:            GNU egcs-2.91.60                    **
+  **   Compiler:            GNU gcc-2.95                        **
   **   LEDA:                not supported.                      **
   **   GMP:                 not supported.                      **
+  **   CLN:                 not supported.                      **
   **                                                            **
   **   Compiler is supported by CGAL.                           **
   **   The setup has been tested ok.                            **
@@ -321,6 +366,7 @@ A menu similar to the following will appear on your screen.
   **   &lt;C&gt;  Compiler Menu                                       **
   **   &lt;L&gt;  LEDA Menu                                           **
   **   &lt;G&gt;  GMP Menu                                            **
+  **   &lt;M&gt;  CLN Menu                                            **
   **   &lt;T&gt;  Test (and save) setup                               **
   **   &lt;A&gt;  Run all setup tests (no cache)                      **
   **                                                            **
@@ -335,14 +381,14 @@ A menu similar to the following will appear on your screen.
 <P>
 
 The first lines below the headline contain some kind of status report:
-current OS and compiler, are L<SMALL>EDA</SMALL> and GMP supported etc. Moreover
-you can see that the current setup has been tested and that there do
-not exist C<SMALL>GAL</SMALL> libraries for this OS/compiler combination in the
-C<SMALL>GAL</SMALL> lib directory by now.
+current OS and compiler, are L<SMALL>EDA</SMALL>, GMP and CLN supported etc.
+Moreover you can see that the current setup has been tested and that
+there do not exist C<SMALL>GAL</SMALL> libraries for this OS/compiler combination
+in the C<SMALL>GAL</SMALL> lib directory by now.
 <P>
 
 The fact that your setup has been tested implies that the current
-settings have been saved to a file in the directory <TT>CGAL-2.0</TT><TT>/config/install</TT>.
+settings have been saved to a file in the directory <TT>CGAL-2.1</TT><TT>/config/install</TT>.
 Thus, if you run the install script a second time for this
 OS/compiler, you will not have to go through the whole config-/test
 cycle again, but the configuration will be retrieved from the
@@ -370,15 +416,16 @@ from compiler or linker).
 <PRE>
   ****************************************************************
   **                                                            **
-  **                     Compiling CGAL 2.0                     **
+  **                     Compiling CGAL 2.1                     **
   **                     ------------------                     **
   **                                                            **
   ****************************************************************
 
   OS:           sparc_SunOS-5.6
-  COMPILER:     GNU egcs-2.91.60
+  COMPILER:     GNU gcc-2.95
   LEDA:         not supported
   GMP:          not supported
+  CLN:          not supported
 
   Generating Makefiles ... done.
   Building CGAL_lib ... done.
@@ -390,18 +437,19 @@ from compiler or linker).
 </PRE>
 <P>
 
-That's all, it's done. Press ``<TT>&lt;ENTER&gt;</TT>'' to return to the main
-menu and proceed by installing for a different compiler (go to the
-compiler menu and choose ``<TT>c</TT>'' to get a list of supported
-compilers detected on your system) or with L<SMALL>EDA</SMALL> or GMP support (go
-to the L<SMALL>EDA</SMALL> resp.  GMP menu) or simply quit the install script by
-typing ``<TT>q</TT>''. When leaving the script, you get a list of
-successful builds during the session.
+That's all, it's done. Press ``<TT>&lt;ENTER&gt;</TT>'' to return to the
+main menu and proceed by installing for a different compiler (go to
+the compiler menu and choose ``<TT>c</TT>'' to get a list of
+supported compilers detected on your system) or with L<SMALL>EDA</SMALL>, GMP or
+CLN support (go to the L<SMALL>EDA</SMALL>, GMP, CLN menu resp.) or simply quit
+the install script by typing ``<TT>q</TT>''. When leaving the
+script, you get a list of successful builds during the session.
 <P>
 
-Now it would be a good idea to print and read the document
-<TT>getting_started.ps</TT> that can be found in the <TT>doc_ps</TT>
-directory.
+Now it would be a good idea to print and read the document ``Getting
+Started with C<SMALL>GAL</SMALL>'' that can be found in various formats in the
+<TT>doc_html</TT>, <TT>doc_pdf</TT> and <TT>doc_ps</TT>
+directories.
 <P>
 
 <A NAME="Section_6"></A>
@@ -409,7 +457,7 @@ directory.
 <A NAME="sec:interactive-mode"></A>
 <P>
 
-To run the install script in the interactive mode, go to the <TT>CGAL-2.0</TT> 
+To run the install script in the interactive mode, go to the <TT>CGAL-2.1</TT> 
 directory and enter the command
 <PRE>
       ./install_cgal -i
@@ -424,42 +472,43 @@ into the C<SMALL>GAL</SMALL> installation <I>main menu</I> (see page
 
 From the main menu you can reach a number of different sub-menus, of
 which the most important maybe is the <I>compiler menu</I>. This is
-where you can choose the compiler you want to work with and setup
-custom compiler or linker options.  The compiler menu is described in
-section <A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+where you can choose the compiler you want to work with and set custom
+compiler or linker options.  The compiler menu is described in section
+<A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
 <P>
 
-If you want to use L<SMALL>EDA</SMALL> or G<SMALL>NU</SMALL> GMP with C<SMALL>GAL</SMALL>, you will have to go
-to the <I>leda menu</I> described in section <A HREF="Chapter_installation.html#sec:leda-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>
-resp.  to the <I>gmp menu</I> described in section
-<A HREF="Chapter_installation.html#sec:gmp-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+If you want to use L<SMALL>EDA</SMALL>, GMP or CLN with C<SMALL>GAL</SMALL>, you will have to go
+to the <I>leda menu</I>, <I>gmp menu</I> or <I>cln menu</I>.
+These are described in section <A HREF="Chapter_installation.html#sec:leda-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>,
+<A HREF="Chapter_installation.html#sec:gmp-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>, <A HREF="Chapter_installation.html#sec:cln-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>, respectively.
 <P>
 
 Finally you can build the C<SMALL>GAL</SMALL> libraries by typing <TT>b</TT>.
 However, it is recommended to run the <I>setup test</I> which is
 available in all menus as option <TT>t</TT> before. The setup test
-includes an STL test, a L<SMALL>EDA</SMALL> test and a GMP test, but not all
-tests are performed always; e.g. the L<SMALL>EDA</SMALL> test is only done, if you
-enabled L<SMALL>EDA</SMALL> support. The install script keeps track of the tests
-passed and only tests again, if you change the setup in a way that
-might affect the test result. If you want to redo <I>all</I> tests,
-you have to choose option ``<TT>a</TT>'' from the main menu. This also
-retests for L<SMALL>EDA</SMALL> or GMP installation in system directories which
-otherwise is only done the first time you enable L<SMALL>EDA</SMALL>/GMP support for
-an OS/compiler combination.
+includes an STL test, a L<SMALL>EDA</SMALL> test, a GMP test and a CLN test. But
+not all tests are performed always; e.g. the L<SMALL>EDA</SMALL> test is only done,
+if you enabled L<SMALL>EDA</SMALL> support. The install script keeps track of the
+tests passed and only tests again, if you change the setup in a way
+that might affect the test result. If you want to redo <I>all</I>
+tests, you have to choose option ``<TT>a</TT>'' from the main menu.
+This also retests for L<SMALL>EDA</SMALL>/GMP/CLN installation in system directories
+which otherwise is only done the first time you enable L<SMALL>EDA</SMALL>/GMP/CLN
+support for an OS/compiler combination.
 <P>
 
 <H3>Files created during installation</H3>
+<A NAME="sec:filescreated"></A>
 <P>
 
 The install script stores all relevant settings for an OS/compiler
 combination in the directory
 <CENTER>
-  <TT>CGAL-2.0/config/install/<MATH><I>&lt;</I></MATH><I>CGAL-OS-description</I><MATH><I>&gt;</I></MATH></TT>
+  <TT>CGAL-2.1/config/install/<MATH><I>&lt;</I></MATH><I>CGAL-OS-description</I><MATH><I>&gt;</I></MATH></TT>
 </CENTER>
 where <MATH><I>&lt;</I></MATH><I>CGAL-OS-description</I><MATH><I>&gt;</I></MATH> identifies your OS/compiler
 combination in a way specified in section <A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
-<A HREF="#Footnote_4"><SUP>4</SUP></A>
+<A HREF="#Footnote_9"><SUP>9</SUP></A>
 This saves you typing everything again, if you upgrade C<SMALL>GAL</SMALL> or
 another package that makes recompiling the C<SMALL>GAL</SMALL> libraries necessary.
 <P>
@@ -469,8 +518,8 @@ temporary files during interactive installation. Most of them are
 removed after use, but some are not, since it might be helpful to keep
 some information about the last run.  You can keep or delete them as
 you like, as they are not needed anymore once the script terminated.
-It follows a list of these files (all are plain ASCII and reside in
-<TT>CGAL-2.0</TT>).
+A list of these files (all are plain ASCII and reside in <TT>CGAL-2.1</TT>)
+follows.
 <CENTER>
   
   
@@ -501,7 +550,7 @@ output of the last compiler call
 <A NAME="sec:compiler-menu"></A>
 <P>
 
-Here is the place to setup the compiler specific options, such as the
+Here is the place to set the compiler specific options, such as the
 compiler to use (if more than one has been detected) and custom
 compiler or linker flags.<BR>
 
@@ -537,7 +586,7 @@ compiler or linker flags.<BR>
 <A NAME="sec:leda-menu"></A>
 <P>
 
-This is the place to setup L<SMALL>EDA</SMALL> specific options, if you plan to use
+This is the place to set L<SMALL>EDA</SMALL> specific options, if you plan to use
 L<SMALL>EDA</SMALL> together with C<SMALL>GAL</SMALL> (see also section <A HREF="Chapter_installation.html#sec:leda"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>). In
 order to enable L<SMALL>EDA</SMALL> support in C<SMALL>GAL</SMALL>, L<SMALL>EDA</SMALL> has to be installed on
 your system.
@@ -584,11 +633,11 @@ option to set these directories differently.<BR>
 <A NAME="sec:gmp-menu"></A>
 <P>
 
-This menu is to setup GMP (G<SMALL>NU</SMALL> Muptiple Precision Library) specific
+This menu is to set GMP (G<SMALL>NU</SMALL> Multiple Precision Library) specific
 options, if you plan to use GMP together with C<SMALL>GAL</SMALL>. In the <TT>auxiliary</TT> directory you can find a GMP distribution, if you do not
 already have it installed on your system. This menu contains an option
-to install GMP in you C<SMALL>GAL</SMALL> directory tree, but of course you can
-also install it independently from C<SMALL>GAL</SMALL>.
+to install GMP in your C<SMALL>GAL</SMALL> directory tree<A HREF="#Footnote_10"><SUP>10</SUP></A>, but of course you can also install
+it independently from C<SMALL>GAL</SMALL>.
 <P>
 
 If GMP support is enabled the first time, the script tests whether GMP
@@ -627,13 +676,62 @@ option to set these directories differently.<BR>
 </TD></TR></TABLE>
 <P>
 
+<H3>The CLN Menu</H3>
+<A NAME="sec:cln-menu"></A>
+<P>
+
+This menu is to set CLN (Class Library for Numbers) specific
+options, if you plan to use CLN together with C<SMALL>GAL</SMALL>. Note that in
+order to enable CLN support in C<SMALL>GAL</SMALL>, CLN has to be installed on your
+system first.  Unlike for GMP, there is no option to install CLN from
+the C<SMALL>GAL</SMALL> installation script. For information on CLN, please refer
+to
+<BLOCKQUOTE>
+  <A HREF="http://clisp.cons.org/~haible/packages-cln.html"><TT>http://clisp.cons.org/~haible/packages-cln.html</TT></A></BLOCKQUOTE>
+<P>
+
+If CLN support is enabled the first time, the script tests whether CLN
+is installed in standard system directories. If this test does not
+succeed, you have to supply directories containing the CLN header
+files (<TT>CLN_INCL_DIR</TT>) and CLN libraries (<TT>CLN_LIB_DIR</TT>). Even if the tests are passed, you still have the
+option to set these directories differently.<BR>
+
+<BR>
+
+<BR>
+
+
+<P>
+
+<TABLE BORDER=2><TR><TD>
+
+
+
+<CENTER><BIG><B>CLN Menu</B></BIG></CENTER>
+
+<DL>
+<DT><B><MATH><I>&lt;</I></MATH>G<MATH><I>&gt;</I></MATH></B><DD> Enable/Disable CLN support in C<SMALL>GAL</SMALL>.
+<DT><B><MATH><I>&lt;</I></MATH>I<MATH><I>&gt;</I></MATH></B><DD> (<I>present if CLN support is enabled)</I> Set the
+  include directory for CLN.
+<DT><B><MATH><I>&lt;</I></MATH>L<MATH><I>&gt;</I></MATH></B><DD> (<I>present if CLN support is enabled)</I> Set the
+  directory containing the CLN libraries.
+<DT><B><MATH><I>&lt;</I></MATH>M<MATH><I>&gt;</I></MATH></B><DD> (<I>present if CLN support is enabled, there is a
+    CLN installation in system directories and </I><TT><I>CLN_INCL_DIR</I></TT><I> or
+    </I><TT><I>CLN_LIB_DIR</I></TT><I> have been set)</I> Use CLN installation from
+  system directories.
+</DL>
+
+
+</TD></TR></TABLE>
+<P>
+
 <A NAME="Section_7"></A>
 <H2>The non-interactive mode</H2>
 <A NAME="sec:non-interactive"></A>
 <P>
 
 To run the install script in the non-interactive mode, go to the
-<TT>CGAL-2.0</TT> directory and enter the command
+<TT>CGAL-2.1</TT> directory and enter the command
 <PRE>
       ./install_cgal -ni &lt;compiler&gt;
 </PRE>
@@ -656,9 +754,11 @@ corresponding paragraphs before you continue, especially if one or
 more of the following conditions apply to you:
 <UL>
 <LI>you want to use L<SMALL>EDA</SMALL> together with C<SMALL>GAL</SMALL> (section
-  <A HREF="Chapter_installation.html#sec:leda-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) <I>or</I>
+  <A HREF="Chapter_installation.html#sec:leda-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>),
 <LI>you want to use G<SMALL>NU</SMALL> GMP together with C<SMALL>GAL</SMALL> (section
-  <A HREF="Chapter_installation.html#sec:gmp-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).
+  <A HREF="Chapter_installation.html#sec:gmp-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) <I>or</I>
+<LI>you want to use CLN together with C<SMALL>GAL</SMALL> (section
+  <A HREF="Chapter_installation.html#sec:cln-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).
 </UL>
 <P>
 
@@ -678,7 +778,7 @@ Finally the current setup is summarized, system specific directories
 for makefiles and libraries are created (if they did not exist before)
 and a new include makefile is written into the makefile directory. If
 there already exists a makefile for the current OS/compiler
-combination, it is backuped and you should get a corresponding
+combination, it is backed up and you should get a corresponding
 message.
 <P>
 
@@ -722,6 +822,19 @@ the GMP header files (``<TT>-GMP_INCL_DIR</TT> <I><MATH><I>&lt;</I></MATH>dir<MA
 the GMP library (``<TT>-GMP_LIB_DIR</TT> <I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'').
 <P>
 
+<H3>Setting up support for CLN</H3>
+<A NAME="sec:cln-setup"></A>
+<P>
+
+By default there is no support for CLN, but you can change this easily
+by use of the command line option ``<TT>-cln</TT>''. If CLN is
+installed in system directories on your system, you are already done
+now. If this is not the case, you have to supply the directories
+containing the CLN header files (``<TT>-CLN_INCL_DIR</TT>
+<I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'') and the CLN library (``<TT>-CLN_LIB_DIR</TT>
+<I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'').
+<P>
+
 <H3>Other Options</H3>
 <A NAME="sec:other-options"></A>
 <P>
@@ -741,7 +854,7 @@ to determine your C<SMALL>GAL</SMALL>-OS description (see section
 <A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>). The compiler can either be given by an
 absolute path like
 <PRE>
-./install_cgal -os /usr/local/gcc-2.8.1/sun/bin/g++
+./install_cgal -os /usr/local/gcc-2.95/sun/bin/g++
 </PRE>
 or just by denoting its basename, as long as it is on your path:
 <PRE>
@@ -763,6 +876,48 @@ passed.
 <P>
 
 <A NAME="Section_8"></A>
+<H2>Upgrading a previous C<SMALL>GAL</SMALL> installation</H2>
+<A NAME="sec:upgrade"></A>
+<P>
+
+In case you have C<SMALL>GAL</SMALL> 1.*/2.0 installed on your system, you might
+like to reuse your configuration files and GMP installations. Simply
+use the following command to copy them into the right place:
+<PRE>
+./install_cgal --upgrade &lt;OLD_CGAL_DIR&gt;
+</PRE>
+where <TT>&lt;OLD_CGAL_DIR&gt;</TT> is the root directory of your existing
+C<SMALL>GAL</SMALL> installation<BR>
+
+(e.g. <TT>/pub/local/CGAL-1.2</TT>).
+You can then build all libraries for the actual operating system that
+existed in your C<SMALL>GAL</SMALL> 1.* installation with 
+<PRE>
+./install_cgal --rebuild-all
+</PRE>
+<P>
+
+If you want to install C<SMALL>GAL</SMALL> for more than one operating system in
+the same directory structure, you have to run the latter command
+(<TT>rebuild-all</TT>) once on each operating system.
+<P>
+
+<B>Note</B> that some compilers that have been supported in previous
+C<SMALL>GAL</SMALL> releases might not be supported in C<SMALL>GAL</SMALL>-2.1 anymore,
+see section <A HREF="Chapter_installation.html#sec:prerequisites"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>. Trying to build
+C<SMALL>GAL</SMALL>-2.1 with these compilers will most probably fail. You
+can solve this problem by deleting the obsolete config files (see
+section <A HREF="Chapter_installation.html#sec:filescreated"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) from <TT>CGAL-2.1</TT><TT>/config/install</TT> before issuing
+the <TT>rebuild-all</TT> command.
+<P>
+
+Similarly you might want to use compilers with C<SMALL>GAL</SMALL>-2.1 
+that have not been supported in previous releases. For these compilers
+please follow the usual procedure as described in section
+<A HREF="Chapter_installation.html#sec:interactive-mode"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> or <A HREF="Chapter_installation.html#sec:non-interactive"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<A NAME="Section_9"></A>
 <H2>Identifying OS and Compiler</H2>
 <A NAME="sec:os-compiler-id"></A>
 <P>
@@ -770,8 +925,8 @@ passed.
 Since C<SMALL>GAL</SMALL> supports several different operating systems and
 compilers, this is also reflected in the structure of the C<SMALL>GAL</SMALL> 
 directory tree. Each OS/compiler combination has its own lib directory
-under <TT>CGAL-2.0/lib</TT>) (and analogously its own include makefile
-in <TT>CGAL-2.0/make</TT>) named as determined by the following
+under <TT>CGAL-2.1/lib</TT>) (and analogously its own include makefile
+in <TT>CGAL-2.1/make</TT>) named as determined by the following
 scheme.
 <CENTER>
   <I><MATH><I>&lt;</I></MATH>arch<MATH><I>&gt;</I></MATH></I><TT><I>_</I></TT><I><MATH><I>&lt;</I></MATH>os<MATH><I>&gt;</I></MATH></I><TT><I>-</I></TT><I><MATH><I>&lt;</I></MATH>os-version<MATH><I>&gt;</I></MATH></I><TT><I>_</I></TT><I><MATH><I>&lt;</I></MATH>comp<MATH><I>&gt;</I></MATH></I><TT><I>-</I></TT><I><MATH><I>&lt;</I></MATH>comp-version<MATH><I>&gt;</I></MATH></I>[<TT>_</TT>LEDA]
@@ -798,36 +953,36 @@ The suffix <TT>_</TT>LEDA is appended to indicate L<SMALL>EDA</SMALL> support.
 We call the resulting string C<SMALL>GAL</SMALL>-OS description.<BR>
 
 Examples are
-<TT>mips_IRIX-6.2_CC-7.2</TT> or <TT>sparc_SunOS-5.5_g++-2.8.1_LEDA</TT>.<BR>
+<TT>mips_IRIX-6.2_CC-7.2</TT> or <TT>sparc_SunOS-5.5_g++-2.95_LEDA</TT>.<BR>
 
 You can use the install script
 to get your C<SMALL>GAL</SMALL>-OS description, see section <A HREF="Chapter_installation.html#sec:other-options"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
 <P>
 
-<A NAME="Section_9"></A>
+<A NAME="Section_10"></A>
 <H2>The C<SMALL>GAL</SMALL> makefile structure</H2>
 <A NAME="sec:makefiles"></A>
 <P>
 
 The C<SMALL>GAL</SMALL> distribution contains the following makefiles:
 <UL>
-<LI><TT>CGAL-2.0/src/makefile_lib</TT> for compiling the C<SMALL>GAL</SMALL> 
+<LI><TT>CGAL-2.1/src/makefile_lib</TT> for compiling the C<SMALL>GAL</SMALL> 
   object library <TT>libCGAL.a</TT>,
 <P>
 
-<LI><TT>CGAL-2.0/src/makefile_sharedlib</TT> for compiling the
+<LI><TT>CGAL-2.1/src/makefile_sharedlib</TT> for compiling the
   C<SMALL>GAL</SMALL> shared object library <TT>libCGAL.so</TT>,
 <P>
 
-<LI><TT>CGAL-2.0/src/makefile_geomview</TT> for compiling a library
+<LI><TT>CGAL-2.1/src/makefile_geomview</TT> for compiling a library
   for geomview support,
 <P>
 
-<LI><TT>CGAL-2.0/examples/makefile</TT> as sample makefile
+<LI><TT>CGAL-2.1/examples/makefile</TT> as sample makefile
   <I>and</I>
 <P>
 
-<LI><TT>CGAL-2.0/examples/*/makefile</TT> for compiling the C<SMALL>GAL</SMALL> 
+<LI><TT>CGAL-2.1/examples/*/makefile</TT> for compiling the C<SMALL>GAL</SMALL> 
   example programs.
 </UL>
 <P>
@@ -838,7 +993,7 @@ contains an include statement that looks as follows:
 <P>
 
 <PRE>
-      CGAL_MAKEFILE = /users/jannes/CGAL-2.0/make/makefile_&lt;CGAL-OS description&gt;
+      CGAL_MAKEFILE = /users/jannes/CGAL-2.1/make/makefile_&lt;CGAL-OS description&gt;
       include $(CGAL_MAKEFILE)
 </PRE>
 <P>
@@ -848,11 +1003,11 @@ dependent makefile settings. The abbreviation <TT>&lt;CGAL-OS
   description&gt;</TT> (see section <A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for details) is
 used to identify the operating system and compiler for which the
 settings hold. For example, the file
-<TT>makefile_mips_IRIX64-6.5_CC-n32-7.2.1.1m</TT> contains makefile
-settings for the IRIX 6.5 operating system and the SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.2.1
+<TT>makefile_mips_IRIX64-6.5_CC-n32-7.30</TT> contains makefile
+settings for the IRIX 6.5 operating system and the SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.3
 compiler.  These include files are automatically generated by the
 <TT>install_cgal</TT> script and they are all located in the
-<TT>CGAL-2.0/make</TT> directory.  For convenience, the
+<TT>CGAL-2.1/make</TT> directory.  For convenience, the
 <TT>install_cgal</TT> script will substitute the include makefile
 that was generated most recently.
 <P>
@@ -869,11 +1024,11 @@ using <TT>install_cgal&nbsp;-os</TT> (see section
 <A HREF="Chapter_installation.html#sec:other-options"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).  E.g. if your compiler is <TT>g++</TT>, you
 would type
 <PRE>
-CGAL_MAKEFILE=`$&lt;$<I>insert your </I><TT><I>CGAL-2.0</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
+CGAL_MAKEFILE=`$&lt;$<I>insert your </I><TT><I>CGAL-2.1</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
 </PRE>
 in bourne shell resp.
 <PRE>
-setenv CGAL_MAKEFILE `$&lt;$<I>insert your </I><TT><I>CGAL-2.0</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
+setenv CGAL_MAKEFILE `$&lt;$<I>insert your </I><TT><I>CGAL-2.1</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
 </PRE>
 in csh derivatives.
 <P>
@@ -899,15 +1054,15 @@ have consequences for the makefile variables <TT>CGAL_CXX</TT> and
 <TT>CXXFLAGS</TT>.
 <P>
 
-<A NAME="Section_10"></A>
+<A NAME="Section_11"></A>
 <H2>Compiling a C<SMALL>GAL</SMALL> application</H2>
 
-The directory <TT>CGAL-2.0/examples</TT> contains a small program
+The directory <TT>CGAL-2.1/examples</TT> contains a small program
 (example.C) and a sample makefile with some comments. The
 <TT>CGAL_MAKEFILE</TT> variable in this makefile (see section
 <A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) is automatically substituted by the
 <TT>install_cgal</TT> script and equals the most recently generated
-include makefile in the <TT>CGAL-2.0/make</TT> directory. After the
+include makefile in the <TT>CGAL-2.1/make</TT> directory. After the
 installation of C<SMALL>GAL</SMALL> this sample makefile is ready for use. Just
 type '<TT>make example</TT>' to compile the program
 <TT>example.C</TT>. There is a script for conveniently creating
@@ -915,45 +1070,536 @@ makefiles for C<SMALL>GAL</SMALL> applications, see
 section&nbsp;<A HREF="Chapter_installation.html#sec:create_cgal_makefile"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
 <P>
 
-Furthermore the directories <TT>CGAL-2.0/examples</TT> and
-<TT>CGAL-2.0/demo</TT> contain many subdirectories with non-graphical
+Furthermore the directories <TT>CGAL-2.1/examples</TT> and
+<TT>CGAL-2.1/demo</TT> contain many subdirectories with non-graphical
 and graphical example programs.  In all these directories you will
 find a makefile that is ready for use.
 <P>
 
-<A NAME="Section_11"></A>
-<H2>Using C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL></H2>
-<A NAME="sec:leda"></A>
-This section describes how to use C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL> simultaneously.
+<A NAME="Section_12"></A>
+<H2>Installation on Cygwin</H2>
+<A NAME="sec:cygwin"></A>
 <P>
 
-<H3>Support for L<SMALL>EDA</SMALL></H3>
+Cygwin is a free Unix-like environment for MS-Windows, distributed by
+Cygnus Solutions. For our tests we have used version <MATH><I><IMG BORDER=0 WIDTH=10 HEIGHT=27 ALIGN=MIDDLE SRC="cc_beta.gif"></I></MATH>-20.1.
+<P>
 
-C<SMALL>GAL</SMALL> supports L<SMALL>EDA</SMALL> in the following ways:
+It consists of a port of a large number of GNU tools, such as bash,
+make, gcc (egcs), gas, file utilities, etc, as well as tools ensuring
+an ability to emulate Unix-like access to resources, for instance
+mount.  For a comprehensive introduction and details, see
+<A HREF="http://sourceware.cygnus.com/cygwin/"><TT>http://sourceware.cygnus.com/cygwin/</TT></A> .
+<P>
+
+<H3>Pathnames</H3>
+<P>
+
+Cygwin has a UNIX-like way of navigating hard drives, NFS shares, etc.
+This is also the way in which directories and pathnames have to given
+to the installation script. They are automatically converted to
+Win32-style pathnames when given to the compiler or linker.
+<P>
+
+The main difference is that directories are seperated by slash (``/'')
+rather than by backslash (``<MATH><I><TT>\</TT></I></MATH>'').  The other difference is
+concerned with specifying drives. One way is to use POSIX-style
+pathnames that map Win32-style drives (<TT>A:</TT>, <TT>B:</TT>) to
+<TT>//a/...</TT>, <TT>//b/...</TT> respectively. For instance,
+the path
+<TT>D:<MATH><I>\</I></MATH>Mystuff<MATH><I>\</I></MATH>Mydir<MATH><I>\</I></MATH>LEDA</TT>
+translates to <TT>//d/Mystuff/Mydir/LEDA</TT>.
+<P>
+
+Alternatively, it can be done using the mount utility, that can be
+used to establish a map between Win32-style drives and the Unix-like
+style. More precisely, it maps the forest of the directories/files on
+Win32-drives to a tree with the root that is usually located at the top
+level of the boot drive, say <TT>C:</TT>.  The root location can be
+seen by typing <TT>mount</TT> command without parameters.  For
+instance, if <TT>D:</TT> is mounted on
+<TT>C:<MATH><I>\</I></MATH>ddrive</TT><A HREF="#Footnote_11"><SUP>11</SUP></A> then the path
+<TT>D:<MATH><I>\</I></MATH>Mystuff<MATH><I>\</I></MATH>Mydir<MATH><I>\</I></MATH>LEDA</TT>
+translates to <TT>/ddrive/Mystuff/Mydir/LEDA</TT>.
+<P>
+
+<B>Upper/lower case and spaces in file names</B>&nbsp;&nbsp;Behavour of Cygwin in this regard might be different from the MS&nbsp;Windows 
+behaviour. In particular, using spaces in filenames should better be
+avoided.
+<P>
+
+<B>Links, shortcuts, etc</B>&nbsp;&nbsp;should be avoided as well.
+<P>
+
+<H3>MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0-setup</H3>
+
+A number of environment variables has to be set (or updated)
+in order to use the installation.
+<P>
+
+<TT>PATH</TT> should contain MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0 command line tools locations.
+The environment variables <TT>INCLUDE</TT> and <TT>LIB</TT> should
+point to the location of MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0 header files and to the location
+of the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0 libraries, respectively.
+The interface for doing this is different for NT and for Win9*.
+<P>
+
+<B>MS&nbsp;Windows-NT4.0.</B>&nbsp;&nbsp;One can set the corresponding environment variables using the
+usual NT interface<A HREF="#Footnote_12"><SUP>12</SUP></A>.
+Alternatively, they can be set in the <TT>.bashrc</TT> file for the
+particular user, or in the system-wide <TT>bash</TT> customization
+file (usually <TT>/etc/bashrc</TT>).
+<P>
+
+The result should look roughly as follows, assuming that
+<TT>C:<MATH><I>\</I></MATH>PROGRA<MATH><I> <IMG BORDER=0 WIDTH=11 HEIGHT=5 ALIGN=BOTTOM SRC="cc_sim.gif"> </I></MATH>1<MATH><I>\</I></MATH>MICROS<MATH><I> <IMG BORDER=0 WIDTH=11 HEIGHT=5 ALIGN=BOTTOM SRC="cc_sim.gif"> </I></MATH>2<MATH><I>\</I></MATH></TT>
+is the location of the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; installation.
+<PRE>
+LIB=C:\PROGRA~1\MICROS~2\VC98\LIB
+INCLUDE=C:\PROGRA~1\MICROS~2\VC98\INCLUDE
+</PRE>
+and <TT>PATH</TT> should contain
+<PRE>
+/PROGRA~1/MICROS~2/Common/msdev98/BIN:
+/PROGRA~1/MICROS~2/VC98/BIN:/PROGRA~1/MICROS~2/Common/TOOLS:
+/PROGRA~1/MICROS~2/Common/TOOLS/WINNT
+</PRE>
+<P>
+
+<B>MS&nbsp;Windows-9*.</B>&nbsp;&nbsp;First, the memory for environment variables has to be increased.
+Select the Cygwin icon from the Start-menu, press the right mouse
+button and choose <I>Properties</I>. Go to <I>Memory</I>, select
+<I>Initial Environment</I>, set it to at least 2048 and
+<I>apply</I> the changes.
+<P>
+
+Second, edit the file <TT>cygnus.bat</TT>, located in the cygwin main
+directory and add the line
+<PRE>
+call C:\PROGRA~1\MICROS~2\VC98\Bin\MSCVARS32.BAT
+</PRE>
+where
+<TT>C:<MATH><I>\</I></MATH>PROGRA<MATH><I> <IMG BORDER=0 WIDTH=11 HEIGHT=5 ALIGN=BOTTOM SRC="cc_sim.gif"> </I></MATH>1<MATH><I>\</I></MATH>MICROS<MATH><I> <IMG BORDER=0 WIDTH=11 HEIGHT=5 ALIGN=BOTTOM SRC="cc_sim.gif"> </I></MATH>2<MATH><I>\</I></MATH></TT>
+has to be customized according to where MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; is installed on your
+system.
+<P>
+
+<A NAME="Section_13"></A>
+<H2>Installation on MS&nbsp;Windows with native tools</H2>
+ <A NAME="sec:wininst"></A>
+C<SMALL>GAL</SMALL>-2.1 provides a basic support for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0
+compiler.  It can also be considered an early beta release for Inprise
+Borland C++ Builder 4, known also as B<SMALL>ORLAND</SMALL>&nbsp;<TT>C++</TT>&nbsp;5.4. 
+Using the latter with C<SMALL>GAL</SMALL> is briefly described
+in file <TT>wininstall.txt</TT> located in the directory
+C<SMALL>GAL</SMALL>-2.1.
+<P>
+
+Downloading and contents of the distribution are described in 
+section&nbsp;<A HREF="Chapter_installation.html#sec:gettingcgal"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> above.
+<P>
+
+In order to install and use C<SMALL>GAL</SMALL> with MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;, you need MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
+command line tools installed and working<A HREF="#Footnote_13"><SUP>13</SUP></A>. 
+Certain familiarity with using Windows command prompt
+and these tools is assumed. A reasonable amount of system resources,
+that is enough memory to run large compilations (64 Mb on NT4.0) and
+about 15MB of disk space, is required. Note, however, that 
+executables, object files and debug-related files in subdirectories
+<TT>demo/</TT> and <TT>examples/</TT> can occupy several hunderd
+megabytes all together.
+<P>
+
+It is highly recommended that you have a recent (at least 4.0) version
+of L<SMALL>EDA</SMALL> installed. Most of the C<SMALL>GAL</SMALL> demos use L<SMALL>EDA</SMALL> for
+visualization.
+<P>
+
+C<SMALL>GAL</SMALL> has interfaces to a number of rather important 3rd party
+packages, that provide, in particular, arbitrary precision arithmetic,
+and visualization. On Windows these packages are L<SMALL>EDA</SMALL> and G<SMALL>NU</SMALL> MP
+(also known as GMP).  GMP is supported by default; see
+section&nbsp;<A HREF="Chapter_installation.html#sect:wingmp"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for details.  L<SMALL>EDA</SMALL> configuration is
+described below.
+<P>
+
+In what follows <TT>CGALROOT</TT> will refer to the full path to the
+directory C<SMALL>GAL</SMALL>-2.1, where the downloaded source is
+unpacked.
+<P>
+
+<H3>Initial customization</H3>
+<A NAME="subs::inicu"></A>
+<P>
+
+Change to <TT>CGALROOT</TT> and run the batch file <TT>cgal_config.bat</TT> at the
+command prompt.  This script will set the appropriate makefiles for
+subsequent compilation.<A HREF="#Footnote_14"><SUP>14</SUP></A>
+<P>
+
+<TT>cgal_config.bat</TT> accepts 4 parameters.
+<OL>
+<LI>the compiler type (<TT>msc</TT> or <TT>bcc</TT>)
+<LI>(optional) compiler options (to enable debugging and/or threads
+                support)
+<LI>(optional) <TT>LEDAROOT</TT> (the location where L<SMALL>EDA</SMALL> lib files are installed)
+<LI>(optional) the location where L<SMALL>EDA</SMALL> header files are installed.
+                If omitted, it is assumed to be 
+<TT>LEDAROOT<MATH><I>\</I></MATH>incl</TT>.
+</OL>
+<P>
+
+Typically, assuming that L<SMALL>EDA</SMALL> is installed in <TT>k:<MATH><I>\</I></MATH>LEDA-4.0</TT>, one would run at the command prompt:
+<PRE>
+K:\cgal\&gt; cgal_config msc k:\LEDA-4.0
+</PRE>
+<P>
+
+Otherwise, if L<SMALL>EDA</SMALL> header files are not in <TT>LEDAROOT<MATH><I>\</I></MATH>incl</TT>, 
+one would run, say,
+<P>
+
+<PRE>
+K:\cgal\&gt; cgal_config msc k:\LEDA-4.0\msvc k:\LEDA-4.0\incl
+</PRE>
+<P>
+
+It is assumed that paths to <TT>LEDAROOT</TT> and L<SMALL>EDA</SMALL> include
+directories do not have names with spaces.
+<P>
+
+Running <TT>cgal_config.bat</TT> without parameters prints out the detailed
+options list (in particular, the compiler and linker options).
+<P>
+
+<H3>Building the library, examples and demos</H3>
+<P>
+
+Change (if necessary)
+to <TT>CGALROOT</TT> and run <TT>make_lib.bat</TT> at the command prompt. Namely,
+<PRE>
+K:\cgal\&gt; make_lib
+</PRE>
+<P>
+
+builds the library with the compiler and linker options specified
+by the last run of <TT>cgal_config.bat</TT>.
+For other settings, one would have to reconfigure and recompile
+(same as for current L<SMALL>EDA</SMALL> installation).
+<PRE>
+K:\cgal\&gt; make_examples
+</PRE>
+compiles and links the examples and
+<PRE>
+K:\cgal\&gt; make_demos
+</PRE>
+compiles and links the demos.
+<P>
+
+Examples and demos can also be built on per directory, or even on per
+executable basis.  Each <TT>examples/</TT> and <TT>demo/</TT>
+subdirectory contains a <TT>makefile.mak</TT> file that is a MS&nbsp;Windows 
+<TT>nmake</TT> makefile.  For instance, change to
+<TT>C<SMALL>GAL</SMALL>-2.1<MATH><I>\</I></MATH>demo<MATH><I>\</I></MATH>Point_set_2</TT> and type
+<TT>nmake -f makefile.mak all</TT> to build all the examples there.
+Typing <TT>nmake -f makefile.mak ps_test1</TT> will build the
+particular demo program <TT>ps_test1</TT>.
+<P>
+
+The corresponding executable(s) then can be run as usual, from the
+command prompt, or via Explorer.
+<P>
+
+Note that demos requiring L<SMALL>EDA</SMALL> would not work if C<SMALL>GAL</SMALL> was
+configured without L<SMALL>EDA</SMALL> support.  L<SMALL>EDA</SMALL> must be compiled and used
+with <TT>LEDA_STD_HEADERS</TT> flag on. See
+section&nbsp;<A HREF="Chapter_installation.html#subs:ledastlconfl"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for details.
+<P>
+
+<H3>Developing for C<SMALL>GAL</SMALL> with MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0</H3>
+<P>
+
+Here we give some hints on the use of C<SMALL>GAL</SMALL> with native MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; tools;
+C++ language issues, troubleshooting and the use of C<SMALL>GAL</SMALL> with Cygwin
+are covered above.
+<P>
+
+The most important issue is the following. C<SMALL>GAL</SMALL> uses C++ STL
+(Standard Template Library) quite extensively.  To resolve many C++
+Standard compliance problems of the native MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; STL, we chose to use
+a drop-in replacement for it, <TT>STLPort</TT> (see <A HREF="http://www.stlport.org/"><TT>http://www.stlport.org/</TT></A>). We
+have customized <TT>STLPort-3.2.1</TT> to partially support
+<TT>std::iterator_traits</TT> template of STL.
+<P>
+
+For this to work, the compiler should have <TT>STLPort</TT>
+subdirectory first in its search path.  This issue is taken care of in
+the makefiles generated.  Customization of IDE is described in Sect
+4.2 below.
+<P>
+
+<B>Using nmake makefiles.</B>&nbsp;&nbsp;Simply adapt a makefile <TT>makefile.mak</TT> 
+from an <TT>examples/</TT> or <TT>demos/</TT> subdirectory.
+This means changing the target <TT>all</TT> and changing the targets that
+create executables (look in the subsection ``target entries'' there).
+For instance, you would like to create an executable <TT>demo_beta.exe</TT>
+from a C++ source file <TT>demo_beta.C</TT>.  Then your 
+<TT>makefile</TT>, that would
+include the ``main'' makefile makefile.mak in <TT>CGALROOT</TT> would have
+<PRE>
+all: demo_beta
+
+demo_beta: demo_beta.obj
+        $(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo_beta demo_beta.obj \
+        $(LDFLAGS)
+</PRE>
+<P>
+
+and a ``suffix rule'' that describes creation of an object file from a
+.C - file, e.g.
+<PRE>
+.C.obj:
+        $(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $&lt;
+</PRE>
+<P>
+
+Extra compiler and linker options are to be specified by changing
+macros <TT>CXXFLAGS</TT> and <TT>LDFLAGS</TT>, respectively.
+<P>
+
+One way to specify the ``main'' makefile is by using environment
+variable <TT>CGAL_MAKEFILE</TT> to specify the full path to 
+<TT>makefile.mak</TT> in
+<TT>CGALROOT</TT>.
+<P>
+
+Probably such a makefile can also be used for a ``custom build'' via an
+IDE, although we never attempted this ourselves.
+<P>
+
+<B>Using MS&nbsp;Visual&nbsp;</B><TT><B>C++</B></TT><B>&nbsp; IDE.</B>&nbsp;&nbsp;The compiler/linker options used to build the C<SMALL>GAL</SMALL> library should
+match those used for the project. This can be done by
+selecting <I>Project/Settings...</I>, the <I>C/C++</I> section,
+<I>Code Generation</I> category, and choosing the right
+library in <I>Use run-time library</I>:
+<P>
+
+<TABLE><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><HR></TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Single-Threaded
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+ml (or no option)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Multi-threaded 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+mt
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Multi-threaded DLL
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+md
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Debug Single-Threaded 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+mld
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Debug Multi-threaded   
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+mtd
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+Debug Multi-threaded DLL
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+mdd
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><HR></TD></TR></TABLE>
+<P>
+
+Further necessary customization is as follows.
+We hope that the forthcoming automatic installation will simplify
+these elaborated procedures.
+<P>
+
+<B>Customizing compilation.</B>&nbsp;&nbsp;Additional include directories (in the right order!) and preprocessor
+definitions have to be specified.  We assume that either 
+<TT>CGAL_ROOT</TT> is
+an (already defined) environment variable (and then the include and
+library paths can be entered as shown), or 
+<TT>$(CGAL_ROOT)</TT> must be
+replaced by the corresponding full path to the C<SMALL>GAL</SMALL> installation.
+<P>
+
+Select <I>Project/Settings...</I>, the <I>C/C++</I>
+section, <I>Preprocessor</I> category. Add (in the following order)
+<PRE>
+   $(CGAL_ROOT)\stlport
+   $(CGAL_ROOT)\include\CGAL\config\msvc
+   $(CGAL_ROOT)\include
+   $(CGAL_ROOT)\include
+   $(CGAL_ROOT)\auxiliary\wingmp\gmp-2.0.2
+</PRE>
+to &quot;Additional include directories:&quot;.
+ It is very important that 
+<TT>$(CGAL_ROOT)<MATH><I>\</I></MATH>stlport</TT> 
+appears first in the list in <I>Additional include directories</I>. 
+Otherwise a bunch
+of ugly compiler error messages is guaranteed.
+<P>
+
+If L<SMALL>EDA</SMALL> is used, don't forget to add 
+<TT>$(LEDAROOT)<MATH><I>\</I></MATH>incl</TT>
+to <I>Additional include directories</I>.
+<P>
+
+Add <TT>CGAL_USE_GMP</TT> to <I>Preprocessor definitions</I>.
+If L<SMALL>EDA</SMALL> is used, also add <TT>CGAL_USE_LEDA</TT> and 
+<TT>LEDA_PREFIX</TT> there.
+<P>
+
+Should your source file(s) have suffices that are not recognized by
+MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0 IDE as C++ source files,
+(like all the C<SMALL>GAL</SMALL> source files, by the way)
+add <TT>/TP</TT> to options <I>Project Settings</I> in the <I>C/C++</I> section,
+<I>Preprocessor</I> category.
+<P>
+
+<B>Customizing linking.</B>&nbsp;&nbsp;Additional library directories have to be specified.
+Select <I>Project/Settings...</I>, <I>Link</I> section, <I>Input</I> 
+category. Add 
+<TT>CGAL.lib</TT> and <TT>gmp.lib</TT>
+in <I>Object/library modules</I>: list.
+If LEDA is used, also add there
+<TT>libP.lib</TT>,
+<TT>libG.lib</TT>, and 
+   <TT>libL.lib</TT>.
+<P>
+
+If L<SMALL>EDA</SMALL> Window is used, also add there <TT>libW.lib</TT>.
+In addition, make sure that you link against the system libraries
+<TT>user32.lib, gdi32.lib, comdlg32.lib, shell32.lib, advapi32.lib</TT>
+(usually IDE has them already on the list).
+<P>
+
+If L<SMALL>EDA</SMALL> Geowin is used, one should as well add
+<TT>libGeoW.lib</TT> and <TT>libD3.lib</TT>
+to <I>Object/library modules</I>.
+<P>
+
+<H3>GMP support</H3>
+<A NAME="sect:wingmp"></A>
+A pre-compiled for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0, using Cygwin G<SMALL>NU</SMALL> C compiler and 
+G<SMALL>NU</SMALL> assembler, 
+static object library <TT>gmp.lib</TT> is located in 
+<TT>CGALROOT<MATH><I>\</I></MATH>auxiliary<MATH><I>\</I></MATH>wingmp<MATH><I>\</I></MATH>gmp-2.0.2<MATH><I>\</I></MATH>msvc</TT>
+and the corresponding header file <TT>gmp.h</TT> in
+<TT>CGALROOT<MATH><I>\</I></MATH>auxiliary<MATH><I>\</I></MATH>wingmp<MATH><I>\</I></MATH>gmp-2.0.2</TT>.
+<P>
+
+It was created using M.Khan's Cygwin-specific patches to  GMP-2.0.2,
+that are available from<BR>
+
+<TT>http://www.xraylith.wisc.edu/&nbsp;khan/software/gnu-win32/</TT> and then
+slightly modified (by adding a few routines, like 
+<TT>random</TT>, and creating a
+separate MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0-compiled library that does I/O of the GMP numbers.)  It
+was checked that all tests that come with GMP distribution pass.
+See <TT>CGALROOT<MATH><I>\</I></MATH>auxiliary<MATH><I>\</I></MATH>wingmp<MATH><I>\</I></MATH>gmp-2.0.2<MATH><I>\</I></MATH>msvc<MATH><I>\</I></MATH>src</TT> for details.
+<P>
+
+Subject to time constraints, we might provide a smoother GMP support
+for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; in the future. A new major release of GMP is expected in
+March 2000, probably C<SMALL>GAL</SMALL> will be upgraded to use it then.
+<P>
+
+<A NAME="Section_14"></A>
+<H2>Using C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL></H2>
+<A NAME="sec:leda"></A>
+C<SMALL>GAL</SMALL> supports L<SMALL>EDA</SMALL> in the following ways.
 <P>
 
 <OL>
 <LI>There are support functions defined for the L<SMALL>EDA</SMALL> number types
   <TT>big_float</TT>, <TT>integer</TT>, <TT>rational</TT> and
   <TT>real</TT> (see the files <TT>&lt;CGAL/leda_*&gt;</TT>).
+<LI>For all two-dimensional geometric objects there are input/output
+  operators from/to a <TT>leda_window</TT>.
+<LI>For all two-dimensional geometric objects there are output
+  operators to a <TT>leda_ps_file</TT>.
+<LI>The registration functions needed to interact with a
+  <TT>leda_geowin</TT> are defined for all geometric objects from the
+  C<SMALL>GAL</SMALL> kernel.
 <LI>C<SMALL>GAL</SMALL> defines the following L<SMALL>EDA</SMALL>-related compiler flags:
 <UL>
 <LI>When L<SMALL>EDA</SMALL> is used, the flags <TT>CGAL_USE_LEDA</TT> and
   <TT>LEDA_PREFIX</TT> will be set.
-<LI>When L<SMALL>EDA</SMALL> is used, the L<SMALL>EDA</SMALL> memory management (L<SMALL>EDA</SMALL> handles) will be
-used for geometric primitives in C<SMALL>GAL</SMALL>. This can be turned of by setting the flag
-<TT>CGAL_NO_LEDA_HANDLE</TT>. In that case C<SMALL>GAL</SMALL> memory management will
-be used (see <TT>&lt;CGAL/Handle.h&gt;</TT>).
+<LI>When L<SMALL>EDA</SMALL> is used, the L<SMALL>EDA</SMALL> memory management (L<SMALL>EDA</SMALL> 
+  handles) will be used for geometric primitives in C<SMALL>GAL</SMALL>. This can be
+  turned of by setting the flag <TT>CGAL_NO_LEDA_HANDLE</TT>. In
+  that case C<SMALL>GAL</SMALL> memory management will be used (see
+  <TT>&lt;CGAL/Handle.h&gt;</TT>).
 </UL>
 </OL>
 <P>
 
-The include makefiles in the <TT>CGAL-2.0/make</TT> directory
+The include makefiles in the <TT>CGAL-2.1/make</TT> directory
 corresponding to L<SMALL>EDA</SMALL> can be recognized by the suffix
 ``<TT>_LEDA</TT>''.
 <P>
 
-<A NAME="Section_12"></A>
+<A NAME="Section_15"></A>
+<H2>Compiler workarounds</H2>
+
+In C<SMALL>GAL</SMALL> a number of compiler flags is defined, all of them start
+with the prefix <TT>CGAL_CFG</TT>. These flags are used to work
+around compiler bugs and limitations.  For example, the flag
+<TT>CGAL_CFG_NO_MUTABLE</TT> denotes that the compiler does not
+know the keyword <TT>mutable</TT>.
+<P>
+
+For each compiler a file <TT>&lt;CGAL/compiler_config.h&gt;</TT> is
+defined, with the correct settings of all flags. This file is
+generated automatically by the <TT>install_cgal</TT> script. For this
+the test programs in the directory <TT>CGAL-2.1/config/testfiles</TT>
+are used. The file <TT>&lt;CGAL/compiler_config.h&gt;</TT> and the test
+programs contain a description of the problem, so in case of trouble
+with a <TT>CGAL_CFG</TT> flag it is a good idea to take a look at it.
+<P>
+
+The file <TT>&lt;CGAL/config.h&gt;</TT> manages all configuration problems
+of the compiler.  This file includes the file
+<TT>CGAL/compiler_config.h</TT>.  It is therefore important that the
+file <TT>&lt;CGAL/config.h&gt;</TT> is always included before any other
+C<SMALL>GAL</SMALL> source file that depends on workaround flags. In most cases you
+do not have to do anything special for this, because many CGAL files
+already take care of including <TT>&lt;CGAL/config.h&gt;</TT>. Nevertheless
+it would be a good idea to always start your C<SMALL>GAL</SMALL> programs with
+including <TT>&lt;CGAL/config.h&gt;</TT> (or <TT>&lt;CGAL/basic.h&gt;</TT>, which
+contains some more basic C<SMALL>GAL</SMALL> definitions).
+<P>
+
+<A NAME="Section_16"></A>
+<H2>Compiler Optimizations</H2>
+<A NAME="sec:compiler-optimisations"></A>
+<P>
+
+You may have noticed that we do not set optimizer flags as <TT>-O</TT>
+by default in the include makefiles(see section&nbsp;<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for
+a description of the makefile structure in C<SMALL>GAL</SMALL>).  The main reason
+for not doing this is that compilers run much more stable without. On
+the other hand, most if not all C<SMALL>GAL</SMALL> programs will run considerably
+faster when compiled with optimizations! So if you are going for
+performance, you should/have to add <TT>-O</TT>, <TT>-O3</TT> or maybe
+more specific optimizer flags (please refer to the compiler
+documentation for that) to the <TT>CXXFLAGS</TT> variable in your
+application makefile:
+<PRE>
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# The flag CGAL_CXXFLAGS contains the path to the compiler and is defined
+# in the file CGAL_MAKEFILE. You may add your own compiler flags to CXXFLAGS.
+
+CXXFLAGS = $(CGAL_CXXFLAGS) -O
+</PRE>
+<P>
+
+<A NAME="Section_17"></A>
 <H2>Troubleshooting</H2>
 <A NAME="sec:troubleshooting"></A>
 <P>
@@ -982,7 +1628,7 @@ there is a good chance that you suffer from this ``long-name''
 problem.
 <P>
 
-A solution is to install the G<SMALL>NU</SMALL>-binutils<A HREF="#Footnote_5"><SUP>5</SUP></A> and to tell the
+A solution is to install the G<SMALL>NU</SMALL>-binutils<A HREF="#Footnote_15"><SUP>15</SUP></A> and to tell the
 compiler that it shall use the G<SMALL>NU</SMALL>- instead of the native tools.
 From the compiler-menu (described in section <A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>)
 you can set the corresponding option through the custom compiler
@@ -1026,96 +1672,152 @@ LDFLAGS = $(LONG_NAME_PROBLEM_LDFLAGS) $(CGAL_LDFLAGS)
 <P>
 
 <H3>L<SMALL>EDA</SMALL> and STL conflicts</H3>
+<A NAME="subs:ledastlconfl"></A>
 <P>
 
 If you are using an old version of L<SMALL>EDA</SMALL>, the combination of L<SMALL>EDA</SMALL> 
 and STL may give some problems. In order to avoid them, it is highly
-recommended to use the latest L<SMALL>EDA</SMALL> release<A HREF="#Footnote_6"><SUP>6</SUP></A>, since this is what we test C<SMALL>GAL</SMALL> with.
+recommended to use the latest L<SMALL>EDA</SMALL> release<A HREF="#Footnote_16"><SUP>16</SUP></A>, since this is what we test C<SMALL>GAL</SMALL> with.
 <P>
 
-<A NAME="Section_13"></A>
-<H2>Compiler Optimisations</H2>
-<A NAME="sec:compiler-optimisations"></A>
-<P>
-
-You may have noticed that we do not set optimizer flags as <TT>-O</TT>
-by default in the include makefiles(see section<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for
-a description of the makefile structure in C<SMALL>GAL</SMALL>).  The main reason
-for not doing this is that compilers run much more stable without. On
-the other hand, most if not all C<SMALL>GAL</SMALL> programs will run considerably
-faster when compiled with optimisations! So if you are going for
-performance, you should/have to add <TT>-O</TT>, <TT>-O3</TT> or maybe
-more specific optimizer flags (please refer to the compiler
-documentation for that) to the <TT>CXXFLAGS</TT> variable in your
-application makefile:
+<B>MS&nbsp;Visual&nbsp;</B><TT><B>C++</B></TT><B>&nbsp;specific problems.</B>&nbsp;&nbsp;Using MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; with L<SMALL>EDA</SMALL> requires<A HREF="#Footnote_17"><SUP>17</SUP></A> the
+latter to be compiled and used with <TT>LEDA_STD_HEADERS</TT> flag
+on. C<SMALL>GAL</SMALL> uses new-style C++ standard conformant headers<A HREF="#Footnote_18"><SUP>18</SUP></A>, while L<SMALL>EDA</SMALL> can work
+with both styles. Mixing these styles is a strict no-no for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;.
+Before compiling L<SMALL>EDA</SMALL> edit the file
+<TT>$(LEDAROOT)/incl/LEDA/system.h</TT> and uncomment the
+<TT>#define</TT> in the following fragment there.
 <PRE>
-#---------------------------------------------------------------------#
-#                    compiler flags
-#---------------------------------------------------------------------#
-# The flag CGAL_CXXFLAGS contains the path to the compiler and is defined
-# in the file CGAL_MAKEFILE. You may add your own compiler flags to CXXFLAGS.
-
-CXXFLAGS = $(CGAL_CXXFLAGS) -O
+// use c++ std headers
+//#define LEDA_STD_HEADERS
 </PRE>
 <P>
 
-<A NAME="Section_14"></A>
-<H2>Upgrading a C<SMALL>GAL</SMALL> 1.* installation</H2>
-
-In case you have C<SMALL>GAL</SMALL> 1.0/1.1/1.2 installed on your system, you
-might like to reuse your configuration files and GMP installations.
-Simply use the following command to copy them into the right place:
-<PRE>
-./install_cgal --upgrade &lt;OLD_CGAL_DIR&gt;
-</PRE>
-where <TT>&lt;OLD_CGAL_DIR&gt;</TT> is your C<SMALL>GAL</SMALL> 1.* root directory
-(e.g. <TT>/pub/local/CGAL-1.2</TT>).
+Also, L<SMALL>EDA</SMALL> and C<SMALL>GAL</SMALL> libraries must be compiled with the same
+options controlling the use of debugging and multithreading.
+<A HREF="#Footnote_19"><SUP>19</SUP></A>
 <P>
 
-You can then build all libraries for the actual operating system that
-existed in your C<SMALL>GAL</SMALL> 1.* installation with 
-<PRE>
-./install_cgal --rebuild-all
-</PRE>
+If a binary release of L<SMALL>EDA</SMALL>4.0 is used, make sure that it is one of
+them that uses new-style headers. Namely, among the self-extracting
+executables on
+<TT>http://www.mpi-sb.mpg.de/LEDA/download/windows/</TT>, choose one of
+these that have the name ending with <TT>-std.exe</TT>.
 <P>
 
-If you want to install C<SMALL>GAL</SMALL> for more than one operating system in
-the same directory structure, you have to run the latter command
-(<TT>rebuild-all</TT>) once on each operating system.
+<H3>MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0-specific C++ problems</H3>
 <P>
 
-<A NAME="Section_15"></A>
-<H2>Compiler workarounds</H2>
-
-In C<SMALL>GAL</SMALL> a number of compiler flags is defined, all of them start
-with the prefix <TT>CGAL_CFG</TT>. These flags are used to work
-around compiler bugs and limitations.  For example, the flag
-<TT>CGAL_CFG_NO_MUTABLE</TT> denotes that the compiler does not
-know the keyword <TT>mutable</TT>.
+C<SMALL>GAL</SMALL> uses a modified drop-in replacement for STL, STLPort, 
+version 3.2.1. Our modifications included 
+<UL>
+<LI>modifying the code to enable
+the use of <TT>std::iterator_traits</TT> template, where possible;
+<LI>providing <TT>std::vector</TT> class that does not use
+a plain C pointer as <TT>vector_iterator</TT>.
+</UL>
+The latter allows using the full power of STL algorithms on
+<TT>std::vector</TT> without the limitation given by the absense
+of the support for partial specialization of template parameters.
 <P>
 
-For each compiler a file <TT>&lt;CGAL/compiler_config.h&gt;</TT> is
-defined, with the correct settings of all flags. This file is
-generated automatically by the <TT>install_cgal</TT> script. For this
-the test programs in the directory <TT>CGAL-2.0/config/testfiles</TT>
-are used. The file <TT>&lt;CGAL/compiler_config.h&gt;</TT> and the test
-programs contain a description of the problem, so in case of trouble
-with a <TT>CGAL_CFG</TT> flag it is a good idea to take a look at it.
+Always make sure that the subdirectory
+<TT>$(CGAL_ROOT)/stlport/</TT> comes first in the list of additional include directories for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;.
+This is handled automatically if you use C<SMALL>GAL</SMALL>-supplied (or C<SMALL>GAL</SMALL>-generated)
+makefiles.
 <P>
 
-The file <TT>&lt;CGAL/config.h&gt;</TT> manages all configuration problems
-of the compiler.  This file includes the file
-<TT>CGAL/compiler_config.h</TT>.  It is therefore important that the
-file <TT>&lt;CGAL/config.h&gt;</TT> is always included before any other
-C<SMALL>GAL</SMALL> source file that depends on workaround flags. In most cases you
-do not have to do anything special for this, because many CGAL files
-already take care of including <TT>&lt;CGAL/config.h&gt;</TT>. Nevertheless
-it would be a good idea to always start your C<SMALL>GAL</SMALL> programs with
-including <TT>&lt;CGAL/config.h&gt;</TT> (or <TT>&lt;CGAL/basic.h&gt;</TT>, which
-contains some more basic C<SMALL>GAL</SMALL> definitions).
+<B></B><TT><B>std::iterator_traits</B></TT><B></B>&nbsp;&nbsp;is only partially
+supported, due to absense of partial specialization support in MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;.
+This means that <TT>std::iterator_traits&lt;T&gt;</TT> must be explicitly
+instantiated when <TT>T</TT> is a C pointer.
 <P>
 
-<A NAME="Section_16"></A>
+C<SMALL>GAL</SMALL> provides
+these instantiations for most commonly used primitive data types and
+C<SMALL>GAL</SMALL> kernel types<A HREF="#Footnote_20"><SUP>20</SUP></A>.
+For other types the user must do this himself.  
+This can be done by using the macro
+<TT>CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(T)</TT>.
+Note that the parameter of this macro cannot contain symbols <MATH><I>&lt;</I></MATH> and
+<MATH><I>&gt;</I></MATH>. Thus the macro cannot be used with types that contain <MATH><I>&lt;</I></MATH> and <MATH><I>&gt;</I></MATH>
+directly. However, one can be done by first define a new type using 
+<TT>typedef</TT> and then applying the macro to this new type.
+See e.g. <TT>examples/Getting_started/advanced_hull.C</TT>
+for an example of using this macro.
+<P>
+
+Note that this macro does not have any effect when other than
+MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0 compiler is used, so it can be safely left in the source code.<BR>
+
+<BR>
+
+
+<P>
+
+<B>Other problems.</B>&nbsp;&nbsp;Here goes an incomplete list
+of problems encountered, and C<SMALL>GAL</SMALL>-specific workarounds, if
+available. 
+Compiler error messages are meant to be
+hints only, and do not pretend to be complete, as well.
+<OL>
+<LI>Partial specialization of template parameters is not
+supported. Do not use it. Error messages say that ``the class has
+already been declared'', or ``unrecognizable template
+declaration/definition''. See
+<TT>config/testfiles/CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION.C</TT><BR>
+
+for a test program illustrating the problem. <A NAME="msvc::parspec"></A>
+<LI>Compiler does not always match the most
+specialized instance of a function template correctly. So you get
+``error C2667: none of 2 overload have a best conversion''.<BR>
+
+See <TT>config/testfiles/CGAL_CFG_MATCHING_BUG_2.C</TT><BR>
+
+for a test program illustrating the problem.<A NAME="msvc::matchbug2"></A>
+<LI>Compiler does not support the Koenig
+lookup. That is, it does not search in the namespace of the arguments for
+the function. See
+<TT>config/testfiles/CGAL_CFG_NO_KOENIG_LOOKUP.C</TT>. <A NAME="msvc::koenig"></A>
+<LI>A scope operator in  parameter types of a member function only
+works when the function is defined inline. See
+<TT>config/testfiles/CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS.C</TT>. 
+<A NAME="msvc::scopememberfunc"></A>
+<LI>Passing a dependant type as template parameter cannot be done
+with <TT>typename</TT> keyword on MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;. Replace <TT>typename</TT>
+by <TT>CGAL_TYPENAME_MSVC_NULL</TT> in such places.<BR>
+
+See <TT>config/testfiles/CGAL_CFG_TYPENAME_BUG.C</TT>. <A NAME="msvc::typename"></A>
+<LI>Template <TT>friend</TT> declarations must not contain <MATH><I>&lt;&gt;</I></MATH>.
+Replace <MATH><I>&lt;&gt;</I></MATH>  by <TT>CGAL_NULL_TMPL_ARGS</TT>.<BR>
+
+See <TT>config/testfiles/CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION</TT>.
+<A NAME="msvc::friend"></A>
+<LI>Using non-class template parameters often gives internal
+  compiler errors.
+<LI>Internal compiler errors can sometimes be avoided by increasing
+  the amount of memory available to the compiler. Use <TT>-Zm&lt;number&gt;</TT>
+option. In C<SMALL>GAL</SMALL> makefiles it is set to <TT>-Zm900</TT>, meaning
+``using 900% out of the usual memory limit''. <A NAME="msvc::Zm"></A>
+<LI><TT>[...]/VC98/INCLUDE/xlocnum(268) :
+    error C2587: '_U' :<BR>
+
+illegal use of local variable as default parameter</TT> can
+  occur<A HREF="#Footnote_21"><SUP>21</SUP></A>. The only workaround we know is to redefine the macro
+  <TT>_VIRTUAL</TT> in <TT>&lt;xlocnum&gt;</TT><A HREF="#Footnote_22"><SUP>22</SUP></A>
+  to be empty. Search for<BR>
+
+<TT>#define&nbsp;_VIRTUAL&nbsp;virtual</TT> there and replace it by
+  <TT>#define&nbsp;_VIRTUAL&nbsp;</TT>. <A NAME="msvc::VIRTUAL"></A>
+<LI>Various matching failures for overloaded functions and ctors.
+Use dummy parameters.
+<LI>Avoid multiple forward declarations.
+<LI>If necessary, simplify template parameters by using extra 
+<TT>typedef</TT>s.
+</OL>
+<P>
+
+<A NAME="Section_18"></A>
 <H2>Scripts</H2>
 <P>
 
@@ -1124,7 +1826,7 @@ contains some more basic C<SMALL>GAL</SMALL> definitions).
 <P>
 
 The bourne-shell script <TT>create_cgal_makefile</TT> is contained
-in the <TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to create
+in the <TT>CGAL-2.1</TT><TT>/scripts</TT> directory. It can be used to create
 makefiles for compiling C<SMALL>GAL</SMALL> applications. Executing
 <TT>create_cgal_makefile</TT> in an application directory creates a
 <TT>makefile</TT> containing rules for every <TT>*.C</TT> file there.
@@ -1150,7 +1852,7 @@ Finally type <TT>make</TT> to compile the application programs.
 <P>
 
 The perl script <TT>use_cgal_namespace</TT> is contained in the
-<TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to convert
+<TT>CGAL-2.1</TT><TT>/scripts</TT> directory. It can be used to convert
 C<SMALL>GAL</SMALL><TT>-1.*</TT> application sourcecode to the C<SMALL>GAL</SMALL><TT>-2.*</TT>
 format.  Basically, it replaces <TT>CGAL_</TT> prefixes by
 <TT>CGAL::</TT> namespace qualifiers. You have to give the files to
@@ -1175,7 +1877,7 @@ Alternatively, you can type
 <P>
 
 The perl script <TT>redirect_headers</TT> is contained in the
-<TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to replace
+<TT>CGAL-2.1</TT><TT>/scripts</TT> directory. It can be used to replace
 oldstyle include directives for standard headers by their standard ISO
 counterparts, e.g.
 <PRE>
@@ -1208,36 +1910,118 @@ Alternatively, you can type
 <TABLE><TR><TD VALIGN=TOP>
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_1">&nbsp;<SUP>1</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
-see
-  <A HREF="http://www.mpi-sb.mpg.de/LEDA/index.html"><TT>http://www.mpi-sb.mpg.de/LEDA/index.html</TT></A> for information.
+<A HREF="http://www.mpi-sb.mpg.de/LEDA"><TT>http://www.mpi-sb.mpg.de/LEDA</TT></A>
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_2">&nbsp;<SUP>2</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
-see e.g. <A HREF="http://reality.sgi.com/austern/std-c++/faq-new.html#PartB"><TT>http://reality.sgi.com/austern/std-c++/faq-new.html#PartB</TT></A> for information
+<A HREF="http://www.gnu.org/software/gmp"><TT>http://www.gnu.org/software/gmp</TT></A>
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_3">&nbsp;<SUP>3</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
-If you are that curious what
-  happens exactly, have a look at the file
-  <TT>CGAL-2.0/install.log</TT>.
+<A HREF="http://clisp.cons.org/~haible/packages-cln.html"><TT>http://clisp.cons.org/~haible/packages-cln.html</TT></A>
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+see e.g.
+    <A HREF="http://reality.sgi.com/austern/std-c++/faq.html#PartB"><TT>http://reality.sgi.com/austern/std-c++/faq.html#PartB</TT></A> for
+    information
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_5">&nbsp;<SUP>5</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+see also the file
+  <TT>wininstall.txt</TT> in the root directory of the installation
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_6">&nbsp;<SUP>6</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+<A HREF="http://sourceware.cygnus.com/cygwin"><TT>http://sourceware.cygnus.com/cygwin</TT></A>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_7">&nbsp;<SUP>7</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+with Cygwin <MATH><I><IMG BORDER=0 WIDTH=10 HEIGHT=27 ALIGN=MIDDLE SRC="cc_beta.gif"></I></MATH>20.1
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_7">&nbsp;<SUP>7</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+<TT>unzip</TT> for MS&nbsp;Windows 
+can be downloaded, for instance, from
+<TT>http://www.itribe.net/virtunix/</TT>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_8">&nbsp;<SUP>8</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+<A HREF="http://www.stlport.org/"><TT>http://www.stlport.org/</TT></A>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_8">&nbsp;<SUP>8</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+If you are that curious what
+  happens exactly, have a look at the file
+  <TT>CGAL-2.1/install.log</TT>.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_9">&nbsp;<SUP>9</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 Note that these files are only OS/compiler specific, i.e.
   there are no different files for with and without L<SMALL>EDA</SMALL> support.
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_5">&nbsp;<SUP>5</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_10">&nbsp;<SUP>10</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+This option is
+  on MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; just unpacks the corresponding pre-compiled library that
+  comes with C<SMALL>GAL</SMALL> distribution.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_11">&nbsp;<SUP>11</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+by typing <TT>mount D:
+    /ddrive</TT>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_12">&nbsp;<SUP>12</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+open MyComputer, press right mouse button,
+  select Properties, select Environment, set the relevant variables
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_13">&nbsp;<SUP>13</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+To make sure that
+  certain environment variables are set correctly, one should execute
+  <TT>VCVARS32.BAT</TT> located in the same directory as the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
+  executables. A possible MS&nbsp;Windows-9* - specific problem (and a
+  solution) is discussed in section <A HREF="Chapter_installation.html#subs::inicu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_14">&nbsp;<SUP>14</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+
+<B>MS&nbsp;Windows-9*.</B> 
+The memory for environment variables might have to be increased.
+Select the MS-DOS icon from the Start-menu, press the right mouse
+button and choose <I>Properties</I>. Go to <I>Memory</I>, select
+<I>Initial Environment</I>, set it to at least 2048 and
+<I>apply</I> the changes. Then press <I>OK</I> and kill the window.
+
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_15">&nbsp;<SUP>15</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 see
   <A HREF="http://www.gnu.org/software/binutils/"><TT>http://www.gnu.org/software/binutils/</TT></A>
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_6">&nbsp;<SUP>6</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_16">&nbsp;<SUP>16</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 At the moment
-  this is L<SMALL>EDA</SMALL> 3.8.
+  this is L<SMALL>EDA</SMALL> 4.0.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_17">&nbsp;<SUP>17</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+Also applies to B<SMALL>ORLAND</SMALL>&nbsp;<TT>C++</TT>&nbsp;.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_18">&nbsp;<SUP>18</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+the
+  ones that do not have <TT>.h</TT> suffix
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_19">&nbsp;<SUP>19</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; compilation/linking options 
+<TT>-ML, -MT, -MD, -MLD, -MTD, -MDD</TT>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_20">&nbsp;<SUP>20</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+C<SMALL>GAL</SMALL> <TT>Point, Segment</TT>, etc.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_21">&nbsp;<SUP>21</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+For instance, in C<SMALL>GAL</SMALL> <TT>Min_circle</TT>
+    package
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_22">&nbsp;<SUP>22</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+Yes, in the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
+    header! You need not edit the actual file though. Copy it to
+    <TT>CGAL-2.1</TT><TT>/stlport/</TT> and edit it there. As
+    <TT>CGAL-2.1</TT><TT>/stlport/</TT> is searched by the compiler ahead of
+    the other directories, your updates will be used.  DISCLAIMER:
+    <I>We do not know if the actions described in this footnote are
+      legal in your country. You are on your own here.</I>
 
 </TD></TR></TABLE>
 <P>
 
 <!-- Begin of cc_manual_footer -->
 <!-- ------------------------- -->
-<!-- $Revision: 3.1 $ -->
-<!-- $Date: 1998/08/05 15:50:57 $ -->
+<!-- $Revision: 3.4 $ -->
+<!-- $Date: 1999/09/27 11:47:26 $ -->
 
 <!-- Navigation -->
 <HR>
@@ -1250,7 +2034,7 @@ At the moment
 <HR>
 
 <address> 
-  <A HREF=http://www.mpi-sb.mpg.de/GALIA target=_top>The GALIA project</A>.    Jun 10,  1999. 
+  <A HREF=http://www.mpi-sb.mpg.de/GALIA target=_top>The GALIA project</A>.    Jan 11, 2000. 
 </address>
 </BODY>
 </HTML>

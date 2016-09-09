@@ -8,13 +8,11 @@ viewpoint2off.C
     to compile it. See http://www.viewpoint.com/
 
     It is in the demo directory since no viewpoint example 
-    data is provided and for the moment it will not run with
-    the SunPro 4.2 CC compiler (a mysterious error claiming
-    that const CGAL_Point_3<CGAL_Cartesian<float>> is incomplete).
+    data is provided.
 
-geomview.C
+geomview_demo.C
 
     Displays a polyhedron from CGAL in Geomview using
-    CGAL_Geomview_stream. Type 'make geomview' to compile it.
+    CGAL_Geomview_stream. Type 'make geomview_demo' to compile it.
 
 Lutz Kettner

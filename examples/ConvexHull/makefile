@@ -1,11 +1,12 @@
-# This is the makefile for compiling the CGAL Kernel test.
+# Created by the script create_makefile
+# This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
 #                    include platform specific settings
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = 
+# CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#
@@ -13,18 +14,28 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
+           -DNO_DISPLAY \
            $(TESTSUITE_CXXFLAGS) \
-           -I./include \
+           $(EXTRA_FLAGS) \
+           -Iinclude \
            $(CGAL_CXXFLAGS) \
-           $(EXTRA_FLAGS) 
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(TESTSUITE_LIBPATH) \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
           $(CGAL_LDFLAGS)
+
+WINDOW_LDFLAGS = \
+          $(TESTSUITE_LDFLAGS) \
+          $(CGAL_WINDOW_LDFLAGS)
 
 #---------------------------------------------------------------------#
 #                    target entries
@@ -32,22 +43,27 @@ LDFLAGS = \
 
 all:            \
                 ch_example_from_cin_to_cout \
-                ch_example_timing
+                ch_example_timing \
+                ch_of_polyline 
 
-ch_example_from_cin_to_cout: ch_example_from_cin_to_cout.o
-	$(CGAL_CXX) -o ch_example_from_cin_to_cout ch_example_from_cin_to_cout.o $(LDFLAGS)
+ch_example_from_cin_to_cout$(EXE_EXT): ch_example_from_cin_to_cout$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_example_from_cin_to_cout ch_example_from_cin_to_cout$(OBJ_EXT) $(LDFLAGS)
 
-ch_example_timing: ch_example_timing.o
-	$(CGAL_CXX) -o ch_example_timing ch_example_timing.o $(LDFLAGS)
+ch_example_timing$(EXE_EXT): ch_example_timing$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_example_timing ch_example_timing$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	/bin/rm -f ch_example_from_cin_to_cout ch_example_from_cin_to_cout.o
-	/bin/rm -f ch_example_timing ch_example_timing.o
+ch_of_polyline$(EXE_EXT): ch_of_polyline$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_of_polyline ch_of_polyline$(OBJ_EXT) $(WINDOW_LDFLAGS)
+
+clean: \
+                   ch_example_from_cin_to_cout.clean \
+                   ch_example_timing.clean \
+                   ch_of_polyline.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

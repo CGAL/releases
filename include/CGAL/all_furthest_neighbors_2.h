@@ -1,47 +1,44 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1998 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/all_furthest_neighbors_2.h
-// package       : Matrix_search (1.17)
+// package       : Matrix_search (1.30)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/06/01 14:08:11 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 1999/12/17 11:58:48 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
@@ -51,38 +48,28 @@
 //
 // ======================================================================
 
-#if ! (ALL_FURTHEST_NEIGHBORS_2_H)
-#define ALL_FURTHEST_NEIGHBORS_2_H 1
+#if ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
+#define CGAL_ALL_FURTHEST_NEIGHBORS_2_H 1
 
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#include <CGAL/optimisation_assertions.h>
-#endif // CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/Optimisation/assertions.h>
 
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_ALL_FURTHEST_NEIGHBORS_TRAITS_2_H
 #include <CGAL/All_furthest_neighbors_traits_2.h>
-#endif // CGAL_ALL_FURTHEST_NEIGHBORS_TRAITS_2_H
 #endif // CGAL_REP_CLASS_DEFINED
 
-#ifndef CGAL_CARTESIAN_MATRIX_H
 #include <CGAL/Cartesian_matrix.h>
-#endif // CGAL_CARTESIAN_MATRIX_H
-#ifndef CGAL_DYNAMIC_MATRIX_H
 #include <CGAL/Dynamic_matrix.h>
-#endif // CGAL_DYNAMIC_MATRIX_H
-#ifndef CGAL_MONOTONE_MATRIX_SEARCH_H
 #include <CGAL/monotone_matrix_search.h>
-#endif // CGAL_MONOTONE_MATRIX_SEARCH_H
-#ifndef CGAL_PROTECT_FUNCTIONAL
 #include <functional>
-#define CGAL_PROTECT_FUNCTIONAL
-#endif
-#ifndef CGAL_PROTECT_ALGORITHM
 #include <algorithm>
-#define CGAL_PROTECT_ALGORITHM
-#endif
 
 CGAL_BEGIN_NAMESPACE
+#ifdef _MSC_VER
+// that compiler cannot even distinguish between global
+// and class scope, so ...
+#define Base B_B_Base
+#endif // _MSC_VER
+
 template < class Operation, class RandomAccessIC >
 class All_furthest_neighbor_matrix
 : public Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
@@ -92,18 +79,18 @@ class All_furthest_neighbor_matrix
 public:
   typedef
     Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
-  BaseClass;
+  Base;
 
   All_furthest_neighbor_matrix( RandomAccessIC f,
                                 RandomAccessIC l)
-  : BaseClass( f, l, f, l)
+  : Base( f, l, f, l)
   {}
 
   int
   number_of_columns() const
   { return 2 * number_of_rows() - 1; }
 
-  Value
+  typename Base::Value
   operator()( int r, int c) const
   {
     CGAL_optimisation_precondition( r >= 0 && r < number_of_rows());
@@ -113,20 +100,21 @@ public:
     else if ( c >= r + number_of_rows())
       return Value( 0);
     else if ( c >= number_of_rows())
-      return BaseClass::operator()( r, c - number_of_rows());
+      return Base::operator()( r, c - number_of_rows());
     else
-      return BaseClass::operator()( r, c);
+      return Base::operator()( r, c);
   }
 };
+
+#ifdef _MSC_VER
+#undef Base
+#endif // _MSC_VER
 
 #if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
 !defined(CGAL_CFG_MATCHING_BUG_2)
 
 CGAL_END_NAMESPACE
-#ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
 CGAL_BEGIN_NAMESPACE
 
 template < class RandomAccessIC, class OutputIterator, class Traits >
@@ -156,11 +144,14 @@ all_furthest_neighbors( RandomAccessIC points_begin,
                         const Traits& t,
                         std::random_access_iterator_tag)
 {
-  typedef All_furthest_neighbor_matrix<
-    typename Traits::Distance,
-    RandomAccessIC
-    >
+#ifndef CGAL_CFG_TYPENAME_BUG
+  typedef All_furthest_neighbor_matrix< typename Traits::Distance,
+                                        RandomAccessIC >
   Afn_matrix;
+#else
+  typedef All_furthest_neighbor_matrix< Traits::Distance, RandomAccessIC >
+    Afn_matrix;
+#endif // CGAL_CFG_TYPENAME_BUG
 
   // check preconditions:
   int number_of_points(
@@ -206,11 +197,14 @@ all_furthest_neighbors( RandomAccessIC points_begin,
   using std::modulus;
 #endif
 
-  typedef All_furthest_neighbor_matrix<
-    typename Traits::Distance,
-    RandomAccessIC
-    >
+#ifndef CGAL_CFG_TYPENAME_BUG
+  typedef All_furthest_neighbor_matrix< typename Traits::Distance,
+                                        RandomAccessIC >
   Afn_matrix;
+#else
+  typedef All_furthest_neighbor_matrix< Traits::Distance, RandomAccessIC >
+    Afn_matrix;
+#endif // CGAL_CFG_TYPENAME_BUG
 
  // check preconditions:
   int number_of_points(
@@ -241,7 +235,7 @@ all_furthest_neighbors( RandomAccessIC points_begin,
 
 CGAL_END_NAMESPACE
 
-#endif // ! (ALL_FURTHEST_NEIGHBORS_2_H)
+#endif // ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

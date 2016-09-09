@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,16 +14,19 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
            $(CGAL_CXXFLAGS) \
-           -g
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
+LIBPATH = \
+          $(CGAL_LIBPATH)
+
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -30,25 +34,23 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                BooleanOperations_example \
-                Howto_Intersection_example 
+                BooleanOperations_example$(EXE_EXT) \
+                Howto_Intersection_example$(EXE_EXT) 
 
-BooleanOperations_example: BooleanOperations_example.o
-	$(CGAL_CXX) -o BooleanOperations_example BooleanOperations_example.o $(LDFLAGS)
+BooleanOperations_example$(EXE_EXT): BooleanOperations_example$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)BooleanOperations_example BooleanOperations_example$(OBJ_EXT) $(LDFLAGS)
 
-Howto_Intersection_example: Howto_Intersection_example.o
-	$(CGAL_CXX) -o Howto_Intersection_example Howto_Intersection_example.o $(LDFLAGS)
+Howto_Intersection_example$(EXE_EXT): Howto_Intersection_example$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Howto_Intersection_example Howto_Intersection_example$(OBJ_EXT) $(LDFLAGS)
 
-clean:
-	/bin/rm -f *.o \
-                   BooleanOperations_example \
-                   Howto_Intersection_example \
-                   core
+clean: \
+                   BooleanOperations_example.clean \
+                   Howto_Intersection_example.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C.o:
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+.C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

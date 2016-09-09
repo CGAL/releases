@@ -1,0 +1,11 @@
+The directory contains 3 graphic demo programs.
+To run them you need CGAL with LEDA.
+
+Segment_arr_from_file - constructs a segment arrangement from an input
+       file, some example files are given in segment_input_files/ .
+       
+Segment_arr_from_mouse - constructs a segment arrangement from window 
+       input (uses the LEDA traits).
+
+Circle_arr_from_file - constructs a circle arrangement from an input
+       file, some example files are given in circle_input_files/ .

@@ -1,48 +1,45 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997,1998,1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/IO/Conic_2_Window_stream.h
-// package       : Min_ellipse_2 (3.2.3)
+// package       : Min_ellipse_2 (3.5.4)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Conic_2.aw
-// revision      : $Revision: 5.7 $
-// revision_date : $Date: 1999/04/19 16:19:47 $
+// revision      : $Revision: 5.14 $
+// revision_date : $Date: 1999/12/20 19:07:59 $
 // author(s)     : Bernd Gärtner
 //                 Sven Schönherr
 //
@@ -67,7 +64,7 @@
 
 template< class R >
 CGAL::Window_stream&
-operator << ( CGAL::Window_stream &ws, const CGAL::Conic_2<R>& c)
+operator << ( CGAL::Window_stream& ws, const CGAL::Conic_2<R>& c)
 {
     // length of a pixel in window-coordinates
     double pixel = 1/ws.scale();
@@ -85,12 +82,12 @@ operator << ( CGAL::Window_stream &ws, const CGAL::Conic_2<R>& c)
     int pixels;
 
     // conic coordinates
-    double r = to_double (c.r()),
-           s = to_double (c.s()),
-           t = to_double (c.t()),
-           u = to_double (c.u()),
-           v = to_double (c.v()),
-           w = to_double (c.w());
+    double r = CGAL::to_double (c.r()),
+           s = CGAL::to_double (c.s()),
+           t = CGAL::to_double (c.t()),
+           u = CGAL::to_double (c.u()),
+           v = CGAL::to_double (c.v()),
+           w = CGAL::to_double (c.w());
 
     // Phase I (drawing in x-direction)
     pixels = 0;
@@ -100,8 +97,8 @@ operator << ( CGAL::Window_stream &ws, const CGAL::Conic_2<R>& c)
             double discr = (t*t-4.0*r*s)*(x*x) + (2.0*t*v-4.0*s*u)*x +
                              v*v - 4.0*s*w;
             if (discr >= 0.0) {
-                double y1 = (-t*x - v - sqrt(discr))/(2.0*s);
-                double y2 = (-t*x - v + sqrt(discr))/(2.0*s);
+                double y1 = (-t*x - v - CGAL::sqrt(discr))/(2.0*s);
+                double y2 = (-t*x - v + CGAL::sqrt(discr))/(2.0*s);
                 X[pixels] = x; Y[pixels++] = y1;
                 X[pixels] = x; Y[pixels++] = y2; } }
     else
@@ -120,8 +117,8 @@ operator << ( CGAL::Window_stream &ws, const CGAL::Conic_2<R>& c)
             double discr = (t*t-4.0*r*s)*(y*y) + (2.0*t*u-4.0*r*v)*y +
                              u*u - 4.0*r*w;
             if (discr >= 0.0) {
-                double x1 = (-t*y - u - sqrt(discr))/(2.0*r);
-                double x2 = (-t*y - u + sqrt(discr))/(2.0*r);
+                double x1 = (-t*y - u - CGAL::sqrt(discr))/(2.0*r);
+                double x2 = (-t*y - u + CGAL::sqrt(discr))/(2.0*r);
                 X[pixels] = x1; Y[pixels++] = y;
                 X[pixels] = x2; Y[pixels++] = y; } }
     else

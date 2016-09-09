@@ -1,43 +1,40 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/Polyhedron_3.h
-// package       : Polyhedron (2.5)
+// package       : Polyhedron (2.8)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron.fw
 // revision      : $Revision: 1.3 $
@@ -117,9 +114,9 @@ class _Polyhedron_halfedge : public HDS::Halfedge {
         typedef typename HDS::Facet               F;
     
     public:
-        typedef _Polyhedron_vertex<HDS>       Vertex;
-        typedef _Polyhedron_halfedge<HDS>     Halfedge;
-        typedef _Polyhedron_facet<HDS>        Facet;
+        typedef _Polyhedron_vertex<HDS>       Vertex_;
+        typedef _Polyhedron_halfedge<HDS>     Halfedge_;
+        typedef _Polyhedron_facet<HDS>        Facet_;
     
         typedef typename  HDS::Size               Size;
         typedef typename  HDS::Difference         Difference;
@@ -175,53 +172,53 @@ class _Polyhedron_halfedge : public HDS::Halfedge {
     public:
         typedef _Polyhedron_iterator<
             TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_VI, TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_HI, TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_FI, TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_const_iterator;
     
     // The circulators around a vertex or around a facet.
     
         typedef _Polyhedron_facet_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_facet_circulator;
     
         typedef _Polyhedron_vertex_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_vertex_circulator;
     
         typedef _Polyhedron_facet_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>       Halfedge_around_facet_const_circulator;
     
         typedef _Polyhedron_vertex_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>      Halfedge_around_vertex_const_circulator;
     
@@ -237,15 +234,18 @@ class _Polyhedron_halfedge : public HDS::Halfedge {
     
         typedef  _Polyhedron_edge_iterator<
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_iterator;
     
         typedef  _Polyhedron_edge_const_iterator<
             Halfedge_const_iterator,
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_const_iterator;
 public:
+
+    typedef _Polyhedron_vertex<HDS>       Vertex;
+    typedef _Polyhedron_facet<HDS>        Facet;
 
     _Polyhedron_halfedge() {}
     _Polyhedron_halfedge( const H& h) : H(h) {}
@@ -323,10 +323,10 @@ public:
 
 private:
     // Hide some other functions of H.
-    void  set_next( Halfedge* h)  { H::set_next(h);}
-    void  set_prev( Halfedge* h)  { H::set_prev(h);}
-    void  set_vertex( Vertex* v)  { H::set_vertex(v);}
-    void  set_facet( Facet* f)    { H::set_facet(f);}
+    void  set_next( Halfedge_* h)  { H::set_next(h);}
+    void  set_prev( Halfedge_* h)  { H::set_prev(h);}
+    void  set_vertex( Vertex* v)   { H::set_vertex(v);}
+    void  set_facet( Facet* f)     { H::set_facet(f);}
 };
 template <class HDS>
 class _Polyhedron_vertex  : public HDS::Vertex  {
@@ -339,9 +339,9 @@ class _Polyhedron_vertex  : public HDS::Vertex  {
         typedef typename HDS::Facet               F;
     
     public:
-        typedef _Polyhedron_vertex<HDS>       Vertex;
-        typedef _Polyhedron_halfedge<HDS>     Halfedge;
-        typedef _Polyhedron_facet<HDS>        Facet;
+        typedef _Polyhedron_vertex<HDS>       Vertex_;
+        typedef _Polyhedron_halfedge<HDS>     Halfedge_;
+        typedef _Polyhedron_facet<HDS>        Facet_;
     
         typedef typename  HDS::Size               Size;
         typedef typename  HDS::Difference         Difference;
@@ -397,53 +397,53 @@ class _Polyhedron_vertex  : public HDS::Vertex  {
     public:
         typedef _Polyhedron_iterator<
             TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_VI, TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_HI, TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_FI, TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_const_iterator;
     
     // The circulators around a vertex or around a facet.
     
         typedef _Polyhedron_facet_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_facet_circulator;
     
         typedef _Polyhedron_vertex_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_vertex_circulator;
     
         typedef _Polyhedron_facet_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>       Halfedge_around_facet_const_circulator;
     
         typedef _Polyhedron_vertex_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>      Halfedge_around_vertex_const_circulator;
     
@@ -459,16 +459,20 @@ class _Polyhedron_vertex  : public HDS::Vertex  {
     
         typedef  _Polyhedron_edge_iterator<
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_iterator;
     
         typedef  _Polyhedron_edge_const_iterator<
             Halfedge_const_iterator,
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_const_iterator;
 
 public:
+
+    typedef _Polyhedron_halfedge<HDS>     Halfedge;
+    typedef _Polyhedron_facet<HDS>        Facet;
+
     _Polyhedron_vertex() {}
     _Polyhedron_vertex( const V& v) : V(v) {}
 
@@ -507,9 +511,9 @@ class _Polyhedron_facet : public HDS::Facet {
         typedef typename HDS::Facet               F;
     
     public:
-        typedef _Polyhedron_vertex<HDS>       Vertex;
-        typedef _Polyhedron_halfedge<HDS>     Halfedge;
-        typedef _Polyhedron_facet<HDS>        Facet;
+        typedef _Polyhedron_vertex<HDS>       Vertex_;
+        typedef _Polyhedron_halfedge<HDS>     Halfedge_;
+        typedef _Polyhedron_facet<HDS>        Facet_;
     
         typedef typename  HDS::Size               Size;
         typedef typename  HDS::Difference         Difference;
@@ -565,53 +569,53 @@ class _Polyhedron_facet : public HDS::Facet {
     public:
         typedef _Polyhedron_iterator<
             TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_VI, TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_HI, TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_FI, TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_const_iterator;
     
     // The circulators around a vertex or around a facet.
     
         typedef _Polyhedron_facet_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_facet_circulator;
     
         typedef _Polyhedron_vertex_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_vertex_circulator;
     
         typedef _Polyhedron_facet_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>       Halfedge_around_facet_const_circulator;
     
         typedef _Polyhedron_vertex_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>      Halfedge_around_vertex_const_circulator;
     
@@ -627,16 +631,20 @@ class _Polyhedron_facet : public HDS::Facet {
     
         typedef  _Polyhedron_edge_iterator<
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_iterator;
     
         typedef  _Polyhedron_edge_const_iterator<
             Halfedge_const_iterator,
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_const_iterator;
 
 public:
+
+    typedef _Polyhedron_vertex<HDS>       Vertex;
+    typedef _Polyhedron_halfedge<HDS>     Halfedge;
+
     _Polyhedron_facet() {}
     _Polyhedron_facet( const F& f) : F(f) {}
 
@@ -702,9 +710,9 @@ class Polyhedron_3 {
         typedef typename HDS::Facet               F;
     
     public:
-        typedef _Polyhedron_vertex<HDS>       Vertex;
-        typedef _Polyhedron_halfedge<HDS>     Halfedge;
-        typedef _Polyhedron_facet<HDS>        Facet;
+        typedef _Polyhedron_vertex<HDS>       Vertex_;
+        typedef _Polyhedron_halfedge<HDS>     Halfedge_;
+        typedef _Polyhedron_facet<HDS>        Facet_;
     
         typedef typename  HDS::Size               Size;
         typedef typename  HDS::Difference         Difference;
@@ -760,53 +768,53 @@ class Polyhedron_3 {
     public:
         typedef _Polyhedron_iterator<
             TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_VI, TR_VI,
-            Vertex,
+            Vertex_,
             Difference, iterator_category>       Vertex_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_HI, TR_HI,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Halfedge_const_iterator;
     
         typedef _Polyhedron_iterator<
             TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_iterator;
     
         typedef _Polyhedron_const_iterator<
             TR_C_FI, TR_FI,
-            Facet,
+            Facet_,
             Difference, iterator_category>       Facet_const_iterator;
     
     // The circulators around a vertex or around a facet.
     
         typedef _Polyhedron_facet_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_facet_circulator;
     
         typedef _Polyhedron_vertex_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_iterator,
             circulator_category>            Halfedge_around_vertex_circulator;
     
         typedef _Polyhedron_facet_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>       Halfedge_around_facet_const_circulator;
     
         typedef _Polyhedron_vertex_const_circ<
-            Halfedge,
+            Halfedge_,
             Halfedge_const_iterator,
             circulator_category>      Halfedge_around_vertex_const_circulator;
     
@@ -822,16 +830,21 @@ class Polyhedron_3 {
     
         typedef  _Polyhedron_edge_iterator<
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_iterator;
     
         typedef  _Polyhedron_edge_const_iterator<
             Halfedge_const_iterator,
             Halfedge_iterator,
-            Halfedge,
+            Halfedge_,
             Difference, iterator_category>       Edge_const_iterator;
 
     typedef TR Traits;
+
+public:
+    typedef _Polyhedron_vertex<HDS>       Vertex;
+    typedef _Polyhedron_halfedge<HDS>     Halfedge;
+    typedef _Polyhedron_facet<HDS>        Facet;
 
 protected:
     HDS hds;  // the boundary representation.
@@ -1202,7 +1215,7 @@ public:
             if ( i->is_border()) {
                 Verbose_ostream verr(verbose);
                 verr << "    both halfedges of an edge are border "
-                        "halfedges." << endl;
+                        "halfedges." << std::endl;
                         valid = false;
             }
         }
@@ -2256,7 +2269,7 @@ bool
 Polyhedron_3<TR,HDS>:: is_valid( bool verb, int level) const {
     Verbose_ostream verr(verb);
     verr << "begin Polyhedron_3<TR,HDS>::is_valid( verb=true, "
-                      "level = " << level << "):" << endl;
+                      "level = " << level << "):" << std::endl;
     Halfedge_data_structure_decorator<HDS> decorator;
     bool valid = decorator.is_valid( hds, verb, level + 3);
     // All halfedges.
@@ -2264,7 +2277,7 @@ Polyhedron_3<TR,HDS>:: is_valid( bool verb, int level) const {
     Halfedge_const_iterator end   = halfedges_end();
     Size  n = 0;
     for( ; valid && (begin != end); begin++) {
-        verr << "halfedge " << n << endl;
+        verr << "halfedge " << n << std::endl;
         // At least triangular facets and distinct geometry.
         valid = valid && ( begin->next() != begin);
         valid = valid && ( begin->next()->next() != begin);
@@ -2280,7 +2293,7 @@ Polyhedron_3<TR,HDS>:: is_valid( bool verb, int level) const {
                                                  next().ptr()));
         if ( ! valid) {
             verr << "    incident facet is not at least a triangle."
-                 << endl;
+                 << std::endl;
             break;
         }
         // Distinct facets on each side of an halfegde.
@@ -2288,17 +2301,17 @@ Polyhedron_3<TR,HDS>:: is_valid( bool verb, int level) const {
                            decorator.get_facet( begin.ptr()) !=
                            decorator.get_facet( begin->opposite().ptr()));
         if ( ! valid) {
-            verr << "    both incident facets are equal." << endl;
+            verr << "    both incident facets are equal." << std::endl;
             break;
         }
         ++n;
     }
     valid = valid && (n == size_of_halfedges());
     if ( n != size_of_halfedges())
-        verr << "counting halfedges failed." << endl;
+        verr << "counting halfedges failed." << std::endl;
 
     verr << "end of Polyhedron_3<TR,HDS>::is_valid(): structure is "
-         << ( valid ? "valid." : "NOT VALID.") << endl;
+         << ( valid ? "valid." : "NOT VALID.") << std::endl;
     return valid;
 }
 

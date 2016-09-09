@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : Iso_cuboidH3.fw
 // file          : include/CGAL/Iso_cuboidH3.h
-// package       : H3 (2.2.1)
-// revision      : 2.2.1
-// revision_date : 26 May 1999 
+// package       : H3 (2.3.7)
+// revision      : 2.3.7
+// revision_date : 03 Dec 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -52,15 +49,9 @@
 #ifndef CGAL_ISO_CUBOIDH3_H
 #define CGAL_ISO_CUBOIDH3_H
 
-#ifndef TWOTUPLE_H
 #include <CGAL/Twotuple.h>
-#endif // TWOTUPLE_H
-#ifndef CGAL_POINTH2_H
-#include <CGAL/PointH2.h>
-#endif // CGAL_POINTH2_H
-#ifndef CGAL_PREDICATES_ON_POINTSH2_H
-#include <CGAL/predicates_on_pointsH2.h>
-#endif // CGAL_PREDICATES_ON_POINTSH2_H
+#include <CGAL/PointH3.h>
+#include <CGAL/predicates_on_pointsH3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -70,8 +61,7 @@ class Iso_cuboidH3 : public Handle
 public:
   Iso_cuboidH3();
   Iso_cuboidH3(const Iso_cuboidH3<FT,RT>& );
-  Iso_cuboidH3(const PointH3<FT,RT>& p,
-                    const PointH3<FT,RT>& q);
+  Iso_cuboidH3(const PointH3<FT,RT>& p, const PointH3<FT,RT>& q);
   ~Iso_cuboidH3();
 
   Iso_cuboidH3<FT,RT>&
@@ -79,8 +69,6 @@ public:
 
   bool      operator==(const Iso_cuboidH3<FT,RT>& s) const;
   bool      operator!=(const Iso_cuboidH3<FT,RT>& s) const;
-  bool      identical(const Iso_cuboidH3<FT,RT>& s) const;
-  int       id() const;
 
   PointH3<FT,RT>  min() const;
   PointH3<FT,RT>  max() const;
@@ -112,14 +100,14 @@ protected:
 
 template < class FT, class RT >
 inline
-_Twotuple< PointH2<FT,RT> > *
+_Twotuple< PointH3<FT,RT> > *
 Iso_cuboidH3<FT,RT>::ptr() const
-{ return (_Twotuple< PointH2<FT,RT> >*)PTR; }
+{ return (_Twotuple< PointH3<FT,RT> >*)PTR; }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 Iso_cuboidH3<FT,RT>::Iso_cuboidH3()
-{ PTR = new _Twotuple< PointH2<FT,RT> >; }
+{ PTR = new _Twotuple< PointH3<FT,RT> >; }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -130,12 +118,11 @@ Iso_cuboidH3(const Iso_cuboidH3<FT,RT>& r)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_LARGE_INLINE
 Iso_cuboidH3<FT,RT>::
-Iso_cuboidH3(const PointH3<FT,RT>& p,
-                  const PointH3<FT,RT>& q)
+Iso_cuboidH3(const PointH3<FT,RT>& p, const PointH3<FT,RT>& q)
 {
-  bool px_g_qx = ( p.hx()*q.hw() > q.hx()*p.hw() );
-  bool py_g_qy = ( p.hy()*q.hw() > q.hy()*p.hw() );
-  bool pz_g_qz = ( p.hz()*q.hw() > q.hz()*p.hw() );
+  bool px_k_qx = ( p.hx()*q.hw() < q.hx()*p.hw() );
+  bool py_k_qy = ( p.hy()*q.hw() < q.hy()*p.hw() );
+  bool pz_k_qz = ( p.hz()*q.hw() < q.hz()*p.hw() );
 
   RT minx;
   RT miny;
@@ -145,7 +132,7 @@ Iso_cuboidH3(const PointH3<FT,RT>& p,
   RT maxz;
   RT minw = p.hw()*q.hw();
   RT maxw = p.hw()*q.hw();
-  if ( px_g_qx )
+  if ( px_k_qx )
   {
       minx = p.hx()*q.hw();
       maxx = q.hx()*p.hw();
@@ -155,7 +142,7 @@ Iso_cuboidH3(const PointH3<FT,RT>& p,
       minx = q.hx()*p.hw();
       maxx = p.hx()*q.hw();
   }
-  if ( py_g_qy )
+  if ( py_k_qy )
   {
       miny = p.hy()*q.hw();
       maxy = q.hy()*p.hw();
@@ -165,7 +152,7 @@ Iso_cuboidH3(const PointH3<FT,RT>& p,
       miny = q.hy()*p.hw();
       maxy = p.hy()*q.hw();
   }
-  if ( pz_g_qz )
+  if ( pz_k_qz )
   {
       minz = p.hz()*q.hw();
       maxz = q.hz()*p.hw();
@@ -210,26 +197,13 @@ operator!=(const Iso_cuboidH3<FT,RT>& r) const
 
 template < class FT, class RT >
 inline
-int
-Iso_cuboidH3<FT,RT>::id() const
-{ return (int) PTR; }
-
-template < class FT, class RT >
-inline
-bool
-Iso_cuboidH3<FT,RT>::
-identical(const Iso_cuboidH3<FT,RT>& r) const
-{ return (PTR == r.PTR); }
-
-template < class FT, class RT >
-inline
-PointH2<FT,RT>
+PointH3<FT,RT>
 Iso_cuboidH3<FT,RT>::min() const
 { return  ptr()->e0; }
 
 template < class FT, class RT >
 inline
-PointH2<FT,RT>
+PointH3<FT,RT>
 Iso_cuboidH3<FT,RT>::max() const
 { return  ptr()->e1; }
 
@@ -276,26 +250,20 @@ Iso_cuboidH3<FT,RT>::vertex(int i) const
   switch (i%8)
   {
     case 0: return min();
-    case 1: return PointH3<FT,RT>( max.hx(), min.hy(), min.hz(),
-                                        min.hw() );
-    case 2: return PointH3<FT,RT>( max.hx(), max.hy(), min.hz(),
-                                        min.hw() );
-    case 3: return PointH3<FT,RT>( min.hx(), max.hy(), min.hz(),
-                                        min.hw() );
-    case 4: return PointH3<FT,RT>( min.hx(), max.hy(), max.hz(),
-                                        min.hw() );
-    case 5: return PointH3<FT,RT>( min.hx(), min.hy(), max.hz(),
-                                        min.hw() );
-    case 6: return PointH3<FT,RT>( max.hx(), min.hy(), max.hz(),
-                                        min.hw() );
+    case 1: return PointH3<FT,RT>( max().hx(), min().hy(), min().hz(), min().hw() );
+    case 2: return PointH3<FT,RT>( max().hx(), max().hy(), min().hz(), min().hw() );
+    case 3: return PointH3<FT,RT>( min().hx(), max().hy(), min().hz(), min().hw() );
+    case 4: return PointH3<FT,RT>( min().hx(), max().hy(), max().hz(), min().hw() );
+    case 5: return PointH3<FT,RT>( min().hx(), min().hy(), max().hz(), min().hw() );
+    case 6: return PointH3<FT,RT>( max().hx(), min().hy(), max().hz(), min().hw() );
     case 7: return max();
   }
-  return PointH2<FT,RT>();
+  return PointH3<FT,RT>();
 }
 
 template < class FT, class RT >
 inline
-PointH2<FT,RT>
+PointH3<FT,RT>
 Iso_cuboidH3<FT,RT>::operator[](int i) const
 { return vertex(i); }
 
@@ -303,57 +271,49 @@ template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
 Bounded_side
 Iso_cuboidH3<FT,RT>::
-bounded_side(const PointH2<FT,RT>& p) const
+bounded_side(const PointH3<FT,RT>& p) const
 {
-  if (   ( lexicographically_smaller(p,min() )
-       ||( lexicographically_smaller(max(),p )
-     )
-  {
-      return ON_UNBOUNDED_SIDE;
-  }
-  if (    (p.hx()*min.hw() == min.hx()*p.hw() )
-        ||(p.hy()*min.hw() == min.hy()*p.hw() )
-        ||(p.hz()*min.hw() == min.hz()*p.hw() )
-        ||(p.hx()*max.hw() == max.hx()*p.hw() )
-        ||(p.hy()*max.hw() == max.hy()*p.hw() )
-        ||(p.hz()*max.hw() == max.hz()*p.hw() )
-     )
-  {
-      return ON_BOUNDARY
-  }
+  if (   ( lexicographically_xyz_smaller(p,min() ))
+       ||( lexicographically_xyz_smaller(max(),p) )  )
+  { return ON_UNBOUNDED_SIDE; }
+  if (    (p.hx()*min().hw() == min().hx()*p.hw() )
+        ||(p.hy()*min().hw() == min().hy()*p.hw() )
+        ||(p.hz()*min().hw() == min().hz()*p.hw() )
+        ||(p.hx()*max().hw() == max().hx()*p.hw() )
+        ||(p.hy()*max().hw() == max().hy()*p.hw() )
+        ||(p.hz()*max().hw() == max().hz()*p.hw() )  )
+  { return ON_BOUNDARY; }
   else
-  {
-      return ON_BOUNDED_SIDE
-  }
+  { return ON_BOUNDED_SIDE; }
 }
 
 template < class FT, class RT >
 inline
 bool
-Iso_cuboidH3<FT,RT>::has_on_boundary(const PointH2<FT,RT>& p) const
+Iso_cuboidH3<FT,RT>::has_on_boundary(const PointH3<FT,RT>& p) const
 { return ( bounded_side(p) == ON_BOUNDARY ); }
 
 template < class FT, class RT >
 inline
 bool
-Iso_cuboidH3<FT,RT>::has_on(const PointH2<FT,RT>& p) const
+Iso_cuboidH3<FT,RT>::has_on(const PointH3<FT,RT>& p) const
 { return ( bounded_side(p) == ON_BOUNDARY ); }
 
 template < class FT, class RT >
 inline
 bool
 Iso_cuboidH3<FT,RT>::
-has_on_bounded_side(const PointH2<FT,RT>& p) const
+has_on_bounded_side(const PointH3<FT,RT>& p) const
 { return ( bounded_side(p) == ON_BOUNDED_SIDE ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
 Iso_cuboidH3<FT,RT>::
-has_on_unbounded_side(const PointH2<FT,RT>& p) const
+has_on_unbounded_side(const PointH3<FT,RT>& p) const
 {
-  return (   ( lexicographically_smaller(p,min() )
-           ||( lexicographically_smaller(max(),p )  );
+  return (   ( lexicographically_xyz_smaller(p,min() ))
+           ||( lexicographically_xyz_smaller(max(),p ))  );
 }
 
 template < class FT, class RT >
@@ -375,10 +335,10 @@ template < class FT, class RT >
 CGAL_KERNEL_INLINE
 Iso_cuboidH3<FT,RT>
 Iso_cuboidH3<FT,RT>::
-transform(const Aff_transformationH2<FT,RT>&t) const
+transform(const Aff_transformationH3<FT,RT>&t) const
 {
   return Iso_cuboidH3<FT,RT>(t.transform(min() ),
-                                  t.transform(max() ) );
+                             t.transform(max() ) );
 }
 
 #ifndef NO_OSTREAM_INSERT_ISO_CUBOIDH3

@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1997 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 //
 // file          : include/CGAL/IO/io.h
-// package       : iostream (2.1)
+// package       : iostream (2.5)
 // source        : $RCSfile: io.h,v $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/05/27 13:54:49 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1999/07/02 09:02:51 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : Herve Bronnimann
@@ -53,7 +50,7 @@
 #ifndef CGAL_IO_H
 #define CGAL_IO_H
 
-#include <iostream.h>
+#include <iostream>
 #include <CGAL/IO/io_tags.h>
 #include <CGAL/IO/Color.h>
 #include <CGAL/Object.h>
@@ -95,7 +92,7 @@ inline io_Read_write io_tag(char){ return io_Read_write(); }
 template < class T >
 inline
 void
-write(ostream& os, const T& t, const io_Read_write&)
+write(std::ostream& os, const T& t, const io_Read_write&)
 {
     os.write((char*)&t, sizeof(t));
 }
@@ -104,7 +101,7 @@ write(ostream& os, const T& t, const io_Read_write&)
 template < class T >
 inline
 void
-write(ostream& os, const T& t, const io_Operator&)
+write(std::ostream& os, const T& t, const io_Operator&)
 {
     os << t;
 }
@@ -113,7 +110,7 @@ write(ostream& os, const T& t, const io_Operator&)
 template < class T >
 inline
 void
-write(ostream& os, const T& t, const io_Extract_insert&)
+write(std::ostream& os, const T& t, const io_Extract_insert&)
 {
     insert(os, t);
 }
@@ -122,7 +119,7 @@ write(ostream& os, const T& t, const io_Extract_insert&)
 template < class T >
 inline
 void
-write(ostream& os, const T& t)
+write(std::ostream& os, const T& t)
 {
     write(os, t, io_tag(t));
 }
@@ -131,7 +128,7 @@ write(ostream& os, const T& t)
 template < class T >
 inline
 void
-read(istream& is, T& t, const io_Read_write&)
+read(std::istream& is, T& t, const io_Read_write&)
 {
     is.read((char*)&t, sizeof(t));
 }
@@ -140,7 +137,7 @@ read(istream& is, T& t, const io_Read_write&)
 template < class T >
 inline
 void
-read(istream& is, T& t, const io_Operator&)
+read(std::istream& is, T& t, const io_Operator&)
 {
     is >> t;
 }
@@ -149,7 +146,7 @@ read(istream& is, T& t, const io_Operator&)
 template < class T >
 inline
 void
-read(istream& is, T& t, const io_Extract_insert&)
+read(std::istream& is, T& t, const io_Extract_insert&)
 {
     extract(is, t);
 }
@@ -158,14 +155,14 @@ read(istream& is, T& t, const io_Extract_insert&)
 template < class T >
 inline
 void
-read(istream& is, T& t)
+read(std::istream& is, T& t)
 {
     read(is, t, io_tag(t));
 }
 
 
 inline
-ostream& operator<<( ostream& out, const Color& col)
+std::ostream& operator<<( std::ostream& out, const Color& col)
 {
     switch(out.iword(IO::mode)) {
     case IO::ASCII :
@@ -182,7 +179,7 @@ ostream& operator<<( ostream& out, const Color& col)
 }
 
 inline
-istream &operator>>(istream &is, Color& col)
+std::istream &operator>>(std::istream &is, Color& col)
 {
     int r, g, b;
     switch(is.iword(IO::mode)) {
@@ -195,8 +192,8 @@ istream &operator>>(istream &is, Color& col)
         read(is, b);
         break;
     default:
-        cerr << "" << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
     }
     col = Color(r,g,b);

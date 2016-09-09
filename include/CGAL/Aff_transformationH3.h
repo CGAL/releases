@@ -1,46 +1,43 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The GALIA Consortium
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
 //
-// This software and related documentation is part of the
-// Computational Geometry Algorithms Library (CGAL).
+// Every use of CGAL requires a license. 
 //
-// Every use of CGAL requires a license. Licenses come in three kinds:
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
 //
-// - For academic research and teaching purposes, permission to use and
-//   copy the software and its documentation is hereby granted free of  
-//   charge, provided that
-//   (1) it is not a component of a commercial product, and
-//   (2) this notice appears in all copies of the software and
-//       related documentation.
-// - Development licenses grant access to the source code of the library 
-//   to develop programs. These programs may be sold to other parties as 
-//   executable code. To obtain a development license, please contact
-//   the GALIA Consortium (at cgal@cs.uu.nl).
-// - Commercialization licenses grant access to the source code and the
-//   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 //
-// This software and documentation is provided "as-is" and without
-// warranty of any kind. In no event shall the CGAL Consortium be
-// liable for any damage of any kind.
-//
-// The GALIA Consortium consists of Utrecht University (The Netherlands),
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.0
-// release_date  : 1999, June 03
+// release       : CGAL-2.1
+// release_date  : 2000, January 11
 // 
 // source        : Aff_transformationH3.fw
 // file          : include/CGAL/Aff_transformationH3.h
-// package       : H3 (2.2.1)
-// revision      : 2.2.1
-// revision_date : 26 May 1999 
+// package       : H3 (2.3.7)
+// revision      : 2.3.7
+// revision_date : 03 Dec 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -66,92 +63,115 @@ CGAL_BEGIN_NAMESPACE
 
 // forward declaration
 template < class FT, class RT >
-class _Aff_transformationH3;
+class Aff_transformationH3;
 
 template < class FT, class RT >
-class _Aff_transformation_repH3;
+class Aff_transformation_repH3;
 
 template < class FT, class RT >
 Aff_transformationH3<FT,RT>
 _general_transformation_composition (
-                           _Aff_transformation_repH3<FT,RT> l,
-                           _Aff_transformation_repH3<FT,RT> r
+                           Aff_transformation_repH3<FT,RT> l,
+                           Aff_transformation_repH3<FT,RT> r
                                          );
 
 template <class _FT, class _RT >
-class _Aff_transformation_rep_baseH3 : public Rep
+class Aff_transformation_rep_baseH3 : public Rep
 // abstract base class of aff transformation representations
 {
 public:
   typedef _FT           FT;
   typedef _RT           RT;
 
-  virtual  ~_Aff_transformation_rep_baseH3(){}
+  virtual  ~Aff_transformation_rep_baseH3(){}
 
   virtual  PointH3<FT,RT>
-                        transform(const PointH3<FT,RT>&) const = 0;
+           transform(const PointH3<FT,RT>&) const = 0;
+
   virtual  VectorH3<FT,RT>
-                        transform(const VectorH3<FT,RT>&) const = 0;
+           transform(const VectorH3<FT,RT>&) const = 0;
+
   virtual  DirectionH3<FT,RT>
-                        transform(const DirectionH3<FT,RT>&) const = 0;
+           transform(const DirectionH3<FT,RT>&) const = 0;
+
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
   virtual  PlaneH3<FT,RT>
-                        transform(const PlaneH3<FT,RT>&) const = 0;
+           transform(const PlaneH3<FT,RT>&) const = 0;
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
+
   virtual  Aff_transformationH3<FT,RT>
-                        inverse() const = 0;
+           inverse() const = 0;
+
   virtual  Aff_transformationH3<FT,RT>
-                        transpose() const = 0;
-  virtual  _Aff_transformation_repH3<FT,RT>
-                        general_form() const = 0;
-  virtual  bool         is_even() const = 0;
-  virtual  RT           homogeneous(int i, int j) const = 0;
-  virtual  FT           cartesian(int i, int j) const = 0;
+           transpose() const = 0;
+
+  virtual  Aff_transformation_repH3<FT,RT>
+           general_form() const = 0;
+
+  virtual  bool
+           is_even() const = 0;
+
+  virtual  RT
+           homogeneous(int i, int j) const = 0;
+
+  virtual  FT
+           cartesian(int i, int j) const = 0;
 };
 
 template < class _FT, class _RT >
-class _Aff_transformation_repH3 :
-  public _Aff_transformation_rep_baseH3<_FT,_RT>
+class Aff_transformation_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
 {
 public:
   typedef _FT           FT;
   typedef _RT           RT;
 
-  _Aff_transformation_repH3();
-  _Aff_transformation_repH3(
+  Aff_transformation_repH3();
+  Aff_transformation_repH3(
                     const RT& m00, const RT& m01, const RT& m02, const RT& m03,
                     const RT& m10, const RT& m11, const RT& m12, const RT& m13,
                     const RT& m20, const RT& m21, const RT& m22, const RT& m23,
                                                                  const RT& m33);
-  virtual  ~_Aff_transformation_repH3() {}
+  virtual  ~Aff_transformation_repH3() {}
 
   virtual  PointH3<FT,RT>
-                       transform(const PointH3<FT,RT>& p) const;
+           transform(const PointH3<FT,RT>& p) const;
+
   virtual  VectorH3<FT,RT>
-                       transform(const VectorH3<FT,RT>& v) const;
+           transform(const VectorH3<FT,RT>& v) const;
+
   virtual  DirectionH3<FT,RT>
-                       transform(const DirectionH3<FT,RT>& dir) const;
+           transform(const DirectionH3<FT,RT>& dir) const;
+
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
   virtual  PlaneH3<FT,RT>
-                       transform(const PlaneH3<FT,RT>& pl) const;
+           transform(const PlaneH3<FT,RT>& pl) const;
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
+
   virtual  Aff_transformationH3<FT,RT>
-                       inverse() const;
-  virtual  _Aff_transformation_repH3<FT,RT>
-                       general_form() const;
+           inverse() const;
+
+  virtual  Aff_transformation_repH3<FT,RT>
+           general_form() const;
+
   virtual  Aff_transformationH3<FT,RT>
-                       transpose() const;
-  virtual  bool        is_even() const;
-  virtual  RT          homogeneous(int i, int j) const ;
-  virtual  FT          cartesian(int i, int j) const ;
+           transpose() const;
+
+  virtual  bool
+           is_even() const;
+
+  virtual  RT
+           homogeneous(int i, int j) const ;
+
+  virtual  FT
+           cartesian(int i, int j) const ;
 
 friend class Aff_transformationH3<FT,RT>;
 
 friend
 Aff_transformationH3<FT,RT>
 _general_transformation_composition CGAL_NULL_TMPL_ARGS (
-                           _Aff_transformation_repH3<FT,RT> l,
-                           _Aff_transformation_repH3<FT,RT> r
+                           Aff_transformation_repH3<FT,RT> l,
+                           Aff_transformation_repH3<FT,RT> r
                                                              );
 
 friend
@@ -167,36 +187,106 @@ private:
 };
 
 template < class _FT, class _RT >
-class _Translation_repH3 :
-  public _Aff_transformation_rep_baseH3<_FT,_RT>
+class Identity_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
 {
 public:
   typedef _FT           FT;
   typedef _RT           RT;
 
-  _Translation_repH3();
-  _Translation_repH3( const VectorH3<FT,RT>& v);
-  virtual  ~_Translation_repH3() {}
+           Identity_repH3()
+           {}
+
+  virtual  ~Identity_repH3()
+           {}
 
   virtual  PointH3<FT,RT>
-                        transform(const PointH3<FT,RT>& p) const;
+           transform(const PointH3<FT,RT>& p) const
+           { return p; }
+
   virtual  VectorH3<FT,RT>
-                        transform(const VectorH3<FT,RT>& v) const;
+           transform(const VectorH3<FT,RT>& v) const
+           { return v; }
+
   virtual  DirectionH3<FT,RT>
-                        transform(const DirectionH3<FT,RT>& dir) const;
+           transform(const DirectionH3<FT,RT>& dir) const
+           { return dir; }
+
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
   virtual  PlaneH3<FT,RT>
-                        transform(const PlaneH3<FT,RT>& pl) const;
+           transform(const PlaneH3<FT,RT>& pl) const
+           { return pl; }
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
+
   virtual  Aff_transformationH3<FT,RT>
-                        inverse() const;
-  virtual  _Aff_transformation_repH3<FT,RT>
-                        general_form() const;
+           inverse() const
+           { return Aff_transformationH3<FT,RT>( IDENTITY); }
+
+  virtual  Aff_transformation_repH3<FT,RT>
+           general_form() const;
+
   virtual  Aff_transformationH3<FT,RT>
-                        transpose() const;
-  virtual  bool         is_even() const;
-  virtual  RT           homogeneous(int i, int j) const ;
-  virtual  FT           cartesian(int i, int j) const ;
+           transpose() const
+           { return Aff_transformationH3<FT,RT>( IDENTITY); }
+
+  virtual  bool
+           is_even() const
+           { return true; }
+
+  virtual  RT
+           homogeneous(int i, int j) const
+           { return (i==j) ? RT(1) : RT(0); }
+
+  virtual  FT
+           cartesian(int i, int j) const
+           { return (i==j) ? FT(1) : FT(0); }
+};
+
+
+template < class _FT, class _RT >
+class Translation_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
+{
+public:
+  typedef _FT           FT;
+  typedef _RT           RT;
+
+           Translation_repH3();
+
+           Translation_repH3( const VectorH3<FT,RT>& v);
+
+  virtual  ~Translation_repH3() {}
+
+
+  virtual  PointH3<FT,RT>
+           transform(const PointH3<FT,RT>& p) const;
+
+  virtual  VectorH3<FT,RT>
+           transform(const VectorH3<FT,RT>& v) const;
+
+  virtual  DirectionH3<FT,RT>
+           transform(const DirectionH3<FT,RT>& dir) const;
+
+#ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
+  virtual  PlaneH3<FT,RT>
+           transform(const PlaneH3<FT,RT>& pl) const;
+#endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
+
+  virtual  Aff_transformationH3<FT,RT>
+           inverse() const;
+
+  virtual  Aff_transformation_repH3<FT,RT>
+           general_form() const;
+
+  virtual  Aff_transformationH3<FT,RT>
+           transpose() const;
+
+  virtual  bool
+           is_even() const;
+
+  virtual  RT
+           homogeneous(int i, int j) const ;
+
+  virtual  FT
+           cartesian(int i, int j) const ;
 
 friend class Aff_transformationH3<FT,RT>;
 
@@ -213,13 +303,18 @@ public:
   typedef _RT           RT;
 
   Aff_transformationH3();
+
   Aff_transformationH3(const Aff_transformationH3<FT,RT>& tbc);
+
+  // Identity
+  Aff_transformationH3(const Identity_transformation&);
+
   // Translation
-  Aff_transformationH3(const Translation& ,
-                            const VectorH3<FT,RT>& v);
+  Aff_transformationH3(const Translation& , const VectorH3<FT,RT>& v);
+
   //  Scaling
-  Aff_transformationH3(const Scaling&,
-                            const RT& num, const RT& den);
+  Aff_transformationH3(const Scaling&, const RT& num, const RT& den);
+
   //  General form
   Aff_transformationH3(
                   const RT& m00, const RT& m01, const RT& m02, const RT& m03,
@@ -231,42 +326,64 @@ public:
                   const RT& m10, const RT& m11, const RT& m12,
                   const RT& m20, const RT& m21, const RT& m22,
                                                                const RT& m33);
+
 #ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
-  Aff_transformationH3(_Aff_transformation_repH3<FT,RT>* ptr);
+  Aff_transformationH3(Aff_transformation_repH3<FT,RT>* ptr);
 #endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
+
   ~Aff_transformationH3();
 
 
-  PointH3<FT,RT>   transform(const PointH3<FT,RT>& p) const;
-  VectorH3<FT,RT>  transform(const VectorH3<FT,RT>& v) const;
+  PointH3<FT,RT>
+  transform(const PointH3<FT,RT>& p) const;
+
+  VectorH3<FT,RT>
+  transform(const VectorH3<FT,RT>& v) const;
+
   DirectionH3<FT,RT>
-                        transform(const DirectionH3<FT,RT>& d) const;
+  transform(const DirectionH3<FT,RT>& d) const;
+
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
-    PlaneH3<FT,RT> transform(const PlaneH3<FT,RT>& pl) const;
+  PlaneH3<FT,RT>
+  transform(const PlaneH3<FT,RT>& pl) const;
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
-    Aff_transformationH3<FT,RT>
-                        inverse()   const;
-    Aff_transformationH3<FT,RT>
-                        transpose() const;
-    bool                is_even()   const;
-    bool                is_odd()    const;
-    FT                  cartesian(int i, int j) const
-                        { return ptr()->cartesian(i,j); }
-    RT                  homogeneous(int i, int j) const
-                        { return ptr()->homogeneous(i,j); }
-    FT                  m(int i, int j) const
-                        { return ptr()->cartesian(i,j); }
-    RT                  hm(int i, int j) const
-                        { return ptr()->homogeneous(i,j); }
+
+  Aff_transformationH3<FT,RT>
+  inverse()   const;
+
+  Aff_transformationH3<FT,RT>
+  transpose() const;
+
+  bool
+  is_even()   const;
+
+  bool
+  is_odd()    const;
+
+  FT
+  cartesian(int i, int j) const
+  { return ptr()->cartesian(i,j); }
+
+  RT
+  homogeneous(int i, int j) const
+  { return ptr()->homogeneous(i,j); }
+
+  FT
+  m(int i, int j) const
+  { return ptr()->cartesian(i,j); }
+
+  RT
+  hm(int i, int j) const
+  { return ptr()->homogeneous(i,j); }
 
 // protected:
-    _Aff_transformation_rep_baseH3<FT,RT>*   ptr() const;
+  Aff_transformation_rep_baseH3<FT,RT>*   ptr() const;
 };
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-_Aff_transformation_repH3<FT,RT>::_Aff_transformation_repH3()
+Aff_transformation_repH3<FT,RT>::Aff_transformation_repH3()
 #ifdef INITIALIZE_AFF_TRANSFORMATIONS
   :  t00(RT(1)), t01(RT(0)), t02(RT(0)), t03(RT(0)),
      t10(RT(0)), t11(RT(1)), t12(RT(0)), t13(RT(0)),
@@ -279,8 +396,7 @@ _Aff_transformation_repH3<FT,RT>::_Aff_transformation_repH3()
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-_Aff_transformation_repH3<FT,RT>::
-_Aff_transformation_repH3(
+Aff_transformation_repH3<FT,RT>::Aff_transformation_repH3(
                    const RT& m00, const RT& m01, const RT& m02, const RT& m03,
                    const RT& m10, const RT& m11, const RT& m12, const RT& m13,
                    const RT& m20, const RT& m21, const RT& m22, const RT& m23,
@@ -294,65 +410,64 @@ _Aff_transformation_repH3(
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 PointH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::
-transform(const PointH3<FT,RT>& p) const
+Aff_transformation_repH3<FT,RT>::transform(const PointH3<FT,RT>& p) const
 {
   return
   PointH3<FT,RT>(t00 * p.hx() + t01 * p.hy() + t02 * p.hz() + t03 * p.hw(),
-                      t10 * p.hx() + t11 * p.hy() + t12 * p.hz() + t13 * p.hw(),
-                      t20 * p.hx() + t21 * p.hy() + t22 * p.hz() + t23 * p.hw(),
-                                                                   t33 * p.hw()
-                     );
+                 t10 * p.hx() + t11 * p.hy() + t12 * p.hz() + t13 * p.hw(),
+                 t20 * p.hx() + t21 * p.hy() + t22 * p.hz() + t23 * p.hw(),
+                 t33 * p.hw());
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 VectorH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::
-transform(const VectorH3<FT,RT>& v) const
+Aff_transformation_repH3<FT,RT>::transform(const VectorH3<FT,RT>& v) const
 {
   return
   VectorH3<FT,RT>(t00 * v.hx() + t01 * v.hy() + t02 * v.hz(),
-                       t10 * v.hx() + t11 * v.hy() + t12 * v.hz(),
-                       t20 * v.hx() + t21 * v.hy() + t22 * v.hz(),
-                                                     t33 * v.hw() );
+                  t10 * v.hx() + t11 * v.hy() + t12 * v.hz(),
+                  t20 * v.hx() + t21 * v.hy() + t22 * v.hz(),
+                  t33 * v.hw() );
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 DirectionH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::
-transform(const DirectionH3<FT,RT>& dir) const
+Aff_transformation_repH3<FT,RT>::transform(const DirectionH3<FT,RT>& d) const
 {
-  VectorH3<FT,RT> v( dir.vector() );
-  return DirectionH3<FT,RT>( t00 * v.hx() + t01 * v.hy() + t02 * v.hz(),
-                                  t10 * v.hx() + t11 * v.hy() + t12 * v.hz(),
-                                  t20 * v.hx() + t21 * v.hy() + t22 * v.hz(),
-                                                                t33 * v.hw() );
+  VectorH3<FT,RT> v( d.to_vector() );
+  return DirectionH3<FT,RT>(t00 * v.hx() + t01 * v.hy() + t02 * v.hz(),
+                            t10 * v.hx() + t11 * v.hy() + t12 * v.hz(),
+                            t20 * v.hx() + t21 * v.hy() + t22 * v.hz(),
+                            t33 * v.hw() );
+
+/*
+  return DirectionH3<FT,RT>( t00 * d.hx() + t01 * d.hy() + t02 * d.hz(),
+                             t10 * d.hx() + t11 * d.hy() + t12 * d.hz(),
+                             t20 * d.hx() + t21 * d.hy() + t22 * d.hz() );
+*/
 }
 
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 PlaneH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::
-transform(const PlaneH3<FT,RT>& pl) const
+Aff_transformation_repH3<FT,RT>::transform(const PlaneH3<FT,RT>& pl) const
 {
   if ( is_even() )
   {
       return
         PlaneH3<FT,RT>(
                transform(pl.point() ),
-               transpose().inverse().transform(pl.orthogonal_direction() )
-                           );
+               transpose().inverse().transform(pl.orthogonal_direction() ));
   }
   else
   {
      return
        PlaneH3<FT,RT>(
                transform(pl.point() ),
-               -(transpose().inverse().transform(pl.orthogonal_direction() ))
-                          );
+               -(transpose().inverse().transform(pl.orthogonal_direction() )));
   }
 }
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
@@ -360,7 +475,7 @@ transform(const PlaneH3<FT,RT>& pl) const
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 Aff_transformationH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::inverse() const
+Aff_transformation_repH3<FT,RT>::inverse() const
 {
   const RT  RT0(0);
   return Aff_transformationH3<FT,RT>(
@@ -423,36 +538,36 @@ _Aff_transformation_repH3<FT,RT>::inverse() const
 
 template < class FT, class RT >
 inline
-_Aff_transformation_repH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::general_form() const
+Aff_transformation_repH3<FT,RT>
+Aff_transformation_repH3<FT,RT>::general_form() const
 { return *this; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 Aff_transformationH3<FT,RT>
-_Aff_transformation_repH3<FT,RT>::transpose() const
+Aff_transformation_repH3<FT,RT>::transpose() const
 {
   const RT  RT0(0);
   return Aff_transformationH3<FT,RT>( t00,    t10,    t20,    RT0,
-                                           t01,    t11,    t21,    RT0,
-                                           t02,    t12,    t22,    RT0,
-                                                                   t33);
+                                      t01,    t11,    t21,    RT0,
+                                      t02,    t12,    t22,    RT0,
+                                                              t33);
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
-_Aff_transformation_repH3<FT,RT>::is_even() const
+Aff_transformation_repH3<FT,RT>::is_even() const
 {
-  return (sign( t33 * det3x3_by_formula(t00, t01, t02,
-                                                  t10, t11, t12,
-                                                  t20, t21, t22 ) ) == 1 );
+  return (CGAL::sign( t33 * det3x3_by_formula(t00, t01, t02,
+                                              t10, t11, t12,
+                                              t20, t21, t22 ) ) == 1 );
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_LARGE_INLINE
 RT
-_Aff_transformation_repH3<FT,RT>::
+Aff_transformation_repH3<FT,RT>::
 homogeneous(int i, int j) const
 {
   CGAL_kernel_precondition( (i >= 0) && (i <= 3) && (j >= 0) && (j <= 3) );
@@ -494,16 +609,28 @@ homogeneous(int i, int j) const
 template < class FT, class RT >
 inline
 FT
-_Aff_transformation_repH3<FT,RT>::
+Aff_transformation_repH3<FT,RT>::
 cartesian(int i, int j) const
 {
   return  FT(homogeneous(i,j)) / FT(t33);
 }
+
+template <class FT, class RT>
+Aff_transformation_repH3<FT,RT>
+Identity_repH3<FT,RT>::general_form() const
+{
+  const RT  RT0(0);
+  const RT  RT1(1);
+  return Aff_transformation_repH3<FT,RT>(RT1, RT0, RT0, RT0,
+                                         RT0, RT1, RT0, RT0,
+                                         RT0, RT0, RT1, RT0,
+                                                        RT1 );
+}
 // not used (default ctor in Aff_transformationH3
-// calls default ctor of _Aff_transformation_repH3 )
+// calls default ctor of Aff_transformation_repH3 )
 template < class FT, class RT >
 inline
-_Translation_repH3<FT,RT>::_Translation_repH3()
+Translation_repH3<FT,RT>::Translation_repH3()
 #ifdef INITIALIZE_AFF_TRANSFORMATIONS
   : tv( VectorH3<FT,RT>( RT(0), RT(0) ))
 #endif // INITIALIZE_AFF_TRANSFORMATIONS
@@ -511,89 +638,84 @@ _Translation_repH3<FT,RT>::_Translation_repH3()
 
 template < class FT, class RT >
 inline
-_Translation_repH3<FT,RT>::
-_Translation_repH3( const VectorH3<FT,RT>& v) : tv(v)
+Translation_repH3<FT,RT>::Translation_repH3( const VectorH3<FT,RT>& v)
+ : tv(v)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 PointH3<FT,RT>
-_Translation_repH3<FT,RT>::transform(const PointH3<FT,RT>& p) const
+Translation_repH3<FT,RT>::transform(const PointH3<FT,RT>& p) const
 {
   return PointH3<FT,RT>( tv.hw() * p.hx() + tv.hx() * p.hw(),
-                              tv.hw() * p.hy() + tv.hy() * p.hw(),
-                              tv.hw() * p.hz() + tv.hz() * p.hw(),
-                              tv.hw() * p.hw() );
+                         tv.hw() * p.hy() + tv.hy() * p.hw(),
+                         tv.hw() * p.hz() + tv.hz() * p.hw(),
+                         tv.hw() * p.hw() );
 }
 
 template < class FT, class RT >
 inline
 VectorH3<FT,RT>
-_Translation_repH3<FT,RT>::
-transform(const VectorH3<FT,RT>& v) const
+Translation_repH3<FT,RT>::transform(const VectorH3<FT,RT>& v) const
 { return v; }
 
 template < class FT, class RT >
 inline
 DirectionH3<FT,RT>
-_Translation_repH3<FT,RT>::
-transform(const DirectionH3<FT,RT>& dir) const
+Translation_repH3<FT,RT>::transform(const DirectionH3<FT,RT>& dir) const
 { return dir; }
 
 #ifndef CGAL_NO_PLANE_TRANSFORM_IN_AT
 template < class FT, class RT >
 inline
 PlaneH3<FT,RT>
-_Translation_repH3<FT,RT>::
-transform(const PlaneH3<FT,RT>& pl) const
+Translation_repH3<FT,RT>::transform(const PlaneH3<FT,RT>& pl) const
 {
-  return PlaneH3<FT,RT>( transform( pl.point() ),
-                              pl.orthogonal_vector()  );
+  return PlaneH3<FT,RT>( transform( pl.point() ), pl.orthogonal_vector() );
 }
 #endif // CGAL_NO_PLANE_TRANSFORM_IN_AT
 
 template < class FT, class RT >
 inline
 Aff_transformationH3<FT,RT>
-_Translation_repH3<FT,RT>::inverse() const
+Translation_repH3<FT,RT>::inverse() const
 { return Aff_transformationH3<FT,RT>(TRANSLATION,  - tv ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-_Aff_transformation_repH3<FT,RT>
-_Translation_repH3<FT,RT>::general_form() const
+Aff_transformation_repH3<FT,RT>
+Translation_repH3<FT,RT>::general_form() const
 {
   const RT  RT0(0);
-  return _Aff_transformation_repH3<FT,RT>(tv.hw(), RT0,  RT0,  tv.hx(),
-                                               RT0,  tv.hw(), RT0,  tv.hy(),
-                                               RT0,  RT0,  tv.hw(), tv.hz(),
-                                                                    tv.hw() );
+  return Aff_transformation_repH3<FT,RT>(tv.hw(), RT0,  RT0,  tv.hx(),
+                                         RT0,  tv.hw(), RT0,  tv.hy(),
+                                         RT0,  RT0,  tv.hw(), tv.hz(),
+                                                              tv.hw() );
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 Aff_transformationH3<FT,RT>
-_Translation_repH3<FT,RT>::transpose() const
+Translation_repH3<FT,RT>::transpose() const
 {
  const RT  RT0(0);
  const RT  RT1(1);
  return Aff_transformationH3<FT,RT>( RT1,  RT0,  RT0,  RT0,
-                                          RT0,  RT1,  RT0,  RT0,
-                                          RT0,  RT0,  RT1,  RT0,
-                                                            RT1 );
+                                     RT0,  RT1,  RT0,  RT0,
+                                     RT0,  RT0,  RT1,  RT0,
+                                                       RT1 );
 }
 
 template < class FT, class RT >
 inline
 bool
-_Translation_repH3<FT,RT>::is_even() const
+Translation_repH3<FT,RT>::is_even() const
 { return true; }
 
 template < class FT, class RT >
 CGAL_KERNEL_LARGE_INLINE
 RT
-_Translation_repH3<FT,RT>::
-homogeneous(int i, int j) const
+Translation_repH3<FT,RT>::homogeneous(int i, int j) const
 {
   CGAL_kernel_precondition( (i >= 0) && (i <= 3) && (j >= 0) && (j <= 3) );
   const RT  RT0(0);
@@ -634,7 +756,7 @@ homogeneous(int i, int j) const
 template < class FT, class RT >
 inline
 FT
-_Translation_repH3<FT,RT>::
+Translation_repH3<FT,RT>::
 cartesian(int i, int j) const
 {
   return FT(homogeneous(i,j)) / FT(tv.hw());
@@ -645,8 +767,8 @@ template < class FT, class RT >
 CGAL_KERNEL_INLINE
 Aff_transformationH3<FT,RT>
 _general_transformation_composition(
-    _Aff_transformation_repH3<FT,RT> l,
-    _Aff_transformation_repH3<FT,RT> r )
+    Aff_transformation_repH3<FT,RT> l,
+    Aff_transformation_repH3<FT,RT> r )
 {
   return Aff_transformationH3<FT,RT>(
             l.t00*r.t00 + l.t01*r.t10 + l.t02*r.t20,
@@ -670,7 +792,7 @@ _general_transformation_composition(
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 Aff_transformationH3<FT,RT>::Aff_transformationH3()
-{ PTR = new _Aff_transformation_repH3<FT,RT>(); }
+{ PTR = new Aff_transformation_repH3<FT,RT>(); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -682,9 +804,14 @@ Aff_transformationH3( const Aff_transformationH3<FT,RT>& tbc)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 Aff_transformationH3<FT,RT>::
-Aff_transformationH3(const Translation&,
-                          const VectorH3<FT,RT>& v)
-{ PTR = new _Translation_repH3<FT,RT>( v ); }
+Aff_transformationH3(const Identity_transformation&)
+{ PTR = new Identity_repH3<FT,RT>(); }
+
+template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
+Aff_transformationH3<FT,RT>::
+Aff_transformationH3(const Translation&, const VectorH3<FT,RT>& v)
+{ PTR = new Translation_repH3<FT,RT>( v ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -692,10 +819,10 @@ Aff_transformationH3<FT,RT>::
 Aff_transformationH3(const Scaling&, const RT& num, const RT& den)
 {
   const RT RT0(0);
-  PTR = new _Aff_transformation_repH3<FT,RT>(num, RT0, RT0, RT0,
-                                                  RT0, num, RT0, RT0,
-                                                  RT0, RT0, num, RT0,
-                                                                 den );
+  PTR = new Aff_transformation_repH3<FT,RT>(num, RT0, RT0, RT0,
+                                            RT0, num, RT0, RT0,
+                                            RT0, RT0, num, RT0,
+                                                           den );
 }
 
 template < class FT, class RT >
@@ -707,10 +834,10 @@ Aff_transformationH3(
                   const RT& m20, const RT& m21, const RT& m22, const RT& m23,
                                                                const RT& m33)
 {
-  PTR = new _Aff_transformation_repH3<FT,RT>(m00, m01, m02, m03,
-                                                  m10, m11, m12, m13,
-                                                  m20, m21, m22, m23,
-                                                                 m33 );
+  PTR = new Aff_transformation_repH3<FT,RT>(m00, m01, m02, m03,
+                                            m10, m11, m12, m13,
+                                            m20, m21, m22, m23,
+                                                           m33 );
 }
 
 template < class FT, class RT >
@@ -723,18 +850,18 @@ Aff_transformationH3(
                                                                const RT& m33)
 {
   const RT RT0 = RT(0);
-  PTR = new _Aff_transformation_repH3<FT,RT>(m00, m01, m02, RT0,
-                                                  m10, m11, m12, RT0,
-                                                  m20, m21, m22, RT0,
-                                                                 m33 );
+  PTR = new Aff_transformation_repH3<FT,RT>(m00, m01, m02, RT0,
+                                            m10, m11, m12, RT0,
+                                            m20, m21, m22, RT0,
+                                                           m33 );
 }
 
 template < class FT, class RT >
 inline
-_Aff_transformation_rep_baseH3<FT,RT>*
+Aff_transformation_rep_baseH3<FT,RT>*
 Aff_transformationH3<FT,RT>::ptr() const
 // static_cast
-{ return (_Aff_transformation_rep_baseH3<FT,RT>*) PTR; }
+{ return (Aff_transformation_rep_baseH3<FT,RT>*) PTR; }
 
 template < class FT, class RT >
 inline
@@ -811,7 +938,7 @@ operator<< ( std::ostream & out,
              const Aff_transformationH3<FT,RT>& t)
 {
  RT RT0(0);
- _Aff_transformation_repH3<FT,RT> r = t.ptr()->general_form();
+ Aff_transformation_repH3<FT,RT> r = t.ptr()->general_form();
  return  out
  << "| "<< r.t00 <<' '<< r.t01 <<' '<< r.t02 <<' '<< r.t03 << " |\n"
  << "| "<< r.t10 <<' '<< r.t11 <<' '<< r.t12 <<' '<< r.t13 << " |\n"
