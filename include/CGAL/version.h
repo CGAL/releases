@@ -26,10 +26,10 @@
 #define CGAL_xstr(s) #s
 #define CGAL_str(s) CGAL_xstr(s)
 
-#define CGAL_VERSION 4.5
-#define CGAL_VERSION_NR 1040501000
+#define CGAL_VERSION 4.5.1
+#define CGAL_VERSION_NR 1040511000
 #define CGAL_SVN_REVISION 99999
-#define CGAL_GIT_HASH 86ae58ef9f4ef15b328a4d61ef4c826f48c1f1c5
+#define CGAL_GIT_HASH 0ee08ef10081d14f62f261823ab3fd3e804c9c41
 #define CGAL_VERSION_STR CGAL_str(CGAL_VERSION)
 
 #endif
