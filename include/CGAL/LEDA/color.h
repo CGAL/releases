@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/LEDA/color.h
-// package       : cgal_window (1.0.4)
-// revision      : 1.0.3
-// revision_date : 25 June 2001
+// package       : cgal_window (1.0.8)
+// revision      : 1.0.6
+// revision_date : 13 September 2001
 // author(s)     : Matthias Baesken, Algorithmic Solutions
 //
 // coordinator   : Matthias Baesken, Trier  (<baesken>) 
@@ -124,8 +122,7 @@ public:
 
   operator int() const  { return col_index; }
 
-
-#if defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x500)
+#if defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x500) && (__SUNPRO_CC < 0x530)
 
 friend bool operator==(const color& c1 , const color& c2)
 { return c1.col_index == c2.col_index; }

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/Constrained_triang_traits.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Constrained_triang.lw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/16 12:47:21 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/25 08:14:25 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -64,12 +62,11 @@
 #include <CGAL/Nef_2/debug.h>
 
 CGAL_BEGIN_NAMESPACE
-#ifndef LEDA_ERROR_H
-static void error_handler(int n, const char* s)
+
+inline void CGAL_error_handler(int n, const char* s)
 { std::cerr << s << std::endl;
   exit(n);
 }
-#endif
 
 struct Do_nothing {
 Do_nothing() {}
@@ -133,11 +130,11 @@ public:
     int s = 0;
     if ( p == point(source(e1)) )      s =   orientation(e2,p);
     else if ( p == point(source(e2)) ) s = - orientation(e1,p);
-    else error_handler(1,"compare error in sweep.");
+    else CGAL_error_handler(1,"compare error in sweep.");
     if ( s || source(e1) == target(e1) || source(e2) == target(e2) ) 
       return ( s < 0 );
     s = orientation(e2,point(target(e1)));
-    if (s==0) error_handler(1,"parallel edges not allowed.");
+    if (s==0) CGAL_error_handler(1,"parallel edges not allowed.");
     return ( s < 0 );
   }
 
@@ -172,10 +169,10 @@ public:
     Halfedge_handle         e_low,e_high; // framing edges !
     Halfedge_handle         e_search;
 
-    Constrained_triang_traits(const INPUT& in, OUTPUT& out, const GEOMETRY& k) :
-      Base(out), K(k), event_Q(lt_pnts_xy(*this,K)), 
-      SL(lt_edges_in_sweepline(p_sweep,e_low,e_high,*this,K)), 
-      SLItem(SL.end()),  Treat_new_edge(in)
+    Constrained_triang_traits(const INPUT& in, OUTPUT& out, const GEOMETRY& k) 
+      : Base(out), K(k), event_Q(lt_pnts_xy(*this,K)), 
+        SL(lt_edges_in_sweepline(p_sweep,e_low,e_high,*this,K)), 
+        SLItem(SL.end()),  Treat_new_edge(in)
     { TRACEN("Constrained Triangulation Sweep"); }
 
 

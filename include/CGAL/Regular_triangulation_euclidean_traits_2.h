@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Regular_triangulation_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2001/05/30 10:05:37 $
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2002/01/24 15:05:20 $
 // author(s)     : Mariette Yvinec
 //                 Sylvain Pion
 //
@@ -81,7 +79,7 @@ weighted_circumcenter(const Weighted_point< Point,We >& p,
 		      Cartesian_tag )
 {
   
-  typename Point::RT x,y;
+  typename Point::R::RT x,y;
   weighted_circumcenterC2(p.x(),p.y(),p.weight(),
 			  q.x(),q.y(),q.weight(),
 			  r.x(),r.y(),r.weight(),x,y);
@@ -97,7 +95,7 @@ weighted_circumcenter(const Weighted_point< Point,We >& p,
 		      Homogeneous_tag )
 {
   
-  typename Point::RT x,y,w;
+  typename Point::R::RT x,y,w;
   weighted_circumcenterH2(p.hx(),p.hy(),p.hw(),p.weight(),
 			  q.hx(),q.hy(),q.hw(),q.weight(),
 			  r.hx(),r.hy(),r.hw(),r.weight(),
@@ -122,7 +120,7 @@ template <class Point, class Weight>
 class Construct_weighted_circumcenter_2
 {
 public:
-  typedef Weighted_point <Point, Weight>        Weighted_point;
+  typedef CGAL::Weighted_point <Point, Weight>        Weighted_point;
   Point operator() ( Weighted_point p,
 		     Weighted_point q,
 		     Weighted_point r) 
@@ -141,8 +139,8 @@ radical_axis(const Weighted_point< Point,We >& p,
 	     const Weighted_point< Point,We >& q,
 	     Cartesian_tag )
 {
-  typedef typename Point::RT RT;
-  typedef typename Point::R  Rep;
+  typedef typename Point::R::RT RT;
+  typedef typename Point::R     Rep;
   RT a,b,c;
   radical_axisC2(p.x(),p.y(),p.weight(),q.x(),q.y(),q.weight(),a,b,c);
   return Line_2<Rep>(a,b,c);
@@ -155,8 +153,8 @@ radical_axis(const Weighted_point< Point,We >& p,
 	     const Weighted_point< Point,We >& q,
 	      Homogeneous_tag)
 {
-  typedef typename Point::RT RT;
-  typedef typename Point::R  Rep;
+  typedef typename Point::R::RT RT;
+  typedef typename Point::R     Rep;
   RT a,b,c;
   radical_axisH2(p.hx(),p.hy(), p.hw(), p.weight(),
 		 q.hx(),q.hy(), q.hw(), q.weight(),a,b,c);
@@ -178,7 +176,7 @@ template <class Point, class Weight>
 class Construct_radical_axis_2
 {
 public:
-  typedef Weighted_point <Point, Weight>   Weighted_point;
+  typedef CGAL::Weighted_point <Point, Weight>   Weighted_point;
   typedef typename Point::R  R;
 
   Line_2<R> operator() ( Weighted_point p, Weighted_point q) 
@@ -199,7 +197,7 @@ power_test(const Weighted_point<Point, Weight> &p,
            const Weighted_point<Point, Weight> &t,
 	   Cartesian_tag )
 {
-  typedef typename Point::FT  FT;
+  typedef typename Point::R::FT  FT;
   return power_testC2(p.x(), p.y(), FT(p.weight()),
 		      q.x(), q.y(), FT(q.weight()),
 		      r.x(), r.y(), FT(r.weight()),
@@ -215,7 +213,7 @@ power_test(const Weighted_point<Point, Weight> &p,
            const Weighted_point<Point, Weight> &t,
 	   Homogeneous_tag )
 {
-  typedef typename Point::RT  RT;
+  typedef typename Point::R::RT  RT;
   return power_testH2(p.hx(), p.hy(), p.hw(), RT(p.weight()),
 		      q.hx(), q.hy(), q.hw(), RT(q.weight()),
 		      r.hx(), r.hy(), r.hw(), RT(r.weight()),
@@ -242,7 +240,7 @@ power_test(const Weighted_point<Point, Weight> &p,
            const Weighted_point<Point, Weight> &t,
 	   Cartesian_tag )
 {
-    typedef typename Point::FT  FT;
+    typedef typename Point::R::FT  FT;
     return power_testC2(p.x(), p.y(), FT(p.weight()),
                         q.x(), q.y(), FT(q.weight()),
                         t.x(), t.y(), FT(t.weight()));
@@ -257,7 +255,7 @@ power_test(const Weighted_point<Point, Weight> &p,
            const Weighted_point<Point, Weight> &t,
 	   Homogeneous_tag )
 {
-   typedef typename Point::RT  RT;
+   typedef typename Point::R::RT  RT;
     return power_testH2(p.hx(), p.hy(), p.hw(), RT(p.weight()),
                         q.hx(), q.hy(), q.hw(), RT(q.weight()),
                         t.hx(), t.hy(), t.hw(), RT(t.weight()));
@@ -278,7 +276,7 @@ template <class Point, class Weight>
 class Power_test_2
 {
 public:
-  typedef Weighted_point <Point, Weight>        Weighted_point;
+  typedef CGAL::Weighted_point <Point, Weight>        Weighted_point;
   Oriented_side operator() ( Weighted_point p,
 			     Weighted_point q,
 			     Weighted_point r,
@@ -293,7 +291,7 @@ template <class Point, class Weight>
 class Power_test_degenerated_2
 {
 public:
-  typedef Weighted_point <Point, Weight>        Weighted_point;
+  typedef CGAL::Weighted_point <Point, Weight>        Weighted_point;
   Oriented_side operator() ( Weighted_point p,
 			     Weighted_point q,
 			     Weighted_point r)
@@ -304,7 +302,7 @@ public:
     }
 };
 
-template < class R, class W = typename R::FT>
+template < class R, class W = CGAL_TYPENAME_MSVC_NULL  R::RT>
 class Regular_triangulation_euclidean_traits_2
   : public Triangulation_euclidean_traits_2<R>
 {
@@ -313,7 +311,7 @@ public:
   typedef W                                     Weight;
   typedef Triangulation_euclidean_traits_2 <R>  Traits;
   typedef typename Traits::Point_2              Bare_point;
-  typedef Weighted_point <Bare_point, W>        Weighted_point;
+  typedef CGAL::Weighted_point <Bare_point, W>  Weighted_point;
   // This is required for the point() function of vertex base class
   // to be correctly return a weighted_point;
   // patch 27/11/00

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Min_circle_2_Window_stream.h
-// package       : Min_circle_2 (3.12)
+// package       : Min_circle_2 (3.15)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Min_circle_2.aw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/17 11:24:29 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/04/13 23:13:17 $
 //
 // author(s)     : Sven Schönherr, Bernd Gärtner
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -90,7 +88,8 @@ CGAL::Window_stream&
 operator << ( CGAL::Window_stream &ws,
               const CGAL::Min_circle_2<Traits_>& min_circle)
 {
-    typedef  CGAL::Min_circle_2<Traits_>::Point_iterator  Point_iterator;
+    typedef typename CGAL::Min_circle_2<Traits_>::Point_iterator
+	                                          Point_iterator;
 
     Point_iterator  first( min_circle.points_begin());
     Point_iterator  last ( min_circle.points_end());

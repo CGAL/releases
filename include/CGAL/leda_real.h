@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/leda_real.h
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:56:26 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/20 19:59:54 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -58,13 +56,8 @@
 */
 
 #include <CGAL/basic.h>
+#include <CGAL/LEDA_basic.h>
 
-// #ifndef IO_IO_TAGS_H
-// #include <CGAL/IO/io_tags.h>
-// #endif // IO_IO_TAGS_H
-// #ifndef CGAL_NUMBER_TYPE_TAGS_H
-// #include <CGAL/number_type_tags.h>
-// #endif // CGAL_NUMBER_TYPE_TAGS_H
 #ifndef CGAL_PROTECT_LEDA_REAL_H
 #include <LEDA/real.h>
 #define CGAL_PROTECT_LEDA_REAL_H
@@ -72,6 +65,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
+template <> struct Number_type_traits<leda_real> {
+  typedef Tag_false Has_gcd;
+  typedef Tag_true  Has_division;
+  typedef Tag_true  Has_sqrt;
+};
 
 #ifndef CGAL_NO_NAMESPACE
 inline
@@ -83,12 +81,7 @@ to_double(const leda_real & r)
 inline
 leda_real
 sqrt(const leda_real & r)
-{ return ::sqrt(r); }
-
-inline
-Number_tag
-number_type_tag(const leda_real& )
-{ return Number_tag(); }
+{ return CGAL_LEDA_SCOPE::sqrt(r); }
 
 inline
 bool
@@ -109,13 +102,13 @@ io_tag(const leda_real &)
 inline
 Sign
 sign(const leda_real& r)
-{ return (Sign)::sign(r); }
+{ return (Sign)CGAL_LEDA_SCOPE::sign(r); }
 
 inline
 Comparison_result
 compare(const leda_real& r1, const leda_real& r2)
 {
-  int c = ::compare(r1,r2);
+  int c = CGAL_LEDA_SCOPE::compare(r1,r2);
   return (c < 0) ? SMALLER : ((0 < c) ?  LARGER : EQUAL);
 }
 #endif // CGAL_CFG_NO_NAMESPACE
@@ -131,6 +124,14 @@ to_interval (const leda_real & z)
   return ( Interval_nt_advanced(-rel_error,rel_error) + 1 ) * approx;
 }
 
+namespace NTS {
+  inline
+  leda_real
+  sqrt( const leda_real& n)
+  { 
+    return CGAL_LEDA_SCOPE::sqrt(n);
+  }
+}
 
 CGAL_END_NAMESPACE
 

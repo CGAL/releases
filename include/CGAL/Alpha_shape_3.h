@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Alpha_shape_3.h
-// package       : Alpha_shapes_3(1.0)
+// package       : Alpha_shapes_3 (3.16)
 // source        : $RCSfile: Alpha_shape_3.h,v $
-// revision      : $Revision: 1.14.2.1 $
-// revision_date : $Date: 2001/11/06 14:10:09 $
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2002/04/04 06:25:29 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -50,21 +48,17 @@
 #ifndef CGAL_ALPHA_SHAPE_3_H
 #define CGAL_ALPHA_SHAPE_3_H
 
-#include <assert.h>
 #include <CGAL/basic.h>
 
-#include <list>
+#include <cassert>
 #include <set>
 #include <map>
-
-
-#include <CGAL/triple.h>
 #include <vector>
-
 #include <algorithm>
 #include <utility>
 #include <iostream>
 
+#include <CGAL/utility.h>
 #include <CGAL/IO/Geomview_stream.h>  // TBC
 
 //-------------------------------------------------------------------
@@ -92,8 +86,7 @@ public:
   typedef typename Dt::Geom_traits Gt;
   typedef typename Dt::Triangulation_data_structure Tds;
 
-  typedef typename Gt::Rep Rp;
-  typedef typename Rp::FT Coord_type;
+  typedef typename Gt::FT Coord_type;
 
   typedef typename Gt::Point_3 Point;
   typedef typename Gt::Segment_3 Segment;
@@ -107,13 +100,18 @@ public:
   typedef typename Dt::Facet Facet;
   typedef typename Dt::Edge Edge;
 
-  typedef typename Dt::Cell_circulator Cell_circulator;
+  typedef typename Dt::Cell_circulator  Cell_circulator;
   typedef typename Dt::Facet_circulator Facet_circulator;
 
-  typedef typename Dt::Cell_iterator Cell_iterator;
-  typedef typename Dt::Facet_iterator Facet_iterator;
-  typedef typename Dt::Edge_iterator Edge_iterator;
+  typedef typename Dt::Cell_iterator   Cell_iterator;
+  typedef typename Dt::Facet_iterator  Facet_iterator;
+  typedef typename Dt::Edge_iterator   Edge_iterator;
   typedef typename Dt::Vertex_iterator Vertex_iterator;
+
+  typedef typename Dt::Finite_cells_iterator    Finite_cells_iterator;
+  typedef typename Dt::Finite_facets_iterator   Finite_facets_iterator;
+  typedef typename Dt::Finite_edges_iterator    Finite_edges_iterator;
+  typedef typename Dt::Finite_vertices_iterator Finite_vertices_iterator;
 
   typedef typename Dt::Locate_type Locate_type;
 
@@ -121,34 +119,33 @@ private:
 
   typedef long Key;
  
-  typedef std::pair< Coord_type, Cell_handle > Interval_cell;
-  typedef std::multimap< Coord_type, Cell_handle, std::less<Coord_type> > 
-  Interval_cell_map;
+  typedef std::multimap< Coord_type, Cell_handle > Interval_cell_map;
+  typedef typename Interval_cell_map::value_type   Interval_cell;
 
-  typedef triple<Coord_type, Coord_type , Coord_type> Interval3;
 
-  typedef std::pair< Interval3, Facet > Interval_facet;
-  typedef std::multimap< Interval3, Facet, std::less<Interval3> > 
-  Interval_facet_map;
 
   //   typedef Cell_handle const const_void;
   //   typedef std::pair< const_void, int > const_Facet;
   //   typedef std::pair< const_void, int > const_Vertex;
 
-  typedef std::pair< Interval3, Edge > Interval_edge;
-  typedef std::multimap< Interval3, Edge, std::less<Interval3> > 
-  Interval_edge_map;
 
-  typedef std::pair< Coord_type, Coord_type > Interval2;
-  typedef std::pair< Interval2, Vertex_handle > Interval_vertex;
-  typedef std::multimap< Interval2, Vertex_handle, std::less<Interval2> > 
-  Interval_vertex_map;
+
 
   typedef std::vector< Coord_type > Alpha_spectrum;
   
-  typedef std::set< Key, std::less<Key> > Marked_cell_set;
+  typedef std::set< Key > Marked_cell_set;
 
 public:
+
+  //the following eight typedef were private, but operator<<(ostream) needs them
+  typedef Triple<Coord_type, Coord_type, Coord_type> Interval3;
+  typedef std::pair< Interval3, Edge > Interval_edge;
+  typedef std::multimap< Interval3, Edge > Interval_edge_map;
+  typedef std::multimap< Interval3, Facet >        Interval_facet_map;
+  typedef typename Interval_facet_map::value_type  Interval_facet;
+  typedef std::pair< Coord_type, Coord_type > Interval2;
+  typedef std::multimap< Interval2, Vertex_handle > Interval_vertex_map; 
+  typedef typename Interval_vertex_map::value_type  Interval_vertex;
 
   typedef typename Alpha_spectrum::const_iterator Alpha_iterator;
   // An iterator that allow to traverse the sorted sequence of
@@ -823,12 +820,12 @@ template <class Dt>
 void 
 Alpha_shape_3<Dt>::initialize_interval_cell_map()
 {  
-  Cell_iterator cell_it;
+  Finite_cells_iterator cell_it;
   Cell_handle pCell;
   Coord_type alpha_f;
 
   for( cell_it = finite_cells_begin(); 
-       cell_it != cells_end(); 
+       cell_it != finite_cells_end(); 
        ++cell_it)
     {
       pCell = cell_it->handle();
@@ -849,12 +846,12 @@ template <class Dt>
 void 
 Alpha_shape_3<Dt>::initialize_interval_facet_map()
 {
-  Facet_iterator face_it;  // TBC
+  Finite_facets_iterator face_it;  // TBC
   Facet f;
   Cell_handle pCell, pNeighbor ;
  
   for( face_it = finite_facets_begin(); 
-       face_it != facets_end(); 
+       face_it != finite_facets_end(); 
        ++face_it)
     {
       f = *face_it;
@@ -1065,10 +1062,10 @@ Alpha_shape_3<Dt>::initialize_interval_vertex_map()
   Coord_type alpha_max_v;
   Coord_type alpha_s;
 
-  Vertex_iterator vertex_it;
+  Finite_vertices_iterator vertex_it;
   // only finite vertexs
   for( vertex_it = finite_vertices_begin(); 
-       vertex_it != vertices_end(); 
+       vertex_it != finite_vertices_end(); 
        ++vertex_it)
     {
       Vertex_handle v = vertex_it->handle();
@@ -1121,7 +1118,7 @@ Alpha_shape_3<Dt>::initialize_interval_vertex_map()
 	  // at the moment takes v*s time
 
 	  Cell_iterator cell_it;
-	    for( cell_it = all_cells_begin(); 
+	    for( cell_it = cells_begin(); 
 		 cell_it != cells_end(); 
 		 ++cell_it)
 	      {
@@ -1235,21 +1232,21 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
   // Inserts the alpha shape into the stream `os' as an indexed face set. 
   // Precondition: The insert operator must be defined for `Point'
 { 
-  typedef Alpha_shape_3<Dt>::Interval_vertex_map Interval_vertex_map;
+  typedef typename Alpha_shape_3<Dt>::Interval_vertex_map Interval_vertex_map;
   typename Interval_vertex_map::const_iterator vertex_alpha_it;
 
-  const Alpha_shape_3<Dt>::Interval2* pInterval2;
+  const typename Alpha_shape_3<Dt>::Interval2* pInterval2;
 
   typedef long Key;
 
-  std::map< Key, int, std::less< Key > > V;
+  std::map< Key, int > V;
 
   int number_of_vertices = 0;
 
-  typedef Alpha_shape_3<Dt>::Interval_facet_map Interval_facet_map;
+  typedef typename Alpha_shape_3<Dt>::Interval_facet_map Interval_facet_map;
   typename Interval_facet_map::const_iterator face_alpha_it;
 
-  const Alpha_shape_3<Dt>::Interval3* pInterval;
+  const typename Alpha_shape_3<Dt>::Interval3* pInterval;
 
   int i0, i1, i2;
 
@@ -1285,7 +1282,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 		     Alpha_shape_3<Dt>::REGULAR);
 
 	      V[(Key)&(*v)] = number_of_vertices++;
-	      os << v->point() << endl;
+	      os << v->point() << std::endl;
 	    }
 	}
   
@@ -1345,7 +1342,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 
 	      os << V[(Key)&(*s->vertex(i0))] << ' ' 
 		 << V[(Key)&(*s->vertex(i1))] << ' ' 
-		 << V[(Key)&(*s->vertex(i2))] << endl;
+		 << V[(Key)&(*s->vertex(i2))] << std::endl;
 	    }
 	}
     }
@@ -1374,7 +1371,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 	      CGAL_triangulation_assertion(A.classify(v) ==
 					   Alpha_shape_3<Dt>::REGULAR);
 	      V[(Key)&(*v)] = number_of_vertices++;
-	      os << v->point() << endl;
+	      os << v->point() << std::endl;
 	    }
 	}
  
@@ -1388,7 +1385,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 				       Alpha_shape_3<Dt>::SINGULAR);
 
 	  V[(Key)&(*v)] = number_of_vertices++;
-	  os << v->point() << endl;
+	  os << v->point() << std::endl;
 	}
  
       // the vertices are oriented counterclockwise
@@ -1447,7 +1444,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 
 		  os << V[(Key)&(*s->vertex(i0))] << ' ' 
 		     << V[(Key)&(*s->vertex(i1))] << ' ' 
-		     << V[(Key)&(*s->vertex(i2))] << endl;
+		     << V[(Key)&(*s->vertex(i2))] << std::endl;
 		  
 		}
 	      else // (pInterval->second == A.Infinity || 
@@ -1465,7 +1462,7 @@ std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
 
 		      os << V[(Key)&(*s->vertex(i0))] << ' ' 
 			 << V[(Key)&(*s->vertex(i1))] << ' ' 
-			 << V[(Key)&(*s->vertex(i2))] << endl;
+			 << V[(Key)&(*s->vertex(i2))] << std::endl;
 		      
 		    }	
 		}
@@ -1647,7 +1644,7 @@ Alpha_shape_3<Dt>::get_alpha_shape_facets(std::back_insert_iterator<
 //---------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_3<Dt>::Classification_type  
+typename Alpha_shape_3<Dt>::Classification_type  
 Alpha_shape_3<Dt>::classify(const Cell_handle& s, 
 			    const int& i,
 			    const Coord_type& alpha) const
@@ -1684,7 +1681,7 @@ Alpha_shape_3<Dt>::classify(const Cell_handle& s,
 //---------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_3<Dt>::Classification_type  
+typename Alpha_shape_3<Dt>::Classification_type  
 Alpha_shape_3<Dt>::classify(const Cell_handle& s, 
 			    const int& i,
 			    const int& j,
@@ -1723,7 +1720,7 @@ Alpha_shape_3<Dt>::classify(const Cell_handle& s,
 //---------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_3<Dt>::Classification_type  
+typename Alpha_shape_3<Dt>::Classification_type  
 Alpha_shape_3<Dt>::classify(const Vertex_handle& v,
 			    const Coord_type& alpha) const
   // Classifies the vertex `v' of the underlying Delaunay
@@ -1758,12 +1755,12 @@ Alpha_shape_3<Dt>::number_of_solid_components(const Coord_type& alpha) const
     //            O(#alpha_shape log n) otherwise
 {
   Marked_cell_set marked_cell_set;
-  Cell_iterator cell_it;
+  Finite_cells_iterator cell_it;
   int nb_solid_components = 0;
 
   // only finite simplices
   for( cell_it = finite_cells_begin(); 
-       cell_it != cells_end(); 
+       cell_it != finite_cells_end(); 
        ++cell_it)
     {
       Cell_handle pCell = cell_it->handle();
@@ -1800,7 +1797,7 @@ void Alpha_shape_3<Dt>::traverse(const Cell_handle& pCell,
 //----------------------------------------------------------------------
 
 template <class Dt>
-Alpha_shape_3<Dt>::Alpha_iterator 
+typename Alpha_shape_3<Dt>::Alpha_iterator 
 Alpha_shape_3<Dt>::find_optimal_alpha(const int& nb_components)
   // find the minimum alpha that satisfies the properties
   // (1) nb_components solid components
@@ -1825,8 +1822,8 @@ Alpha_shape_3<Dt>::find_optimal_alpha(const int& nb_components)
   Alpha_iterator last = alpha_end();
   Alpha_iterator middle;
   
-  ptrdiff_t len = last - first - 1;
-  ptrdiff_t half;
+  std::ptrdiff_t len = last - first - 1;
+  std::ptrdiff_t half;
 
   while (len > 0)
     {
@@ -1837,7 +1834,7 @@ Alpha_shape_3<Dt>::find_optimal_alpha(const int& nb_components)
       cerr << "first : " << *first << " last : " 
            << ((first+len != last) ? *(first+len) : *(last-1))
 	   << " mid : " << *middle 
-	   << " nb comps : " << number_of_solid_components(*middle) << endl;
+	   << " nb comps : " << number_of_solid_components(*middle) << std::endl;
 #endif // DEBUG
 
       if (number_of_solid_components(*middle) > nb_components)
@@ -1859,7 +1856,7 @@ Alpha_shape_3<Dt>::find_optimal_alpha(const int& nb_components)
 //----------------------------------------------------------------------
 
 template <class Dt>
-Alpha_shape_3<Dt>::Coord_type 
+typename Alpha_shape_3<Dt>::Coord_type 
 Alpha_shape_3<Dt>::find_alpha_solid() const
   // compute the minumum alpha such that all data points 
   // are either on the boundary or in the interior
@@ -1872,7 +1869,7 @@ Alpha_shape_3<Dt>::find_alpha_solid() const
   Vertex_iterator vertex_it;
   
   // at the moment all finite + infinite vertices
-  for( vertex_it = all_vertices_begin(); 
+  for( vertex_it = vertices_begin(); 
        vertex_it != vertices_end();
        ++vertex_it)
     {
@@ -1899,7 +1896,7 @@ Alpha_shape_3<Dt>::find_alpha_solid() const
 	  // at the moment takes v*s time
 	    
 	  Cell_iterator cell_it;
-	  for( cell_it = all_cells_begin(); 
+	  for( cell_it = cells_begin(); 
 	       cell_it != cells_end(); 
 	       ++cell_it)
 	    {

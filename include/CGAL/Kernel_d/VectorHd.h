@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/VectorHd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/13 15:47:53 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2002/03/18 20:34:02 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -56,6 +54,7 @@
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
 
 CGAL_BEGIN_NAMESPACE
+#define PointHd PointHd2
 
 template <class RT, class LA> class VectorHd;
 template <class RT, class LA>
@@ -91,10 +90,10 @@ main difference between position vectors and free vectors is their
 behavior under affine transformations, e.g., free vectors are
 invariant under translations.}*/
 
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_RT& entry(int i) { return ptr->v[i]; }
-const _RT& entry(int i) const { return ptr->v[i]; }
-void invert_rep() { ptr->invert(); }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_RT& entry(int i) { return ptr()->v[i]; }
+const _RT& entry(int i) const { return ptr()->v[i]; }
+void invert_rep() { ptr()->invert(); }
 VectorHd(const Base& b) : Base(b) {}
 
 public: 
@@ -225,7 +224,7 @@ VectorHd(const VectorHd<RT,LA>& p) : Base(p)  {}
 
 /*{\Moperations 5 3 }*/
 
-int dimension() const { return ptr->size()-1; } 
+int dimension() const { return ptr()->size()-1; } 
 /*{\Mop returns the dimension of |\Mvar|. }*/ 
 
 Quotient<RT> cartesian(int i) const 
@@ -260,22 +259,22 @@ Quotient<RT> squared_length() const
 Cartesian_const_iterator cartesian_begin() const 
 /*{\Mop returns an iterator pointing to the zeroth Cartesian coordinate 
 of |\Mvar|. }*/
-{ return Cartesian_const_iterator(ptr->begin(),ptr->last()); }
+{ return Cartesian_const_iterator(ptr()->begin(),ptr()->last()); }
 
 Cartesian_const_iterator cartesian_end() const 
 /*{\Mop returns an iterator pointing beyond the last Cartesian coordinate 
 of |\Mvar|. }*/
-{ return Cartesian_const_iterator(ptr->last(),ptr->last()); }
+{ return Cartesian_const_iterator(ptr()->last(),ptr()->last()); }
 
 Homogeneous_const_iterator homogeneous_begin() const 
 /*{\Mop returns an iterator pointing to the zeroth homogeneous coordinate 
 of |\Mvar|. }*/
-{ return ptr->begin(); }
+{ return ptr()->begin(); }
 
 Homogeneous_const_iterator homogeneous_end() const 
 /*{\Mop returns an iterator pointing beyond the last homogeneous
 coordinate of |\Mvar|. }*/ 
-{ return ptr->end(); }
+{ return ptr()->end(); }
 
 inline PointHd<RT,LA> to_point() const;
 
@@ -356,7 +355,7 @@ VectorHd<RT,LA> operator+(const VectorHd<RT,LA>& w) const
 /*{\Mbinop returns the vector with Cartesian coordinates 
 $v_i+w_i, 0 \leq i < d$.}*/
 { VectorHd<RT,LA> res(dimension()); 
-  res.ptr->homogeneous_add(ptr, w.ptr); 
+  res.ptr()->homogeneous_add(ptr(), w.ptr()); 
   return res; 
 }
 
@@ -365,7 +364,7 @@ VectorHd<RT,LA>& operator+=(const VectorHd<RT,LA>& w)
 { int d = dimension(); 
   VectorHd<RT,LA> old(*this); 
   *this = VectorHd<RT,LA>(d); 
-  ptr->homogeneous_add(old.ptr, w.ptr); 
+  ptr()->homogeneous_add(old.ptr(), w.ptr()); 
   return *this; 
 }
 
@@ -373,7 +372,7 @@ VectorHd<RT,LA> operator-(const VectorHd<RT,LA>& w) const
 /*{\Mbinop returns the vector with Cartesian coordinates 
 $v_i-w_i, 0 \leq i < d$.}*/
 { VectorHd<RT,LA> res(dimension()); 
-  res.ptr->homogeneous_sub(ptr, w.ptr); 
+  res.ptr()->homogeneous_sub(ptr(), w.ptr()); 
   return res; 
 }
 
@@ -382,7 +381,7 @@ VectorHd<RT,LA>& operator-=(const VectorHd<RT,LA>& w)
 { int d = dimension(); 
   VectorHd<RT,LA> old(*this); 
   *this = VectorHd<RT,LA>(d); 
-  ptr->homogeneous_sub(old.ptr, w.ptr); 
+  ptr()->homogeneous_sub(old.ptr(), w.ptr()); 
   return *this; 
 }
 
@@ -390,7 +389,7 @@ VectorHd<RT,LA> operator-() const
 /*{\Munop returns the vector in opposite direction.}*/
 { VectorHd<RT,LA> result(*this); 
   result.copy_on_write(); // creates a copied object!
-  result.ptr->invert(dimension()); 
+  result.ptr()->invert(dimension()); 
   return result; 
 }
 
@@ -461,7 +460,7 @@ $O(|v.dimension()|)$.}*/
 
 
 
-
+#undef PointHd
 CGAL_END_NAMESPACE
 #endif // CGAL_VECTORHD_H 
 //----------------------- end of file ----------------------------------

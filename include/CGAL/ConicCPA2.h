@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/ConicCPA2.h
-// package       : Min_ellipse_2 (3.14)
+// package       : Min_ellipse_2 (3.19)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Conic_2.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/17 12:51:06 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/11/23 13:52:36 $
 //
 // author(s)     : Bernd Gärtner, Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -79,8 +77,8 @@ class ConicCPA2
     typedef           _DA      DA;
     typedef  typename _DA::FT  FT;
 
-  private:
-    friend class Conic_2< CGAL::Cartesian<FT> >;
+  //private:
+    //friend class Conic_2< CGAL::Cartesian<FT> >;
     friend class _Min_ellipse_2_adapterC2__Ellipse<PT,DA>;
 
     DA                  dao;

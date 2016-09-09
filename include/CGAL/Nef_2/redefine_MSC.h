@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 2001 The CGAL Consortium
+// Copyright (c) 1997-2000 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,23 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/redefine_MSC.h
-// package       : Nef_2 (0.9.25)
-// author(s)     : ?
-// coordinator   : ?
+// package       : Nef_2 (1.18)
+// chapter       : Nef Polyhedra
 //
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/12/28 12:55:20 $
+//
+// author(s)     : Michael Seel
+// coordinator   : Michael Seel
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
 #ifndef CGAL_REDEFINE_MSC_H
 #define CGAL_REDEFINE_MSC_H
 #ifdef _MSC_VER

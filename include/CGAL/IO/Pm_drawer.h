@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Pm_drawer.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -114,23 +112,35 @@ public:
   
   void draw_face(Face_const_handle f) {}
   
-  void draw_vertices(Vertex_iterator Vertices_begin, Vertex_iterator Vertices_end) {
-    for (Vertex_iterator v_iter = Vertices_begin; v_iter !=  Vertices_end; v_iter++)
+  void draw_vertices(Vertex_iterator Vertices_begin,
+                     Vertex_iterator Vertices_end)
+  {
+    for (Vertex_iterator v_iter = Vertices_begin; v_iter !=  Vertices_end;
+         v_iter++)
       draw_vertex(v_iter);
   }
 
-  void draw_vertices(Vertex_const_iterator Vertices_begin, Vertex_const_iterator Vertices_end) {
-    for (Vertex_const_iterator v_iter = Vertices_begin; v_iter !=  Vertices_end; v_iter++)
+  void draw_vertices(Vertex_const_iterator Vertices_begin,
+                     Vertex_const_iterator Vertices_end)
+  {
+    for (Vertex_const_iterator v_iter = Vertices_begin; v_iter != Vertices_end;
+         v_iter++)
       draw_vertex(v_iter);
   }
    
-  void draw_halfedges(Halfedge_iterator Halfedges_begin, Halfedge_iterator Halfedges_end) {
-    for (Halfedge_iterator h_iter = Halfedges_begin; h_iter != Halfedges_end; h_iter++)
+  void draw_halfedges(Halfedge_iterator Halfedges_begin,
+                      Halfedge_iterator Halfedges_end)
+  {
+    for (Halfedge_iterator h_iter = Halfedges_begin; h_iter != Halfedges_end;
+         h_iter++)
       draw_halfedge(h_iter);
   }
 
-  void draw_halfedges(Halfedge_const_iterator Halfedges_begin, Halfedge_const_iterator Halfedges_end) {
-    for (Halfedge_const_iterator h_iter = Halfedges_begin; h_iter != Halfedges_end; h_iter++)
+  void draw_halfedges(Halfedge_const_iterator Halfedges_begin,
+                      Halfedge_const_iterator Halfedges_end)
+  {
+    for (Halfedge_const_iterator h_iter = Halfedges_begin;
+         h_iter != Halfedges_end; h_iter++)
       draw_halfedge(h_iter);
   }
   
@@ -139,8 +149,11 @@ public:
       draw_face(f_iter);
   }
 
-  void draw_faces(Face_const_iterator Faces_begin, Face_const_iterator Faces_end) {
-    for (Face_const_iterator f_iter = Faces_begin; f_iter != Faces_end; f_iter++)
+  void draw_faces(Face_const_iterator Faces_begin,
+                  Face_const_iterator Faces_end)
+  {
+    for (Face_const_iterator f_iter = Faces_begin; f_iter != Faces_end;
+         f_iter++)
       draw_face(f_iter);
   }
 
@@ -149,13 +162,5 @@ protected:
 };
 
 CGAL_END_NAMESPACE
+
 #endif  // CGAL_IO_PM_DRAWER_H 
-// EOF //
-
-
-
-
-
-
-
-

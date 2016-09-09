@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Polyhedron_iostream.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/02 20:58:53 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/04/26 13:30:01 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // Stream operators for Polyhedron_3 IO in object file format (OFF)
 // email         : contact@cgal.org
@@ -76,7 +74,7 @@ operator<<( std::ostream& out, const Polyhedron_3<Traits,Items,HDS,Alloc>& P) {
     // writes P to `out' in PRETTY, ASCII or BINARY format
     // as the stream indicates.
     File_header_OFF header( is_binary( out), ! is_pretty( out), false);
-    CGAL::print_OFF( out, P, header);
+    CGAL::print_polyhedron_with_header_OFF( out, P, header);
     return out;
 }
 

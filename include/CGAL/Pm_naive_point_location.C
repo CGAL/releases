@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_naive_point_location.C
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -62,7 +60,7 @@ CGAL_BEGIN_NAMESPACE
 //if unbounded face - returns NULL or some edge on unbounded face 
 //if its a vertex returns a halfedge pointing _at_ it
 template <class Planar_map>
-Pm_naive_point_location<Planar_map>::Halfedge_handle
+typename Pm_naive_point_location<Planar_map>::Halfedge_handle
 Pm_naive_point_location<Planar_map>::locate(const Point& p, 
 					    Locate_type& lt) const{
   typename Planar_map::Vertex_iterator vit=pm->vertices_begin();
@@ -113,7 +111,7 @@ Pm_naive_point_location<Planar_map>::locate(const Point& p,
 }
 
 template <class Planar_map>
-Pm_naive_point_location<Planar_map>::Halfedge_handle
+typename Pm_naive_point_location<Planar_map>::Halfedge_handle
 Pm_naive_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
   ((Bounding_box*)get_bounding_box())->insert(p);
   Halfedge_handle h=((cPLp)this)->locate(p,lt);
@@ -123,64 +121,101 @@ Pm_naive_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
 }
 
 template <class Planar_map>
-Pm_naive_point_location<Planar_map>::Halfedge_handle
-Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, 
-							Locate_type& lt, 
-							bool up) const{
-
-  typename Planar_map::Halfedge_iterator it=pm->halfedges_begin(),
-    eit=pm->halfedges_end(),closest_edge=eit;
-  bool first = false;
-  typename Traits::Curve_point_status point_above_under;
+typename Pm_naive_point_location<Planar_map>::Halfedge_handle
+Pm_naive_point_location<Planar_map>::
+vertical_ray_shoot(const Point & p, 
+		   Locate_type & lt, 
+		   bool          up) const
+{
+  typename Traits::Curve_point_status point_above_under, r;
   int curve_above_under;
 	
-  lt=Planar_map::EDGE;
+  lt = Planar_map::EDGE;
 	
   // set the flags for comparison acording to the ray 
   // direction (up/down)
   if (up) 
-    {
-      point_above_under = Traits::UNDER_CURVE;
-      curve_above_under = LARGER;
-    } 
+  {
+    point_above_under = Traits::UNDER_CURVE;
+    curve_above_under = LARGER;
+  } 
   else 
-    {
-      point_above_under = Traits::ABOVE_CURVE;
-      curve_above_under = SMALLER;
-    }
+  {
+    point_above_under = Traits::ABOVE_CURVE;
+    curve_above_under = SMALLER;
+  }
+
+  typename Planar_map::Halfedge_iterator it  = pm->halfedges_begin(),
+                                         eit = pm->halfedges_end(),
+                                         closest_edge = eit;
+  bool first = false;
+  // For each halfedge
   for ( ; it != eit; ) 
+  {
+    // Find if p is in the x-range of the curve and above or below it
+    // according to the direction of the shoot.
+    r = traits->curve_get_point_status(it->curve(), p);
+    if ( r == point_above_under ) 
     {
-      if ( traits->curve_get_point_status(it->curve(), p) 
-	   == point_above_under ) 
-        {
-	  if (!first) 
-            {
-	      closest_edge = it;
-	      first = true;
-            } 
-	  else 
-            {
-	      if ( traits->curve_compare_at_x(closest_edge->curve(),
-					      it->curve(), p) ==
-		   curve_above_under) 
-                {
-		  closest_edge = it;
-                }
-            }
-        }
-      ++it;++it;
+      // If the first curve in the x-range was not found yet
+      if ( ! first) 
+      {
+	closest_edge = it;
+	first = true;
+      } 
+      else 
+      {
+	// We found another curve in the x-range and we want to remember
+	// the closest
+	if ( traits->curve_compare_at_x(closest_edge->curve(),
+					it->curve(), p) == curve_above_under) 
+	{
+	  closest_edge = it;
+	}
+      }
     }
-	
+    if (( r == Traits::ON_CURVE ) && (traits->curve_is_vertical(it->curve())))
+    {
+      // The vertical ray shoot is not including p itself,
+      // thus we are interested only in vertical curves that
+      // extend upwards (downwards, resp.)
+      // In this case the Locate type is always EDGE
+      // Remark: This treatment was originally written in the walk PL.
+      //
+      if (up && 
+	  traits->point_is_higher(traits->curve_highest(it->curve()), p) ||
+	  ! up &&
+	  traits->point_is_lower(traits->curve_lowest(it->curve()), p))
+	/*
+	  x       x
+	  |       |
+	  p=x  or  p
+	  |
+	  x
+	*/
+      {
+	lt = Planar_map::EDGE;
+	if (up == traits->point_is_left_low(it->target()->point(),
+					    it->source()->point()))
+	  return it;
+	else 
+	  return it->twin();
+      }
+    }
+    ++it; ++it;
+  }
+  
   // if we didn't find any edge above p then it is the empty face
-  if (!first) {
+  if ( ! first) {
     lt=Planar_map::UNBOUNDED_FACE;
     Halfedge_handle h=pm->halfedges_end();
     return h; //==NULL
   }
+
   // if the closest point is a vertex then find the first clockwise 
   // edge from the vertical segment
   typename Planar_map::Vertex_handle v = pm->vertices_end();
-  bool maybe_vertical=false; // BUG fix (Oren)
+  bool maybe_vertical = false; // BUG fix (Oren)
   if ( traits->point_is_same_x(closest_edge->target()->point(), p) ) 
     {
       v = closest_edge->target();
@@ -205,15 +240,14 @@ Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p,
       */
     }
 	
-	
   //if (closest_is_vertex)
   if (v != pm->vertices_end()) 
     {
       lt=Planar_map::VERTEX;
       if (up)    
-	closest_edge = find_lowest(v,traits, false);  
+	closest_edge = find_lowest(v, false);  
       else
-	closest_edge = find_lowest(v,traits, true);
+	closest_edge = find_lowest(v, true);
     }
 	
   Halfedge_handle h;	
@@ -246,7 +280,7 @@ Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p,
 }
 
 template <class Planar_map>
-Pm_naive_point_location<Planar_map>::Halfedge_handle
+typename Pm_naive_point_location<Planar_map>::Halfedge_handle
 Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, 
 							Locate_type& lt, 
 							bool up){
@@ -266,11 +300,10 @@ Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p,
 //find the first halfedge pointing at v, when going clockwise
 //if highest==true - start from 12 oclock, else start from 6 oclock
 template <class Planar_map>
-Pm_naive_point_location<Planar_map>::Halfedge_handle 
+typename Pm_naive_point_location<Planar_map>::Halfedge_handle 
 Pm_naive_point_location<Planar_map>::
 find_lowest(
 	    typename Pm_naive_point_location<Planar_map>::Vertex_handle v,
-	    typename Pm_naive_point_location<Planar_map>::Traits_wrap *traits, 
 	    bool highest) const{
 	
   Halfedge_handle lowest_left = pm->halfedges_end();
@@ -367,3 +400,4 @@ find_lowest(
 CGAL_END_NAMESPACE
 
 #endif // CGAL_PM_NAIVE_POINT_LOCATION_C
+

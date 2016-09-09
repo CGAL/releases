@@ -1,0 +1,159 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "range_tree_1"=".\VC6ange_tree_1.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "range_tree_2"=".\VC6ange_tree_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "range_tree_3"=".\VC6ange_tree_3.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "range_tree_4"=".\VC6ange_tree_4.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "range_tree_map_2"=".\VC6ange_tree_map_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "range_tree_set_2"=".\VC6ange_tree_set_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_1"=".\VC6\segment_tree_1.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_2"=".\VC6\segment_tree_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_3"=".\VC6\segment_tree_3.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_4"=".\VC6\segment_tree_4.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_map_2"=".\VC6\segment_tree_map_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_set_2"=".\VC6\segment_tree_set_2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Project: "segment_tree_set_3"=".\VC6\segment_tree_set_3.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/function_objects.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/11 09:00:27 $
+// revision      : $Revision: 1.40 $
+// revision_date : $Date: 2002/03/28 15:24:30 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -63,26 +61,6 @@ struct Identity {
   Value&       operator()( Value& x)       const { return x; }
   const Value& operator()( const Value& x) const { return x; }
 };
-
-/* Taken out
-// Composes two function objects: result is
-// Fct1 o Fct2 o x == Fct1()( Fct2()(x)).
-template < class Fct1, class Fct2>
-struct Compose {
-  typedef typename  Fct2::argument_type  argument_type;
-  typedef typename  Fct1::result_type    result_type;
-  result_type&       operator()( argument_type& x)       const {
-    Fct1 fct1;
-    Fct2 fct2;
-    return fct1( fct2(x));
-  }
-  const result_type& operator()( const argument_type& x) const {
-    Fct1 fct1;
-    Fct2 fct2;
-    return fct1( fct2(x));
-  }
-};
-*/
 
 template < class Value>
 struct Dereference {

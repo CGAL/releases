@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Partition_traits_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2001/07/11 15:49:47 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/04/24 11:24:34 $
 //
 // author(s)     : Susan Hert
 //
@@ -61,44 +59,48 @@
 
 namespace CGAL {
 
-template <class R_>
-class Partition_traits_2  : public Partition_traits_2_base<R_>
+template <class Kernel_>
+class Partition_traits_2  : public Partition_traits_2_base<Kernel_>
 {
+  private:
+    typedef Kernel_                                     Kernel;
+    typedef Partition_traits_2<Kernel_>                 Self;
   public:
-    typedef R_                                          R;
-    typedef Partition_traits_2<R_>                      Self;
-    typedef CGAL::Polygon_traits_2<R_>                  Poly_Traits;
+    typedef CGAL::Polygon_traits_2<Kernel_>             Poly_Traits;
     typedef typename Poly_Traits::Point_2               Point_2;
     typedef ::std::list<Point_2>                        Container;
     typedef CGAL::Polygon_2<Poly_Traits, Container>     Polygon_2;
-    typedef typename R::Less_yx_2                       Less_yx_2;
-    typedef typename R::Less_xy_2                       Less_xy_2;
-    typedef typename R::Leftturn_2                      Leftturn_2;
-    typedef typename R::Orientation_2                   Orientation_2;
-    typedef typename R::Compare_y_2                     Compare_y_2;
-    typedef typename R::Compare_x_2                     Compare_x_2;
-    typedef Is_convex_2<Self>                           Is_convex_2;
-    typedef Is_y_monotone_2<Self>                       Is_y_monotone_2;
+    typedef typename Kernel::Less_yx_2                  Less_yx_2;
+    typedef typename Kernel::Less_xy_2                  Less_xy_2;
+    typedef typename Kernel::Leftturn_2                 Leftturn_2;
+    typedef typename Kernel::Orientation_2              Orientation_2;
+    typedef typename Kernel::Compare_y_2                Compare_y_2;
+    typedef typename Kernel::Compare_x_2                Compare_x_2;
+    typedef CGAL::Is_convex_2<Self>                     Is_convex_2;
+    typedef CGAL::Is_y_monotone_2<Self>                 Is_y_monotone_2;
 
     // needed by Indirect_edge_compare, used in y_monotone and greene_approx
-    typedef typename R::Line_2                          Line_2;
-    typedef typename R::Construct_line_2                Construct_line_2;
-    typedef typename R::Compare_x_at_y_2                Compare_x_at_y_2;
-    typedef typename R::Is_horizontal_2                 Is_horizontal_2;
+    typedef typename Kernel::Line_2                     Line_2;
+    typedef typename Kernel::Construct_line_2           Construct_line_2;
+    typedef typename Kernel::Compare_x_at_y_2           Compare_x_at_y_2;
+    typedef typename Kernel::Is_horizontal_2            Is_horizontal_2;
 
     // needed by visibility graph and thus by optimal convex
-    typedef Ray_2<R_>                                   Ray_2; 
-    typedef typename R::Collinear_are_ordered_along_line_2
+    typedef typename Kernel::Ray_2                      Ray_2; 
+    typedef typename Kernel::Collinear_are_ordered_along_line_2
                                             Collinear_are_ordered_along_line_2;
-    typedef typename R::Are_strictly_ordered_along_line_2
+    typedef typename Kernel::Are_strictly_ordered_along_line_2
                                             Are_strictly_ordered_along_line_2;
+    typedef typename Kernel::Intersect_2                Intersect_2;
+    typedef typename Kernel::Assign_2                   Assign_2;
+    typedef typename Kernel::Object_2                   Object_2;
 
     // needed by approx_convex (for constrained triangulation)
     // and optimal convex (for vis. graph)
-    typedef typename R::Segment_2                       Segment_2;
+    typedef typename Kernel::Segment_2                  Segment_2;
     // needed by optimal convex (for vis. graph)
-    typedef typename R::Construct_segment_2             Construct_segment_2;
-    typedef typename R::Construct_ray_2                 Construct_ray_2;
+    typedef typename Kernel::Construct_segment_2        Construct_segment_2;
+    typedef typename Kernel::Construct_ray_2            Construct_ray_2;
 
  
     Construct_line_2
@@ -136,6 +138,14 @@ class Partition_traits_2  : public Partition_traits_2_base<R_>
     Is_y_monotone_2
     is_y_monotone_2_object(const Self& traits) const
     {  return Is_y_monotone_2(traits); }
+
+    Intersect_2
+    intersect_2_object() const
+    {  return Intersect_2(); }
+
+    Assign_2
+    assign_2_object() const
+    {  return Assign_2(); }
 };
 
 }

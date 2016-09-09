@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : demo/Robustness/orientation_2.C
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/26 11:52:30 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/09/27 07:54:09 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -75,7 +73,7 @@ typedef CGAL::Cartesian<double>                CartesianDouble;
 typedef CartesianDouble::Point_2               Point;
 typedef CGAL::Creator_uniform_2<double,Point>  Pt_creator;
 typedef std::vector<Point>                     Vector;
-typedef CGAL::Cartesian<exact_NT>              CartesianLedaReal;
+typedef CGAL::Cartesian<exact_NT>              ExactCartesian;
 
 int
 main(int argc, char** argv)
@@ -118,15 +116,15 @@ main(int argc, char** argv)
                CGAL::Ostream_iterator< Point, CGAL_Stream>( W2));
 
     CGAL::Orientation* C = new CGAL::Orientation[N*N*N];
-    std::vector< CartesianLedaReal::Point_2>  S;
-    CGAL::Cartesian_converter<CartesianDouble, CartesianLedaReal> converter;
+    std::vector< ExactCartesian::Point_2>  S;
+    CGAL::Cartesian_converter<CartesianDouble, ExactCartesian> converter;
     leda_string s1;
     leda_string s2;
 
 
     std::transform( points1.begin(), points1.end(),
                     std::back_inserter( S), converter);
-    fill_control_field( S.begin(), S.end(), C, CartesianLedaReal());
+    fill_control_field( S.begin(), S.end(), C, ExactCartesian());
     orientation_statistics(points1.begin(), points1.end(),
                            C, s1, s2, CartesianDouble());
     W.draw_ctext( 250, 50, s1);
@@ -135,7 +133,7 @@ main(int argc, char** argv)
 
     std::transform( points2.begin(), points2.end(),
                     S.begin(), converter);
-    fill_control_field( S.begin(), S.end(), C, CartesianLedaReal());
+    fill_control_field( S.begin(), S.end(), C, ExactCartesian());
     orientation_statistics(points2.begin(), points2.end(),
                            C, s1, s2, CartesianDouble());
     W.draw_ctext( 700, 50, s1);

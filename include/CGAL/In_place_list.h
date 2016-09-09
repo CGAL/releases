@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/In_place_list.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/11 09:00:23 $
+// revision      : $Revision: 1.41 $
+// revision_date : $Date: 2002/03/28 15:24:25 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -118,6 +116,12 @@ namespace CGALi {
     In_place_list_iterator() : node(0) {}
     In_place_list_iterator(T* x) : node(x) {}
 
+#if defined(__GNUC__) && (__GNUC__ < 3)
+    // added by request of Michael Seel:
+    In_place_list_iterator(const Self& i) { node=i.node; }
+    Self& operator=(const Self& i) { node = i.node; return *this; }
+#endif
+
     bool  operator==( const Self& x) const { return node == x.node; }
     bool  operator!=( const Self& x) const { return node != x.node; }
     T&    operator*()  const { return *node; }
@@ -168,6 +172,12 @@ namespace CGALi {
     In_place_list_const_iterator() : node(0) {}
     In_place_list_const_iterator( Iterator i) : node(&*i) {}
     In_place_list_const_iterator(const T* x) : node(x) {}
+
+#if defined(__GNUC__) && (__GNUC__ < 3)
+    // added by request of Michael Seel:
+    In_place_list_const_iterator(const Self& i) { node=i.node; }
+    Self& operator=(const Self& i) { node = i.node; return *this; }
+#endif
 
     bool     operator==( const Self& x) const { return node == x.node; }
     bool     operator!=( const Self& x) const { return node != x.node; }
@@ -249,8 +259,29 @@ public:
   typedef CGALi::In_place_list_iterator<T>        iterator;
   typedef CGALi::In_place_list_const_iterator<T>  const_iterator;
 
+#if defined(__sun) && defined(__SUNPRO_CC)
+  typedef std::reverse_iterator< iterator,
+                                 typename iterator::iterator_category,
+                                 typename iterator::value_type,
+                                 typename iterator::reference,
+                                 typename iterator::pointer,
+                                 typename iterator::difference_type
+                                 > reverse_iterator;
+  typedef std::reverse_iterator< const_iterator,
+                                 typename const_iterator::iterator_category,
+                                 typename const_iterator::value_type,
+                                 typename const_iterator::reference,
+                                 typename const_iterator::pointer,
+                                 typename const_iterator::difference_type
+                                 > const_reverse_iterator;
+  /*
+  typedef iterator reverse_iterator;
+  typedef const_iterator const_reverse_iterator;
+  */
+#else
   typedef std::reverse_iterator< iterator >       reverse_iterator;
   typedef std::reverse_iterator< const_iterator > const_reverse_iterator;
+#endif // defined(__sun) && defined(__SUNPRO_CC)
 
   typedef In_place_list<T,managed,Alloc>          Self;
 
@@ -355,7 +386,7 @@ public:
   // inserts n copies of `t' in front of iterator `pos'.
 
   void insert( T* pos, size_type n) { insert( iterator(pos), n); }
-  void insert( T* pos, size_type n, const T& x = T()) {
+  void insert( T* pos, size_type n, const T& x) {
     insert( iterator(pos), n, x);
   }
 
@@ -420,13 +451,23 @@ public:
 
   // CREATION (Continued)
 
-  explicit In_place_list(size_type n, const T& value = T()) : length(0) {
+  explicit In_place_list(size_type n, const T& value) : length(0) {
     // introduces a list with n items, all initialized with copies of
     // value.
     node = get_node();
     (*node).next_link = node;
     (*node).prev_link = node;
     insert(begin(), n, value);
+  }
+  // Sylvain reported a problem with the default argument
+  // on sunpro; hence, I took it out.
+  explicit In_place_list(size_type n) : length(0) {
+    // introduces a list with n items, all initialized with copies of
+    // value.
+    node = get_node();
+    (*node).next_link = node;
+    (*node).prev_link = node;
+    T t; insert(begin(), n, t);
   }
 
   template <class InputIterator>
@@ -472,7 +513,7 @@ public:
     insert( begin(), n, t);
   }
 
-  void resize( size_type sz, T c = T()) {
+  void resize( size_type sz, const T& c) {
     if ( sz > size())
       insert( end(), sz - size(), c);
     else if ( sz < size()) {
@@ -481,6 +522,12 @@ public:
         ++i;
       erase( i, end());
     }  // else do nothing
+  }
+  // Sylvain reported a problem with the default argument
+  // on sunpro; hence, I took it out.
+  void resize( size_type sz) {
+    T t;
+    resize( sz, t);
   }
 
   // COMPARISON OPERATIONS

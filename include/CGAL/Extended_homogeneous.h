@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Extended_homogeneous.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Simple_extended_kernel.lw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2001/07/16 12:47:19 $
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2002/05/07 15:02:59 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -57,11 +55,12 @@
 #include <CGAL/Point_2.h> 
 #include <CGAL/Line_2_Line_2_intersection.h> 
 #include <CGAL/squared_distance_2.h> 
-#ifndef _MSC_VER
-#include <CGAL/RPolynomial.h>
+#include <CGAL/number_utils.h>
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200))
+#include <CGAL/Nef_2/Polynomial_MSC.h>
+#define Polynomial Polynomial_MSC
 #else
-#include <CGAL/RPolynomial_MSC.h>
-#define RPolynomial RPolynomial_MSC
+#include <CGAL/Nef_2/Polynomial.h>
 #endif
 #undef _DEBUG
 #define _DEBUG 5
@@ -79,7 +78,7 @@ template <class T> class Extended_homogeneous;
 
 template <class RT_>
 class Extended_homogeneous : public 
-  CGAL::Homogeneous< CGAL::RPolynomial<RT_> > { public:
+  CGAL::Homogeneous< CGAL::Polynomial<RT_> > { public:
 
 /*{\Mdefinition |\Mname| is a kernel concept providing extended
 geometry\footnote{It is called extended geometry for simplicity,
@@ -117,7 +116,7 @@ functionality for changing between standard affine and extended
 geometry. At the same time it provides extensible geometric primitives
 on the extended geometric objects.}*/
 
-  typedef CGAL::Homogeneous< CGAL::RPolynomial<RT_> >  Base;
+  typedef CGAL::Homogeneous< CGAL::Polynomial<RT_> >  Base;
   typedef Extended_homogeneous<RT_> Self;
 
   /*{\Mtypes 8.5}*/
@@ -205,17 +204,19 @@ on the extended geometric objects.}*/
   template <class Forward_iterator>
   void determine_frame_radius(Forward_iterator start, Forward_iterator end,
                               Standard_RT& R0) const
-  { Standard_RT R;
+  { Standard_RT R, mx, nx, my, ny;
     while ( start != end ) {
       Point_2 p = *start++;
       if ( is_standard(p) ) {
         R = CGAL_NTS max(CGAL_NTS abs(p.hx()[0])/p.hw()[0], 
-                CGAL_NTS abs(p.hy()[0])/p.hw()[0]);
+                         CGAL_NTS abs(p.hy()[0])/p.hw()[0]);
       } else {
         RT rx = CGAL_NTS abs(p.hx()), ry = CGAL_NTS abs(p.hy());
-        if ( rx[1] > ry[1] )      R = CGAL_NTS abs(ry[0]-rx[0])/(rx[1]-ry[1]);
-        else if ( rx[1] < ry[1] ) R = CGAL_NTS abs(rx[0]-ry[0])/(ry[1]-rx[1]);
-        else /* rx[1] == ry[1] */ R = CGAL_NTS abs(rx[0]-ry[0])/(2*p.hw()[0]);
+        mx = ( rx.degree()>0 ? rx[1] : Standard_RT(0) ); nx = rx[0];
+        my = ( ry.degree()>0 ? ry[1] : Standard_RT(0) ); ny = ry[0];
+        if ( mx > my )      R = CGAL_NTS abs((ny-nx)/(mx-my));
+        else if ( mx < my ) R = CGAL_NTS abs((nx-ny)/(my-mx));
+        else /* mx == my */ R = CGAL_NTS abs(nx-ny)/(2*p.hw()[0]);
       }
       R0 = CGAL_NTS max(R+1,R0);
     }
@@ -271,8 +272,8 @@ on the extended geometric objects.}*/
     // now we are on the square frame
     RT rx = p.hx();
     RT ry = p.hy();
-    int sx = sign(rx);
-    int sy = sign(ry);
+    int sx = CGAL_NTS sign(rx);
+    int sy = CGAL_NTS sign(ry);
     if (sx < 0) rx = -rx;
     if (sy < 0) ry = -ry;
     if (rx>ry) {
@@ -379,8 +380,8 @@ on the extended geometric objects.}*/
   /*{\Xop only used internally.}*/
   { TRACEN("simplify("<<p<<")");
     RT x=p.hx(), y=p.hy(), w=p.hw();
-    RT common = x.is_zero() ? y : RT::gcd(x,y);
-    common = RT::gcd(common,w);
+    RT common = x.is_zero() ? y : gcd(x,y);
+    common = gcd(common,w);
     p = Point_2(x/common,y/common,w/common);
     TRACEN("canceled="<<p);
   }
@@ -394,8 +395,8 @@ on the extended geometric objects.}*/
   { Line_2 l(p1,p2);
       TRACEN("eline("<<p1<<p2<<")="<<l);
     RT a=l.a(), b=l.b(), c=l.c();
-    RT common = a.is_zero() ? b : RT::gcd(a,b);
-    common = RT::gcd(common,c);
+    RT common = a.is_zero() ? b : gcd(a,b);
+    common = gcd(common,c);
     l =  Line_2(a/common,b/common,c/common);
       TRACEN("canceled="<<l);
     return l; 
@@ -545,7 +546,7 @@ on the extended geometric objects.}*/
 };
 
 
-#undef RPolynomial
+#undef Polynomial
 CGAL_END_NAMESPACE
 #endif // CGAL_EXTENDED_HOMOGENEOUS_H
 

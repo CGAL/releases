@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : src/Random.C
-// package       : Random_numbers (2.3.1)
+// package       : Random_numbers (2.3.5)
 // chapter       : Random Numbers Generator
 //
 // source        : web/Random.aw
-// revision      : $Revision: 1.1.2.2 $
-// revision_date : $Date: 2001/04/02 18:49:08 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/01/10 10:10:51 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : INRIA Sophia-Antipolis
@@ -69,12 +67,12 @@ Random( )
     : rand_max_plus_1( RAND_MAX+1.0)
 {
     // get system's time
-    time_t s;
-    time( &s);
+    std::time_t s;
+    CGAL_CLIB_STD::time( &s);
     unsigned int  seed = s;
 
     // initialize random numbers generator
-    srand( seed);
+    CGAL_CLIB_STD::srand( seed);
 }
 
 Random::
@@ -82,7 +80,7 @@ Random( unsigned int  seed)
     : rand_max_plus_1( RAND_MAX+1.0)
 {
     // initialize random numbers generator
-    srand( seed);
+    CGAL_CLIB_STD::srand( seed);
 }
 
 // Global variables

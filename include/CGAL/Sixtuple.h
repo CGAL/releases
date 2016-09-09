@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Sixtuple.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/01/12 12:23:18 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/10/24 14:18:05 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -51,31 +49,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class T >
-class _Sixtuple : public Rep
-{
-public:
-
-  T  e0;
-  T  e1;
-  T  e2;
-  T  e3;
-  T  e4;
-  T  e5;
-
-  _Sixtuple()
-   {
-   }
-  _Sixtuple(const T & a0, const T & a1, const T & a2,
-                 const T & a3, const T & a4, const T & a5)
-    : e0(a0), e1(a1), e2(a2), e3(a3), e4(a4), e5(a5)
-  {}
-
-  ~_Sixtuple()
-  {}
-};
-
-template < class T >
-class Sixtuple : public Ref_counted
+class Sixtuple
 {
 public:
 
@@ -91,27 +65,6 @@ public:
 
   Sixtuple(const T & a0, const T & a1, const T & a2,
            const T & a3, const T & a4, const T & a5)
-    : e0(a0), e1(a1), e2(a2), e3(a3), e4(a4), e5(a5)
-  {}
-};
-
-template < class T >
-class Simple_Sixtuple
-{
-public:
-
-  T  e0;
-  T  e1;
-  T  e2;
-  T  e3;
-  T  e4;
-  T  e5;
-
-  Simple_Sixtuple()
-  {}
-
-  Simple_Sixtuple(const T & a0, const T & a1, const T & a2,
-                  const T & a3, const T & a4, const T & a5)
     : e0(a0), e1(a1), e2(a2), e3(a3), e4(a4), e5(a5)
   {}
 };

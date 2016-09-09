@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_with_intersections_misc.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Eyal flato
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -50,54 +48,6 @@
 #endif
 
 CGAL_BEGIN_NAMESPACE
-
-template<class Planar_map_>
-class Pm_change_notification
-{
-public:
-  typedef Planar_map_ Planar_map;
-  typedef typename Planar_map::Traits Traits;
-
-  virtual void add_edge(
-			const typename Traits::X_curve& cv, 
-			typename Planar_map::Halfedge_handle e, 
-			bool original_direction, bool overlap=false)
-  {
-  }
-
-  virtual void split_edge(
-			  typename Planar_map::Halfedge_handle orig_edge, 
-			  typename Planar_map::Halfedge_handle new_edge,
-			  const typename Traits::X_curve& c1,
-			  const typename Traits::X_curve& c2)
-  {
-  }
-
-  virtual void split_face(
-			  typename Planar_map::Face_handle orig_face, 
-			  typename Planar_map::Face_handle new_face)
-  {
-  }
-	
-  virtual void add_hole(
-			typename Planar_map::Face_handle in_face, 
-			typename Planar_map::Halfedge_handle new_hole)
-  {
-  }
-
-  virtual const typename Traits::X_curve&
-  edge_support_curve(typename Planar_map::Halfedge_handle edge)
-  {
-    return edge->curve();
-  }
-
-  virtual bool have_support_curve()
-  {
-    return false;
-  }
-
-};
-
 
 template <class I>
 class Planar_map_with_intersections_traits_wrap : 

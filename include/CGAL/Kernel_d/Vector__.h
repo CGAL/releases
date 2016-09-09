@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Vector__.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Kernel
 //
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/07/18 16:47:00 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/05/03 11:46:44 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -55,6 +53,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
 #include <CGAL/Kernel_d/d_utils.h>
+
 #undef _DEBUG
 #define _DEBUG 51
 #include <CGAL/Kernel_d/debug.h>
@@ -68,7 +67,7 @@
 
 namespace CGALLA {
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER)//  let's only do it  for Microsoft  
 #define CGAL_SIMPLE_INTERFACE
 #endif
 
@@ -135,7 +134,7 @@ protected:
   NT* v_; int d_;
   static allocator_type MM;
 
-#ifndef CGAL_SIMPLE_INTERFACE
+#if ! defined( CGAL_SIMPLE_INTERFACE ) //&& ! defined(__BORLANDC__)
 
   inline void allocate_vec_space(NT*& vi, int di)
   {
@@ -156,7 +155,7 @@ protected:
      manager. */
 
     NT* p = vi + di - 1;
-    while (p >= vi)  { p->~NT(); p--; }
+    while (p >= vi)  { MM.destroy(p); p--; }  //af:  as proposed by sylvain
     MM.deallocate(vi, di);
     vi = (NT*)0;
   }
@@ -287,7 +286,7 @@ NT& operator[](int i)
   return v_[i];
 }
   
-NT operator[](int i) const
+const NT& operator[](int i) const
 { CGAL_assertion_msg((0<=i && i<d_), 
     "Vector_::operator[]: index out of range.");
   return v_[i];
@@ -501,7 +500,7 @@ std::istream& operator>>(std::istream& is, Vector_<NT_,AL_>& v)
 
 
 template <class NT_, class AL_>
-Vector_<NT_,AL_>::allocator_type Vector_<NT_,AL_>::MM;
+typename Vector_<NT_,AL_>::allocator_type Vector_<NT_,AL_>::MM;
 
 /*{\Ximplementation Vectors are implemented by arrays of type
 |NT|. All operations on a vector |v| take time $O(|v.dimension()|)$,

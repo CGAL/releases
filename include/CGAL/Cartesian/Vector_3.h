@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Vector_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/03/15 13:25:01 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2002/02/06 12:32:41 $
 // author        : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,88 +46,79 @@
 #ifndef CGAL_CARTESIAN_VECTOR_3_H
 #define CGAL_CARTESIAN_VECTOR_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class VectorC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class VectorC3
   : public R_::Vector_handle_3
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_3              Point_3;
+  typedef typename R_::Vector_3             Vector_3;
+  typedef typename R_::Direction_3          Direction_3;
+  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+
+  typedef typename R_::Vector_handle_3	   	 base;
+  typedef typename base::element_type   	 rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Vector_handle_3	   	Vector_handle_3_;
-  typedef typename Vector_handle_3_::element_type   	Vector_ref_3;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef VectorC3<R CGAL_CTAG>                 Self;
-  typedef typename R::Point_3                   Point_3;
-  typedef typename R::Direction_3               Direction_3;
-  typedef typename R::Aff_transformation_3      Aff_transformation_3;
-#else
-  typedef VectorC3<R>                           Self;
-  typedef typename R::Point_3_base              Point_3;
-  typedef typename R::Direction_3_base          Direction_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef R_                                     R;
 
   VectorC3()
-    : Vector_handle_3_(Vector_ref_3()) {}
+    : base(rep()) {}
 
   VectorC3(const Null_vector &)
-    : Vector_handle_3_(Vector_ref_3(FT(0), FT(0), FT(0))) {}
+    : base(rep(FT(0), FT(0), FT(0))) {}
 
   VectorC3(const Point_3 &p)
-    : Vector_handle_3_(p) {}
+    : base(p) {}
 
   VectorC3(const Point_3 &a, const Point_3 &b)
-    : Vector_handle_3_(b-a) {}
+    : base(b-a) {}
 
   VectorC3(const Direction_3 &d)
-    : Vector_handle_3_(d) {}
+    : base(d) {}
 
   VectorC3(const FT &x, const FT &y, const FT &z)
-    : Vector_handle_3_(Vector_ref_3(x, y, z)) {}
+    : base(rep(x, y, z)) {}
 
   VectorC3(const FT &x, const FT &y, const FT &z, const FT &w)
   {
     if (w != FT(1))
-      initialize_with(Vector_ref_3(x/w, y/w, z/w));
+      initialize_with(rep(x/w, y/w, z/w));
     else
-      initialize_with(Vector_ref_3(x, y, z));
+      initialize_with(rep(x, y, z));
   }
 
-  bool operator==(const Self &p) const;
-  bool operator!=(const Self &p) const;
+  bool operator==(const VectorC3 &p) const;
+  bool operator!=(const VectorC3 &p) const;
 
   bool operator==(const Null_vector &) const;
   bool operator!=(const Null_vector &) const;
 
-  FT x() const
+  const FT & x() const
   {
       return Ptr()->e0;
   }
-  FT y() const
+  const FT & y() const
   {
       return Ptr()->e1;
   }
-  FT z() const
+  const FT & z() const
   {
       return Ptr()->e2;
   }
 
-  FT hx() const
+  const FT & hx() const
   {
       return x();
   }
-  FT hy() const
+  const FT & hy() const
   {
       return y();
   }
-  FT hz() const
+  const FT & hz() const
   {
       return z();
   }
@@ -138,8 +127,8 @@ public:
       return FT(1);
   }
 
-  FT cartesian(int i) const;
-  FT operator[](int i) const;
+  const FT & cartesian(int i) const;
+  const FT & operator[](int i) const;
   FT homogeneous(int i) const;
 
   int dimension() const
@@ -147,14 +136,14 @@ public:
       return 3;
   }
 
-  Self operator+(const Self &w) const;
-  Self operator-(const Self &w) const;
-  Self operator-() const;
-  Self operator/(const FT &c) const;
-  FT operator*(const Self &w) const;
+  Vector_3 operator+(const VectorC3 &w) const;
+  Vector_3 operator-(const VectorC3 &w) const;
+  Vector_3 operator-() const;
+  Vector_3 operator/(const FT &c) const;
+  FT operator*(const VectorC3 &w) const;
   FT squared_length() const;
   Direction_3 direction() const;
-  Self transform(const Aff_transformation_3 &t) const
+  Vector_3 transform(const Aff_transformation_3 &t) const
   {
     return t.transform(*this);
   }
@@ -167,7 +156,7 @@ public:
 template < class R >
 inline
 bool
-VectorC3<R CGAL_CTAG>::operator==(const VectorC3<R CGAL_CTAG> &v) const
+VectorC3<R>::operator==(const VectorC3<R> &v) const
 {
   if (identical(v))
       return true;
@@ -177,7 +166,7 @@ VectorC3<R CGAL_CTAG>::operator==(const VectorC3<R CGAL_CTAG> &v) const
 template < class R >
 inline
 bool
-VectorC3<R CGAL_CTAG>::operator!=(const VectorC3<R CGAL_CTAG> &v) const
+VectorC3<R>::operator!=(const VectorC3<R> &v) const
 {
   return !(*this == v);
 }
@@ -185,7 +174,7 @@ VectorC3<R CGAL_CTAG>::operator!=(const VectorC3<R CGAL_CTAG> &v) const
 template < class R >
 inline
 bool
-VectorC3<R CGAL_CTAG>::operator==(const Null_vector &) const
+VectorC3<R>::operator==(const Null_vector &) const
 {
   return CGAL_NTS is_zero(x()) && CGAL_NTS is_zero(y()) &&
          CGAL_NTS is_zero(z());
@@ -194,15 +183,15 @@ VectorC3<R CGAL_CTAG>::operator==(const Null_vector &) const
 template < class R >
 inline
 bool
-VectorC3<R CGAL_CTAG>::operator!=(const Null_vector &v) const
+VectorC3<R>::operator!=(const Null_vector &v) const
 {
   return !(*this == v);
 }
 
 template < class R >
 inline
-typename VectorC3<R CGAL_CTAG>::FT
-VectorC3<R CGAL_CTAG>::cartesian(int i) const
+const typename VectorC3<R>::FT &
+VectorC3<R>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<3) );
   if (i==0) return x();
@@ -212,15 +201,15 @@ VectorC3<R CGAL_CTAG>::cartesian(int i) const
 
 template < class R >
 inline
-typename VectorC3<R CGAL_CTAG>::FT
-VectorC3<R CGAL_CTAG>::operator[](int i) const
+const typename VectorC3<R>::FT &
+VectorC3<R>::operator[](int i) const
 {
   return cartesian(i);
 }
 
 template < class R >
-typename VectorC3<R CGAL_CTAG>::FT
-VectorC3<R CGAL_CTAG>::homogeneous(int i) const
+typename VectorC3<R>::FT
+VectorC3<R>::homogeneous(int i) const
 {
   if (i==3) return FT(1);
   return cartesian(i);
@@ -228,58 +217,58 @@ VectorC3<R CGAL_CTAG>::homogeneous(int i) const
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-VectorC3<R CGAL_CTAG>::
-operator+(const VectorC3<R CGAL_CTAG> &w) const
+typename VectorC3<R>::Vector_3
+VectorC3<R>::
+operator+(const VectorC3<R> &w) const
 {
-  return VectorC3<R CGAL_CTAG>(x() + w.x(), y() + w.y(), z() + w.z());
+  return VectorC3<R>(x() + w.x(), y() + w.y(), z() + w.z());
 }
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-VectorC3<R CGAL_CTAG>::operator-(const VectorC3<R CGAL_CTAG> &w) const
+typename VectorC3<R>::Vector_3
+VectorC3<R>::operator-(const VectorC3<R> &w) const
 {
-  return VectorC3<R CGAL_CTAG>(x() - w.x(), y() - w.y(), z() - w.z());
+  return VectorC3<R>(x() - w.x(), y() - w.y(), z() - w.z());
 }
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-VectorC3<R CGAL_CTAG>::operator-() const
+typename VectorC3<R>::Vector_3
+VectorC3<R>::operator-() const
 {
-  return VectorC3<R CGAL_CTAG>(-x(), -y(), -z());
+  return Vector_3(-x(), -y(), -z());
 }
 
 template < class R >
 inline
-typename VectorC3<R CGAL_CTAG>::FT
-VectorC3<R CGAL_CTAG>::operator*(const VectorC3<R CGAL_CTAG> &w) const
+typename VectorC3<R>::FT
+VectorC3<R>::operator*(const VectorC3<R> &w) const
 {
   return x() * w.x() + y() * w.y() + z() * w.z();
 }
 
 template < class R >
 inline
-typename VectorC3<R CGAL_CTAG>::FT
-VectorC3<R CGAL_CTAG>::squared_length() const
+typename VectorC3<R>::FT
+VectorC3<R>::squared_length() const
 {
   return CGAL_NTS square(x()) + CGAL_NTS square(y()) + CGAL_NTS square(z());
 }
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-VectorC3<R CGAL_CTAG>::
-operator/(const typename VectorC3<R CGAL_CTAG>::FT &c) const
+typename VectorC3<R>::Vector_3
+VectorC3<R>::
+operator/(const typename VectorC3<R>::FT &c) const
 {
-  return VectorC3<R CGAL_CTAG>(x()/c, y()/c, z()/c);
+  return VectorC3<R>(x()/c, y()/c, z()/c);
 }
 
 template < class R >
 inline
-typename VectorC3<R CGAL_CTAG>::Direction_3
-VectorC3<R CGAL_CTAG>::direction() const
+typename VectorC3<R>::Direction_3
+VectorC3<R>::direction() const
 {
   return Direction_3(*this);
 }
@@ -287,7 +276,7 @@ VectorC3<R CGAL_CTAG>::direction() const
 #ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_VECTORC3
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const VectorC3<R CGAL_CTAG> &v)
+operator<<(std::ostream &os, const VectorC3<R> &v)
 {
   switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -307,7 +296,7 @@ operator<<(std::ostream &os, const VectorC3<R CGAL_CTAG> &v)
 #ifndef CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_VECTORC3
 template < class R >
 std::istream &
-operator>>(std::istream &is, VectorC3<R CGAL_CTAG> &p)
+operator>>(std::istream &is, VectorC3<R> &p)
 {
   typename R::FT x, y, z;
   switch(is.iword(IO::mode)) {
@@ -325,7 +314,7 @@ operator>>(std::istream &is, VectorC3<R CGAL_CTAG> &p)
       break;
   }
   if (is)
-      p = VectorC3<R CGAL_CTAG>(x, y, z);
+      p = VectorC3<R>(x, y, z);
   return is;
 }
 #endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_VECTORC3

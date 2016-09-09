@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Min_sphere_d_new.h
-// package       : Min_sphere_d_new (0.12.1)
+// package       : Min_sphere_d_new (0.12.4)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Min_sphere_d.aw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/16 12:41:26 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/02/05 10:20:14 $
 //
 // author(s)     : Bernd Gärtner, Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -591,7 +589,7 @@ operator << ( std::ostream& os,
 {
     CGAL_USING_NAMESPACE_STD
 
-    typedef  Min_sphere_d<Traits_>::Point  Point;
+    typedef  typename Min_sphere_d<Traits_>::Point  Point;
     typedef  ostream_iterator<Point>       Os_it;
     typedef  typename Traits_::ET          ET;
     typedef  ostream_iterator<ET>          Et_it;
@@ -657,7 +655,7 @@ operator >> ( std::istream& is, CGAL::Min_sphere_d<Traits_>& min_sphere)
 
       case CGAL::IO::ASCII:
       case CGAL::IO::BINARY:
-        typedef  CGAL::Min_sphere_d<Traits_>::Point  Point;
+        typedef  typename CGAL::Min_sphere_d<Traits_>::Point  Point;
         typedef  istream_iterator<Point>             Is_it;
         min_sphere.set( Is_it( is), Is_it());
         break;

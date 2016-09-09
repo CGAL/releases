@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Alpha_shape_euclidean_traits_2.h
-// package       : Alpha_shapes_2 (11.6)
+// package       : Alpha_shapes_2 (11.19)
 // source        : $RCSfile: Alpha_shape_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/11 13:49:28 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/12/01 12:42:25 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -89,7 +87,7 @@ public:
   typedef typename R::FT Coord_type;
   typedef typename Triangulation_euclidean_traits_2<R>::Point Point;
 
-  typedef Compute_squared_radius_2<Coord_type, Point> 
+  typedef CGAL::Compute_squared_radius_2<Coord_type, Point> 
   Compute_squared_radius_2;
   typedef typename R::Side_of_bounded_circle_2 Side_of_bounded_circle_2;
   

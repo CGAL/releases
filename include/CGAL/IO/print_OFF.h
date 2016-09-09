@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/print_OFF.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/02 20:58:55 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/04/26 13:30:02 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // Print a Polyhedron_3 in object file format (OFF)
 // email         : contact@cgal.org
@@ -59,6 +57,30 @@
 #include <iostream>
 
 CGAL_BEGIN_NAMESPACE
+
+template <class Polyhedron>
+void print_polyhedron_with_header_OFF( std::ostream& out, 
+                                       const Polyhedron& P,
+                                       const File_header_OFF& header) {
+    File_writer_OFF  writer( header);
+    writer.header().set_polyhedral_surface( true);
+    writer.header().set_halfedges( P.size_of_halfedges());
+    generic_print_polyhedron( out, P, writer);
+}
+
+
+template <class Polyhedron>
+void print_polyhedron_OFF( std::ostream& out, 
+                           const Polyhedron& P,
+                           bool verbose = false) {
+    File_header_OFF header( verbose);
+    header.set_binary( is_binary( out));
+    header.set_no_comments( ! is_pretty( out));
+    print_polyhedron_with_header_OFF( out, P, header);
+}
+
+
+// Deprecated global functions, replaced with functions above
 
 #ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
 template <class Traits, class HDS>

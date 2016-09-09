@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/write_arr.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Eti Ezra
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -53,8 +51,8 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.3-I-90 $
-// release_date  : $CGAL_Date: 2001/08/10 $
+// release       : $CGAL_Revision: CGAL-2.4-I-90 $
+// release_date  : $CGAL_Date: 2002/05/15 $
 //
 // file          : include/CGAL/IO/write_arr.h
 // package       : pm (1.81)
@@ -81,60 +79,51 @@
 //#include <CGAL/Arrangement_2.h>
 //#endif
 
-#ifndef CGAL_INVERSE_INDEX_H
 #include <CGAL/Inverse_index.h>
-#endif
-
-#ifndef CGAL_IO_WRITE_PM_H
 #include <CGAL/IO/write_pm.h>
-#endif // CGAL_IO_WRITE_PM_H
-
 #include <iostream>
 #include <vector>
 
 CGAL_BEGIN_NAMESPACE
 
 
-template <class Arrangement, class Writer>
-void write_arr(const Arrangement& arr, 
-               Writer& writer, 
-               std::ostream& o) 
+template <class Arr, class Writer>
+void write_arr(const Arr & arr, 
+               Writer & writer, 
+               std::ostream & o) 
 {
-  typedef typename Arrangement::Planar_map               PM;
+  typedef typename Arr::Planar_map              PM;
 
-  typedef typename Arrangement::Vertex                   Vertex;
-  typedef typename Arrangement::Face                     Face;
-  typedef typename Arrangement::Halfedge                 Halfedge;
-  typedef typename Arrangement::Curve_iterator           Curve_iterator;
-  typedef typename Arrangement::Subcurve_iterator        Subcurve_iterator;
-  typedef typename Arrangement::Edge_iterator            Edge_iterator;
-  typedef typename Arrangement::Curve_const_iterator     Curve_const_iterator;
-  typedef typename Arrangement::Subcurve_const_iterator    
-                                                      Subcurve_const_iterator;
-  typedef typename Arrangement::Edge_const_iterator     Edge_const_iterator;
-  typedef typename Arrangement::Vertex_handle           Vertex_handle;
-  typedef typename Arrangement::Halfedge_handle         Halfedge_handle;
-  typedef typename Arrangement::Face_handle             Face_handle;
-  typedef typename Arrangement::Vertex_const_handle     Vertex_const_handle;
-  typedef typename Arrangement::Halfedge_const_handle   Halfedge_const_handle;
-  typedef typename Arrangement::Face_const_handle       Face_const_handle;
-  typedef typename Arrangement::Vertex_iterator         Vertex_iterator;
-  typedef typename Arrangement::Vertex_const_iterator   Vertex_const_iterator;
-  typedef typename Arrangement::Halfedge_iterator       Halfedge_iterator;
-  typedef typename Arrangement::Halfedge_const_iterator  
-                                                     Halfedge_const_iterator;
-  typedef typename Arrangement::Face_iterator           Face_iterator;
-  typedef typename Arrangement::Face_const_iterator     Face_const_iterator;
-  typedef typename Arrangement::Ccb_halfedge_circulator    
-                                                    Ccb_halfedge_circulator;
-  typedef typename Arrangement::Ccb_halfedge_const_circulator              
-                                              Ccb_halfedge_const_circulator;
-  typedef typename Arrangement::Holes_iterator          Holes_iterator;
-  typedef typename Arrangement::Holes_const_iterator    Holes_const_iterator;
-  typedef typename Arrangement::Overlap_circulator      Overlap_circulator;
-  typedef typename Arrangement::Overlap_const_circulator  
-                                                  Overlap_const_circulator;
-  typedef typename Arrangement::Locate_type             Locate_type;
+  typedef typename Arr::Vertex                  Vertex;
+  typedef typename Arr::Face                    Face;
+  typedef typename Arr::Halfedge                Halfedge;
+  typedef typename Arr::Curve_iterator          Curve_iterator;
+  typedef typename Arr::Subcurve_iterator       Subcurve_iterator;
+  typedef typename Arr::Edge_iterator           Edge_iterator;
+  typedef typename Arr::Curve_const_iterator    Curve_const_iterator;
+  typedef typename Arr::Subcurve_const_iterator Subcurve_const_iterator;
+  typedef typename Arr::Edge_const_iterator     Edge_const_iterator;
+  typedef typename Arr::Vertex_handle           Vertex_handle;
+  typedef typename Arr::Halfedge_handle         Halfedge_handle;
+  typedef typename Arr::Face_handle             Face_handle;
+  typedef typename Arr::Vertex_const_handle     Vertex_const_handle;
+  typedef typename Arr::Halfedge_const_handle   Halfedge_const_handle;
+  typedef typename Arr::Face_const_handle       Face_const_handle;
+  typedef typename Arr::Vertex_iterator         Vertex_iterator;
+  typedef typename Arr::Vertex_const_iterator   Vertex_const_iterator;
+  typedef typename Arr::Halfedge_iterator       Halfedge_iterator;
+  typedef typename Arr::Halfedge_const_iterator Halfedge_const_iterator;
+  typedef typename Arr::Face_iterator           Face_iterator;
+  typedef typename Arr::Face_const_iterator     Face_const_iterator;
+  typedef typename Arr::Ccb_halfedge_circulator Ccb_halfedge_circulator;
+  typedef typename Arr::Ccb_halfedge_const_circulator              
+                                                Ccb_halfedge_const_circulator;
+  typedef typename Arr::Holes_iterator          Holes_iterator;
+  typedef typename Arr::Holes_const_iterator    Holes_const_iterator;
+  typedef typename Arr::Overlap_circulator      Overlap_circulator;
+  typedef typename Arr::Overlap_const_circulator  
+                                                Overlap_const_circulator;
+  typedef typename Arr::Locate_type             Locate_type;
   
   typedef Inverse_index<Halfedge_const_iterator>                  H_index;
   typedef Inverse_index<Curve_const_iterator>                     Cn_index;
@@ -149,11 +138,9 @@ void write_arr(const Arrangement& arr,
 
   writer.write_comment("Printing curve hierachy");
 
-  std::vector<En_index>  en_index_table;
+  std::vector<En_index> en_index_table;
   // creating curve indices.
-  Cn_index               cn_index(arr.curve_node_begin(), 
-                                  arr.curve_node_end()); 
-
+  Cn_index cn_index(arr.curve_node_begin(), arr.curve_node_end()); 
   
   // creating the edge node indices table.
   Curve_const_iterator cv_iter;
@@ -211,28 +198,33 @@ void write_arr(const Arrangement& arr,
         
         if (i+1 < cv_iter->number_of_sc_levels()){
           if (!writer.verbose()){
-            writer.write_comment("begin and past end indices of children subcurve nodes");
+            writer.write_comment(
+            "begin and past end indices of children subcurve nodes");
             
             Subcurve_const_iterator last_child = sc_iter->children_end();
             
-            writer.write_value((scv_index[i+1])[sc_iter->children_begin()], ' ');
+            writer.write_value((scv_index[i+1])[sc_iter->children_begin()],
+                               ' ');
             writer.write_value((scv_index[i+1])[--last_child] + 1);
           }
           else {
             writer.write_comment("All children subcurve nodes");
-            
-            for (Subcurve_const_iterator child_iter = sc_iter->children_begin();
-                 child_iter != sc_iter->children_end(); child_iter++)
+
+            Subcurve_const_iterator child_iter;
+            for (child_iter = sc_iter->children_begin();
+                 child_iter != sc_iter->children_end(); 
+                 child_iter++)
               writer.write_subcurve (child_iter);
           }
         }
           
         else{  // getting to the edge nodes.
           if (!writer.verbose()){
-            writer.write_comment("begin and past end indices of children edge nodes");
+            writer.write_comment
+              ("begin and past end indices of children edge nodes");
             
             Edge_const_iterator last_child = sc_iter->edges_end();
-            
+
             writer.write_value(en_index[sc_iter->edges_begin()], ' ');
             writer.write_value(en_index[--last_child] + 1);
           }
@@ -263,27 +255,32 @@ void write_arr(const Arrangement& arr,
          edge_iter != cv_iter->edges_end(); edge_iter++){
       if (!writer.verbose()){
         // printing next overlapping edge node.
-        writer.write_comment("pair indices (curve node and its edge node) for next overlapping edge node :");
+        writer.write_comment("pair indices (curve node and its edge node) "
+                             "for next overlapping edge node :");
+        
+        //cout<<"edge_iter->curve()"<<edge_iter->curve()<<endl;
+        
         Edge_const_iterator edge_past_end_child = 
           Edge_const_iterator(edge_iter->children_end());
-        
+               
         std::size_t j = cn_index[edge_past_end_child->curve_node()];
         std::size_t k = (en_index_table[j])[edge_past_end_child];
         
         writer.write_value(j, ' ');
         writer.write_value(k);
-        //writer.skip_line();
+        
 
         //cout<<edge_iter->children_begin()->curve();
         //writer.write_index(en_index[edge_iter->children_begin()]);
         //writer.write_index(en_index[edge_iter->children_end()]);
         
         writer.write_comment("Halfedge indices associated with edge nodes");
-        writer.write_value(h_index[Halfedge_const_iterator(edge_iter->halfedge())]);
+        writer.write_value
+          (h_index[Halfedge_const_iterator(edge_iter->halfedge())]);
       }
       else{
         writer.write_comment("Halfedge associated with edge nodes");
-        writer.write_halfedge(edge_iter->halfedge());
+        writer.write_halfedge_verbose(edge_iter->halfedge());
       }
       
       //writer.skip_line();
@@ -302,20 +299,3 @@ void write_arr(const Arrangement& arr,
 CGAL_END_NAMESPACE
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

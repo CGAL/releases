@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.23 $
-// revision_date : $Date: 2001/07/18 14:21:25 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.26 $
+// revision_date : $Date: 2002/04/12 00:25:58 $
 // author(s)     : Sylvain Pion
 //                 Monique Teillaud
 //
@@ -53,18 +51,10 @@
 #include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/Weighted_point.h>
+#include <CGAL/representation_tags.h>
 
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif
-
-#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/predicates/Regular_triangulation_ftC3.h>
-#endif
-
-#if defined CGAL_HOMOGENEOUS_H || defined CGAL_SIMPLE_HOMOGENEOUS_H
 #include <CGAL/predicates/Regular_triangulation_rtH3.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE 
 
@@ -73,7 +63,7 @@ class Power_test_3
 {
 public:
   typedef Oriented_side  result_type;
-  typedef Weighted_point <Point, Weight>        Weighted_point;
+  typedef CGAL::Weighted_point <Point, Weight>        Weighted_point;
 
   Oriented_side operator() ( const Weighted_point & p,
 			     const Weighted_point & q,
@@ -101,21 +91,21 @@ public:
 
 
 
-template < class Repres, class Weight = CGAL_TYPENAME_MSVC_NULL Repres::RT >
+template < class K, class Weight = CGAL_TYPENAME_MSVC_NULL K::RT >
 class Regular_triangulation_euclidean_traits_3
-  : public Repres
+  : public K
 {
 public:
-  typedef typename Repres::Point_3 Bare_point;
-  typedef Weighted_point <Bare_point, Weight>   Weighted_point;
-  typedef Weighted_point                        Point_3;
+  typedef typename K::Point_3                        Bare_point;
+  typedef CGAL::Weighted_point<Bare_point, Weight>   Weighted_point;
+  typedef Weighted_point                             Point_3;
 
   // The next typedef is there for backward compatibility
   // Some users take their point type from the traits class.
   // Before this type was Point
   typedef Point_3 Point;
 
-  typedef Power_test_3<Bare_point, Weight> Power_test_3;
+  typedef CGAL::Power_test_3<Bare_point, Weight> Power_test_3;
   
   Power_test_3 
   power_test_3_object() const
@@ -123,7 +113,8 @@ public:
 
 };
 
-#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
+
+// Cartesian versions.
 template < class pt, class Weight >
 inline
 Oriented_side
@@ -134,7 +125,7 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Cartesian_tag)
 {
-  typedef typename pt::FT FT;
+  typedef typename pt::R::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
@@ -151,7 +142,7 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Cartesian_tag)
 {
-  typedef typename pt::FT FT;
+  typedef typename pt::R::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
@@ -166,14 +157,14 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Cartesian_tag)
 {
-  typedef typename pt::FT FT;
+  typedef typename pt::R::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
-#endif // CGAL_CARTESIAN_H
 
-#if defined CGAL_HOMOGENEOUS_H || defined CGAL_SIMPLE_HOMOGENEOUS_H
+
+// Homogeneous versions.
 template < class pt, class Weight >
 inline
 Oriented_side
@@ -184,7 +175,7 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Homogeneous_tag)
 {
-  typedef typename pt::RT RT;
+  typedef typename pt::R::RT RT;
     return power_testH3(p.hx(), p.hy(), p.hz(), p.hw(), RT(p.weight()),
                         q.hx(), q.hy(), q.hz(), q.hw(), RT(q.weight()),
                         r.hx(), r.hy(), r.hz(), r.hw(), RT(r.weight()),
@@ -204,7 +195,7 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Homogeneous_tag)
 {
-    typedef typename pt::FT FT;
+    typedef typename pt::R::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
@@ -219,12 +210,12 @@ power_test(const Weighted_point<pt, Weight> &p,
            const Weighted_point<pt, Weight> &t,
 	   Homogeneous_tag)
 {
-    typedef typename pt::FT FT;
+    typedef typename pt::R::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
-#endif // CGAL_HOMOGENEOUS_H
+
 
 // Kludges for M$.
 

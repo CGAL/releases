@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/partition_optimal_convex_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/03/22 10:09:09 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/04/18 14:12:17 $
 //
 // author(s)     : Susan Hert
 //
@@ -49,6 +47,48 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
+
+// ===========================================================================
+// There is a known bug in this algorithm that causes more than the optimal 
+// number of convex pieces to be reported in cases where there are many
+// collinear vertices (as in a Hilbert polygon, for example).  More precisely,
+// the problem is known to crop up in this situation:
+//
+//       5-----------4
+//       |           |
+//       |     2-----3
+//       |     |
+//       |     1-----0
+//       |           |
+//       |    13-----14
+//       |     |
+//       6    12--11
+//       |        |
+//       |     9--10
+//       |     |
+//       7-----8
+//
+// The problem arises because when decomposing the polygon from vertex 1 to 13
+// point 2 is (quite correctly) indicated as not visible to point 13.  Thus
+// it is believed an edge is necessary to divide the polygon (1 2 5 6 12 13).
+//
+// A hack that partially fixes this problem is implemented as follows:
+// a vertex r is marked as visible from a point q for the purposes of 
+// the decompose function if p is the other endpoint of the edge containing r 
+// and p is visible from q.
+//
+// This causes the problem that decomposition from 8 to 12 indicates that 
+// valid vertices are 8 9 and 12. Diagonal (9 12) is valid, but (8 12) is
+// also considered to be valid and necessary since 9 is a reflex vertex. 
+// The result is a polygon split with diagonals (2 5) (12 5) (9 12) and
+// (13 1), which is obviously not optimal.
+//
+// To get around this problem, I currently postprocess during the cutting
+// up of the polygon to remove unneeded diagonals and then
+// achieve the optimal, but a better solution is surely desired....
+//
+// ===========================================================================
 
 #ifndef CGAL_PARTITION_OPTIMAL_CONVEX_H
 #define CGAL_PARTITION_OPTIMAL_CONVEX_H
@@ -63,7 +103,6 @@
 #include<CGAL/partition_is_valid_2.h>
 #include<CGAL/Partition_traits_2.h>
 #include<CGAL/partition_assertions.h>
-#include<CGAL/Vertex_visibility_traits_2.h>
 #include<CGAL/Vertex_visibility_graph_2.h>
 #include<utility>
 #include<vector>
@@ -188,6 +227,28 @@ void partition_opt_cvx_load(int current,
     }
 }
 
+// pre: edge_num1 <= e_num <= edge_num2 but edge_num1 != edge_num2
+template <class Polygon, class Traits>
+bool collinearly_visible(unsigned int edge_num1, unsigned int e_num,
+                         unsigned int edge_num2,
+                         const Matrix<Partition_opt_cvx_edge>& edges,
+                         const Polygon& polygon,
+                         const Traits& traits)
+{
+   typedef typename Polygon::size_type                   size_type;
+   typedef typename Traits::Orientation_2                Orientation_2;
+   Orientation_2 orientation = traits.orientation_2_object();
+
+   if ((e_num == edge_num1+1 || e_num+1 == edge_num2) && 
+       edges[edge_num1][edge_num2].is_visible() &&
+       orientation(polygon[edge_num1], polygon[e_num], polygon[edge_num2]) ==
+                  COLLINEAR)
+     return true;
+   else
+     return false;    
+}
+           
+
 template <class Polygon, class Traits>
 int partition_opt_cvx_decompose(unsigned int edge_num1, unsigned int edge_num2,
                                 Polygon& polygon, 
@@ -225,7 +286,9 @@ int partition_opt_cvx_decompose(unsigned int edge_num1, unsigned int edge_num2,
    for (size_type e_num = edge_num1; e_num <= edge_num2; e_num++) 
    {
        if (edges[edge_num1][e_num].is_visible() && 
-           edges[e_num][edge_num2].is_visible()) 
+           edges[e_num][edge_num2].is_visible() || 
+           collinearly_visible(edge_num1, e_num, edge_num2, edges, polygon,
+                               traits) ) 
        {
           v_list.push_back(Partition_opt_cvx_vertex(e_num));
        }
@@ -252,6 +315,7 @@ int partition_opt_cvx_decompose(unsigned int edge_num1, unsigned int edge_num2,
 #endif
    edges[edge_num1][edge_num2].set_value(num_pieces);
    diag_list.push_back(Partition_opt_cvx_diagonal(edge_num1, edge_num2));
+   edges[edge_num1][edge_num2].set_value(num_pieces);
    edges[edge_num1][edge_num2].set_solution(diag_list);
    edges[edge_num1][edge_num2].set_done(true);
    edges[edge_num1][edge_num2].set_valid(old_validity);
@@ -278,8 +342,7 @@ template <class Polygon, class Traits>
 bool partition_opt_cvx_is_visible_n3(const Polygon& polygon, unsigned int i,
                                      unsigned int j, const Traits& traits)
 {
-   typedef typename Traits::R             R;
-   typedef typename R::Segment_2          Segment_2;
+   typedef typename Traits::Segment_2     Segment_2;
    typedef typename Polygon::size_type    size_type;
    typedef typename Traits::Leftturn_2    Leftturn_2;
    typedef typename Traits::Point_2       Point_2;
@@ -319,6 +382,92 @@ bool partition_opt_cvx_is_visible_n3(const Polygon& polygon, unsigned int i,
    return true;
 }
 
+// when consecutive sequence of vertices are collinear, they must all be 
+// visible to each other as if there were no vertices in between.
+template <class Polygon, class Traits>
+void make_collinear_vertices_visible(Polygon& polygon, 
+                                     Matrix<Partition_opt_cvx_edge>& edges, 
+                                     const Traits& traits)
+{
+    typedef typename Polygon::size_type                   size_type;
+    typedef typename Traits::Orientation_2                Orientation_2;
+    Orientation_2 orientation = traits.orientation_2_object();
+
+    size_type i; 
+    size_type prev_j, j;
+    size_type k, next_k;
+
+    // start at the beginning, move backwards as long as the points are
+    // collinear; move forward as long as the points are collinear;
+    // when you find the extremes make the larger one visible to the smaller 
+    // one loop until you reach the larger one each time starting again at the
+    // larger
+    i = polygon.size() - 1;
+    prev_j = 0;
+    j = 1;
+    int start_i = 0;
+    while (i > 0 && 
+           orientation(polygon[i], polygon[prev_j], polygon[j]) == COLLINEAR)
+    {
+       prev_j = i;
+       start_i = i;
+       i--;
+    }
+    i = 0;
+    prev_j = 1;
+    j = 2;
+    while (j < polygon.size() &&
+           orientation(polygon[i], polygon[prev_j], polygon[j]) == COLLINEAR)
+    {
+       i++;
+       prev_j++;
+       j++;
+    }
+    // all points between start_i and prev_j are collinear so they must all
+    // be visible to each other
+    for (k = start_i; k != prev_j; )
+    {
+       next_k = k;
+       do
+       {
+         next_k = (next_k == polygon.size() - 1) ? 0 : next_k+1;
+         // the matrix should be upper triangular.
+         if (k < next_k)
+            edges[k][next_k].set_visible(true);
+         else
+            edges[next_k][k].set_visible(true);
+       }
+       while ( next_k != prev_j );
+       k = (k == polygon.size() - 1) ? 0 : k+1;
+    }
+    i = prev_j;
+    while (i < polygon.size())
+    {
+       prev_j = i+1;
+       j = i+2;
+       while (j < polygon.size() &&
+              orientation(polygon[i], polygon[prev_j], polygon[j]) == 
+              COLLINEAR)
+       {
+           j++;
+           prev_j++;
+       }
+       // the edge from the first collinear vertex to the last has
+       // the same validity as the edge ending at the last collinear vertex
+       if (prev_j < polygon.size())
+          for (k = i; k != prev_j; k++)
+          {
+             next_k = k;
+             do
+             {
+               next_k++; 
+               edges[k][next_k].set_visible(true);
+             }
+             while ( next_k != prev_j );
+          }
+       i = prev_j;
+    }
+}
 
 template <class Polygon, class Traits>
 void partition_opt_cvx_preprocessing(Polygon& polygon, 
@@ -327,17 +476,18 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
 {
     typedef typename Polygon::size_type                   size_type;
 
-    typedef typename Traits::R                            R;
     typedef typename Polygon::iterator                    Vertex_iterator;
-    typedef Vertex_visibility_traits_2<R>                 Vis_traits;
     typedef Vertex_visibility_graph_2<Traits>             Vis_graph;
     typedef typename Traits::Point_2                      Point_2;
     typedef std::pair<Point_2, Point_2>                   Point_pair;
+    typedef typename Traits::Orientation_2                Orientation_2;
 
     Vis_graph graph(polygon.begin(), polygon.end());
+    Orientation_2 orientation = traits.orientation_2_object();
 
     size_type prev_i, i, next_i, next_next_i;
     size_type prev_j, j, next_j;
+
     for (i = 0; i < polygon.size(); i++) 
     {
        prev_i = (i == 0)?polygon.size()-1:i-1;
@@ -355,9 +505,9 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
 
        for (j = i + 2 ; j < polygon.size(); j++)
        {
+          prev_j = j-1;
           if (graph.is_an_edge(Point_pair(polygon[i], polygon[j])))
           {
-             prev_j = (j == 0)?polygon.size()-1:j-1;
              next_j = (j + 1)% polygon.size();
              edges[i][j].set_visible(true);
              edges[i][j].set_valid(polygon[prev_i],polygon[i],polygon[next_i],
@@ -374,7 +524,8 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
              // triangles are a base case.
           }
        }
-   }
+    }
+    make_collinear_vertices_visible(polygon, edges, traits);
 }
 
 
@@ -438,7 +589,10 @@ OutputIterator partition_optimal_convex_2(InputIterator first,
                            polygon.begin() + (*it).second);
          polygon.insert_diagonal(source, target);
       }
-      polygon.partition(res, 0);
+      // the 1 is needed here to indicate that unnecessary edges should
+      // be pruned away.  These crop up when there are collinear vertices.
+      // See explanation at top of file.
+      polygon.partition(res, 1);
       CGAL_partition_postcondition(
              convex_partition_is_valid_2(polygon.begin(), polygon.end(),
                                       res.output_so_far_begin(), 
@@ -462,21 +616,10 @@ OutputIterator partition_optimal_convex_2(InputIterator first,
                                           OutputIterator result)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_2;
-   return CGAL_partition_optimal_convex_2(first, beyond, result, 
-                                          reinterpret_cast<Point_2*>(0));
+   typedef typename Kernel_traits<Point_2>::Kernel  K;
+   return partition_optimal_convex_2(first, beyond, result, 
+                                     Partition_traits_2<K>());
 }
-
-template <class InputIterator, class OutputIterator, class R>
-inline
-OutputIterator CGAL_partition_optimal_convex_2(InputIterator first, 
-                                               InputIterator beyond,
-                                               OutputIterator result, 
-                                               Point_2<R>*)
-{
-   return partition_optimal_convex_2(first, beyond, result,
-                                     Partition_traits_2<R>());
-}
-
 
 }
 

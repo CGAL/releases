@@ -23,27 +23,29 @@ CXXFLAGS = $(CGAL_LIB_CXXFLAGS)
 #---------------------------------------------------------------------#
 
 CGAL_OBJECTS = \
-Bbox_2$(OBJ_EXT) \
+aff_transformation_tags$(OBJ_EXT) \
+assertions$(OBJ_EXT) \
 Bbox_2_intersections$(OBJ_EXT) \
 Bbox_3_intersections$(OBJ_EXT) \
+cgal_logo$(OBJ_EXT) \
 Color$(OBJ_EXT) \
-File_header_OFF$(OBJ_EXT) \
 File_header_extended_OFF$(OBJ_EXT) \
+File_header_OFF$(OBJ_EXT) \
 File_scanner_OFF$(OBJ_EXT) \
+File_writer_inventor$(OBJ_EXT) \
 File_writer_OFF$(OBJ_EXT) \
 File_writer_VRML_2$(OBJ_EXT) \
-File_writer_inventor$(OBJ_EXT) \
 File_writer_wavefront$(OBJ_EXT) \
 Geomview_stream$(OBJ_EXT) \
 Interval_arithmetic$(OBJ_EXT) \
+io$(OBJ_EXT) \
 MP_Float$(OBJ_EXT) \
+optimisation_basic$(OBJ_EXT) \
 Origin$(OBJ_EXT) \
 Random$(OBJ_EXT) \
-Triangulation_3$(OBJ_EXT) \
-aff_transformation_tags$(OBJ_EXT) \
-assertions$(OBJ_EXT) \
-io$(OBJ_EXT) \
-optimisation_basic$(OBJ_EXT)
+Real_timer$(OBJ_EXT) \
+Timer$(OBJ_EXT) \
+Triangulation_3$(OBJ_EXT)
 
 #---------------------------------------------------------------------#
 #                    target entries
@@ -64,8 +66,6 @@ workaround_4_irix.o:
 workaround_4_irix6.o:
 	$(CGAL_CC) $(CXXFLAGS) -c Interval_arithmetic/workaround_4_irix6.s
 
-workaround_4_ms$(OBJ_EXT):
-	cp Interval_arithmetic/workaround_4_ms.obj workaround_4_ms$(OBJ_EXT)
 
 clean:
 	rm -f $(CGAL_LIB) $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)

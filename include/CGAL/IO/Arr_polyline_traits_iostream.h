@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Arr_polyline_traits_iostream.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Eti Ezra
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -51,124 +49,86 @@
 #include <CGAL/Arr_polyline_traits.h>
 #endif
 
-
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R, class Container>
-std::ostream&  operator<<(std::ostream& os,  const typename Arr_polyline_traits<R,Container>::Curve & cv)
+std::ostream & 
+operator<<(std::ostream & os, 
+	   const typename Arr_polyline_traits<R, Container>::Curve_2 & cv)
 {
-  typedef typename Arr_polyline_traits<R>::Curve   Curve;
-  typedef Curve::const_iterator       Points_iterator;
+  typedef typename Arr_polyline_traits<R>::Curve_2 Curve_2;
+  typedef typename Curve_2::const_iterator         Points_iterator;
   
-  os<<cv.size()<<std::endl;
+  os << cv.size() << std::endl;
   for (Points_iterator points_iter = cv.begin(); 
-       points_iter != cv.end(); points_iter++)
-    os<<" "<<*points_iter;
+       points_iter != cv.end(); ++points_iter)
+    os << " " << *points_iter;
 
   return os;
 }
 
 template <class R, class Container>
-std::ostream&  operator<<(std::ostream& os,  const typename Arr_polyline_traits<R,Container>::X_curve & cv)
+std::ostream & 
+operator<<(std::ostream & os,  
+	   const typename Arr_polyline_traits<R, Container>::X_curve_2 & cv)
 {
-  typedef typename Arr_polyline_traits<R>::Curve   Curve;
-  typedef Curve::const_iterator       Points_iterator;
+  typedef typename Arr_polyline_traits<R>::X_curve_2 X_curve_2;
+  typedef typename X_curve_2::const_iterator         Points_iterator;
   
-  os<<cv.size()<<std::endl;
+  os << cv.size() << std::endl;
   for (Points_iterator points_iter = cv.begin(); 
-       points_iter != cv.end(); points_iter++)
-    os<<" "<<*points_iter;
+       points_iter != cv.end(); ++points_iter)
+    os << " " << *points_iter;
 
   return os;
 }
 
-
 template <class R, class Container>
-std::istream&  operator>>(std::istream& in,  typename Arr_polyline_traits<R,Container>::Curve & cv)
+std::istream& 
+operator>>(std::istream& in,  
+	   typename Arr_polyline_traits<R, Container>::Curve_2 & cv)
 {
-  typedef typename Arr_polyline_traits<R>::Curve   Curve;
-  typedef typename Curve::value_type           Point;
+  typedef typename Arr_polyline_traits<R>::Curve_2   Curve_2;
+  typedef typename Curve_2::value_type               Point_2;
+  typedef typename Curve_2::size_type                size_type;
 
-  std::size_t  size;
+  size_type size;
 
   in >> size;
 
-  for (unsigned int i = 0; i < size; i++){
-    Point  p;
-    
+  for (size_type i = 0; i < size; ++i)
+  {
+    Point_2 p;
     in >> p;
-    
     cv.push_back(p);  
   }
   
   return in;
 }
 
-
 template <class R, class Container>
-std::istream&  operator>>(std::istream& in,  typename Arr_polyline_traits<R,Container>::X_curve & cv)
+std::istream& 
+operator>>(std::istream& in, 
+	   typename Arr_polyline_traits<R, Container>::X_curve_2 & cv)
 {
-  typedef typename Arr_polyline_traits<R>::Curve   Curve;
-  typedef typename Curve::value_type           Point;
+  typedef typename Arr_polyline_traits<R>::X_curve_2 X_curve_2;
+  typedef typename X_curve_2::value_type             Point_2;
+  typedef typename X_curve_2::size_type              size_type;
 
-  std::size_t  size;
+  size_type size;
 
   in >> size;
 
-  for (unsigned int i = 0; i < size; i++){
-    Point  p;
-    
+  for (size_type i = 0; i < size; ++i)
+  {
+    Point_2 p;
     in >> p;
-    
     cv.push_back(p);  
   }
   
   return in;
 }
-
-
-
-/*template <class Curve>
-std::ostream&  operator<<(std::ostream& os,  const Curve& cv)
-{
-
-  typedef typename Curve::const_iterator       Points_iterator;
-  
-  os<<cv.size()<<std::endl;
-  for (Points_iterator points_iter = cv.begin(); 
-       points_iter != cv.end(); points_iter++)
-    os<<" "<<*points_iter;
-
-  return os;
-}
-
-template <class Curve>
-std::istream&  operator>>(std::istream& in, Curve& cv)
-{
-  typedef typename Curve::value_type           Point;
-
-  std::size_t  size;
-
-  in >> size;
-
-  for (unsigned int i = 0; i < size; i++){
-    Point  p;
-    
-    in >> p;
-    
-    cv.push_back(p);  
-  }
-  
-  return in;
-}*/
 
 CGAL_END_NAMESPACE
 
 #endif
-//#endif 
-
-
-
-
-

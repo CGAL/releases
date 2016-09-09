@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/generic_sweep.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/generic_sweep.lw
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2001/07/06 08:17:18 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2002/03/22 15:19:57 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -55,7 +53,7 @@
 /*{\Moptions print_title=yes}*/
 /*{\Moptions section=subsection}*/
 
-#ifndef _MSC_VER
+#if (! defined( _MSC_VER) || _MSC_VER >= 1300)
 #include <CGAL/sweep_observer.h>
 
 namespace CGAL {

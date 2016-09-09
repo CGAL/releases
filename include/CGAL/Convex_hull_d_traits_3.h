@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Convex_hull_d_traits_3.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/28 09:32:16 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/03/11 16:45:51 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -136,13 +134,13 @@ template <class R_> struct Convex_hull_d_traits_3
       int a = A.size();
       CGAL_assertion( a <= 4 );
       if (a == 4) {
-        Tetrahedron_3<R_> t( A[0], A[1], A[2], A[3] );
+        typename R_::Tetrahedron_3 t( A[0], A[1], A[2], A[3] );
         return !t.has_on_unbounded_side(p);
       } else if (a == 3) {
-        Triangle_3<R_> t( A[0], A[1], A[2] );
+        typename R_::Triangle_3 t( A[0], A[1], A[2] );
         return t.has_on(p);
       } else if (a == 2) {
-        Segment_3<R_> s( A[0], A[1] );
+        typename R_::Segment_3 s( A[0], A[1] );
         return s.has_on(p);
       } else if (a == 1) {
         return ( A[0] == p);
@@ -227,17 +225,17 @@ template <class R_> struct Convex_hull_d_traits_3
       std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
 #endif
       int a = A.size(); CGAL_assertion( a <= 3 );
-      Plane_3<R_> pl;
+      Hyperplane_d pl;
       if (a == 3) {
-        pl = Plane_3<R_>( A[0], A[1], A[2] );
+        pl = Hyperplane_d( A[0], A[1], A[2] );
       }
       if (a == 2) {
-        Point_3<R_> hp =
+        typename R_::Point_3 hp =
               A[0] + cross_product( p - A[0], A[1] - A[0] );
-        pl = Plane_3<R_>( A[0], A[1], hp );
+        pl = Hyperplane_d( A[0], A[1], hp );
       }
       if (a == 1) {
-        pl = Plane_3<R_>( A[0], A[0] - p);
+        pl = Hyperplane_d( A[0], A[0] - p);
       }
       if (side != 0) {
         if ( pl.oriented_side(p) !=  side ) { pl = pl.opposite(); }

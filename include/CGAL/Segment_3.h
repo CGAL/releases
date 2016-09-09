@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Segment_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/06/27 14:49:53 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _3 (3.31)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2002/01/23 12:30:10 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,53 +46,28 @@
 #ifndef CGAL_SEGMENT_3_H
 #define CGAL_SEGMENT_3_H
 
-#include <CGAL/Line_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Segment_3 : public R_::Segment_3_base
+class Segment_3 : public R_::Kernel_base::Segment_3
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Point_3               Point_3;
+  typedef typename R_::Kernel_base::Segment_3  RSegment_3;
 public:
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Segment_3_base  RSegment_3;
 
-  Segment_3() : RSegment_3()
-  {}
-  Segment_3(const CGAL::Segment_3<R>& s) : RSegment_3(s)
-  {}
-  Segment_3(const CGAL::Point_3<R>& sp, const CGAL::Point_3<R>& ep)
-    : RSegment_3(sp,ep)
-  {}
-  Segment_3(const RSegment_3&  s) : RSegment_3(s)
-  {}
+  Segment_3()
+      : RSegment_3() {}
 
-  CGAL::Point_3<R>     start() const
-  { return RSegment_3::start(); }
-  CGAL::Point_3<R>     end() const
-  { return RSegment_3::end(); }
-  CGAL::Point_3<R>     source() const
-  { return RSegment_3::source(); }
-  CGAL::Point_3<R>     target() const
-  { return RSegment_3::target(); }
-  CGAL::Point_3<R>     min() const
-  { return RSegment_3::min(); }
-  CGAL::Point_3<R>     max() const
-  { return RSegment_3::max(); }
-  CGAL::Point_3<R>     vertex(int i) const
-  { return RSegment_3::vertex(i); }
-  CGAL::Point_3<R>     operator[](int i) const
-  { return vertex(i); }
-  CGAL::Direction_3<R> direction() const
-  { return RSegment_3::direction(); }
-  CGAL::Segment_3<R>  opposite() const
-  { return CGAL::Segment_3<R>(target(),source()); }
-  CGAL::Segment_3<R>  transform(const CGAL::Aff_transformation_3<R>& t) const
-  { return RSegment_3::transform(t); }
-  CGAL::Line_3<R>     supporting_line() const
-  { return RSegment_3::supporting_line(); }
+  Segment_3(const CGAL::Segment_3<R>& s)
+      : RSegment_3(s) {}
+
+  Segment_3(const Point_3& sp, const Point_3& ep)
+    : RSegment_3(sp,ep) {}
+
+  Segment_3(const RSegment_3& s)
+      : RSegment_3(s) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENT_3
@@ -103,7 +75,7 @@ template < class R>
 std::ostream&
 operator<<(std::ostream& os, const Segment_3<R>& s)
 {
-  typedef typename  R::Segment_3_base  RSegment_3;
+  typedef typename  R::Kernel_base::Segment_3  RSegment_3;
   return os << static_cast<const RSegment_3&>(s);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_SEGMENT_3
@@ -113,7 +85,7 @@ template < class R>
 std::istream&
 operator>>(std::istream& is, Segment_3<R>& s)
 {
-  typedef typename  R::Segment_3_base  RSegment_3;
+  typedef typename  R::Kernel_base::Segment_3  RSegment_3;
   return is >> static_cast<RSegment_3&>(s);
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENT_3

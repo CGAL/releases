@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Point_set_2.h
-// package       : Point_set_2 (2.2.6)
-// revision      : 2.2.2
-// revision_date : 13 July 2001 
+// package       : Point_set_2 (2.3.2)
+// revision      : 2.3.2
+// revision_date : 11 April 2002 
 // author(s)     : Matthias Baesken
 //
 // coordinator   : Matthias Baesken, Trier  (<baesken>)
@@ -49,6 +47,7 @@
 #define CGAL_POINT_SET_2_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Unique_hash_map.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <list>
 #include <queue>
@@ -62,12 +61,12 @@ CGAL_BEGIN_NAMESPACE
 
 
 // compare function objects for the priority queues used in nearest neighbor search
-template<class VP, class NT>
+template<class VP, class NT,class MAP_TYPE>
 class compare_vertices {
  public:
-  std::map<VP,NT,std::less<VP> > *pmap;
+  MAP_TYPE* pmap;
   
-  compare_vertices(std::map<VP,NT,std::less<VP> > *p){ pmap=p; }
+  compare_vertices(MAP_TYPE *p){ pmap=p; }
   
   bool operator()(VP e1, VP e2)
   // get the priorities from the map and return result of comparison ...
@@ -76,7 +75,6 @@ class compare_vertices {
     return (v1 > v2);
   }
 };
-
 
 
 template<class Gt, class Tds>
@@ -113,7 +111,9 @@ public:
 
   typedef typename Geom_traits::Bounded_side_2              Circleptori; 
   typedef typename Geom_traits::Compare_distance_2          Comparedist;         
-  typedef typename Geom_traits::Construct_center_2          Circlecenter;     
+  typedef typename Geom_traits::Construct_center_2          Circlecenter;   
+  
+  typedef Unique_hash_map<Vertex_handle, Numb_type>               MAP_TYPE;  
   
    Comparedist                   tr_comparedist;
    Orientation_2                 tr_orientation;  
@@ -261,6 +261,7 @@ public:
    return res;     
   }
 
+
   void nearest_neighbors_list(Vertex_handle v, int k, std::list<Vertex_handle>& res) 
   {  
      int n = number_of_vertices();
@@ -273,37 +274,37 @@ public:
      // "unmark" the vertices ...
      init_dfs();
 
-
-     std::map<Vertex*,Numb_type, std::less<Vertex*> > priority_number; // here we save the priorities ...
-     compare_vertices<Vertex*,Numb_type> comp(& priority_number);      // comparison object ...
-     std::priority_queue<Vertex*, std::vector<Vertex*>, CGAL::compare_vertices<Vertex*,Numb_type> > PQ(comp);
+     MAP_TYPE                                        priority_number;              // here we save the priorities ...
+     compare_vertices<Vertex_handle,Numb_type,MAP_TYPE>    comp(& priority_number);      // comparison object ...
+     std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGAL::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
 
      priority_number[v.ptr()] = 0;
-     PQ.push(v.ptr());
+     PQ.push(v);
      
      mark_vertex(v);
       
      while ( k > 0 )
      { 
        // find minimum from PQ ...
-       Vertex* w = PQ.top(); PQ.pop();
-       priority_number.erase(w); // and clean entry in priority map
+       Vertex_handle w = PQ.top();
+       PQ.pop();
    
-       res.push_back(w->handle()); k--; 
+       res.push_back(w); 
+       k--; 
 
        // get the incident vertices of w ...
-       Vertex_circulator vc = incident_vertices(w->handle());
+       Vertex_circulator vc = incident_vertices(w);
        Vertex_circulator start =vc;
-       Vertex* act;
+       Vertex_handle act;
      
        do {
-         act = &(*vc);
+         act = vc->handle();
 	 
-         if ( (!is_marked(act)) && (! is_infinite(act->handle())) )
+         if ( (!is_marked(act)) && (! is_infinite(act)) )
          { 
              priority_number[act] = tr_sqrdist(p,act->point());
              PQ.push(act);	      
-             mark_vertex(act->handle());
+             mark_vertex(act);
          }	   
 	             
          vc++;
@@ -317,14 +318,12 @@ public:
   // for marking nodes in search procedures
   int cur_mark;
    
-  std::map<Vertex*,int, std::less<Vertex*> > mark;  
-  typedef typename std::map<Vertex*,int, std::less<Vertex*> >::iterator map_iterator;
-
-  
+  Unique_hash_map<Vertex_handle, int>  mark;
+    
   void init_vertex_marks()
   {
      cur_mark = 0;
-     mark.erase(mark.begin(), mark.end());
+     mark.clear();
   }
   
   void init_dfs()
@@ -336,18 +335,14 @@ public:
   void mark_vertex(Vertex_handle vh)
   // mark vh as visited ...
   {
-    Vertex* v = vh.ptr();
-    mark[v] = cur_mark;
+    mark[vh] = cur_mark;
   }
   
   bool is_marked(Vertex_handle vh)
   {
-    Vertex* v = vh.ptr();
-    
-    map_iterator mit = mark.find(v);   
-    if (mit == mark.end()) return false;
+    if (! mark.is_defined(vh)) return false;
 
-    return (mark[v] == cur_mark);
+    return (mark[vh] == cur_mark);
   }
   
   void dfs(Vertex_handle v,const Circle& C, std::list<Vertex_handle>& L)

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Optimisation/Construct_point_d.h
-// package       : Optimisation_basic (3.8.10)
+// package       : Optimisation_basic (3.8.14)
 //
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/03/21 18:29:02 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/03/20 15:18:08 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -52,9 +50,8 @@
 #define CGAL_OPTIMISATION_CONSTRUCT_POINT_D_H
 
 // includes
-#ifndef CGAL_POINT_D_H
-#  include <CGAL/Point_d.h>
-#endif
+#  include <CGAL/Kernel_d/Interface_classes.h>
+#  include <CGAL/Kernel_d/Point_d.h>
 
 CGAL_BEGIN_NAMESPACE
 

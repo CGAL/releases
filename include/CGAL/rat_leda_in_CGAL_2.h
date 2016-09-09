@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/rat_leda_in_CGAL_2.h
-// package       : Convex_hull_2 (3.21)
-// revision      : $Release$
-// revision_date : $Date: 2001/06/25 12:26:24 $
+// package       : LEDA (1.0.1)
+// revision      : 1.0
+// revision_date : 19 March 2002
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -48,7 +46,9 @@
 #ifndef RAT_LEDA_IN_CGAL_H
 #define RAT_LEDA_IN_CGAL_H
 
+#include <CGAL/basic.h>
 #include <CGAL/enum.h>
+#include <CGAL/LEDA_basic.h>
 #include <LEDA/rat_point.h>
 #include <LEDA/rat_segment.h>
 #include <LEDA/rat_line.h>
@@ -59,14 +59,14 @@ bool
 leftturn( const leda_rat_point & p, 
           const leda_rat_point & q, 
           const leda_rat_point & r)
-{ return ::left_turn(p,q,r); }
+{ return CGAL_LEDA_SCOPE::left_turn(p,q,r); }
 
 inline
 bool
 rightturn( const leda_rat_point & p, 
                 const leda_rat_point & q, 
                 const leda_rat_point & r)
-{ return ::right_turn(p,q,r); }
+{ return CGAL_LEDA_SCOPE::right_turn(p,q,r); }
 
 /*
 #ifndef CGAL_CFG_NO_NAMESPACE
@@ -86,7 +86,7 @@ Orientation
 orientation( const leda_rat_point & p, 
              const leda_rat_point & q, 
              const leda_rat_point & r)
-{ return (Orientation)::orientation(p,q,r); }
+{ return (Orientation)CGAL_LEDA_SCOPE::orientation(p,q,r); }
 #endif // CGAL_CFG_NO_NAMESPACE
 
 
@@ -157,7 +157,7 @@ bool
 are_ordered_along_line( const leda_rat_point & p, 
                         const leda_rat_point & q, 
                         const leda_rat_point & r)
-{ return ( ::collinear(p,q,r) &&  collinear_are_ordered_along_line(p,q,r)); }  
+{ return ( CGAL_LEDA_SCOPE::collinear(p,q,r) &&  collinear_are_ordered_along_line(p,q,r)); }  
 
 inline
 bool
@@ -165,7 +165,7 @@ are_strictly_ordered_along_line( const leda_rat_point & p,
                                  const leda_rat_point & q, 
                                  const leda_rat_point & r)
 { 
-  return (    ::collinear(p,q,r) 
+  return (    CGAL_LEDA_SCOPE::collinear(p,q,r) 
            && collinear_are_strictly_ordered_along_line(p,q,r)
          ); 
 }  
@@ -176,11 +176,11 @@ cmp_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
                         const leda_rat_point& r, const leda_rat_point& s)
 {
 #if ( __LEDA__ >= 360 )
-  return (Comparison_result)::cmp_signed_dist(p,q,r,s);
+  return (Comparison_result)CGAL_LEDA_SCOPE::cmp_signed_dist(p,q,r,s);
 #else
   leda_rat_line  l(p,q);
-  int  r_or = ::orientation( l, r );
-  int  s_or = ::orientation( l, s );
+  int  r_or = CGAL_LEDA_SCOPE::orientation( l, r );
+  int  s_or = CGAL_LEDA_SCOPE::orientation( l, s );
   if ( r_or != s_or )
   {
       return (Comparison_result)( r_or < s_or );

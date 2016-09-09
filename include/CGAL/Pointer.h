@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pointer.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Pointer.h,v $
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/03/23 15:05:08 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/04/09 11:29:43 $
 // author(s)     : Olivier Devillers, Mariette Yvinec, Sylvain Pion
 //
 // coordinator   : Mariette Yvinec
@@ -59,10 +57,17 @@ CGAL_BEGIN_NAMESPACE
 template <class T>
 struct Pointer
 {
-  typedef T value_type;
+  typedef void     iterator_category;
+  typedef T        value_type;
+  typedef void     difference_type;
+  typedef T*       pointer;
+  typedef T&       reference;
+  
 
   //Pointer(const T* p = NULL) : _pointer((T*)p) {}
-  Pointer( T* p = NULL) : _pointer((T*)p) {}
+  //Pointer( T* p = NULL) : _pointer((T*)p) {}
+  Pointer() : _pointer(NULL) {}
+  Pointer( const T* p) : _pointer(const_cast<T*>(p)) {}
 
   //Pointer& operator=(const T* p)
   Pointer& operator=( T* p)
@@ -105,6 +110,7 @@ struct Pointer
   T*  ptr() const { return _pointer; }
 
   bool operator<(const Pointer& p) const { return ptr() < p.ptr();}
+  bool operator>(const Pointer& p) const { return ptr() > p.ptr();}
 
 private:
   T* _pointer;

@@ -1,17 +1,10 @@
 #ifdef CGAL_USE_LEDA
 #include <CGAL/basic.h>
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/leda_integer.h>
 #include <CGAL/Extended_homogeneous.h>
 #include <CGAL/Nef_polyhedron_2.h>
 #include <CGAL/IO/Nef_polyhedron_2_Window_stream.h>
-
-template <>
-struct ring_or_field<leda_integer> {
-  typedef ring_with_gcd kind;
-  typedef leda_integer RT;
-  static RT gcd(const RT& r1, const RT& r2) 
-  { return ::gcd(r1,r2); }
-};
 
 typedef CGAL::Extended_homogeneous<leda_integer> EKernel;
 typedef CGAL::Nef_polyhedron_2<EKernel> Nef_polyhedron;

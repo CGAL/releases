@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/known_bit_size_integers.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/04/06 14:49:09 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/11/20 10:09:27 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -53,7 +51,8 @@ CGAL_BEGIN_NAMESPACE
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
     (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \
     (defined(__i386__)  || defined(__i386)  || defined(i386)) || \
-    (defined(__alpha__)  || defined(__alpha)  || defined(alpha)) || \
+    (defined(__alpha__) || defined(__alpha) || defined(alpha)) || \
+    (defined(__ppc__)   || defined(__ppc)   || defined(ppc)) || \
     (defined(__powerpc__) || defined(__powerpc) || defined(powerpc))
     typedef  signed char             Integer8;
     typedef  short                   Integer16;

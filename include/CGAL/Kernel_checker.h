@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_checker.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/07/09 19:57:11 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/10/10 12:04:19 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -51,9 +49,9 @@
 // This file contains the definition of a kernel traits checker.
 //
 // TODO:
-// - have a look at the PM_checker from Tel-Aviv, and Stefan's NT checker.
 // - At the moment, only predicates are checked.  To handle constructions as
-//   well, the best approach is probably to have objects be pairs.
+//   well, the best approach is probably to have objects be pairs, and do
+//   everything in parallel.
 //   So the template parameter will be a comparator, not a converter.
 
 #include <CGAL/basic.h>
@@ -62,19 +60,17 @@
 CGAL_BEGIN_NAMESPACE
 
 // Class used by Kernel_checker.
-// This works only for predicates.
-// Something else must be done to handle the constructions.
-// Maybe the solution is to store pairs of objects ?
 template <class O1, class O2, class Conv>
 class Predicate_checker
 {
-    O1 o1;
-    O2 o2;
+    const O1 & o1;
+    const O2 & o2;
     Conv c;
 
 public:
 
-    Predicate_checker() {}
+    Predicate_checker(const O1 &oo1 = O1(), const O2 &oo2 = O2())
+	: o1(oo1), o2(oo2) {}
 
     typedef typename O1::result_type result_type;
 
@@ -168,7 +164,9 @@ class Kernel_checker
 {
     typedef K1     Kernel1;
     typedef K2     Kernel2;
-    // typedef Comp   Comparator;
+
+    Kernel2 k2;
+
     typedef Conv   c;
 
     // typedef std::pair<K1::Point_2, K2::Point_2>  Point_2;
@@ -176,7 +174,7 @@ class Kernel_checker
 
 #define CGAL_check_pred(X, Y) \
     typedef Predicate_checker<typename K1::X, typename K2::X, Conv> X; \
-    X Y() const { return X(); }
+    X Y() const { return X(K1::Y(), k2.Y()); }
 
 #define CGAL_Kernel_pred(X,Y,Z) CGAL_check_pred(Y, Z)
 #define CGAL_Kernel_cons(X,Y,Z)

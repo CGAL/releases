@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_naive_point_location.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -52,14 +50,8 @@
 #ifndef CGAL_PM_NAIVE_POINT_LOCATION_H
 #define CGAL_PM_NAIVE_POINT_LOCATION_H
 
-#ifndef CGAL_PM_POINT_LOCATION_BASE_H
 #include <CGAL/Pm_point_location_base.h>
-#endif
-
-#ifndef CGAL_PLANAR_MAP_MISC_H
 #include <CGAL/Planar_map_2/Planar_map_misc.h>
-#endif
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -89,67 +81,72 @@ public:
   typedef typename Base::Halfedge_handle_iterator Halfedge_handle_iterator;
   typedef typename Base::Token Token;
 
-public:	
-  Pm_naive_point_location() : Pm_point_location_base<Planar_map>(),traits(0) {}
-  Pm_naive_point_location(Planar_map* _pm,Traits_wrap* _traits) : 
-    Pm_point_location_base<Planar_map>(),traits(_traits),pm(_pm) {}
-  
-  inline void init(Planar_map& pmp, Traits& tr) {
+public:
+  // Constructors
+  Pm_naive_point_location() : 
+    Pm_point_location_base<Planar_map>(),
+    pm(0),
+    traits(0) 
+  {}
+
+  Pm_naive_point_location(Planar_map * _pm,Traits_wrap * _traits) : 
+    Pm_point_location_base<Planar_map>(), traits(_traits), pm(_pm) {}
+
+  inline void init(Planar_map & pmp, Traits & tr) 
+  {
+    CGAL_precondition_msg(pm == NULL,
+    "Point location instance should be uninitialized "
+    "(Do not use the same instance for more than one map).");
+
     pm = &pmp;
     traits = (Traits_wrap*)(&tr);
   }
   
-  inline void insert(Halfedge_handle h
-                     ,const X_curve& cv
-                     ) {}
+  inline void insert(Halfedge_handle, const X_curve &) {}
   
-  Halfedge_handle locate(const Point& p, Locate_type& lt) const;
-  Halfedge_handle locate(const Point& p, Locate_type& lt);
+  Halfedge_handle locate(const Point & p, Locate_type & lt) const;
+  Halfedge_handle locate(const Point & p, Locate_type & lt);
   
-  Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up)
-    const;
-  Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up);
+  Halfedge_handle vertical_ray_shoot(const Point & p,
+                                     Locate_type & lt, bool up) const;
+  Halfedge_handle vertical_ray_shoot(const Point & p,
+                                     Locate_type & lt, bool up);
   
-  inline void split_edge(const X_curve &cv,
-                         Halfedge_handle e1,
-                         Halfedge_handle e2
-                         ,const X_curve& cv1, const X_curve& cv2
-                         ) {}
+  inline void split_edge(const X_curve &,
+                         Halfedge_handle, Halfedge_handle,
+                         const X_curve &, const X_curve &) {}
   
-  inline void merge_edge(const X_curve &cv1,
-                         const X_curve &cv2,
-                         Halfedge_handle e
-                         ,const X_curve& cv
-                         ) {}
+  inline void merge_edge(const X_curve &, const X_curve &,
+                         Halfedge_handle, const X_curve &) {}
   
-  inline void remove_edge(Halfedge_handle e) {}
-  inline void remove_edge(const Halfedge_handle_iterator& begin,
-		const Halfedge_handle_iterator& end) {};
+  inline void remove_edge(Halfedge_handle) {}
+  inline void remove_edge(const Halfedge_handle_iterator &,
+                          const Halfedge_handle_iterator &) {};
   inline void clear() {}
-  inline void update(const Halfedge_handle_iterator&,
-                     const Halfedge_handle_iterator&,
-                     const Token& token)
+  inline void update(const Halfedge_handle_iterator &,
+                     const Halfedge_handle_iterator &,
+                     const Token & token)
   { token.rebuild_bounding_box(this); }
 
 public:
-  inline const Bounding_box* get_bounding_box() const 
-  {return pm->get_bounding_box();}	
+  inline const Bounding_box * get_bounding_box() const 
+  {return pm->get_bounding_box();}
   inline const Traits* get_traits() const {return traits;}
   
 protected:
-  Halfedge_handle find_lowest(Vertex_handle v,Traits_wrap *traits, 
-			      bool highest) const;
+  Halfedge_handle find_lowest(Vertex_handle v,
+                              bool highest) const;
   
 #ifdef CGAL_PM_DEBUG
   void debug(){}
 #endif
 
 protected:
-  typedef const Self* cPLp;
+  typedef const Self * cPLp;
   
 protected:
-  Planar_map* pm;
-  Traits_wrap* traits;
+  Planar_map * pm;
+  Traits_wrap * traits;
 };
 
 CGAL_END_NAMESPACE
@@ -159,11 +156,3 @@ CGAL_END_NAMESPACE
 #endif
 
 #endif //CGAL_PM_NAIVE_POINT_LOCATION_H
-
-
-
-
-
-
-
-

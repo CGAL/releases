@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Lazy_exact_nt.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 2.35 $
-// revision_date : $Date: 2001/08/01 08:42:15 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 2.64 $
+// revision_date : $Date: 2002/03/24 13:09:00 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -49,8 +47,10 @@
 #define CGAL_LAZY_EXACT_NT_H
 
 #include <CGAL/basic.h>
+#include <CGAL/tags.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/number_utils_classes.h>
+#include <CGAL/Number_type_traits.h>
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Handle.h>
 #include <CGAL/misc.h>
@@ -86,6 +86,9 @@
  * - Add a CT template parameter like Filtered_exact_nt<> ?
  * - Add a string constant to provide an expression string (a la MetaCGAL) ?
  *   // virtual ostream operator<<() const = 0; // or string, like Core ?
+ * - Have a template-expression (?) thing that evaluates a temporary element,
+ *   and allocates stuff in memory only when really needs to convert to the
+ *   NT.  (cf gmp++, and maybe other things, Blitz++, Synaps...)
  */
 
 /*
@@ -112,7 +115,7 @@ struct Lazy_exact_rep : public Rep
   Lazy_exact_rep (const Interval_base i)
       : in(i), et(NULL) {}
 
-  Interval_nt<> approx() const  // Better return a const ref instead ?
+  Interval_nt<true> approx() const  // Better return a const ref instead ?
   {
       return in;
   }
@@ -255,6 +258,10 @@ template <typename ET>
 class Lazy_exact_nt : public Handle
 {
 public :
+  typedef typename Number_type_traits<ET>::Has_gcd      Has_gcd;
+  typedef typename Number_type_traits<ET>::Has_division Has_division;
+  typedef typename Number_type_traits<ET>::Has_sqrt     Has_sqrt;
+
   typedef Lazy_exact_nt<ET> Self;
   typedef Lazy_exact_rep<ET> Self_rep;
 
@@ -288,7 +295,7 @@ public :
   Self operator/ (const Self & a) const
   { return new Lazy_exact_Div<ET>(*this, a); }
 
-  Interval_nt<> approx() const  // throw() ?
+  Interval_nt<true> approx() const  // throw() ?
   { return ptr()->approx(); }
 
   Interval_nt_advanced approx_adv() const
@@ -442,7 +449,7 @@ max(const Lazy_exact_nt<ET> & a, const Lazy_exact_nt<ET> & b)
 template <typename ET>
 std::ostream &
 operator<< (std::ostream & os, const Lazy_exact_nt<ET> & a)
-{ return os << a.approx(); }
+{ return os << CGAL::to_double(a); }
 
 template <typename ET>
 std::istream &
@@ -500,12 +507,6 @@ io_Operator
 io_tag (const Lazy_exact_nt<ET>&)
 { return io_Operator(); }
  
-template <typename ET>
-inline
-Number_tag
-number_type_tag (const Lazy_exact_nt<ET>&)
-{ return Number_tag(); }
-
 #ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
 template <typename ET>
 struct converter<ET, Lazy_exact_nt<ET> >

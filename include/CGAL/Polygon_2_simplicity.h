@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,10 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Polygon_2_simplicity.h
+// package       : Polygon (4.8.1)
 // source        :
 // author(s)     : Geert-Jan Giezeman
 //
@@ -116,13 +115,13 @@ private:
 template <class ForwardIterator, class PolygonTraits>
 class Vertex_data ;
 
-template <class ForwardIterator, class PolygonTraits>
+template <class VertexData>
 class Less_segments {
-    Vertex_data<ForwardIterator, PolygonTraits> *m_vertex_data;
+    typedef VertexData         Vertex_data;
+    Vertex_data *m_vertex_data;
     bool less_than_in_tree(Vertex_index i, Vertex_index j);
   public:
-    Less_segments(Vertex_data<ForwardIterator, PolygonTraits> *vertex_data)
-    : m_vertex_data(vertex_data) {}
+    Less_segments(Vertex_data *vertex_data) : m_vertex_data(vertex_data) {}
     bool operator()(Vertex_index i, Vertex_index j);
 };
 
@@ -131,10 +130,9 @@ class Less_segments {
 // Although conceptually this data belongs in the tree, it is stored with
 // the vertices in the Vertex_data structure.
 
-template <class ForwardIterator, class PolygonTraits>
+template <class LessSegments>
 struct Edge_data {
-    typedef std::set<Vertex_index,
-            Less_segments<ForwardIterator,PolygonTraits> > Tree;
+    typedef std::set<Vertex_index, LessSegments> Tree;
     Edge_data() : is_in_tree(false) {}
     typename Tree::iterator tree_it; // The iterator of the edge in the tree.
                                      // Needed for cross reference. If edge j
@@ -146,22 +144,21 @@ struct Edge_data {
 };
 
 template <class ForwardIterator, class PolygonTraits>
-class Vertex_data {
+class Vertex_data_base {
 public:
-    typedef std::set<Vertex_index,
-                    Less_segments<ForwardIterator,PolygonTraits> > Tree;
+    typedef typename PolygonTraits::Point_2              Point_2;
 
-    typedef typename PolygonTraits::Point_2 Point_2;
-    Vertex_data(ForwardIterator begin, ForwardIterator end,PolygonTraits pgnt);
 //    ForwardIterator points_start;
     std::vector<ForwardIterator> iterators;
     std::vector<Vertex_order> m_order_of;
     std::vector<Vertex_index> m_idx_at_rank;
-    std::vector<Edge_data<ForwardIterator, PolygonTraits> > edges;
     std::vector<Vertex_index>::size_type m_size;
     typename PolygonTraits::Orientation_2 orientation_2;
     typename PolygonTraits::Less_xy_2 less_xy_2;
     bool is_simple_result;
+
+    Vertex_data_base(ForwardIterator begin, ForwardIterator end,
+                const PolygonTraits& pgnt);
 
     bool ordered_left_to_right(Vertex_index v1, Vertex_index v2)
         { return  m_order_of[v1.as_int()].as_int() <
@@ -175,13 +172,29 @@ public:
 	       ?  Vertex_index(m_size-1)
 	       : Vertex_index(k.as_int()-1);
 	}
+    Point_2 point(Vertex_index i)
+        { return *iterators[i.as_int()];}
+//    { return points_start[i.as_int()];}
+};
+
+template <class ForwardIterator, class PolygonTraits>
+class Vertex_data : public Vertex_data_base<ForwardIterator, PolygonTraits> {
+public:
+    typedef Vertex_data Self;  // Indirection needed by Borland compiler
+    typedef Less_segments<Self> Less_segs;
+    typedef std::set<Vertex_index, Less_segs> Tree;
+    typedef Vertex_data_base<ForwardIterator, PolygonTraits> Base_class;
+
+    std::vector<Edge_data<Less_segs> > edges;
+
+    Vertex_data(ForwardIterator begin, ForwardIterator end,
+                const PolygonTraits& pgnt);
+
     void left_and_right_index(Vertex_index &left, Vertex_index &right,
             Vertex_index edge);
     Vertex_index left_index(Vertex_index edge)
         { return edges[edge.as_int()].is_left_to_right ? edge : next(edge); }
-    Point_2 point(Vertex_index i)
-//    { return points_start[i.as_int()];}
-        { return *iterators[i.as_int()];}
+
     void sweep(Tree *tree);
     bool insertion_event(Tree *tree,
                 Vertex_index i, Vertex_index j, Vertex_index k);
@@ -191,11 +204,11 @@ public:
     bool on_right_side(Vertex_index vt, Vertex_index edge, bool above);
 };
 
-template <class ForwardIterator, class PolygonTraits>
+template <class VertexData>
 class Less_vertex_data {
-    Vertex_data<ForwardIterator, PolygonTraits> *m_vertex_data;
+    VertexData *m_vertex_data;
 public:
-    Less_vertex_data(Vertex_data<ForwardIterator, PolygonTraits> *vd)
+    Less_vertex_data(VertexData *vd)
     : m_vertex_data(vd) {}
     bool operator()(Vertex_index i, Vertex_index j);
 };
@@ -205,8 +218,8 @@ public:
 // ----- implementation of i_polygon functions. -----
 
 namespace i_polygon {
-template <class ForwardIterator, class PolygonTraits>
-bool Less_segments<ForwardIterator, PolygonTraits>::
+template <class VertexData>
+bool Less_segments<VertexData>::
 operator()(Vertex_index i, Vertex_index j)
 {
     if (m_vertex_data->edges[j.as_int()].is_in_tree) {
@@ -216,8 +229,8 @@ operator()(Vertex_index i, Vertex_index j)
     }
 }
 
-template <class ForwardIterator, class PolygonTraits>
-bool Less_segments<ForwardIterator, PolygonTraits>::
+template <class VertexData>
+bool Less_segments<VertexData>::
 less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
 {
     CGAL_polygon_precondition(
@@ -240,8 +253,8 @@ less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
     return true;
 }
 
-template <class ForwardIterator, class PolygonTraits>
-bool Less_vertex_data<ForwardIterator, PolygonTraits>::
+template <class VertexData>
+bool Less_vertex_data<VertexData>::
 operator()(Vertex_index i, Vertex_index j)
 {
     return m_vertex_data->less_xy_2(
@@ -249,11 +262,10 @@ operator()(Vertex_index i, Vertex_index j)
 }
 
 template <class ForwardIterator, class PolygonTraits>
-Vertex_data<ForwardIterator, PolygonTraits>::
-Vertex_data(ForwardIterator begin, ForwardIterator end,
-            PolygonTraits pgn_traits)
-: // points_start(begin),
-  orientation_2(pgn_traits.orientation_2_object()),
+Vertex_data_base<ForwardIterator, PolygonTraits>::
+Vertex_data_base(ForwardIterator begin, ForwardIterator end,
+                 const PolygonTraits& pgn_traits)
+: orientation_2(pgn_traits.orientation_2_object()),
   less_xy_2(pgn_traits.less_xy_2_object())
 {
     m_size = std::distance(begin, end);
@@ -261,14 +273,12 @@ Vertex_data(ForwardIterator begin, ForwardIterator end,
     m_idx_at_rank.reserve(m_size);
     iterators.reserve(m_size);
     m_order_of.insert(m_order_of.end(), m_size, Vertex_order(0));
-    edges.insert(edges.end(), m_size,
-            Edge_data<ForwardIterator, PolygonTraits>());
     for (Index_t i = 0; i< m_size; ++i, ++begin) {
         m_idx_at_rank.push_back(Vertex_index(i));
 	iterators.push_back(begin);
     }
     std::sort(m_idx_at_rank.begin(), m_idx_at_rank.end(),
-        Less_vertex_data<ForwardIterator, PolygonTraits>(this));
+              Less_vertex_data<Vertex_data_base>(this));
     for (Index_t j = 0; j < m_size; ++j) {
 	Vertex_order vo(j);
         m_order_of[index_at_rank(vo).as_int()] = vo;
@@ -288,6 +298,16 @@ left_and_right_index(Vertex_index &left, Vertex_index &right,
 }
 
 template <class ForwardIterator, class PolygonTraits>
+Vertex_data<ForwardIterator, PolygonTraits>::
+Vertex_data(ForwardIterator begin, ForwardIterator end,
+            const PolygonTraits& pgn_traits)
+: Base_class(begin, end, pgn_traits)
+{
+    edges.insert(edges.end(), m_size, Edge_data<Less_segs>());
+}
+
+
+template <class ForwardIterator, class PolygonTraits>
 bool Vertex_data<ForwardIterator, PolygonTraits>::
 insertion_event(Tree *tree, Vertex_index prev_vt,
             Vertex_index mid_vt, Vertex_index next_vt)
@@ -300,7 +320,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
       case COLLINEAR: return false;
       
     }
-    Edge_data<ForwardIterator, PolygonTraits>
+    Edge_data<Less_segs>
         &td_prev = edges[prev_vt.as_int()],
         &td_mid = edges[mid_vt.as_int()];
     td_prev.is_in_tree = false;
@@ -311,20 +331,20 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     std::pair<CGAL_TYPENAME_MSVC_NULL Tree::iterator, bool> result;
     if (left_turn) {
         result = tree->insert(prev_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_prev.tree_it = result.first;
         td_prev.is_in_tree = true;
         result = tree->insert(mid_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_mid.tree_it = result.first;
         td_mid.is_in_tree = true;
     } else {
         result = tree->insert(mid_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_mid.tree_it = result.first;
         td_mid.is_in_tree = true;
         result = tree->insert(prev_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_prev.tree_it = result.first;
         td_prev.is_in_tree = true;
     }
@@ -356,7 +376,7 @@ replacement_event(Tree *tree, Vertex_index cur_edge, Vertex_index next_edge)
 {
     // check if continuation point is on the right side of neighbor segments
     typedef typename Tree::iterator It;
-    Edge_data<ForwardIterator, PolygonTraits> &td = edges[cur_edge.as_int()];
+    Edge_data<Less_segs> &td = edges[cur_edge.as_int()];
     CGAL_polygon_assertion(td.is_in_tree);
     It cur_seg = td.tree_it;
     Vertex_index cur_vt = (td.is_left_to_right) ? next_edge : cur_edge;
@@ -375,7 +395,7 @@ replacement_event(Tree *tree, Vertex_index cur_edge, Vertex_index next_edge)
         }
     }
     // replace the segment
-    Edge_data<ForwardIterator, PolygonTraits> &new_td =
+    Edge_data<Less_segs> &new_td =
             edges[next_edge.as_int()];
     new_td.is_left_to_right = td.is_left_to_right;
     new_td.is_in_tree = false;
@@ -392,7 +412,7 @@ deletion_event(Tree *tree, Vertex_index prev_vt, Vertex_index mid_vt)
 {
     // check if continuation point is on the right side of neighbor segments
     typedef typename Tree::iterator It;
-    Edge_data<ForwardIterator, PolygonTraits>
+    Edge_data<Less_segs>
         &td_prev = edges[prev_vt.as_int()],
         &td_mid = edges[mid_vt.as_int()];
     It prev_seg = td_prev.tree_it, mid_seg = td_mid.tree_it;
@@ -409,15 +429,16 @@ deletion_event(Tree *tree, Vertex_index prev_vt, Vertex_index mid_vt)
         if (prev_seg_copy != prev_seg)
             return false;
     }
+    // remove the segments
     tree->erase(prev_seg);
     td_prev.is_in_tree = false;
     tree->erase(mid_seg);
     td_mid.is_in_tree = false;
+    // Check if the vertex that is removed lies between the two tree edges.
     if (seg_above != tree->end()) {
         if (!on_right_side(cur_vt, *seg_above, false))
 	    return false;
     }
-    // remove the segments
     if (seg_above != tree->begin()) {
         --seg_above; // which turns it in seg_below
         if (!on_right_side(cur_vt, *seg_above, true))
@@ -459,13 +480,13 @@ sweep(Tree *tree)
 
 template <class Iterator, class PolygonTraits>
 bool is_simple_polygon(Iterator points_begin, Iterator points_end,
-        PolygonTraits polygon_traits)
+                       const PolygonTraits& polygon_traits)
 {
     typedef Iterator ForwardIterator;
+    typedef i_polygon::Vertex_data<ForwardIterator, PolygonTraits> Vertex_data;
     typedef std::set<i_polygon::Vertex_index,
-            i_polygon::Less_segments<ForwardIterator,PolygonTraits> > Tree;
-    i_polygon::Vertex_data<ForwardIterator, PolygonTraits>
-        vertex_data(points_begin, points_end, polygon_traits);
+                     i_polygon::Less_segments<Vertex_data> >       Tree;
+    Vertex_data   vertex_data(points_begin, points_end, polygon_traits);
     Tree tree(&vertex_data);
     vertex_data.sweep(&tree);
     return vertex_data.is_simple_result;

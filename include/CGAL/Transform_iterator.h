@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Transform_iterator.h
-// package       : Matrix_search (1.49)
+// package       : Matrix_search (1.54)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.47 $
-// revision_date : $Date: 2001/07/12 07:17:54 $
+// revision      : $Revision: 1.52 $
+// revision_date : $Date: 2002/03/25 15:04:56 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -102,7 +100,6 @@ query_circulator_or_iterator(
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_TRANSFORM_ITERATOR_H)
-
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

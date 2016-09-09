@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Pm_file_scanner.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -91,9 +89,11 @@ public:
   typedef typename Planar_map::Dcel::Halfedge            D_halfedge;
   typedef typename Planar_map::Dcel::Face	         D_face;
 
-  Pm_file_scanner( std::istream& in) : File_header(), m_in(in) { skip_comment(); }
+  Pm_file_scanner(std::istream & in) : File_header(), m_in(in)
+  { skip_comment(); }
   
-  Pm_file_scanner( std::istream& in, const File_header& header) : File_header(header), m_in(in) { skip_comment(); }
+  Pm_file_scanner(std::istream & in, const File_header & header) :
+      File_header(header), m_in(in) { skip_comment(); }
   
   std::istream& in() { return m_in; }
  
@@ -175,7 +175,7 @@ public:
     
     //  not an unbounded face. Scanning the outer ccb.
     if (num_halfedges_on_outer_ccb > 0){
-      std::size_t  index, prev_index, first_index;
+      std::size_t  index, prev_index = 0, first_index;
       
       for (unsigned int j = 0; j < num_halfedges_on_outer_ccb; j++) {
         

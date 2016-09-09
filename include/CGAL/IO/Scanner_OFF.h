@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Scanner_OFF.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/18 07:53:11 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/17 12:40:58 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // STL compliant file scanner for an object in object file format (OFF).
 // email         : contact@cgal.org
@@ -51,20 +49,12 @@
 
 #ifndef CGAL_IO_SCANNER_OFF_H
 #define CGAL_IO_SCANNER_OFF_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
-#ifndef CGAL_PROTECT_VECTOR
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_IO_FILE_SCANNER_OFF_H
+#include <utility>
 #include <CGAL/IO/File_scanner_OFF.h>
-#endif // CGAL_IO_FILE_SCANNER_OFF_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -73,11 +63,14 @@ CGAL_BEGIN_NAMESPACE
 
 template <class Pt>
 class I_Scanner_OFF_vertex_iterator
-    : public std::iterator< std::input_iterator_tag,
-                            Pt,
-                            std::ptrdiff_t,
-                            const Pt&, const Pt&>
 {
+public:
+    typedef std::input_iterator_tag  iterator_category;
+    typedef Pt                       value_type;
+    typedef std::ptrdiff_t           difference_type;
+    typedef const Pt*                pointer;
+    typedef const Pt&                reference;
+private:
     File_scanner_OFF*  m_scan;
     std::ptrdiff_t     m_cnt;
     Pt                 m_point;
@@ -118,14 +111,77 @@ public:
         CGAL_assertion( m_scan != NULL);
         return m_point;
     }
-    // No workaround needed for operator-> with points.
     const Point* operator->() const { return & operator*(); }
 };
 
-class I_Scanner_OFF_facet_iterator
-    : public std::iterator< std::input_iterator_tag,
-                            std::vector< Integer32> >
+template <class Pt, class Nrm>
+class I_Scanner_OFF_vertex_and_normals_iterator
 {
+public:
+    typedef Pt                                              Point;
+    typedef Nrm                                             Normal;
+    typedef File_scanner_OFF                                Scanner;
+    typedef I_Scanner_OFF_vertex_and_normals_iterator<Pt,Nrm> Self;
+
+    typedef std::input_iterator_tag                         iterator_category;
+    typedef std::pair<Point,Normal>                         value_type;
+    typedef std::ptrdiff_t                                  difference_type;
+    typedef const value_type*                               pointer;
+    typedef const value_type&                               reference;
+private:
+    File_scanner_OFF*  m_scan;
+    std::ptrdiff_t     m_cnt;
+    value_type         m_current;
+    
+
+    void next() {
+        CGAL_assertion( m_scan != NULL);
+        if ( m_cnt < m_scan->size_of_vertices()) {
+            file_scan_vertex( *m_scan, m_current.first);
+            if ( m_scan->has_normals())
+                file_scan_normal( *m_scan, m_current.second);
+            m_scan->skip_to_next_vertex( m_cnt);
+            ++m_cnt;
+        } else
+            m_cnt = m_scan->size_of_vertices() + 1;
+    }
+public:
+
+    I_Scanner_OFF_vertex_and_normals_iterator( int cnt)
+        : m_scan(0), m_cnt(cnt+1) {}
+    I_Scanner_OFF_vertex_and_normals_iterator( Scanner& s, int cnt)
+        : m_scan(&s), m_cnt(cnt)
+    {
+        next();
+    }
+    std::ptrdiff_t  count()           const { return m_cnt; }
+    bool   operator==( const Self& i) const { return m_cnt == i.m_cnt; }
+    bool   operator!=( const Self& i) const { return m_cnt != i.m_cnt; }
+    Self&  operator++() {
+        next();
+        return *this;
+    }
+    Self   operator++(int) {
+        Self tmp = *this;
+        ++(*this);
+        return tmp;
+    }
+    reference operator*()  const {
+        CGAL_assertion( m_scan != NULL);
+        return m_current;
+    }
+    pointer   operator->() const { return & operator*(); }
+};
+
+class I_Scanner_OFF_facet_iterator
+{
+public:
+    typedef std::input_iterator_tag  iterator_category;
+    typedef std::vector< Integer32>  value_type;
+    typedef std::ptrdiff_t           difference_type;
+    typedef value_type*              pointer;
+    typedef value_type&              reference;
+private:
     File_scanner_OFF*  m_scan;
     std::ptrdiff_t     m_cnt;
     value_type         m_indices;
@@ -215,11 +271,14 @@ template <class Pt>
 class Scanner_OFF {
     File_scanner_OFF  m_scan;
 public:
-    typedef Pt                                      Point;
-    typedef Scanner_OFF<Pt>                         Self;
-    typedef I_Scanner_OFF_vertex_iterator<Pt>       Vertex_iterator;
-    typedef I_Scanner_OFF_facet_iterator            Facet_iterator;
-    typedef I_Scanner_OFF_facet_iterator::iterator  Index_iterator;
+    typedef Pt                                     Point;
+    typedef typename Pt::Vector                    Normal;
+    typedef Scanner_OFF<Pt>                        Self;
+    typedef I_Scanner_OFF_vertex_iterator<Pt>      Vertex_iterator;
+    typedef I_Scanner_OFF_vertex_and_normals_iterator<Pt,Normal>
+                                                   Vertex_and_normals_iterator;
+    typedef I_Scanner_OFF_facet_iterator           Facet_iterator;
+    typedef I_Scanner_OFF_facet_iterator::iterator Index_iterator;
 
     Scanner_OFF( std::istream& in, bool verbose = false)
         : m_scan( in, verbose) {}
@@ -250,6 +309,12 @@ public:
     Facet_iterator facets_begin()   { return Facet_iterator( m_scan,0); }
     Facet_iterator facets_end()     {
         return Facet_iterator( size_of_facets());
+    }
+    Vertex_and_normals_iterator vertices_and_normals_begin(){
+        return Vertex_and_normals_iterator( m_scan,0);
+    }
+    Vertex_and_normals_iterator vertices_and_normals_end()  {
+        return Vertex_and_normals_iterator( size_of_vertices());
     }
 };
 

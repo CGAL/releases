@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/iterator_traits_pointer_specs_for_simple_homogeneous_kernel.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2001/02/28 10:18:31 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/04/15 07:21:02 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -52,10 +50,20 @@
 
 #ifdef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
 #include <CGAL/user_classes.h>
-#include <CGAL/homogeneous_classes.h>
+
+#ifndef CGAL_STL_BEGIN_NAMESPACE
+	#ifdef __STL_BEGIN_NAMESPACE
+		#define CGAL_STL_BEGIN_NAMESPACE __STL_BEGIN_NAMESPACE
+		#define CGAL_STL_END_NAMESPACE __STL_END_NAMESPACE
+	#else
+		#define CGAL_STL_BEGIN_NAMESPACE namespace std {
+		#define CGAL_STL_END_NAMESPACE }
+	#endif
+#endif
+
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH(NT)                                                \
-__STL_BEGIN_NAMESPACE                                                               \
+CGAL_STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
     struct iterator_traits<const CGAL::Point_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
@@ -72,8 +80,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Point_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Point_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                              \
-__STL_END_NAMESPACE                                                                 \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_END_NAMESPACE                                                                 \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::Vector_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -90,8 +98,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Vector_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Vector_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                                   \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
     struct iterator_traits<const CGAL::Direction_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
@@ -108,8 +116,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Direction_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Direction_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                  \
-__STL_END_NAMESPACE                                                                     \
-__STL_BEGIN_NAMESPACE                                                              \
+CGAL_STL_END_NAMESPACE                                                                     \
+CGAL_STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
     struct iterator_traits<const CGAL::Line_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
@@ -126,8 +134,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Line_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Line_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                             \
-__STL_END_NAMESPACE                                                                \
-__STL_BEGIN_NAMESPACE                                                                 \
+CGAL_STL_END_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
     struct iterator_traits<const CGAL::Segment_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
@@ -144,8 +152,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Segment_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Segment_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                \
-__STL_END_NAMESPACE                                                                   \
-__STL_BEGIN_NAMESPACE                                                             \
+CGAL_STL_END_NAMESPACE                                                                   \
+CGAL_STL_BEGIN_NAMESPACE                                                             \
     template <>                                                                   \
     struct iterator_traits<const CGAL::Ray_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                     iterator_category; \
@@ -162,8 +170,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Ray_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Ray_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                            \
-__STL_END_NAMESPACE                                                               \
-__STL_BEGIN_NAMESPACE                                                                       \
+CGAL_STL_END_NAMESPACE                                                               \
+CGAL_STL_BEGIN_NAMESPACE                                                                       \
     template <>                                                                             \
     struct iterator_traits<const CGAL::Iso_rectangle_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                               iterator_category; \
@@ -180,8 +188,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Iso_rectangle_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Iso_rectangle_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                      \
-__STL_END_NAMESPACE                                                                         \
-__STL_BEGIN_NAMESPACE                                                                  \
+CGAL_STL_END_NAMESPACE                                                                         \
+CGAL_STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
     struct iterator_traits<const CGAL::Triangle_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
@@ -198,8 +206,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Triangle_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Triangle_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                 \
-__STL_END_NAMESPACE                                                                    \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_END_NAMESPACE                                                                    \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::Circle_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -216,8 +224,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Circle_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Circle_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                                            \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                                            \
     template <>                                                                                  \
     struct iterator_traits<const CGAL::Aff_transformation_2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                    iterator_category; \
@@ -234,10 +242,10 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Aff_transformation_2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Aff_transformation_2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                           \
-__STL_END_NAMESPACE                                                                              \
+CGAL_STL_END_NAMESPACE                                                                              \
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH(NT)                                                \
-__STL_BEGIN_NAMESPACE                                                               \
+CGAL_STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
     struct iterator_traits<const CGAL::Point_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
@@ -254,8 +262,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Point_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Point_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                              \
-__STL_END_NAMESPACE                                                                 \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_END_NAMESPACE                                                                 \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::Vector_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -272,8 +280,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Vector_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Vector_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                                   \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
     struct iterator_traits<const CGAL::Direction_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
@@ -290,8 +298,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Direction_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Direction_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                  \
-__STL_END_NAMESPACE                                                                     \
-__STL_BEGIN_NAMESPACE                                                               \
+CGAL_STL_END_NAMESPACE                                                                     \
+CGAL_STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
     struct iterator_traits<const CGAL::Plane_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
@@ -308,8 +316,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Plane_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Plane_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                              \
-__STL_END_NAMESPACE                                                                 \
-__STL_BEGIN_NAMESPACE                                                              \
+CGAL_STL_END_NAMESPACE                                                                 \
+CGAL_STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
     struct iterator_traits<const CGAL::Line_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
@@ -326,8 +334,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Line_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Line_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                             \
-__STL_END_NAMESPACE                                                                \
-__STL_BEGIN_NAMESPACE                                                                 \
+CGAL_STL_END_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
     struct iterator_traits<const CGAL::Segment_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
@@ -344,8 +352,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Segment_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Segment_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                \
-__STL_END_NAMESPACE                                                                   \
-__STL_BEGIN_NAMESPACE                                                             \
+CGAL_STL_END_NAMESPACE                                                                   \
+CGAL_STL_BEGIN_NAMESPACE                                                             \
     template <>                                                                   \
     struct iterator_traits<const CGAL::Ray_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                     iterator_category; \
@@ -362,8 +370,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Ray_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Ray_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                            \
-__STL_END_NAMESPACE                                                               \
-__STL_BEGIN_NAMESPACE                                                                  \
+CGAL_STL_END_NAMESPACE                                                               \
+CGAL_STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
     struct iterator_traits<const CGAL::Triangle_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
@@ -380,8 +388,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Triangle_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Triangle_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                 \
-__STL_END_NAMESPACE                                                                    \
-__STL_BEGIN_NAMESPACE                                                                     \
+CGAL_STL_END_NAMESPACE                                                                    \
+CGAL_STL_BEGIN_NAMESPACE                                                                     \
     template <>                                                                           \
     struct iterator_traits<const CGAL::Tetrahedron_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                             iterator_category; \
@@ -398,8 +406,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Tetrahedron_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Tetrahedron_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                    \
-__STL_END_NAMESPACE                                                                       \
-__STL_BEGIN_NAMESPACE                                                                            \
+CGAL_STL_END_NAMESPACE                                                                       \
+CGAL_STL_BEGIN_NAMESPACE                                                                            \
     template <>                                                                                  \
     struct iterator_traits<const CGAL::Aff_transformation_3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                    iterator_category; \
@@ -416,30 +424,11 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Aff_transformation_3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Aff_transformation_3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                           \
-__STL_END_NAMESPACE                                                                              \
+CGAL_STL_END_NAMESPACE                                                                              \
 
-#define CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH(NT)                                                \
-__STL_BEGIN_NAMESPACE                                                               \
-    template <>                                                                     \
-    struct iterator_traits<const CGAL::Point_d< CGAL::Simple_homogeneous< NT > >*> {       \
-        typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::Point_d< CGAL::Simple_homogeneous< NT > >         value_type;        \
-        typedef ptrdiff_t                                        difference_type;   \
-        typedef const CGAL::Point_d< CGAL::Simple_homogeneous< NT > >*  pointer;           \
-        typedef const CGAL::Point_d< CGAL::Simple_homogeneous< NT > >&  reference;         \
-    };                                                                              \
-    template <>                                                                     \
-    struct iterator_traits<CGAL::Point_d< CGAL::Simple_homogeneous< NT > >*> {             \
-        typedef random_access_iterator_tag                       iterator_category; \
-        typedef CGAL::Point_d< CGAL::Simple_homogeneous< NT > >         value_type;        \
-        typedef ptrdiff_t                                        difference_type;   \
-        typedef CGAL::Point_d< CGAL::Simple_homogeneous< NT > >*        pointer;           \
-        typedef CGAL::Point_d< CGAL::Simple_homogeneous< NT > >&        reference;         \
-    };                                                                              \
-__STL_END_NAMESPACE                                                                 \
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPECSH2(NT)                                                       \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::PointH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -456,8 +445,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::PointH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::PointH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                                 \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
     struct iterator_traits<const CGAL::VectorH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
@@ -474,8 +463,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::VectorH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::VectorH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                \
-__STL_END_NAMESPACE                                                                   \
-__STL_BEGIN_NAMESPACE                                                                    \
+CGAL_STL_END_NAMESPACE                                                                   \
+CGAL_STL_BEGIN_NAMESPACE                                                                    \
     template <>                                                                          \
     struct iterator_traits<const CGAL::DirectionH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                            iterator_category; \
@@ -492,8 +481,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::DirectionH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::DirectionH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                   \
-__STL_END_NAMESPACE                                                                      \
-__STL_BEGIN_NAMESPACE                                                               \
+CGAL_STL_END_NAMESPACE                                                                      \
+CGAL_STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
     struct iterator_traits<const CGAL::LineH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
@@ -510,8 +499,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::LineH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::LineH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                              \
-__STL_END_NAMESPACE                                                                 \
-__STL_BEGIN_NAMESPACE                                                                  \
+CGAL_STL_END_NAMESPACE                                                                 \
+CGAL_STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
     struct iterator_traits<const CGAL::SegmentH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
@@ -528,8 +517,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::SegmentH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::SegmentH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                 \
-__STL_END_NAMESPACE                                                                    \
-__STL_BEGIN_NAMESPACE                                                              \
+CGAL_STL_END_NAMESPACE                                                                    \
+CGAL_STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
     struct iterator_traits<const CGAL::RayH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
@@ -546,8 +535,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::RayH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::RayH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                             \
-__STL_END_NAMESPACE                                                                \
-__STL_BEGIN_NAMESPACE                                                                        \
+CGAL_STL_END_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                        \
     template <>                                                                              \
     struct iterator_traits<const CGAL::Iso_rectangleH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                iterator_category; \
@@ -564,8 +553,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Iso_rectangleH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Iso_rectangleH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                       \
-__STL_END_NAMESPACE                                                                          \
-__STL_BEGIN_NAMESPACE                                                                   \
+CGAL_STL_END_NAMESPACE                                                                          \
+CGAL_STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
     struct iterator_traits<const CGAL::TriangleH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
@@ -582,8 +571,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::TriangleH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::TriangleH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                  \
-__STL_END_NAMESPACE                                                                     \
-__STL_BEGIN_NAMESPACE                                                                 \
+CGAL_STL_END_NAMESPACE                                                                     \
+CGAL_STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
     struct iterator_traits<const CGAL::CircleH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
@@ -600,8 +589,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::CircleH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::CircleH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                \
-__STL_END_NAMESPACE                                                                   \
-__STL_BEGIN_NAMESPACE                                                                             \
+CGAL_STL_END_NAMESPACE                                                                   \
+CGAL_STL_BEGIN_NAMESPACE                                                                             \
     template <>                                                                                   \
     struct iterator_traits<const CGAL::Aff_transformationH2< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                     iterator_category; \
@@ -618,10 +607,10 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Aff_transformationH2< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Aff_transformationH2< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                            \
-__STL_END_NAMESPACE                                                                               \
+CGAL_STL_END_NAMESPACE                                                                               \
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPECSH3(NT)                                                       \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::PointH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -638,8 +627,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::PointH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::PointH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                                 \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                                 \
     template <>                                                                       \
     struct iterator_traits<const CGAL::VectorH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                         iterator_category; \
@@ -656,8 +645,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::VectorH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::VectorH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                \
-__STL_END_NAMESPACE                                                                   \
-__STL_BEGIN_NAMESPACE                                                                    \
+CGAL_STL_END_NAMESPACE                                                                   \
+CGAL_STL_BEGIN_NAMESPACE                                                                    \
     template <>                                                                          \
     struct iterator_traits<const CGAL::DirectionH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                            iterator_category; \
@@ -674,8 +663,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::DirectionH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::DirectionH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                   \
-__STL_END_NAMESPACE                                                                      \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_END_NAMESPACE                                                                      \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::PlaneH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -692,8 +681,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::PlaneH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::PlaneH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
-__STL_BEGIN_NAMESPACE                                                               \
+CGAL_STL_END_NAMESPACE                                                                  \
+CGAL_STL_BEGIN_NAMESPACE                                                               \
     template <>                                                                     \
     struct iterator_traits<const CGAL::LineH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                       iterator_category; \
@@ -710,8 +699,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::LineH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::LineH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                              \
-__STL_END_NAMESPACE                                                                 \
-__STL_BEGIN_NAMESPACE                                                                  \
+CGAL_STL_END_NAMESPACE                                                                 \
+CGAL_STL_BEGIN_NAMESPACE                                                                  \
     template <>                                                                        \
     struct iterator_traits<const CGAL::SegmentH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                          iterator_category; \
@@ -728,8 +717,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::SegmentH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::SegmentH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                 \
-__STL_END_NAMESPACE                                                                    \
-__STL_BEGIN_NAMESPACE                                                              \
+CGAL_STL_END_NAMESPACE                                                                    \
+CGAL_STL_BEGIN_NAMESPACE                                                              \
     template <>                                                                    \
     struct iterator_traits<const CGAL::RayH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                      iterator_category; \
@@ -746,8 +735,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::RayH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::RayH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                             \
-__STL_END_NAMESPACE                                                                \
-__STL_BEGIN_NAMESPACE                                                                   \
+CGAL_STL_END_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                   \
     template <>                                                                         \
     struct iterator_traits<const CGAL::TriangleH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                           iterator_category; \
@@ -764,8 +753,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::TriangleH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::TriangleH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                  \
-__STL_END_NAMESPACE                                                                     \
-__STL_BEGIN_NAMESPACE                                                                      \
+CGAL_STL_END_NAMESPACE                                                                     \
+CGAL_STL_BEGIN_NAMESPACE                                                                      \
     template <>                                                                            \
     struct iterator_traits<const CGAL::TetrahedronH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                              iterator_category; \
@@ -782,8 +771,8 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::TetrahedronH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::TetrahedronH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                     \
-__STL_END_NAMESPACE                                                                        \
-__STL_BEGIN_NAMESPACE                                                                             \
+CGAL_STL_END_NAMESPACE                                                                        \
+CGAL_STL_BEGIN_NAMESPACE                                                                             \
     template <>                                                                                   \
     struct iterator_traits<const CGAL::Aff_transformationH3< CGAL::Simple_homogeneous< NT > >*> {       \
         typedef random_access_iterator_tag                                     iterator_category; \
@@ -800,10 +789,10 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::Aff_transformationH3< CGAL::Simple_homogeneous< NT > >*        pointer;           \
         typedef CGAL::Aff_transformationH3< CGAL::Simple_homogeneous< NT > >&        reference;         \
     };                                                                                            \
-__STL_END_NAMESPACE                                                                               \
+CGAL_STL_END_NAMESPACE                                                                               \
 
 #define CGAL_ITERATOR_TRAITS_POINTER_SPECSHD(NT)                                                       \
-__STL_BEGIN_NAMESPACE                                                                \
+CGAL_STL_BEGIN_NAMESPACE                                                                \
     template <>                                                                      \
     struct iterator_traits<const CGAL::PointHd< CGAL::Quotient< NT >, NT >*> {       \
         typedef random_access_iterator_tag                        iterator_category; \
@@ -820,22 +809,22 @@ __STL_BEGIN_NAMESPACE                                                           
         typedef CGAL::PointHd< CGAL::Quotient< NT >, NT >*        pointer;           \
         typedef CGAL::PointHd< CGAL::Quotient< NT >, NT >&        reference;         \
     };                                                                               \
-__STL_END_NAMESPACE                                                                  \
+CGAL_STL_END_NAMESPACE                                                                  \
 
 
 
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( int )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( int )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( int )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( int )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( long )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( long )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( long )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( long )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( float )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( float )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( float )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( float )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( double )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( double )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( double )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( double )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH2( int )
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( int )
@@ -850,23 +839,33 @@ CGAL_ITERATOR_TRAITS_POINTER_SPECSH2( double )
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( double )
 // CGAL_ITERATOR_TRAITS_POINTER_SPECSHD( double )
 
+#if defined(LEDA_NAMESPACE)
+namespace leda {
+class real;
+class integer;
+class rational;
+class bigfloat;
+}
+#else
 class leda_real;
 class leda_integer;
 class leda_rational;
 class leda_bigfloat;
+#endif
+
 
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( leda_real )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( leda_real )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_real )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_real )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( leda_integer )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( leda_integer )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_integer )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_integer )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( leda_rational )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( leda_rational )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_rational )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_rational )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( leda_bigfloat )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( leda_bigfloat )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_bigfloat )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( leda_bigfloat )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH2( leda_real )
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( leda_real )
@@ -886,7 +885,7 @@ namespace CGAL { class Gmpz; }
 
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Gmpz )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Gmpz )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Gmpz )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Gmpz )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH2( CGAL::Gmpz )
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( CGAL::Gmpz )
@@ -899,25 +898,25 @@ CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( CGAL::Gmpz )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<int> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<int> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<long> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<long> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<float> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<float> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<double> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<double> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<leda_real> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<leda_real> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<leda_integer> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<leda_integer> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2SH( CGAL::Quotient<CGAL::Gmpz> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3SH( CGAL::Quotient<CGAL::Gmpz> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<CGAL::Gmpz> )
+//CGAL_ITERATOR_TRAITS_POINTER_SPEC_DSH( CGAL::Quotient<CGAL::Gmpz> )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH2( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECSH3( CGAL::Quotient<int> )

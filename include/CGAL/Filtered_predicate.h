@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Filtered_predicate.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/19 20:04:17 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/09/17 12:03:31 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -256,7 +254,7 @@ public:
 #ifndef _MSC_VER
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1) const
 {
@@ -274,7 +272,7 @@ Filtered_predicate<EP,AP,C2E,C2F,Protection>::
 
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1, class A2>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1, const A2 &a2) const
 {
@@ -292,7 +290,7 @@ Filtered_predicate<EP,AP,C2E,C2F,Protection>::
 
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1, class A2, class A3>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
 {
@@ -310,7 +308,7 @@ Filtered_predicate<EP,AP,C2E,C2F,Protection>::
 
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1, class A2, class A3, class A4>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
 {
@@ -330,7 +328,7 @@ Filtered_predicate<EP,AP,C2E,C2F,Protection>::
 
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1, class A2, class A3, class A4, class A5>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5) const
@@ -351,7 +349,7 @@ Filtered_predicate<EP,AP,C2E,C2F,Protection>::
 
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1, class A2, class A3, class A4, class A5, class A6>
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
+typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
 Filtered_predicate<EP,AP,C2E,C2F,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5, const A6 &a6) const

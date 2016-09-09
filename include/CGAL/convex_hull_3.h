@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/convex_hull_3.h
-// package       : Convex_hull_3 (2.29)
+// package       : Convex_hull_3 (2.41)
 // chapter       : Convex Hulls and Extreme Points
 //
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2001/10/30 09:58:52 $
+// revision      : $Revision: 1.28 $
+// revision_date : $Date: 2002/05/03 09:58:52 $
 //
 // author(s)     : Susan Hert
 //               : Amol Prakash
@@ -61,6 +59,7 @@
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Convex_hull_traits_3.h>
 #include <CGAL/functional.h>
+#include <CGAL/ch_assertions.h>
 #include <iostream>
 #include <algorithm>
 #include <utility>
@@ -115,20 +114,6 @@ class Build_coplanar_poly : public Modifier_base<HDS> {
   ForwardIterator end;    
 };
 
-template <class Vector_3>
-int max_coordinate(const Vector_3& v)
-{
-   if (CGAL_NTS abs(v.x()) >= CGAL_NTS abs(v.y()))
-   {
-      if (CGAL_NTS abs(v.x()) >= CGAL_NTS abs(v.z())) return 0;
-      return 2;
-   }
-   else
-   {
-      if (CGAL_NTS abs(v.y()) >= CGAL_NTS abs(v.z())) return 1;
-      return 2;
-   }
-}
 
 template <class InputIterator, class Plane_3, class Polyhedron_3, class Traits>
 void coplanar_3_hull(InputIterator first, InputIterator beyond,
@@ -137,11 +122,15 @@ void coplanar_3_hull(InputIterator first, InputIterator beyond,
   typedef typename Traits::R                     R;
   typedef typename Traits::Point_3               Point_3;
   typedef typename Traits::Vector_3              Vector_3;
+  typedef typename Traits::Max_coordinate_3      Max_coordinate_3;
+  typedef Polyhedron_3                           Polyhedron;
   
   std::list<Point_3> CH_2;
   typedef typename std::list<Point_3>::iterator  CH_2_iterator;
   typedef typename Traits::Construct_orthogonal_vector_3
                                                    Construct_normal_vec;
+  Max_coordinate_3 max_coordinate =  traits.max_coordinate_3_object();
+
   Construct_normal_vec c_normal = 
                           traits.construct_orthogonal_vector_3_object();
   Vector_3 normal = c_normal(plane);
@@ -169,7 +158,7 @@ void coplanar_3_hull(InputIterator first, InputIterator beyond,
      default:
        break;
   }
-  typedef typename Polyhedron_3::Halfedge_data_structure HDS;
+  typedef typename Polyhedron::Halfedge_data_structure HDS;
 
   Build_coplanar_poly<HDS,CH_2_iterator> poly(CH_2.begin(),CH_2.end());
   P.delegate(poly);
@@ -226,14 +215,14 @@ find_visible_set(const typename Traits::Point_3& point,
    }
 }
 
-template <class Facet_handle, class Traits>
-typename Traits::Point_3
-farthest_outside_point(Facet_handle f_handle, 
-                       std::list<typename Traits::Point_3>& outside_set,
+// using a third template parameter for the point instead of getting it from
+// the traits class as it should be is required by M$VC6
+template <class Facet_handle, class Traits, class Point>
+Point
+farthest_outside_point(Facet_handle f_handle, std::list<Point>& outside_set,
                        const Traits& traits)
 {
-   typedef typename Traits::Point_3               Point_3;
-   typedef typename std::list<Point_3>::iterator     Outside_set_iterator;
+   typedef typename std::list<Point>::iterator     Outside_set_iterator;
 
    CGAL_assertion(!outside_set.empty());
    typename Traits::Less_signed_distance_to_plane_3 less_dist_to_plane =
@@ -257,19 +246,28 @@ void compute_plane_equation(Facet_handle f)
    (*f).plane() = Plane_3(h->opposite()->vertex()->point(),
                           h->vertex()->point(),
                           h->next()->vertex()->point());
+/*
+   (*f).plane() = Plane_3(
+                          h->next()->vertex()->point(),
+                          h->vertex()->point(),
+                          h->opposite()->vertex()->point()
+                         );
+*/
 }
 
-template <class Facet_handle, class Traits>
+// using a template for the Unique_hash_map is required by M$VC7
+// using a template for the Point type instead of getting it from
+// the traits class as it should be is required by M$VC6
+template <class Facet_handle, class Traits, class UHM, class Point>
 void     
 partition_outside_sets(const std::list<Facet_handle>& new_facets,
-        std::list<typename Traits::Point_3>& vis_outside_set, 
-        CGAL::Unique_hash_map<Facet_handle, 
-                       std::list<typename Traits::Point_3> >& outside_sets,
+        std::list<Point>& vis_outside_set, 
+        UHM& outside_sets,
         std::list<Facet_handle>& pending_facets, 
         const Traits& traits)
 {
    typename std::list<Facet_handle>::const_iterator        f_list_it;
-   typename std::list<typename Traits::Point_3>::iterator  point_it;
+   typename std::list<Point>::iterator  point_it;
 
    typename Traits::Has_on_positive_side_3 has_on_positive_side =
            traits.has_on_positive_side_3_object();
@@ -300,20 +298,66 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
       if (!outside_sets[*f_list_it].empty())
          pending_facets.push_back(*f_list_it);
    }
+   
 }
 
-template <class Polyhedron_3, class Traits>
+//
+// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
+// very well, so we have to use specific templating here with the CGAL
+// Polyhedron_3 type in its two different forms (one that is swallowed by
+// MSVC6 and the other by MSVC 7.0). 
+//
+#if defined(_MSC_VER)
+
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
+// using templates for the Facet_handle and Point type instead of getting these
+// from Polyhedron and Traits, respectively is required to make M$VC6 happy.  
+template <class Tr, class Traits, class HDS, class Facet_hdl, class Point>	
 void 
-ch_quickhull_3_scan( 
+ch_quickhull_3_scan(Polyhedron_3<Tr,HDS>& P,
+        std::list<Facet_hdl>& pending_facets,
+        CGAL::Unique_hash_map<Facet_hdl, std::list<Point> >& outside_sets,
+        const Traits& traits)
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class Tr, class Traits, class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void 
+ch_quickhull_3_scan(Polyhedron_3<Tr,Items,HDS,Alloc>& P,
+  std::list<typename Polyhedron_3<Tr,Items,HDS,Alloc>::Facet_handle>& 
+                                                               pending_facets,
+ CGAL::Unique_hash_map<typename Polyhedron_3<Tr,Items,HDS,Alloc>::Facet_handle,
+ std::list<typename Traits::Point_3> >& outside_sets, const Traits& traits
+)
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#else // non-MSVC compilers can handle this more general interface
+
+template <class Polyhedron_3, class Traits>
+void
+ch_quickhull_3_scan(
         Polyhedron_3& P,
         std::list<typename Polyhedron_3::Facet_handle>& pending_facets,
-        CGAL::Unique_hash_map<typename Polyhedron_3::Facet_handle, 
+        CGAL::Unique_hash_map<typename Polyhedron_3::Facet_handle,
                    std::list<typename Traits::Point_3> >& outside_sets,
         const Traits& traits)
+#endif // _MSC_VER
 {
-  typedef typename Polyhedron_3::Halfedge_handle          Halfedge_handle;
-  typedef typename Polyhedron_3::Halfedge_iterator        Halfedge_iterator;
-  typedef typename Polyhedron_3::Facet_handle             Facet_handle;
+ 
+#if defined(_MSC_VER)
+  #ifndef CGAL_USE_POLYHEDRON_DESIGN_ONE
+     typedef Polyhedron_3<Tr,Items,HDS,Alloc>             Polyhedron;
+  #else
+     typedef Polyhedron_3<Tr, HDS>                        Polyhedron;
+  #endif // CGAL_USE_POLYHEDRON_DEGIGN_ONE
+#else
+  typedef Polyhedron_3                                    Polyhedron;
+#endif // _MSC_VER
+  typedef typename Polyhedron::Halfedge_handle            Halfedge_handle;
+  typedef typename Polyhedron::Halfedge_iterator          Halfedge_iterator;
+  typedef typename Polyhedron::Facet_handle               Facet_handle;
   typedef typename Traits::Point_3			  Point_3;
   typedef std::list<Point_3>                              Outside_set;
   typedef typename std::list<Point_3>::iterator           Outside_set_iterator;
@@ -333,6 +377,15 @@ ch_quickhull_3_scan(
      pending_facets.pop_back();
      Point_3 farthest_pt = 
           farthest_outside_point(f_handle, outside_sets[f_handle], traits);
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+     window << CGAL::RED;
+     window << farthest_pt;
+     cout << "farthest point is in red" << endl;
+     char ch;
+     cin >> ch;
+     assert (P.is_valid(true));
+     window.clear();
+#endif
 
      find_visible_set(farthest_pt, f_handle, visible_set, traits);
      // for each visible facet
@@ -347,6 +400,15 @@ ch_quickhull_3_scan(
         P.erase_facet((*(*vis_set_it)).halfedge());
         outside_sets[*vis_set_it].clear();
      }
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+     window << CGAL::RED;
+     window << farthest_pt;
+     window << CGAL::BLUE;
+     window << P;
+     cout << "farthest point is in red" << endl;
+     cout << "after erasing visibile facets";
+     cin >> ch;
+#endif
      for (hole_halfedge = P.halfedges_begin(); 
           hole_halfedge != P.halfedges_end() && !(*hole_halfedge).is_border();
           hole_halfedge++) 
@@ -394,25 +456,73 @@ ch_quickhull_3_scan(
      // fill in the last triangular hole with a facet
      new_halfedge = P.fill_hole(curr_halfedge);
      new_facets.push_back(new_halfedge->facet());
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+     window << CGAL::BLUE;
+     window << P;
+     cout << "after filling hole" << endl;
+     char c;
+     cin >> c;
+     assert (P.is_valid(true));
+#endif
 
      // now partition the set of outside set points among the new facets.
      partition_outside_sets(new_facets, vis_outside_set, outside_sets,
                             pending_facets, traits);
-  }   
+  }
+  
 }
+
+//
+// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
+// very well, so we have to use specific templating here with the CGAL
+// Polyhedron_3 type in its two different forms (one that is swallowed by
+// MSVC6 and the other by MSVC 7.0). 
+//
+#if defined(_MSC_VER)
+
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
+// the use of a template parameter for Point instead of getting this from
+// the Traits class as it should be is required by M$VC6
+template <class Tr, class Traits, class HDS, class Point>	
+void non_coplanar_quickhull_3(std::list<Point>& points,
+                              Polyhedron_3<Tr,HDS>& P, const Traits& traits)
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class Tr, class Traits, class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
+	Polyhedron_3<Tr,Items,HDS,Alloc>& P, const Traits& traits)
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#else // non-MSVC compilers can handle this more general interface
 
 template <class Polyhedron_3, class Traits>
 void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
                               Polyhedron_3& P, const Traits& traits)
+#endif // _MSC_VER
+
 {
-  typedef typename Polyhedron_3::Facet_handle             Facet_handle;
-  typedef typename Polyhedron_3::Facet_iterator           Facet_iterator;
+#if defined (_MSC_VER)
+  #ifndef CGAL_USE_POLYHEDRON_DESIGN_ONE
+    typedef typename Polyhedron_3<Tr,Items,HDS,Alloc>     Polyhedron;
+  #else
+    typedef typename Polyhedron_3<Tr, HDS>                Polyhedron;
+  #endif // CGAL_USE_POLYEDRON_DESIGN_ONE
+#else
+  typedef Polyhedron_3                                    Polyhedron;
+#endif // _MS_VER
+
+  typedef typename Polyhedron::Facet_handle               Facet_handle;
+  typedef typename Polyhedron::Facet_iterator             Facet_iterator;
+
   typedef typename Traits::Point_3                        Point_3;
   typedef CGAL::Unique_hash_map<Facet_handle, std::list<Point_3> >   
                                                           Outside_set_map;
   typedef typename std::list<Point_3>::iterator           P3_iterator;
 
-  std::list<Facet_iterator> pending_facets;
+  std::list<Facet_handle> pending_facets;
 
   Facet_iterator f_it;
 
@@ -423,11 +533,17 @@ void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
 
   // for each facet, look at each unassigned point and decide if it belongs
   // to the outside set of this facet.
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+  window << CGAL::GREEN;
+#endif
   for (f_it = P.facets_begin(); f_it != P.facets_end(); f_it++)
   {
      compute_plane_equation(f_it);
      for (P3_iterator point_it = points.begin() ; point_it != points.end();)
      {
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+        window << *point_it;
+#endif
         if ( has_on_positive_side((*f_it).plane(), *point_it) )
         {
            outside_sets[f_it].push_back(*point_it);
@@ -444,18 +560,60 @@ void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
        pending_facets.push_back(f_it);
   ch_quickhull_3_scan(P, pending_facets, outside_sets, traits);
 
-  CGAL_ch_expensive_postcondition(all_points_inside(first,beyond,P,traits));
+  CGAL_ch_expensive_postcondition(all_points_inside(points.begin(),
+                                                    points.end(),P,traits));
   CGAL_ch_postcondition(is_strongly_convex_3(P, traits));
 }
 
-template <class Polyhedron_3, class Traits>
+
+
+//
+// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
+// very well, so we have to use specific templating here with the CGAL
+// Polyhedron_3 type in its two different forms (one that is swallowed by
+// MSVC6 and the other by MSVC 7.0). 
+//
+#if defined(_MSC_VER)
+
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
+template <class Tr, class HDS, class Traits, class type, class InputIterator>
 void
-ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points, 
-        typename std::list<typename Traits::Point_3>::iterator point1_it, 
-        typename std::list<typename Traits::Point_3>::iterator point2_it, 
-        typename std::list<typename Traits::Point_3>::iterator point3_it, 
-        Polyhedron_3& P,
-        const Traits& traits)
+ch_quickhull_polyhedron_3(std::list<type>& points, 
+			  InputIterator point1_it, 
+        InputIterator point2_it, 
+        InputIterator point3_it, 
+        Polyhedron_3<Tr,HDS>& P,
+        const Traits& traits
+        )
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class InputIterator, class Tr, class Traits,
+           class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc
+		>
+void
+ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
+		InputIterator point1_it, 
+        InputIterator point2_it, 
+        InputIterator point3_it, 
+        Polyhedron_3<Tr,Items,HDS,Alloc>& P,
+        const Traits& traits
+		)
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#else // non-MSVC compilers can handle this more general interface
+
+template <class InputIterator, class Polyhedron_3, class Traits>
+void
+ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
+                          InputIterator point1_it, InputIterator point2_it,
+                          InputIterator point3_it, Polyhedron_3& P,
+                          const Traits& traits)
+
+#endif // _MSC_VER
+
 {
   typedef typename Traits::Point_3	  		  Point_3;  
   typedef typename Traits::Plane_3		      	  Plane_3;
@@ -468,8 +626,7 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
          traits.construct_plane_3_object();
   Plane_3 plane = construct_plane(*point3_it, *point2_it, *point1_it);
   typedef typename Traits::Less_signed_distance_to_plane_3      Dist_compare; 
-  Dist_compare compare_dist = 
-                traits.less_signed_distance_to_plane_3_object();
+  Dist_compare compare_dist = traits.less_signed_distance_to_plane_3_object();
   
   typename Traits::Coplanar_3  coplanar = traits.coplanar_3_object(); 
   // find both min and max here since using signed distance.  If all points
@@ -481,9 +638,25 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
                                   bind_1(compare_dist, plane));
   P3_iterator max_it;
   if (coplanar(*point1_it, *point2_it, *point3_it, *min_max.second))
+  {
      max_it = min_max.first;
+     // want the orientation of the points defining the plane to be positive
+     // so have to reorder these points if all points were on negative side
+     // of plane
+     std::swap(*point1_it, *point3_it);
+  }
   else
      max_it = min_max.second;
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+  window << CGAL::GREEN;
+  window << *point1_it;
+  window << *point2_it;
+  window << *point3_it;
+  window << CGAL::RED;
+  window << *max_it;
+  char ch;
+  cin >> ch;
+#endif
 
   // if the maximum distance point is on the plane then all are coplanar
   if (coplanar(*point1_it, *point2_it, *point3_it, *max_it)) 
@@ -491,6 +664,11 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
   else
   {
      P.make_tetrahedron(*point1_it, *point2_it, *point3_it, *max_it);
+#ifdef CGAL_CH_3_WINDOW_DEBUG
+     cout << "first tetrahedron" << endl;
+     window << P;
+     assert (P.is_valid(true));
+#endif
      points.erase(point1_it);
      points.erase(point2_it);
      points.erase(point3_it);
@@ -592,26 +770,52 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 		   Object& ch_object)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_3;
-   CGAL_ch_quickhull_obj_3(first, beyond, ch_object,
-                           reinterpret_cast<Point_3*>(0));
-
+   typedef typename Kernel_traits<Point_3>::Kernel K;
+   convex_hull_3(first, beyond, ch_object, Convex_hull_traits_3<K>());
 }
 
-template <class InputIterator, class R>
-void CGAL_ch_quickhull_obj_3(InputIterator first, InputIterator beyond, 
-		             Object& ch_object, Point_3<R>*)
-{
-   convex_hull_3(first, beyond, ch_object, Convex_hull_traits_3<R>());
-}
+
+//
+// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
+// very well, so we have to use specific templating here with the CGAL
+// Polyhedron_3 type in its two different forms (one that is swallowed by
+// MSVC6 and the other by MSVC 7.0). 
+//
+#if defined(_MSC_VER)
+
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
+template <class InputIterator, class Tr, class Traits, class HDS>
+void convex_hull_3(InputIterator first, InputIterator beyond, 
+                   Polyhedron_3<Tr,HDS>& polyhedron,  const Traits& traits)
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class InputIterator,
+		   class Tr,
+		   class Traits,
+           class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void convex_hull_3(InputIterator first, InputIterator beyond, 
+                   Polyhedron_3<Tr,Items,HDS,Alloc>& polyhedron,
+				   const Traits& traits)
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#else // non-MSVC compilers can handle this more general version
 
 template <class InputIterator, class Polyhedron_3, class Traits>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
+void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron,  const Traits& traits)
-{  
-  typedef typename Traits::Point_3	  		  Point_3;  
-  typedef typename Traits::Plane_3		      	  Plane_3;
-  typedef std::list<Point_3>                              Point_3_list;
-  typedef typename Point_3_list::iterator                 P3_iterator;
+#endif // _MSC_VER
+{
+  typedef typename Traits::Point_3                Point_3;  
+  typedef typename Traits::Plane_3	      	  Plane_3;
+#if defined(_MSC_VER)
+  typedef std::list< Traits::Point_3>             Point_3_list;
+#else
+  typedef std::list<Point_3>                      Point_3_list;
+#endif // _MSC_VER
+  typedef typename Point_3_list::iterator         P3_iterator;
 
   Point_3_list points(first, beyond);
   CGAL_ch_precondition(points.size() > 3);
@@ -637,25 +841,46 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
   // result will be a polyhedron
   ch_quickhull_polyhedron_3(points, point1_it, point2_it, point3_it,
                             polyhedron, traits);
+
 }
+
+//
+// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
+// very well, so we have to use specific templating here with the CGAL
+// Polyhedron_3 type in its two different forms (one that is swallowed by
+// MSVC6 and the other by MSVC 7.0). 
+//
+#if defined(_MSC_VER)
+
+#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
+template <class InputIterator, class Traits, class HDS>
+void convex_hull_3(InputIterator first, InputIterator beyond, 
+               Polyhedron_3<Traits,HDS>& polyhedron  CGAL_MSVC_DUMMY_ARGUMENT) 
+#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+template < class InputIterator, class Traits, class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class HDS, class Alloc>
+void convex_hull_3(InputIterator first, InputIterator beyond, 
+                   Polyhedron_3<Traits,Items,HDS,Alloc>& polyhedron 
+                   CGAL_MSVC_DUMMY_ARGUMENT) 
+
+#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#else // non-MSVC compilers can handle this simpler, more general version
 
 template <class InputIterator, class Polyhedron_3>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
+void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron)
+
+#endif // _MSC_VER
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_3;
-   CGAL_ch_quickhull_poly_3(first, beyond, polyhedron,
-                                   reinterpret_cast<Point_3*>(0));
+   typedef typename Kernel_traits<Point_3>::Kernel                  K;
+   convex_hull_3(first, beyond, polyhedron, Convex_hull_traits_3<K>());
 
 }
-
-template <class InputIterator, class Polyhedron_3, class R>
-void CGAL_ch_quickhull_poly_3(InputIterator first, InputIterator beyond, 
-		              Polyhedron_3& polyhedron, Point_3<R>*)
-{
-   convex_hull_3(first, beyond, polyhedron, Convex_hull_traits_3<R>());
-}
-
 
 } // namespace CGAL
 

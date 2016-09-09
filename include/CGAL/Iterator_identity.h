@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Iterator_identity.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/11 09:00:24 $
+// revision      : $Revision: 1.41 $
+// revision_date : $Date: 2002/03/28 15:24:26 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -61,11 +59,16 @@ CGAL_BEGIN_NAMESPACE
 template < class I, class Ref, class Ptr, class Val, class Dist, class Ctg>
 #else
 template < class I,
-           class Ref  = typename std::iterator_traits<I>::reference,
-           class Ptr  = typename std::iterator_traits<I>::pointer,
-           class Val  = typename std::iterator_traits<I>::value_type,
-           class Dist = typename std::iterator_traits<I>::difference_type,
-           class Ctg = typename std::iterator_traits<I>::iterator_category>
+           class Ref  = CGAL_TYPENAME_MSVC_NULL
+                        std::iterator_traits<I>::reference,
+           class Ptr  = CGAL_TYPENAME_MSVC_NULL
+                        std::iterator_traits<I>::pointer,
+           class Val  = CGAL_TYPENAME_MSVC_NULL
+                        std::iterator_traits<I>::value_type,
+           class Dist = CGAL_TYPENAME_MSVC_NULL
+                        std::iterator_traits<I>::difference_type,
+           class Ctg = CGAL_TYPENAME_MSVC_NULL
+                        std::iterator_traits<I>::iterator_category>
 #endif
 class Iterator_identity {
 protected:

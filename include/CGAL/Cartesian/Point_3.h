@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Point_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/01/15 19:02:08 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2002/02/06 12:32:38 $
 // author(s)     : Andreas Fabri and Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -50,85 +48,77 @@
 
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_3.h>
-#include <CGAL/Cartesian/redefine_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class PointC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class PointC3
   : public R_::Point_handle_3
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Vector_3             Vector_3;
+  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+
+  typedef typename R_::Point_handle_3       base;
+  typedef typename base::element_type       rep;
+
 public:
-  typedef R_                               R;
-  typedef typename R::FT                   FT;
-  typedef typename R::RT                   RT;
-
-  typedef typename R::Point_handle_3       Point_handle_3_;
-  typedef typename Point_handle_3_::element_type Point_ref_3;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef PointC3<R CGAL_CTAG>             Self;
-  typedef typename R::Vector_3             Vector_3;
-  typedef typename R::Aff_transformation_3 Aff_transformation_3;
-#else
-  typedef PointC3<R>                       Self;
-  typedef typename R::Vector_3_base        Vector_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef R_                                R;
 
   PointC3()
-    : Point_handle_3_(Point_ref_3()) {}
+    : base(rep()) {}
 
   PointC3(const Origin &)
-    : Point_handle_3_(Point_ref_3(FT(0), FT(0), FT(0))) {}
+    : base(rep(FT(0), FT(0), FT(0))) {}
 
   PointC3(const Vector_3 &v)
-    : Point_handle_3_(v) {}
+    : base(v) {}
 
   PointC3(const FT &x, const FT &y, const FT &z)
-    : Point_handle_3_(Point_ref_3(x, y, z)) {}
+    : base(rep(x, y, z)) {}
 
   PointC3(const FT &x, const FT &y, const FT &z, const FT &w)
   {
     if (w != FT(1))
-      initialize_with(Point_ref_3(x/w, y/w, z/w));
+      initialize_with(rep(x/w, y/w, z/w));
     else
-      initialize_with(Point_ref_3(x, y, z));
+      initialize_with(rep(x, y, z));
   }
 
-  bool operator==(const Self &p) const
+  bool operator==(const PointC3 &p) const
   {
       if (identical(p))
 	  return true;
       return x_equal(*this, p) && y_equal(*this, p) && z_equal(*this, p);
   }
-  bool operator!=(const Self &p) const
+  bool operator!=(const PointC3 &p) const
   {
       return !(*this == p);
   }
 
-  FT x() const
+  const FT & x() const
   {
       return Ptr()->e0;
   }
-  FT y() const
+  const FT & y() const
   {
       return Ptr()->e1;
   }
-  FT z() const
+  const FT & z() const
   {
       return Ptr()->e2;
   }
 
-  FT hx() const
+  const FT & hx() const
   {
       return x();
   }
-  FT hy() const
+  const FT & hy() const
   {
       return y();
   }
-  FT hz() const
+  const FT & hz() const
   {
       return z();
   }
@@ -137,8 +127,8 @@ public:
       return FT(1);
   }
 
-  FT cartesian(int i) const;
-  FT operator[](int i) const;
+  const FT & cartesian(int i) const;
+  const FT & operator[](int i) const;
   FT homogeneous(int i) const;
 
   int dimension() const
@@ -147,7 +137,7 @@ public:
   }
   Bbox_3 bbox() const;
 
-  Self transform(const Aff_transformation_3 &t) const
+  PointC3 transform(const Aff_transformation_3 &t) const
   {
     return t.transform(*this);
   }
@@ -159,8 +149,8 @@ public:
 
 template < class R >
 inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::cartesian(int i) const
+const typename PointC3<R>::FT &
+PointC3<R>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
   // return (i==0) ? x() :
@@ -172,16 +162,16 @@ PointC3<R CGAL_CTAG>::cartesian(int i) const
 
 template < class R >
 inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::operator[](int i) const
+const typename PointC3<R>::FT &
+PointC3<R>::operator[](int i) const
 {
   return cartesian(i);
 }
 
 template < class R >
 inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::homogeneous(int i) const
+typename PointC3<R>::FT
+PointC3<R>::homogeneous(int i) const
 {
   CGAL_kernel_precondition(i>=0 && i<=3);
   if (i<3) return cartesian(i);
@@ -190,7 +180,7 @@ PointC3<R CGAL_CTAG>::homogeneous(int i) const
 
 template < class R >
 Bbox_3
-PointC3<R CGAL_CTAG>::bbox() const
+PointC3<R>::bbox() const
 {
   // FIXME: to_interval
   double bx = CGAL::to_double(x());
@@ -202,7 +192,7 @@ PointC3<R CGAL_CTAG>::bbox() const
 #ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_POINTC3
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const PointC3<R CGAL_CTAG> &p)
+operator<<(std::ostream &os, const PointC3<R> &p)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -222,7 +212,7 @@ operator<<(std::ostream &os, const PointC3<R CGAL_CTAG> &p)
 #ifndef CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_POINTC3
 template < class R >
 std::istream &
-operator>>(std::istream &is, PointC3<R CGAL_CTAG> &p)
+operator>>(std::istream &is, PointC3<R> &p)
 {
     typename R::FT x, y, z;
     switch(is.iword(IO::mode)) {
@@ -240,7 +230,7 @@ operator>>(std::istream &is, PointC3<R CGAL_CTAG> &p)
         break;
     }
     if (is)
-	p = PointC3<R CGAL_CTAG>(x, y, z);
+	p = PointC3<R>(x, y, z);
     return is;
 }
 #endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_POINTC3

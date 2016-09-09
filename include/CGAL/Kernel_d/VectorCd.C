@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/VectorCd.C
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
 //
@@ -82,13 +80,13 @@ VectorCd<FT,LA> operator*(const FT& n, const VectorCd<FT,LA>& v)
 
 template <class FT, class LA>
 std::istream& operator>>(std::istream& I, VectorCd<FT,LA>& v)
-{ v.copy_on_write(); v.ptr->read(I);
+{ v.copy_on_write(); v.ptr()->read(I);
   return I; 
 }
 
 template <class FT, class LA>
 std::ostream& operator<<(std::ostream& O, const VectorCd<FT,LA>& v)
-{ v.ptr->print(O,"VectorCd"); return O; } 
+{ v.ptr()->print(O,"VectorCd"); return O; } 
 
 template <class FT, class LA>
 inline CGAL::io_Operator io_tag(const VectorCd<FT,LA>&) 

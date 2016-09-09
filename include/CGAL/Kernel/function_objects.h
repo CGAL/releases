@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel/function_objects.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 2001/07/23 17:36:53 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.33 $
+// revision_date : $Date: 2002/01/24 16:42:17 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -1113,6 +1111,19 @@ class Compare_angle_with_x_axis
     { return compare_angle_with_x_axis(p,q); }
 };
 
+class Compare_slope
+{
+  public:
+    typedef Comparison_result      result_type;
+    typedef Arity_tag< 2 >         Arity;
+
+    template <class T>
+    Comparison_result
+    operator()(const T& l1, const T& l2) const
+    { return compare_slopes(l1,l2); }
+};
+
+
 template <class Plane, class Point>
 class Less_signed_distance_to_plane
 {
@@ -1323,6 +1334,114 @@ class Call_collinear_has_on
     bool
     operator()( const Cls& c, const A1& a1) const
     { return c.collinear_has_on(a1); }
+};
+
+template <class Point>
+struct p_Orientation
+{
+  typedef Orientation    result_type;
+
+  Orientation operator()(const Point& p, const Point& q, const Point& r) const
+  { return orientation(p,q,r); }
+  Orientation operator()(const Point& p, const Point& q, const Point& r, 
+                         const Point& s) const
+  { return orientation(p,q,r,s); }
+};
+
+template <class Point>
+struct p_Less_dist_to_point
+{
+  typedef bool    result_type;
+  typedef Arity_tag< 3 >   Arity;
+
+  bool operator()(const Point& p0, const Point& p1, const Point& p2) const
+  { return has_smaller_dist_to_point(p0, p1, p2); }
+};
+
+template <class Point>
+struct p_Less_xy
+{
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
+  bool operator()( const Point& p1, const Point& p2) const
+       { return lexicographically_xy_smaller( p1, p2); }
+};
+
+template <class Point>
+struct p_Less_yx
+{
+  typedef bool    result_type;
+  typedef  Arity_tag< 2 >   Arity;
+
+  bool operator()( const Point& p1, const Point& p2) const
+       { return lexicographically_yx_smaller( p1, p2); }
+};
+
+template <class Point>
+class p_Less_dist_to_line_2
+{
+public:
+  typedef bool    result_type;
+  typedef  Arity_tag< 4 >   Arity;
+
+  bool  operator()(const Point&a, const Point& b,
+                   const Point& c, const Point& d) const
+        {
+          Comparison_result
+            res = compare_signed_distance_to_line( a, b, c, d);
+          if ( res == LARGER )
+          {
+              return false;
+          }
+          else if ( res == SMALLER )
+          {
+              return true;
+          }
+          else
+          {
+              return lexicographically_xy_smaller( c, d );
+         }
+        }
+
+};
+
+template <class Point>
+class p_Less_rotate_ccw
+{
+public:
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+  bool  operator()(const Point& r, const Point& p, const Point& q) const
+        {
+          Orientation ori = orientation(r, p, q);
+          if ( ori == LEFTTURN )
+          {
+              return true;
+          }
+          else if ( ori == RIGHTTURN )
+          {
+              return false;
+          }
+          else
+          {
+              if (p == r) return false;
+              if (q == r) return true;
+              if (p == q) return false;
+              return  collinear_are_ordered_along_line( r, q, p);
+          }
+        }
+};
+
+template <class Point>
+struct p_Left_turn
+{
+  typedef bool    result_type;
+  typedef  Arity_tag< 3 >   Arity;
+
+  bool  operator()(const Point& p, const Point& q, const Point& r) const
+        { return left_turn(p,q,r); }
 };
 
 

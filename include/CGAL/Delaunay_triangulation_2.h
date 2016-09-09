@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Delaunay_triangulation_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Delaunay_triangulation_2.h,v $
-// revision      : $Revision: 1.47 $
-// revision_date : $Date: 2001/06/22 09:35:32 $
+// revision      : $Revision: 1.53 $
+// revision_date : $Date: 2002/04/10 06:46:23 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -53,12 +51,12 @@
 #define CGAL_DELAUNAY_TRIANGULATION_2_H
 
 #include <CGAL/Triangulation_2.h>
-#include <CGAL/Dummy_output_iterator.h>
+#include <CGAL/iterator.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class Gt, 
-           class Tds = Triangulation_data_structure_using_list_2 <
+           class Tds = Triangulation_data_structure_2 <
                        Triangulation_vertex_base_2<Gt>,
 		       Triangulation_face_base_2<Gt> > >
 class Delaunay_triangulation_2 : public Triangulation_2<Gt,Tds>
@@ -174,14 +172,13 @@ public:
   insert(InputIterator first, InputIterator last)
     {
       int n = number_of_vertices();
-      while(first != last){
+        while(first != last){
 	insert(*first);
 	++first;
       }
       return number_of_vertices() - n;
     }
 
-  //
   template <class Out_it1, class Out_it2> 
   bool 
   get_conflicts_and_boundary (const Point  &p, 
@@ -216,8 +213,7 @@ public:
 		  Out_it1 fit, 
 		  Face_handle start= Face_handle()) const
     {
-      Dummy_output_iterator eit;
-      return get_conflicts_and_boundary(p, fit, eit, start);
+      return get_conflicts_and_boundary(p, fit, Emptyset_iterator(), start);
     }
 
   template <class Out_it2> 
@@ -226,8 +222,7 @@ public:
 			    Out_it2 eit, 
 			    Face_handle start= Face_handle()) const
     {
-      Dummy_output_iterator fit;
-      return get_conflicts_and_boundary(p, fit, eit, start);
+      return get_conflicts_and_boundary(p, Emptyset_iterator(), eit, start);
     }
 
 private:
@@ -300,7 +295,7 @@ is_valid(bool verbose, int level) const
 }
 
 template < class Gt, class Tds >
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>:: 
 nearest_vertex(const Point  &p, Face_handle f) const
 {
@@ -320,7 +315,7 @@ nearest_vertex(const Point  &p, Face_handle f) const
 }
   
 template < class Gt, class Tds >
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>:: 
 nearest_vertex_2D(const Point& p, Face_handle f) const
 {
@@ -348,7 +343,7 @@ nearest_vertex_2D(const Point& p, Face_handle f) const
 }
 
 template < class Gt, class Tds >
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>:: 
 nearest_vertex_1D(const Point& p) const
 {
@@ -391,7 +386,7 @@ look_nearest_neighbor(const Point& p,
 //DUALITY
 template<class Gt, class Tds>
 inline
-Delaunay_triangulation_2<Gt,Tds>::Point
+typename Delaunay_triangulation_2<Gt,Tds>::Point
 Delaunay_triangulation_2<Gt,Tds>::
 dual (Face_handle f) const
 {
@@ -414,7 +409,7 @@ dual(const Edge &e) const
     Point p = (e.first)->vertex(cw(e.second))->point();
     Point q = (e.first)->vertex(ccw(e.second))->point();
     Line l  = geom_traits().construct_bisector_2_object()(p,q);
-    return Object(new Wrapper< Line >(l));
+    return make_object(l);
   }
 		    
   // dimension==2
@@ -422,7 +417,7 @@ dual(const Edge &e) const
       (!is_infinite(e.first->neighbor(e.second))) ) {
     Segment s = geom_traits().construct_segment_2_object()
                           (dual(e.first),dual(e.first->neighbor(e.second)));
-    return Object(new Wrapper< Segment >(s));
+    return make_object(s);
   } 
   // one of the adjacent face is infinite
   Face_handle f; int i;
@@ -437,7 +432,7 @@ dual(const Edge &e) const
   Line l = geom_traits().construct_bisector_2_object()(p,q);
   Direction d = geom_traits().construct_direction_of_line_2_object()(l);
   Ray r = geom_traits().construct_ray_2_object()(dual(f), d);
-  return Object(new Wrapper< Ray >(r));
+  return make_object(r);
 }
   
 template < class Gt, class Tds >
@@ -458,7 +453,7 @@ dual(const Finite_edges_iterator& ei) const
   
 template < class Gt, class Tds >
 inline
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>::
 insert(const Point  &p,  Face_handle start)
 {
@@ -470,7 +465,7 @@ insert(const Point  &p,  Face_handle start)
   
 template < class Gt, class Tds >
 inline
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>::
 push_back(const Point &p)
 {
@@ -479,7 +474,7 @@ push_back(const Point &p)
   
 template < class Gt, class Tds >
 inline
-Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
+typename Delaunay_triangulation_2<Gt,Tds>::Vertex_handle
 Delaunay_triangulation_2<Gt,Tds>::
 insert(const Point  &p, Locate_type lt, Face_handle loc, int li)
 {
@@ -550,8 +545,7 @@ remove_2D(Vertex_handle v)
     std::list<Edge> hole;
     make_hole(v, hole);
     fill_hole_delaunay(hole);
-    delete &(*v);
-    set_number_of_vertices(number_of_vertices()-1);
+    delete_vertex(v);
   }
   return;       
 }

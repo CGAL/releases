@@ -18,10 +18,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -31,12 +29,12 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : examples/ConvexHull/ch_of_polyline.C
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/25 13:16:28 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/12/05 15:16:08 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  
@@ -48,18 +46,20 @@
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/convex_hull_2.h>
-#include <CGAL/ch_melkman.C>
+#include <CGAL/ch_melkman.h>
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/IO/leda_ps_file.h>
 #include <CGAL/IO/leda_window.h>
 #endif // CGAL_USE_LEDA
 
-#include <CGAL/IO/polygonal_2.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/Ostream_iterator.h>
 
 typedef  CGAL::Cartesian<double>      K;
 typedef  K::Point_2                   Point_2;
+typedef  CGAL::Polygon_2<K>           Polygon;
 
 CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(Point_2*)
 
@@ -94,9 +94,9 @@ int main()
   CGAL::ch_melkman( V.begin(), V.end(), std::back_inserter(CH) );
   std::cout << "Convex Hull has size " << CH.size() << std::endl;
   W << CGAL::Color(200,200,200);
-  CGAL::send_to_stream_as_polygon( W, CH.begin(), CH.end());
+  W << Polygon( CH.begin(), CH.end());
   W << CGAL::GREEN;
-  CGAL::send_to_stream_as_polygon( W, V.begin(), V.end());
+  W << Polygon( V.begin(), V.end());
   W << CGAL::RED;
   std::copy( CH.begin(), CH.end(),
              CGAL::Ostream_iterator<Point_2,OutStream>(W));

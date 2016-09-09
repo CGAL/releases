@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel/interface_macros.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/23 17:36:54 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/03/20 15:24:27 $
 // author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -241,10 +239,10 @@ CGAL_Kernel_pred(CGALi::Less_x,
 CGAL_Kernel_pred(CGALi::Less_y,
 	         Less_y_2,
 		 less_y_2_object)
-CGAL_Kernel_pred(CGAL::p_Less_xy<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Less_xy<Point_2>,
 	         Less_xy_2,
 		 less_xy_2_object)
-CGAL_Kernel_pred(CGAL::p_Less_yx<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Less_yx<Point_2>,
 	         Less_yx_2,
 		 less_yx_2_object)
 CGAL_Kernel_pred(CGALi::Compare_x,
@@ -265,13 +263,16 @@ CGAL_Kernel_pred(CGALi::Compare_x_at_y,
 CGAL_Kernel_pred(CGALi::Compare_distance<Point_2>,
 	         Compare_distance_2,
 		 compare_distance_2_object)
-CGAL_Kernel_pred(CGAL ::p_Less_dist_to_point<Point_2>,
+CGAL_Kernel_pred(CGALi::Compare_slope,
+	         Compare_slope_2,
+		 compare_slope_2_object)
+CGAL_Kernel_pred(CGALi::p_Less_dist_to_point<Point_2>,
                  Less_distance_to_point_2,
                  less_distance_to_point_2_object)
-CGAL_Kernel_pred(CGAL ::p_Less_dist_to_line_2<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Less_dist_to_line_2<Point_2>,
                  Less_signed_distance_to_line_2,
                  less_signed_distance_to_line_2_object)
-CGAL_Kernel_pred(CGAL ::p_Less_rotate_ccw<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Less_rotate_ccw<Point_2>,
 	         Less_rotate_ccw_2,
 		 less_rotate_ccw_2_object)
 CGAL_Kernel_pred(CGALi::Compare_angle_with_x_axis<Direction_2>,
@@ -280,11 +281,11 @@ CGAL_Kernel_pred(CGALi::Compare_angle_with_x_axis<Direction_2>,
 CGAL_Kernel_pred(CGALi::Counterclockwise_in_between,
 	         Counterclockwise_in_between_2,
 		 counterclockwise_in_between_2_object)
-CGAL_Kernel_pred(CGAL ::p_Left_turn<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Left_turn<Point_2>,
                  Left_turn_2,
                  left_turn_2_object)
 #ifndef CGAL_NO_DEPRECATED_CODE
-CGAL_Kernel_pred(CGAL ::p_Left_turn<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Left_turn<Point_2>,
 	         Leftturn_2,
 		 leftturn_2_object)
 #endif // CGAL_NO_DEPRECATED_CODE
@@ -294,7 +295,7 @@ CGAL_Kernel_pred(CGALi::p_Angle,
 CGAL_Kernel_pred(CGALi::Collinear,
 	         Collinear_2,
 		 collinear_2_object)
-CGAL_Kernel_pred(CGAL ::p_Orientation<Point_2>,
+CGAL_Kernel_pred(CGALi::p_Orientation<Point_2>,
 	         Orientation_2,
 		 orientation_2_object)
 CGAL_Kernel_pred(CGALi::Side_of_oriented_circle,
@@ -549,7 +550,7 @@ CGAL_Kernel_pred(CGALi::Less_y,
 CGAL_Kernel_pred(CGALi::Less_z,
 	         Less_z_3,
 		 less_z_3_object)
-CGAL_Kernel_pred(CGAL::p_Less_xy<Point_3>,
+CGAL_Kernel_pred(CGALi::p_Less_xy<Point_3>,
 	         Less_xy_3,
 		 less_xy_3_object)
 CGAL_Kernel_pred(CGALi::Less_xyz,
@@ -573,7 +574,7 @@ CGAL_Kernel_pred(CGALi::Compare_xyz,
 CGAL_Kernel_pred(CGALi::Compare_distance<Point_3>,
 	         Compare_distance_3,
 		 compare_distance_3_object)
-CGAL_Kernel_pred(CGAL ::p_Less_dist_to_point<Point_3>,
+CGAL_Kernel_pred(CGALi::p_Less_dist_to_point<Point_3>,
                  Less_distance_to_point_3,
                  less_distance_to_point_3_object)
 CGAL_Kernel_pred2(CGALi::Less_signed_distance_to_plane<Plane_3, Point_3>,
@@ -594,7 +595,7 @@ CGAL_Kernel_pred(CGALi::Coplanar_orientation,
 CGAL_Kernel_pred(CGALi::Coplanar_side_of_bounded_circle,
 	         Coplanar_side_of_bounded_circle_3,
 		 coplanar_side_of_bounded_circle_3_object)
-CGAL_Kernel_pred(CGAL ::p_Orientation<Point_3>,
+CGAL_Kernel_pred(CGALi::p_Orientation<Point_3>,
 	         Orientation_3,
 		 orientation_3_object)
 CGAL_Kernel_pred(CGALi::Call_is_degenerate,
@@ -642,10 +643,6 @@ CGAL_Kernel_pred(CGALi::Side_of_oriented_sphere,
 CGAL_Kernel_pred(CGALi::Side_of_bounded_sphere,
 	         Side_of_bounded_sphere_3,
 		 side_of_bounded_sphere_3_object)
-
-CGAL_Kernel_cons(CGALi::Construct<Point_d>,
-	         Construct_point_d,
-		 construct_point_d_object)
 
 #undef CGAL_Kernel_pred
 #undef CGAL_Kernel_cons

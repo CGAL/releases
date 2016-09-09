@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/partition_is_valid_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/07/11 15:28:51 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/01/17 11:20:35 $
 //
 // author(s)     : Susan Hert
 //
@@ -246,26 +244,14 @@ partition_is_valid_2 (InputIterator point_first, InputIterator point_last,
                       FowardIterator poly_first, FowardIterator poly_last)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type   Point_2;
-   return CGAL_partition_is_valid_2(point_first, point_last,
-                                    poly_first, poly_last,
-                                    reinterpret_cast<Point_2*>(0));
-}
-
-template<class InputIterator, class ForwardIterator, class R>
-bool
-CGAL_partition_is_valid_2 (InputIterator point_first, 
-                           InputIterator point_last,
-                           ForwardIterator poly_first, 
-                           ForwardIterator poly_last,
-                           Point_2<R>*)
-{
-   typedef Partition_traits_2<R>                   Traits;
-   typedef Is_vacuously_valid<Traits>              Is_valid;
+   typedef typename Kernel_traits<Point_2>::Kernel     K;
+   typedef Partition_traits_2<K>                       Traits;
+   typedef Is_vacuously_valid<Traits>                  Is_valid;
 
    Partition_is_valid_traits_2<Traits, Is_valid>   validity_traits;
 
-   return partition_is_valid_2(point_first, point_last, poly_first, poly_last,
-                               validity_traits);
+   return partition_is_valid_2(point_first, point_last,
+                               poly_first, poly_last, validity_traits);
 }
 
 
@@ -292,23 +278,12 @@ convex_partition_is_valid_2(InputIterator point_first,
                             ForwardIterator poly_last)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type   Point_2;
-   return CGAL_convex_partition_is_valid_2(point_first, point_last, 
-                                           poly_first, poly_last, 
-                                           reinterpret_cast<Point_2*>(0));
+   typedef typename Kernel_traits<Point_2>::Kernel     K;
+   return convex_partition_is_valid_2(point_first, point_last, 
+                                      poly_first, poly_last,  
+                                      Partition_traits_2<K>());
 }
 
-template<class InputIterator, class ForwardIterator, class R>
-bool 
-CGAL_convex_partition_is_valid_2(InputIterator point_first,
-                                 InputIterator point_last,
-                                 ForwardIterator poly_first,
-                                 ForwardIterator poly_last,
-                                 Point_2<R>*)
-{
-   return convex_partition_is_valid_2(point_first, point_last, 
-                                      poly_first, poly_last, 
-                                      Partition_traits_2<R>());
-}
 
 template<class InputIterator, class ForwardIterator, class Traits>
 bool 
@@ -334,22 +309,10 @@ y_monotone_partition_is_valid_2(InputIterator point_first,
                                 ForwardIterator poly_last)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type   Point_2;
-   return CGAL_y_monotone_partition_is_valid_2(point_first, point_last, 
-                                               poly_first, poly_last,
-                                               reinterpret_cast<Point_2*>(0));
-}
-
-template<class InputIterator, class ForwardIterator, class R>
-bool
-CGAL_y_monotone_partition_is_valid_2(InputIterator point_first,
-                                     InputIterator point_last,
-                                     ForwardIterator poly_first,
-                                     ForwardIterator poly_last,
-                                     Point_2<R>*)
-{
+   typedef typename Kernel_traits<Point_2>::Kernel   K;
    return y_monotone_partition_is_valid_2(point_first, point_last, 
-                                          poly_first, poly_last, 
-                                          Partition_traits_2<R>());
+                                          poly_first, poly_last,
+                                          Partition_traits_2<K>());
 }
 
 }

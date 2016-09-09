@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 #
-# Copyright (c) 1998-2000 The CGAL Consortium
+# Copyright (c) 1998-2001 The CGAL Consortium
 # Author: Sylvain Pion <Sylvain.Pion@sophia.inria.fr>.
 # Package: Interval Arithmetic.
 #
@@ -16,20 +16,18 @@
 # - While parsing, remove CGAL_assertion() and co from the original code.
 # - Add assertions about the epsilons being updated.
 
-use vars qw($opt_p $opt_h $opt_d $opt_v $opt_l); # Suppress warnings
+use vars qw($opt_p $opt_h $opt_d $opt_v $opt_l $opt_s); # Suppress warnings
 require 'getopt.pl';
 
 # Global variables
 %known_ret_types=("bool", 1);	# Known allowed return types (see main())
 @predicates=(			# list of predicates, with the built-ins.
 # CGAL::, template_type, inline, ret_type, fct_name, #eps, body, new_body, args
-    [ "", "NT", "CGAL_KERNEL_INLINE", "Sign", "lexicographical_sign", 1, "",
-      "", "x", "y" ],
     [ "", "NT", "inline", "Comparison_result", "compare", 1, "", "", "a", "b"],
     [ "", "NT", "inline", "Sign", "sign", 1, "", "", "x"] );
 # Note: we don't actually care about a few fields ($body...) for these.
 $num_built_in_predicates=$#predicates+1;     # Number of built-in predicates.
-$pred_list_re="sign|compare|lexicographical_sign";
+$pred_list_re="sign|compare";
 
 # We _must_ manipulate the fields of @predicate using these constants:
 # (aren't there structs in Perl ?  Are packs the way to go ? )
@@ -47,6 +45,7 @@ sub parse_command_line {
     warn "Usage: filtered_predicate_converter [options]
     -i file   : specify the main input source file [default is stdin]
     -o file   : specify the main output file       [default is stdout]
+    -s        : also want the static adaptative filters [default is off]
     -l file   : indicate the output file that will receive the static part.
     -d files  : list of dependant predicates file (concatenated with \":\")
                 by default, only the built-in predicates are known.
@@ -63,6 +62,7 @@ sub parse_command_line {
     warning("The -l option is compulsory for the static filters.");
   }
   $pedantic = $opt_p;
+  $want_statics = $opt_s;
 }
 
 # Auxiliary routine to emit a warning and die if pedantic.
@@ -88,7 +88,7 @@ sub print_CGAL_header {
   print $output_file
 "// ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -110,7 +110,9 @@ sub print_CGAL_header {
 // scripts/filtered_predicates_generator.pl
 
 #ifndef $new_protect_name
-#define $new_protect_name\n\n";
+#define $new_protect_name
+
+#include <CGAL/Profile_counter.h>\n\n";
 }
 
 # Print dynamic versions
@@ -135,11 +137,19 @@ $fct_name($args_call)
 {
   try
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter calls(\"IA $fct_name calls\");
+    ++calls;
+#endif
     ${CGAL}Protect_FPU_rounding<CGAL_IA_PROTECTED> Protection;
     return $fct_name($args_inter);
   } 
   catch (${CGAL}Interval_nt_advanced::unsafe_comparison)
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter failures(\"IA $fct_name failures\");
+    ++failures;
+#endif
     ${CGAL}Protect_FPU_rounding<!CGAL_IA_PROTECTED> Protection(CGAL_FE_TONEAREST);
     return $fct_name($args_exact);
   }
@@ -153,8 +163,6 @@ sub print_static_infos {
 
   print FL map("double $predicate_class_name\::_epsilon_$_;\n", 0..$eps-1);
   print FL "double $predicate_class_name\::_bound = -1.0;\n\n";
-  print FL "unsigned $predicate_class_name\::number_of_updates = 0;\n\n";
-  print FL "unsigned $predicate_class_name\::number_of_failures = 0;\n\n";
 }
 
 # Print the epsilon variant of the function
@@ -186,8 +194,6 @@ sub print_predicate_struct {
 {
   static double _bound;
   static double $epsilon_list;
-  static unsigned number_of_failures; // ?
-  static unsigned number_of_updates;
 
   $update_epsilon
 
@@ -195,7 +201,6 @@ sub print_predicate_struct {
   static void new_bound (const double b) // , const double error = 0)
   {
     _bound = b;
-    number_of_updates++;
     // recompute the epsilons: \"just\" call it over Static_filter_error.
     // That's the tricky part that might not work for everything.
     (void) update_epsilon($bound_list$epsilon_list);
@@ -244,11 +249,18 @@ $fct_name($args_call)
 
   try
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter calls(\"ST $fct_name calls\");
+    ++calls;
+#endif
     return $predicate_class_name\::epsilon_variant($args_dbl,$args_epsilons);
   }
   catch (...)
   {
-    $predicate_class_name\::number_of_failures++;
+#ifdef CGAL_PROFILE
+    static Profile_counter failures(\"ST $fct_name failures\");
+    ++failures;
+#endif
     return $fct_name($args_exact);
   }";
   } else {
@@ -263,11 +275,19 @@ $fct_name($args_call)
     // Compute the new bound.
     double NEW_bound = 0.0;$compute_new_bound
     // Re-adjust the context.
+#ifdef CGAL_PROFILE
+    static Profile_counter updates(\"SA $fct_name updates\");
+    ++updates;
+#endif
     $predicate_class_name\::new_bound(NEW_bound);
   }
 
   try
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter calls(\"SA $fct_name calls\");
+    ++calls;
+#endif
     return $predicate_class_name\::epsilon_variant($args_dbl,$args_epsilons);
   }
   catch (...)
@@ -276,7 +296,10 @@ $fct_name($args_call)
       // re_adjusted = true;
       // goto re_adjust;
     // }
-    $predicate_class_name\::number_of_failures++;
+#ifdef CGAL_PROFILE
+    static Profile_counter failures(\"SA $fct_name failures\");
+    ++failures;
+#endif
     return $fct_name($args_exact);
   }";
   }
@@ -344,12 +367,14 @@ sub print_predicates {
     print FO "CGAL_BEGIN_NAMESPACE\n\n" if $CGAL eq "" && not $was_in_CGAL;
     print FO "CGAL_END_NAMESPACE\n\n"   if $CGAL ne "" && $was_in_CGAL;
     print_dynamic(@{$predicates[$i]});
-    print FO "#ifdef CGAL_IA_NEW_FILTERS\n\n";
-    print_predicate_struct(@{$predicates[$i]});
-    print_static("true", @{$predicates[$i]});
-    print_static("false", @{$predicates[$i]});
-    print FO "#endif // CGAL_IA_NEW_FILTERS\n\n";
-    print_static_infos(@{$predicates[$i]});
+    if ($want_statics) {
+      print FO "#ifdef CGAL_IA_NEW_FILTERS\n\n";
+      print_predicate_struct(@{$predicates[$i]});
+      print_static("true", @{$predicates[$i]});
+      print_static("false", @{$predicates[$i]});
+      print FO "#endif // CGAL_IA_NEW_FILTERS\n\n";
+      print_static_infos(@{$predicates[$i]});
+    }
     $was_in_CGAL = $CGAL eq "";
   }
   print FO "CGAL_END_NAMESPACE\n\n" if $was_in_CGAL;
@@ -448,15 +473,23 @@ sub main {
   close(FI);
   parse_input_code($rest);
   open(FO, ">$opt_o") || die "Couldn't open output file \"$opt_o\"\n";
-  open(FL, ">$opt_l") || die "Couldn't open lib file \"$opt_l\"\n";
+  if ($want_statics) {
+    open(FL, ">$opt_l") || die "Couldn't open lib file \"$opt_l\"\n";
+  }
   print_CGAL_header(FO, $new_protect_name, $file_name);
-  print_CGAL_header(FL, $new_protect_name."_STATIC_INFO_H",
+  if ($want_statics) {
+    print_CGAL_header(FL, $new_protect_name."_STATIC_INFO_H",
                     "static_infos/".$file_name);
+  }
   print_predicates();
   print FO "#endif // $new_protect_name\n";
-  print FL "#endif // $new_protect_name"."_STATIC_INFO_H\n";
+  if ($want_statics) {
+    print FL "#endif // $new_protect_name"."_STATIC_INFO_H\n";
+  }
   close(FO);
-  close(FL);
+  if ($want_statics) {
+    close(FL);
+  }
 }
 
 main();

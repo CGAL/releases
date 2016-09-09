@@ -41,8 +41,13 @@ int main()
 #include <CGAL/Arr_2_default_dcel.h>
 #include <CGAL/Arrangement_2.h>
 
+#include <LEDA/rat_window.h>
 #include <CGAL/Draw_preferences.h>
 #include <vector>
+
+#if defined(LEDA_NAMESPACE)
+using namespace leda;
+#endif
 
 typedef CGAL::Arr_leda_segment_exact_traits         Traits;
 
@@ -55,12 +60,15 @@ typedef CGAL::Arr_2_default_dcel<Traits> Dcel;
 typedef CGAL::Arrangement_2<Dcel,Traits,Base_node > Arr_2;
 
 //I had to add these in global namespace for the program to compile
+
+/*
 CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
                           const Point& p)
 {
   //return os << leda_point(p.xcoordD(),p.ycoordD());
   return os << p.to_point();
 }
+*/
 
 CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
                           const X_curve &c)
@@ -118,7 +126,8 @@ int main()
   std::vector<Point> cv1;
   Point pnt;
   bool begin=true;
-  W.set_status_string( "Left mouse button - segment input. Finish button -query mode" );
+  W.set_status_string( "Left mouse button - segment input. "
+		       "Finish button -query mode" );
   for (;;) {
     double x, y;
     int b = W.get_mouse(x,y);
@@ -148,7 +157,8 @@ int main()
           }
           else{ 
             arr.insert(X_curve(cv1[0],cv1[1]));
-            W.set_status_string("Left mouse button - segment input. Finish button -query mode");
+            W.set_status_string("Left mouse button - segment input. "
+				"Finish button -query mode");
             W << arr;
 	  }
           cv1.clear();
@@ -161,8 +171,8 @@ int main()
   W << arr;
    
   // Point Location Queries
-  //std::cout << "\nEnter a point with left button." << std::endl;
-  W.set_status_string("Enter a query point with left mouse button. Finish button - exit." );
+  W.set_status_string("Enter a query point with left mouse button. "
+		      "Finish button - exit." );
   W << CGAL::RED;
 
   Point p;

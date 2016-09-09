@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : demo/Triangulation3/demo_color.C
-// revision      : $Revision: 1.9 $
+// revision      : $Revision: 1.14 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis (Mariette Yvinec)
@@ -69,26 +67,13 @@ class My_vertex_base
 {
 public :
   CGAL::Color color;
-  typedef typename Traits::Point_3 Point;
 
   My_vertex_base() 
     : CGAL::Triangulation_vertex_base_3<Traits>(), color(CGAL::WHITE)
     {}
-
-  My_vertex_base(const Point & p) 
-    : CGAL::Triangulation_vertex_base_3<Traits>(p), color(CGAL::WHITE)
-    {}
-
-  My_vertex_base(const Point & p, void* c) 
-    : CGAL::Triangulation_vertex_base_3<Traits>(p,c), color(CGAL::WHITE)
-    {} 
-
-  My_vertex_base(void* c)
-    : CGAL::Triangulation_vertex_base_3<Traits>(c), color(CGAL::WHITE)
-    {} 
 };
 
-typedef CGAL::Filtered_kernel<CGAL::Simple_cartesian<double> > K;
+struct K : public CGAL::Filtered_kernel<CGAL::Simple_cartesian<double> > {};
 
 typedef K::Point_3 Point;
 
@@ -96,9 +81,6 @@ typedef CGAL::Triangulation_cell_base_3<K> Cb;
 typedef My_vertex_base<K> Vb;
 typedef CGAL::Triangulation_data_structure_3<Vb,Cb> Tds;
 typedef CGAL::Delaunay_triangulation_3<K, Tds> Delaunay;
-
-typedef Delaunay::Vertex_iterator Vertex_iterator;
-typedef Delaunay::Vertex_handle Vertex_handle;
 
 int main()
 {
@@ -115,13 +97,10 @@ int main()
   T.insert(Point(2,2,2));  
   T.insert(Point(-1,0,1));  
 
-  Vertex_iterator vit;
-  std::set<Vertex_handle> adjacent;
-  for (vit = T.finite_vertices_begin(); vit != T.vertices_end(); ++vit) {
-    T.incident_vertices( &*vit, adjacent);
-    if (adjacent.size() == 6) 
+  Delaunay::Finite_vertices_iterator vit;
+  for (vit = T.finite_vertices_begin(); vit != T.finite_vertices_end(); ++vit)
+    if (T.degree(vit) == 6)
       vit->color = CGAL::RED;
-  }
 
   std::cout << "           Visualization of T" << std::endl;
   gv.set_wired(true);
@@ -131,7 +110,7 @@ int main()
 	    << "           red for degree 6 (counting infinite vertex)" 
 	    << std::endl 
 	    << "           white otherwise" << std::endl;
-  for (vit = T.finite_vertices_begin(); vit != T.vertices_end(); ++vit) {
+  for (vit = T.finite_vertices_begin(); vit != T.finite_vertices_end(); ++vit) {
     gv << vit->color;
     gv << vit->point();
   }
@@ -140,7 +119,7 @@ int main()
   std::cout << "Enter any character to quit" << std::endl;
   std::cin >> ch;
 
-  return 1;
+  return 0;
 }
 
 #endif // if defined(__BORLANDC__) || defined(_MSC_VER)

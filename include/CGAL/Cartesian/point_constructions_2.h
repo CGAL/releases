@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/point_constructions_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/19 14:30:33 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/01/23 17:59:15 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,63 +46,62 @@
 #ifndef CGAL_CARTESIAN_POINT_CONSTRUCTIONS_2_H
 #define CGAL_CARTESIAN_POINT_CONSTRUCTIONS_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
 #include <CGAL/Cartesian/Point_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-PointC2<R CGAL_CTAG>
-midpoint(const PointC2<R CGAL_CTAG> &p,
-         const PointC2<R CGAL_CTAG> &q )
+PointC2<R>
+midpoint(const PointC2<R> &p,
+         const PointC2<R> &q )
 {
   typename R::FT x, y;
   midpointC2(p.x(), p.y(), q.x(), q.y(), x, y);
-  return PointC2<R CGAL_CTAG>(x, y);
-}
-
-template < class R >
-inline
-PointC2<R CGAL_CTAG>
-circumcenter(const PointC2<R CGAL_CTAG> &p,
-             const PointC2<R CGAL_CTAG> &q,
-             const PointC2<R CGAL_CTAG> &r)
-{
-  typename R::FT x, y;
-  circumcenterC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), x, y);
-  return PointC2<R CGAL_CTAG>(x, y);
-}
-
-template < class R >
-inline
-PointC2<R CGAL_CTAG>
-centroid(const PointC2<R CGAL_CTAG> &p,
-         const PointC2<R CGAL_CTAG> &q,
-         const PointC2<R CGAL_CTAG> &r)
-{
-  typename R::FT x, y;
-  centroidC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), x, y);
-  return PointC2<R CGAL_CTAG>(x, y);
-}
-
-template < class R >
-inline
-PointC2<R CGAL_CTAG>
-centroid(const PointC2<R CGAL_CTAG> &p,
-         const PointC2<R CGAL_CTAG> &q,
-         const PointC2<R CGAL_CTAG> &r,
-         const PointC2<R CGAL_CTAG> &s)
-{
-  typename R::FT x, y;
-  centroidC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), s.x(), s.y(), x, y);
-  return PointC2<R CGAL_CTAG>(x, y);
+  return PointC2<R>(x, y);
 }
 
 template < class R >
 inline
 PointC2<R>
-line_get_point(const LineC2<R CGAL_CTAG> &l, int i)
+circumcenter(const PointC2<R> &p,
+             const PointC2<R> &q,
+             const PointC2<R> &r)
+{
+  typename R::FT x, y;
+  circumcenterC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), x, y);
+  return PointC2<R>(x, y);
+}
+
+template < class R >
+inline
+PointC2<R>
+centroid(const PointC2<R> &p,
+         const PointC2<R> &q,
+         const PointC2<R> &r)
+{
+  typename R::FT x, y;
+  centroidC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), x, y);
+  return PointC2<R>(x, y);
+}
+
+template < class R >
+inline
+PointC2<R>
+centroid(const PointC2<R> &p,
+         const PointC2<R> &q,
+         const PointC2<R> &r,
+         const PointC2<R> &s)
+{
+  typename R::FT x, y;
+  centroidC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(), s.x(), s.y(), x, y);
+  return PointC2<R>(x, y);
+}
+
+template < class R >
+inline
+PointC2<R>
+line_get_point(const LineC2<R> &l, int i)
 {
   typename R::FT x, y;
   line_get_pointC2(l.a(), l.b(), l.c(), i, x, y);
@@ -114,8 +111,8 @@ line_get_point(const LineC2<R CGAL_CTAG> &l, int i)
 template < class R >
 inline
 PointC2<R>
-line_project_point(const LineC2<R CGAL_CTAG> &l,
-                   const PointC2<R CGAL_CTAG> &p)
+line_project_point(const LineC2<R> &l,
+                   const PointC2<R> &p)
 {
   typename R::FT x, y;
   line_project_pointC2(l.a(), l.b(), l.c(), p.x(), p.y(), x, y);

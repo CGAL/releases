@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Range_tree_d.h
-// package       : SearchStructures (2.60)
+// package       : SearchStructures (2.68)
 // source        : include/CGAL/Range_tree_d.h
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 2001/07/26 07:48:02 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/04/27 22:35:06 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
@@ -87,7 +85,7 @@ struct range_tree_node: public tree_node_base
   protected:
   typedef Range_tree_d< C_Data,  C_Window,  C_Interface> rT_d;
 public:
-  friend rT_d;
+  friend class Range_tree_d< C_Data,  C_Window,  C_Interface>;
   
   range_tree_node() 
   {
@@ -145,7 +143,7 @@ protected:
   // A vertex is of this type:
   //  struct range_tree_node;
 
-  friend range_tree_node<C_Data,C_Window,C_Interface>;
+  friend class range_tree_node<C_Data,C_Window,C_Interface>;
 
   typedef range_tree_node<C_Data,C_Window,C_Interface> range_tree_node2;
   typedef range_tree_node<C_Data,C_Window,C_Interface> *link_type;
@@ -465,14 +463,14 @@ public:
   
   bool make_tree(typename std::list< C_Data>::iterator& beg, 
 		 typename std::list< C_Data>::iterator& end,
-		 typename tbt::lit *dummy=0){ 
+		 typename tbt::lit * =0){ 
     return make_tree_impl(beg,end);
   }
 
 #ifdef stlvector
   bool make_tree(typename std::vector< C_Data>::iterator& beg, 
 		 typename std::vector< C_Data>::iterator& end,
-		 typename tbt::vbit *dummy=0){ 
+		 typename tbt::vbit * =0){ 
     return make_tree_impl(beg,end);
   }
 #endif
@@ -523,7 +521,7 @@ public:
   std::back_insert_iterator< std::list< C_Data> > window_query
           ( C_Window const &win, 
 	    std::back_insert_iterator< std::list< C_Data> > out,
-	    typename tbt::lbit *dummy=0){
+	    typename tbt::lbit * =0){
     return window_query_impl(win,out);
   }
 
@@ -531,7 +529,7 @@ public:
   std::back_insert_iterator< std::vector< C_Data> > window_query
           ( C_Window const &win, 
 	    std::back_insert_iterator< std::vector< C_Data> > out,
-	    typename tbt::vbit *dummy=0){
+	    typename tbt::vbit * =0){
     return window_query_impl(win,out);
   }
 
@@ -627,13 +625,13 @@ public:
 
   std::back_insert_iterator< std::list< C_Data> > enclosing_query( C_Window const &win, 
 			     std::back_insert_iterator< std::list< C_Data> > out,
-			     typename tbt::lbit *dummy=0){
+			     typename tbt::lbit * =0){
     return enclosing_query_impl(win,out);
   }
 
   std::back_insert_iterator< std::vector< C_Data> > enclosing_query( C_Window const &win, 
 			     std::back_insert_iterator< std::vector< C_Data> > out,
-			     typename tbt::vbit *dummy=0){
+			     typename tbt::vbit * =0){
     return enclosing_query_impl(win,out);
   }
 

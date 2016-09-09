@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Segment_tree_d.h
-// package       : SearchStructures (2.60)
+// package       : SearchStructures (2.68)
 // source        : include/CGAL/Segment_tree_d.h
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 2001/07/26 07:48:03 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/04/27 22:35:06 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
@@ -62,9 +60,9 @@
 // A d-dimensional Segment Tree or a multilayer tree consisting of a Segment
 // and other trees that are derived public Tree_base<C_Data, C_Window, 
 // C_Interface> can be constructed within this class.
-// C_Data: container class which contains the d-dimensional data the tree holds.
+// C_Data: container class which contains the d-dim data the tree holds.
 // C_Window: Query window -- a d-dimensional interval
-// C_Interface: Interface for the class with functions that allow to access the 
+// C_Interface: Interface for the class with functions that allow to access the
 //             data. cf. file _interface.h for the requirements.
 
 CGAL_BEGIN_NAMESPACE
@@ -86,7 +84,7 @@ struct segment_tree_node: public tree_node_base
   Key right_key;
   tree_base<C_Data, C_Window> *sublayer;
 public:
-  friend sT_d;
+  friend class Segment_tree_d< C_Data,  C_Window,  C_Interface>;
   
   segment_tree_node(){
     sublayer = 0; //(tree_base_type *)
@@ -130,7 +128,7 @@ protected:
   // type of a vertex
   // struct segment_tree_node;
   
-  friend segment_tree_node<C_Data,C_Window,C_Interface>;
+  friend class segment_tree_node<C_Data,C_Window,C_Interface>;
   typedef segment_tree_node<C_Data,C_Window,C_Interface> segment_tree_node_t;
   typedef segment_tree_node<C_Data,C_Window,C_Interface> *link_type;
   
@@ -222,10 +220,10 @@ protected:
      }
    }
 
-  // the sceleton of the segment tree is constructed here.
+  // the skeleton of the segment tree is constructed here.
    void build_segment_tree(int n, link_type& leftchild, link_type& rightchild,
 		   link_type& prevchild, link_type& leftmostlink,
-		   int& index, int last, Key *keys)
+		   int& index, int last, const std::vector<Key>& keys)
    { 
      // only two elements ==> two leaves and a parent is constructed
      if (n==2)
@@ -504,14 +502,14 @@ public:
 
  bool make_tree(typename std::list< C_Data>::iterator& beg, 
                  typename std::list< C_Data>::iterator& end,
-                 typename tbt::lit *dummy=0){ 
+                 typename tbt::lit * =0){ 
     return make_tree_impl(beg,end);
   }
 
   #ifdef stlvector
   bool make_tree(typename std::vector< C_Data>::iterator& beg, 
                  typename std::vector< C_Data>::iterator& end,
-                 typename tbt::vbit *dummy=0){ 
+                 typename tbt::vbit * =0){ 
     return make_tree_impl(beg,end);
   }
   #endif
@@ -534,7 +532,7 @@ public:
 
     A count = first;
     int n=0;
-    Key *keys = new Key[2*count_elements__C(first, last) + 1];
+    std::vector<Key> keys(2*count_elements__C(first, last) + 1);
     while(count!=last)
     {
       if (interface.comp(interface.get_left(*count),
@@ -557,8 +555,8 @@ public:
       is_build = false;
       return true;
     }
-    std::sort(&keys[0], &keys[n], interface.comp);
-    Key *keys2 = new Key[2*n + 1];
+    std::sort(keys.begin(), keys.end(), interface.comp);
+    std::vector<Key> keys2(2*n + 1);
     int m=0;
     int num=1;
     keys2[0]=keys[0];
@@ -571,7 +569,6 @@ public:
       }
     }
 
-    delete[] keys;
     link_type leftchild;
     link_type rightchild;
     link_type prevchild;
@@ -580,7 +577,6 @@ public:
     int *start = new int(0);
     build_segment_tree(num-1, leftchild, rightchild, prevchild, 
 		      leftmostlink, *start, num-1, keys2);
-    delete[] keys2;
     delete start;
 
     header = new segment_tree_node_t();
@@ -607,7 +603,7 @@ public:
   std::back_insert_iterator< std::list< C_Data> > window_query
           ( C_Window const &win, 
             std::back_insert_iterator< std::list< C_Data> > out,
-            typename tbt::lbit *dummy=0){
+            typename tbt::lbit * =0){
     return window_query_impl(win,out);
   }
 
@@ -615,7 +611,7 @@ public:
   std::back_insert_iterator< std::vector< C_Data> > window_query
           ( C_Window const &win, 
             std::back_insert_iterator< std::vector< C_Data> > out,
-            typename tbt::vbit *dummy=0){
+            typename tbt::vbit * =0){
     return window_query_impl(win,out);
   }
   #ifdef carray
@@ -637,7 +633,7 @@ public:
   // all elements that ly inside win are inserted into result
   template <class A>
   inline A window_query_impl( C_Window const &win, 
-			     A result,typename tbt::lbit *dummy=0)
+			     A result,typename tbt::lbit * =0)
   {
     if(is_less_equal(interface.get_right_win(win), 
 		     interface.get_left_win(win)))
@@ -657,14 +653,14 @@ public:
   std::back_insert_iterator< std::list< C_Data> > enclosing_query( 
 	       C_Window const &win, 
                std::back_insert_iterator< std::list< C_Data> > out,
-               typename tbt::lbit *dummy=0){
+               typename tbt::lbit * =0){
     return enclosing_query_impl(win,out);
   }
 
   std::back_insert_iterator< std::vector< C_Data> > enclosing_query( 
 	      C_Window const &win, 
               std::back_insert_iterator< std::vector< C_Data> > out,
-              typename tbt::vbit *dummy=0){
+              typename tbt::vbit * =0){
     return enclosing_query_impl(win,out);
   }
 
@@ -689,7 +685,7 @@ public:
   template <class A>
   inline
   A enclosing_query_impl( C_Window const &win, 
-		     A result,typename tbt::lbit *dummy=0)
+		     A result,typename tbt::lbit * =0)
   {
     if(is_less_equal(interface.get_right_win(win), 
 		     interface.get_left_win(win)))

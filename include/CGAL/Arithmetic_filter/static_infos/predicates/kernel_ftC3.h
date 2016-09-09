@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/kernel_ftC3.h
-// package       : Interval_arithmetic (4.114)
+// package       : Interval_arithmetic (4.141)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -49,53 +47,31 @@
 #ifndef CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC3_H_STATIC_INFO_H
 #define CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC3_H_STATIC_INFO_H
 
+#include <CGAL/Profile_counter.h>
+
 double Static_Filtered_strict_dominanceC3_6::_epsilon_0;
 double Static_Filtered_strict_dominanceC3_6::_epsilon_1;
 double Static_Filtered_strict_dominanceC3_6::_epsilon_2;
 double Static_Filtered_strict_dominanceC3_6::_bound = -1.0;
-
-unsigned Static_Filtered_strict_dominanceC3_6::number_of_updates = 0;
-
-unsigned Static_Filtered_strict_dominanceC3_6::number_of_failures = 0;
 
 double Static_Filtered_dominanceC3_6::_epsilon_0;
 double Static_Filtered_dominanceC3_6::_epsilon_1;
 double Static_Filtered_dominanceC3_6::_epsilon_2;
 double Static_Filtered_dominanceC3_6::_bound = -1.0;
 
-unsigned Static_Filtered_dominanceC3_6::number_of_updates = 0;
-
-unsigned Static_Filtered_dominanceC3_6::number_of_failures = 0;
-
 double Static_Filtered_collinearC3_9::_epsilon_0;
 double Static_Filtered_collinearC3_9::_epsilon_1;
 double Static_Filtered_collinearC3_9::_epsilon_2;
 double Static_Filtered_collinearC3_9::_bound = -1.0;
 
-unsigned Static_Filtered_collinearC3_9::number_of_updates = 0;
-
-unsigned Static_Filtered_collinearC3_9::number_of_failures = 0;
-
 double Static_Filtered_orientationC3_12::_epsilon_0;
 double Static_Filtered_orientationC3_12::_bound = -1.0;
-
-unsigned Static_Filtered_orientationC3_12::number_of_updates = 0;
-
-unsigned Static_Filtered_orientationC3_12::number_of_failures = 0;
 
 double Static_Filtered_angleC3_9::_epsilon_0;
 double Static_Filtered_angleC3_9::_bound = -1.0;
 
-unsigned Static_Filtered_angleC3_9::number_of_updates = 0;
-
-unsigned Static_Filtered_angleC3_9::number_of_failures = 0;
-
 double Static_Filtered_coplanar_side_of_bounded_circleC3_12::_epsilon_0;
 double Static_Filtered_coplanar_side_of_bounded_circleC3_12::_bound = -1.0;
-
-unsigned Static_Filtered_coplanar_side_of_bounded_circleC3_12::number_of_updates = 0;
-
-unsigned Static_Filtered_coplanar_side_of_bounded_circleC3_12::number_of_failures = 0;
 
 double Static_Filtered_equal_directionC3_6::_epsilon_0;
 double Static_Filtered_equal_directionC3_6::_epsilon_1;
@@ -107,10 +83,6 @@ double Static_Filtered_equal_directionC3_6::_epsilon_6;
 double Static_Filtered_equal_directionC3_6::_epsilon_7;
 double Static_Filtered_equal_directionC3_6::_epsilon_8;
 double Static_Filtered_equal_directionC3_6::_bound = -1.0;
-
-unsigned Static_Filtered_equal_directionC3_6::number_of_updates = 0;
-
-unsigned Static_Filtered_equal_directionC3_6::number_of_failures = 0;
 
 double Static_Filtered_equal_planeC3_8::_epsilon_0;
 double Static_Filtered_equal_planeC3_8::_epsilon_1;
@@ -132,65 +104,29 @@ double Static_Filtered_equal_planeC3_8::_epsilon_16;
 double Static_Filtered_equal_planeC3_8::_epsilon_17;
 double Static_Filtered_equal_planeC3_8::_bound = -1.0;
 
-unsigned Static_Filtered_equal_planeC3_8::number_of_updates = 0;
-
-unsigned Static_Filtered_equal_planeC3_8::number_of_failures = 0;
-
 double Static_Filtered_side_of_oriented_planeC3_7::_epsilon_0;
 double Static_Filtered_side_of_oriented_planeC3_7::_bound = -1.0;
 
-unsigned Static_Filtered_side_of_oriented_planeC3_7::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_oriented_planeC3_7::number_of_failures = 0;
-
 double Static_Filtered_side_of_oriented_sphereC3_15::_epsilon_0;
 double Static_Filtered_side_of_oriented_sphereC3_15::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_oriented_sphereC3_15::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_oriented_sphereC3_15::number_of_failures = 0;
 
 double Static_Filtered_side_of_bounded_sphereC3_15::_epsilon_0;
 double Static_Filtered_side_of_bounded_sphereC3_15::_epsilon_1;
 double Static_Filtered_side_of_bounded_sphereC3_15::_bound = -1.0;
 
-unsigned Static_Filtered_side_of_bounded_sphereC3_15::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_bounded_sphereC3_15::number_of_failures = 0;
-
 double Static_Filtered_side_of_bounded_sphereC3_9::_epsilon_0;
 double Static_Filtered_side_of_bounded_sphereC3_9::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_bounded_sphereC3_9::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_bounded_sphereC3_9::number_of_failures = 0;
 
 double Static_Filtered_cmp_dist_to_pointC3_9::_epsilon_0;
 double Static_Filtered_cmp_dist_to_pointC3_9::_bound = -1.0;
 
-unsigned Static_Filtered_cmp_dist_to_pointC3_9::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_dist_to_pointC3_9::number_of_failures = 0;
-
 double Static_Filtered_side_of_bounded_sphereC3_12::_epsilon_0;
 double Static_Filtered_side_of_bounded_sphereC3_12::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_bounded_sphereC3_12::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_bounded_sphereC3_12::number_of_failures = 0;
 
 double Static_Filtered_cmp_signed_dist_to_directionC3_9::_epsilon_0;
 double Static_Filtered_cmp_signed_dist_to_directionC3_9::_bound = -1.0;
 
-unsigned Static_Filtered_cmp_signed_dist_to_directionC3_9::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_directionC3_9::number_of_failures = 0;
-
 double Static_Filtered_cmp_signed_dist_to_planeC3_15::_epsilon_0;
 double Static_Filtered_cmp_signed_dist_to_planeC3_15::_bound = -1.0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_planeC3_15::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_planeC3_15::number_of_failures = 0;
 
 #endif // CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC3_H_STATIC_INFO_H

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Arr_circles_real_traits.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -50,13 +48,6 @@
 
 #include <CGAL/Cartesian.h>
 
-#include <CGAL/Circle_2.h>
-#include <CGAL/Point_2.h>
-//#include <CGAL/squared_distance_2.h>
-
-//#include <CGAL/IO/Window_stream.h>
-//#include <CGAL/leda_real.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class NT> class Arr_circles_real_traits;
@@ -65,16 +56,21 @@ template <class NT>
 class Circ_Curve {
 
 public:
-  typedef Cartesian<NT>        R;
-  typedef Point_2<R>           Point;
-  typedef Circle_2<R>          Circle;
+  typedef Cartesian<NT>             Kernel;
+  typedef typename Kernel::Point_2  Point_2;
+  typedef typename Kernel::Circle_2 Circle_2;
+
+  // Obsolete, for backward compatibility
+  typedef Kernel                    R;
+  typedef Point_2                   Point;
+  typedef Circle_2                  Circle;
 
   Circ_Curve(const NT& x, const NT& y, const NT& r2) : 
-    c(Point(x,y),r2), s(x-CGAL::sqrt(r2),y),t(x-CGAL::sqrt(r2),y)
+    c(Point_2(x,y),r2), s(x-CGAL::sqrt(r2),y), t(x-CGAL::sqrt(r2),y)
   {}
   Circ_Curve(const NT& x, const NT& y, const NT& r2, 
-	     const Point& src , const Point& trgt) :
-    c(Point(x,y),r2), s(src),t(trgt)
+	     const Point_2& src , const Point_2& trgt) :
+    c(Point_2(x,y),r2), s(src), t(trgt)
   {
     CGAL_precondition(c.has_on_boundary(src));
     CGAL_precondition(c.has_on_boundary(trgt));
@@ -85,7 +81,7 @@ public:
     s(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()),
     t(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()) {}
   
-  Circ_Curve(const Circle& _c, const Point& src, const Point& trgt) :
+  Circ_Curve(const Circle& _c, const Point_2& src, const Point_2& trgt) :
     c(_c), s(src), t(trgt)
   { 
     CGAL_precondition(c.has_on_boundary(src));
@@ -102,8 +98,8 @@ public:
   
   //Public member functions for the users
   const Circle& circle() const {return c;}
-  const Point& source() const {return s;}
-  const Point& target() const {return t;}
+  const Point_2& source() const {return s;}
+  const Point_2& target() const {return t;}
   
   bool is_x_monotone() const {
     if (s==t) 
@@ -121,7 +117,7 @@ public:
   
 private:
   Circle c;
-  Point s,t;  //source, target
+  Point_2 s,t;  //source, target
 };
 
 // DEBUG
@@ -140,19 +136,26 @@ template <class _NT>
 class Arr_circles_real_traits {
 public:
   
-  typedef _NT                    NT;
+  typedef _NT                        NT;
 
   //the difference between Curve and X_curve is semantical only,
   // NOT syntactical
-  typedef Circ_Curve<NT>         Curve;
-  typedef Curve                  X_curve;
+  typedef Circ_Curve<NT>             Curve_2;
+  typedef Curve_2                    X_curve_2;
  
   // using typename to please compiler (e.g., CC with IRIX64 on mips)
-  typedef typename Curve::R      R;
-  typedef typename Curve::Point  Point;
-  typedef typename Curve::Circle Circle;
+  typedef typename Curve_2::Kernel   Kernel;
+  typedef typename Curve_2::Point_2  Point_2;
+  typedef typename Curve_2::Circle_2 Circle_2;
+  typedef typename Kernel::Vector_2  Vector_2;
 
-  typedef Vector_2<R>            Vector;
+  // Obsolete, for backward compatibility
+  typedef Kernel                     R;
+  typedef Point_2                    Point;
+  typedef Curve_2                    Curve;
+  typedef X_curve_2                  X_curve;
+  typedef Circle_2                   Circle;
+  typedef Vector_2                   Vector;
 
   // The workaround below seems obsolete and produces an error on gcc-3.
   typedef enum {
@@ -181,41 +184,41 @@ public:
   Arr_circles_real_traits() {}
 
 
-  Comparison_result compare_x(const Point& p0, const Point& p1) const {
+  Comparison_result compare_x(const Point_2& p0, const Point_2& p1) const {
     return compare_value(p0.x(),p1.x());
   }
-  Comparison_result compare_y(const Point& p0, const Point& p1) const {
+  Comparison_result compare_y(const Point_2& p0, const Point_2& p1) const {
     return compare_value(p0.y(),p1.y());
   }
 
   //no vertical segments :
-  bool curve_is_vertical(const X_curve&) const {return false;} 
+  bool curve_is_vertical(const X_curve_2&) const {return false;} 
 
-  bool curve_is_in_x_range(const X_curve& cv, const Point& p) const {
+  bool curve_is_in_x_range(const X_curve_2& cv, const Point_2& p) const {
     CGAL_precondition(is_x_monotone(cv));
 
     return (compare_x(p,cv.s) * compare_x(p,cv.t)) <=0 ;
   }
 
-  Comparison_result curve_compare_at_x(const X_curve& cv1, 
-				       const X_curve& cv2, 
-				       const Point& p) const {
+  Comparison_result curve_compare_at_x(const X_curve_2& cv1, 
+				       const X_curve_2& cv2, 
+				       const Point_2& p) const {
     CGAL_precondition(is_x_monotone(cv1));
     CGAL_precondition(is_x_monotone(cv2));
 
     if (!curve_is_in_x_range(cv1,p) || !curve_is_in_x_range(cv2,p) )
       return EQUAL;
     
-    Point p1=curve_calc_point(cv1,p);
-    Point p2=curve_calc_point(cv2,p);
+    Point_2 p1=curve_calc_point(cv1,p);
+    Point_2 p2=curve_calc_point(cv2,p);
 
     return compare_y(p1,p2);
   }
 
 
-  Comparison_result curve_compare_at_x_left(const X_curve& cva, 
-					    const X_curve& cvb,
-					    const Point& p) const {
+  Comparison_result curve_compare_at_x_left(const X_curve_2& cva, 
+					    const X_curve_2& cvb,
+					    const Point_2& p) const {
 
     CGAL_precondition(is_x_monotone(cva));
     CGAL_precondition(is_x_monotone(cvb));
@@ -240,9 +243,9 @@ public:
     //otherwise
     // <cv1> and <cv2> meet at a point with the same x-coordinate as p
     // compare their derivatives
-    Point q=curve_calc_point(cva,p);
+    Point_2 q=curve_calc_point(cva,p);
 
-    X_curve cv1(cva),cv2(cvb);
+    X_curve_2 cv1(cva),cv2(cvb);
     if (compare_x(curve_source(cv1),q) == SMALLER)
       cv1 = curve_flip(cva);
     if (compare_x(curve_source(cv2),q) == SMALLER)
@@ -321,9 +324,9 @@ public:
   
 
 
-  Comparison_result curve_compare_at_x_right(const X_curve& cva, 
-					     const X_curve& cvb,
-					     const Point& p) const {
+  Comparison_result curve_compare_at_x_right(const X_curve_2& cva, 
+					     const X_curve_2& cvb,
+					     const Point_2& p) const {
     CGAL_precondition(is_x_monotone(cva));
     CGAL_precondition(is_x_monotone(cvb));
 
@@ -347,9 +350,9 @@ public:
     // compare their derivatives
 
     //make both curves compared - left to right
-    Point q=curve_calc_point(cva,p);
+    Point_2 q=curve_calc_point(cva,p);
     
-    X_curve cv1(cva),cv2(cvb);
+    X_curve_2 cv1(cva),cv2(cvb);
     if (compare_x(curve_source(cv1),q) == LARGER)
       cv1 = curve_flip(cva);
     if (compare_x(curve_source(cv2),q) == LARGER)
@@ -423,7 +426,7 @@ public:
   }
 
   Curve_point_status 
-  curve_get_point_status(const X_curve &cv, const Point& p) const
+  curve_get_point_status(const X_curve_2 &cv, const Point_2& p) const
   {
     CGAL_precondition(is_x_monotone(cv));
 
@@ -440,16 +443,16 @@ public:
   }
 
 
-  bool curve_is_between_cw(const X_curve& cv,const X_curve& first,
-                           const X_curve& second, const Point& p) const
+  bool curve_is_between_cw(const X_curve_2& cv,const X_curve_2& first,
+                           const X_curve_2& second, const Point_2& p) const
   {
     CGAL_precondition(is_x_monotone(cv));
     CGAL_precondition(is_x_monotone(first));
     CGAL_precondition(is_x_monotone(second));
 
-    X_curve cv0 = first;
-    X_curve cv1 = second;
-    X_curve cvx = cv;
+    X_curve_2 cv0 = first;
+    X_curve_2 cv1 = second;
+    X_curve_2 cvx = cv;
 
     if ( !is_same(cv0.s,p) ) cv0 = curve_flip(cv0);
     if ( !is_same(cv1.s,p) ) cv1 = curve_flip(cv1);
@@ -501,7 +504,12 @@ public:
 
   }
 
-  bool curve_is_same(const X_curve& cv1, const X_curve& cv2) const {
+  bool point_is_same(const Point_2 & p, const Point_2 & q) const
+  {
+    return is_same(p, q);
+  }
+
+  bool curve_is_same(const X_curve_2& cv1, const X_curve_2& cv2) const {
     CGAL_precondition(is_x_monotone(cv1));
     CGAL_precondition(is_x_monotone(cv2));
 
@@ -512,18 +520,18 @@ public:
 			   cv2.c.squared_radius()) == EQUAL);
   }
 
-  Point curve_source(const X_curve& cv) const {
+  Point_2 curve_source(const X_curve_2& cv) const {
     return cv.s;
   }
-  Point curve_target(const X_curve& cv) const {
+  Point_2 curve_target(const X_curve_2& cv) const {
     return cv.t;
   }
 
-  Point point_to_left(const Point& p) const {
-    return Point(p.x()-NT(1),p.y());
+  Point_2 point_to_left(const Point_2& p) const {
+    return Point_2(p.x()-NT(1),p.y());
   }
-  Point point_to_right(const Point& p) const {
-    return Point(p.x()+NT(1),p.y());
+  Point_2 point_to_right(const Point_2& p) const {
+    return Point_2(p.x()+NT(1),p.y());
   }
   
 
@@ -532,18 +540,18 @@ public:
 
 
 
-  X_curve curve_flip(const X_curve& cv) const {
-    X_curve xc(cv.c.center().x(),cv.c.center().y(),
+  X_curve_2 curve_flip(const X_curve_2& cv) const {
+    X_curve_2 xc(cv.c.center().x(),cv.c.center().y(),
 	       cv.c.squared_radius(),cv.t, cv.s);
     xc.c=cv.c.opposite();
     return xc;
   }
 
-  bool is_x_monotone(const Curve& cv) const {
+  bool is_x_monotone(const Curve_2& cv) const {
     return cv.is_x_monotone();
   }
 
-  void make_x_monotone(const Curve& cv, std::list<Curve>& l) const {
+  void make_x_monotone(const Curve_2& cv, std::list<Curve_2>& l) const {
     // Require:
     CGAL_precondition( ! is_x_monotone(cv) );
     bool   switch_orientation  = false;
@@ -551,31 +559,34 @@ public:
     // is cv a closed circle ?
     if (cv.s==cv.t) {
       // for arrangements of circles this is all that is needed
-      Point src(cv.c.center().x()-CGAL::sqrt(cv.c.squared_radius()), 
+      Point_2 src(cv.c.center().x()-CGAL::sqrt(cv.c.squared_radius()), 
 		cv.c.center().y());
-      Point trg(cv.c.center().x()+CGAL::sqrt(cv.c.squared_radius()), 
+      Point_2 trg(cv.c.center().x()+CGAL::sqrt(cv.c.squared_radius()), 
 		cv.c.center().y());
 
       // bug fix, Shai, 12 Feb. 2001
       // x-monotone curves did not respect the original orintation
-      typename Curve::Circle circ(cv.circle().center(), 
+      typename Curve_2::Circle circ(cv.circle().center(), 
 				  cv.circle().squared_radius(),
 				  cv.circle().orientation());
 
-      Curve top_arc(circ, src, trg);
+      Curve_2 top_arc(circ, src, trg);
       l.push_back(top_arc);
 
-      Curve bottom_arc(circ, trg, src);
+      Curve_2 bottom_arc(circ, trg, src);
       l.push_back(bottom_arc);
     }
     else { 
       //if we get a curve that is not a closed circle - for completeness
       // bug fix, Shai, 12 Feb. 2001
       // curves that are split to 3 x-monotone sub curves were not handled
-      const Point &center(cv.circle().center());
-      Point  mid1, mid2;
+
+      // MSVC doesn't like the copy constructor:
+      // const Point_2 &center(cv.circle().center());
+      const Point_2 & center = cv.circle().center();
+      Point_2  mid1, mid2;
       NT     sq_radius(cv.c.squared_radius());
-      Curve  work_cv;
+      Curve_2  work_cv;
       bool   two_cuts            = false,
              left_cut_is_first   = false;
       
@@ -585,12 +596,15 @@ public:
 	switch_orientation = true;
       } 
       else {
-	work_cv = Curve(cv);
+	work_cv = Curve_2(cv);
       }
 
       CGAL_assertion(work_cv.circle().orientation() == COUNTERCLOCKWISE);
-      const Point &src(work_cv.source()),
-	&trg(work_cv.target());
+
+      // MSVC doesn't like the copy constructor:
+      // const Point_2 &src(work_cv.source()), &trg(work_cv.target());
+      const Point_2 & src = work_cv.source();
+      const Point_2 & trg = work_cv.target();
 
       // now we work on a CCW circular curve which is, by precondition
       // NOT x-monotone. 
@@ -623,33 +637,33 @@ public:
 
       // Second, we calculate the two or three split points
       if ( left_cut_is_first ){
-	mid1 = Point(center.x() - CGAL::sqrt(sq_radius), center.y());
+	mid1 = Point_2(center.x() - CGAL::sqrt(sq_radius), center.y());
 	if ( two_cuts ) {
-	  mid2 = Point(center.x() + CGAL::sqrt(sq_radius), center.y());;
+	  mid2 = Point_2(center.x() + CGAL::sqrt(sq_radius), center.y());;
 	}
 	else {
 	}
       }
       else {
-	mid1 = Point(center.x() + CGAL::sqrt(sq_radius), center.y());
+	mid1 = Point_2(center.x() + CGAL::sqrt(sq_radius), center.y());
 	if ( two_cuts ) {
-	  mid2 = Point(center.x() - CGAL::sqrt(sq_radius), center.y());
+	  mid2 = Point_2(center.x() - CGAL::sqrt(sq_radius), center.y());
 	}
       }
 
       // Third, we build the split curves
-      l.push_back(Curve(work_cv.circle(), src, mid1));
+      l.push_back(Curve_2(work_cv.circle(), src, mid1));
       if ( two_cuts ) {
-	l.push_back(Curve(work_cv.circle(), mid1, mid2));
-	l.push_back(Curve(work_cv.circle(), mid2, trg));
+	l.push_back(Curve_2(work_cv.circle(), mid1, mid2));
+	l.push_back(Curve_2(work_cv.circle(), mid2, trg));
       }
       else {
-	l.push_back(Curve(work_cv.circle(), mid1, trg));
+	l.push_back(Curve_2(work_cv.circle(), mid1, trg));
       }
 
       // If we switched the orientation, we have to switch back
       if ( switch_orientation ) {
-	for (typename std::list<Curve>::iterator lit = l.begin(); 
+	for (typename std::list<Curve_2>::iterator lit = l.begin(); 
 	     lit != l.end(); 
 	     lit++) {
  	  *lit = curve_flip(*lit);
@@ -664,8 +678,8 @@ public:
     CGAL_postcondition_code(
 			    if ( switch_orientation ) l.reverse();
 			    Orientation cv_or = cv.circle().orientation();
-			    typename std::list<Curve>::iterator lit;
-			    typename std::list<Curve>::iterator next_it; );
+			    typename std::list<Curve_2>::iterator lit;
+			    typename std::list<Curve_2>::iterator next_it; );
     // Check consistency of end points
     CGAL_postcondition( l.begin()->source() == cv.source() );
     CGAL_postcondition_code( lit = l.end(); lit--; );
@@ -690,8 +704,8 @@ public:
 
     
 
-  void curve_split(const X_curve& cv, X_curve& c1, X_curve& c2, 
-                   const Point& split_pt) const {
+  void curve_split(const X_curve_2& cv, X_curve_2& c1, X_curve_2& c2, 
+                   const Point_2& split_pt) const {
     CGAL_precondition(is_x_monotone(cv));
 
     //split curve at split point (x coordinate) into c1 and c2
@@ -709,8 +723,8 @@ public:
 
   //returns true iff the intersection is lexicographically strictly right 
   //of pt.
-  bool do_intersect_to_right(const X_curve& c1, const X_curve& c2,
-                             const Point& pt) const 
+  bool do_intersect_to_right(const X_curve_2& c1, const X_curve_2& c2,
+                             const Point_2& pt) const 
   {
     CGAL_precondition(is_x_monotone(c1));
     CGAL_precondition(is_x_monotone(c2));
@@ -731,7 +745,7 @@ public:
       //if they are on different parts return false
 
       //check overlaps of x-monotone curves
-      Point leftmost1,rightmost1;
+      Point_2 leftmost1,rightmost1;
       if (compare_x(c1.s,c1.t)==SMALLER) {
         leftmost1=c1.s; rightmost1=c1.t;
       }
@@ -739,7 +753,7 @@ public:
         leftmost1=c1.t; rightmost1=c1.s;
       }
 
-      Point leftmost2,rightmost2;
+      Point_2 leftmost2,rightmost2;
       if (compare_x(c2.s,c2.t)==SMALLER) {
         leftmost2=c2.s; rightmost2=c2.t;
       }
@@ -762,8 +776,8 @@ public:
 
     } //end of case of arcs from same circle
 
-    Point first;
-    Point last;
+    Point_2 first;
+    Point_2 last;
 
     if (!circle_intersection(c1.c,c2.c,&first,&last)) return false;
 
@@ -786,22 +800,22 @@ public:
 
 
 
-  bool nearest_intersection_to_right(const X_curve& c1,
-				     const X_curve& c2,
-				     const Point& pt,
-                                     Point& p1,
-                                     Point& p2) const {
+  bool nearest_intersection_to_right(const X_curve_2& c1,
+				     const X_curve_2& c2,
+				     const Point_2& pt,
+                                     Point_2& p1,
+                                     Point_2& p2) const {
 
     CGAL_precondition(is_x_monotone(c1));
     CGAL_precondition(is_x_monotone(c2));
 
-    Point rgt,lft;
+    Point_2 rgt,lft;
 
     //case where the arcs are from the same circle
     if ( is_same(c1.c.center(),c2.c.center()) &&
          compare_value(c1.c.squared_radius(),c2.c.squared_radius())==EQUAL ) {
       //can intersect only at endpoints       
-      Point rightmost1,leftmost1;
+      Point_2 rightmost1,leftmost1;
       if (compare_x(c1.s,c1.t)==LARGER) {
         rightmost1=c1.s;leftmost1=c1.t;
       }
@@ -809,7 +823,7 @@ public:
         rightmost1=c1.t;leftmost1=c1.s;
       }
 
-      Point rightmost2,leftmost2;
+      Point_2 rightmost2,leftmost2;
       if (compare_x(c2.s,c2.t)==LARGER) {
         rightmost2=c2.s;leftmost2=c2.t;
       }
@@ -874,8 +888,8 @@ public:
 
 
 
-    Point first;
-    Point last;
+    Point_2 first;
+    Point_2 last;
 
     circle_intersection(c1.c,c2.c,&first,&last);
 
@@ -909,22 +923,22 @@ public:
 
   }
 
-  Point point_reflect_in_x_and_y (const Point& pt) const
+  Point_2 point_reflect_in_x_and_y (const Point_2& pt) const
   {
     // use hx(), hy(), hw() in order to support both Homogeneous and Cartesian
-    Point reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
+    Point_2 reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
     return reflected_pt;
   }
       
 
-  X_curve curve_reflect_in_x_and_y (const X_curve& cv) const
+  X_curve_2 curve_reflect_in_x_and_y (const X_curve_2& cv) const
   {
     Circle circ( point_reflect_in_x_and_y (cv.circle().center()),
 		 cv.circle().squared_radius(), 
 		 //reflection in two axes means no change in orientation
 		 cv.circle().orientation());  
     // 		 CGAL::opposite( cv.circle().orientation()));
-    X_curve reflected_cv( circ,
+    X_curve_2 reflected_cv( circ,
 			  point_reflect_in_x_and_y (cv.source()),
 			  point_reflect_in_x_and_y (cv.target()));
     return reflected_cv;
@@ -932,7 +946,7 @@ public:
 
 
   //currently we assume that no two circles overlap (might change in future)
-  bool curves_overlap(const X_curve& c1, const X_curve& c2) const {
+  bool curves_overlap(const X_curve_2& c1, const X_curve_2& c2) const {
     CGAL_precondition(is_x_monotone(c1));
     CGAL_precondition(is_x_monotone(c2));
 
@@ -946,7 +960,7 @@ public:
         return false;
       
       //check overlaps of x-monotone curves
-      Point leftmost1,rightmost1;
+      Point_2 leftmost1,rightmost1;
       if (compare_x(c1.s,c1.t)==SMALLER) {
         leftmost1=c1.s; rightmost1=c1.t;
       }
@@ -954,7 +968,7 @@ public:
         leftmost1=c1.t; rightmost1=c1.s;
       }
 
-      Point leftmost2,rightmost2;
+      Point_2 leftmost2,rightmost2;
       if (compare_x(c2.s,c2.t)==SMALLER) {
         leftmost2=c2.s; rightmost2=c2.t;
       }
@@ -984,8 +998,8 @@ private:
   }
 
   
-  //calculates the point on the X_curve with the same x coordinate as p
-  Point curve_calc_point(const X_curve& cv, const Point& p) const {
+  //calculates the point on the X_curve_2 with the same x coordinate as p
+  Point_2 curve_calc_point(const X_curve_2& cv, const Point_2& p) const {
     //simple cases 
     if (compare_x(cv.s,p)==EQUAL)
       return cv.s;
@@ -996,11 +1010,11 @@ private:
     NT sqr = (CGAL::sqrt(cv.c.squared_radius() - 
 			 (px-cv.c.center().x())*(px-cv.c.center().x()) ));
     
-    Point lst1_first(px,cv.c.center().y() + sqr);
-    Point lst1_last(px,cv.c.center().y() - sqr);
+    Point_2 lst1_first(px,cv.c.center().y() + sqr);
+    Point_2 lst1_last(px,cv.c.center().y() - sqr);
     
 
-    Point p1;
+    Point_2 p1;
     if (compare_x(cv.s,cv.t) * cv.c.orientation() < 0) { //lower part of circle
       if (compare_y(lst1_first,lst1_last) == LARGER)
         p1=lst1_last;
@@ -1018,7 +1032,7 @@ private:
   }
   
 
-  Vector derivative_vec(const X_curve& cv, const Point& p) const {
+  Vector derivative_vec(const X_curve_2& cv, const Point_2& p) const {
     if (cv.c.orientation()==COUNTERCLOCKWISE) { //ccw - (-y,x)
       return Vector((cv.c.center().y()-p.y()), (p.x()-cv.c.center().x())); 
     } 
@@ -1026,7 +1040,7 @@ private:
       return Vector((p.y()-cv.c.center().y()), (cv.c.center().x())-p.x());
   }      
 
-  bool is_same(const Point &p1, const Point &p2) const
+  bool is_same(const Point_2 &p1, const Point_2 &p2) const
   {
     return (compare_x(p1, p2) == EQUAL) &&
       (compare_y(p1, p2) == EQUAL);
@@ -1034,7 +1048,7 @@ private:
 
 
   bool circle_intersection(const Circle& ca, const Circle& cb,
-			   Point* p1, Point* p2) const {
+			   Point_2* p1, Point_2* p2) const {
     //function checks if the circles ca,cb intersect,
     //if they don't - returns false
     //if they do p1,p2 will hold the intersection points
@@ -1086,7 +1100,7 @@ private:
   //(otherwise I get these lon..g reals in printouts)
   template<class NT> 
   inline ::std::ostream& operator<<(::std::ostream& o, 
-  const Point_2<Cartesian<NT> >& p)
+  const Point_2_2<Cartesian<NT> >& p)
   {
   double x = CGAL::to_double(p.x());
   double y = CGAL::to_double(p.y());
@@ -1098,11 +1112,11 @@ private:
 
 
   #ifndef CGAL_ARR_IDDO_DEBUG
-//a simple version of the windowstream operator (sufficient for X_curve)
+//a simple version of the windowstream operator (sufficient for X_curve_2)
 template <class NT>
 //friend
 Window_stream& operator<<(Window_stream& os,
-  const typename Arr_circles_real_traits<NT>::Curve &cv)
+  const typename Arr_circles_real_traits<NT>::Curve_2 &cv)
 {
 //This is not good enough - it assumes s and t have different x coord, 
 //but for x-monotone arcs it is sufficient (and that's all I need).
@@ -1134,7 +1148,7 @@ return os;
 //CGAL_ARR_IDDO_DEBUG defined - use the complicated version for general Curves
 template <class NT>
 Window_stream& operator<<(Window_stream& os,
-  const Arr_circles_real_traits<NT>::Curve &cv)
+  const Arr_circles_real_traits<NT>::Curve_2 &cv)
 {
   double px,py; //middle point coordinates
   double R2= CGAL::to_double(cv.circle().squared_radius());

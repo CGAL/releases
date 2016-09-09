@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/MSVC_standard_header_fixes.h
-// package       : Configuration (2.11)
+// package       : Configuration (2.32)
 // chapter       : $CGAL_Chapter: Configuration $
 //
 // author(s)     : Geert-Jan Giezeman
@@ -51,16 +49,24 @@
 #pragma warning(once: 4291)
 #pragma warning(once:4503)
 
+#if defined _MSC_VER && _MSC_VER >= 1300
+#include <CGAL/config/msvc7/iterator_specializations.h>
+#endif
+
 #include <cmath>
 namespace std {
 	using ::sqrt;
 }
-#define M_PI 3.14159265358979323846
 
 #include <cstddef>
 namespace std{
   using ::size_t;
   using ::ptrdiff_t;
+}
+
+#include <ctime>
+namespace std{
+  using ::time_t;
 }
 
 #endif // CGAL_MSVC_STANDARD_HEADER_FIXES_H

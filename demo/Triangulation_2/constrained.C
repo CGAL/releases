@@ -1,4 +1,5 @@
 #include <CGAL/basic.h>
+#include <cassert>
 #include <fstream>
 #include <list>
 #include <stack>
@@ -14,7 +15,7 @@ int main(int argc, char* argv[])
 
 #else
 #if defined(CGAL_USE_CGAL_WINDOW)
-#define leda_green CGAL::green
+#define leda_yellow CGAL::yellow
 #endif //CGAL_USE_CGAL_WINDOW
 
 
@@ -78,7 +79,7 @@ draw_connected_component(const Point&  p,
 {
   Face_handle fh = ct.locate(p);
   std::set<Face_handle> component; 
-  std::stack<Face_handle> st; 
+  std::stack<Face_handle, std::list<Face_handle> > st; 
   // component includes the faces of the connected_component
   // stack includes the faces in component whose neighbors
   // have not yet been looked at
@@ -99,7 +100,7 @@ draw_connected_component(const Point&  p,
 
   // draw
   //win << CGAL::GREEN;
-  win.set_fill_color(leda_green);
+  win.set_fill_color(leda_yellow);
   std::set<Face_handle>::iterator it;
   for ( it = component.begin(); it != component.end(); it++) {
     if (! ct.is_infinite( *it)) win << ct.triangle( *it);

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/distance_predicates_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/23 17:31:11 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/01/23 17:59:12 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,7 +46,6 @@
 #ifndef CGAL_CARTESIAN_DISTANCE_PREDICATES_2_H
 #define CGAL_CARTESIAN_DISTANCE_PREDICATES_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
 #include <CGAL/predicates/kernel_ftC2.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -56,9 +53,9 @@ CGAL_BEGIN_NAMESPACE
 template <class R >
 inline
 Comparison_result
-compare_distance_to_point(const PointC2<R CGAL_CTAG>& p,
-                          const PointC2<R CGAL_CTAG>& q,
-                          const PointC2<R CGAL_CTAG>& r)
+compare_distance_to_point(const PointC2<R>& p,
+                          const PointC2<R>& q,
+                          const PointC2<R>& r)
 {
   return cmp_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -66,9 +63,9 @@ compare_distance_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_larger_distance_to_point(const PointC2<R CGAL_CTAG>& p,
-                             const PointC2<R CGAL_CTAG>& q,
-                             const PointC2<R CGAL_CTAG>& r)
+has_larger_distance_to_point(const PointC2<R>& p,
+                             const PointC2<R>& q,
+                             const PointC2<R>& r)
 {
   return has_larger_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -76,9 +73,9 @@ has_larger_distance_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_smaller_distance_to_point(const PointC2<R CGAL_CTAG>& p,
-                              const PointC2<R CGAL_CTAG>& q,
-                              const PointC2<R CGAL_CTAG>& r)
+has_smaller_distance_to_point(const PointC2<R>& p,
+                              const PointC2<R>& q,
+                              const PointC2<R>& r)
 {
   return has_smaller_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -86,9 +83,9 @@ has_smaller_distance_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 Comparison_result
-compare_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
-                                const PointC2<R CGAL_CTAG>& p,
-                                const PointC2<R CGAL_CTAG>& q)
+compare_signed_distance_to_line(const LineC2<R>&  l,
+                                const PointC2<R>& p,
+                                const PointC2<R>& q)
 {
   return cmp_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                         q.x(), q.y());
@@ -97,9 +94,9 @@ compare_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 bool
-has_larger_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
-                                   const PointC2<R CGAL_CTAG>& p,
-                                   const PointC2<R CGAL_CTAG>& q)
+has_larger_signed_distance_to_line(const LineC2<R>&  l,
+                                   const PointC2<R>& p,
+                                   const PointC2<R>& q)
 {
   return has_larger_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                                q.x(), q.y());
@@ -108,9 +105,9 @@ has_larger_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 bool
-has_smaller_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
-                                    const PointC2<R CGAL_CTAG>& p,
-                                    const PointC2<R CGAL_CTAG>& q)
+has_smaller_signed_distance_to_line(const LineC2<R>&  l,
+                                    const PointC2<R>& p,
+                                    const PointC2<R>& q)
 {
   return has_smaller_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                                 q.x(), q.y());
@@ -119,10 +116,10 @@ has_smaller_signed_distance_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 Comparison_result
-compare_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
-                                const PointC2<R CGAL_CTAG>& q,
-                                const PointC2<R CGAL_CTAG>& r,
-                                const PointC2<R CGAL_CTAG>& s)
+compare_signed_distance_to_line(const PointC2<R>& p,
+                                const PointC2<R>& q,
+                                const PointC2<R>& r,
+                                const PointC2<R>& s)
 {
   return cmp_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                    r.x(), r.y(), s.x(), s.y());
@@ -131,10 +128,10 @@ compare_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_smaller_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
-                                    const PointC2<R CGAL_CTAG>& q,
-                                    const PointC2<R CGAL_CTAG>& r,
-                                    const PointC2<R CGAL_CTAG>& s)
+has_smaller_signed_distance_to_line(const PointC2<R>& p,
+                                    const PointC2<R>& q,
+                                    const PointC2<R>& r,
+                                    const PointC2<R>& s)
 {
   return has_smaller_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                            r.x(), r.y(), s.x(), s.y());
@@ -143,10 +140,10 @@ has_smaller_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_larger_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
-                                   const PointC2<R CGAL_CTAG>& q,
-                                   const PointC2<R CGAL_CTAG>& r,
-                                   const PointC2<R CGAL_CTAG>& s)
+has_larger_signed_distance_to_line(const PointC2<R>& p,
+                                   const PointC2<R>& q,
+                                   const PointC2<R>& r,
+                                   const PointC2<R>& s)
 {
   return has_larger_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                           r.x(), r.y(), s.x(), s.y());
@@ -156,9 +153,9 @@ has_larger_signed_distance_to_line(const PointC2<R CGAL_CTAG>& p,
 template <class R >
 inline
 Comparison_result
-cmp_dist_to_point(const PointC2<R CGAL_CTAG>& p,
-                  const PointC2<R CGAL_CTAG>& q,
-                  const PointC2<R CGAL_CTAG>& r)
+cmp_dist_to_point(const PointC2<R>& p,
+                  const PointC2<R>& q,
+                  const PointC2<R>& r)
 {
   return cmp_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -166,9 +163,9 @@ cmp_dist_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_larger_dist_to_point(const PointC2<R CGAL_CTAG>& p,
-                         const PointC2<R CGAL_CTAG>& q,
-                         const PointC2<R CGAL_CTAG>& r)
+has_larger_dist_to_point(const PointC2<R>& p,
+                         const PointC2<R>& q,
+                         const PointC2<R>& r)
 {
   return has_larger_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -176,9 +173,9 @@ has_larger_dist_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_smaller_dist_to_point(const PointC2<R CGAL_CTAG>& p,
-                          const PointC2<R CGAL_CTAG>& q,
-                          const PointC2<R CGAL_CTAG>& r)
+has_smaller_dist_to_point(const PointC2<R>& p,
+                          const PointC2<R>& q,
+                          const PointC2<R>& r)
 {
   return has_smaller_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -186,9 +183,9 @@ has_smaller_dist_to_point(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 Comparison_result
-cmp_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
-                        const PointC2<R CGAL_CTAG>& p,
-                        const PointC2<R CGAL_CTAG>& q)
+cmp_signed_dist_to_line(const LineC2<R>&  l,
+                        const PointC2<R>& p,
+                        const PointC2<R>& q)
 {
   return cmp_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                         q.x(), q.y());
@@ -197,9 +194,9 @@ cmp_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 bool
-has_larger_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
-                               const PointC2<R CGAL_CTAG>& p,
-                               const PointC2<R CGAL_CTAG>& q)
+has_larger_signed_dist_to_line(const LineC2<R>&  l,
+                               const PointC2<R>& p,
+                               const PointC2<R>& q)
 {
   return has_larger_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                                q.x(), q.y());
@@ -208,9 +205,9 @@ has_larger_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 bool
-has_smaller_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
-                                const PointC2<R CGAL_CTAG>& p,
-                                const PointC2<R CGAL_CTAG>& q)
+has_smaller_signed_dist_to_line(const LineC2<R>&  l,
+                                const PointC2<R>& p,
+                                const PointC2<R>& q)
 {
   return has_smaller_signed_dist_to_directionC2(l.a(), l.b(), p.x(), p.y(),
                                                 q.x(), q.y());
@@ -219,10 +216,10 @@ has_smaller_signed_dist_to_line(const LineC2<R CGAL_CTAG>&  l,
 template <class R>
 inline
 Comparison_result
-cmp_signed_dist_to_line(const PointC2<R CGAL_CTAG>& p,
-                        const PointC2<R CGAL_CTAG>& q,
-                        const PointC2<R CGAL_CTAG>& r,
-                        const PointC2<R CGAL_CTAG>& s)
+cmp_signed_dist_to_line(const PointC2<R>& p,
+                        const PointC2<R>& q,
+                        const PointC2<R>& r,
+                        const PointC2<R>& s)
 {
   return cmp_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                    r.x(), r.y(), s.x(), s.y());
@@ -231,10 +228,10 @@ cmp_signed_dist_to_line(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_smaller_signed_dist_to_line(const PointC2<R CGAL_CTAG>& p,
-                                const PointC2<R CGAL_CTAG>& q,
-                                const PointC2<R CGAL_CTAG>& r,
-                                const PointC2<R CGAL_CTAG>& s)
+has_smaller_signed_dist_to_line(const PointC2<R>& p,
+                                const PointC2<R>& q,
+                                const PointC2<R>& r,
+                                const PointC2<R>& s)
 {
   return has_smaller_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                            r.x(), r.y(), s.x(), s.y());
@@ -243,10 +240,10 @@ has_smaller_signed_dist_to_line(const PointC2<R CGAL_CTAG>& p,
 template <class R>
 inline
 bool
-has_larger_signed_dist_to_line(const PointC2<R CGAL_CTAG>& p,
-                               const PointC2<R CGAL_CTAG>& q,
-                               const PointC2<R CGAL_CTAG>& r,
-                               const PointC2<R CGAL_CTAG>& s)
+has_larger_signed_dist_to_line(const PointC2<R>& p,
+                               const PointC2<R>& q,
+                               const PointC2<R>& r,
+                               const PointC2<R>& s)
 {
   return has_larger_signed_dist_to_lineC2(p.x(), p.y(), q.x(), q.y(),
                                           r.x(), r.y(), s.x(), s.y());

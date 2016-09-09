@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/squared_distance_2_1.h
-// package       : Distance_2 (2.4.2)
+// package       : Distance_2 (2.5.3)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -75,19 +73,37 @@ squared_distance(
 
 
 template <class R>
+class Squared_distance_to_line {
+    typename R::RT  a, b, c, sqnorm;
+  public:
+    Squared_distance_to_line(typename R::Line_2 const &line)
+    : a(line.a()), b(line.b()), c(line.c())
+    {
+        sqnorm = a*a+b*b;
+    }
+    typename R::FT operator()(typename R::Point_2 const &pt) const
+    {
+        typedef typename R::RT RT;
+        RT w = pt.hw();
+        RT n = a*pt.hx() + b*pt.hy() + wmult((R*)0, c, w);
+        RT d = wmult((R*)0, sqnorm, w, w);
+        return R::make_FT(n*n, d);
+    }
+};
+
+template <class R>
 typename R::FT
 squared_distance(
     const Point_2<R> &pt,
     const Line_2<R> &line)
 {
     typedef typename R::RT RT;
-    typedef typename R::FT FT;
-    RT x = line.a();
-    RT y = line.b();
-    Vector_2<R> normal(x, y);
-    Vector_2<R> diff = pt - line.point();
-    FT signdist = diff * normal;
-    return (typename R::FT)((signdist*signdist)/FT(x*x+y*y));
+    RT a = line.a();
+    RT b = line.b();
+    RT w = pt.hw();
+    RT n = a*pt.hx() + b*pt.hy() + wmult((R*)0, line.c(), w);
+    RT d = wmult((R*)0, a*a+b*b, w, w);
+    return R::make_FT(n*n, d);
 }
 
 
@@ -99,6 +115,26 @@ squared_distance(
 {
     return squared_distance(pt, line);
 }
+
+template <class R>
+class Squared_distance_to_ray {
+    typename R::Vector_2 ray_dir;
+    typename R::Point_2 ray_source;
+    Squared_distance_to_line<R> supline_dist;
+  public:
+    Squared_distance_to_ray(typename R::Ray_2 const &ray)
+    : ray_dir(ray.direction().vector()),
+      ray_source(ray.source()),
+      supline_dist(ray.supporting_line())
+    { }
+    typename R::FT operator()(typename R::Point_2 const &pt) const
+    {
+        Vector_2<R> diff = pt-ray_source;
+        if (!is_acute_angle(ray_dir,diff) )
+            return (typename R::FT)(diff*diff);
+        return supline_dist(pt);
+    }
+};
 
 
 
@@ -151,6 +187,34 @@ squared_distance_indexed(const Point_2<R> &pt,
 }
 
 
+
+template <class R>
+class Squared_distance_to_segment {
+    typename R::Point_2 seg_source, seg_target;
+    Squared_distance_to_line<R> supline_dist;
+    typename R::Vector_2 segvec;
+    typename R::RT e;
+  public:
+    Squared_distance_to_segment(typename R::Segment_2 const &seg)
+    : seg_source(seg.source()), seg_target(seg.target()),
+      supline_dist(seg.supporting_line())
+    {
+        segvec = seg_target-seg_source;
+        e = wdot(segvec,segvec);
+    }
+    typename R::FT operator()(typename R::Point_2 const &pt) const
+    {
+        typedef typename R::RT RT;
+        // assert that the segment is valid (non zero length).
+        Vector_2<R> diff = pt-seg_source;
+        RT d = wdot(diff,segvec);
+        if (d <= (RT)0)
+            return (typename R::FT)(diff*diff);
+        if (wmult((R*)0 ,d, segvec.hw()) > wmult((R*)0, e, diff.hw()))
+            return squared_distance(pt, seg_target);
+        return supline_dist(pt);
+    }
+};
 
 
 template <class R>

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/FPU.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/07/04 08:39:13 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 2002/01/07 15:14:54 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -54,14 +52,16 @@
 // It also contains the definition of the Protect_FPU_rounding<> classes,
 // a helper class which is a nice way to protect blocks of code needing a
 // particular rounding mode.
-#if defined __alpha__  && defined __linux__ 
+#ifdef __MWERKS__
+#  include <fenv.h>
+#elif defined __alpha__  && defined __linux__ 
 extern "C" {
 #include <fenv.h>
 }
 #elif defined __linux__ 
-#include <fpu_control.h>
+#  include <fpu_control.h>
 #elif defined __SUNPRO_CC || (defined __KCC && defined __sun)
-#include <ieeefp.h>
+#  include <ieeefp.h>
 #elif defined __osf || defined __osf__ 
 #  ifdef __GNUG__
      // GCC seems to remove (fixincludes) read_rnd/write_rnd...
@@ -70,7 +70,7 @@ extern "C" {
 #    include <float.h>
 #  endif
 #elif defined __BORLANDC__
-#include <float.h>
+#  include <float.h>
 #elif defined __sgi
     // The 3 C functions provided on IRIX 6.5 do not work !
     // So we use precompiled (by gcc) object files linked into libCGAL.
@@ -79,11 +79,6 @@ extern "C" {
   void CGAL_workaround_IRIX_set_FPU_cw (int);
   int  CGAL_workaround_IRIX_get_FPU_cw (void);
 }
-#endif
-
-// See below for explanation.  This must be outside namespace CGAL.
-#ifdef _MSC_VER
-extern "C" { double CGAL_ms_sqrt(double); }
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -119,7 +114,7 @@ inline double IA_force_to_double(double x)
 #  define CGAL_IA_FORCE_TO_DOUBLE(x) CGAL::IA_force_to_double(x)
 #else
 #  define CGAL_IA_FORCE_TO_DOUBLE(x) (x)
-#endif // __i386__
+#endif
 
 // We sometimes need to stop constant propagation,
 // because operations are done with a wrong rounding mode at compile time.
@@ -143,7 +138,17 @@ inline double IA_force_to_double(double x)
 
 // std::sqrt(double) on VC++ and CygWin is buggy when not optimizing.
 #ifdef _MSC_VER
-#  define CGAL_BUG_SQRT(d) CGAL_ms_sqrt(d)
+inline double IA_bug_sqrt(double d)
+{
+  _asm
+  {
+    fld d
+    fsqrt
+    fstp d
+  }
+  return d;
+}
+#  define CGAL_BUG_SQRT(d) CGAL::IA_bug_sqrt(d)
 #elif defined __CYGWIN__
 inline double IA_bug_sqrt(double d)
 {
@@ -174,6 +179,15 @@ inline double IA_bug_sqrt(double d)
 #define CGAL_IA_SETFPCW(CW) fesetround(CW)
 #define CGAL_IA_GETFPCW(CW) CW = fegetround()
 typedef fpu_control_t FPU_CW_t;
+#define CGAL_FE_TONEAREST    FE_TONEAREST
+#define CGAL_FE_TOWARDZERO   FE_TOWARDZERO
+#define CGAL_FE_UPWARD       FE_UPWARD
+#define CGAL_FE_DOWNWARD     FE_DOWNWARD
+
+#elif defined __MWERKS__
+#define CGAL_IA_SETFPCW(CW) fesetround(CW)
+#define CGAL_IA_GETFPCW(CW) CW = fegetround()
+typedef int FPU_CW_t;
 #define CGAL_FE_TONEAREST    FE_TONEAREST
 #define CGAL_FE_TOWARDZERO   FE_TOWARDZERO
 #define CGAL_FE_UPWARD       FE_UPWARD

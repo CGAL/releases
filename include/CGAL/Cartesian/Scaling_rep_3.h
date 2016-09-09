@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Scaling_rep_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2000/11/14 09:31:48 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/10/04 08:50:48 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,8 +46,6 @@
 #ifndef CGAL_CARTESIAN_SCALING_REP_3_H
 #define CGAL_CARTESIAN_SCALING_REP_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
@@ -60,7 +56,6 @@ class Scaling_repC3 : public Aff_transformation_rep_baseC3<R>
 
 public:
   typedef typename R::FT                                FT;
-  typedef typename R::RT                                RT;
   typedef Aff_transformation_rep_baseC3<R>              Transformation_base_3;
   typedef Aff_transformation_repC3<R>                   Transformation_3;
   typedef Translation_repC3<R>                          Translation_3;

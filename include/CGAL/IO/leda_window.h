@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/IO/leda_window.h
-// package       : window (2.8.10)
-// revision      : 2.8.4
-// revision_date : 21 June 2001
+// package       : window (2.8.27)
+// revision      : 2.8.21
+// revision_date : 16 Jan 2002
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -52,8 +50,7 @@
 
 #include <CGAL/IO/Color.h>
 #include <LEDA/window.h>
-// #include <CGAL/IO/cgal_icon.xpm>
-#include <CGAL/IO/esprit_logo.xpm>
+#include <CGAL/IO/cgal_logo.h>
 
 
 CGAL_BEGIN_NAMESPACE
@@ -94,7 +91,7 @@ cgalize(leda_window& w)
   w.set_frame_label("CGAL-2.3");
   w.set_icon_label("CGAL");
   w.set_line_width( 2);
-  w.set_icon_pixrect( w.create_pixrect( esprit_logo));
+  w.set_icon_pixrect( w.create_pixrect(cgal_logo));
 }
 
 inline
@@ -103,7 +100,11 @@ create_demo_window( float w = 512.0, float h = 512.0,
                          const char* str = "CGAL",
                          double x_extension = 1.0)
 {
+#if __LEDA__ >= 420
+  leda_window* Wptr = new leda_window((int) w, (int) h);
+#else
   leda_window* Wptr = new leda_window( w, h);
+#endif
   cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);
@@ -118,7 +119,11 @@ create_and_display_demo_window(float w = 512.0, float h = 512.0,
                                     const char* str = "CGAL",
                                     double x_extension = 1.0)
 {
+#if __LEDA__ >= 420
+  leda_window* Wptr = new leda_window( (int) w, (int) h);
+#else
   leda_window* Wptr = new leda_window( w, h);
+#endif
   cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);

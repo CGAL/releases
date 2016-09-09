@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Optimisation_d_traits_3.h
-// package       : Optimisation_basic (3.8.10)
+// package       : Optimisation_basic (3.8.14)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Optimisation_d_traits.aw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/17 10:22:43 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/26 09:29:58 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -92,11 +90,13 @@ class Optimisation_d_traits_3 {
     typedef  typename K::RT             RT;
     typedef  typename K::FT             FT;
 
-    typedef  Access_dimension_3<K>      Access_dimension_d;
-    typedef  Access_coordinates_begin_3<K>
+    typedef  CGAL::Access_dimension_3<K>      Access_dimension_d;
+    typedef  CGAL::Access_coordinates_begin_3<K>
                                         Access_coordinates_begin_d;
 
     typedef  Construct_point_3<K>       Construct_point_d;
+    // this does not (yet) work:
+    // typedef  typename K::Construct_point_3    Construct_point_d;
 
     // creation
     Optimisation_d_traits_3( ) { }

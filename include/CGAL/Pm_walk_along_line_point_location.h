@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_walk_along_line_point_location.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -87,7 +85,7 @@ public:
   typedef typename Planar_map::Vertex_handle Vertex_handle;
   typedef typename Planar_map::Halfedge_handle Halfedge_handle;
   typedef typename Planar_map::Face_handle Face_handle;
-  typedef typename Planar_map::Ccb_halfedge_circulator  Ccb_halfedge_circulator;
+  typedef typename Planar_map::Ccb_halfedge_circulator Ccb_halfedge_circulator;
   typedef typename Planar_map::Holes_iterator Holes_iterator;
   typedef typename Planar_map::Halfedge_around_vertex_circulator Avc;
   typedef typename Planar_map::Halfedge_iterator Halfedge_iterator;
@@ -99,60 +97,58 @@ protected:
   typedef const Self* cPLp;
 
 public:
+  // Constructor
   Pm_walk_along_line_point_location() : 
     Pm_point_location_base<Planar_map>(),
+    pm(0),
     traits(0) {}
   
-  void init(Planar_map& pmp, Traits& tr) {
+  void init(Planar_map & pmp, Traits & tr) 
+  {
+    CGAL_precondition_msg(pm == NULL,
+    "Point location instance should be uninitialized "
+    "(Do not use the same instance for more than one map).");
+
     pm = &pmp;
     traits = (Traits_wrap*)(&tr);
   }
 
-  inline void insert(Halfedge_handle h
-              ,const X_curve& cv
-              ) {}
+  inline void insert(Halfedge_handle, const X_curve &) {}
 
-  Halfedge_handle locate(const Point& p, Locate_type& lt) const;
-  Halfedge_handle locate(const Point& p, Locate_type& lt);
+  Halfedge_handle locate(const Point & p, Locate_type & lt) const;
+  Halfedge_handle locate(const Point & p, Locate_type & lt);
 
   Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up)
     const;
   Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up);
 
-  inline void split_edge(const X_curve &cv,
-                  Halfedge_handle e1,
-                  Halfedge_handle e2
-                  //additions by iddo for arrangement
-                  ,const X_curve& cv1, const X_curve& cv2
-                  //end additions
-                  ) {}
+  inline void split_edge(const X_curve &, Halfedge_handle, Halfedge_handle,
+                         //additions by iddo for arrangement
+                         const X_curve &, const X_curve &) {}
 
-  inline void merge_edge(const X_curve &cv1,
-                  const X_curve &cv2,
-                  Halfedge_handle e
-                  //additions by iddo for arrangement
-                  ,const X_curve& cv
-                  //end additions
-                  ) {}
+  inline void merge_edge(const X_curve &, const X_curve &, Halfedge_handle, 
+                         //additions by iddo for arrangement
+                         const X_curve &) {}
 
-  inline void remove_edge(Halfedge_handle e) {}
-  inline void remove_edge(const Halfedge_handle_iterator& begin,
-		const Halfedge_handle_iterator& end) {};
+  inline void remove_edge(Halfedge_handle) {}
+  inline void remove_edge(const Halfedge_handle_iterator &,
+                          const Halfedge_handle_iterator &) {};
   inline void clear() {}
-  inline void update(const Halfedge_handle_iterator&,
-                     const Halfedge_handle_iterator&,
+  inline void update(const Halfedge_handle_iterator &,
+                     const Halfedge_handle_iterator &,
                      const Token& token) 
   { token.rebuild_bounding_box(this); }
 
 private:
 
-  void walk_along_line(const Point& p,bool up,bool including,
-		       Halfedge_handle& e,Locate_type& lt) const ;
+  void walk_along_line(const Point & p, bool up, bool including,
+                       Halfedge_handle & e, Locate_type & lt) const ;
   /* Simulates a walk along a vertical ray shoot whose shape is determined by 
      'up' and 'including'. e is the returned edge. */
 
-  Halfedge_handle find_vertex_representation(Halfedge_handle e,const Point& p,
-					     bool up) const
+  Halfedge_handle find_vertex_representation(Halfedge_handle e,
+                                             const Point & p,
+                                             bool up) const
   /* find the first halfedge pointing to p, when going clockwise
     if up==true - start from 6 oclock, else start from 12 oclock
     precondition:    e points to p.
@@ -169,25 +165,25 @@ private:
   ++curr;
   if (up)
     while(curr!=first)
+    {
+      if (traits->curve_compare_at_x_from_bottom(curr->curve(),e->curve(),p)
+          ==SMALLER) 
       {
-	if (traits->curve_compare_at_x_from_bottom(curr->curve(),e->curve(),p)
-	    ==SMALLER) 
-	  {
-	    e=curr;
-	    break;// this can't be improved
-	  }
-	++curr;
+	e=curr;
+        break;// this can't be improved
       }
+      ++curr;
+    }
   else
     while(curr!=first)
       {
-	if (traits->curve_compare_at_x_from_top(curr->curve(),e->curve(),p)
+        if (traits->curve_compare_at_x_from_top(curr->curve(),e->curve(),p)
 	    ==SMALLER) 
-	  {
-	    e=curr;
-	    break;// this can't be improved
-	  }
-	++curr;
+        {
+	  e=curr;
+          break;// this can't be improved
+        }
+        ++curr;
       }
 
 #ifdef CGAL_PM_DEBUG
@@ -201,9 +197,9 @@ private:
 
 }
 
-  bool find_closest(const Point& p,const Ccb_halfedge_circulator& c,
-		    bool up,bool including,
-		    Halfedge_handle& e,Locate_type& lt) const;
+  bool find_closest(const Point & p, const Ccb_halfedge_circulator & c,
+                    bool up, bool including,
+                    Halfedge_handle & e, Locate_type & lt) const;
   /* Finds the closest halfedge on a ccb along a vertical ray shoot.
      The bools 'up' and 'including' set the vertical ray shoot's shape.
      The return value is true iff such an halfedge exists.
@@ -211,8 +207,8 @@ private:
      UNBOUNDED_FACE if point is outside ccb
      FACE if inside
      EDGE of on edge-boundary
-     VERTEX if on vertex-boundary. */
-
+     VERTEX if on vertex-boundary.
+  */
 
 #ifdef CGAL_PM_DEBUG
 
@@ -221,24 +217,24 @@ private:
   void debug(const Halfedge_handle& e) const
     {
       {
-	if (e!=pm->halfedges_end()) 
-	  std::cerr << "(" << e->source()->point() << "," 
+        if (e!=pm->halfedges_end()) 
+          std::cerr << "(" << e->source()->point() << "," 
 		    << e->target()->point() << ")" << std::flush;
-	else std::cerr << "(oo)";
+        else std::cerr << "(oo)";
       }
     }
 
 #endif
 
 public:
-  inline const Traits* get_traits() const {return traits;}
+  inline const Traits * get_traits() const {return traits;}
 
 protected:
-  inline const Bounding_box* get_bounding_box() const 
-  {return pm->get_bounding_box();}	
+  inline const Bounding_box * get_bounding_box() const 
+  {return pm->get_bounding_box();}
 
-  Planar_map* pm;
-  Traits_wrap* traits;
+  Planar_map * pm;
+  Traits_wrap * traits;
 };
   
 CGAL_END_NAMESPACE
@@ -248,11 +244,3 @@ CGAL_END_NAMESPACE
 #endif
 
 #endif //PM_WALK_ALONG_LINE_POINT_LOCATION_H
-
-
-
-
-
-
-
-

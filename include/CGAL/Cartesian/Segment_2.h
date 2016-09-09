@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Segment_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/01/17 09:28:40 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2002/02/06 12:32:38 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,87 +46,68 @@
 #ifndef CGAL_CARTESIAN_SEGMENT_2_H
 #define CGAL_CARTESIAN_SEGMENT_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class SegmentC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class SegmentC2
   : public R_::Segment_handle_2
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_2              Point_2;
+  typedef typename R_::Direction_2          Direction_2;
+  typedef typename R_::Line_2               Line_2;
+  typedef typename R_::Segment_2            Segment_2;
+  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
+
+  typedef typename R_::Segment_handle_2          base;
+  typedef typename base::element_type            rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Segment_handle_2          Segment_handle_2_;
-  typedef typename Segment_handle_2_::element_type Segment_ref_2;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef SegmentC2<R,Cartesian_tag>            Self;
-  typedef typename R::Point_2                   Point_2;
-  typedef typename R::Vector_2                  Vector_2;
-  typedef typename R::Direction_2               Direction_2;
-  typedef typename R::Line_2                    Line_2;
-  typedef typename R::Ray_2                     Ray_2;
-  typedef typename R::Triangle_2                Triangle_2;
-  typedef typename R::Iso_rectangle_2           Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2      Aff_transformation_2;
-  typedef typename R::Circle_2                  Circle_2;
-#else
-  typedef SegmentC2<R>                          Self;
-  typedef typename R::Point_2_base              Point_2;
-  typedef typename R::Vector_2_base             Vector_2;
-  typedef typename R::Direction_2_base          Direction_2;
-  typedef typename R::Line_2_base               Line_2;
-  typedef typename R::Ray_2_base                Ray_2;
-  typedef typename R::Triangle_2_base           Triangle_2;
-  typedef typename R::Iso_rectangle_2_base      Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2_base Aff_transformation_2;
-  typedef typename R::Circle_2_base             Circle_2;
-#endif
+  typedef R_                                     R;
 
   SegmentC2()
-    : Segment_handle_2_(Segment_ref_2()) {}
+    : base(rep()) {}
 
   SegmentC2(const Point_2 &sp, const Point_2 &ep)
-    : Segment_handle_2_(Segment_ref_2(sp, ep)) {}
+    : base(rep(sp, ep)) {}
 
   bool        is_horizontal() const;
   bool        is_vertical() const;
   bool        has_on(const Point_2 &p) const;
   bool        collinear_has_on(const Point_2 &p) const;
 
-  bool        operator==(const Self &s) const;
-  bool        operator!=(const Self &s) const;
+  bool        operator==(const SegmentC2 &s) const;
+  bool        operator!=(const SegmentC2 &s) const;
 
-  Point_2     source() const
+  const Point_2 &   source() const
   {
       return Ptr()->e0;
   }
-  Point_2     target() const
+  const Point_2 &   target() const
   {
       return Ptr()->e1;
   }
   
-  Point_2     start() const;
-  Point_2     end() const;
+  const Point_2 &    start() const;
+  const Point_2 &    end() const;
 
-  Point_2     min() const;
-  Point_2     max() const;
-  Point_2     vertex(int i) const;
-  Point_2     point(int i) const;
-  Point_2     operator[](int i) const;
+  const Point_2 &   min() const;
+  const Point_2 &   max() const;
+  const Point_2 &   vertex(int i) const;
+  const Point_2 &   point(int i) const;
+  const Point_2 &   operator[](int i) const;
 
   FT          squared_length() const;
 
   Direction_2 direction() const;
   Line_2      supporting_line() const;
-  Self        opposite() const;
-  Self        transform(const Aff_transformation_2 &t) const
+  Segment_2        opposite() const;
+  Segment_2        transform(const Aff_transformation_2 &t) const
   {
-    return Self(t.transform(source()), t.transform(target()));
+    return SegmentC2<R>(t.transform(source()), t.transform(target()));
   }
 
   bool        is_degenerate() const;
@@ -142,7 +121,7 @@ public:
 template < class R >
 inline
 bool
-SegmentC2<R CGAL_CTAG>::operator==(const SegmentC2<R CGAL_CTAG> &s) const
+SegmentC2<R>::operator==(const SegmentC2<R> &s) const
 {
   if (identical(s))
       return true;
@@ -152,103 +131,103 @@ SegmentC2<R CGAL_CTAG>::operator==(const SegmentC2<R CGAL_CTAG> &s) const
 template < class R >
 inline
 bool
-SegmentC2<R CGAL_CTAG>::operator!=(const SegmentC2<R CGAL_CTAG> &s) const
+SegmentC2<R>::operator!=(const SegmentC2<R> &s) const
 {
   return !(*this == s);
 }
 
 template < class R >
 inline
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::start() const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::start() const
 {
   return source();
 }
 
 template < class R >
 inline
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::end() const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::end() const
 {
   return target();
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::min() const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::min() const
 {
   return lexicographically_xy_smaller(source(),target()) ? source() : target();
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::max() const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::max() const
 {
   return lexicographically_xy_smaller(source(),target()) ? target() : source();
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::vertex(int i) const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::vertex(int i) const
 {
   return (i%2 == 0) ? source() : target();
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::point(int i) const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::point(int i) const
 {
   return (i%2 == 0) ? source() : target();
 }
 
 template < class R >
 inline
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::operator[](int i) const
+const typename SegmentC2<R>::Point_2 &
+SegmentC2<R>::operator[](int i) const
 {
   return vertex(i);
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::FT
-SegmentC2<R CGAL_CTAG>::squared_length() const
+typename SegmentC2<R>::FT
+SegmentC2<R>::squared_length() const
 {
   return squared_distance(source(), target());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename SegmentC2<R CGAL_CTAG>::Direction_2
-SegmentC2<R CGAL_CTAG>::direction() const
+typename SegmentC2<R>::Direction_2
+SegmentC2<R>::direction() const
 {
   return Direction_2( target() - source() );
 }
 
 template < class R >
 inline
-typename SegmentC2<R CGAL_CTAG>::Line_2
-SegmentC2<R CGAL_CTAG>::supporting_line() const
+typename SegmentC2<R>::Line_2
+SegmentC2<R>::supporting_line() const
 {
   return Line_2(*this);
 }
 
 template < class R >
 inline
-SegmentC2<R CGAL_CTAG>
-SegmentC2<R CGAL_CTAG>::opposite() const
+typename SegmentC2<R>::Segment_2
+SegmentC2<R>::opposite() const
 {
-  return SegmentC2<R CGAL_CTAG>(target(), source());
+  return SegmentC2<R>(target(), source());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
 Bbox_2
-SegmentC2<R CGAL_CTAG>::bbox() const
+SegmentC2<R>::bbox() const
 {
   return source().bbox() + target().bbox();
 }
@@ -256,7 +235,7 @@ SegmentC2<R CGAL_CTAG>::bbox() const
 template < class R >
 inline
 bool
-SegmentC2<R CGAL_CTAG>::is_degenerate() const
+SegmentC2<R>::is_degenerate() const
 {
   return source() == target();
 }
@@ -264,7 +243,7 @@ SegmentC2<R CGAL_CTAG>::is_degenerate() const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-SegmentC2<R CGAL_CTAG>::is_horizontal() const
+SegmentC2<R>::is_horizontal() const
 {
   return y_equal(source(), target());
 }
@@ -272,7 +251,7 @@ SegmentC2<R CGAL_CTAG>::is_horizontal() const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-SegmentC2<R CGAL_CTAG>::is_vertical() const
+SegmentC2<R>::is_vertical() const
 {
   return x_equal(source(), target());
 }
@@ -280,8 +259,8 @@ SegmentC2<R CGAL_CTAG>::is_vertical() const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-SegmentC2<R CGAL_CTAG>::
-has_on(const typename SegmentC2<R CGAL_CTAG>::Point_2 &p) const
+SegmentC2<R>::
+has_on(const typename SegmentC2<R>::Point_2 &p) const
 {
   return are_ordered_along_line(source(), p, target());
 }
@@ -289,8 +268,8 @@ has_on(const typename SegmentC2<R CGAL_CTAG>::Point_2 &p) const
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-SegmentC2<R CGAL_CTAG>::
-collinear_has_on(const typename SegmentC2<R CGAL_CTAG>::Point_2 &p) const
+SegmentC2<R>::
+collinear_has_on(const typename SegmentC2<R>::Point_2 &p) const
 {
     return collinear_are_ordered_along_line(source(), p, target());
 }
@@ -298,7 +277,7 @@ collinear_has_on(const typename SegmentC2<R CGAL_CTAG>::Point_2 &p) const
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENTC2
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const SegmentC2<R CGAL_CTAG> &s)
+operator<<(std::ostream &os, const SegmentC2<R> &s)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -314,14 +293,14 @@ operator<<(std::ostream &os, const SegmentC2<R CGAL_CTAG> &s)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2
 template < class R >
 std::istream &
-operator>>(std::istream &is, SegmentC2<R CGAL_CTAG> &s)
+operator>>(std::istream &is, SegmentC2<R> &s)
 {
-    typename SegmentC2<R CGAL_CTAG>::Point_2 p, q;
+    typename R::Point_2 p, q;
 
     is >> p >> q;
 
     if (is)
-	s = SegmentC2<R CGAL_CTAG>(p, q);
+	s = SegmentC2<R>(p, q);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2

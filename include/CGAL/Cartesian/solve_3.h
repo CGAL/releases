@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/solve_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2000/10/03 13:51:53 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/01/23 17:59:18 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,17 +46,16 @@
 #ifndef CGAL_CARTESIAN_CARTESIAN_SOLVE_3_H
 #define CGAL_CARTESIAN_CARTESIAN_SOLVE_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/solve.h>
 #include <CGAL/Cartesian/Vector_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R>
-void solve (const VectorC3<R CGAL_CTAG> &v0,
-            const VectorC3<R CGAL_CTAG> &v1,
-            const VectorC3<R CGAL_CTAG> &v2,
-            const VectorC3<R CGAL_CTAG> &d,
+void solve (const VectorC3<R> &v0,
+            const VectorC3<R> &v1,
+            const VectorC3<R> &v2,
+            const VectorC3<R> &d,
             typename R::FT &alpha, typename R::FT &beta, typename R::FT &gamma)
 {
   solve(v0.x(), v0.y(), v0.z(),

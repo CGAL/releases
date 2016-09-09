@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Vertex_visibility_traits_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/01/12 12:58:50 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/24 12:49:48 $
 //
 // author(s)     : Susan Hert
 //
@@ -53,108 +51,28 @@
 #ifndef VERTEX_VISIBILITY_TRAITS_2_H
 #define VERTEX_VISIBILITY_TRAITS_2_H
 
-
-#include <CGAL/Point_2.h>
-#include <CGAL/Segment_2.h>
-#include <CGAL/Ray_2.h>
-#include <CGAL/Direction_2.h>
-
 namespace CGAL {
 
-template <class R_>
+template <class Kernel_>
 class Vertex_visibility_traits_2  
 {
   public:
-    typedef R_                               R;
-    typedef typename R::Point_2              Point_2; 
-    typedef typename R::Segment_2            Segment_2; 
-    typedef typename R::Ray_2                Ray_2; 
-    typedef typename R::Construct_segment_2  Construct_segment_2;
-    typedef typename R::Construct_ray_2      Construct_ray_2;
-    typedef typename R::Less_yx_2            Less_yx_2;
-    typedef typename R::Less_xy_2            Less_xy_2;
-    typedef typename R::Compare_x_2          Compare_x_2;
-    typedef typename R::Compare_y_2          Compare_y_2;
-    typedef typename R::Leftturn_2           Leftturn_2;
-    typedef typename R::Orientation_2        Orientation_2;
-    typedef typename R::Collinear_are_ordered_along_line_2
+    typedef Kernel_                               Kernel;
+    typedef typename Kernel::Point_2              Point_2; 
+    typedef typename Kernel::Segment_2            Segment_2; 
+    typedef typename Kernel::Ray_2                Ray_2; 
+    typedef typename Kernel::Construct_segment_2  Construct_segment_2;
+    typedef typename Kernel::Construct_ray_2      Construct_ray_2;
+    typedef typename Kernel::Less_yx_2            Less_yx_2;
+    typedef typename Kernel::Less_xy_2            Less_xy_2;
+    typedef typename Kernel::Compare_x_2          Compare_x_2;
+    typedef typename Kernel::Compare_y_2          Compare_y_2;
+    typedef typename Kernel::Leftturn_2           Leftturn_2;
+    typedef typename Kernel::Orientation_2        Orientation_2;
+    typedef typename Kernel::Collinear_are_ordered_along_line_2
                                           Collinear_are_ordered_along_line_2;
-    typedef typename R::Are_strictly_ordered_along_line_2
+    typedef typename Kernel::Are_strictly_ordered_along_line_2
                                           Are_strictly_ordered_along_line_2;
-
-    // Needed for Polygon_algorithms_2 without the _2
-    typedef typename R::Less_xy_2            Less_xy;
-
-    // Needed for simplicity and CCW order precondition checking
-    typedef typename R::Vector_2             Vector_2;
-    typedef typename R::FT                   FT;
-
- 
-    // necessary for the simplicity precondition checking
-    Comparison_result 
-    compare_x(const Point_2 &p, const Point_2 &q) const
-    {
-       return ::CGAL::compare_x(p, q);
-    }
-
-    // necessary for simplicity precondition checking
-    Comparison_result 
-    compare_y(const Point_2 &p, const Point_2 &q) const
-    {
-       return ::CGAL::compare_y(p, q);
-    }
-
-    // necessary for convexity postcondition checking
-    bool 
-    lexicographically_xy_smaller(const Point_2& p, const Point_2& q) const
-    {
-       return Less_xy_2()(p,q);
-    }
-
-    // necessary for convexity postcondition checking
-    ::CGAL::Orientation 
-    orientation(const Point_2& p, const Point_2& q, const Point_2& r) const
-    {
-       return Orientation_2()(p,q,r);
-    }
-
-
-    // ----------
-    //   needed for simplicity and counterclockwise order precondition checking
-    FT 
-    cross_product_2(const ::CGAL::Vector_2<R>& p, 
-                    const ::CGAL::Vector_2<R>& q) const
-    {
-        return p.x() * q.y() - q.x() * p.y();
-    }
-
-    bool 
-    do_intersect(const Point_2& p1, const Point_2& q1, const Point_2& p2,
-                 const Point_2& q2) const
-    {
-       return ::CGAL::do_intersect(Segment_2(p1,q1), Segment_2(p2,q2));
-    }
-
-    bool 
-    have_equal_direction(const ::CGAL::Vector_2<R>& v1, 
-                         const ::CGAL::Vector_2<R>& v2) const
-    {
-       return ::CGAL::Direction_2<R>(v1) == ::CGAL::Direction_2<R>(v2);
-    }
-
-    bool 
-    is_negative(const FT& x) const
-    {
-       return CGAL_NTS is_negative(x);
-    }
-
-    bool 
-    lexicographically_yx_smaller_or_equal(const Point_2& p, 
-                                          const Point_2& q) const
-    {
-       return ::CGAL::lexicographically_yx_smaller_or_equal(p,q);
-    }
-    // ----------
 
     Compare_x_2
     compare_x_2_object() const

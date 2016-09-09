@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Planar_map_2/Handle_for_with_access.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // revision      : 1.0
 // revision_date : 27 Jun 2000 
 // author(s)     : Oren Nechushtan
@@ -56,18 +54,21 @@
 
 namespace CGAL {
 
-template <class RefCounted,
-          class Allocator = CGAL_ALLOCATOR(RefCounted) >
-class Handle_for_with_access : public Handle_for<RefCounted,Allocator>
+template <class T,
+          class Allocator_ = CGAL_ALLOCATOR(T) >
+class Handle_for_with_access : public Handle_for<T, Allocator_>
 {
   public:
-  Handle_for_with_access(const RefCounted& rc) : 
-    Handle_for<RefCounted,Allocator>(rc){}
-  Handle_for_with_access() : Handle_for<RefCounted,Allocator>(){}
+  Handle_for_with_access(const T& rc) : 
+    Handle_for<T, Allocator_>(rc){}
+  Handle_for_with_access() : Handle_for<T, Allocator_>(){}
   Handle_for_with_access( const Handle_for_with_access& h) : 
-    Handle_for<RefCounted,Allocator>(h){}
+    Handle_for<T, Allocator_>(h){}
   
-  typename Allocator::pointer pointer() const {return ptr;}
+  const T* pointer() const {return Ptr();}
+
+  T* pointer() {return ptr();}
+  
 };
 
 } // namespace CGAL

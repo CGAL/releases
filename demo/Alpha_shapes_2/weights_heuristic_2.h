@@ -36,8 +36,8 @@
 // file          : include/CGAL/Weighted_alpha_shape_2.h
 // package       : Alpha_shapes_2 (1.0)
 // source        : $RCSfile: weights_heuristic_2.h,v $
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/15 15:01:57 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/01/23 08:09:09 $
 // author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec@sophia.inria.fr>)
@@ -102,7 +102,7 @@ public:
   // Introduces an empty alpha-shape `A' for a positive
   // alpha-value `alpha'. Precondition: `alpha' >= 0.
   Weighted_alpha_shape_2(Coord_type alpha = 0, 
-			 Mode m = GENERAL)
+			 Mode m = Alpha_shape_2<Rt>::GENERAL)
     : Alpha_shape_2<Rt>(alpha, m)
     {}
  
@@ -114,7 +114,7 @@ public:
   Weighted_alpha_shape_2( InputIterator first,  
 			  InputIterator last,  
 			  const Coord_type& alpha = 0,
-			  Mode = GENERAL)
+			  Mode = Alpha_shape_2<Rt>::GENERAL)
     : Alpha_shape_2<Rt>(first, last, alpha, m) 
     {}
 

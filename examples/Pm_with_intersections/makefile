@@ -35,7 +35,8 @@ LDFLAGS = \
 
 all:            \
                 example1$(EXE_EXT) \
-                example2$(EXE_EXT) 
+                example2$(EXE_EXT) \
+                example3$(EXE_EXT) 
 
 example1$(EXE_EXT): example1$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
@@ -43,9 +44,13 @@ example1$(EXE_EXT): example1$(OBJ_EXT)
 example2$(EXE_EXT): example2$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
 
+example3$(EXE_EXT): example3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example3 example3$(OBJ_EXT) $(LDFLAGS)
+
 clean: \
                    example1.clean \
-                   example2.clean 
+                   example2.clean \
+                   example3.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

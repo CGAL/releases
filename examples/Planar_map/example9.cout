@@ -1,8 +1,8 @@
 * * * Demonstrating a trivial use of IO functions
 
-# ------------------------------------- Printing Planar map
+# ------------------------------------- Begin Planar Map
 # --------------------------------------------------------
-# Printing number of vertices halfedges and faces in Planar map
+# Number of vertices halfedges and faces in Planar map
 3 6 2
 # 3 vertices
 # ------------------------------------------
@@ -42,14 +42,14 @@
 0
 # finish writing face
 # ------------------------------------------
-# ------------------------------------- End of Planar map
+# ------------------------------------- End Planar Map
 # --------------------------------------------------------
 
 * * * Presenting the use of verbose format
 
-# ------------------------------------- Printing Planar map
+# ------------------------------------- Begin Planar Map
 # --------------------------------------------------------
-# Printing number of vertices halfedges and faces in Planar map
+# Number of vertices halfedges and faces in Planar map
 3 6 2
 # 3 vertices
 # ------------------------------------------
@@ -58,18 +58,12 @@
 2/1 0/1
 # 6 halfedges
 # ------------------------------------------
-1/1 1/1
-0/1 0/1 1/1 1/1
-0/1 0/1
-0/1 0/1 1/1 1/1
-1/1 1/1
-1/1 1/1 2/1 0/1
-2/1 0/1
-1/1 1/1 2/1 0/1
-0/1 0/1
-2/1 0/1 0/1 0/1
-2/1 0/1
-2/1 0/1 0/1 0/1
+0/1 0/1 1/1 1/1  towards  1/1 1/1
+0/1 0/1 1/1 1/1  towards  0/1 0/1
+1/1 1/1 2/1 0/1  towards  1/1 1/1
+1/1 1/1 2/1 0/1  towards  2/1 0/1
+2/1 0/1 0/1 0/1  towards  0/1 0/1
+2/1 0/1 0/1 0/1  towards  2/1 0/1
 # 2 faces
 # ------------------------------------------
 # writing face
@@ -82,12 +76,9 @@
 # inner ccb
 # number halfedges on inner boundary
 3
-0/1 0/1
-2/1 0/1 0/1 0/1
-1/1 1/1
-0/1 0/1 1/1 1/1
-2/1 0/1
-1/1 1/1 2/1 0/1
+2/1 0/1 0/1 0/1  towards  0/1 0/1
+0/1 0/1 1/1 1/1  towards  1/1 1/1
+1/1 1/1 2/1 0/1  towards  2/1 0/1
 
 # finish writing face
 # ------------------------------------------
@@ -96,18 +87,15 @@
 # outer ccb
 # number halfedges on outer boundary
 3
-2/1 0/1
-2/1 0/1 0/1 0/1
-1/1 1/1
-1/1 1/1 2/1 0/1
-0/1 0/1
-0/1 0/1 1/1 1/1
+2/1 0/1 0/1 0/1  towards  2/1 0/1
+1/1 1/1 2/1 0/1  towards  1/1 1/1
+0/1 0/1 1/1 1/1  towards  0/1 0/1
 
 # number of holes
 0
 # finish writing face
 # ------------------------------------------
-# ------------------------------------- End of Planar map
+# ------------------------------------- End Planar Map
 # --------------------------------------------------------
 
 * * * Demonstrating the use of the writer class interface.
@@ -122,15 +110,9 @@
 
 * * * Printing all halfedges in a verbose format
 
-1/1 1/1
-0/1 0/1 1/1 1/1
-0/1 0/1
-0/1 0/1 1/1 1/1
-1/1 1/1
-1/1 1/1 2/1 0/1
-2/1 0/1
-1/1 1/1 2/1 0/1
-0/1 0/1
-2/1 0/1 0/1 0/1
-2/1 0/1
-2/1 0/1 0/1 0/1
+0/1 0/1 1/1 1/1  towards  1/1 1/1
+0/1 0/1 1/1 1/1  towards  0/1 0/1
+1/1 1/1 2/1 0/1  towards  1/1 1/1
+1/1 1/1 2/1 0/1  towards  2/1 0/1
+2/1 0/1 0/1 0/1  towards  0/1 0/1
+2/1 0/1 0/1 0/1  towards  2/1 0/1

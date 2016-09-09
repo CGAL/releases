@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/HalfedgeDS_default.h
-// package       : HalfedgeDS (3.21)
-// chapter       : $CGAL_Chapter: Halfedge Data Structures $
-// source        : hds.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/02 20:53:58 $
-// author(s)     : Lutz Kettner
+// package       : HalfedgeDS (3.33)
+// chapter       : Halfedge Data Structures
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/04/26 12:47:53 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : MPI Saarbruecken
 //
 // Halfedge Data Structure Default Implementation for CGAL.
 // email         : contact@cgal.org
@@ -84,18 +82,11 @@ struct HalfedgeDS_default {
       typedef Traits_                                               Traits;
       typedef HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> DS;
       typedef typename DS::size_type                                size_type;
-      HDS();
-      HDS( size_type v, size_type h, size_type f);
+      HDS() {}
+      HDS( size_type v, size_type h, size_type f)
+          : HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}
   };
 };
-
-template <class Traits_, class HalfedgeDSItems, class Alloc>
-HalfedgeDS_default::HDS<Traits_, HalfedgeDSItems, Alloc>:: HDS() {}
-
-template <class Traits_, class HalfedgeDSItems, class Alloc>
-HalfedgeDS_default::HDS<Traits_, HalfedgeDSItems, Alloc>::
-HDS( size_type v, size_type h, size_type f)
-    : HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}
 
 #define CGAL_HALFEDGEDS_DEFAULT  ::CGAL::HalfedgeDS_default::HDS
 

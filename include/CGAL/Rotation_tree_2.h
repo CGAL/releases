@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Rotation_tree_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/16 09:39:47 $
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 2002/05/06 16:18:00 $
 //
 // author(s)     : Susan Hert
 //
@@ -53,47 +51,54 @@
 #ifndef  CGAL_ROTATION_TREE_H
 #define  CGAL_ROTATION_TREE_H
 
+//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
+//  (from stlport?)
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
 #include <vector>
-#include <CGAL/ch_utils.h>
+#else
+#include <CGAL/vector.h>
+#endif // MSVC6
 #include <CGAL/Rotation_tree_node_2.h>
+#include <CGAL/functional.h>
 
 namespace CGAL {
 
 template <class Traits_>
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
 class Rotation_tree_2 : public std::vector< Rotation_tree_node_2<Traits_> >
+#else
+class Rotation_tree_2 : public CGALi::vector< Rotation_tree_node_2<Traits_> >
+#endif // MSVC 6
 {
 public:
-   typedef Traits_                               Traits;
-   typedef Rotation_tree_node_2<Traits>          Node;
+   typedef Traits_                                 Traits;
+   typedef Rotation_tree_node_2<Traits>            Node;
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
    typedef typename std::vector<Node>::iterator    Self_iterator;
-   typedef typename Traits::Point_2              Point_2;
+#else
+   typedef typename CGALi::vector<Node>::iterator  Self_iterator;
+#endif // MSVC6
+   typedef typename Traits::Point_2                Point_2;
 
 
    // constructor
    template<class ForwardIterator>
    Rotation_tree_2(ForwardIterator first, ForwardIterator beyond)
    {
-      typedef typename Traits::R                               R;
-      typedef typename Traits::R::FT                           FT;
-      typedef typename Traits::Less_xy_2                       Less_xy_2;
-      typedef ch_Binary_predicate_reversor<Point_2, Less_xy_2> Greater_xy_2;
-   
       for (ForwardIterator it = first; it != beyond; it++)
          push_back(*it);
    
-      std::sort(begin(), end(), Greater_xy_2(Traits().less_xy_2_object()));
+      std::sort(begin(), end(), swap_1(Traits().less_xy_2_object()));
       std::unique(begin(), end());
    
       // b is the point with the largest x coordinate
       Node largest_x = front();
    
-      // push the point p_minus_infinity
-      push_back(Point_2( CGAL::to_double(largest_x.x())+1,
-                         -CGAL::to_double(largest_x.y())));
+      // push the point p_minus_infinity; the coordinates should never be used
+      push_back(Point_2( 1, -1));
 
-      // push the point p_infinity
-      push_back(Point_2(CGAL::to_double(largest_x.x())+1,
-                         CGAL::to_double(largest_x.y())));
+      // push the point p_infinity; the coordinates should never be used
+      push_back(Point_2(1, 1));
    
       _p_inf = end();  // record the iterators to these extreme points
       _p_inf--;

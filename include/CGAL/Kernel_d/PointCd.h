@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/PointCd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/07/11 12:24:03 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/03/18 20:33:59 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -68,9 +66,10 @@ class PointCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Handle_for<Tuple> Base;
   typedef PointCd<_FT,_LA> Self;
 
-typename _LA::Vector& vector_rep() { return ptr->v; }
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_FT& entry(int i) const { return ptr->v[i]; }
+typename _LA::Vector& vector_rep() { return ptr()->v; }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_FT& entry(int i) { return ptr()->v[i]; }
+const _FT& entry(int i) const { return ptr()->v[i]; }
 PointCd(const Base& b) : Base(b) {}
 
 public: 
@@ -151,7 +150,7 @@ PointCd(const FT& x, const FT& y, const FT& z, const FT& w)
 PointCd(const PointCd<FT,LA>& p) : Base(p) {}
 ~PointCd() {}     
 
-int dimension() const  { return ptr->size(); }
+int dimension() const  { return ptr()->size(); }
 
 FT cartesian(int i) const
 { CGAL_assertion_msg((0<=i && i<dimension()),
@@ -166,14 +165,14 @@ FT homogeneous(int i) const
 }
 
 Cartesian_const_iterator cartesian_begin() const 
-{ return ptr->begin(); }
+{ return ptr()->begin(); }
 Cartesian_const_iterator cartesian_end() const 
-{ return ptr->end(); }
+{ return ptr()->end(); }
 
 Homogeneous_const_iterator homogeneous_begin() const 
-{ return Homogeneous_const_iterator(ptr->begin(),ptr->end()); }
+{ return Homogeneous_const_iterator(ptr()->begin(),ptr()->end()); }
 Homogeneous_const_iterator homogeneous_end() const 
-{ return Homogeneous_const_iterator(ptr->beyondend()); }
+{ return Homogeneous_const_iterator(ptr()->beyondend()); }
 
 PointCd<FT,LA> transform(const Aff_transformationCd<FT,LA>& t) const;
 
@@ -181,7 +180,7 @@ inline VectorCd<FT,LA> operator-(const Origin& o) const;
 
 VectorCd<FT,LA> operator-(const PointCd<FT,LA>& q) const 
 { VectorCd<FT,LA> res(dimension()); 
-  res.ptr->cartesian_sub(ptr,q.ptr);
+  res.ptr()->cartesian_sub(ptr(),q.ptr());
   return res; 
 }
 
@@ -226,7 +225,7 @@ FT z()  const { return cartesian(2); }
 
 }; // PointCd
 
-#undef PointCd2
+#undef PointCd
 CGAL_END_NAMESPACE
 #endif // CGAL_POINTCDXXX_H 
 //----------------------- end of file ----------------------------------

@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,10 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/squared_distance_3_0.h
+// package       : Distance_3 (2.5.4)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -264,8 +263,8 @@ squared_distance_to_line(
     typedef typename R::RT RT;
     typedef typename R::FT FT;
     Vector_3<R> wcr = wcross(dir, diff);
-    return FT(wcr*wcr) /
-        FT(wmult((R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
+    return FT(wcr*wcr)/FT(wmult(
+        (R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
 //    return R::make_FT((wcr*wcr),
 //        wmult((R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
 }

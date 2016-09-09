@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/predicates_on_planes_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/21 14:30:06 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/01/23 17:59:16 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,7 +46,6 @@
 #ifndef CGAL_CARTESIAN_PREDICATES_ON_PLANES_3_H
 #define CGAL_CARTESIAN_PREDICATES_ON_PLANES_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/predicates/kernel_ftC3.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -56,8 +53,8 @@ CGAL_BEGIN_NAMESPACE
 template < class R >
 inline
 Oriented_side
-side_of_oriented_plane(const PlaneC3<R CGAL_CTAG> &h,
-                       const PointC3<R CGAL_CTAG> &p)
+side_of_oriented_plane(const PlaneC3<R> &h,
+                       const PointC3<R> &p)
 { 
   return side_of_oriented_planeC3(h.a(), h.b(), h.c(), h.d(),
 	                          p.x(), p.y(), p.z());
@@ -66,7 +63,7 @@ side_of_oriented_plane(const PlaneC3<R CGAL_CTAG> &h,
 template < class R >
 inline
 bool
-equal_plane(const PlaneC3<R CGAL_CTAG> &h, const PlaneC3<R CGAL_CTAG> &p)
+equal_plane(const PlaneC3<R> &h, const PlaneC3<R> &p)
 { 
   return equal_planeC3(h.a(), h.b(), h.c(), h.d(),
 	               p.a(), p.b(), p.c(), p.d());

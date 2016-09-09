@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/leda_bigfloat.h
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:56:25 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/20 19:59:53 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,13 +49,7 @@
 #define CGAL_BIGFLOAT_H
 
 #include <CGAL/basic.h>
-
-// #ifndef IO_IO_TAGS_H
-// #include <CGAL/IO/io_tags.h>
-// #endif // IO_IO_TAGS_H
-// #ifndef CGAL_NUMBER_TYPE_TAGS_H
-// #include <CGAL/number_type_tags.h>
-// #endif // CGAL_NUMBER_TYPE_TAGS_H
+#include <CGAL/LEDA_basic.h>
 
 #ifndef CGAL_PROTECT_LEDA_BIGFLOAT_H
 #include <LEDA/bigfloat.h>
@@ -66,28 +58,28 @@
 
 CGAL_BEGIN_NAMESPACE
 
+template <> struct Number_type_traits<leda_bigfloat> {
+  typedef Tag_false Has_gcd;
+  typedef Tag_true  Has_division;
+  typedef Tag_false Has_sqrt;
+};
 
 #ifndef CGAL_CFG_NO_NAMESPACE
 inline
 double
 to_double(const leda_bigfloat & b)
-{ return ::to_double(b); }
+{ return CGAL_LEDA_SCOPE::to_double(b); }
 #endif // CGAL_CFG_NO_NAMESPACE
-
-inline
-Number_tag
-number_type_tag(const leda_bigfloat& )
-{ return Number_tag(); }
 
 inline
 bool
 is_finite(const leda_bigfloat & b)
-{ return !( isInf(b) || isNaN(b) ); }
+{ return !( CGAL_LEDA_SCOPE::isInf(b) || CGAL_LEDA_SCOPE::isNaN(b) ); }
 
 inline
 bool
 is_valid(const leda_bigfloat & b)
-{ return !( isNaN(b) ); }
+{ return !( CGAL_LEDA_SCOPE::isNaN(b) ); }
 
 inline
 io_Operator
@@ -100,14 +92,11 @@ to_interval (const leda_bigfloat & z)
 {
   // assuming leda_bigfloat guarantee 1 bit error max
   Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
-  Interval_nt_advanced approx (::to_double(z));
+  Interval_nt_advanced approx (CGAL_LEDA_SCOPE::to_double(z));
   FPU_set_cw(CGAL_FE_UPWARD);
   return approx + Interval_base::Smallest;
 }
 
-
 CGAL_END_NAMESPACE
-
-
 
 #endif // CGAL_BIGFLOAT_H

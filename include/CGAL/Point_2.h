@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,45 +28,36 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Point_2.h
-// package       : _2 (3.19)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:51:32 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _2 (3.32)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/01/23 12:28:31 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_POINT_2_H
 #define CGAL_POINT_2_H
 
-#include <CGAL/point_vector_declarations_2.h>
+class Origin;
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Point_2 : public R_::Point_2_base
+class Point_2 : public R_::Kernel_base::Point_2
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Vector_2       Vector_2;
+  typedef typename R_::Kernel_base::Point_2  RPoint_2;
 public:
   typedef  R_   R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Point_2_base  RPoint_2;
-  typedef typename R::Vector_2_base  RVector_2;
-
-
-friend  CGAL_FRIEND_INLINE
-        CGAL::Point_2<R>
-        CGAL_SCOPE vector_to_point_conversion CGAL_NULL_TMPL_ARGS
-                                         (const CGAL::Vector_2<R>& v);
 
   Point_2()
   {}
@@ -92,12 +81,6 @@ friend  CGAL_FRIEND_INLINE
   Point_2(const RT& hx, const RT& hy, const RT& hw)
     : RPoint_2(hx, hy, hw)
   {}
-
-private:
-
-  Point_2(const RVector_2& v)
-    : RPoint_2(v)
-  {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_POINT_2
@@ -105,7 +88,7 @@ template < class R >
 std::ostream&
 operator<<(std::ostream& os, const Point_2<R>& p)
 {
-  typedef typename  R::Point_2_base  RPoint_2;
+  typedef typename  R::Kernel_base::Point_2  RPoint_2;
   return os << static_cast<const RPoint_2&>(p);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_POINT_2
@@ -115,14 +98,11 @@ template < class R >
 std::istream&
 operator>>(std::istream& is, Point_2<R>& p)
 {
-  typedef typename  R::Point_2_base  RPoint_2;
+  typedef typename  R::Kernel_base::Point_2  RPoint_2;
   return is >> static_cast<RPoint_2&>(p);
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_POINT_2
 
 CGAL_END_NAMESPACE
-
-#include <CGAL/Vector_2.h>
-#include <CGAL/Aff_transformation_2.h>
 
 #endif // CGAL_POINT_2_H

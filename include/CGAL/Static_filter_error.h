@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Static_filter_error.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 2.13 $
-// revision_date : $Date: 2000/10/16 12:50:41 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 2.16 $
+// revision_date : $Date: 2002/01/10 13:31:19 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -110,7 +108,8 @@ struct Static_filter_error
 
   Sfe operator- (const Sfe &f) const { return *this + f; }
   Sfe operator- ()             const { return *this; }
-  // Sfe operator/ (const Sfe &) const { abort(); } // Division not supported.
+  // Sfe operator/ (const Sfe &) const { CGAL_CLIB_STD::abort(); }
+  // Division not supported.
 
   Sfe& operator+=(const Sfe &f) { return *this = *this + f; }
   Sfe& operator-=(const Sfe &f) { return *this = *this - f; }
@@ -124,8 +123,8 @@ struct Static_filter_error
   bool operator< (const Sfe &f) const
   {
       Sfe e = *this + f;
-      std::cerr << "Static error is" << e.error() << std::endl;
-      abort();
+      std::cerr << "Static error is : " << e.error() << std::endl;
+      CGAL_CLIB_STD::abort();
       return false;
   }
   bool operator> (const Sfe &f) const { return *this < f; }

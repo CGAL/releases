@@ -18,10 +18,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -31,12 +29,12 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // source        : melkman.fw
 // file          : include/CGAL/ch_melkman.C
-// package       : Convex_hull_2 (3.21)
+// package       : Convex_hull_2 (3.34)
 // revision      : 3.3
 // revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
@@ -52,35 +50,19 @@
 #ifndef CGAL_CH_MELKMAN_C
 #define CGAL_CH_MELKMAN_C
 
+#ifndef CGAL_CH_MELKMAN_H
+#include <CGAL/ch_melkman.h>
+#endif
 
-#include <queue>
-#include <CGAL/ch_utils.h>
 #ifndef CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
 #endif // CH_NO_POSTCONDITIONS
 
+#include <CGAL/ch_assertions.h>
+#include <queue>
+#include <iterator>
 
 CGAL_BEGIN_NAMESPACE
-
-template <class InputIterator, class OutputIterator, class Traits>
-OutputIterator
-ch_melkman( InputIterator first, InputIterator last,
-            OutputIterator result, const Traits& ch_traits);
-
-
-template <class ForwardIterator, class OutputIterator, class R>
-inline
-OutputIterator
-_ch_melkman(ForwardIterator first, ForwardIterator last,
-            OutputIterator  result, Point_2<R>* )
-{ return ch_melkman(first, last, result, R() ); }
-
-
-template <class InputIterator, class OutputIterator>
-OutputIterator
-ch_melkman( InputIterator first, InputIterator last,  OutputIterator result)
-{ return _ch_melkman( first, last, result, ch_value_type(first) ); }
-
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator

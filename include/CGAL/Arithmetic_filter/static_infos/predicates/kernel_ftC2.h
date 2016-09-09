@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/kernel_ftC2.h
-// package       : Interval_arithmetic (4.114)
+// package       : Interval_arithmetic (4.141)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -49,6 +47,8 @@
 #ifndef CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC2_H_STATIC_INFO_H
 #define CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC2_H_STATIC_INFO_H
 
+#include <CGAL/Profile_counter.h>
+
 double Static_Filtered_equal_lineC2_6::_epsilon_0;
 double Static_Filtered_equal_lineC2_6::_epsilon_1;
 double Static_Filtered_equal_lineC2_6::_epsilon_2;
@@ -58,17 +58,9 @@ double Static_Filtered_equal_lineC2_6::_epsilon_5;
 double Static_Filtered_equal_lineC2_6::_epsilon_6;
 double Static_Filtered_equal_lineC2_6::_bound = -1.0;
 
-unsigned Static_Filtered_equal_lineC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_equal_lineC2_6::number_of_failures = 0;
-
 double Static_Filtered_compare_xC2_7::_epsilon_0;
 double Static_Filtered_compare_xC2_7::_epsilon_1;
 double Static_Filtered_compare_xC2_7::_bound = -1.0;
-
-unsigned Static_Filtered_compare_xC2_7::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_xC2_7::number_of_failures = 0;
 
 double Static_Filtered_compare_xC2_9::_epsilon_0;
 double Static_Filtered_compare_xC2_9::_epsilon_1;
@@ -76,44 +68,24 @@ double Static_Filtered_compare_xC2_9::_epsilon_2;
 double Static_Filtered_compare_xC2_9::_epsilon_3;
 double Static_Filtered_compare_xC2_9::_bound = -1.0;
 
-unsigned Static_Filtered_compare_xC2_9::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_xC2_9::number_of_failures = 0;
-
 double Static_Filtered_compare_xC2_12::_epsilon_0;
 double Static_Filtered_compare_xC2_12::_epsilon_1;
 double Static_Filtered_compare_xC2_12::_epsilon_2;
 double Static_Filtered_compare_xC2_12::_bound = -1.0;
 
-unsigned Static_Filtered_compare_xC2_12::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_xC2_12::number_of_failures = 0;
-
 double Static_Filtered_compare_y_at_xC2_5::_epsilon_0;
 double Static_Filtered_compare_y_at_xC2_5::_epsilon_1;
 double Static_Filtered_compare_y_at_xC2_5::_bound = -1.0;
-
-unsigned Static_Filtered_compare_y_at_xC2_5::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_y_at_xC2_5::number_of_failures = 0;
 
 double Static_Filtered_compare_y_at_xC2_7::_epsilon_0;
 double Static_Filtered_compare_y_at_xC2_7::_epsilon_1;
 double Static_Filtered_compare_y_at_xC2_7::_epsilon_2;
 double Static_Filtered_compare_y_at_xC2_7::_bound = -1.0;
 
-unsigned Static_Filtered_compare_y_at_xC2_7::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_y_at_xC2_7::number_of_failures = 0;
-
 double Static_Filtered_compare_y_at_xC2_9::_epsilon_0;
 double Static_Filtered_compare_y_at_xC2_9::_epsilon_1;
 double Static_Filtered_compare_y_at_xC2_9::_epsilon_2;
 double Static_Filtered_compare_y_at_xC2_9::_bound = -1.0;
-
-unsigned Static_Filtered_compare_y_at_xC2_9::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_y_at_xC2_9::number_of_failures = 0;
 
 double Static_Filtered_compare_y_at_xC2_12::_epsilon_0;
 double Static_Filtered_compare_y_at_xC2_12::_epsilon_1;
@@ -121,9 +93,7 @@ double Static_Filtered_compare_y_at_xC2_12::_epsilon_2;
 double Static_Filtered_compare_y_at_xC2_12::_epsilon_3;
 double Static_Filtered_compare_y_at_xC2_12::_bound = -1.0;
 
-unsigned Static_Filtered_compare_y_at_xC2_12::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_y_at_xC2_12::number_of_failures = 0;
+double Static_Filtered_compare_y_at_x_segment_C2_9::_bound = -1.0;
 
 double Static_Filtered_equal_directionC2_4::_epsilon_0;
 double Static_Filtered_equal_directionC2_4::_epsilon_1;
@@ -132,79 +102,57 @@ double Static_Filtered_equal_directionC2_4::_epsilon_3;
 double Static_Filtered_equal_directionC2_4::_epsilon_4;
 double Static_Filtered_equal_directionC2_4::_bound = -1.0;
 
-unsigned Static_Filtered_equal_directionC2_4::number_of_updates = 0;
+double Static_Filtered_compare_slopesC2_4::_epsilon_0;
+double Static_Filtered_compare_slopesC2_4::_epsilon_1;
+double Static_Filtered_compare_slopesC2_4::_epsilon_2;
+double Static_Filtered_compare_slopesC2_4::_epsilon_3;
+double Static_Filtered_compare_slopesC2_4::_epsilon_4;
+double Static_Filtered_compare_slopesC2_4::_epsilon_5;
+double Static_Filtered_compare_slopesC2_4::_bound = -1.0;
 
-unsigned Static_Filtered_equal_directionC2_4::number_of_failures = 0;
+double Static_Filtered_compare_slopesC2_8::_epsilon_0;
+double Static_Filtered_compare_slopesC2_8::_epsilon_1;
+double Static_Filtered_compare_slopesC2_8::_epsilon_2;
+double Static_Filtered_compare_slopesC2_8::_epsilon_3;
+double Static_Filtered_compare_slopesC2_8::_epsilon_4;
+double Static_Filtered_compare_slopesC2_8::_epsilon_5;
+double Static_Filtered_compare_slopesC2_8::_epsilon_6;
+double Static_Filtered_compare_slopesC2_8::_epsilon_7;
+double Static_Filtered_compare_slopesC2_8::_epsilon_8;
+double Static_Filtered_compare_slopesC2_8::_epsilon_9;
+double Static_Filtered_compare_slopesC2_8::_epsilon_10;
+double Static_Filtered_compare_slopesC2_8::_epsilon_11;
+double Static_Filtered_compare_slopesC2_8::_bound = -1.0;
 
 double Static_Filtered_compare_deltax_deltayC2_4::_epsilon_0;
 double Static_Filtered_compare_deltax_deltayC2_4::_bound = -1.0;
 
-unsigned Static_Filtered_compare_deltax_deltayC2_4::number_of_updates = 0;
-
-unsigned Static_Filtered_compare_deltax_deltayC2_4::number_of_failures = 0;
-
 double Static_Filtered_orientationC2_6::_epsilon_0;
 double Static_Filtered_orientationC2_6::_bound = -1.0;
-
-unsigned Static_Filtered_orientationC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_orientationC2_6::number_of_failures = 0;
 
 double Static_Filtered_angleC2_6::_epsilon_0;
 double Static_Filtered_angleC2_6::_bound = -1.0;
 
-unsigned Static_Filtered_angleC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_angleC2_6::number_of_failures = 0;
-
 double Static_Filtered_side_of_oriented_circleC2_8::_epsilon_0;
 double Static_Filtered_side_of_oriented_circleC2_8::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_oriented_circleC2_8::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_oriented_circleC2_8::number_of_failures = 0;
 
 double Static_Filtered_side_of_bounded_circleC2_8::_epsilon_0;
 double Static_Filtered_side_of_bounded_circleC2_8::_epsilon_1;
 double Static_Filtered_side_of_bounded_circleC2_8::_bound = -1.0;
 
-unsigned Static_Filtered_side_of_bounded_circleC2_8::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_bounded_circleC2_8::number_of_failures = 0;
-
 double Static_Filtered_side_of_bounded_circleC2_6::_epsilon_0;
 double Static_Filtered_side_of_bounded_circleC2_6::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_bounded_circleC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_bounded_circleC2_6::number_of_failures = 0;
 
 double Static_Filtered_cmp_dist_to_pointC2_6::_epsilon_0;
 double Static_Filtered_cmp_dist_to_pointC2_6::_bound = -1.0;
 
-unsigned Static_Filtered_cmp_dist_to_pointC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_dist_to_pointC2_6::number_of_failures = 0;
-
 double Static_Filtered_cmp_signed_dist_to_directionC2_6::_epsilon_0;
 double Static_Filtered_cmp_signed_dist_to_directionC2_6::_bound = -1.0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_directionC2_6::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_directionC2_6::number_of_failures = 0;
 
 double Static_Filtered_cmp_signed_dist_to_lineC2_8::_epsilon_0;
 double Static_Filtered_cmp_signed_dist_to_lineC2_8::_bound = -1.0;
 
-unsigned Static_Filtered_cmp_signed_dist_to_lineC2_8::number_of_updates = 0;
-
-unsigned Static_Filtered_cmp_signed_dist_to_lineC2_8::number_of_failures = 0;
-
 double Static_Filtered_side_of_oriented_lineC2_5::_epsilon_0;
 double Static_Filtered_side_of_oriented_lineC2_5::_bound = -1.0;
-
-unsigned Static_Filtered_side_of_oriented_lineC2_5::number_of_updates = 0;
-
-unsigned Static_Filtered_side_of_oriented_lineC2_5::number_of_failures = 0;
 
 #endif // CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC2_H_STATIC_INFO_H

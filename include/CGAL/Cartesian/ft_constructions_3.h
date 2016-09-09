@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/ft_constructions_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/03/20 12:08:55 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/01/23 17:59:13 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,7 +46,6 @@
 #ifndef CGAL_CARTESIAN_FT_CONSTRUCTIONS_3_H
 #define CGAL_CARTESIAN_FT_CONSTRUCTIONS_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/Cartesian/Point_3.h>
 #include <CGAL/Cartesian/Vector_3.h>
 #include <CGAL/Cartesian/Plane_3.h>
@@ -59,8 +56,8 @@ CGAL_BEGIN_NAMESPACE
 template < class R >
 inline
 typename R::FT
-squared_distance(const PointC3<R CGAL_CTAG> &p,
-                 const PointC3<R CGAL_CTAG> &q)
+squared_distance(const PointC3<R> &p,
+                 const PointC3<R> &q)
 {
   return squared_distanceC3(p.x(), p.y(), p.z(), q.x(), q.y(), q.z());
 }
@@ -68,8 +65,8 @@ squared_distance(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 typename R::FT
-scaled_distance_to_plane(const PlaneC3<R CGAL_CTAG> &h,
-                         const PointC3<R CGAL_CTAG> &p)
+scaled_distance_to_plane(const PlaneC3<R> &h,
+                         const PointC3<R> &p)
 {
   return scaled_distance_to_planeC3(h.a(), h.b(), h.c(), h.d(),
                                     p.x(), p.y(), p.z());
@@ -78,10 +75,10 @@ scaled_distance_to_plane(const PlaneC3<R CGAL_CTAG> &h,
 template < class R >
 inline
 typename R::FT
-scaled_distance_to_plane(const PointC3<R CGAL_CTAG> &hp,
-                         const PointC3<R CGAL_CTAG> &hq,
-                         const PointC3<R CGAL_CTAG> &hr,
-                         const PointC3<R CGAL_CTAG> &p)
+scaled_distance_to_plane(const PointC3<R> &hp,
+                         const PointC3<R> &hq,
+                         const PointC3<R> &hr,
+                         const PointC3<R> &p)
 {
   return scaled_distance_to_planeC3(hp.x(), hp.y(), hp.z(),
                                     hq.x(), hq.y(), hq.z(),
@@ -92,9 +89,9 @@ scaled_distance_to_plane(const PointC3<R CGAL_CTAG> &hp,
 template < class R >
 inline
 typename R::FT
-squared_radius(const PointC3<R CGAL_CTAG> &p,
-                     const PointC3<R CGAL_CTAG> &q,
-                     const PointC3<R CGAL_CTAG> &r)
+squared_radius(const PointC3<R> &p,
+                     const PointC3<R> &q,
+                     const PointC3<R> &r)
 {
   return squared_radiusC3(p.x(), p.y(), p.z(),
 	                  q.x(), q.y(), q.z(),
@@ -104,10 +101,10 @@ squared_radius(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 typename R::FT
-squared_radius(const PointC3<R CGAL_CTAG> &p,
-                     const PointC3<R CGAL_CTAG> &q,
-                     const PointC3<R CGAL_CTAG> &r,
-                     const PointC3<R CGAL_CTAG> &s)
+squared_radius(const PointC3<R> &p,
+                     const PointC3<R> &q,
+                     const PointC3<R> &r,
+                     const PointC3<R> &s)
 {
   return squared_radiusC3(p.x(), p.y(), p.z(),
 	                  q.x(), q.y(), q.z(),

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/kernel_to_kernel.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/21 20:56:28 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/04/22 23:43:29 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -50,6 +48,7 @@
 #define CGAL_KERNEL_TO_KERNEL_H
 
 #ifdef CGAL_USE_LEDA
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/leda_integer.h>
 #include <LEDA/rat_point.h>
 #endif
@@ -61,6 +60,8 @@ struct Cartesian_double_to_Homogeneous
 {
   typedef Point_2< Homogeneous< NumberType> >    Point2;
   typedef Segment_2< Homogeneous< NumberType> >  Segment;
+
+  Cartesian_double_to_Homogeneous() {}
 
   Point2
   operator()(  const Point_2<Cartesian<double> >& p) const
@@ -89,8 +90,12 @@ struct Cartesian_double_to_H_double_int
     leda_rat_point rt =  leda_point(s.target().x(), s.target().y());
 
     return Segment(
-      Point2(::to_double(rs.X()),::to_double(rs.Y()),::to_double(rs.W())),
-      Point2(::to_double(rt.X()),::to_double(rt.Y()),::to_double(rt.W())) );
+      Point2(CGAL_LEDA_SCOPE::to_double(rs.X()),
+             CGAL_LEDA_SCOPE::to_double(rs.Y()),
+             CGAL_LEDA_SCOPE::to_double(rs.W())),
+      Point2(CGAL_LEDA_SCOPE::to_double(rt.X()),
+             CGAL_LEDA_SCOPE::to_double(rt.Y()),
+             CGAL_LEDA_SCOPE::to_double(rt.W())) );
   }
 };
 
@@ -106,8 +111,12 @@ struct Cartesian_float_to_H_double_int
     leda_rat_point rt =  leda_point(s.target().x(), s.target().y());
 
     return Segment(
-      Point2(::to_double(rs.X()),::to_double(rs.Y()),::to_double(rs.W())),
-      Point2(::to_double(rt.X()),::to_double(rt.Y()),::to_double(rt.W())) );
+      Point2(CGAL_LEDA_SCOPE::to_double(rs.X()),
+             CGAL_LEDA_SCOPE::to_double(rs.Y()),
+             CGAL_LEDA_SCOPE::to_double(rs.W())),
+      Point2(CGAL_LEDA_SCOPE::to_double(rt.X()),
+             CGAL_LEDA_SCOPE::to_double(rt.Y()),
+             CGAL_LEDA_SCOPE::to_double(rt.W())) );
   }
 };
 #endif // CGAL_USE_LEDA

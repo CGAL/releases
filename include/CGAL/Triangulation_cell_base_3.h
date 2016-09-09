@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_cell_base_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.24 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.25 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
@@ -193,6 +191,7 @@ public:
   bool is_valid(bool, int ) const
     {return true;}
 
+  // Obsolete : it's redundant with the default constructor.
   void init() const
   {}
 

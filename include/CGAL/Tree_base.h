@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Tree_base.h
-// package       : SearchStructures (2.60)
+// package       : SearchStructures (2.68)
 // source        : include/CGAL/Tree_base.h 
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 2001/07/26 07:48:03 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2002/04/27 22:35:07 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
@@ -212,7 +210,7 @@ public:
 
   bool make_tree(typename std::list< C_Data>::iterator& beg, 
 		 typename std::list< C_Data>::iterator& end, 
-		 typename tbt::lit *dummy=0) 
+		 typename tbt::lit * =0) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
@@ -221,7 +219,7 @@ public:
 #ifdef stlvector
   bool make_tree(typename std::vector< C_Data>::iterator& beg, 
 		 typename std::vector< C_Data>::iterator& end, 
-		 typename tbt::vit *dummy=0) 
+		 typename tbt::vit * =0) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
@@ -241,7 +239,7 @@ public:
       window_query( 
        C_Window const &win, 
        std::back_insert_iterator< std::list< C_Data> > out,
-       typename tbt::lbit *dummy=0){
+       typename tbt::lbit * =0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -250,7 +248,7 @@ public:
   std::back_insert_iterator< std::vector< C_Data> >  
       window_query( C_Window const &win, 
 		    std::back_insert_iterator< std::vector< C_Data> > out, 
-                    typename tbt::vbit *dummy=0){
+                    typename tbt::vbit * =0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -274,14 +272,14 @@ public:
 #endif
    std::back_insert_iterator< std::list< C_Data> > enclosing_query( C_Window const &win, 
                                    std::back_insert_iterator< std::list< C_Data> > out,
-				   typename tbt::lbit *dummy=0){
+				   typename tbt::lbit * =0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
    std::back_insert_iterator< std::vector< C_Data> > enclosing_query( C_Window const &win, 
                                    std::back_insert_iterator< std::vector< C_Data> > out,
-				   typename tbt::vbit *dummy=0){
+				   typename tbt::vbit * =0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out); 
     return out;

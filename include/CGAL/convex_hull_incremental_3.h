@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/convex_hull_incremental_3.h
-// package       : Convex_hull_3 (2.28)
-// revision      : $Revision: 1.2 $ 
-// revision_date : $Date: 2001/07/18 15:48:01 $
+// package       : Convex_hull_3 (2.41)
+// revision      : $Revision: 1.3 $ 
+// revision_date : $Date: 2002/05/06 07:37:30 $
 // author(s)     : Stefan Schirra
 //               : Michael Seel
 // coordinator   : MPI, Saarbruecken
@@ -52,13 +50,13 @@
 #include <CGAL/Convex_hull_d_to_polyhedron_3.h>
 
 CGAL_BEGIN_NAMESPACE
-template <class InputIterator, class Polyhedron_3>
+template <class InputIterator, class Polyhedron>
 void
 convex_hull_incremental_3(InputIterator first, InputIterator beyond, 
-                                     Polyhedron_3& P, 
+                                     Polyhedron& P, 
                                      bool test_correctness = false)
 {
-  typedef typename Polyhedron_3::Traits       PolyTraits;
+  typedef typename Polyhedron::Traits       PolyTraits;
   typedef typename PolyTraits::Kernel         K;
   typedef Convex_hull_d_traits_3<K>           ChullTraits;
   typedef Convex_hull_d< ChullTraits >        ChullType;

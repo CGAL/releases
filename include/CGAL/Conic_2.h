@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Conic_2.h
-// package       : Min_ellipse_2 (3.14)
+// package       : Min_ellipse_2 (3.19)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Conic_2.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/17 12:51:06 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/01/23 11:25:03 $
 //
 // author(s)     : Bernd Gärtner, Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -53,25 +51,11 @@
 #ifndef CGAL_CONIC_2_H
 #define CGAL_CONIC_2_H
 
-#ifndef CGAL_REP_CLASS_DEFINED
-#  error  no representation class defined
-#endif // CGAL_REP_CLASS_DEFINED
-
-#ifdef CGAL_HOMOGENEOUS_H
-#  include <CGAL/ConicHPA2.h>
-#endif
-
-#ifdef CGAL_CARTESIAN_H
-#  include <CGAL/ConicCPA2.h>
-#endif
-
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
-
 #ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 #include <CGAL/IO/forward_decl_window_stream.h>
 #endif
+
+#include <CGAL/Conic_misc.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -79,6 +63,8 @@ template < class _R >
 class Optimisation_ellipse_2;
 
 CGAL_END_NAMESPACE
+
+// Why is this outside namespace CGAL ???
 
 template < class _R >
 CGAL::Window_stream&
@@ -88,7 +74,7 @@ operator << ( CGAL::Window_stream&,
 CGAL_BEGIN_NAMESPACE
 
 template < class _R>
-class Conic_2 : public _R::Conic_2 {
+class Conic_2 : public _R::Kernel_base::Conic_2 {
 
     friend  class Optimisation_ellipse_2<_R>;
 
@@ -98,14 +84,14 @@ class Conic_2 : public _R::Conic_2 {
     typedef  _R                    R;
     typedef  typename _R::RT       RT;
     typedef  typename _R::FT       FT;
-    typedef  typename _R::Conic_2  _Conic_2;
+    typedef  typename _R::Kernel_base::Conic_2  _Conic_2;
 
     // construction
     Conic_2 ()
     {}
     
     Conic_2 (RT r, RT s, RT t, RT u, RT v, RT w)
-        : R::Conic_2 (r, s, t, u, v, w)
+        : _Conic_2 (r, s, t, u, v, w)
     {}
     
     

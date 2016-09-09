@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Partition_traits_2_base.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/06 17:04:43 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/03/24 12:49:47 $
 //
 // author(s)     : Susan Hert
 //
@@ -59,22 +57,22 @@
 
 namespace CGAL {
 
-template <class R_>
+template <class Kernel_>
 class Partition_traits_2_base
 {
+  private:
+    typedef Kernel_                                 Kernel;
   public:
-    typedef R_                                      R;
-    typedef CGAL::Polygon_traits_2<R>               Poly_Traits;
+    typedef CGAL::Polygon_traits_2<Kernel>          Poly_Traits;
     typedef typename Poly_Traits::Point_2           Point_2;
     typedef ::std::list<Point_2>                    Container;
     typedef CGAL::Polygon_2<Poly_Traits, Container> Polygon_2;
-    typedef typename R::Less_yx_2                   Less_yx_2;
-    typedef typename R::Less_xy_2                   Less_xy_2;
-    typedef typename R::Leftturn_2                  Leftturn_2;
-    typedef typename R::Orientation_2               Orientation_2;
-    typedef typename R::Compare_y_2                 Compare_y_2;
-    typedef typename R::Compare_x_2                 Compare_x_2;
-
+    typedef typename Kernel::Less_yx_2              Less_yx_2;
+    typedef typename Kernel::Less_xy_2              Less_xy_2;
+    typedef typename Kernel::Leftturn_2             Leftturn_2;
+    typedef typename Kernel::Orientation_2          Orientation_2;
+    typedef typename Kernel::Compare_y_2            Compare_y_2;
+    typedef typename Kernel::Compare_x_2            Compare_x_2;
 
     Less_yx_2
     less_yx_2_object() const

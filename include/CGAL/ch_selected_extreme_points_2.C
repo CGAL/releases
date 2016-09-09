@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,11 +27,11 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.C
-// package       : Convex_hull_2 (3.21)
+// package       : Convex_hull_2 (3.34)
 // source        : convex_hull_2.lw
 // revision      : 3.3
 // revision_date : 03 Aug 2000
@@ -52,6 +50,10 @@
 #ifndef CGAL_CH_SELECTED_EXTREME_POINTS_2_H
 #include <CGAL/ch_selected_extreme_points_2.h>
 #endif // CGAL_CH_SELECTED_EXTREME_POINTS_2_H
+
+#ifndef CH_NO_POSTCONDITIONS
+#include <CGAL/convexity_check_2.h>
+#endif // CH_NO_POSTCONDITIONS
 
 CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class Traits>

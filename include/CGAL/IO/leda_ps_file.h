@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/IO/leda_ps_file.h
-// package       : window (2.8.10)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:57:22 $
+// package       : window (2.8.27)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/03/20 15:47:55 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -46,10 +44,11 @@
 //
 // ======================================================================
  
-
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/IO/Postscript_file_stream.h>
 CGAL_BEGIN_NAMESPACE
 
 typedef Postscript_file_stream    ps_file;
+
 CGAL_END_NAMESPACE
 

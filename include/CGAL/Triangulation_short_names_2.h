@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_short_names_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Triangulation_short_names_2.h,v $
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2000/02/10 17:50:45 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/04/11 07:23:42 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -53,16 +51,16 @@
 
 //Define shorter names to please linker (g++/egcs)
 
-#define Triangulation_default_data_structure_2 Tdds
-#define Triangulation_data_structure_using_list_2 Tdsul
+// for backward compatibilite
+#define Triangulation_default_data_structure_2 TDDS
+#define Triangulation_data_structure_using_list_2 TDSUL
+#define Triangulation_data_structure_2 TDS
 #define Triangulation_vertex_base_2  Tvb
 #define Triangulation_face_base_2  Tfb
 #define Triangulation_euclidean_traits_2 Et2
 #define Triangulation_euclidean_traits_xy_3 Etxy3
 #define Triangulation_euclidean_traits_xz_3 Etxz3
 #define Triangulation_euclidean_traits_yz_3 Etyz3
-
-
 
 #define Triangulation_ds_vertex_2             Tdsv
 #define Triangulation_ds_face_2               Tdsf
@@ -88,7 +86,5 @@
 #define Constrained_triangulation_face_base_2  Ctfb
 #define Regular_triangulation_euclidean_traits_2 Rtet2
 #define Regular_triangulation_face_base_2  Rtfb
-
-
 
 #endif //CGAL_TRIANGULATION_SHORT_NAMES_2_H

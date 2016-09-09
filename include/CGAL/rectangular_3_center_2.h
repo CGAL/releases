@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/rectangular_3_center_2.h
-// package       : Matrix_search (1.49)
+// package       : Matrix_search (1.54)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : 3cover.aw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/12 07:17:56 $
+// revision      : $Revision: 1.32 $
+// revision_date : $Date: 2002/03/25 15:04:58 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -361,7 +359,7 @@ struct Rectangular_3_center_2_type2_operations0
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
       Point bpt = constraint_empty ? first_uncovered :
       minx()(first_uncovered, v(constraint, 0));
       return v(rect(bpt, v(bbox, 2)), 3);
@@ -379,7 +377,7 @@ struct Rectangular_3_center_2_type2_operations0
     {
       Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
       Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
       Point bpt = constraint_empty ? v(bbox, 2) : v(constraint, 0);
       return v(rect(bpt, v(bbox, 2)), 3);
   #else
@@ -407,7 +405,7 @@ struct Rectangular_3_center_2_type2_operations0
     {
       Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
       Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
       Point bpt = constraint_empty ? first_uncovered :
       miny()(first_uncovered, v(constraint, 0));
       return v(rect(v(bbox, 2), bpt), 1);
@@ -425,7 +423,7 @@ struct Rectangular_3_center_2_type2_operations0
     {
       Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
       Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
       Point bpt = constraint_empty ? v(bbox, 2) : v(constraint, 0);
       return v(rect(v(bbox, 2), bpt), 1);
   #else
@@ -509,7 +507,7 @@ struct Rectangular_3_center_2_type2_operations1
   {
       Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
       Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     maxx()(first_uncovered, v(constraint, 2));
     return v(rect(bpt, v(bbox, 3)), 2);
@@ -527,7 +525,7 @@ struct Rectangular_3_center_2_type2_operations1
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 0) : v(constraint, 2);
     return v(rect(bpt, v(bbox, 3)), 2);
   #else
@@ -556,7 +554,7 @@ struct Rectangular_3_center_2_type2_operations1
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     miny()(first_uncovered, v(constraint, 0));
     return v(rect(v(bbox, 3), bpt), 0);
@@ -574,7 +572,7 @@ struct Rectangular_3_center_2_type2_operations1
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 2) : v(constraint, 0);
     return v(rect(v(bbox, 3), bpt), 0);
   #else
@@ -655,7 +653,7 @@ struct Rectangular_3_center_2_type2_operations2
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     maxx()(first_uncovered, v(constraint, 2));
     return v(rect(bpt, v(bbox, 0)), 1);
@@ -673,7 +671,7 @@ struct Rectangular_3_center_2_type2_operations2
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 0) : v(constraint, 2);
     return v(rect(bpt, v(bbox, 0)), 1);
   #else
@@ -702,7 +700,7 @@ struct Rectangular_3_center_2_type2_operations2
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     maxy()(first_uncovered, v(constraint, 2));
     return v(rect(v(bbox, 0), bpt), 3);
@@ -720,7 +718,7 @@ struct Rectangular_3_center_2_type2_operations2
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 0) : v(constraint, 2);
     return v(rect(v(bbox, 0), bpt), 3);
   #else
@@ -801,7 +799,7 @@ struct Rectangular_3_center_2_type2_operations3
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     minx()(first_uncovered, v(constraint, 0));
     return v(rect(bpt, v(bbox, 1)), 0);
@@ -819,7 +817,7 @@ struct Rectangular_3_center_2_type2_operations3
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 2) : v(constraint, 0);
     return v(rect(bpt, v(bbox, 1)), 0);
   #else
@@ -848,7 +846,7 @@ struct Rectangular_3_center_2_type2_operations3
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? first_uncovered :
     maxy()(first_uncovered, v(constraint, 2));
     return v(rect(v(bbox, 1), bpt), 2);
@@ -866,7 +864,7 @@ struct Rectangular_3_center_2_type2_operations3
   {
     Construct_iso_rectangle_2 rect = construct_iso_rectangle_2_object();
     Construct_vertex_2        v    = construct_vertex_2_object();
-  #ifdef __BORLANDC__
+  #if defined(__BORLANDC__) || defined(__SUNPRO_CC)
     Point bpt = constraint_empty ? v(bbox, 0) : v(constraint, 2);
     return v(rect(v(bbox, 1), bpt), 2);
   #else
@@ -958,10 +956,13 @@ rectangular_3_center_2_type2(
   typedef pair< RandomAccessIterator, RandomAccessIterator >  IP;
 
   typename Operations::Construct_iso_rectangle_2
-  rect  = op.construct_iso_rectangle_2_object();
+  rect = op.construct_iso_rectangle_2_object();
 
   typename Operations::Construct_vertex_2
   v = op.construct_vertex_2_object();
+
+  typename Operations::Less_x_2 less_x_2 = op.less_x_2_object();
+  typename Operations::Less_y_2 less_y_2 = op.less_y_2_object();
 
   // constant fraction to be excluded on every iteration (1/.)
   const unsigned int fraction = 7;
@@ -1160,16 +1161,25 @@ rectangular_3_center_2_type2(
     CGAL_optimisation_assertion(b1 - (m + 1) >= 5 * cutoff);
 
     // compute the four cutting lines for R
-    nth_element(m + 1, m + 1 + cutoff, b1, op.less_x_2_object());
+    nth_element(m + 1, m + 1 + cutoff, b1, less_x_2);
     Point x_min_cutoff = *(m + 1 + cutoff);
     nth_element(m + 1, m + 1 + cutoff, b1, op.greater_x_2_object());
     Point x_max_cutoff = *(m + 1 + cutoff);
-    nth_element(m + 1, m + 1 + cutoff, b1, op.less_y_2_object());
+    nth_element(m + 1, m + 1 + cutoff, b1, less_y_2);
     Point y_min_cutoff = *(m + 1 + cutoff);
     nth_element(m + 1, m + 1 + cutoff, b1, op.greater_y_2_object());
     Point y_max_cutoff = *(m + 1 + cutoff);
-    Rectangle B = rect(v(rect(x_min_cutoff, y_min_cutoff), 0),
-                       v(rect(x_max_cutoff, y_max_cutoff), 2));
+
+    Point Pmin = v(rect(x_min_cutoff, y_min_cutoff),
+                   less_x_2(x_min_cutoff, y_min_cutoff) ?
+                   less_y_2(x_min_cutoff, y_min_cutoff) ? 3 : 0
+                   : less_y_2(x_min_cutoff, y_min_cutoff) ? 2 : 1);
+    Point Pmax = v(rect(x_max_cutoff, y_max_cutoff),
+                   less_x_2(x_max_cutoff, y_max_cutoff) ?
+                   less_y_2(x_max_cutoff, y_max_cutoff) ? 1 : 2
+                   : less_y_2(x_max_cutoff, y_max_cutoff) ? 0 : 3);
+
+    Rectangle B = rect(Pmin, Pmax);
 
     // Algorithm search_E:
 
@@ -1580,7 +1590,6 @@ CGAL_END_NAMESPACE
 #endif // _MSC_VER
 
 #endif // ! (CGAL_RECTANGULAR_3_CENTER_2_H)
-
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Topological_map.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -77,24 +75,22 @@ public:
   
   typedef typename Dcel::iterator_category      iterator_category;
 
-  //These were taken from Lutz's polyhedron probably I'll need them too  
-#ifndef __SUNPRO_CC 
-//in SunPro protected members are not reachable from nested classes
-protected:
-#endif
   // These extra (internal) typedefs are necessary to make
   // SunPro CC 4.2 happy. (And they are used.)
   typedef typename  Dcel::Vertex_iterator          TR_VI;
   typedef typename  Dcel::Vertex_const_iterator    TR_C_VI;
+
   typedef typename  Dcel::Halfedge_iterator        TR_HI;
   typedef typename  Dcel::Halfedge_const_iterator  TR_C_HI;
+
+  typedef typename  Dcel::Edge_iterator        TR_EI;
+  typedef typename  Dcel::Edge_const_iterator  TR_C_EI;
 
   typedef typename  Dcel::Face_iterator           TR_FI;
   typedef typename  Dcel::Face_const_iterator     TR_C_FI;
     
   typedef typename Dcel::Face::Holes_iterator TR_HOI;
   typedef typename Dcel::Face::Holes_const_iterator TR_C_HOI;
-
 
 public:
   class Vertex;
@@ -121,12 +117,20 @@ public:
   Halfedge,
   Difference, iterator_category>       Halfedge_iterator;
   
-#ifndef __SUNPRO_CC
   typedef _Polyhedron_const_iterator<
   TR_C_HI, TR_HI,
   Halfedge,
   Difference, iterator_category>       Halfedge_const_iterator;
-#endif // __SUNPRO_CC //
+
+  typedef _Polyhedron_iterator<
+  TR_EI,
+  Halfedge,
+  Difference, iterator_category>       Edge_iterator;
+  
+  typedef _Polyhedron_const_iterator<
+  TR_C_EI, TR_EI,
+  Halfedge,
+  Difference, iterator_category>       Edge_const_iterator;
   
   typedef _Polyhedron_iterator<
   TR_FI,
@@ -138,7 +142,6 @@ public:
   Face,
   Difference, iterator_category>       Face_const_iterator;
 
-
   typedef _Polyhedron_facet_circ<
   Halfedge,
   Halfedge_iterator,
@@ -149,30 +152,15 @@ public:
   Halfedge_iterator,
   Forward_circulator_tag>            Halfedge_around_vertex_circulator;
 
-
-#ifdef __SUNPRO_CC
-  typedef _Polyhedron_halfedge_const_iterator<
-  TR_C_HI, TR_HI,
-  Ccb_halfedge_circulator,
-  Halfedge_around_vertex_circulator,
-  Halfedge,
-  Difference, iterator_category>       Halfedge_const_iterator;
-#endif // __SUNPRO_CC //
- 
-  
   typedef _Polyhedron_facet_const_circ<
   Halfedge,
   Halfedge_const_iterator,
   Forward_circulator_tag>       Ccb_halfedge_const_circulator;
   
-  
   typedef _Polyhedron_vertex_const_circ<
   Halfedge,
   Halfedge_const_iterator,
   Forward_circulator_tag>      Halfedge_around_vertex_const_circulator;
-
-
-
 
   typedef _Polyhedron_iterator<
   TR_HOI,
@@ -274,7 +262,7 @@ public:
     void set_halfedge(Halfedge* h) {Base::set_halfedge(h);}
     
   };
-  
+
   /**************************************************************/
   /**************************************************************/
   /********************* Halfedge *******************************/
@@ -376,7 +364,7 @@ public:
     void  set_face( Face* face)      { Base::set_face(face);}
      
     };
-  
+
   /**************************************************************/
   /**************************************************************/
   /********************* F a c e ********************************/
@@ -389,9 +377,9 @@ public:
 
 #ifndef _MSC_VER
     // the following two typedefs are needed for compilation on irix64 (CC7.30)
-    typedef Topological_map<Dcel>::Holes_iterator 
+    typedef typename Topological_map<Dcel>::Holes_iterator 
     Holes_iterator; 
-    typedef Topological_map<Dcel>::Holes_const_iterator 
+    typedef typename Topological_map<Dcel>::Holes_const_iterator 
     Holes_const_iterator; 
 #endif
     
@@ -416,6 +404,7 @@ public:
     {
       return TR_HOI(Base::holes_begin());
     }
+
     Holes_const_iterator holes_begin() const
     {
       return TR_C_HOI(Base::holes_begin()); 
@@ -492,7 +481,7 @@ public:
     void add_hole(Halfedge* h) {Base::add_hole(h);}
 
   };
-  
+
 
   /**************************************************************/
   /**************************************************************/
@@ -593,6 +582,26 @@ public:
   Halfedge_const_iterator halfedges_end() const
   { 
     return TR_C_HI(d.halfedges_end()); 
+  }
+
+  Edge_iterator edges_begin() 
+  {
+    return TR_EI(d.edges_begin()); 
+  }
+  
+  Edge_const_iterator edges_begin() const
+  {
+    return TR_C_EI(d.edges_begin()); 
+  }
+  
+  Edge_iterator edges_end() 
+  { 
+    return TR_EI(d.edges_end()); 
+  }
+
+  Edge_const_iterator edges_end() const
+  { 
+    return TR_C_EI(d.edges_end()); 
   }
   
   Vertex_iterator vertices_begin() 
@@ -889,7 +898,7 @@ bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e,
 //prev1->target() is v1
 
 template<class Dcel>
-Topological_map<Dcel>::Halfedge_handle
+typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
 insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)  
 {
@@ -1027,7 +1036,7 @@ move_hole(Holes_iterator e, Face_handle f1, Face_handle f2)
 
 //returns halfedge which is previous->next
 template<class Dcel>
-Topological_map<Dcel>::Halfedge_handle
+typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
 insert_from_vertex(Halfedge_handle previous)
 {
@@ -1059,7 +1068,7 @@ insert_from_vertex(Halfedge_handle previous)
 
 
 template<class Dcel>
-Topological_map<Dcel>::Halfedge_handle
+typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
 insert_in_face_interior(Face_handle f)
 {
@@ -1089,7 +1098,7 @@ insert_in_face_interior(Face_handle f)
 
 
 template<class Dcel>
-Topological_map<Dcel>::Halfedge_handle
+typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
 split_edge (Halfedge_handle e)
 {
@@ -1131,7 +1140,7 @@ split_edge (Halfedge_handle e)
 }
 
 template<class Dcel>
-Topological_map<Dcel>::Halfedge_handle
+typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
 merge_edge (Halfedge_handle e1, Halfedge_handle e2) 
 {
@@ -1189,7 +1198,7 @@ merge_edge (Halfedge_handle e1, Halfedge_handle e2)
 
 
 template<class Dcel>
-Topological_map<Dcel>::Face_handle
+typename Topological_map<Dcel>::Face_handle
 Topological_map<Dcel>::
 remove_edge(Halfedge_handle e)
 {
@@ -1481,24 +1490,7 @@ remove_edge(Halfedge_handle e)
   } //case b. (face deleted)
 }
 
- 
-
 CGAL_END_NAMESPACE
 
-#else   
-#error  Header file .h included twice
-#endif  
-
-/*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
- *     
- * 
-\*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*/
-
-
-
-
-
-
-
-
-
+#endif  // CGAL_TOPOLOGICAL_MAP_H
+// EOF

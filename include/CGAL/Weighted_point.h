@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Weighted_point.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Weighted_point.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/07/05 14:57:52 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/01/24 15:05:20 $
 // author(s)     : Mariette Yvinec
 //                 Sylvain Pion
 //
@@ -59,7 +57,7 @@ class Weighted_point : public Pt
 public:
   typedef We Weight;
   typedef Pt Point;
-  typedef typename Point::RT RT;
+  //typedef typename Point::RT RT;
 
   Weighted_point (const Point &p=Point(), const Weight &w = Weight(0))
       : Point(p), _weight(w) {}

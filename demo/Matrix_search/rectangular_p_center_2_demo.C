@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : rectangular_p_center_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : pcenter.aw
-// revision      : $Revision: 1.47 $
-// revision_date : $Date: 2001/07/12 07:17:46 $
+// revision      : $Revision: 1.52 $
+// revision_date : $Date: 2002/03/25 15:04:50 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -111,16 +109,16 @@ using CGAL::GREEN;
 #ifdef CGAL_CFG_NO_NAMESPACE
 template < class P,
            class Creator =
-           CGAL_STD::Creator_uniform_2< typename P::FT, P > >
+           CGAL_STD::Creator_uniform_2< typename P::R::FT, P > >
 class Random_p_clusters_2 : public CGAL_STD::Random_generator_base< P > {
 #else
 template < class P,
            class Creator =
-           CGAL::Creator_uniform_2< CGAL_TYPENAME_MSVC_NULL P::FT, P > >
+           CGAL::Creator_uniform_2< CGAL_TYPENAME_MSVC_NULL P::R::FT, P > >
 class Random_p_clusters_2 : public CGAL::Random_generator_base< P > {
 #endif // CGAL_CFG_NO_NAMESPACE
   void generate_point() {
-    typedef typename P::FT FT;
+    typedef typename P::R::FT FT;
     double p = _rnd.get_double();
     Creator creator;
     if (p <= 1.0 / n)
@@ -363,7 +361,7 @@ main(int argc, char* argv[])
            << " and " << number_of_piercing_points
            << " points." << endl;
 #ifdef CGAL_PCENTER_CHECK
-      CGAL::Infinity_distance_2< K > dist;
+      CGAL::I_Infinity_distance_2< K > dist;
       for (iterator i = input_points.begin(); i != input_points.end(); ++i) {
         iterator j = centers.begin();
         do {
@@ -409,8 +407,8 @@ main(int argc, char* argv[])
 #ifdef CGAL_PCENTER_CHECK
       // check that there is at least one square with two points
       // on opposite sides
-      CGAL::Signed_x_distance_2< K > xdist;
-      CGAL::Signed_y_distance_2< K > ydist;
+      CGAL::I_Signed_x_distance_2< K > xdist;
+      CGAL::I_Signed_y_distance_2< K > ydist;
       bool boundary = false;
       for (iterator i = centers.begin(); i != centers.end(); ++i) {
         int left = 0, right = 0, bottom = 0, top = 0;

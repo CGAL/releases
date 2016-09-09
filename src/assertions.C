@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : src/assertions.C
-// package       : Kernel_basic (3.53)
+// package       : Kernel_basic (3.90)
 // author(s)     : Geert-Jan Giezeman and Sven Schönherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -125,11 +123,11 @@ assertion_fail( const char* expr,
     (*_error_handler)("assertion", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        abort();
+        CGAL_CLIB_STD::abort();
     case EXIT:
-        exit(1);  // EXIT_FAILURE
+        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        exit(0);  // EXIT_SUCCESS
+        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
         ;
     }
@@ -144,11 +142,11 @@ precondition_fail( const char* expr,
     (*_error_handler)("precondition", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        abort();
+        CGAL_CLIB_STD::abort();
     case EXIT:
-        exit(1);  // EXIT_FAILURE
+        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        exit(0);  // EXIT_SUCCESS
+        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
         ;
     }
@@ -163,11 +161,11 @@ postcondition_fail(const char* expr,
     (*_error_handler)("postcondition", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        abort();
+        CGAL_CLIB_STD::abort();
     case EXIT:
-        exit(1);  // EXIT_FAILURE
+        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        exit(0);  // EXIT_SUCCESS
+        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
         ;
     }
@@ -185,11 +183,11 @@ warning_fail( const char* expr,
     (*_warning_handler)("warning", expr, file, line, msg);
     switch (_warning_behaviour) {
     case ABORT:
-        abort();
+        CGAL_CLIB_STD::abort();
     case EXIT:
-        exit(1);  // EXIT_FAILURE
+        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        exit(0);  // EXIT_SUCCESS
+        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
         ;
     }

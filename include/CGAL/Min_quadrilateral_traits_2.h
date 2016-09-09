@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Min_quadrilateral_traits_2.h
-// package       : Min_quadrilateral_2 (1.18)
+// package       : Min_quadrilateral_2 (1.21)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : oops.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/06 14:00:02 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/03/22 09:48:18 $
 // author(s)     : Michael Hoffmann and
 //                 Emo Welzl
 //
@@ -136,22 +134,9 @@ struct Min_quadrilateral_default_traits_2 {
   // Predicates
   typedef typename R::Equal_2                Equal_2;
   // std::equal_to< Point_2 >                Equal_2;
-  typedef typename R::Less_x_2               Less_x_2;
-  typedef typename R::Less_y_2               Less_y_2;
-      struct Greater_x_2
-      : public CGAL_STD::binary_function< Point_2, Point_2, bool >
-      {
-        bool
-        operator()(const Point_2& p, const Point_2& q) const
-        { return p.x() > q.x(); }
-      };
-  struct Greater_y_2
-  : public CGAL_STD::binary_function< Point_2, Point_2, bool >
-  {
-    bool
-    operator()(const Point_2& p, const Point_2& q) const
-    { return p.y() > q.y(); }
-  };
+  typedef typename R::Less_xy_2              Less_xy_2;
+  typedef typename R::Less_yx_2              Less_yx_2;
+
   struct Right_of_implicit_line_2
   {
     bool
@@ -205,6 +190,11 @@ struct Min_quadrilateral_default_traits_2 {
     operator()(const Rectangle_2& p, const Rectangle_2& q) const
     {
       typename R::Rep_tag tag;
+      #if defined(__sun) && defined(__SUNPRO_CC)
+          // to avoid a warning "tag has not yet been assigned a value"
+          typedef typename R::Rep_tag Rep_tag;
+          tag = Rep_tag();
+      #endif // SUNPRO
       return area_numerator(p, tag) * area_denominator(q, tag) <
         area_denominator(p, tag) * area_numerator(q, tag);
     }
@@ -249,6 +239,11 @@ struct Min_quadrilateral_default_traits_2 {
     operator()(const Parallelogram_2& p, const Parallelogram_2& q) const
     {
       typename R::Rep_tag tag;
+      #if defined(__sun) && defined(__SUNPRO_CC)
+          // to avoid a warning "tag has not yet been assigned a value"
+          typedef typename R::Rep_tag Rep_tag;
+          tag = Rep_tag();
+      #endif // SUNPRO
       return area_numerator(p, tag) * area_denominator(q, tag) <
         area_denominator(p, tag) * area_numerator(q, tag);
     }
@@ -286,6 +281,11 @@ struct Min_quadrilateral_default_traits_2 {
     operator()(const Strip_2& p, const Strip_2& q) const
     {
       typename R::Rep_tag tag;
+      #if defined(__sun) && defined(__SUNPRO_CC)
+          // to avoid a warning "tag has not yet been assigned a value"
+          typedef typename R::Rep_tag Rep_tag;
+          tag = Rep_tag();
+      #endif // SUNPRO
       return width_numerator(p, tag) * width_denominator(q, tag) <
         width_denominator(p, tag) * width_numerator(q, tag);
     }
@@ -421,10 +421,8 @@ struct Min_quadrilateral_default_traits_2 {
   } 
 
   Equal_2     equal_2_object()     const { return Equal_2(); }
-  Less_x_2    less_x_2_object()    const { return Less_x_2(); }
-  Less_y_2    less_y_2_object()    const { return Less_y_2(); }
-  Greater_x_2 greater_x_2_object() const { return Greater_x_2(); }
-  Greater_y_2 greater_y_2_object() const { return Greater_y_2(); }
+  Less_xy_2    less_xy_2_object()    const { return Less_xy_2(); }
+  Less_yx_2    less_yx_2_object()    const { return Less_yx_2(); }
   
   Right_of_implicit_line_2 right_of_implicit_line_2_object() const
   { return Right_of_implicit_line_2(); }
@@ -456,6 +454,7 @@ struct Min_quadrilateral_default_traits_2 {
   
   Construct_strip_2 construct_strip_2_object() const
   { return Construct_strip_2(); }
+
 };
 
 

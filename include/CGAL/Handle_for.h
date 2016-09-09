@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2001 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Handle_for.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:54:31 $
-// author(s)     : Stefan Schirra
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2002/01/04 14:07:53 $
+// author(s)     : Stefan Schirra, Sylvain Pion
 //
-//
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,126 +46,169 @@
 
 #ifndef CGAL_HANDLE_FOR_H
 #define CGAL_HANDLE_FOR_H
+
 #include <CGAL/memory.h>
 
-namespace CGAL {
+CGAL_BEGIN_NAMESPACE
 
+struct Ref_counted {}; // For backward compatibility.  It's obsolete.
 
-template <class RefCounted, class Allocator> class Handle_for;
-class Object;
-
-
-class Ref_counted
+template <class U>
+struct Ref_counted2
 {
-  public:
-    Ref_counted() : count(1) {}
-    Ref_counted(const Ref_counted&) : count(1) {}
+    Ref_counted2(const U& u) : count(1), u_(u)  {}
+    Ref_counted2(const Ref_counted2& r) : count(1), u_(r.u()) {}
 
-    void  add_reference() { ++count; }
-    void  remove_reference() { --count; }
-    bool  is_referenced() { return (count != 0); }
-    bool  is_shared() { return (count > 1); }
+    U* base_ptr() { return &u_; }
 
-  friend class Object;
+#ifdef CGAL_USE_LEDA
+    // Speeds things up with LEDA and New_delete_allocator<>.
+    LEDA_MEMORY(Ref_counted2)
+#endif
 
-  protected:
+    void add_reference() { ++count; }
+    void remove_reference() { --count; }
+    bool is_shared() const { return count > 1; }
+
+private:
+
+    const U& u() const { return u_; }
+
     unsigned int count;
+    U u_;
 };
 
 
-template <class RefCounted,
-          class Allocator = CGAL_ALLOCATOR(RefCounted) >
-// RefCounted must provide
-// add_reference()
-// remove_reference()
-// bool is_referenced()
-// bool is_shared()
-// and initialize count to 1 in default and copy constructor
+template <class T, class Alloc = CGAL_ALLOCATOR(T) >
 class Handle_for
 {
+    typedef Ref_counted2<T>                                     RefCounted;
+
+#ifndef CGAL_CFG_NO_NESTED_TEMPLATE_KEYWORD
+    typedef typename Alloc::template rebind<RefCounted>::other  Allocator;
   public:
+#else
+  public:
+    // For VC++, we must hardcode the default allocator.
+    typedef CGAL_ALLOCATOR(RefCounted)                          Allocator;
+#endif
 
-    typedef RefCounted element_type;
-
-    Handle_for(const RefCounted& rc)
-    {
-      ptr = allocator.allocate(1);
-      allocator.construct(ptr, rc);
-    }
+    typedef T element_type;
 
     Handle_for()
     {
-      ptr = allocator.allocate(1);
+        ptr_ = allocator.allocate(1);
+	initialize_with(T());
     }
 
-    Handle_for( const Handle_for& h)
+    Handle_for(const T& t)
     {
-      ptr = h.ptr;
-      ptr->add_reference();
+        ptr_ = allocator.allocate(1);
+	initialize_with(t);
+    }
+
+    Handle_for(const Handle_for& h)
+    {
+        ptr_ = h.ptr_;
+        ptr_->add_reference();
     }
 
     ~Handle_for()
     {
-      ptr->remove_reference();
-      if ( !ptr->is_referenced() )
-      {
-        allocator.destroy( ptr);
-        allocator.deallocate( ptr, 1);
-      }
+	remove_reference();
     }
 
     Handle_for&
-    operator=( const Handle_for& h)
+    operator=(const Handle_for& h)
     {
-      h.ptr->add_reference();
-      ptr->remove_reference();
-      if ( !ptr->is_referenced() )
-      {
-        allocator.destroy( ptr);
-        allocator.deallocate( ptr, 1);
-      }
-      ptr = h.ptr;
-      return *this;
+        h.ptr_->add_reference();
+	remove_reference();
+        ptr_ = h.ptr_;
+        return *this;
     }
 
+// protected:
+
     void
-    initialize_with( const RefCounted& rc)
+    initialize_with(const T& t)
     {
-      allocator.construct(ptr, rc);
+        allocator.construct(ptr_, RefCounted(t));
     }
+
+    bool
+    identical(const Handle_for& h) const
+    { return ptr_ == h.ptr_; }
+
+    long int
+    id() const
+    { return reinterpret_cast<long int>(&*ptr_); }
+
+    // Ptr() is the "public" access to the pointer.  Both const and non-const.
+    // non-const does copy-on-write.
+    const T *
+    Ptr() const
+    { return ptr_->base_ptr(); }
+
+    /*
+    T *
+    Ptr()
+    {
+	copy_on_write();
+	return ptr_;
+    }
+    */
+
+    bool
+    is_shared() const
+    {
+	return ptr_->is_shared();
+    }
+
+protected:
 
     void
     copy_on_write()
     {
-      if ( ptr->is_shared() )
+      if ( is_shared() )
       {
         RefCounted* tmp_ptr = allocator.allocate(1);
-        allocator.construct( tmp_ptr, *ptr);
-        ptr->remove_reference();
-        ptr = tmp_ptr;
+        allocator.construct( tmp_ptr, *ptr_);
+        ptr_->remove_reference();
+        ptr_ = tmp_ptr;
       }
     }
 
-    bool
-    identical( const Handle_for& h) const
-    { return ptr == h.ptr; }
+    // ptr() is the protected access to the pointer.  Both const and non-const.
+    T *
+    ptr()
+    { return ptr_->base_ptr(); }
 
-    long int
-    id() const
-    { return reinterpret_cast<long int>( &(*ptr)); }
+    const T *
+    ptr() const
+    { return ptr_->base_ptr(); }
 
-    const typename Allocator::pointer
-    Ptr() const
-    { return ptr; }
+private:
 
-  protected:
-    static Allocator allocator;
-    typename Allocator::pointer      ptr;
+    void
+    remove_reference()
+    {
+      if (! is_shared() ) {
+          allocator.destroy( ptr_);
+          allocator.deallocate( ptr_, 1);
+      }
+      else
+	  ptr_->remove_reference();
+    }
+
+    static Allocator allocator; // Should this go in RefCounted2<> ?
+    typename Allocator::pointer      ptr_;
 };
 
 
-template <class RefCounted, class Allocator>
-Allocator  Handle_for<RefCounted,Allocator>::allocator;
+template <class T, class Allocator>
+typename Handle_for<T, Allocator>::Allocator
+Handle_for<T, Allocator>::allocator;
 
-} // namespace CGAL
+CGAL_END_NAMESPACE
+
 #endif // CGAL_HANDLE_FOR_H

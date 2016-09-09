@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h
-// package       : Alpha_shapes_3 (3.6)
+// package       : Alpha_shapes_3 (3.16)
 // source        : $RCSfile: Weighted_alpha_shape_euclidean_traits_3.h,v $
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/11 13:29:35 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/12/01 09:45:25 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -50,19 +48,11 @@
 #ifndef CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H
 #define CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H 
 
-#include <CGAL/squared_distance_3.h>   // to avoid a g++ problem
-#include <CGAL/Point_3.h>
-#include <CGAL/predicates_on_points_3.h>
-
-#include <CGAL/Triangulation_geom_traits_3.h>
-
 #include <CGAL/squared_radius_smallest_orthogonalsphereC3.h>
 #include <CGAL/in_smallest_orthogonalsphereC3.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 
-//-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
-//-------------------------------------------------------------------
 
 //------------------ Function Objects----------------------------------
 
@@ -73,22 +63,22 @@ public:
 
   typedef return_type result_type;
 
-  result_type operator()(const T& p, const T& q, const T& r, const T& s)
+  result_type operator()(const T& p, const T& q, const T& r, const T& s) const
     { 
-      return max
-	(return_type(0), CGAL::squared_radius_orthogonalsphere(p, q, r, s));
+      return max (return_type(0),
+	          CGAL::squared_radius_orthogonalsphere(p, q, r, s));
     }
 
-  result_type operator()(const T& p, const T& q, const T& r)
+  result_type operator()(const T& p, const T& q, const T& r) const
     { 
-      return max
-	(return_type(0), CGAL::squared_radius_smallest_orthogonalsphere(p, q, r));
+      return max (return_type(0),
+	          CGAL::squared_radius_smallest_orthogonalsphere(p, q, r));
     }
 
-  result_type operator()(const T& p, const T& q)
+  result_type operator()(const T& p, const T& q) const
     { 
-      return max
-	(return_type(0), CGAL::squared_radius_smallest_orthogonalsphere(p, q));
+      return max (return_type(0),
+	          CGAL::squared_radius_smallest_orthogonalsphere(p, q));
     }
 };
 
@@ -101,7 +91,8 @@ public:
 
   typedef Bounded_side result_type;
 
-  result_type operator()(const T& p, const T& q, const T& r, const T& test)
+  result_type
+  operator()(const T& p, const T& q, const T& r, const T& test) const
     {
       return CGAL::in_smallest_orthogonalsphere(p, q, r, test);
     }
@@ -125,9 +116,9 @@ public:
   typedef Weighted_point Point_3;
   typedef Weighted_point Point;
 
-  typedef Compute_squared_radius_orthogonalsphere_3<Coord_type, Point> 
+  typedef CGAL::Compute_squared_radius_orthogonalsphere_3<Coord_type, Point> 
     Compute_squared_radius_orthogonalsphere_3;
-  typedef Side_of_bounded_orthogonalsphere_3<Point> 
+  typedef CGAL::Side_of_bounded_orthogonalsphere_3<Point> 
     Side_of_bounded_orthogonalsphere_3;
 
   //---------------------------------------------------------------------
@@ -138,7 +129,6 @@ public:
       return Compute_squared_radius_orthogonalsphere_3();
     }
   //---------------------------------------------------------------------
-  
 
   Side_of_bounded_orthogonalsphere_3 
   side_of_bounded_sphere_3_object() const
@@ -147,8 +137,6 @@ public:
     }
 };
 
-//-------------------------------------------------------------------
 CGAL_END_NAMESPACE
-//-------------------------------------------------------------------
 
 #endif //CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H 

@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 #else 
 
 #include<CGAL/Cartesian.h>
+#include<CGAL/Cartesian_d.h>
 #include <CGAL/geowin_support.h>
 #include<iostream>
 #include<cstdlib>
@@ -61,28 +62,32 @@ int main(int argc, char *argv[])
 #include <LEDA/geowin.h>
 #include <LEDA/graph.h>
 #include <LEDA/d3_sphere.h>
-
 #include <LEDA/d3_hull.h>
+
+#if defined(LEDA_NAMESPACE)
+using namespace leda;
+#endif
 
 using namespace std;
 
-#if !defined(_MSC_VER)
-#define USE_RAT
-#endif
+//#if !defined(_MSC_VER)
+//#define USE_RAT
+//#endif
 
 #if defined(USE_RAT)
-typedef leda_rational                    NT;
-typedef leda_integer                     NT2;
+typedef leda_rational                         NT;
+typedef leda_integer                          NT2;
 #else
-typedef double                         NT;
-typedef double                         NT2;
+typedef double                                NT;
+typedef double                                NT2;
 #endif
 
-typedef CGAL::Cartesian<NT>               R;
-typedef CGAL::Optimisation_d_traits_d<R>       Traits;
-typedef CGAL::Min_sphere_d<Traits>             Min_sphere;
-typedef CGAL::Point_3<R>                       Point;
-typedef CGAL::Point_d<R>                       Pointd;
+typedef CGAL::Cartesian<NT>                   K;
+typedef CGAL::Cartesian_d<NT>                 Kd;
+typedef CGAL::Optimisation_d_traits_d<Kd>     Traits;
+typedef CGAL::Min_sphere_d<Traits>            Min_sphere;
+typedef K::Point_3                            Point;
+typedef Kd::Point_d                           Pointd;
 
 // dimension
 const int dim = 3; 
@@ -144,7 +149,7 @@ void generate_sphere_graph(const leda_d3_sphere& Sph, GRAPH<leda_d3_point,int>& 
   double ymin = Sph.center().ycoord() - 0.99*r;
   double ymax = Sph.center().ycoord() + 0.99*r;
   double yakt = ymin, ystep = 0.15*r;
-  double xmin,xmax;
+  double xmin;
   leda_point ct2(ct.xcoord(), ct.ycoord());
   leda_circle C(ct2,r);
   leda_circle C2;
@@ -162,8 +167,8 @@ void generate_sphere_graph(const leda_d3_sphere& Sph, GRAPH<leda_d3_point,int>& 
     leda_segment S(leda_point(ct.xcoord()-r-100.0,yakt), leda_point(ct.xcoord()+r+100.0,yakt));
     leda_list<leda_point> res = C.intersection(S);
     leda_point p1 = res.pop(), p2 = res.pop();
-    if (p1.xcoord() < p2.xcoord()) { xmin = p1.xcoord(); xmax =p2.xcoord(); }
-    else { xmin = p2.xcoord(); xmax =p1.xcoord(); }
+    if (p1.xcoord() < p2.xcoord()) { xmin = p1.xcoord(); }
+    else { xmin = p2.xcoord(); }
     C2 = leda_circle(ct2,ct.xcoord()-xmin); 
     
     leda_list<leda_segment> LS = zoom_segments(Lseg,ct2,ct.xcoord()-xmin);
@@ -247,14 +252,13 @@ void generate_sphere_graph(const leda_d3_sphere& Sph, GRAPH<leda_d3_point,int>& 
 
 // --------------------------------------------
 
-
 #undef list
 
 GRAPH<leda_d3_point,int> SPHGR;
 
 // d3 output function
 
-static void show_d3_points(geo_scene sc, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+void show_d3_points(geo_scene sc, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
 {
  GeoEditScene<std::list<Point> >* esc = (GeoEditScene<std::list<Point> > *) sc;
  std::list<Point>& L= esc->get_objref();
@@ -263,8 +267,8 @@ static void show_d3_points(geo_scene sc, leda_d3_window& W, GRAPH<leda_d3_point,
  Point p;
  std::list<Point>::const_iterator it = L.begin();
  
- Pointd*   P = new Pointd[L.size()];    
- NT2        coord[dim];
+ Pointd*  P = new Pointd[L.size()];    
+ NT2      coord[dim];
  int      i=0;
  
  for(; it != L.end();++it,i++) { 

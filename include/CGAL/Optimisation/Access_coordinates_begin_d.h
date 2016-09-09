@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Optimisation/Access_coordinates_begin_d.h
-// package       : Optimisation_basic (3.8.10)
+// package       : Optimisation_basic (3.8.14)
 //
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/03/21 18:29:00 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/03/22 12:50:13 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -52,9 +50,8 @@
 #define CGAL_OPTIMISATION_ACCESS_COORDINATES_BEGIN_D_H
 
 // includes
-#ifndef CGAL_POINT_D_H
-#  include <CGAL/Point_d.h>
-#endif
+#  include <CGAL/Kernel_d/Interface_classes.h>
+#  include <CGAL/Kernel_d/Point_d.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -85,8 +82,27 @@ class Access_coordinates_begin_d {
     Access_coordinates_begin_d( ) { }
 
     // operations
+private:
     Coordinate_iterator
-    operator() ( const Point& p) const { return p.begin(); }
+    access( const Point& p, Cartesian_tag) const 
+    { return p.cartesian_begin(); }
+  
+    Coordinate_iterator
+    access( const Point& p, Homogeneous_tag) const 
+    { return p.homogeneous_begin(); }
+  
+  
+public:
+    Coordinate_iterator
+    operator() ( const Point& p) const { 
+      typename R::Rep_tag tag;
+#if defined(__sun) && defined(__SUNPRO_CC)
+    // to avoid a warning "tag has not yet been assigned a value"
+    typedef typename R::Rep_tag Rep_tag;
+    tag = Rep_tag();
+#endif // SUNPRO
+      return access(p, tag);
+    }
 };
 
 CGAL_END_NAMESPACE

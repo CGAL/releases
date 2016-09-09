@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Direction_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/06/21 15:56:54 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 2002/02/06 12:32:35 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,88 +46,72 @@
 #ifndef CGAL_CARTESIAN_DIRECTION_2_H
 #define CGAL_CARTESIAN_DIRECTION_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class DirectionC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class DirectionC2
   : public R_::Direction_handle_2
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_2              Point_2;
+  typedef typename R_::Vector_2             Vector_2;
+  typedef typename R_::Line_2               Line_2;
+  typedef typename R_::Ray_2                Ray_2;
+  typedef typename R_::Segment_2            Segment_2;
+  typedef typename R_::Direction_2          Direction_2;
+  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
+
+  typedef typename R_::Direction_handle_2        base;
+  typedef typename base::element_type            rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Direction_handle_2        Direction_handle_2_;
-  typedef typename Direction_handle_2_::element_type Direction_ref_2;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef DirectionC2<R,Cartesian_tag>          Self;
-  typedef typename R::Point_2                   Point_2;
-  typedef typename R::Vector_2                  Vector_2;
-  typedef typename R::Line_2                    Line_2;
-  typedef typename R::Ray_2                     Ray_2;
-  typedef typename R::Triangle_2                Triangle_2;
-  typedef typename R::Segment_2                 Segment_2;
-  typedef typename R::Iso_rectangle_2           Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2      Aff_transformation_2;
-  typedef typename R::Circle_2                  Circle_2;
-#else
-  typedef DirectionC2<R>                        Self;
-  typedef typename R::Point_2_base              Point_2;
-  typedef typename R::Vector_2_base             Vector_2;
-  typedef typename R::Line_2_base               Line_2;
-  typedef typename R::Ray_2_base                Ray_2;
-  typedef typename R::Triangle_2_base           Triangle_2;
-  typedef typename R::Segment_2_base            Segment_2;
-  typedef typename R::Iso_rectangle_2_base      Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2_base Aff_transformation_2;
-  typedef typename R::Circle_2_base             Circle_2;
-#endif
+  typedef R_                                     R;
 
   DirectionC2()
-    : Direction_handle_2_(Direction_ref_2()) {}
+    : base(rep()) {}
 
   DirectionC2(const Vector_2 &v)
-    : Direction_handle_2_(v) {}
+    : base(v) {}
 
   DirectionC2(const Line_2 &l)
-    : Direction_handle_2_(l.direction()) {}
+    : base(l.direction()) {}
 
   DirectionC2(const Ray_2 &r)
-    : Direction_handle_2_(r.direction()) {}
+    : base(r.direction()) {}
 
   DirectionC2(const Segment_2 &s)
-    : Direction_handle_2_(s.direction()) {}
+    : base(s.direction()) {}
 
   DirectionC2(const FT &x, const FT &y)
-    : Direction_handle_2_(Direction_ref_2(x, y)) {}
+    : base(rep(x, y)) {}
 
-  bool operator==(const Self &d) const;
-  bool operator!=(const Self &d) const;
-  bool operator>=(const Self &d) const;
-  bool operator<=(const Self &d) const;
-  bool operator>(const Self &d) const;
-  bool operator<(const Self &d) const;
-  bool counterclockwise_in_between( const Self &d1, const Self &d2) const;
+  bool operator==(const DirectionC2 &d) const;
+  bool operator!=(const DirectionC2 &d) const;
+  bool operator>=(const DirectionC2 &d) const;
+  bool operator<=(const DirectionC2 &d) const;
+  bool operator>(const DirectionC2 &d) const;
+  bool operator<(const DirectionC2 &d) const;
+  bool counterclockwise_in_between( const DirectionC2 &d1,
+	                            const DirectionC2 &d2) const;
   
   Vector_2 to_vector() const;
+  Vector_2 vector() const { return to_vector(); }
 
-  Self perpendicular(const Orientation &o) const;
-  Self transform(const Aff_transformation_2 &t) const
+  Direction_2 perpendicular(const Orientation &o) const;
+  Direction_2 transform(const Aff_transformation_2 &t) const
   {
     return t.transform(*this);
   }
 
-  Self operator-() const;
+  Direction_2 operator-() const;
 
-  FT delta(int i) const;
-  FT dx() const
+  const FT & delta(int i) const;
+  const FT & dx() const
   {
       return Ptr()->e0;
   }
-  FT dy() const
+  const FT & dy() const
   {
       return Ptr()->e1;
   }
@@ -142,7 +124,7 @@ public:
 template < class R >
 inline
 bool
-DirectionC2<R CGAL_CTAG>::operator==(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator==(const DirectionC2<R> &d) const
 {
   if (identical(d))
       return true;
@@ -152,7 +134,7 @@ DirectionC2<R CGAL_CTAG>::operator==(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 inline
 bool
-DirectionC2<R CGAL_CTAG>::operator!=(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator!=(const DirectionC2<R> &d) const
 {
   return !( *this == d );
 }
@@ -160,7 +142,7 @@ DirectionC2<R CGAL_CTAG>::operator!=(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-DirectionC2<R CGAL_CTAG>::operator<(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator<(const DirectionC2<R> &d) const
 {
   return compare_angle_with_x_axis(*this, d) == SMALLER;
 }
@@ -168,7 +150,7 @@ DirectionC2<R CGAL_CTAG>::operator<(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-DirectionC2<R CGAL_CTAG>::operator>(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator>(const DirectionC2<R> &d) const
 {
   return d < *this;
 }
@@ -176,7 +158,7 @@ DirectionC2<R CGAL_CTAG>::operator>(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-DirectionC2<R CGAL_CTAG>::operator>=(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator>=(const DirectionC2<R> &d) const
 {
   return compare_angle_with_x_axis(*this, d) != SMALLER;
 }
@@ -184,7 +166,7 @@ DirectionC2<R CGAL_CTAG>::operator>=(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-DirectionC2<R CGAL_CTAG>::operator<=(const DirectionC2<R CGAL_CTAG> &d) const
+DirectionC2<R>::operator<=(const DirectionC2<R> &d) const
 {
   return compare_angle_with_x_axis(*this, d) != LARGER;
 }
@@ -192,9 +174,9 @@ DirectionC2<R CGAL_CTAG>::operator<=(const DirectionC2<R CGAL_CTAG> &d) const
 template < class R >
 CGAL_KERNEL_INLINE
 bool
-DirectionC2<R CGAL_CTAG>::
-counterclockwise_in_between(const DirectionC2<R CGAL_CTAG> &d1,
-                            const DirectionC2<R CGAL_CTAG> &d2) const
+DirectionC2<R>::
+counterclockwise_in_between(const DirectionC2<R> &d1,
+                            const DirectionC2<R> &d2) const
 // returns true, iff \ccVar\ is not equal to \ccc{d1}, and 
 // while rotating counterclockwise starting at \ccc{d1}, 
 // \ccVar\ is reached strictly before \ccc{d2} is reached.
@@ -209,36 +191,36 @@ counterclockwise_in_between(const DirectionC2<R CGAL_CTAG> &d1,
 
 template < class R >
 inline
-typename DirectionC2<R CGAL_CTAG>::Vector_2
-DirectionC2<R CGAL_CTAG>::to_vector() const
+typename DirectionC2<R>::Vector_2
+DirectionC2<R>::to_vector() const
 {
-  return Vector_2(*this);
+  return Vector_2(dx(), dy());
 }
 
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
-DirectionC2<R CGAL_CTAG>
-DirectionC2<R CGAL_CTAG>::perpendicular(const Orientation &o) const
-{ // FIXME : construction
+typename DirectionC2<R>::Direction_2
+DirectionC2<R>::perpendicular(const Orientation &o) const
+{
   CGAL_kernel_precondition(o != COLLINEAR);
   if (o == COUNTERCLOCKWISE)
-    return DirectionC2<R CGAL_CTAG>(-dy(), dx());
+    return DirectionC2<R>(-dy(), dx());
   else
-    return DirectionC2<R CGAL_CTAG>(dy(), -dx());
+    return DirectionC2<R>(dy(), -dx());
 }
 
 template < class R >
 inline
-DirectionC2<R CGAL_CTAG>
-DirectionC2<R CGAL_CTAG>::operator-() const
-{ // FIXME : construction
-  return DirectionC2<R CGAL_CTAG>(-dx(), -dy());
+typename DirectionC2<R>::Direction_2
+DirectionC2<R>::operator-() const
+{
+  return DirectionC2<R>(-dx(), -dy());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename DirectionC2<R CGAL_CTAG>::FT
-DirectionC2<R CGAL_CTAG>::delta(int i) const
+const typename DirectionC2<R>::FT &
+DirectionC2<R>::delta(int i) const
 {
   CGAL_kernel_precondition( ( i == 0 ) || ( i == 1 ) );
   return (i==0) ? dx() : dy();
@@ -247,7 +229,7 @@ DirectionC2<R CGAL_CTAG>::delta(int i) const
 #ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONC2
 template < class R >
 std::ostream&
-operator<<(std::ostream &os, const DirectionC2<R CGAL_CTAG> &d)
+operator<<(std::ostream &os, const DirectionC2<R> &d)
 {
     typename R::Vector_2 v = d.to_vector();
     switch(os.iword(IO::mode)) {
@@ -266,9 +248,9 @@ operator<<(std::ostream &os, const DirectionC2<R CGAL_CTAG> &d)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC2
 template < class R >
 std::istream&
-operator>>(std::istream &is, DirectionC2<R CGAL_CTAG> &p)
+operator>>(std::istream &is, DirectionC2<R> &p)
 {
-    typename DirectionC2<R CGAL_CTAG>::FT x, y;
+    typename R::FT x, y;
     switch(is.iword(IO::mode)) {
     case IO::ASCII :
         is >> x >> y;
@@ -283,7 +265,7 @@ operator>>(std::istream &is, DirectionC2<R CGAL_CTAG> &p)
         break;
     }
     if (is)
-	p = DirectionC2<R CGAL_CTAG>(x, y);
+	p = DirectionC2<R>(x, y);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC2

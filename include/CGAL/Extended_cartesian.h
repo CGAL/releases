@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Extended_cartesian.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Simple_extended_kernel.lw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2001/07/16 12:47:18 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2002/04/23 14:28:50 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -55,11 +53,11 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h> 
 #include <CGAL/Line_2_Line_2_intersection.h>
-#ifndef _MSC_VER
-#include <CGAL/RPolynomial.h>
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200))
+#include <CGAL/Nef_2/Polynomial_MSC.h>
+#define Polynomial Polynomial_MSC
 #else
-#include <CGAL/RPolynomial_MSC.h>
-#define RPolynomial RPolynomial_MSC
+#include <CGAL/Nef_2/Polynomial.h>
 #endif
 #undef _DEBUG
 #define _DEBUG 51
@@ -74,8 +72,8 @@ template <class T> class Extended_cartesian;
 
 template <class pFT>
 class Extended_cartesian : public 
-  CGAL::Cartesian< CGAL::RPolynomial<pFT> > { public:
-typedef CGAL::Cartesian< CGAL::RPolynomial<pFT> > Base;
+  CGAL::Cartesian< CGAL::Polynomial<pFT> > { public:
+typedef CGAL::Cartesian< CGAL::Polynomial<pFT> > Base;
 typedef Extended_cartesian<pFT> Self;
 
 /*{\Xdefinition |\Mname| is a kernel model realizing the concept
@@ -214,8 +212,8 @@ Point_type type(const Point_2& p) const
   // now we are on the square frame
   FT rx = p.x();
   FT ry = p.y();
-  int sx = sign(rx);
-  int sy = sign(ry);
+  int sx = CGAL_NTS sign(rx);
+  int sy = CGAL_NTS sign(ry);
   if (sx < 0) rx = -rx;
   if (sy < 0) ry = -ry;
   if (rx>ry) {
@@ -458,7 +456,7 @@ const char* output_identifier() const { return "Extended_cartesian"; }
 
 
 
-#undef RPolynomial
+#undef Polynomial
 CGAL_END_NAMESPACE
 #endif // CGAL_EXTENDED_CARTESIAN_H
 

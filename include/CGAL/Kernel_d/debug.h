@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/debug.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/23 06:58:22 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/04/17 15:58:17 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -98,7 +96,7 @@ static int debugthread=3141592;
 #endif
 
 #if _DEBUG>0
-#define CTRACEN(b,t)  if(b) std::cerr << " " << t << "\n"; else std::cerr << " 0\n"
+#define CTRACEN(b,t)  if(b) std::cerr<< " " <<t<<"\n"; else std::cerr<<" 0\n"
 #else
 #define CTRACEN(b,t) 
 #endif
@@ -110,7 +108,8 @@ static int debugthread=3141592;
   if (!(cond)) {       \
     std::cerr << "   ASSERT:   " << #fstr << endl; \
     std::cerr << "   COND:     " << #cond << endl; \
-    std::cerr << "   POSITION: " << __FILE__ << " at line " << __LINE__ << std::endl; \
+    std::cerr << "   POSITION: " << __FILE__ << " at line "<< __LINE__ \
+              <<std::endl; \
     abort();           \
   }
 #endif

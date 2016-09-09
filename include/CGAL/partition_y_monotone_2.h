@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/partition_y_monotone_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/11 15:29:18 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/04/24 11:24:35 $
 //
 // author(s)     : Susan Hert
 //
@@ -325,16 +323,21 @@ void partition_y_mono_handle_merge_vertex(BidirectionalCirculator c,
    // 5.  helper(e_j) = v_i
 }
 
-template <class BidirectionalCirculator>
-bool partition_y_mono_interior_to_right(BidirectionalCirculator c)
+template <class BidirectionalCirculator, class Traits>
+bool partition_y_mono_interior_to_right(BidirectionalCirculator c,
+                                        const Traits& traits)
 {
+   typename Traits::Compare_y_2 compare_y_2 = traits.compare_y_2_object();
+
    BidirectionalCirculator previous = c; previous--;
 
-   if ((*previous).y() > (*c).y()) return true;
+   Comparison_result cmp_y = compare_y_2(*previous, *c);
+   if (cmp_y == LARGER) return true;
 
    BidirectionalCirculator next = c; next++;
 
-   if ((*previous).y() == (*c).y() && (*next).y() < (*c).y()) return true;
+   if (cmp_y == EQUAL && compare_y_2(*next, *c) == SMALLER) return true;
+
    return false;
 }
 
@@ -355,7 +358,7 @@ void partition_y_mono_handle_regular_vertex(BidirectionalCirculator c,
    BidirectionalCirculator previous = c;
    previous--;
 
-   if (partition_y_mono_interior_to_right(c))  
+   if (partition_y_mono_interior_to_right(c, traits))  
    {
       it = tree.find(previous);
       CGAL_assertion( it != tree.end() );
@@ -467,7 +470,7 @@ OutputIterator partition_y_monotone_2(InputIterator first,
    circ_list.sort(Indirect_not_less_yx_2<Traits>(traits));
 
 #ifdef CGAL_PARTITION_Y_MONOTONE_DEBUG
-   cerr << "Initial vertex list: "<< circ_list << endl;
+   std::cout << "Initial vertex list: "<< circ_list << std::endl;
 #endif
 
    typedef std::map<Circulator, Circulator, 
@@ -527,19 +530,9 @@ OutputIterator partition_y_monotone_2(InputIterator first,
                                       OutputIterator result)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_2;
-   return CGAL_partition_y_monotone_2(first, beyond, result, 
-                                      reinterpret_cast<Point_2*>(0));
-}
-
-template <class InputIterator, class OutputIterator, class R>
-inline
-OutputIterator CGAL_partition_y_monotone_2(InputIterator first, 
-                                           InputIterator beyond,
-                                           OutputIterator result, 
-                                           Point_2<R>*)
-{
+   typedef typename Kernel_traits<Point_2>::Kernel   K;
    return partition_y_monotone_2(first, beyond, result, 
-                                 Partition_traits_2<R>());
+                                 Partition_traits_2<K>());
 }
 
 }

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,58 +28,45 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Vector_2.h
-// package       : _2 (3.19)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:51:36 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _2 (3.32)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/01/23 12:28:32 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_VECTOR_2_H
 #define CGAL_VECTOR_2_H
-
-#include <CGAL/Point_2.h>
-#include <CGAL/Direction_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 class Null_vector;
 
-template <class T> class Quotient;
-
 template <class R_>
-class Vector_2 : public R_::Vector_2_base
+class Vector_2 : public R_::Kernel_base::Vector_2
 {
+  typedef typename R_::RT             RT;
+  typedef typename R_::Point_2        Point_2;
+  typedef typename R_::Direction_2    Direction_2;
+  typedef typename R_::Kernel_base::Vector_2  RVector_2;
 public:
   typedef  R_                        R;
-  typedef typename R::RT             RT;
-  typedef typename R::FT             FT;
-  typedef typename R::Point_2_base   RPoint_2;
-  typedef typename R::Vector_2_base  RVector_2;
-
-friend CGAL_FRIEND_INLINE
-       CGAL::Vector_2<R>
-       CGAL_SCOPE point_to_vector_conversion CGAL_NULL_TMPL_ARGS
-                                        (const CGAL::Point_2<R> &p);
 
   Vector_2() {}
 
   Vector_2(const CGAL::Vector_2<R> &v)
       : RVector_2(static_cast<const RVector_2&>(v)) {}
 
-  Vector_2(const CGAL::Point_2<R>& a, const CGAL::Point_2<R>& b)
-      : RVector_2(static_cast<const RPoint_2&>(a),
-	          static_cast<const RPoint_2&>(b) ) {}
+  Vector_2(const Point_2& a, const Point_2& b)
+      : RVector_2(a, b) {}
 
   Vector_2(const RVector_2& v) : RVector_2(v) {}
 
@@ -90,70 +75,6 @@ friend CGAL_FRIEND_INLINE
   Vector_2(const RT &x, const RT &y) : RVector_2(x,y) {}
 
   Vector_2(const RT &x, const RT &y, const RT &w) : RVector_2(x,y,w) {}
-
-  CGAL::Vector_2<R>
-  operator+(const CGAL::Vector_2<R> &w) const
-  {
-      return static_cast<const RVector_2&>(*this) +
-             static_cast<const RVector_2&>(w);
-  }
-
-  CGAL::Vector_2<R>
-  operator-(const CGAL::Vector_2<R> &w) const
-  {
-      return static_cast<const RVector_2&>(*this) -
-             static_cast<const RVector_2&>(w);
-  }
-
-  CGAL::Vector_2<R>
-  operator-() const
-  { return RVector_2::operator-(); }
-
-  FT
-  operator*(const CGAL::Vector_2<R> &w) const
-  {
-      return static_cast<const RVector_2&>(*this) *
-             static_cast<const RVector_2&>(w);
-  }
-
-  CGAL::Vector_2<R>
-  operator*(const RT &c) const
-  { return c * static_cast<const RVector_2&>(*this); }
-
-  CGAL::Vector_2<R>
-  operator*(const Quotient<RT> &q) const
-  {
-      return (q.numerator() * static_cast<const RVector_2&>(*this))
-      / q.denominator();
-  }
-
-  CGAL::Vector_2<R>
-  operator/(const Quotient<RT> &q) const
-  {
-      return (q.denominator() * static_cast<const RVector_2&>(*this))
-	  / q.numerator();
-  }
-
-  CGAL::Vector_2<R>
-  operator/(const RT &c) const
-  { return static_cast<const RVector_2&>(*this) / c; }
-
-  CGAL::Direction_2<R>
-  direction() const
-  { return RVector_2::direction(); }
-
-  CGAL::Vector_2<R>
-  perpendicular(const Orientation &o) const
-  { return RVector_2::perpendicular(o); }
-
-  CGAL::Vector_2<R>
-  transform(const CGAL::Aff_transformation_2<R> &t) const
-  { return RVector_2::transform(t); }
-
-private:
-  Vector_2(const CGAL::Point_2<R> &p) : RVector_2(p) {}
-
-  Vector_2(const CGAL::Direction_2<R> &d) : RVector_2(d) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_VECTOR_2
@@ -161,7 +82,7 @@ template < class R >
 std::ostream &
 operator<<(std::ostream &os, const Vector_2<R> &v)
 {
-  typedef typename  R::Vector_2_base  RVector_2;
+  typedef typename  R::Kernel_base::Vector_2  RVector_2;
   return os << static_cast<const RVector_2&>(v);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_VECTOR_2
@@ -171,7 +92,7 @@ template < class R >
 std::istream &
 operator>>(std::istream &is, Vector_2<R> &p)
 {
-  typedef typename  R::Vector_2_base  RVector_2;
+  typedef typename  R::Kernel_base::Vector_2  RVector_2;
   return is >> static_cast<RVector_2&>(p);
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_VECTOR_2

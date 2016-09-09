@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Alpha_shape_cell_base_3.h
-// package       : Alpha_shapes_3 (3.6)
+// package       : Alpha_shapes_3 (3.16)
 // source        : $RCSfile: Alpha_shape_cell_base_3.h,v $
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/07/23 12:14:31 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/01/22 12:04:13 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -51,20 +49,17 @@
 #define ALPHA_SHAPE_CELL_BASE_3_H
 
 #include <vector>
-#include <CGAL/triple.h>
+#include <CGAL/utility.h>
 
-//-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
-//-------------------------------------------------------------------
 
 template < class Gt, class Df >
 class Alpha_shape_cell_base_3 : public Df
 {
 public:
 
-  typedef typename Gt::Rep Rp;               // A corriger avec Monique
-  typedef typename Rp::FT Coord_type;        // A corriger avec Monique
-  typedef triple<Coord_type, Coord_type , Coord_type> Interval3;
+  typedef typename Gt::FT Coord_type;        // A corriger avec Monique
+  typedef Triple<Coord_type, Coord_type, Coord_type> Interval3;
 
   //-------------------------------------------------------------------
 private:
@@ -92,41 +87,37 @@ public:
 
   //-------------------------------------------------------------------
 
-  inline Coord_type get_alpha()
+  const Coord_type & get_alpha() const
     {
       return A;
     }
   
-  inline void set_alpha(Coord_type AA)
+  void set_alpha(const Coord_type & AA)
     {
       A = AA;
     }
 
-  inline Interval3 get_facet_ranges(const int& i)
+  const Interval3 & get_facet_ranges(int i) const
     {
       return vec_facet[i];
     }
 
-  inline void set_facet_ranges(const int& i, const Interval3& Inter)
+  void set_facet_ranges(int i, const Interval3& Inter)
     {
       vec_facet[i]=Inter;
     }
   
-  inline Interval3 get_edge_ranges(const int& i, const int& j)
+  const Interval3 & get_edge_ranges(int i, int j) const
     {
       return vec_edge[i][j];
     }
 
-  inline void set_edge_ranges(const int& i, const int& j, 
-			      const Interval3& Inter)
+  void set_edge_ranges(int i, int j, const Interval3& Inter)
     {
       vec_edge[i][j]=Inter;
     }
-  
 };
 
-//-------------------------------------------------------------------
 CGAL_END_NAMESPACE
-//-------------------------------------------------------------------
 
 #endif //ALPHA_SHAPE_CELL_BASE_3_H

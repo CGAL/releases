@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile : Constrained_triangulation_sweep_2.h,v $
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 2000/06/30 09:22:00 $
+// revision      : $Revision: 1.18 $
+// revision_date : $Date: 2001/12/03 09:03:42 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -191,7 +189,7 @@ public:
 
     void remove_flat(Face_handle fh) 
       {
-	assert((*fh).vertex(1) == (*fh).vertex(2));
+	CGAL_triangulation_precondition((*fh).vertex(1) == (*fh).vertex(2));
 	Face_handle f2= (*fh).neighbor(2);
 	Face_handle f1= (*fh).neighbor(1);
 	if ( !f2.is_null()) { (*f2).set_neighbor( (*f2).index(fh), f1);}
@@ -422,7 +420,7 @@ build_triangulation()
 
     // delete event from event_queue
     out= (*event).second;
-    assert( (*out).empty());
+    CGAL_triangulation_assertion( (*out).empty());
     delete out; //delete la liste out
     queue.erase(event);
 
@@ -430,14 +428,14 @@ build_triangulation()
   // make inifinite vertex, infinite faces
   // at this stage status is empty
   // and the lists of upper_chain correspond to the convex hull
-  assert( status.empty());
+  CGAL_triangulation_assertion( status.empty());
   //the_vertex = set_infinite_faces();
   set_infinite_faces();
   return;
 }
 
 template<class Gt, class Tds>
-Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
+typename Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
 Constrained_triangulation_sweep_2<Gt,Tds>::
 treat_in_edges(const Event_queue_iterator & event,
                Sweep_status_iterator & loc)

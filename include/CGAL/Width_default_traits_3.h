@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Width_default_traits_3.h
-// package       : Width_3 (1.13)
+// package       : Width_3 (1.15)
 // chapter       : Geometric Optimisation
 //
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/07/12 05:59:08 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/05/03 10:31:09 $
 //
 // author(s)     : Thomas Herrmann, Lutz Kettner
 // coordinator   : ETH Zuerich (Bernd Gaertner)
@@ -56,7 +54,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
+// without this we get an internal compiler error on bcc
+#if defined(__BORLANDC__)
+template <class Kernel_, class CHT = Convex_hull_traits_3<Kernel_> >
+#else
 template <class Kernel_>
+#endif
 class Width_default_traits_3 {
 public:
     typedef Kernel_                      Kernel;
@@ -64,7 +67,12 @@ public:
     typedef typename Kernel::Point_3     Point_3;
     typedef typename Kernel::Plane_3     Plane_3;
     typedef typename Kernel::Vector_3    Vector_3;
+#if defined(__BORLANDC__)
+    typedef CHT ChullTraits;
+#else
     typedef Convex_hull_traits_3<Kernel> ChullTraits;
+#endif
+
 
     RT get_hx( const Point_3& p) const { return p.hx(); }
     RT get_hy( const Point_3& p) const { return p.hy(); }

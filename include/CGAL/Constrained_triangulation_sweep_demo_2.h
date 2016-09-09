@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_demo_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Constrained_triangulation_sweep_demo_2.h,v $
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/10/04 09:58:24 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/10/30 16:24:10 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -224,7 +222,7 @@ demo_build_triangulation(Window_stream& W)
 	
     // delete event from event_queue
     out= (*event).second;
-    assert( (*out).empty());
+    CGAL_triangulation_assertion( (*out).empty());
     delete out;
     queue.erase(event);
     //delete la liste out
@@ -232,7 +230,7 @@ demo_build_triangulation(Window_stream& W)
   // make inifinite vertex, infinite faces 
   // at this stage status is empty
   // and the lists of upper_chain correspond to the convex hull
-  assert( status.empty());
+  CGAL_triangulation_assertion( status.empty());
   the_vertex = set_infinite_faces();
 
   return;

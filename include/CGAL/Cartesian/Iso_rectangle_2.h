@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Iso_rectangle_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2001/02/14 17:06:12 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.29 $
+// revision_date : $Date: 2002/02/06 12:32:36 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,97 +46,75 @@
 #ifndef CGAL_CARTESIAN_ISO_RECTANGLE_2_H
 #define CGAL_CARTESIAN_ISO_RECTANGLE_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Iso_rectangleC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class Iso_rectangleC2
   : public R_::Iso_rectangle_handle_2
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_2              Point_2;
+  typedef typename R_::Iso_rectangle_2      Iso_rectangle_2;
+  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
+
+  typedef typename R_::Iso_rectangle_handle_2    base;
+  typedef typename base::element_type            rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Iso_rectangle_handle_2    Iso_rectangle_handle_2_;
-  typedef typename Iso_rectangle_handle_2_::element_type Iso_rectangle_ref_2;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef Iso_rectangleC2<R,Cartesian_tag>      Self;
-  typedef typename R::Point_2                   Point_2;
-  typedef typename R::Vector_2                  Vector_2;
-  typedef typename R::Direction_2               Direction_2;
-  typedef typename R::Line_2                    Line_2;
-  typedef typename R::Ray_2                     Ray_2;
-  typedef typename R::Triangle_2                Triangle_2;
-  typedef typename R::Segment_2                 Segment_2;
-  typedef typename R::Aff_transformation_2      Aff_transformation_2;
-  typedef typename R::Circle_2                  Circle_2;
-#else
-  typedef Iso_rectangleC2<R>                    Self;
-  typedef typename R::Point_2_base              Point_2;
-  typedef typename R::Vector_2_base             Vector_2;
-  typedef typename R::Direction_2_base          Direction_2;
-  typedef typename R::Line_2_base               Line_2;
-  typedef typename R::Ray_2_base                Ray_2;
-  typedef typename R::Triangle_2_base           Triangle_2;
-  typedef typename R::Segment_2_base            Segment_2;
-  typedef typename R::Aff_transformation_2_base Aff_transformation_2;
-  typedef typename R::Circle_2_base             Circle_2;
-#endif
+  typedef R_                                     R;
 
   Iso_rectangleC2()
-    : Iso_rectangle_handle_2_(Iso_rectangle_ref_2()) {}
+    : base(rep()) {}
 
   Iso_rectangleC2(const Point_2 &p, const Point_2 &q)
-  { // FIXME : construction
+  {
     FT minx, maxx, miny, maxy;
     if (p.x() < q.x()) { minx = p.x(); maxx = q.x(); }
     else               { minx = q.x(); maxx = p.x(); }
     if (p.y() < q.y()) { miny = p.y(); maxy = q.y(); }
     else               { miny = q.y(); maxy = p.y(); }
-    initialize_with(Iso_rectangle_ref_2(Point_2(minx, miny),
-	                                Point_2(maxx, maxy)));
+    initialize_with(rep(Point_2(minx, miny),
+	                Point_2(maxx, maxy)));
   }
 
-  Iso_rectangleC2(const RT& min_x, const RT& min_y, 
-                  const RT& max_x, const RT& max_y)
+  Iso_rectangleC2(const FT& min_x, const FT& min_y, 
+                  const FT& max_x, const FT& max_y)
   {
-    initialize_with(Iso_rectangle_ref_2(Point_2(min_x, min_y),
-	                                Point_2(max_x, max_y)));
+    initialize_with(rep(Point_2(min_x, min_y),
+	                Point_2(max_x, max_y)));
   }
 
-  Iso_rectangleC2(const RT& min_hx, const RT& min_hy, 
-                  const RT& max_hx, const RT& max_hy, const RT& hw)
+  Iso_rectangleC2(const FT& min_hx, const FT& min_hy, 
+                  const FT& max_hx, const FT& max_hy, const FT& hw)
   {
-    if (hw == RT(1))
-       initialize_with(Iso_rectangle_ref_2(Point_2(min_hx, min_hy),
-	                                   Point_2(max_hx, max_hy)));
+    if (hw == FT(1))
+       initialize_with(rep(Point_2(min_hx, min_hy),
+	                   Point_2(max_hx, max_hy)));
     else
-       initialize_with(Iso_rectangle_ref_2(Point_2(min_hx/hw, min_hy/hw),
-	                                   Point_2(max_hx/hw, max_hy/hw)));
+       initialize_with(rep(Point_2(min_hx/hw, min_hy/hw),
+	                   Point_2(max_hx/hw, max_hy/hw)));
   }
 
-  bool            operator==(const Self &s) const;
-  bool            operator!=(const Self &s) const;
+  bool            operator==(const Iso_rectangleC2 &s) const;
+  bool            operator!=(const Iso_rectangleC2 &s) const;
 
-  Point_2 min() const
+  const Point_2 & min() const
   {
       return Ptr()->e0;
   }
-  Point_2 max() const
+  const Point_2 & max() const
   {
       return Ptr()->e1;
   }
   Point_2 vertex(int i) const;
   Point_2 operator[](int i) const;
 
-  Self transform(const Aff_transformation_2 &t) const
+  Iso_rectangle_2 transform(const Aff_transformation_2 &t) const
   {
     // FIXME : We need a precondition like this!!!
     // CGAL_kernel_precondition(t.is_axis_preserving());
-    return Self(t.transform(vertex(0)), t.transform(vertex(2)));
+    return Iso_rectangleC2<R>(t.transform(vertex(0)), t.transform(vertex(2)));
   }
 
   Bounded_side    bounded_side(const Point_2 &p) const;
@@ -150,12 +126,12 @@ public:
 
   Bbox_2          bbox() const;
 
-  FT              xmin() const;
-  FT              ymin() const;
-  FT              xmax() const;
-  FT              ymax() const;
-  FT              min_coord(int i) const;
-  FT              max_coord(int i) const;
+  const FT &      xmin() const;
+  const FT &      ymin() const;
+  const FT &      xmax() const;
+  const FT &      ymax() const;
+  const FT &      min_coord(int i) const;
+  const FT &      max_coord(int i) const;
 
   FT              area() const;
 };
@@ -167,8 +143,8 @@ public:
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::
-operator==(const Iso_rectangleC2<R CGAL_CTAG> &r) const
+Iso_rectangleC2<R>::
+operator==(const Iso_rectangleC2<R> &r) const
 {
   if (identical(r))
       return true;
@@ -178,48 +154,48 @@ operator==(const Iso_rectangleC2<R CGAL_CTAG> &r) const
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::
-operator!=(const Iso_rectangleC2<R CGAL_CTAG> &r) const
+Iso_rectangleC2<R>::
+operator!=(const Iso_rectangleC2<R> &r) const
 {
   return !(*this == r);
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::xmin() const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::xmin() const
 {
   return min().x();
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::ymin() const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::ymin() const
 {
   return min().y();
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::xmax() const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::xmax() const
 {
   return max().x();
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::ymax() const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::ymax() const
 {
   return max().y();
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::min_coord(int i) const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::min_coord(int i) const
 {
   CGAL_kernel_precondition( i == 0 || i == 1 );
   if (i == 0)
@@ -230,8 +206,8 @@ Iso_rectangleC2<R CGAL_CTAG>::min_coord(int i) const
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::max_coord(int i) const
+const typename Iso_rectangleC2<R>::FT &
+Iso_rectangleC2<R>::max_coord(int i) const
 {
   CGAL_kernel_precondition( i == 0 || i == 1 );
   if (i == 0)
@@ -241,8 +217,8 @@ Iso_rectangleC2<R CGAL_CTAG>::max_coord(int i) const
 }
 
 template < class R >
-typename Iso_rectangleC2<R CGAL_CTAG>::Point_2
-Iso_rectangleC2<R CGAL_CTAG>::vertex(int i) const
+typename Iso_rectangleC2<R>::Point_2
+Iso_rectangleC2<R>::vertex(int i) const
 {
   switch (i%4) {
   case 0: return min();
@@ -254,16 +230,16 @@ Iso_rectangleC2<R CGAL_CTAG>::vertex(int i) const
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::Point_2
-Iso_rectangleC2<R CGAL_CTAG>::operator[](int i) const
+typename Iso_rectangleC2<R>::Point_2
+Iso_rectangleC2<R>::operator[](int i) const
 {
   return vertex(i);
 }
 
 template < class R >
 inline
-typename Iso_rectangleC2<R CGAL_CTAG>::FT
-Iso_rectangleC2<R CGAL_CTAG>::area() const
+typename Iso_rectangleC2<R>::FT
+Iso_rectangleC2<R>::area() const
 {
   return (xmax()-xmin()) * (ymax()-ymin());
 }
@@ -271,8 +247,8 @@ Iso_rectangleC2<R CGAL_CTAG>::area() const
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 Bounded_side
-Iso_rectangleC2<R CGAL_CTAG>::
-bounded_side(const Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p) const
+Iso_rectangleC2<R>::
+bounded_side(const typename Iso_rectangleC2<R>::Point_2 &p) const
 { // FIXME : predicate
   bool x_incr = (xmin() < p.x()) && (p.x() < xmax()),
        y_incr = (ymin() < p.y()) && (p.y() < ymax());
@@ -293,8 +269,8 @@ bounded_side(const Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p) const
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::
-has_on_boundary(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p) const
+Iso_rectangleC2<R>::
+has_on_boundary(const typename Iso_rectangleC2<R>::Point_2 &p) const
 {
   return bounded_side(p) == ON_BOUNDARY;
 }
@@ -302,8 +278,8 @@ has_on_boundary(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p) const
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::
-has_on_bounded_side(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p)
+Iso_rectangleC2<R>::
+has_on_bounded_side(const typename Iso_rectangleC2<R>::Point_2 &p)
     const
 {
   return bounded_side(p) == ON_BOUNDED_SIDE;
@@ -312,8 +288,8 @@ has_on_bounded_side(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p)
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::
-has_on_unbounded_side(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p)
+Iso_rectangleC2<R>::
+has_on_unbounded_side(const typename Iso_rectangleC2<R>::Point_2 &p)
     const
 {
   return bounded_side(p) == ON_UNBOUNDED_SIDE;
@@ -322,7 +298,7 @@ has_on_unbounded_side(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p)
 template < class R >
 inline
 bool
-Iso_rectangleC2<R CGAL_CTAG>::is_degenerate() const
+Iso_rectangleC2<R>::is_degenerate() const
 {
   return (xmin() == xmax()) || (ymin() == ymax());
 }
@@ -330,7 +306,7 @@ Iso_rectangleC2<R CGAL_CTAG>::is_degenerate() const
 template < class R >
 inline
 Bbox_2
-Iso_rectangleC2<R CGAL_CTAG>::bbox() const
+Iso_rectangleC2<R>::bbox() const
 { // FIXME : to_interval
   return Bbox_2(CGAL::to_double(xmin()), CGAL::to_double(ymin()),
                 CGAL::to_double(xmax()), CGAL::to_double(ymax()));
@@ -339,7 +315,7 @@ Iso_rectangleC2<R CGAL_CTAG>::bbox() const
 #ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLEC2
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const Iso_rectangleC2<R CGAL_CTAG> &r)
+operator<<(std::ostream &os, const Iso_rectangleC2<R> &r)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -356,14 +332,14 @@ operator<<(std::ostream &os, const Iso_rectangleC2<R CGAL_CTAG> &r)
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 std::istream &
-operator>>(std::istream &is, Iso_rectangleC2<R CGAL_CTAG> &r)
+operator>>(std::istream &is, Iso_rectangleC2<R> &r)
 {
-    typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 p, q;
+    typename R::Point_2 p, q;
 
     is >> p >> q;
 
     if (is)
-	r = Iso_rectangleC2<R CGAL_CTAG>(p, q);
+	r = Iso_rectangleC2<R>(p, q);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLEC2

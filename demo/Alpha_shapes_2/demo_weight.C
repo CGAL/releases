@@ -20,8 +20,8 @@
 // file          : demo/Alpha_shapes_2/demo_weight.C
 // package       : Alpha_shapes_2(1.0)
 // source        : $RCSfile: demo_weight.C,v $
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2001/07/23 13:14:41 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2002/04/27 23:14:25 $
 // author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec@sophia.inria.fr>)
@@ -34,7 +34,6 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
-#include <strstream>
 #include <vector>
 #include <list>
 
@@ -518,7 +517,7 @@ int main(int argc,  char* argv[])
       int but = W.read_mouse(x,y);
 
       if (but == 0)
-	exit(0);
+	break;
 
       switch (but) 
 	{

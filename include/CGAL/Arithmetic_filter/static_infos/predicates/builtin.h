@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/builtin.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2000/08/03 15:23:10 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/03/21 16:35:39 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -53,8 +51,5 @@ double CGAL_NTS Static_Filtered_sign_1::_epsilon_0;
 
 double CGAL_NTS Static_Filtered_compare_2::_bound=-1.0;
 double CGAL_NTS Static_Filtered_compare_2::_epsilon_0;
-
-double CGAL_NTS Static_Filtered_lexicographical_sign_2::_bound=-1.0;
-double CGAL_NTS Static_Filtered_lexicographical_sign_2::_epsilon_0;
 
 #endif // CGAL_ARITHMETIC_FILTER_STATIC_INFOS_BUILTIN_H

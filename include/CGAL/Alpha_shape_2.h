@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Alpha_shape_2.h
-// package       : Alpha_shapes_2(1.0)
+// package       : Alpha_shapes_2 (11.19)
 // source        : $RCSfile: Alpha_shape_2.h,v $
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/11/06 14:26:52 $
+// revision      : $Revision: 1.32 $
+// revision_date : $Date: 2002/04/18 06:57:11 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -55,13 +53,12 @@
 #include <list>
 #include <set>
 #include <map>
-
-#include <CGAL/triple.h>
 #include <vector>
-
 #include <algorithm>
 #include <utility>
 #include <iostream>
+
+#include <CGAL/utility.h>
 
 #ifdef CGAL_ALPHA_WINDOW_STREAM
 #include <CGAL/IO/Window_stream.h>
@@ -116,9 +113,8 @@ private:
 
   typedef long Key;
  
-  typedef std::pair< Coord_type, Face_handle > Interval_face;
-  typedef std::multimap< Coord_type, Face_handle, std::less<Coord_type> > 
-  Interval_face_map;
+  typedef std::multimap< Coord_type, Face_handle > Interval_face_map;
+  typedef typename Interval_face_map::value_type   Interval_face;
 
   typedef typename Tds::Face Face_tds;
   typedef typename Face_tds::Face Face_base;
@@ -126,14 +122,12 @@ private:
   // should be replaced by as soon as possible
   // typedef typename Face::Interval_3 Interval3;
 
-  typedef std::pair< Interval3, Edge > Interval_edge;
-  typedef std::multimap< Interval3, Edge, std::less<Interval3> > 
-  Interval_edge_map;
+  typedef std::multimap< Interval3, Edge >         Interval_edge_map;
+  typedef typename Interval_edge_map::value_type   Interval_edge;
 
   typedef std::pair< Coord_type, Coord_type > Interval2;
-  typedef std::pair< Interval2, Vertex_handle > Interval_vertex;
-  typedef std::multimap< Interval2, Vertex_handle, std::less<Interval2> > 
-  Interval_vertex_map;
+  typedef std::multimap< Interval2, Vertex_handle > Interval_vertex_map;
+  typedef typename Interval_vertex_map::value_type  Interval_vertex;
 
   typedef Face_handle const const_void;
   typedef std::pair<const_void, int> const_Edge;
@@ -142,7 +136,7 @@ private:
   
   typedef std::vector< Segment > Vect_seg;
 
-  typedef std::set< Key, std::less<Key> > Marked_face_set;
+  typedef std::set< Key > Marked_face_set;
 
 public:
 
@@ -195,8 +189,8 @@ private:
   Coord_type Infinity;
   Coord_type UNDEFINED;
   
-  std::list< Vertex_handle > Alpha_shape_vertices_list;
-  std::list< Edge > Alpha_shape_edges_list;
+  mutable std::list< Vertex_handle > Alpha_shape_vertices_list;
+  mutable std::list< Edge > Alpha_shape_edges_list;
 
 public:
 
@@ -453,7 +447,7 @@ private:
 
 public:
 
-  Alpha_shape_vertices_iterator alpha_shape_vertices_begin()
+  Alpha_shape_vertices_iterator alpha_shape_vertices_begin() const
     { 
       Alpha_shape_vertices_list.clear();
       std::back_insert_iterator< std::list< Vertex_handle > > 
@@ -471,18 +465,18 @@ public:
     }
   //---------------------------------------------------------------------
 
-  Alpha_shape_vertices_iterator alpha_shape_vertices_end()
+  Alpha_shape_vertices_iterator alpha_shape_vertices_end() const
     {
       return Alpha_shape_vertices_list.end();
     }
 
-  Alpha_shape_vertices_iterator Alpha_shape_vertices_end()
+  Alpha_shape_vertices_iterator Alpha_shape_vertices_end() const
     {
       return Alpha_shape_vertices_list.end();
     }
   //---------------------------------------------------------------------
 
-  Alpha_shape_edges_iterator alpha_shape_edges_begin()
+  Alpha_shape_edges_iterator alpha_shape_edges_begin() const
     {
       Alpha_shape_edges_list.clear();
       std::back_insert_iterator< std::list<Edge > > 
@@ -491,18 +485,18 @@ public:
       return Alpha_shape_edges_list.begin();
     }
 
-  Alpha_shape_edges_iterator Alpha_shape_edges_begin()
+  Alpha_shape_edges_iterator Alpha_shape_edges_begin() const
   {
     return alpha_shape_edges_begin();
   }
   //---------------------------------------------------------------------
 
-  Alpha_shape_edges_iterator alpha_shape_edges_end()
+  Alpha_shape_edges_iterator alpha_shape_edges_end() const
     {
       return Alpha_shape_edges_list.end();
     }
 
-  Alpha_shape_edges_iterator Alpha_shape_edges_end()
+  Alpha_shape_edges_iterator Alpha_shape_edges_end() const
     {
       return Alpha_shape_edges_list.end();
     }
@@ -747,11 +741,8 @@ Alpha_shape_2<Dt>::initialize_interval_face_map()
 {
   Coord_type alpha_f;
 
-  Face_iterator face_it;
   // only finite faces
-  for( face_it = faces_begin(); 
-       face_it != faces_end(); 
-       ++face_it) 
+  for(Face_iterator face_it = faces_begin(); face_it != faces_end(); ++face_it)
     {
       alpha_f = squared_radius(face_it);
       _interval_face_map.insert(Interval_face(alpha_f, face_it));
@@ -1218,7 +1209,7 @@ Alpha_shape_2<Dt>::get_alpha_shape_edges
 //-------------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_2<Dt>::Classification_type  
+typename Alpha_shape_2<Dt>::Classification_type  
 Alpha_shape_2<Dt>::classify(const Face_handle& f, const int& i, 
 			    const Coord_type& alpha) const
 {
@@ -1257,7 +1248,7 @@ Alpha_shape_2<Dt>::classify(const Face_handle& f, const int& i,
 //-------------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_2<Dt>::Classification_type  
+typename Alpha_shape_2<Dt>::Classification_type  
 Alpha_shape_2<Dt>::classify(const Vertex_handle& v,
 			    const Coord_type& alpha) const 
 {
@@ -1340,7 +1331,7 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
 //-------------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_2<Dt>::Alpha_iterator
+typename Alpha_shape_2<Dt>::Alpha_iterator
 Alpha_shape_2<Dt>::find_optimal_alpha(const int& nb_components) 
 {
   // find the minimum alpha that satisfies the properties
@@ -1366,8 +1357,8 @@ Alpha_shape_2<Dt>::find_optimal_alpha(const int& nb_components)
   Alpha_iterator last = alpha_end();
   Alpha_iterator middle;
   
-  ptrdiff_t len = last - first - 1;
-  ptrdiff_t half;
+  std::ptrdiff_t len = last - first - 1;
+  std::ptrdiff_t half;
 
   while (len > 0) 
     {
@@ -1400,7 +1391,7 @@ Alpha_shape_2<Dt>::find_optimal_alpha(const int& nb_components)
 //-------------------------------------------------------------------------
 
 template < class Dt >
-Alpha_shape_2<Dt>::Coord_type 
+typename Alpha_shape_2<Dt>::Coord_type 
 Alpha_shape_2<Dt>::find_alpha_solid() const 
 {
   // compute the minumum alpha such that all data points 
@@ -1448,7 +1439,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
   const typename Alpha_shape_2<Dt>::Interval2* pInterval2;
 
   typedef long Key;
-  std::map< Key, int, std::less< Key > > V;
+  std::map< Key, int > V;
 
   int number_of_vertices = 0;
       
@@ -1495,7 +1486,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	      // we would write too many vertices
 
 	      V[Key(&*v)] = number_of_vertices++;
-	      os << v->point() << endl;
+	      os << v->point() << std::endl;
 	    }
 	}
       // the vertices are oriented counterclockwise
@@ -1546,7 +1537,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 			       Alpha_shape_2<Dt>::REGULAR));
 
 	      os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-		 << V[Key(&*(f->vertex(f->cw(i))))] << endl;
+		 << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
 	    }
 	}
     }
@@ -1577,7 +1568,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
  CGAL_triangulation_assertion((classify(v) == 
 			       Alpha_shape_2<Dt>::REGULAR));
 	      V[Key(&*v)] = number_of_vertices++;
-	      os << v->point() << endl;
+	      os << v->point() << std::endl;
 	    }
 	}
  
@@ -1592,7 +1583,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 			       Alpha_shape_2<Dt>::SINGULAR));
 
 	  V[Key(&*v)] = number_of_vertices++;
-	  os << v->point() << endl;
+	  os << v->point() << std::endl;
 	}
  
       // the vertices are oriented counterclockwise
@@ -1653,7 +1644,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 			       Alpha_shape_2<Dt>::INTERIOR));
 
 		  os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-		     << V[Key(&*(f->vertex(f->cw(i))))] << endl;
+		     << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
 		  
 		}
 	      else 
@@ -1668,7 +1659,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
  CGAL_triangulation_assertion((classify(f, i) == 
 			       Alpha_shape_2<Dt>::SINGULAR));
 		      os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-			 << V[Key(&*(f->vertex(f->cw(i))))] << endl;
+			 << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
 	
 		    }	
 		}

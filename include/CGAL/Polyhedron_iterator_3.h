@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Polyhedron_iterator_3.h
-// package       : Polyhedron (3.21)
-// chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
-// source        : polyhedron.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/17 10:17:38 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron (3.30)
+// chapter       : 3D-Polyhedral Surfaces
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/04/22 20:20:46 $
+//
+// author(s)     : Lutz Kettner)
+// coordinator   : MPI Saarbruecken
 //
 // Iterator and Circulator for Polyhedral Surfaces.
 // email         : contact@cgal.org
@@ -483,6 +481,10 @@ public:
     _Polyhedron_facet_const_circ( pointer p) : It(p) {}
     _Polyhedron_facet_const_circ( It i) : It(i) {}
 
+    template <class NN, class II, class CTG>
+    _Polyhedron_facet_const_circ( const _Polyhedron_facet_circ<NN,II,CTG>& c)
+        : It(c.ptr()) {}
+
 // OPERATIONS Forward Category
 // ---------------------------
 
@@ -599,6 +601,10 @@ public:
     _Polyhedron_vertex_const_circ() : It(0) {}
     _Polyhedron_vertex_const_circ( pointer p) : It(p) {}
     _Polyhedron_vertex_const_circ( It i) : It(i) {}
+
+    template <class NN, class II, class CTG>
+    _Polyhedron_vertex_const_circ( const _Polyhedron_vertex_circ<NN,II,CTG>& c)
+        : It(c.ptr()) {}
 
 // OPERATIONS Forward Category
 // ---------------------------

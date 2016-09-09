@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Line_d.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/16 08:17:16 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/03/18 20:33:57 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 // email         : contact@cgal.org
@@ -100,7 +98,7 @@ Line_d(const Point_d<R>& p, const Point_d<R>& q)
 from |p| to |q|. \precond $p$ and $q$ are distinct and have the same 
 dimension.}*/
  : Base( Pair(p,q) )
-{ CGAL_assertion_msg(!ptr->is_degenerate(), 
+{ CGAL_assertion_msg(!ptr()->is_degenerate(), 
     "Line_d::constructor: the two points must be different." );
   CGAL_assertion_msg((p.dimension()==q.dimension()), 
     "Line_d::constructor: the two points must have the same dimension." );
@@ -134,14 +132,14 @@ Line_d(const Line_d<R>& l) : Base(l) {}
 
 /*{\Moperations 3 3}*/
 
-int dimension() const { return (ptr->_p[0].dimension()); }
+int dimension() const { return (ptr()->_p[0].dimension()); }
 /*{\Mop returns the dimension of the underlying space.}*/
 
 Point_d<R> point(int i) const 
 /*{\Mop returns an arbitrary point on |l|.  It holds that |point(i) ==
 point(j)|, iff |i==j|. Furthermore, |l| is directed from |point(i)| to
 |point(j)|, for all |i < j|.}*/
-{ return (ptr->_p[i%2]); }
+{ return (ptr()->_p[i%2]); }
 
 Line_d<R> opposite() const 
 /*{\Mop returns the line |(point(2),point(1))|. }*/
@@ -149,7 +147,7 @@ Line_d<R> opposite() const
 
 Direction_d<R> direction() const 
 /*{\Mop  returns the direction of |\Mvar|. }*/
-{ return ptr->direction(); }
+{ return ptr()->direction(); }
 
 Line_d<R> transform(const Aff_transformation_d<R> & t) const
 /*{\Mop returns $t(l)$. }*/
@@ -211,7 +209,7 @@ and false otherwise. }*/
 
 template <class R>
 std::istream& operator>>(std::istream& I, Line_d<R>& l) 
-{ l.copy_on_write(); l.ptr->read(I); 
+{ l.copy_on_write(); l.ptr()->read(I); 
   CGAL_assertion_msg(l.point(0)!=l.point(1),
     "Line_d::operator>>: trivial line.");
   CGAL_assertion_msg(l.point(0).dimension()==l.point(1).dimension(),
@@ -221,7 +219,7 @@ std::istream& operator>>(std::istream& I, Line_d<R>& l)
 
 template <class R>
 std::ostream& operator<<(std::ostream& O, const Line_d<R>& l)
-{ l.ptr->print(O,"Line_d"); return O; }
+{ l.ptr()->print(O,"Line_d"); return O; }
 
 template <class R>
 inline CGAL::io_Operator io_tag(const Line_d<R>&) 

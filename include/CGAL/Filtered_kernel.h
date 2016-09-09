@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Filtered_kernel.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 2001/07/19 20:04:16 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2001/12/19 14:10:52 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -73,7 +71,11 @@ template <class CK,
           class FK = Simple_cartesian<Interval_nt_advanced>,
 	  class C2E = Cartesian_converter<CK, EK>,
 	  class C2F = Cartesian_converter<CK, FK,
-	              Interval_converter<CGAL_TYPENAME_MSVC_NULL CK::RT> > >
+	              Interval_converter<
+#ifndef __SUNPRO_CC
+		      CGAL_TYPENAME_MSVC_NULL
+#endif
+		      CK::RT> > >
 class Filtered_kernel
 {
 public:
@@ -123,9 +125,9 @@ public:
     CGAL_Filter_type(Triangle_2)
     CGAL_Filter_type(Circle_2)
     CGAL_Filter_type(Iso_rectangle_2)
+    CGAL_Filter_type(Conic_2)
     // CGAL_Filter_type(Aff_transformation_2)
     // CGAL_Filter_type(Data_accessor_2) // ?
-    // CGAL_Filter_type(Conic_2)         // ?
 
     CGAL_Filter_type(Object_3)
     CGAL_Filter_type(Point_3)

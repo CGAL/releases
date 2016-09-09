@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Tuple_d.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/06/06 11:11:51 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/04/11 08:04:54 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -51,10 +49,12 @@
 #include <strstream>
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
+#include <CGAL/Quotient.h>
 #endif
 
 CGAL_BEGIN_NAMESPACE
 #define PointCd PointCd2
+#define PointHd PointHd2
 
 template <typename NT, typename LA> class PointHd;
 template <typename NT, typename LA> class VectorHd;
@@ -68,7 +68,7 @@ template <typename FT, typename LA> class HyperplaneCd;
 template <typename NT, typename LA> class Aff_transformationCd;
 
 template <typename NT, typename LA>
-class Tuple_d : public Ref_counted {
+class Tuple_d  {
   typedef Tuple_d<NT,LA> Self;
   typedef typename LA::Vector Vector;
   Vector v;
@@ -184,9 +184,9 @@ Tuple_d(int d, I& start, I end) : v(d) \
 Tuple_d(int d, I start, I end, NT D) : v(d) \
 { int i(0); while ( i < d && start != end ) v[i++] = *start++; v[d-1] = D; }
 
-FIXTUPLE(int*)
+//FIXTUPLE(int*)
 FIXTUPLE(const int*)
-FIXTUPLE(NT*)
+//FIXTUPLE(NT*)
 FIXTUPLE(const NT*)
 
 #undef FIXTUPLE
@@ -204,7 +204,7 @@ FIXTUPLE(const NT*)
   void invert(int d)
   { for (int i=0; i<d; ++i) v[i]=-v[i]; }
 
-  void print(std::ostream& out, char*) const;
+  void print(std::ostream& out, const char*) const;
   void read(std::istream& in);
   void homogeneous_add(const Self* a, const Self* b)
   { register int d = a->size()-1;
@@ -289,7 +289,7 @@ Comparison_result operator()(
 
 
 template <typename NT, typename LA>
-void Tuple_d<NT,LA>::print(std::ostream& os, char* l) const
+void Tuple_d<NT,LA>::print(std::ostream& os, const char* l) const
 { int i;
   switch( os.iword(CGAL::IO::mode) ) {
     case CGAL::IO::ASCII :
@@ -327,7 +327,7 @@ void Tuple_d<NT,LA>::read(std::istream& is)
 
 template <class ForwardIterator>
 void tuple_dim_check(ForwardIterator first, ForwardIterator last, 
-                     char* file, int line, char* op)
+                     const char* file, int line, const char* op)
 { if (first==last) return;
   int d = first->dimension(); ++first;
   for (; first!=last; ++first) 
@@ -351,6 +351,7 @@ int copy_and_count(InputIterator first, InputIterator last,
 }
 
 #undef PointCd
+#undef PointHd
 CGAL_END_NAMESPACE
 #endif //CGAL_TUPLE_D_H
 

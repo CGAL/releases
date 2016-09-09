@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Vertex_visibility_graph_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/16 13:09:50 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/04/24 11:24:34 $
 //
 // author(s)     : Susan Hert
 //
@@ -75,10 +73,10 @@ template <class Traits>
 class Vertex_visibility_graph_2 
 {
 private:
-   typedef typename Traits::R                 R;
    typedef typename Traits::Point_2           Point_2;
    typedef typename Traits::Segment_2         Segment_2;
    typedef typename Traits::Ray_2             Ray_2;
+   typedef typename Traits::Object_2          Object_2;
    typedef typename Traits::Leftturn_2        Leftturn_2;
    typedef typename Traits::Less_xy_2         Less_xy_2;
    typedef typename Traits::Orientation_2     Orientation_2;
@@ -89,6 +87,8 @@ private:
    typedef typename Traits::Construct_segment_2 
                                             Construct_segment_2; 
    typedef typename Traits::Construct_ray_2   Construct_ray_2; 
+   typedef typename Traits::Intersect_2       Intersect_2; 
+   typedef typename Traits::Assign_2          Assign_2; 
    typedef Segment_less_yx_2<Traits>          Segment_less_yx_2;
 
    typedef Rotation_tree_2<Traits>            Tree;
@@ -129,7 +129,9 @@ public:
            Traits().are_strictly_ordered_along_line_2_object()),
      less_xy_2(Traits().less_xy_2_object()),
      construct_segment_2(Traits().construct_segment_2_object()),
-     construct_ray_2(Traits().construct_ray_2_object())
+     construct_ray_2(Traits().construct_ray_2_object()),
+     intersect_2(Traits().intersect_2_object()),
+     assign_2(Traits().assign_2_object())
    {
        build(first, beyond);
    }
@@ -239,7 +241,7 @@ public:
          }
          if (p_r != tree.end()) stack.push(p_r);
       }
-   //   print_edge_set(edges);
+//      print_edge_set(edges);
    }
 
 
@@ -405,6 +407,8 @@ private:
    Less_xy_2                             less_xy_2;
    Construct_segment_2                   construct_segment_2;
    Construct_ray_2                       construct_ray_2;
+   Intersect_2                           intersect_2;
+   Assign_2                              assign_2;
    Edge_set                              edges;
 };
 

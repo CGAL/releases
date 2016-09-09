@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Rotation_tree_node_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/07/11 16:34:12 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/05/06 16:18:01 $
 //
 // author(s)     : Susan Hert
 //
@@ -54,7 +52,13 @@
 #define  CGAL_ROTATION_TREE_NODE_H
 
 #include <utility>
+//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
+//  (from stlport?)
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
 #include <vector>
+#else
+#include <CGAL/vector.h>
+#endif // MSVC6
 
 namespace CGAL {
 
@@ -65,10 +69,15 @@ class Rotation_tree_node_2 : public Traits::Point_2
 {
 public:
 
-   typedef typename Traits::Point_2                         Base_point;
-   typedef Rotation_tree_node_2<Traits>                     Self;
-   typedef typename std::vector< Self >::iterator           Tree_iterator;
-   typedef std::pair<Tree_iterator, bool>                   Node_ref;
+   typedef typename Traits::Point_2          Base_point;
+   typedef Rotation_tree_node_2<Traits>      Self;
+#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
+   typedef std::vector< Self >               Tree;
+#else
+   typedef CGALi::vector< Self >             Tree;
+#endif
+   typedef typename Tree::iterator           Tree_iterator;
+   typedef std::pair<Tree_iterator, bool>    Node_ref;
 
 
    Rotation_tree_node_2(Base_point p) : Base_point(p)
@@ -159,6 +168,7 @@ private:
    Node_ref _rightmost_child;
 };
 
+#ifdef CGAL_PARTITION_DEBUG
 template <class Traits>
 std::ostream& operator<<(std::ostream& os,
                          const Rotation_tree_node_2<Traits>& node)
@@ -178,6 +188,7 @@ std::ostream& operator<<(std::ostream& os,
          << " " << (*node.rightmost_child()).y();
    return os;
 }
+#endif // CGAL_PARTITION_DEBUG
 
 }
 

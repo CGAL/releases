@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_xy_3.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Triangulation_euclidean_traits_xy_3.h,v $
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2000/11/27 13:34:04 $
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2002/04/03 09:29:31 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -67,7 +65,7 @@ template <class R>
 class Orientation_xy_3 
 {
 public:
-  typedef Point_3<R>     Point; 
+  typedef typename R::Point_3     Point; 
   typename R::FT x(const Point &p) const { return p.x(); }
   typename R::FT y(const Point &p) const { return p.y(); }
 
@@ -83,7 +81,7 @@ template <class R>
 class Side_of_oriented_circle_xy_3 
 {
 public:
-  typedef Point_3<R>     Point; 
+  typedef typename R::Point_3     Point; 
   typename R::FT x(const Point &p) const { return p.x(); }
   typename R::FT y(const Point &p) const { return p.y(); }
 
@@ -104,9 +102,9 @@ class Triangulation_euclidean_traits_xy_3 {
 public:
   typedef Triangulation_euclidean_traits_xy_3<R> Traits;
   typedef R Rp;
-  typedef Point_3<R>     Point_2;
-  typedef Segment_3<R>   Segment_2;
-  typedef Triangle_3<R>  Triangle_2;
+  typedef typename Rp::Point_3     Point_2;
+  typedef typename Rp::Segment_3   Segment_2;
+  typedef typename Rp::Triangle_3  Triangle_2;
 
   typedef typename Rp::Compare_x_3          Compare_x_2;
   typedef typename Rp::Compare_y_3          Compare_y_2;

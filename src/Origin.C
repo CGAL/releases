@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : src/Origin.C
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:54:44 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/01/18 17:02:35 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
@@ -46,18 +44,12 @@
 //
 // ======================================================================
  
-
-#ifndef CGAL_CONFIG_H
-#include <CGAL/config.h>
-#endif // CGAL_CONFIG_H
-
-#ifndef CGAL_ORIGIN_H
+#include <CGAL/basic.h>
 #include <CGAL/Origin.h>
-#endif // CGAL_ORIGIN_H
 
 CGAL_BEGIN_NAMESPACE
 
-Origin      ORIGIN ;
-Null_vector NULL_VECTOR ;
-CGAL_END_NAMESPACE
+const Origin      ORIGIN = Origin();
+const Null_vector NULL_VECTOR = Null_vector();
 
+CGAL_END_NAMESPACE

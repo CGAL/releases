@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Simple_Handle_for.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2001/01/12 12:23:17 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/11/23 14:20:49 $
 // author(s)     : Sylvain Pion
 // coordinator   : MPI, Saarbruecken  (<Susan.Hert>)
 //
@@ -55,37 +53,52 @@ class Simple_Handle_for
 {
 public:
 
-    typedef Stored element_type;
-
-    Simple_Handle_for(const Stored& rc)
-	: s(rc) {}
-
     Simple_Handle_for()
     {}
+
+    Simple_Handle_for(const Stored& rc)
+	: _s(rc) {}
+
+    typedef Stored element_type;
 
     void
     initialize_with(const Stored& rc)
     {
-      s = rc;
+      _s = rc;
     }
-
-    void
-    copy_on_write()
-    {}
 
     long int
     id() const
-    { return reinterpret_cast<long int>(&s); }
+    { return reinterpret_cast<long int>(&_s); }
 
     bool
     identical(const Simple_Handle_for& h) const
     { return id() == h.id(); } // Or should it always return false ?
 
     const Stored * Ptr() const
-    { return &s; }
+    { return &_s; }
+
+    Stored * Ptr()
+    { return &_s; }
+
+    const Stored * ptr() const
+    { return &_s; }
+
+    Stored * ptr()
+    { return &_s; }
+
+    bool
+    is_shared() const
+    {
+	return false;
+    }
 
 private:
-    Stored s;
+    void
+    copy_on_write()
+    {}
+
+    Stored _s;
 };
 
 CGAL_END_NAMESPACE

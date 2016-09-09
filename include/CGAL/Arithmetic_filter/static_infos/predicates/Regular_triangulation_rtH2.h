@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/Regular_triangulation_rtH2.h
-// package       : Interval_arithmetic (4.114)
+// package       : Interval_arithmetic (4.141)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -49,19 +47,13 @@
 #ifndef CGAL_ARITHMETIC_FILTER_REGULAR_TRIANGULATION_RTH2_H_STATIC_INFO_H
 #define CGAL_ARITHMETIC_FILTER_REGULAR_TRIANGULATION_RTH2_H_STATIC_INFO_H
 
+#include <CGAL/Profile_counter.h>
+
 double Static_Filtered_power_testH2_16::_epsilon_0;
 double Static_Filtered_power_testH2_16::_bound = -1.0;
-
-unsigned Static_Filtered_power_testH2_16::number_of_updates = 0;
-
-unsigned Static_Filtered_power_testH2_16::number_of_failures = 0;
 
 double Static_Filtered_power_testH2_12::_epsilon_0;
 double Static_Filtered_power_testH2_12::_epsilon_1;
 double Static_Filtered_power_testH2_12::_bound = -1.0;
-
-unsigned Static_Filtered_power_testH2_12::number_of_updates = 0;
-
-unsigned Static_Filtered_power_testH2_12::number_of_failures = 0;
 
 #endif // CGAL_ARITHMETIC_FILTER_REGULAR_TRIANGULATION_RTH2_H_STATIC_INFO_H

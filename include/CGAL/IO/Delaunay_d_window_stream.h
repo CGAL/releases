@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Delaunay_d_window_stream.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
 // source        : ddgeo/Delaunay_d.lw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/05 08:22:37 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/04/17 15:58:16 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -52,6 +50,7 @@
 #ifndef CGAL_DELAUNAY_D_WINDOW_STREAM_H
 #define CGAL_DELAUNAY_D_WINDOW_STREAM_H
 
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/Delaunay_d.h>
 #include <CGAL/IO/Convex_hull_d_window_stream.h>
 #include <CGAL/IO/Window_stream.h>
@@ -78,7 +77,8 @@ void d2_show(const Delaunay_d<R,Lifted_R>& D,
 
 template <typename R, typename Lifted_R>
 void d2_map(const Delaunay_d<R,Lifted_R>& D, 
-            GRAPH< typename Delaunay_d<R,Lifted_R>::Point_d, int >& DTG, 
+            CGAL_LEDA_SCOPE::GRAPH< typename Delaunay_d<R,Lifted_R>::Point_d, 
+                                    int >& DTG, 
             typename Delaunay_d<R,Lifted_R>::Delaunay_voronoi_kind k = 
             Delaunay_d<R,Lifted_R>::NEAREST)
 /*{\Mfunc constructs a LEDA graph representation of the nearest 

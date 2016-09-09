@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Ray_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/01/15 19:02:08 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 2002/02/06 12:32:38 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,54 +46,44 @@
 #ifndef CGAL_CARTESIAN_RAY_3_H
 #define CGAL_CARTESIAN_RAY_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class RayC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class RayC3
   : public R_::Ray_handle_3
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_3              Point_3;
+  typedef typename R_::Direction_3          Direction_3;
+  typedef typename R_::Line_3               Line_3;
+  typedef typename R_::Ray_3                Ray_3;
+  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+
+  typedef typename R_::Ray_handle_3              base;
+  typedef typename base::element_type            rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Ray_handle_3              Ray_handle_3_;
-  typedef typename Ray_handle_3_::element_type   Ray_ref_3;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef RayC3<R CGAL_CTAG>                    Self;
-  typedef typename R::Point_3                   Point_3;
-  typedef typename R::Direction_3               Direction_3;
-  typedef typename R::Line_3                    Line_3;
-  typedef typename R::Aff_transformation_3      Aff_transformation_3;
-#else
-  typedef RayC3<R>                              Self;
-  typedef typename R::Point_3_base              Point_3;
-  typedef typename R::Direction_3_base          Direction_3;
-  typedef typename R::Line_3_base               Line_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef R_                                     R;
 
   RayC3()
-    : Ray_handle_3_(Ray_ref_3()) {}
+    : base(rep()) {}
 
   RayC3(const Point_3 &sp, const Point_3 &secondp)
-    : Ray_handle_3_(Ray_ref_3(sp, secondp)) {}
+    : base(rep(sp, secondp)) {}
 
   RayC3(const Point_3 &sp, const Direction_3 &d)
-    : Ray_handle_3_(Ray_ref_3(sp, sp + d.to_vector())) {}
+    : base(rep(sp, sp + d.to_vector())) {}
 
-  bool        operator==(const Self &r) const;
-  bool        operator!=(const Self &r) const;
+  bool        operator==(const RayC3 &r) const;
+  bool        operator!=(const RayC3 &r) const;
 
-  Point_3     start() const;
-  Point_3     source() const
+  const Point_3 &   start() const;
+  const Point_3 &   source() const
   {
       return Ptr()->e0;
   }
-  Point_3     second_point() const
+  const Point_3 &   second_point() const
   {
       return Ptr()->e1;
   }
@@ -103,11 +91,11 @@ public:
 
   Direction_3 direction() const;
   Line_3      supporting_line() const;
-  Self        opposite() const;
+  Ray_3       opposite() const;
 
-  Self        transform(const Aff_transformation_3 &t) const
+  Ray_3       transform(const Aff_transformation_3 &t) const
   {
-    return Self(t.transform(source()), t.transform(second_point()));
+    return RayC3<R>(t.transform(source()), t.transform(second_point()));
   }
 
   bool        is_degenerate() const;
@@ -122,7 +110,7 @@ public:
 template < class R >
 inline
 bool
-RayC3<R CGAL_CTAG>::operator==(const RayC3<R CGAL_CTAG> &r) const
+RayC3<R>::operator==(const RayC3<R> &r) const
 {
     if (identical(r))
 	return true;
@@ -132,23 +120,23 @@ RayC3<R CGAL_CTAG>::operator==(const RayC3<R CGAL_CTAG> &r) const
 template < class R >
 inline
 bool
-RayC3<R CGAL_CTAG>::operator!=(const RayC3<R CGAL_CTAG> &r) const
+RayC3<R>::operator!=(const RayC3<R> &r) const
 {
   return !(*this == r);
 }
 
 template < class R >
 inline
-typename RayC3<R CGAL_CTAG>::Point_3
-RayC3<R CGAL_CTAG>::start() const
+const typename RayC3<R>::Point_3 &
+RayC3<R>::start() const
 {
   return source();
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename RayC3<R CGAL_CTAG>::Point_3
-RayC3<R CGAL_CTAG>::point(int i) const
+typename RayC3<R>::Point_3
+RayC3<R>::point(int i) const
 {
   CGAL_kernel_precondition( i >= 0 );
   if (i == 0) return source();
@@ -158,32 +146,32 @@ RayC3<R CGAL_CTAG>::point(int i) const
 
 template < class R >
 inline
-typename RayC3<R CGAL_CTAG>::Direction_3
-RayC3<R CGAL_CTAG>::direction() const
+typename RayC3<R>::Direction_3
+RayC3<R>::direction() const
 {
   return Direction_3( second_point() - source() );
 }
 
 template < class R >
 inline
-typename RayC3<R CGAL_CTAG>::Line_3
-RayC3<R CGAL_CTAG>::supporting_line() const
+typename RayC3<R>::Line_3
+RayC3<R>::supporting_line() const
 {
   return Line_3(*this);
 }
 
 template < class R >
 inline
-RayC3<R CGAL_CTAG>
-RayC3<R CGAL_CTAG>::opposite() const
+typename RayC3<R>::Ray_3
+RayC3<R>::opposite() const
 {
-  return RayC3<R CGAL_CTAG>( source(), - direction() );
+  return RayC3<R>( source(), - direction() );
 }
 
 template < class R >
 bool
-RayC3<R CGAL_CTAG>::
-has_on(const typename RayC3<R CGAL_CTAG>::Point_3 &p) const
+RayC3<R>::
+has_on(const typename RayC3<R>::Point_3 &p) const
 {
   return (p == source()) ||
          ( collinear(source(), p, second_point())
@@ -193,7 +181,7 @@ has_on(const typename RayC3<R CGAL_CTAG>::Point_3 &p) const
 template < class R >
 inline
 bool
-RayC3<R CGAL_CTAG>::is_degenerate() const
+RayC3<R>::is_degenerate() const
 {
   return source() == second_point();
 }
@@ -201,8 +189,8 @@ RayC3<R CGAL_CTAG>::is_degenerate() const
 template < class R >
 inline
 bool
-RayC3<R CGAL_CTAG>::
-collinear_has_on(const typename RayC3<R CGAL_CTAG>::Point_3 &p) const
+RayC3<R>::
+collinear_has_on(const typename RayC3<R>::Point_3 &p) const
 {
   CGAL_kernel_exactness_precondition( collinear(source(), p, second_point()) );
 
@@ -224,7 +212,7 @@ collinear_has_on(const typename RayC3<R CGAL_CTAG>::Point_3 &p) const
 #ifndef CGAL_NO_OSTREAM_INSERT_RAYC3
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const RayC3<R CGAL_CTAG> &r)
+operator<<(std::ostream &os, const RayC3<R> &r)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -240,15 +228,15 @@ operator<<(std::ostream &os, const RayC3<R CGAL_CTAG> &r)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_RAYC3
 template < class R >
 std::istream &
-operator>>(std::istream &is, RayC3<R CGAL_CTAG> &r)
+operator>>(std::istream &is, RayC3<R> &r)
 {
-    typename RayC3<R CGAL_CTAG>::Point_3 p;
-    typename RayC3<R CGAL_CTAG>::Direction_3 d;
+    typename R::Point_3 p;
+    typename R::Direction_3 d;
 
     is >> p >> d;
 
     if (is)
-	r = RayC3<R CGAL_CTAG>(p, d);
+	r = RayC3<R>(p, d);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_RAYC3

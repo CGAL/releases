@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Triangle_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2001/06/27 14:49:54 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _3 (3.31)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/01/23 12:30:12 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,50 +46,28 @@
 #ifndef CGAL_TRIANGLE_3_H
 #define CGAL_TRIANGLE_3_H
 
-#include <CGAL/Point_3.h>
-#include <CGAL/Plane_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Triangle_3 : public R_::Triangle_3_base
+class Triangle_3 : public R_::Kernel_base::Triangle_3
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Point_3               Point_3;
+  typedef typename R_::Kernel_base::Triangle_3  RTriangle_3;
 public:
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Triangle_3_base  RTriangle_3;
 
-  Triangle_3() : RTriangle_3()
-  {}
+  Triangle_3()
+      : RTriangle_3() {}
 
-  Triangle_3(const CGAL::Triangle_3<R>& t) : RTriangle_3(t)
-  {}
+  Triangle_3(const CGAL::Triangle_3<R>& t)
+      : RTriangle_3(t) {}
 
-  Triangle_3(const RTriangle_3&  t) : RTriangle_3(t)
-  {}
+  Triangle_3(const RTriangle_3& t)
+      : RTriangle_3(t) {}
 
-  Triangle_3(const CGAL::Point_3<R>& p,
-                  const CGAL::Point_3<R>& q,
-                  const CGAL::Point_3<R>& r)
-    : RTriangle_3(p,q,r)
-  {}
-
-  CGAL::Plane_3<R>     supporting_plane() const
-  {
-      return CGAL::Plane_3<R>(RTriangle_3::supporting_plane());
-  }
-
-  CGAL::Triangle_3<R>  transform(const CGAL::Aff_transformation_3<R>& t) const
-  {
-      return CGAL::Triangle_3<R>(RTriangle_3::transform( t ));
-  }
-
-  CGAL::Point_3<R>     vertex(int i) const
-  { return RTriangle_3::vertex(i); }
-
-  CGAL::Point_3<R>     operator[](int i) const
-  { return vertex(i); }
+  Triangle_3(const Point_3& p, const Point_3& q, const Point_3& r)
+    : RTriangle_3(p,q,r) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLE_3
@@ -100,7 +75,7 @@ template < class R >
 std::ostream&
 operator<<(std::ostream& os, const Triangle_3<R>& t)
 {
-  typedef typename  R::Triangle_3_base  RTriangle_3;
+  typedef typename  R::Kernel_base::Triangle_3  RTriangle_3;
   return os << static_cast<const RTriangle_3&>(t);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_TRIANGLE_3
@@ -110,7 +85,7 @@ template < class R >
 std::istream&
 operator>>(std::istream& is, Triangle_3<R>& t)
 {
-  typedef typename  R::Triangle_3_base  RTriangle_3;
+  typedef typename  R::Kernel_base::Triangle_3  RTriangle_3;
   return is >> static_cast<RTriangle_3&>(t);
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLE_3

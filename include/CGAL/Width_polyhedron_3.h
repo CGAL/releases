@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Width_polyhedron_3.h
-// package       : Width_3 (1.13)
+// package       : Width_3 (1.15)
 // chapter       : Geometric Optimisation
 //
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/12 06:31:13 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/03/19 13:14:28 $
 //
 // author(s)     : Thomas Herrmann, Lutz Kettner
 // coordinator   : ETH Zuerich (Bernd Gaertner)
@@ -185,19 +183,22 @@ template <class InputPolyhedron, class Width_Traits>
 class Data_access {
  public:
   typedef InputPolyhedron Polyhedron;
-  typedef typename Polyhedron::Vertex            Vertex;
-  typedef typename Polyhedron::Facet             Facet;
-  typedef typename Polyhedron::Halfedge          Halfedge;
-  typedef typename Polyhedron::Facet_handle      Facet_handle;
-  typedef typename Polyhedron::Vertex_handle     Vertex_handle;
-  typedef typename Polyhedron::Halfedge_handle   Halfedge_handle;
-  typedef typename Polyhedron::Point_3           PolyPoint;
-  typedef typename Polyhedron::Plane_3           Plane;
-  typedef typename Polyhedron::Vertex_iterator   Vertex_iterator;
-  typedef typename Polyhedron::Facet_iterator    Facet_iterator;
-  typedef typename Polyhedron::Halfedge_iterator Halfedge_iterator;
+  typedef typename Polyhedron::Vertex                Vertex;
+  typedef typename Polyhedron::Facet                 Facet;
+  typedef typename Polyhedron::Halfedge              Halfedge;
+  typedef typename Polyhedron::Facet_handle          Facet_handle;
+  typedef typename Polyhedron::Vertex_handle         Vertex_handle;
+  typedef typename Polyhedron::Halfedge_handle       Halfedge_handle;
+  typedef typename Polyhedron::Facet_const_handle    Facet_const_handle;
+  typedef typename Polyhedron::Vertex_const_handle   Vertex_const_handle;
+  typedef typename Polyhedron::Halfedge_const_handle Halfedge_const_handle;
+  typedef typename Polyhedron::Point_3               PolyPoint;
+  typedef typename Polyhedron::Plane_3               Plane;
+  typedef typename Polyhedron::Vertex_iterator       Vertex_iterator;
+  typedef typename Polyhedron::Facet_iterator        Facet_iterator;
+  typedef typename Polyhedron::Halfedge_iterator     Halfedge_iterator;
+  typedef typename Width_Traits::RT                  RT;
  private:
-  typedef typename Width_Traits::RT              RT;
   Width_Traits tco;
  public:
   Data_access() {}
@@ -206,8 +207,8 @@ class Data_access {
  private:
   //Precondition: Plane Equation already computed in a deterministic way
   struct Facet_compare {
-    bool operator()(const Facet_handle& f, 
-		    const Facet_handle& g) const {
+    bool operator()(Facet_const_handle f, 
+		    Facet_const_handle g) const {
       Width_Traits tco;
       Plane fpp=f->plane();
       Plane gpp=g->plane();
@@ -223,8 +224,8 @@ class Data_access {
   //Precondition: Plane Equation already computed in a deterministic way
   //and a facet is bounded by exactly 3 edges! 
   struct Halfedge_compare {
-    bool operator()(const Halfedge_handle& e, 
-		    const Halfedge_handle& h) const {
+    bool operator()(Halfedge_const_handle e, 
+		    Halfedge_const_handle h) const {
       Width_Traits tco;
       PolyPoint etail=e->opposite()->vertex()->point();
       PolyPoint ehead=e->vertex()->point();
@@ -250,24 +251,24 @@ class Data_access {
     }
   };
 
-  std::map<const Facet_handle, 
+  std::map< Facet_const_handle, 
     std::vector<Vertex_handle>,
     Facet_compare> 
     antipodal_vertices;
 
-  std::map<const Halfedge_handle, 
+  std::map< Halfedge_const_handle, 
     bool, 
     Halfedge_compare> 
     visited_halfedges;
 
-  std::map<const Halfedge_handle, 
+  std::map< Halfedge_const_handle, 
     bool, 
     Halfedge_compare> 
     impassable_halfedges;
   
  public:
   bool is_visited(Halfedge_handle& e) const {
-    typename std::map < const Halfedge_handle, bool, 
+    typename std::map < Halfedge_const_handle, bool, 
       Halfedge_compare > ::const_iterator it;
     it=visited_halfedges.find(e);
     CGAL_assertion(it!=visited_halfedges.end());
@@ -282,7 +283,7 @@ class Data_access {
   }
   
   bool is_impassable(Halfedge_handle& e) const {
-    typename std::map < const Halfedge_handle, 
+    typename std::map < Halfedge_const_handle, 
       bool, 
       Halfedge_compare > ::const_iterator it;
     it=impassable_halfedges.find(e);
@@ -304,7 +305,7 @@ class Data_access {
   
   void get_antipodal_vertices(Facet_handle& f, 
 			      std::vector<Vertex_handle>& res) const {
-    typename std::map<const Facet_handle, 
+    typename std::map< Facet_const_handle, 
       std::vector<Vertex_handle>, Facet_compare>::const_iterator it;
     it=antipodal_vertices.find(f);
     CGAL_assertion(it!=antipodal_vertices.end());

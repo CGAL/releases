@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/global_operators_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/11/16 21:31:07 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/01/23 17:59:13 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,80 +46,78 @@
 #ifndef CGAL_CARTESIAN_GLOBAL_OPERATORS_2_H
 #define CGAL_CARTESIAN_GLOBAL_OPERATORS_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-PointC2<R CGAL_CTAG>
-operator+(const PointC2<R CGAL_CTAG> &p, const VectorC2<R CGAL_CTAG> &v)
-{ // FIXME : construction
-  return PointC2<R CGAL_CTAG>(p.x() + v.x(), p.y() + v.y());
-}
-
-template < class R >
-inline
-PointC2<R CGAL_CTAG>
-operator-(const PointC2<R CGAL_CTAG> &p, const VectorC2<R CGAL_CTAG> &v)
-{ // FIXME : construction
-  return PointC2<R CGAL_CTAG>(p.x() - v.x(), p.y() - v.y());
-}
-
-template < class R >
-inline
-PointC2<R CGAL_CTAG>
-operator+(const Origin &, const VectorC2<R CGAL_CTAG> &v)
+typename R::Point_2
+operator+(const PointC2<R> &p, const VectorC2<R> &v)
 {
-  return PointC2<R CGAL_CTAG>(v);
+  return PointC2<R>(p.x() + v.x(), p.y() + v.y());
 }
 
 template < class R >
 inline
-PointC2<R CGAL_CTAG>
-operator-(const Origin &, const VectorC2<R CGAL_CTAG> &v)
-{ // FIXME : construction
-  return PointC2<R CGAL_CTAG>(-v);
-}
-
-template < class R >
-inline
-VectorC2<R CGAL_CTAG>
-operator-(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
-{ // FIXME : construction
-  return VectorC2<R CGAL_CTAG>(p.x() - q.x(), p.y() - q.y());
-}
-
-template < class R >
-inline
-VectorC2<R CGAL_CTAG>
-operator-(const PointC2<R CGAL_CTAG> &p, const Origin &)
+typename R::Point_2
+operator-(const PointC2<R> &p, const VectorC2<R> &v)
 {
-  return VectorC2<R CGAL_CTAG>(p);
+  return PointC2<R>(p.x() - v.x(), p.y() - v.y());
 }
 
 template < class R >
 inline
-VectorC2<R CGAL_CTAG>
-operator-(const Origin &, const PointC2<R CGAL_CTAG> &p)
-{ // FIXME : construction
-  return VectorC2<R CGAL_CTAG>(-p.x(), -p.y());
+typename R::Point_2
+operator+(const Origin &, const VectorC2<R> &v)
+{
+  return PointC2<R>(v);
+}
+
+template < class R >
+inline
+typename R::Point_2
+operator-(const Origin &, const VectorC2<R> &v)
+{
+  return PointC2<R>(-v);
+}
+
+template < class R >
+inline
+typename R::Vector_2
+operator-(const PointC2<R> &p, const PointC2<R> &q)
+{
+  return VectorC2<R>(p.x() - q.x(), p.y() - q.y());
+}
+
+template < class R >
+inline
+typename R::Vector_2
+operator-(const PointC2<R> &p, const Origin &)
+{
+  return VectorC2<R>(p);
+}
+
+template < class R >
+inline
+typename R::Vector_2
+operator-(const Origin &, const PointC2<R> &p)
+{
+  return VectorC2<R>(-p.x(), -p.y());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-VectorC2<R CGAL_CTAG>
-operator*(const typename R::FT &c, const VectorC2<R CGAL_CTAG> &w)
-{ // FIXME : construction
-   return VectorC2<R CGAL_CTAG>(c * w.x(), c * w.y());
+typename R::Vector_2
+operator*(const typename R::FT &c, const VectorC2<R> &w)
+{
+   return VectorC2<R>(c * w.x(), c * w.y());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-VectorC2<R CGAL_CTAG>
-operator*(const VectorC2<R CGAL_CTAG> &w, const typename R::FT &c)
-{ // FIXME : construction
-   return VectorC2<R CGAL_CTAG>(c * w.x(), c * w.y());
+typename R::Vector_2
+operator*(const VectorC2<R> &w, const typename R::FT &c)
+{
+   return VectorC2<R>(c * w.x(), c * w.y());
 }
 
 CGAL_END_NAMESPACE

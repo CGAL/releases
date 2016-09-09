@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Bbox_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/20 12:25:22 $
+// package       : _3 (3.31)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/01/22 09:43:27 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,71 +47,68 @@
 #define CGAL_BBOX_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/cartesian_classes.h>
 #include <CGAL/Sixtuple.h>
+#include <CGAL/Simple_Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
 
-class Bbox_3 : public Handle_for< Sixtuple<double> >
+class Bbox_3 : public Simple_Handle_for< Sixtuple<double> >
 {
+  typedef Simple_Handle_for< Sixtuple<double> > BBox_handle_3;
+  typedef BBox_handle_3::element_type                  BBox_ref_3;
+
 public:
-                         Bbox_3();
-                         Bbox_3(double x_min, double y_min, double zmin,
-                                double x_max, double y_max, double z_max);
+        Bbox_3()
+	  : BBox_handle_3(BBox_ref_3()) {}
 
-  double                 xmin() const;
-  double                 ymin() const;
-  double                 zmin() const;
-  double                 xmax() const;
-  double                 ymax() const;
-  double                 zmax() const;
-
-  Bbox_3             operator+(const Bbox_3& b) const;
-};
-
-inline
-Bbox_3::Bbox_3()
-{ new ( static_cast< void*>(ptr)) Sixtuple<double>(); }
-
-inline
-Bbox_3::Bbox_3(double x_min, double y_min, double z_min,
+        Bbox_3(double x_min, double y_min, double z_min,
                double x_max, double y_max, double z_max)
-{
-  new ( static_cast< void*>(ptr)) Sixtuple<double>(x_min, y_min, z_min,
-                                                   x_max, y_max, z_max);
-}
+	  : BBox_handle_3(BBox_ref_3(x_min, y_min, z_min,
+                                     x_max, y_max, z_max)) {}
+
+  double  xmin() const;
+  double  ymin() const;
+  double  zmin() const;
+  double  xmax() const;
+  double  ymax() const;
+  double  zmax() const;
+
+  Bbox_3  operator+(const Bbox_3& b) const;
+};
 
 inline
 double
 Bbox_3::xmin() const
-{ return ptr->e0; }
+{ return Ptr()->e0; }
 
 inline
 double
 Bbox_3::ymin() const
-{ return ptr->e1; }
+{ return Ptr()->e1; }
 
 inline
 double
 Bbox_3::zmin() const
-{ return ptr->e2; }
+{ return Ptr()->e2; }
 
 inline
 double
 Bbox_3::xmax() const
-{ return ptr->e3; }
+{ return Ptr()->e3; }
 
 inline
 double
 Bbox_3::ymax() const
-{ return ptr->e4; }
+{ return Ptr()->e4; }
 
 inline
 double
 Bbox_3::zmax() const
-{ return ptr->e5; }
+{ return Ptr()->e5; }
 
-inline Bbox_3 Bbox_3::operator+(const Bbox_3& b) const
+inline
+Bbox_3
+Bbox_3::operator+(const Bbox_3& b) const
 {
   return Bbox_3(std::min(xmin(), b.xmin()),
                 std::min(ymin(), b.ymin()),
@@ -123,7 +118,9 @@ inline Bbox_3 Bbox_3::operator+(const Bbox_3& b) const
                 std::max(zmax(), b.zmax()));
 }
 
-inline bool do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
+inline
+bool
+do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
 {
     // check for emptiness ??
     if (bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())

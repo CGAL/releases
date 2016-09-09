@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Triangulation_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.20 $
-// revision_date : $Date: 2001/06/14 15:06:46 $
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2002/04/03 09:29:31 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
@@ -70,12 +68,19 @@ template < class R >
 class Triangulation_euclidean_traits_2 {
 public:
   typedef R Rep;
-  typedef Point_2<R>  Point_2;
-  typedef Segment_2<R> Segment_2;
-  typedef Triangle_2<R> Triangle_2;
-  typedef Line_2<R> Line_2;
-  typedef Direction_2<R> Direction_2;
-  typedef Ray_2<R> Ray_2;
+//   typedef CGAL::Point_2  Point_2;
+//   typedef CGAL::Segment_2<R> Segment_2;
+//   typedef CGAL::Triangle_2<R> Triangle_2;
+//   typedef CGAL::Line_2<R> Line_2;
+//   typedef CGAL::Direction_2<R> Direction_2;
+//   typedef CGAL::Ray_2<R> Ray_2;
+
+  typedef typename R::Point_2     Point_2;
+  typedef typename R::Segment_2   Segment_2;
+  typedef typename R::Triangle_2  Triangle_2;
+  typedef typename R::Line_2      Line_2;
+  typedef typename R::Direction_2 Direction_2;
+  typedef typename R::Ray_2       Ray_2;
 
   typedef typename R::Compare_x_2                Compare_x_2;
   typedef typename R::Compare_y_2                Compare_y_2;

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,98 +28,24 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/user_classes.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/19 06:47:55 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/01/24 15:40:06 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_USER_CLASSES_H
 #define CGAL_USER_CLASSES_H
-
-CGAL_BEGIN_NAMESPACE
-
-template < class R >
-class Point_2;
-
-template < class R >
-class Vector_2;
-
-template < class R >
-class Direction_2;
-
-template < class R >
-class Line_2;
-
-template < class R >
-class Ray_2;
-
-template < class R >
-class Segment_2;
-
-template < class R >
-class Triangle_2;
-
-template < class R >
-class Iso_rectangle_2;
-
-template < class R >
-class Circle_2;
-
-template < class R >
-class Aff_transformation_base_2;
-
-template < class R >
-class Aff_transformation_2;
-
-template < class R >
-class Aff_transformation_3;
-
-template < class R >
-class Plane_3;
-
-template < class R >
-class Point_3;
-
-template < class R >
-class Vector_3;
-
-template < class R >
-class Direction_3;
-
-template < class R >
-class Line_3;
-
-template < class R >
-class Ray_3;
-
-template < class R >
-class Segment_3;
-
-template < class R >
-class Triangle_3;
-
-template < class R >
-class Tetrahedron_3;
-
-template < class R >
-class Iso_cuboid_3;
-
-template < class R >
-class Sphere_3;
-
-CGAL_END_NAMESPACE
 
 #include <CGAL/Point_2.h>
 #include <CGAL/Vector_2.h>
@@ -132,6 +56,7 @@ CGAL_END_NAMESPACE
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Iso_rectangle_2.h>
 #include <CGAL/Circle_2.h>
+#include <CGAL/Conic_2.h>
 #include <CGAL/Aff_transformation_2.h>
 
 #include <CGAL/Point_3.h>

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/ft_constructions_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/03/20 12:08:55 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/01/23 17:59:13 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,15 +46,13 @@
 #ifndef CGAL_CARTESIAN_FT_CONSTRUCTIONS_2_H
 #define CGAL_CARTESIAN_FT_CONSTRUCTIONS_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
 typename R::FT
-squared_distance(const PointC2<R CGAL_CTAG> &p,
-                 const PointC2<R CGAL_CTAG> &q)
+squared_distance(const PointC2<R> &p,
+                 const PointC2<R> &q)
 {
   return squared_distanceC2(p.x(), p.y(), q.x(), q.y());
 }
@@ -64,8 +60,8 @@ squared_distance(const PointC2<R CGAL_CTAG> &p,
 template < class R >
 inline
 typename R::FT
-scaled_distance_to_line(const LineC2<R CGAL_CTAG> &l,
-                        const PointC2<R CGAL_CTAG> &p)
+scaled_distance_to_line(const LineC2<R> &l,
+                        const PointC2<R> &p)
 {
   return scaled_distance_to_lineC2(l.a(), l.b(), l.c(), p.x(), p.y());
 }
@@ -73,9 +69,9 @@ scaled_distance_to_line(const LineC2<R CGAL_CTAG> &l,
 template < class R >
 inline
 typename R::FT
-scaled_distance_to_line(const PointC2<R CGAL_CTAG> &p,
-                        const PointC2<R CGAL_CTAG> &q,
-                        const PointC2<R CGAL_CTAG> &r)
+scaled_distance_to_line(const PointC2<R> &p,
+                        const PointC2<R> &q,
+                        const PointC2<R> &r)
 {
   return scaled_distance_to_lineC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
@@ -83,7 +79,7 @@ scaled_distance_to_line(const PointC2<R CGAL_CTAG> &p,
 template < class R >
 inline
 typename R::FT
-line_y_at_x(const LineC2<R CGAL_CTAG> &l, const typename R::FT &x)
+line_y_at_x(const LineC2<R> &l, const typename R::FT &x)
 {
   return line_y_at_xC2(l.a(), l.b(), l.c(), x);
 }
@@ -91,7 +87,7 @@ line_y_at_x(const LineC2<R CGAL_CTAG> &l, const typename R::FT &x)
 template < class R >
 inline
 typename R::FT
-line_x_at_y(const LineC2<R CGAL_CTAG> &l, const typename R::FT &y)
+line_x_at_y(const LineC2<R> &l, const typename R::FT &y)
 {
   return line_y_at_xC2(l.b(), l.a(), l.c(), y);
 }
@@ -99,9 +95,9 @@ line_x_at_y(const LineC2<R CGAL_CTAG> &l, const typename R::FT &y)
 template < class R >
 inline
 typename R::FT
-squared_radius(const PointC2<R CGAL_CTAG> &p,
-                     const PointC2<R CGAL_CTAG> &q,
-                     const PointC2<R CGAL_CTAG> &r)
+squared_radius(const PointC2<R> &p,
+                     const PointC2<R> &q,
+                     const PointC2<R> &r)
 {
   return squared_radiusC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }

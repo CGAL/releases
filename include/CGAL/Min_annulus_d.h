@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Min_annulus_d.h
-// package       : Min_annulus_d (1.1.2)
+// package       : Min_annulus_d (1.1.5)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Min_annulus_d.aw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/16 12:27:45 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/03/18 20:24:08 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -187,11 +185,13 @@ class Min_annulus_d {
                  CGAL::Unary_compose_1<Point_by_index,Divide> >
                                         Support_point_iterator;
     
+    
+    typedef  typename Index_vector::const_iterator IVCI;
     typedef  CGAL::Join_random_access_iterator_1<
-                 typename Index_vector::const_iterator, Point_by_index >
+                 IVCI, Point_by_index >
                                         Inner_support_point_iterator;
     typedef  CGAL::Join_random_access_iterator_1<
-                 typename Index_vector::const_iterator, Point_by_index >
+                 IVCI, Point_by_index >
                                         Outer_support_point_iterator;
     
     typedef  typename ET_vector::const_iterator
@@ -558,9 +558,9 @@ struct LP_rep_min_annulus_d {
     typedef  std::vector<NT>            NT_vector;
     typedef  std::vector<NT_vector>     NT_matrix;
     
+    typedef  CGAL_TYPENAME_MSVC_NULL NT_matrix::const_iterator NTMCI;
     typedef  CGAL::Join_random_access_iterator_1<
-                 CGAL_TYPENAME_MSVC_NULL NT_matrix::const_iterator,
-                 LP_rep_row_of_a<NT> >  A_iterator;
+                 NTMCI, LP_rep_row_of_a<NT> >  A_iterator;
     typedef  typename NT_vector::const_iterator
                                         B_iterator;
     typedef  typename NT_vector::const_iterator
@@ -660,7 +660,7 @@ operator << ( std::ostream& os,
 {
     CGAL_USING_NAMESPACE_STD
 
-    typedef  Min_annulus_d<Traits_>::Point  Point;
+    typedef  typename Min_annulus_d<Traits_>::Point  Point;
     typedef  ostream_iterator<Point>       Os_it;
     typedef  typename Traits_::ET          ET;
     typedef  ostream_iterator<ET>          Et_it;
@@ -736,7 +736,7 @@ operator >> ( std::istream& is, CGAL::Min_annulus_d<Traits_>& min_annulus)
 
       case CGAL::IO::ASCII:
       case CGAL::IO::BINARY:
-        typedef  CGAL::Min_annulus_d<Traits_>::Point  Point;
+        typedef  typename CGAL::Min_annulus_d<Traits_>::Point  Point;
         typedef  istream_iterator<Point>             Is_it;
         min_annulus.set( Is_it( is), Is_it());
         break;

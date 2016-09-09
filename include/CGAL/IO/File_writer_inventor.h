@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/File_writer_inventor.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/19 07:23:17 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/17 12:40:56 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // Writer for polyhedral surfaces in OpenInventor format (.iv)
 // email         : contact@cgal.org

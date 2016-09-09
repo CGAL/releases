@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Min_ellipse_2_Window_stream.h
-// package       : Min_ellipse_2 (3.14)
+// package       : Min_ellipse_2 (3.19)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Min_ellipse_2.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/17 12:51:05 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/02/06 10:49:58 $
 //
 // author(s)     : Sven Schönherr, Bernd Gärtner
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -109,7 +107,8 @@ CGAL::Window_stream&
 operator << ( CGAL::Window_stream &ws,
               const CGAL::Min_ellipse_2<Traits_>& min_ellipse)
 {
-    typedef CGAL::Min_ellipse_2<Traits_>::Point_iterator  Point_iterator;
+    typedef typename CGAL::Min_ellipse_2<Traits_>::Point_iterator
+	    Point_iterator;
 
     Point_iterator  first( min_ellipse.points_begin());
     Point_iterator  last ( min_ellipse.points_end());

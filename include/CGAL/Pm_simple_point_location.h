@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_simple_point_location.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -100,7 +98,7 @@ public:
     traits = (Traits_wrap*)(&tr);
   }
 	
-  void insert(Halfedge_handle h, const X_curve& cv) 
+  void insert(Halfedge_handle, const X_curve &) 
   {
   }
 	
@@ -204,7 +202,7 @@ public:
 		
     typename Planar_map::Halfedge_iterator it, eit, closest_edge;
     bool first = false;
-    typename Traits::Curve_point_status point_above_under;
+    typename Traits::Curve_point_status point_above_under, r;
     int curve_above_under;
 		
     it = pm->halfedges_begin();
@@ -230,8 +228,8 @@ public:
 	 rel_it != relevant_halfedges.end();) 
       {
 	it = *rel_it;
-	if ( traits->curve_get_point_status(it->curve(), p) == 
-	     point_above_under ) 
+	r = traits->curve_get_point_status(it->curve(), p);
+	if ( r == point_above_under ) 
 	  {
 	    if (!first) 
 	      {
@@ -248,6 +246,34 @@ public:
 		  }
 	      }
 	  }
+	if ( ( r == Traits::ON_CURVE) && 
+             (traits->curve_is_vertical(it->curve())) )
+        {
+          // The vertical ray shoot is not including p itself,
+          // thus we are interested only in vertical curves that
+          // extend upwards
+          // In this case the Locate type is always EDGE
+          // Remark: This treatment was originally written in the walk PL.
+          if (up && 
+              traits->point_is_higher(traits->curve_highest(it->curve()), p) ||
+              ! up &&
+              traits->point_is_lower(traits->curve_lowest(it->curve()), p))
+            /*
+              x       x
+              |       |
+              p=x  or  p
+              |
+              x
+            */
+          {
+            lt = Planar_map::EDGE;
+            if (up==traits->point_is_left_low(it->target()->point(),
+                                              it->source()->point()))
+              return it;
+            else 
+              return it->twin();
+          }
+        }
 	++rel_it;
 	++rel_it;
       }
@@ -340,28 +366,24 @@ public:
     return h;
   }
 
-  void split_edge(const X_curve &cv,
-		  Halfedge_handle e1,
-		  Halfedge_handle e2
-		  ,const X_curve& cv1, const X_curve& cv2
-		  ) 
+  void split_edge(const X_curve &,
+		  Halfedge_handle, Halfedge_handle,
+		  const X_curve &, const X_curve &) 
   {
   }
 
-  void merge_edge(const X_curve &cv1,
-		  const X_curve &cv2,
-		  Halfedge_handle e
-		  ,const X_curve& cv
-		  ) 
+  void merge_edge(const X_curve &, const X_curve &,
+		  Halfedge_handle,
+                  const X_curve &) 
   {
   }
 
-  void remove_edge(Halfedge_handle e) 
+  void remove_edge(Halfedge_handle) 
   {
   }
 
-  void remove_edge(const Halfedge_handle_iterator& begin,
-		   const Halfedge_handle_iterator& end) 
+  void remove_edge(const Halfedge_handle_iterator &,
+		   const Halfedge_handle_iterator &) 
   {
   }
 
@@ -369,9 +391,9 @@ public:
   {
   }
 
-  void update(const Halfedge_handle_iterator&,
-	      const Halfedge_handle_iterator&,
-	      const Token& token)
+  void update(const Halfedge_handle_iterator &,
+	      const Halfedge_handle_iterator &,
+	      const Token & token)
   { token.rebuild_bounding_box(this); }
 
 public:
@@ -492,3 +514,4 @@ protected:
 CGAL_END_NAMESPACE
 
 #endif //CGAL_PM_NAIVE_POINT_LOCATION_H
+

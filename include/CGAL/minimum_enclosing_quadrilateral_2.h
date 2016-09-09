@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/minimum_enclosing_quadrilateral_2.h
-// package       : Min_quadrilateral_2 (1.18)
+// package       : Min_quadrilateral_2 (1.21)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : oops.aw
-// revision      : $Revision: 1.20 $
-// revision_date : $Date: 2001/07/06 14:00:03 $
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2002/03/22 09:48:19 $
 // author(s)     : Michael Hoffmann and
 //                 Emo Welzl
 //

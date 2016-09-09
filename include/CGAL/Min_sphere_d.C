@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.C
-// package       : Min_sphere_d (2.27)
+// package       : Min_sphere_d (2.30)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/11 10:11:57 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/02/05 10:18:34 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
@@ -49,6 +47,8 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
+#include <iterator>
 
 CGAL_BEGIN_NAMESPACE
 

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Direction_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/06/21 15:56:55 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2002/02/06 12:32:35 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,90 +46,81 @@
 #ifndef CGAL_CARTESIAN_DIRECTION_3_H
 #define CGAL_CARTESIAN_DIRECTION_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class DirectionC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class DirectionC3
   : public R_::Direction_handle_3
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Vector_3             Vector_3;
+  typedef typename R_::Line_3               Line_3;
+  typedef typename R_::Ray_3                Ray_3;
+  typedef typename R_::Segment_3            Segment_3;
+  typedef typename R_::Direction_3          Direction_3;
+  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+
+  typedef typename R_::Direction_handle_3   base;
+  typedef typename base::element_type       rep;
+
 public:
-  typedef R_                               R;
-  typedef typename R::FT                   FT;
-  typedef typename R::RT                   RT;
-
-  typedef typename R::Direction_handle_3   Direction_handle_3_;
-  typedef typename Direction_handle_3_::element_type Direction_ref_3;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef DirectionC3<R CGAL_CTAG>         Self;
-  typedef typename R::Vector_3             Vector_3;
-  typedef typename R::Line_3               Line_3;
-  typedef typename R::Ray_3                Ray_3;
-  typedef typename R::Segment_3            Segment_3;
-  typedef typename R::Aff_transformation_3 Aff_transformation_3;
-#else
-  typedef DirectionC3<R>                   Self;
-  typedef typename R::Vector_3_base        Vector_3;
-  typedef typename R::Line_3_base          Line_3;
-  typedef typename R::Ray_3_base           Ray_3;
-  typedef typename R::Segment_3_base       Segment_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef R_                                R;
 
   DirectionC3()
-    : Direction_handle_3_(Direction_ref_3()) {}
+    : base(rep()) {}
 
   DirectionC3(const Vector_3 &v)
-    : Direction_handle_3_(v) {}
+    : base(v) {}
 
   DirectionC3(const Line_3 &l)
-    : Direction_handle_3_(l.direction()) {}
+    : base(l.direction()) {}
 
   DirectionC3(const Ray_3 &r)
-    : Direction_handle_3_(r.direction()) {}
+    : base(r.direction()) {}
 
   DirectionC3(const Segment_3 &s)
-    : Direction_handle_3_(s.direction()) {}
+    : base(s.direction()) {}
 
   DirectionC3(const FT &x, const FT &y, const FT &z)
-    : Direction_handle_3_(Direction_ref_3(x, y, z)) {}
+    : base(rep(x, y, z)) {}
 
-  bool           operator==(const Self &d) const;
-  bool           operator!=(const Self &d) const;
+  bool           operator==(const DirectionC3 &d) const;
+  bool           operator!=(const DirectionC3 &d) const;
 
   Vector_3       to_vector() const;
-  Self           transform(const Aff_transformation_3 &t) const
+  Vector_3       vector() const { return to_vector(); }
+
+  Direction_3    transform(const Aff_transformation_3 &t) const
   {
     return t.transform(*this);
   }
 
-  Self           operator-() const;
+  Direction_3    operator-() const;
 
-  FT delta(int i) const;
-  FT dx() const
+  const FT & delta(int i) const;
+  const FT & dx() const
   {
       return Ptr()->e0;
   }
-  FT dy() const
+  const FT & dy() const
   {
       return Ptr()->e1;
   }
-  FT dz() const
+  const FT & dz() const
   {
       return Ptr()->e2;
   }
 
-  FT hdx() const
+  const FT & hdx() const
   {
       return dx();
   }
-  FT hdy() const
+  const FT & hdy() const
   {
       return dy();
   }
-  FT hdz() const
+  const FT & hdz() const
   {
       return dz();
   }
@@ -148,7 +137,7 @@ public:
 template < class R >
 inline
 bool
-DirectionC3<R CGAL_CTAG>::operator==(const DirectionC3<R CGAL_CTAG> &d) const
+DirectionC3<R>::operator==(const DirectionC3<R> &d) const
 {
   if (identical(d))
       return true;
@@ -158,30 +147,30 @@ DirectionC3<R CGAL_CTAG>::operator==(const DirectionC3<R CGAL_CTAG> &d) const
 template < class R >
 inline
 bool
-DirectionC3<R CGAL_CTAG>::operator!=(const DirectionC3<R CGAL_CTAG> &d) const
+DirectionC3<R>::operator!=(const DirectionC3<R> &d) const
 {
   return !(*this == d);
 }
 
 template < class R >
 inline
-typename DirectionC3<R CGAL_CTAG>::Vector_3
-DirectionC3<R CGAL_CTAG>::to_vector() const
+typename DirectionC3<R>::Vector_3
+DirectionC3<R>::to_vector() const
 {
-  return Vector_3(*this);
+  return Vector_3(dx(), dy(), dz());
 }
 
 template < class R >
 inline
-DirectionC3<R CGAL_CTAG> 
-DirectionC3<R CGAL_CTAG>::operator-() const
-{ // FIXME : construction
+typename DirectionC3<R>::Direction_3
+DirectionC3<R>::operator-() const
+{
   return DirectionC3<R>(-dx(), -dy(), -dz());
 }
 
 template < class R >
-typename DirectionC3<R CGAL_CTAG>::FT 
-DirectionC3<R CGAL_CTAG>::delta(int i) const
+const typename DirectionC3<R>::FT &
+DirectionC3<R>::delta(int i) const
 {
   CGAL_kernel_precondition( i >= 0 && i <= 2 );
   if (i==0) return dx();
@@ -192,9 +181,9 @@ DirectionC3<R CGAL_CTAG>::delta(int i) const
 #ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONC3
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const DirectionC3<R CGAL_CTAG> &d)
+operator<<(std::ostream &os, const DirectionC3<R> &d)
 {
-  typename DirectionC3<R CGAL_CTAG>::Vector_3 v = d.to_vector();
+  typename R::Vector_3 v = d.to_vector();
   switch(os.iword(IO::mode)) {
     case IO::ASCII :
       return os << v.x() << ' ' << v.y()  << ' ' << v.z();
@@ -213,7 +202,7 @@ operator<<(std::ostream &os, const DirectionC3<R CGAL_CTAG> &d)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC3
 template < class R >
 std::istream &
-operator>>(std::istream &is, DirectionC3<R CGAL_CTAG> &d)
+operator>>(std::istream &is, DirectionC3<R> &d)
 {
   typename R::FT x, y, z;
   switch(is.iword(IO::mode)) {
@@ -231,7 +220,7 @@ operator>>(std::istream &is, DirectionC3<R CGAL_CTAG> &d)
       break;
   }
   if (is)
-      d = DirectionC3<R CGAL_CTAG>(x, y, z);
+      d = DirectionC3<R>(x, y, z);
   return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC3

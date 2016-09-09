@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Polyhedron_3.h
-// package       : Polyhedron (3.21)
-// chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
-// source        : polyhedron.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/17 02:23:04 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron (3.30)
+// chapter       : 3D-Polyhedral Surfaces
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2002/04/09 17:34:56 $
+//
+// author(s)     : Lutz Kettner)
+// coordinator   : MPI Saarbruecken
 //
 // Polyhedral Surfaces.
 // email         : contact@cgal.org
@@ -255,13 +253,32 @@ public:
     // Change semantic of prev: it is always available at this level.
     // If the HDS does not provide a prev-function, the previous
     // halfedge will be searched around the incident facet.
+private:
+    Halfedge_handle       find_prev( Halfedge_handle,       Tag_true) {
+        return Base::prev();
+    }
+    Halfedge_const_handle find_prev( Halfedge_const_handle, Tag_true) const {
+        return Base::prev();
+    }
+    Halfedge_handle find_prev( Halfedge_handle h, Tag_false) const {
+        CGAL_precondition( &*h != this); // we have at least 2-gons
+        while ( &*(h->next()) != this)
+            h = h->next();
+        return h;
+    }
+    Halfedge_const_handle find_prev( Halfedge_const_handle h, Tag_false) const{
+        CGAL_precondition( &*h != this); // we have at least 2-gons
+        while ( &*(h->next()) != this)
+            h = h->next();
+        return h;
+    }
+
+public:
     Halfedge_handle       prev() {
-        HalfedgeDS_items_decorator<HDS> decorator;
-        return decorator.find_prev( HDS::halfedge_handle(this));
+        return find_prev( next(), Supports_halfedge_prev());
     }
     Halfedge_const_handle prev() const {
-        HalfedgeDS_items_decorator<HDS> decorator;
-        return decorator.find_prev( HDS::halfedge_handle(this));
+        return find_prev( next(), Supports_halfedge_prev());
     }
 
     // Make face-functions also available as facet-functions.
@@ -584,7 +601,7 @@ public:
 
 
 
-private:
+protected:
     HDS     hds;  // the boundary representation.
     Traits  m_traits;
 
@@ -611,20 +628,6 @@ public:
     }
 
 protected:
-#if defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) || \
-    ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-    Halfedge_handle make_tetrahedron( Vertex_handle v1,
-                                      Vertex_handle v2,
-                                      Vertex_handle v3,
-                                      Vertex_handle v4);
-
-    Halfedge_handle make_triangle( Vertex_handle v1,
-                                   Vertex_handle v2,
-                                   Vertex_handle v3);
-#else // defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) ||
-      // ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-      // workaround for g++ 2.95.2
-
     Halfedge_handle
     make_triangle( Vertex_handle v1, Vertex_handle v2, Vertex_handle v3) {
         HalfedgeDS_decorator<HDS> decorator(hds);
@@ -700,31 +703,64 @@ protected:
         decorator.set_face_halfedge( d);
         return h;
     }
-#endif // defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) ||
-       // ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
 
 public:
-    Halfedge_handle make_tetrahedron();
+    Halfedge_handle make_tetrahedron() {
         // the combinatorial structure of a tetrahedron is added to the
         // actual polyhedral surface. Returns an arbitrary halfedge of
         // this structure.
+        reserve( 4 + size_of_vertices(),
+                12 + size_of_halfedges(),
+                 4 + size_of_facets());
+        HalfedgeDS_decorator<HDS> decorator(hds);
+        return make_tetrahedron( decorator.vertices_push_back( Vertex()),
+                                 decorator.vertices_push_back( Vertex()),
+                                 decorator.vertices_push_back( Vertex()),
+                                 decorator.vertices_push_back( Vertex()));
+    }
 
     Halfedge_handle make_tetrahedron( const Point_3& p1,
                                       const Point_3& p2,
                                       const Point_3& p3,
-                                      const Point_3& p4);
+                                      const Point_3& p4) {
+        reserve( 4 + size_of_vertices(),
+                12 + size_of_halfedges(),
+                 4 + size_of_facets());
+        HalfedgeDS_decorator<HDS> decorator(hds);
+        return make_tetrahedron( decorator.vertices_push_back( Vertex(p1)),
+                                 decorator.vertices_push_back( Vertex(p2)),
+                                 decorator.vertices_push_back( Vertex(p3)),
+                                 decorator.vertices_push_back( Vertex(p4)));
 
-    Halfedge_handle make_triangle();
+    }
+
+    Halfedge_handle make_triangle() {
         // the combinatorial structure of a single triangle with border
         // edges is added to the actual polyhedral surface. Returns an
         // arbitrary halfedge of this structure.
+        reserve( 3 + size_of_vertices(),
+                 6 + size_of_halfedges(),
+                 1 + size_of_facets());
+        HalfedgeDS_decorator<HDS> decorator(hds);
+        return make_triangle( decorator.vertices_push_back( Vertex()),
+                              decorator.vertices_push_back( Vertex()),
+                              decorator.vertices_push_back( Vertex()));
+    }
 
     Halfedge_handle make_triangle( const Point_3& p1,
                                    const Point_3& p2,
-                                   const Point_3& p3);
+                                   const Point_3& p3) {
         // the single triangle p_1, p_2, p_3 with border edges is added to
         // the actual polyhedral surface. Returns an arbitrary halfedge of
         // this structure.
+        reserve( 3 + size_of_vertices(),
+                 6 + size_of_halfedges(),
+                 1 + size_of_facets());
+        HalfedgeDS_decorator<HDS> decorator(hds);
+        return make_triangle( decorator.vertices_push_back( Vertex(p1)),
+                              decorator.vertices_push_back( Vertex(p2)),
+                              decorator.vertices_push_back( Vertex(p3)));
+    }
 
 // Access Member Functions
 
@@ -738,6 +774,8 @@ public:
 
     size_type size_of_facets() const { return hds.size_of_faces();}
         // number of facets.
+
+    bool empty() const { return size_of_halfedges() == 0; }
 
     size_type capacity_of_vertices() const {
         // space reserved for vertices.
@@ -824,19 +862,6 @@ public:
     const Traits& traits() const { return m_traits; }
 
 // Geometric Predicates
-
-#if defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) || \
-    ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-    bool is_triangle( Halfedge_const_handle h) const;
-        // returns whether the connected component containing h is a
-        // single triangle.
-
-    bool is_tetrahedron( Halfedge_const_handle h) const;
-        // returns whether the connected component containing h is a
-        // single tetrahedron.
-#else // defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) ||
-      // ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-      // workaround for g++ 2.95.2
 
     bool
     is_triangle( Halfedge_const_handle h1) const {
@@ -992,8 +1017,6 @@ public:
 
         return true;
     }
-#endif // defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) ||
-       // ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
 
 // Euler Operators (Combinatorial Modifications)
 //
@@ -1319,7 +1342,11 @@ public:
 
 protected:            // Supports_face_plane
     void inside_out_geometry( Tag_false) {}
-    void inside_out_geometry( Tag_true);
+    void inside_out_geometry( Tag_true) {
+        typename Traits::Construct_opposite_plane_3 opp
+            = traits().construct_opposite_plane_3_object();
+        std::transform( planes_begin(), planes_end(), planes_begin(), opp);
+    }
 
 public:
     void inside_out() {
@@ -1329,380 +1356,51 @@ public:
         inside_out_geometry( Supports_face_plane());
     }
 
-    bool is_valid( bool verb = false, int level = 0) const;
+    bool is_valid( bool verb = false, int level = 0) const {
         // checks the combinatorial consistency.
-};
-
-
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-#define CGAL__POLYH_TMPL_DECL template < class TR, class Itms, \
-                              template < class T, class I, class A> class HD, \
-                              class Alloc>
-#else
-#define CGAL__POLYH_TMPL_DECL template < class TR, class Itms, class HD, \
-                              class Alloc >
-#endif
-
-#if defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) || \
-    ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-    // workaround for g++ 2.95.2. g+ does not like these external def's
-    // for functions with a parameter dependent on the HDS.
-
-CGAL__POLYH_TMPL_DECL   CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_triangle( Vertex_handle v1, Vertex_handle v2, Vertex_handle v3) {
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    Halfedge_handle h  = hds.edges_push_back( Halfedge(), Halfedge());
-    h->HBase::set_next( hds.edges_push_back( Halfedge(), Halfedge()));
-    h->next()->HBase::set_next( hds.edges_push_back( Halfedge(),
-                                                     Halfedge()));
-    h->next()->next()->HBase::set_next( h);
-    decorator.set_prev( h, h->next()->next());
-    decorator.set_prev( h->next(), h);
-    decorator.set_prev( h->next()->next(), h->next());
-    h->opposite()->HBase::set_next( h->next()->next()->opposite());
-    h->next()->opposite()->HBase::set_next( h->opposite());
-    h->next()->next()->opposite()->HBase::set_next( h->next()->opposite());
-    decorator.set_prev( h->opposite(), h->next()->opposite());
-    decorator.set_prev( h->next()->opposite(),
-                        h->next()->next()->opposite());
-    decorator.set_prev( h->next()->next()->opposite(), h->opposite());
-    // the vertices
-    decorator.set_vertex( h, v1);
-    decorator.set_vertex( h->next(), v2);
-    decorator.set_vertex( h->next()->next(), v3);
-    decorator.set_vertex( h->opposite(), v3);
-    decorator.set_vertex( h->next()->opposite(), v1);
-    decorator.set_vertex( h->next()->next()->opposite(), v2);
-    decorator.set_vertex_halfedge( h);
-    decorator.set_vertex_halfedge( h->next());
-    decorator.set_vertex_halfedge( h->next()->next());
-    // the facet
-    Facet_handle f = decorator.faces_push_back( Facet());
-    decorator.set_face( h, f);
-    decorator.set_face( h->next(), f);
-    decorator.set_face( h->next()->next(), f);
-    decorator.set_face_halfedge( h);
-    return h;
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_tetrahedron( Vertex_handle v1,
-                  Vertex_handle v2,
-                  Vertex_handle v3,
-                  Vertex_handle v4) {
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    Halfedge_handle h  = make_triangle(v1,v2,v3);
-    // The remaining tip.
-    Halfedge_handle g  = hds.edges_push_back( Halfedge(), Halfedge());
-    decorator.insert_tip( g->opposite(), h->opposite());
-    decorator.close_tip( g);
-    decorator.set_vertex( g, v4);
-    Halfedge_handle e  = hds.edges_push_back( Halfedge(), Halfedge());
-    Halfedge_handle d  = hds.edges_push_back( Halfedge(), Halfedge());
-    decorator.insert_tip( e->opposite(), h->next()->opposite());
-    decorator.insert_tip( e, g);
-    decorator.insert_tip( d->opposite(), h->next()->next()->opposite());
-    decorator.insert_tip( d, e);
-    decorator.set_vertex_halfedge( g);
-    // facets
-    Facet_handle f = decorator.faces_push_back( Facet());
-    decorator.set_face( h->opposite(), f);
-    decorator.set_face( g, f);
-    decorator.set_face( e->opposite(), f);
-    decorator.set_face_halfedge( g);
-    f = decorator.faces_push_back( Facet());
-    decorator.set_face( h->next()->opposite(), f);
-    decorator.set_face( e, f);
-    decorator.set_face( d->opposite(), f);
-    decorator.set_face_halfedge( e);
-    f = decorator.faces_push_back( Facet());
-    decorator.set_face( h->next()->next()->opposite(), f);
-    decorator.set_face( d, f);
-    decorator.set_face( g->opposite(), f);
-    decorator.set_face_halfedge( d);
-    return h;
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-bool
-Polyhedron_3<TR,Itms,HD,Alloc>::
-is_triangle( Halfedge_const_handle h1) const {
-    Halfedge_const_handle h2 = h1->next();
-    Halfedge_const_handle h3 = h1->next()->next();
-    // check halfedge combinatorics.
-    // exact two edges at vertices 1, 2, 3.
-    if ( h1->opposite()->next() != h3->opposite())    return false;
-    if ( h2->opposite()->next() != h1->opposite())    return false;
-    if ( h3->opposite()->next() != h2->opposite())    return false;
-    // The facet is a triangle.
-    if ( h1->next()->next()->next() != h1) return false;
-
-    if ( check_tag( Supports_halfedge_face())
-         &&  ! h1->is_border_edge())
-        return false;  // implies h2 and h3
-    CGAL_assertion( ! h1->is_border() || ! h1->opposite()->is_border());
-
-    // Assert consistency.
-    CGAL_assertion( h1 != h2);
-    CGAL_assertion( h1 != h3);
-    CGAL_assertion( h3 != h2);
-
-    // check prev pointer.
-    CGAL_assertion_code( HalfedgeDS_items_decorator<HDS> D;)
-    CGAL_assertion(D.get_prev(h1) == Halfedge_handle() ||
-                   D.get_prev(h1) == h3);
-    CGAL_assertion(D.get_prev(h2) == Halfedge_handle() ||
-                   D.get_prev(h2) == h1);
-    CGAL_assertion(D.get_prev(h3) == Halfedge_handle() ||
-                   D.get_prev(h3) == h2);
-
-    // check vertices.
-    CGAL_assertion( D.get_vertex(h1) == D.get_vertex( h2->opposite()));
-    CGAL_assertion( D.get_vertex(h2) == D.get_vertex( h3->opposite()));
-    CGAL_assertion( D.get_vertex(h3) == D.get_vertex( h1->opposite()));
-
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h1) != D.get_vertex(h2));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h1) != D.get_vertex(h3));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h2) != D.get_vertex(h3));
-
-    // check facets.
-    CGAL_assertion( D.get_face(h1) == D.get_face(h2));
-    CGAL_assertion( D.get_face(h1) == D.get_face(h3));
-
-    return true;
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-bool
-Polyhedron_3<TR,Itms,HD,Alloc>::
-is_tetrahedron( Halfedge_const_handle h1) const {
-    Halfedge_const_handle h2 = h1->next();
-    Halfedge_const_handle h3 = h1->next()->next();
-    Halfedge_const_handle h4 = h1->opposite()->next();
-    Halfedge_const_handle h5 = h2->opposite()->next();
-    Halfedge_const_handle h6 = h3->opposite()->next();
-    // check halfedge combinatorics.
-    // at least three edges at vertices 1, 2, 3.
-    if ( h4 == h3->opposite())    return false;
-    if ( h5 == h1->opposite())    return false;
-    if ( h6 == h2->opposite())    return false;
-    // exact three edges at vertices 1, 2, 3.
-    if ( h4->opposite()->next() != h3->opposite())    return false;
-    if ( h5->opposite()->next() != h1->opposite())    return false;
-    if ( h6->opposite()->next() != h2->opposite())    return false;
-    // three edges at v4.
-    if ( h4->next()->opposite() != h5) return false;
-    if ( h5->next()->opposite() != h6) return false;
-    if ( h6->next()->opposite() != h4) return false;
-    // All facets are triangles.
-    if ( h1->next()->next()->next() != h1) return false;
-    if ( h4->next()->next()->next() != h4) return false;
-    if ( h5->next()->next()->next() != h5) return false;
-    if ( h6->next()->next()->next() != h6) return false;
-    // all edges are non-border edges.
-    if ( h1->is_border()) return false;  // implies h2 and h3
-    CGAL_assertion( ! h2->is_border());
-    CGAL_assertion( ! h3->is_border());
-    if ( h4->is_border()) return false;
-    if ( h5->is_border()) return false;
-    if ( h6->is_border()) return false;
-
-    // Assert consistency.
-    CGAL_assertion( h1 != h2);
-    CGAL_assertion( h1 != h3);
-    CGAL_assertion( h3 != h2);
-    CGAL_assertion( h4 != h5);
-    CGAL_assertion( h5 != h6);
-    CGAL_assertion( h6 != h4);
-
-    // check prev pointer.
-    CGAL_assertion_code( HalfedgeDS_items_decorator<HDS> D;)
-    CGAL_assertion(D.get_prev(h1) == Halfedge_handle() ||
-                   D.get_prev(h1) == h3);
-    CGAL_assertion(D.get_prev(h2) == Halfedge_handle() ||
-                   D.get_prev(h2) == h1);
-    CGAL_assertion(D.get_prev(h3) == Halfedge_handle() ||
-                   D.get_prev(h3) == h2);
-    CGAL_assertion(D.get_prev(h4) == Halfedge_handle() ||
-              D.get_prev(h4) == h1->opposite());
-    CGAL_assertion(D.get_prev(h5) == Halfedge_handle() ||
-              D.get_prev(h5) == h2->opposite());
-    CGAL_assertion(D.get_prev(h6) == Halfedge_handle() ||
-              D.get_prev(h6) == h3->opposite());
-
-    // check vertices.
-    CGAL_assertion( D.get_vertex(h1) == D.get_vertex( h2->opposite()));
-    CGAL_assertion( D.get_vertex(h1) == D.get_vertex( h5->opposite()));
-    CGAL_assertion( D.get_vertex(h2) == D.get_vertex( h3->opposite()));
-    CGAL_assertion( D.get_vertex(h2) == D.get_vertex( h6->opposite()));
-    CGAL_assertion( D.get_vertex(h3) == D.get_vertex( h1->opposite()));
-    CGAL_assertion( D.get_vertex(h3) == D.get_vertex( h4->opposite()));
-    CGAL_assertion( D.get_vertex(h4) == D.get_vertex( h5));
-    CGAL_assertion( D.get_vertex(h4) == D.get_vertex( h6));
-
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h1) != D.get_vertex(h2));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h1) != D.get_vertex(h3));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h1) != D.get_vertex(h4));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h2) != D.get_vertex(h3));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h2) != D.get_vertex(h4));
-    CGAL_assertion( ! check_tag( Supports_halfedge_vertex()) ||
-               D.get_vertex(h3) != D.get_vertex(h4));
-
-    // check facets.
-    CGAL_assertion( D.get_face(h1) == D.get_face(h2));
-    CGAL_assertion( D.get_face(h1) == D.get_face(h3));
-    CGAL_assertion( D.get_face(h4) == D.get_face(h4->next()));
-    CGAL_assertion( D.get_face(h4) == D.get_face(h1->opposite()));
-    CGAL_assertion( D.get_face(h5) == D.get_face(h5->next()));
-    CGAL_assertion( D.get_face(h5) == D.get_face(h2->opposite()));
-    CGAL_assertion( D.get_face(h6) == D.get_face(h6->next()));
-    CGAL_assertion( D.get_face(h6) == D.get_face(h3->opposite()));
-
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h1) != D.get_face(h4));
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h1) != D.get_face(h5));
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h1) != D.get_face(h6));
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h4) != D.get_face(h5));
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h4) != D.get_face(h6));
-    CGAL_assertion( ! check_tag( Supports_halfedge_face()) ||
-               D.get_face(h5) != D.get_face(h6));
-
-    return true;
-}
-
-#endif // defined( CGAL_CFG_NO_TMPL_IN_TMPL_PARAM) ||
-       // ! defined( CGAL_CFG_NO_TMPL_IN_TMPL_DEPENDING_FUNCTION_PARAM)
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_triangle() {
-    reserve( 3 + size_of_vertices(),
-             6 + size_of_halfedges(),
-             1 + size_of_facets());
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    return make_triangle( decorator.vertices_push_back( Vertex()),
-                          decorator.vertices_push_back( Vertex()),
-                          decorator.vertices_push_back( Vertex()));
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_triangle(const Point_3& p1, const Point_3& p2, const Point_3& p3) {
-    reserve( 3 + size_of_vertices(),
-             6 + size_of_halfedges(),
-             1 + size_of_facets());
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    return make_triangle( decorator.vertices_push_back( Vertex(p1)),
-                          decorator.vertices_push_back( Vertex(p2)),
-                          decorator.vertices_push_back( Vertex(p3)));
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_tetrahedron() {
-    reserve( 4 + size_of_vertices(),
-            12 + size_of_halfedges(),
-             4 + size_of_facets());
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    return make_tetrahedron( decorator.vertices_push_back( Vertex()),
-                             decorator.vertices_push_back( Vertex()),
-                             decorator.vertices_push_back( Vertex()),
-                             decorator.vertices_push_back( Vertex()));
-}
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-typename Polyhedron_3<TR,Itms,HD,Alloc>::Halfedge_handle
-Polyhedron_3<TR,Itms,HD,Alloc>::
-make_tetrahedron(const Point_3& p1,
-                 const Point_3& p2,
-                 const Point_3& p3,
-                 const Point_3& p4) {
-    reserve( 4 + size_of_vertices(),
-            12 + size_of_halfedges(),
-             4 + size_of_facets());
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    return make_tetrahedron( decorator.vertices_push_back( Vertex(p1)),
-                             decorator.vertices_push_back( Vertex(p2)),
-                             decorator.vertices_push_back( Vertex(p3)),
-                             decorator.vertices_push_back( Vertex(p4)));
-}
-
-// Special Operations on Polyhedral Surfaces
-
-CGAL__POLYH_TMPL_DECL  CGAL_LARGE_INLINE
-void                               // Supports_facet_plane
-Polyhedron_3<TR,Itms,HD,Alloc>::inside_out_geometry( Tag_true) {
-    typename Traits::Construct_opposite_plane_3 opposite
-        = traits().construct_opposite_plane_3_object();
-    std::transform( planes_begin(), planes_end(), planes_begin(), opposite);
-}
-
-CGAL__POLYH_TMPL_DECL
-bool
-Polyhedron_3<TR,Itms,HD,Alloc>:: is_valid( bool verb, int level) const {
-    Verbose_ostream verr(verb);
-    verr << "begin CGAL::Polyhedron_3<...>::is_valid( verb=true, "
-                      "level = " << level << "):" << std::endl;
-    HalfedgeDS_const_decorator<HDS> D(hds);
-    bool valid = D.is_valid( verb, level + 3);
-    // All halfedges.
-    Halfedge_const_iterator i   = halfedges_begin();
-    Halfedge_const_iterator end = halfedges_end();
-    size_type  n = 0;
-    for( ; valid && (i != end); ++i) {
-        verr << "halfedge " << n << std::endl;
-        // At least triangular facets and distinct geometry.
-        valid = valid && ( i->next() != i);
-        valid = valid && ( i->next()->next() != i);
-        valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
-                           D.get_vertex(i) != D.get_vertex(i->opposite()));
-        valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
-                           D.get_vertex(i) != D.get_vertex(i->next()));
-        valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
-                    D.get_vertex(i) != D.get_vertex(i->next()->next()));
-        if ( ! valid) {
-            verr << "    incident facet is not at least a triangle."
-                 << std::endl;
-            break;
+        Verbose_ostream verr(verb);
+        verr << "begin CGAL::Polyhedron_3<...>::is_valid( verb=true, "
+                          "level = " << level << "):" << std::endl;
+        HalfedgeDS_const_decorator<HDS> D(hds);
+        bool valid = D.is_valid( verb, level + 3);
+        // All halfedges.
+        Halfedge_const_iterator i   = halfedges_begin();
+        Halfedge_const_iterator end = halfedges_end();
+        size_type  n = 0;
+        for( ; valid && (i != end); ++i) {
+            verr << "halfedge " << n << std::endl;
+            // At least triangular facets and distinct geometry.
+            valid = valid && ( i->next() != i);
+            valid = valid && ( i->next()->next() != i);
+            valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
+                               D.get_vertex(i) != D.get_vertex(i->opposite()));
+            valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
+                               D.get_vertex(i) != D.get_vertex(i->next()));
+            valid = valid && ( ! check_tag( Supports_halfedge_vertex()) ||
+                        D.get_vertex(i) != D.get_vertex(i->next()->next()));
+            if ( ! valid) {
+                verr << "    incident facet is not at least a triangle."
+                     << std::endl;
+                break;
+            }
+            // Distinct facets on each side of an halfegde.
+            valid = valid && ( ! check_tag( Supports_halfedge_face()) ||
+                               D.get_face(i) != D.get_face(i->opposite()));
+            if ( ! valid) {
+                verr << "    both incident facets are equal." << std::endl;
+                break;
+            }
+            ++n;
         }
-        // Distinct facets on each side of an halfegde.
-        valid = valid && ( ! check_tag( Supports_halfedge_face()) ||
-                           D.get_face(i) != D.get_face(i->opposite()));
-        if ( ! valid) {
-            verr << "    both incident facets are equal." << std::endl;
-            break;
-        }
-        ++n;
+        valid = valid && (n == size_of_halfedges());
+        if ( n != size_of_halfedges())
+            verr << "counting halfedges failed." << std::endl;
+
+        verr << "end of CGAL::Polyhedron_3<...>::is_valid(): structure is "
+             << ( valid ? "valid." : "NOT VALID.") << std::endl;
+        return valid;
     }
-    valid = valid && (n == size_of_halfedges());
-    if ( n != size_of_halfedges())
-        verr << "counting halfedges failed." << std::endl;
-
-    verr << "end of CGAL::Polyhedron_3<...>::is_valid(): structure is "
-         << ( valid ? "valid." : "NOT VALID.") << std::endl;
-    return valid;
-}
-
-#undef CGAL__POLYH_TMPL_DECL
+};
 
 CGAL_END_NAMESPACE
 

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/HalfedgeDS_face_base.h
-// package       : HalfedgeDS (3.21)
-// chapter       : $CGAL_Chapter: Halfedge Data Structures $
-// source        : hds_bases.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/25 08:08:39 $
-// author(s)     : Lutz Kettner
+// package       : HalfedgeDS (3.33)
+// chapter       : Halfedge Data Structures
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/12/18 13:01:45 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : MPI Saarbruecken
 //
 // Halfedge Data Structure Base Classes for Faces.
 // email         : contact@cgal.org
@@ -58,7 +56,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
+#if ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION) \
+ && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 // We use Tag_false to indicate that no plane type is provided.
 
@@ -185,7 +184,8 @@ public:
     //Normal                normal() const { return pln.orthogonal_vector();}
 };
 
-#else // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION //
+#else //    ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION)
+      // && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 // Partial specialization doesn't work. We can factor out the
 // Plane parameter in a base class with full specialization
@@ -260,7 +260,8 @@ public:
     //}
 };
 
-#endif // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION //
+#endif //    ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION)
+       // && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 CGAL_END_NAMESPACE
 

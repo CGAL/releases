@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : demo/Triangulation3/demo.C
-// revision      : $Revision: 1.8 $
+// revision      : $Revision: 1.9 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis (Mariette Yvinec)
@@ -56,7 +54,10 @@ int main()
 #else
 
 #include <CGAL/Simple_cartesian.h>
-#include <CGAL/Filtered_kernel.h>
+#include <CGAL/MP_Float.h> 
+#include <CGAL/Lazy_exact_nt.h>
+#include <CGAL/Quotient.h>
+#include <CGAL/Filtered_exact.h>
 
 #include <CGAL/Delaunay_triangulation_3.h>
 
@@ -68,7 +69,12 @@ int main()
 #include <unistd.h>
 #include <list>
 
-typedef CGAL::Filtered_kernel<CGAL::Simple_cartesian<double> > K;
+// an exact number type is needed because we are using constructions
+// (circumcenter computations) in this demo, not only predicates 
+typedef CGAL::Lazy_exact_nt<CGAL::Quotient<CGAL::MP_Float> > NT1; 
+typedef CGAL::Filtered_exact<NT1, NT1> NT;
+
+typedef CGAL::Simple_cartesian<NT> K;
 
 typedef CGAL::Triangulation_3<K> Triangulation;
 typedef CGAL::Delaunay_triangulation_3<K> Delaunay;
@@ -100,7 +106,7 @@ int main()
   for (z=0 ; z<3 ; z++)
     for (y=0 ; y<3 ; y++)
       for (x=0 ; x<3 ; x++) 
-	  T.insert(Point(x,y,z));
+	  T.insert(Point(NT(x),NT(y),NT(z)));
 
   T.is_valid(true);
 

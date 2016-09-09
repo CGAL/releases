@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_default_point_location.C
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -68,7 +66,7 @@ CGAL_BEGIN_NAMESPACE
 	of this region.
 	*/
 template <class Planar_map>
-Pm_default_point_location<Planar_map>::Halfedge_handle
+typename Pm_default_point_location<Planar_map>::Halfedge_handle
 Pm_default_point_location<Planar_map>::locate(const Point& p, Locate_type& lt)
   const
 {
@@ -91,7 +89,7 @@ Pm_default_point_location<Planar_map>::locate(const Point& p, Locate_type& lt)
     }
 
 template <class Planar_map>
-Pm_default_point_location<Planar_map>::Halfedge_handle
+typename Pm_default_point_location<Planar_map>::Halfedge_handle
 Pm_default_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
 	((Bounding_box*)get_bounding_box())->insert(p);
 	Halfedge_handle h=((cPLp)this)->locate(p,lt);
@@ -110,7 +108,7 @@ Pm_default_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
 	of this region.
 	*/
 template <class Planar_map>
-Pm_default_point_location<Planar_map>::Halfedge_handle
+typename Pm_default_point_location<Planar_map>::Halfedge_handle
 Pm_default_point_location<Planar_map>::vertical_ray_shoot(
 	const Point& p, Locate_type& lt, bool up) const{
 
@@ -132,7 +130,7 @@ Pm_default_point_location<Planar_map>::vertical_ray_shoot(
     }
 
 template <class Planar_map>
-Pm_default_point_location<Planar_map>::Halfedge_handle
+typename Pm_default_point_location<Planar_map>::Halfedge_handle
 Pm_default_point_location<Planar_map>::vertical_ray_shoot(
 	const Point& p, Locate_type& lt, bool up){
 /* Make sure the source point is in the bounding box on the output */

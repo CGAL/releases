@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/global_operators_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/11/16 21:31:08 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/01/23 17:59:14 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,80 +46,78 @@
 #ifndef CGAL_CARTESIAN_GLOBAL_OPERATORS_3_H
 #define CGAL_CARTESIAN_GLOBAL_OPERATORS_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-PointC3<R CGAL_CTAG>
-operator+(const PointC3<R CGAL_CTAG> &p, const VectorC3<R CGAL_CTAG> &v)
-{ // FIXME : construction
-  return PointC3<R CGAL_CTAG>(p.x() + v.x(), p.y() + v.y(), p.z() + v.z());
-}
-
-template < class R >
-inline
-PointC3<R CGAL_CTAG>
-operator-(const PointC3<R CGAL_CTAG> &p, const VectorC3<R CGAL_CTAG> &v)
-{ // FIXME : construction
-  return PointC3<R CGAL_CTAG>(p.x() - v.x(), p.y() - v.y(), p.z() - v.z());
-}
-
-template < class R >
-inline
-PointC3<R CGAL_CTAG>
-operator+(const Origin &, const VectorC3<R CGAL_CTAG> &v)
+typename R::Point_3
+operator+(const PointC3<R> &p, const VectorC3<R> &v)
 {
-  return PointC3<R CGAL_CTAG>(v);
+  return PointC3<R>(p.x() + v.x(), p.y() + v.y(), p.z() + v.z());
 }
 
 template < class R >
 inline
-PointC3<R CGAL_CTAG>
-operator-(const Origin &, const VectorC3<R CGAL_CTAG> &v)
+typename R::Point_3
+operator-(const PointC3<R> &p, const VectorC3<R> &v)
 {
-  return PointC3<R CGAL_CTAG>(-v);
+  return PointC3<R>(p.x() - v.x(), p.y() - v.y(), p.z() - v.z());
 }
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-operator-(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
-{ // FIXME : construction
-  return VectorC3<R CGAL_CTAG>(p.x() - q.x(), p.y() - q.y(), p.z() - q.z());
-}
-
-template < class R >
-inline
-VectorC3<R CGAL_CTAG>
-operator-(const PointC3<R CGAL_CTAG> &p, const Origin &)
+typename R::Point_3
+operator+(const Origin &, const VectorC3<R> &v)
 {
-  return VectorC3<R CGAL_CTAG>(p);
+  return PointC3<R>(v);
 }
 
 template < class R >
 inline
-VectorC3<R CGAL_CTAG>
-operator-(const Origin &, const PointC3<R CGAL_CTAG> &p)
-{ // FIXME : construction
-  return VectorC3<R CGAL_CTAG>(-p.x(), -p.y(), -p.z());
+typename R::Point_3
+operator-(const Origin &, const VectorC3<R> &v)
+{
+  return PointC3<R>(-v);
+}
+
+template < class R >
+inline
+typename R::Vector_3
+operator-(const PointC3<R> &p, const PointC3<R> &q)
+{
+  return VectorC3<R>(p.x() - q.x(), p.y() - q.y(), p.z() - q.z());
+}
+
+template < class R >
+inline
+typename R::Vector_3
+operator-(const PointC3<R> &p, const Origin &)
+{
+  return VectorC3<R>(p);
+}
+
+template < class R >
+inline
+typename R::Vector_3
+operator-(const Origin &, const PointC3<R> &p)
+{
+  return VectorC3<R>(-p.x(), -p.y(), -p.z());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-VectorC3<R CGAL_CTAG>
-operator*(const typename R::FT &c, const VectorC3<R CGAL_CTAG> &w)
-{ // FIXME : construction
-   return VectorC3<R CGAL_CTAG>(c * w.x(), c * w.y(), c * w.z());
+typename R::Vector_3
+operator*(const typename R::FT &c, const VectorC3<R> &w)
+{
+   return VectorC3<R>(c * w.x(), c * w.y(), c * w.z());
 }
 
 template < class R >
 CGAL_KERNEL_INLINE
-VectorC3<R CGAL_CTAG>
-operator*(const VectorC3<R CGAL_CTAG> &w, const typename R::FT &c)
-{ // FIXME : construction
-   return VectorC3<R CGAL_CTAG>(c * w.x(), c * w.y(), c * w.z());
+typename R::Vector_3
+operator*(const VectorC3<R> &w, const typename R::FT &c)
+{
+   return VectorC3<R>(c * w.x(), c * w.y(), c * w.z());
 }
 
 CGAL_END_NAMESPACE

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_hierarchy_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // revision      : 
 // revision_date : 
 // author(s)     : Olivier Devillers
@@ -315,7 +313,7 @@ is_valid() const
 
   
 template <class Tr>
-Triangulation_hierarchy_2<Tr>::Vertex_handle
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle
 Triangulation_hierarchy_2<Tr>::
 insert(const Point &p)
 {
@@ -343,7 +341,7 @@ insert(const Point &p)
 
 template <class Tr>
 inline
-Triangulation_hierarchy_2<Tr>::Vertex_handle
+typename Triangulation_hierarchy_2<Tr>::Vertex_handle
 Triangulation_hierarchy_2<Tr>::
 push_back(const Point &p)
 {
@@ -390,7 +388,7 @@ remove_second(Vertex_handle v )
 }
 
 template <class Tr>
-Triangulation_hierarchy_2<Tr>::Face_handle 
+typename Triangulation_hierarchy_2<Tr>::Face_handle 
 Triangulation_hierarchy_2<Tr>::
 locate(const Point& p, Locate_type& lt, int& li) const
 {
@@ -400,7 +398,7 @@ locate(const Point& p, Locate_type& lt, int& li) const
 }
 
 template <class Tr>
-Triangulation_hierarchy_2<Tr>::Face_handle 
+typename Triangulation_hierarchy_2<Tr>::Face_handle 
 Triangulation_hierarchy_2<Tr>::
 locate(const Point& p) const
 {

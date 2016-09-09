@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Polygon_2_algorithms.C
-// package       : Polygon (4.2.4)
+// package       : Polygon (4.8.1)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -69,7 +67,7 @@ CGAL_BEGIN_NAMESPACE
 
 
 template <class ForwardIterator, class PolygonTraits>
-inline bool is_simple_2(ForwardIterator first,
+bool is_simple_2(ForwardIterator first,
                       ForwardIterator last,
                       const PolygonTraits& traits)
 {
@@ -335,7 +333,7 @@ Bounded_side bounded_side_2(ForwardIterator first,
   Comparison_result cur_y_comp_res = compare_y_2(*current, point);
 
   do // check if the segment (current,next) intersects
-     // the ray { (t,y) | t >= point.x() }
+     // the ray { (t,point.y()) | t >= point.x() }
   {
     Comparison_result next_y_comp_res = compare_y_2(*next, point);
 
@@ -381,10 +379,6 @@ Bounded_side bounded_side_2(ForwardIterator first,
 		    return ON_BOUNDARY;
 	        break;
 	    }
-            if ( (std::min((*current).x(), (*next).x()) <= point.x()) &&
-                 (point.x() <= std::max((*current).x(), (*next).x()))    ) {
-              return ON_BOUNDARY;
-            }
             break;
           case LARGER:
             if (compare_x_2(point, *current) == EQUAL) {

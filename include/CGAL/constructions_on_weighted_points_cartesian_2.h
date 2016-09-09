@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/constructions_on_weighted_points_cartesian_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: constructions_on_weighted_points_cartesian_2.h,v $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/12/26 08:54:34 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/01/28 12:49:04 $
 // author(s)     : Julia Flototto, Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec 
@@ -50,7 +48,7 @@
 #ifndef CGAL_CONSTRUCTIONS_ON_WEIGHTED_POINTS_CARTESIAN_2_H
 #define CGAL_CONSTRUCTIONS_ON_WEIGHTED_POINTS_CARTESIAN_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
+//#include <CGAL/Cartesian/redefine_names_2.h>
 
 CGAL_BEGIN_NAMESPACE 
 

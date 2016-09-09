@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,17 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Line_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:49:52 $
+// package       : _3 (3.31)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/01/23 12:30:06 $
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,67 +47,41 @@
 #ifndef CGAL_LINE_3_H
 #define CGAL_LINE_3_H
 
-#include <CGAL/Segment_3.h>
-#include <CGAL/Point_3.h>
-#include <CGAL/Ray_3.h>
-#include <CGAL/Plane_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Line_3 : public R_::Line_3_base
+class Line_3 : public R_::Kernel_base::Line_3
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Point_3               Point_3;
+  typedef typename R_::Ray_3                 Ray_3;
+  typedef typename R_::Segment_3             Segment_3;
+  typedef typename R_::Direction_3           Direction_3;
+  typedef typename R_::Kernel_base::Line_3  RLine_3;
 public:
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Line_3_base  RLine_3;
 
   Line_3() : RLine_3()
   {}
 
   Line_3(const CGAL::Line_3<R>  & l)
-      : RLine_3( static_cast<const RLine_3&>(l))
-  {}
+      : RLine_3( static_cast<const RLine_3&>(l)) {}
 
-  Line_3(const CGAL::Point_3<R> & p, const CGAL::Point_3<R> & q)
-      : RLine_3(p,q)
-  {}
+  Line_3(const Point_3 & p, const Point_3 & q)
+      : RLine_3(p,q) {}
 
   // conversion impl -> interface class
-  Line_3(const RLine_3&  l) : RLine_3(l)
-  {}
+  Line_3(const RLine_3& l)
+      : RLine_3(l) {}
 
-  Line_3(const CGAL::Segment_3<R> & s) : RLine_3( s )
-  {}
+  Line_3(const Segment_3 & s)
+      : RLine_3( s ) {}
 
-  Line_3(const CGAL::Ray_3<R> & r) : RLine_3( r )
-  {}
+  Line_3(const Ray_3 & r)
+      : RLine_3( r ) {}
 
-  Line_3(const CGAL::Point_3<R> & p, const CGAL::Direction_3<R> & d)
-      : RLine_3( p, d )
-  {}
-
-  CGAL::Plane_3<R>     perpendicular_plane(const CGAL::Point_3<R> & p) const
-  { return RLine_3::perpendicular_plane(p); }
-
-  CGAL::Line_3<R>      opposite() const
-  { return RLine_3::opposite(); }
-
-  CGAL::Point_3<R>     point() const
-  { return RLine_3::point(); }
-
-  CGAL::Point_3<R>     point(int i) const
-  { return RLine_3::point(i); }
-
-  CGAL::Point_3<R>     projection(const CGAL::Point_3<R>& p) const
-  { return RLine_3::projection(p); }
-
-  CGAL::Direction_3<R> direction() const
-  { return RLine_3::direction(); }
-
-  CGAL::Line_3<R>      transform(const CGAL::Aff_transformation_3<R> & t) const
-  { return RLine_3::transform(t); }
+  Line_3(const Point_3 & p, const Direction_3 & d)
+      : RLine_3( p, d ) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_LINE_3
@@ -117,7 +89,7 @@ template < class R >
 std::ostream&
 operator<<(std::ostream& os, const Line_3<R>& l)
 {
-  typedef typename  R::Line_3_base  RLine_3;
+  typedef typename  R::Kernel_base::Line_3  RLine_3;
   return os << static_cast<const RLine_3&>(l);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_LINE_3
@@ -127,7 +99,7 @@ template < class R >
 std::istream&
 operator>>(std::istream & is, Line_3<R> & p)
 {
-  typedef typename  R::Line_3_base  RLine_3;
+  typedef typename  R::Kernel_base::Line_3  RLine_3;
   is >> static_cast<RLine_3&>(p);
   return is;
 }

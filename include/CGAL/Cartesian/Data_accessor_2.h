@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Data_accessor_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2000/10/03 13:51:33 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/01/23 17:59:06 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,22 +46,18 @@
 #ifndef CGAL_CARTESIAN_DATA_ACCESSOR_2_H
 #define CGAL_CARTESIAN_DATA_ACCESSOR_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 // 2D Cartesian point data accessor
 template < class R_ >
-class Data_accessorC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class Data_accessorC2
 {
 public:
+    // Min_ellipse_2 wants FT public...
+    typedef typename R_::FT                   FT;
+    typedef typename R_::Point_2              Point;
+
     typedef R_                           R;
-    typedef typename R::FT               FT;
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-    typedef  typename R::Point_2          Point;
-#else
-    typedef  typename R::Point_2_base     Point;
-#endif
 
     FT  get_x( const Point &p) const { return( p.x()); }
     FT  get_y( const Point &p) const { return( p.y()); }

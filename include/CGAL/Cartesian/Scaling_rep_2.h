@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Scaling_rep_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2000/11/16 21:31:01 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/10/03 12:41:32 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -60,7 +58,6 @@ friend class Rotation_repC2<R>;
 public:
   typedef Aff_transformation_rep_baseC2<R> Aff_t_base;
   typedef typename Aff_t_base::FT                FT;
-  typedef typename Aff_t_base::RT                RT;
   typedef typename Aff_t_base::Point_2           Point_2;
   typedef typename Aff_t_base::Vector_2          Vector_2;
   typedef typename Aff_t_base::Direction_2       Direction_2;

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/_QP_solver/Double.h
-// package       : _QP_solver (0.9.3)
+// package       : _QP_solver (0.9.7)
 //
 // revision      : 0.1
 // revision_date : 2000/08/09
@@ -56,13 +54,15 @@
 
 CGAL_BEGIN_NAMESPACE
 
+template<> struct Number_type_traits<GMP::Double> {
+  typedef Tag_false  Has_gcd_tag;
+  typedef Tag_true   Has_division_tag;
+  typedef Tag_false  Has_sqrt_tag;
+};
+
 inline
 double
 to_double( GMP::Double d) { return d.to_double(); }
-
-inline
-Number_tag
-number_type_tag( GMP::Double) { return Number_tag(); }
 
 inline
 bool is_finite( GMP::Double) { return true; }

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Sphere_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/06/20 12:25:25 $
+// package       : _3 (3.31)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/01/23 12:30:10 $
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -51,47 +49,38 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Sphere_3 : public R_::Sphere_3_base
+class Sphere_3 : public R_::Kernel_base::Sphere_3
 {
+  typedef typename R_::FT                    FT;
+  typedef typename R_::Point_3               Point_3;
+  typedef typename R_::Kernel_base::Sphere_3  RSphere_3;
 public:
-
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Sphere_3_base  RSphere_3;
 
       Sphere_3()
       {}
 
       Sphere_3(const RSphere_3& s)
-      : RSphere_3(s)
-      {}
+      : RSphere_3(s) {}
 
-      Sphere_3(const CGAL::Point_3<R>& p, const FT& sq_rad,
+      Sphere_3(const Point_3& p, const FT& sq_rad,
                const Orientation& o = COUNTERCLOCKWISE)
-       : RSphere_3(p, sq_rad, o)
-      {}
+       : RSphere_3(p, sq_rad, o) {}
 
-      Sphere_3(const CGAL::Point_3<R>& p, const CGAL::Point_3<R>& q,
-               const CGAL::Point_3<R>& r, const CGAL::Point_3<R>& u)
-       : RSphere_3(p, q, r, u)
-      {}
+      Sphere_3(const Point_3& p, const Point_3& q,
+               const Point_3& r, const Point_3& u)
+       : RSphere_3(p, q, r, u) {}
 
-      Sphere_3(const CGAL::Point_3<R>& p, const CGAL::Point_3<R>& q,
-               const CGAL::Point_3<R>& r,
+      Sphere_3(const Point_3& p, const Point_3& q, const Point_3& r,
                const Orientation& o = COUNTERCLOCKWISE)
-       : RSphere_3(p, q, r, o)
-      {}
+       : RSphere_3(p, q, r, o) {}
 
-      Sphere_3(const CGAL::Point_3<R>&  p, const CGAL::Point_3<R>&  q,
+      Sphere_3(const Point_3& p, const Point_3&  q,
                const Orientation& o = COUNTERCLOCKWISE)
-       : RSphere_3(p, q, o)
-      {}
+       : RSphere_3(p, q, o) {}
 
-      Sphere_3(const CGAL::Point_3<R>&  p,
-               const Orientation& o = COUNTERCLOCKWISE)
-       : RSphere_3(p, o)
-      {}
+      Sphere_3(const Point_3& p, const Orientation& o = COUNTERCLOCKWISE)
+       : RSphere_3(p, o) {}
 };
 
 CGAL_END_NAMESPACE

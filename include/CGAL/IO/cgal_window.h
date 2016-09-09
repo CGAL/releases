@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/IO/cgal_window.h
-// package       : window (2.8.10)
+// package       : window (2.8.27)
 // revision      : 2.8.5
 // revision_date : 22 June 2001 
 // author(s)     : Matthias Baesken
@@ -51,7 +49,7 @@
 
 #include <CGAL/IO/Color.h>
 #include <CGAL/LEDA/window.h>
-#include <CGAL/IO/esprit_logo.xpm>
+#include <CGAL/IO/cgal_logo.h>
 
 
 CGAL_BEGIN_NAMESPACE
@@ -75,7 +73,7 @@ cgalize(CGAL::window& w)
   w.set_frame_label("CGAL-2.3");
   w.set_icon_label("CGAL");
   w.set_line_width( 2);
-  w.set_icon_pixrect( w.create_pixrect((const char**) esprit_logo));
+  w.set_icon_pixrect( w.create_pixrect((const char**) cgal_logo));
 }
 
 inline

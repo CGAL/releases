@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/DirectionHd.C
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
 //
@@ -87,7 +85,7 @@ cmp(const DirectionHd<RT,LA>& h1,
 
 template <class RT, class LA>
 std::istream& operator>>(std::istream& I, DirectionHd<RT,LA>& dir)
-{ dir.copy_on_write(); dir.ptr->read(I); 
+{ dir.copy_on_write(); dir.ptr()->read(I); 
   CGAL_assertion_msg((dir.D()>=0), 
   "operator>>: denominator of direction must be nonnegative."); 
   return I; 
@@ -95,7 +93,7 @@ std::istream& operator>>(std::istream& I, DirectionHd<RT,LA>& dir)
 
 template <class RT, class LA>
 std::ostream& operator<<(std::ostream& O, const DirectionHd<RT,LA>& dir)
-{ dir.ptr->print(O,"DirectionHd"); return O; } 
+{ dir.ptr()->print(O,"DirectionHd"); return O; } 
 
 template <class RT, class LA>
 inline CGAL::io_Operator io_tag(const DirectionHd<RT,LA>&) 

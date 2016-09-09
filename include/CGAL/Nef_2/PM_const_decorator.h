@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/PM_const_decorator.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/16 12:47:23 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/03/22 15:19:58 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -53,72 +51,19 @@
 #define CGAL_PM_CONST_DECORATOR_H
 
 #include <CGAL/basic.h>
-#include <CGAL/circulator.h>
 #include <CGAL/Unique_hash_map.h>
 #include <string>
 #include <list>
 #include <strstream>
 #include <CGAL/Nef_2/Object_index.h>
+#include <CGAL/Nef_2/iterator_tools.h>
 #undef _DEBUG
 #define _DEBUG 7
 #include <CGAL/Nef_2/debug.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <typename Iter, typename Move> 
-class CircFromIt : public Iter {
-    // Ptr  node;    // The internal node ptr inherited from It.
-    typedef CircFromIt<Iter,Move> ThisClass;
-public:
-
-    CircFromIt() : Iter(0) {}
-    CircFromIt(Iter i) : Iter(i) {}
-
-// OPERATIONS Forward Category
-// ---------------------------
-
-    bool operator==( CGAL_NULL_TYPE p ) const {
-      CGAL_assertion( p == NULL );
-      return Iter::operator==( Iter(NULL) );
-    }
-    bool operator!=( CGAL_NULL_TYPE p ) const {
-      return !(*this == p);
-    }
-    bool operator==( const ThisClass& i ) const {
-      return Iter::operator==(i);
-    }
-    bool operator!=( const ThisClass& i) const {
-        return !(*this == i);
-    }
-
-    ThisClass& operator++() {
-      Move move;
-      move.forward(*this);
-      return *this;
-    }
-    ThisClass  operator++(int) {
-      CircFromIt tmp = *this;
-      ++*this;
-      return tmp;
-    }
-
-// OPERATIONS Bidirectional Category
-// ---------------------------------
-
-    ThisClass& operator--() {
-      Move move;
-      move.backward(*this);
-      return *this;
-    }
-    ThisClass  operator--(int) {
-      CircFromIt tmp = *this;
-      --*this;
-      return tmp;
-    }
-
-};
-
-#ifndef _MSC_VER
+#if ! defined(_MSC_VER) || _MSC_VER >= 1300
 
 template <typename Iter, typename Move>
 inline CGAL::Circulator_tag  
@@ -138,28 +83,6 @@ template <typename HE>
 struct move_halfedge_around_face {
   void forward(HE& e)  const { e = (e->next()); }
   void backward(HE& e) const { e = (e->prev()); }
-};
-
-template <typename Iter, typename Pnt> 
-class PntItFromVertIt : public Iter {
-public:
-  typedef PntItFromVertIt<Iter,Pnt> Self;
-  typedef Iter Base;
-  typedef Pnt  value_type;
-  typedef const Pnt* pointer;
-  typedef const Pnt& reference;
-
-  PntItFromVertIt() : Base() {}
-  PntItFromVertIt(Iter it) : Base(it) {}
-  PntItFromVertIt(const Self& it) : Base(it) {}
-
-  reference operator*() const 
-  { return Base::operator*().point(); }
-  pointer operator->() const 
-  { return &(operator*()); }
-  Self& operator++() { return (Self&)Base::operator++(); }
-  Self operator++(int) { Self tmp=*this; ++*this; return tmp; }
-
 };
 
 

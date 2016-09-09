@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/circulator.h
-// package       : Circulator (3.17)
+// package       : Circulator (3.26)
 // chapter       : $CGAL_Chapter: Circulators $
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/02/25 12:14:58 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/04/15 11:50:50 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
@@ -226,12 +224,14 @@ inline void Assert_compile_time_tag( const Tag&, const Derived& b) {
 #endif
 
 template <class C> inline
-void Assert_circulator( const C &c) {
-    Assert_compile_time_tag( Circulator_tag(),query_circulator_or_iterator(c));
+void Assert_circulator( const C &) {
+    typedef typename Circulator_traits<C>::category category;
+    Assert_compile_time_tag( Circulator_tag(), category());
 }
 template <class I> inline
-void Assert_iterator( const I &i) {
-    Assert_compile_time_tag( Iterator_tag(), query_circulator_or_iterator(i));
+void Assert_iterator( const I &) {
+    typedef typename Circulator_traits<I>::category category;
+    Assert_compile_time_tag( Iterator_tag(), category());
 }
 template <class I> inline
 void Assert_input_category( const I &/*i*/) {
@@ -349,7 +349,8 @@ bool is_empty_range( const IC& ic1, const IC& ic2){
     // is `true' if the range [`ic1, ic2') is empty, `false' otherwise.
     // Precondition: `T' is either a circulator or an iterator type. The
     // range [`ic1, ic2') is valid.
-    return I_is_empty_range( ic1, ic2, query_circulator_or_iterator(ic1));
+    typedef typename Circulator_traits<IC>::category category;
+    return I_is_empty_range( ic1, ic2, category());
 }
 
 struct Circulator_or_iterator_tag {};  // any circulator or iterator.
@@ -366,10 +367,11 @@ check_circulator_or_iterator( Iterator_tag ){
 }
 
 template< class IC> inline
-void Assert_circulator_or_iterator( const IC &ic){
+void Assert_circulator_or_iterator( const IC &){
+    typedef typename Circulator_traits<IC>::category category;
     Assert_compile_time_tag(
         Circulator_or_iterator_tag(),
-        check_circulator_or_iterator( query_circulator_or_iterator(ic)));
+        check_circulator_or_iterator( category()));
 }
 
 #define CGAL_For_all( ic1, ic2) \
@@ -470,22 +472,34 @@ circulator_distance( const C& c, const C& d) {
 				std::iterator_traits<C>::iterator_category());
 }
 template <class C> inline
+#ifdef __SUNPRO_CC
+ptrdiff_t
+#else
 typename std::iterator_traits<C>::difference_type
+#endif // __SUNPRO_CC
 I_iterator_distance(const C& c1, const C& c2, Circulator_tag) {
     return circulator_distance( c1, c2);
 }
 
 template <class I> inline
+#ifdef __SUNPRO_CC
+ptrdiff_t
+#else
 typename std::iterator_traits<I>::difference_type
+#endif // __SUNPRO_CC
 I_iterator_distance(const I& i1, const I& i2, Iterator_tag) {
     return std::distance( i1, i2);
 }
 
 template <class IC> inline
+#ifdef __SUNPRO_CC
+ptrdiff_t
+#else
 typename std::iterator_traits<IC>::difference_type
+#endif // __SUNPRO_CC
 iterator_distance(const IC& ic1, const IC& ic2) {
-    return I_iterator_distance( ic1, ic2,
-                                query_circulator_or_iterator(ic1));
+    typedef typename Circulator_traits<IC>::category category;
+    return I_iterator_distance( ic1, ic2, category());
 }
 template <class C> inline
 C I_get_min_circulator( C c, Forward_circulator_tag) {
@@ -501,9 +515,9 @@ C I_get_min_circulator( C c, Random_access_circulator_tag) {
 }
 template <class C> inline
 C get_min_circulator( C c) {
-    return I_get_min_circulator( c, 
-				 //std::iterator_category(c));
-				 std::iterator_traits<C>::iterator_category());
+    typedef std::iterator_traits<C> Traits;
+    typedef typename Traits::iterator_category Category;
+    return I_get_min_circulator( c, Category());
 }
 template<class I, class U> inline
 I non_negative_mod(I n, U m) {
@@ -1058,6 +1072,7 @@ operator+=( typename Ctnr::difference_type n) {
     return *this;
 }
 #endif // _MSC_VER
+
 // Note: TT, SS, and DD are here for backwards compatibility, they are
 // not used.
 template < class  I, class TT = int, class SS = int, class DD = int>
@@ -1084,10 +1099,14 @@ private:
     I m_end;
     I current;
 
+    static I null_iterator;
+
 public:
 // CREATION
 
-    Circulator_from_iterator() : m_begin(I()), m_end(I()), current(I()) {}
+    Circulator_from_iterator() : m_begin( null_iterator),
+                                 m_end(   null_iterator),
+                                 current( null_iterator) {}
 
     Circulator_from_iterator( const I& bgn, const I& end)
         : m_begin(bgn), m_end(end), current(bgn) {}
@@ -1185,6 +1204,9 @@ public:
     iterator  current_iterator() const { return current;}
     Self      min_circulator()   const { return Self( m_begin, m_end); }
 };
+
+template < class I, class  T, class Size, class Dist>
+I Circulator_from_iterator< I, T, Size, Dist>::null_iterator = I();
 
 template < class D, class I, class  T, class Size, class Dist> inline
 Circulator_from_iterator< I, T, Size, Dist>

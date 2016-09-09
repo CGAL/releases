@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999,2000 The CGAL Consortium
+// Copyright (c) 1999,2000,2001 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/predicates/Regular_triangulation_ftC2.h
-// package       : Interval_arithmetic (4.114)
+// package       : Interval_arithmetic (4.141)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -48,6 +46,8 @@
 
 #ifndef CGAL_ARITHMETIC_FILTER_REGULAR_TRIANGULATION_FTC2_H
 #define CGAL_ARITHMETIC_FILTER_REGULAR_TRIANGULATION_FTC2_H
+
+#include <CGAL/Profile_counter.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -75,6 +75,10 @@ power_testC2(
 {
   try
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter calls("IA power_testC2 calls");
+    ++calls;
+#endif
     Protect_FPU_rounding<CGAL_IA_PROTECTED> Protection;
     return power_testC2(
 		px.interval(),
@@ -92,6 +96,10 @@ power_testC2(
   } 
   catch (Interval_nt_advanced::unsafe_comparison)
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter failures("IA power_testC2 failures");
+    ++failures;
+#endif
     Protect_FPU_rounding<!CGAL_IA_PROTECTED> Protection(CGAL_FE_TONEAREST);
     return power_testC2(
 		px.exact(),
@@ -108,272 +116,6 @@ power_testC2(
 		twt.exact());
   }
 }
-
-#ifdef CGAL_IA_NEW_FILTERS
-
-struct Static_Filtered_power_testC2_12
-{
-  static double _bound;
-  static double _epsilon_0;
-  static unsigned number_of_failures; // ?
-  static unsigned number_of_updates;
-
-  static Oriented_side update_epsilon(
-	const Static_filter_error &px,
-	const Static_filter_error &py,
-	const Static_filter_error &pwt,
-	const Static_filter_error &qx,
-	const Static_filter_error &qy,
-	const Static_filter_error &qwt,
-	const Static_filter_error &rx,
-	const Static_filter_error &ry,
-	const Static_filter_error &rwt,
-	const Static_filter_error &tx,
-	const Static_filter_error &ty,
-	const Static_filter_error &twt,
-	double & epsilon_0)
-  {
-    typedef Static_filter_error FT;
-  
-      
-  
-      
-      FT dpx = px - tx;
-      FT dpy = py - ty;
-      FT dpz = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) - pwt + twt;
-      FT dqx = qx - tx;
-      FT dqy = qy - ty;
-      FT dqz = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) - qwt + twt;
-      FT drx = rx - tx;
-      FT dry = ry - ty;
-      FT drz = CGAL_NTS square(drx) + CGAL_NTS square(dry) - rwt + twt;
-  
-      return Oriented_side(Static_Filtered_sign_of_determinant3x3_9::update_epsilon(dpx, dpy, dpz,
-                                                  dqx, dqy, dqz,
-                                                  drx, dry, drz,
-  		epsilon_0));
-  }
-
-  // Call this function from the outside to update the context.
-  static void new_bound (const double b) // , const double error = 0)
-  {
-    _bound = b;
-    number_of_updates++;
-    // recompute the epsilons: "just" call it over Static_filter_error.
-    // That's the tricky part that might not work for everything.
-    (void) update_epsilon(b,b,b,b,b,b,b,b,b,b,b,b,_epsilon_0);
-    // TODO: We should verify that all epsilons have really been updated.
-  }
-
-  static Oriented_side epsilon_variant(
-	const Restricted_double &px,
-	const Restricted_double &py,
-	const Restricted_double &pwt,
-	const Restricted_double &qx,
-	const Restricted_double &qy,
-	const Restricted_double &qwt,
-	const Restricted_double &rx,
-	const Restricted_double &ry,
-	const Restricted_double &rwt,
-	const Restricted_double &tx,
-	const Restricted_double &ty,
-	const Restricted_double &twt,
-	const double & epsilon_0)
-  {
-    typedef Restricted_double FT;
-  
-      
-  
-      
-      FT dpx = px - tx;
-      FT dpy = py - ty;
-      FT dpz = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) - pwt + twt;
-      FT dqx = qx - tx;
-      FT dqy = qy - ty;
-      FT dqz = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) - qwt + twt;
-      FT drx = rx - tx;
-      FT dry = ry - ty;
-      FT drz = CGAL_NTS square(drx) + CGAL_NTS square(dry) - rwt + twt;
-  
-      return Oriented_side(Static_Filtered_sign_of_determinant3x3_9::epsilon_variant(dpx, dpy, dpz,
-                                                  dqx, dqy, dqz,
-                                                  drx, dry, drz,
-  		epsilon_0));
-  }
-};
-
-#ifndef CGAL_CFG_MATCHING_BUG_2
-template < class CGAL_IA_CT, class CGAL_IA_ET, class CGAL_IA_CACHE >
-#else
-static
-#endif
-/*  */
-Oriented_side
-power_testC2(
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &px,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &py,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &pwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qy,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &rx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &ry,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &rwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &tx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &ty,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &twt)
-{
-//   bool re_adjusted = false;
-  const double SAF_bound = Static_Filtered_power_testC2_12::_bound;
-
-  // Check the bounds.  All arguments must be <= SAF_bound.
-  if (
-	fabs(px.to_double()) > SAF_bound ||
-	fabs(py.to_double()) > SAF_bound ||
-	fabs(pwt.to_double()) > SAF_bound ||
-	fabs(qx.to_double()) > SAF_bound ||
-	fabs(qy.to_double()) > SAF_bound ||
-	fabs(qwt.to_double()) > SAF_bound ||
-	fabs(rx.to_double()) > SAF_bound ||
-	fabs(ry.to_double()) > SAF_bound ||
-	fabs(rwt.to_double()) > SAF_bound ||
-	fabs(tx.to_double()) > SAF_bound ||
-	fabs(ty.to_double()) > SAF_bound ||
-	fabs(twt.to_double()) > SAF_bound)
-  {
-// re_adjust:
-    // Compute the new bound.
-    double NEW_bound = 0.0;
-    NEW_bound = max(NEW_bound, fabs(px.to_double()));
-    NEW_bound = max(NEW_bound, fabs(py.to_double()));
-    NEW_bound = max(NEW_bound, fabs(pwt.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qx.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qy.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qwt.to_double()));
-    NEW_bound = max(NEW_bound, fabs(rx.to_double()));
-    NEW_bound = max(NEW_bound, fabs(ry.to_double()));
-    NEW_bound = max(NEW_bound, fabs(rwt.to_double()));
-    NEW_bound = max(NEW_bound, fabs(tx.to_double()));
-    NEW_bound = max(NEW_bound, fabs(ty.to_double()));
-    NEW_bound = max(NEW_bound, fabs(twt.to_double()));
-    // Re-adjust the context.
-    Static_Filtered_power_testC2_12::new_bound(NEW_bound);
-  }
-
-  try
-  {
-    return Static_Filtered_power_testC2_12::epsilon_variant(
-		px.dbl(),
-		py.dbl(),
-		pwt.dbl(),
-		qx.dbl(),
-		qy.dbl(),
-		qwt.dbl(),
-		rx.dbl(),
-		ry.dbl(),
-		rwt.dbl(),
-		tx.dbl(),
-		ty.dbl(),
-		twt.dbl(),
-		Static_Filtered_power_testC2_12::_epsilon_0);
-  }
-  catch (...)
-  {
-    // if (!re_adjusted) {  // It failed, we re-adjust once.
-      // re_adjusted = true;
-      // goto re_adjust;
-    // }
-    Static_Filtered_power_testC2_12::number_of_failures++;
-    return power_testC2(
-		px.exact(),
-		py.exact(),
-		pwt.exact(),
-		qx.exact(),
-		qy.exact(),
-		qwt.exact(),
-		rx.exact(),
-		ry.exact(),
-		rwt.exact(),
-		tx.exact(),
-		ty.exact(),
-		twt.exact());
-  }
-}
-
-#ifndef CGAL_CFG_MATCHING_BUG_2
-template < class CGAL_IA_CT, class CGAL_IA_ET, class CGAL_IA_CACHE >
-#else
-static
-#endif
-/*  */
-Oriented_side
-power_testC2(
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &px,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &py,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &pwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qy,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &rx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &ry,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &rwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &tx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &ty,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &twt)
-{
-  CGAL_assertion_code(
-    const double SAF_bound = Static_Filtered_power_testC2_12::_bound; )
-  CGAL_assertion(!(
-	fabs(px.to_double()) > SAF_bound ||
-	fabs(py.to_double()) > SAF_bound ||
-	fabs(pwt.to_double()) > SAF_bound ||
-	fabs(qx.to_double()) > SAF_bound ||
-	fabs(qy.to_double()) > SAF_bound ||
-	fabs(qwt.to_double()) > SAF_bound ||
-	fabs(rx.to_double()) > SAF_bound ||
-	fabs(ry.to_double()) > SAF_bound ||
-	fabs(rwt.to_double()) > SAF_bound ||
-	fabs(tx.to_double()) > SAF_bound ||
-	fabs(ty.to_double()) > SAF_bound ||
-	fabs(twt.to_double()) > SAF_bound));
-
-  try
-  {
-    return Static_Filtered_power_testC2_12::epsilon_variant(
-		px.dbl(),
-		py.dbl(),
-		pwt.dbl(),
-		qx.dbl(),
-		qy.dbl(),
-		qwt.dbl(),
-		rx.dbl(),
-		ry.dbl(),
-		rwt.dbl(),
-		tx.dbl(),
-		ty.dbl(),
-		twt.dbl(),
-		Static_Filtered_power_testC2_12::_epsilon_0);
-  }
-  catch (...)
-  {
-    Static_Filtered_power_testC2_12::number_of_failures++;
-    return power_testC2(
-		px.exact(),
-		py.exact(),
-		pwt.exact(),
-		qx.exact(),
-		qy.exact(),
-		qwt.exact(),
-		rx.exact(),
-		ry.exact(),
-		rwt.exact(),
-		tx.exact(),
-		ty.exact(),
-		twt.exact());
-  }
-}
-
-#endif // CGAL_IA_NEW_FILTERS
 
 #ifndef CGAL_CFG_MATCHING_BUG_2
 template < class CGAL_IA_CT, class CGAL_IA_ET, bool CGAL_IA_PROTECTED,
@@ -396,6 +138,10 @@ power_testC2(
 {
   try
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter calls("IA power_testC2 calls");
+    ++calls;
+#endif
     Protect_FPU_rounding<CGAL_IA_PROTECTED> Protection;
     return power_testC2(
 		px.interval(),
@@ -410,6 +156,10 @@ power_testC2(
   } 
   catch (Interval_nt_advanced::unsafe_comparison)
   {
+#ifdef CGAL_PROFILE
+    static Profile_counter failures("IA power_testC2 failures");
+    ++failures;
+#endif
     Protect_FPU_rounding<!CGAL_IA_PROTECTED> Protection(CGAL_FE_TONEAREST);
     return power_testC2(
 		px.exact(),
@@ -423,257 +173,6 @@ power_testC2(
 		twt.exact());
   }
 }
-
-#ifdef CGAL_IA_NEW_FILTERS
-
-struct Static_Filtered_power_testC2_9
-{
-  static double _bound;
-  static double _epsilon_0,_epsilon_1,_epsilon_2,_epsilon_3;
-  static unsigned number_of_failures; // ?
-  static unsigned number_of_updates;
-
-  static Oriented_side update_epsilon(
-	const Static_filter_error &px,
-	const Static_filter_error &py,
-	const Static_filter_error &pwt,
-	const Static_filter_error &qx,
-	const Static_filter_error &qy,
-	const Static_filter_error &qwt,
-	const Static_filter_error &tx,
-	const Static_filter_error &ty,
-	const Static_filter_error &twt,
-	double & epsilon_0,
-	double & epsilon_1,
-	double & epsilon_2,
-	double & epsilon_3)
-  {
-    typedef Static_filter_error FT;
-  
-      
-      FT dpx = px - tx;
-      FT dpy = py - ty;
-      FT dpz = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) - pwt + twt;
-      FT dqx = qx - tx;
-      FT dqy = qy - ty;
-      FT dqz = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) - qwt + twt;
-  
-      
-      Comparison_result cmpx = CGAL_NTS Static_Filtered_compare_2::update_epsilon(px, qx,
-  		epsilon_0);
-      if (cmpx != EQUAL)
-  	return Oriented_side(cmpx * Static_Filtered_sign_of_determinant2x2_4::update_epsilon(dpx, dpz, dqx, dqz,
-  		epsilon_1));
-  
-      
-      Comparison_result cmpy = CGAL_NTS Static_Filtered_compare_2::update_epsilon(py, qy,
-  		epsilon_2);
-      return Oriented_side(cmpy * Static_Filtered_sign_of_determinant2x2_4::update_epsilon(dpy, dpz, dqy, dqz,
-  		epsilon_3));
-  }
-
-  // Call this function from the outside to update the context.
-  static void new_bound (const double b) // , const double error = 0)
-  {
-    _bound = b;
-    number_of_updates++;
-    // recompute the epsilons: "just" call it over Static_filter_error.
-    // That's the tricky part that might not work for everything.
-    (void) update_epsilon(b,b,b,b,b,b,b,b,b,_epsilon_0,_epsilon_1,_epsilon_2,_epsilon_3);
-    // TODO: We should verify that all epsilons have really been updated.
-  }
-
-  static Oriented_side epsilon_variant(
-	const Restricted_double &px,
-	const Restricted_double &py,
-	const Restricted_double &pwt,
-	const Restricted_double &qx,
-	const Restricted_double &qy,
-	const Restricted_double &qwt,
-	const Restricted_double &tx,
-	const Restricted_double &ty,
-	const Restricted_double &twt,
-	const double & epsilon_0,
-	const double & epsilon_1,
-	const double & epsilon_2,
-	const double & epsilon_3)
-  {
-    typedef Restricted_double FT;
-  
-      
-      FT dpx = px - tx;
-      FT dpy = py - ty;
-      FT dpz = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) - pwt + twt;
-      FT dqx = qx - tx;
-      FT dqy = qy - ty;
-      FT dqz = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) - qwt + twt;
-  
-      
-      Comparison_result cmpx = CGAL_NTS Static_Filtered_compare_2::epsilon_variant(px, qx,
-  		epsilon_0);
-      if (cmpx != EQUAL)
-  	return Oriented_side(cmpx * Static_Filtered_sign_of_determinant2x2_4::epsilon_variant(dpx, dpz, dqx, dqz,
-  		epsilon_1));
-  
-      
-      Comparison_result cmpy = CGAL_NTS Static_Filtered_compare_2::epsilon_variant(py, qy,
-  		epsilon_2);
-      return Oriented_side(cmpy * Static_Filtered_sign_of_determinant2x2_4::epsilon_variant(dpy, dpz, dqy, dqz,
-  		epsilon_3));
-  }
-};
-
-#ifndef CGAL_CFG_MATCHING_BUG_2
-template < class CGAL_IA_CT, class CGAL_IA_ET, class CGAL_IA_CACHE >
-#else
-static
-#endif
-/*  */
-Oriented_side
-power_testC2(
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &px,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &py,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &pwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qy,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &qwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &tx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &ty,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, true, CGAL_IA_CACHE> &twt)
-{
-//   bool re_adjusted = false;
-  const double SAF_bound = Static_Filtered_power_testC2_9::_bound;
-
-  // Check the bounds.  All arguments must be <= SAF_bound.
-  if (
-	fabs(px.to_double()) > SAF_bound ||
-	fabs(py.to_double()) > SAF_bound ||
-	fabs(pwt.to_double()) > SAF_bound ||
-	fabs(qx.to_double()) > SAF_bound ||
-	fabs(qy.to_double()) > SAF_bound ||
-	fabs(qwt.to_double()) > SAF_bound ||
-	fabs(tx.to_double()) > SAF_bound ||
-	fabs(ty.to_double()) > SAF_bound ||
-	fabs(twt.to_double()) > SAF_bound)
-  {
-// re_adjust:
-    // Compute the new bound.
-    double NEW_bound = 0.0;
-    NEW_bound = max(NEW_bound, fabs(px.to_double()));
-    NEW_bound = max(NEW_bound, fabs(py.to_double()));
-    NEW_bound = max(NEW_bound, fabs(pwt.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qx.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qy.to_double()));
-    NEW_bound = max(NEW_bound, fabs(qwt.to_double()));
-    NEW_bound = max(NEW_bound, fabs(tx.to_double()));
-    NEW_bound = max(NEW_bound, fabs(ty.to_double()));
-    NEW_bound = max(NEW_bound, fabs(twt.to_double()));
-    // Re-adjust the context.
-    Static_Filtered_power_testC2_9::new_bound(NEW_bound);
-  }
-
-  try
-  {
-    return Static_Filtered_power_testC2_9::epsilon_variant(
-		px.dbl(),
-		py.dbl(),
-		pwt.dbl(),
-		qx.dbl(),
-		qy.dbl(),
-		qwt.dbl(),
-		tx.dbl(),
-		ty.dbl(),
-		twt.dbl(),
-		Static_Filtered_power_testC2_9::_epsilon_0,
-		Static_Filtered_power_testC2_9::_epsilon_1,
-		Static_Filtered_power_testC2_9::_epsilon_2,
-		Static_Filtered_power_testC2_9::_epsilon_3);
-  }
-  catch (...)
-  {
-    // if (!re_adjusted) {  // It failed, we re-adjust once.
-      // re_adjusted = true;
-      // goto re_adjust;
-    // }
-    Static_Filtered_power_testC2_9::number_of_failures++;
-    return power_testC2(
-		px.exact(),
-		py.exact(),
-		pwt.exact(),
-		qx.exact(),
-		qy.exact(),
-		qwt.exact(),
-		tx.exact(),
-		ty.exact(),
-		twt.exact());
-  }
-}
-
-#ifndef CGAL_CFG_MATCHING_BUG_2
-template < class CGAL_IA_CT, class CGAL_IA_ET, class CGAL_IA_CACHE >
-#else
-static
-#endif
-/*  */
-Oriented_side
-power_testC2(
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &px,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &py,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &pwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qy,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &qwt,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &tx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &ty,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Static, false, CGAL_IA_CACHE> &twt)
-{
-  CGAL_assertion_code(
-    const double SAF_bound = Static_Filtered_power_testC2_9::_bound; )
-  CGAL_assertion(!(
-	fabs(px.to_double()) > SAF_bound ||
-	fabs(py.to_double()) > SAF_bound ||
-	fabs(pwt.to_double()) > SAF_bound ||
-	fabs(qx.to_double()) > SAF_bound ||
-	fabs(qy.to_double()) > SAF_bound ||
-	fabs(qwt.to_double()) > SAF_bound ||
-	fabs(tx.to_double()) > SAF_bound ||
-	fabs(ty.to_double()) > SAF_bound ||
-	fabs(twt.to_double()) > SAF_bound));
-
-  try
-  {
-    return Static_Filtered_power_testC2_9::epsilon_variant(
-		px.dbl(),
-		py.dbl(),
-		pwt.dbl(),
-		qx.dbl(),
-		qy.dbl(),
-		qwt.dbl(),
-		tx.dbl(),
-		ty.dbl(),
-		twt.dbl(),
-		Static_Filtered_power_testC2_9::_epsilon_0,
-		Static_Filtered_power_testC2_9::_epsilon_1,
-		Static_Filtered_power_testC2_9::_epsilon_2,
-		Static_Filtered_power_testC2_9::_epsilon_3);
-  }
-  catch (...)
-  {
-    Static_Filtered_power_testC2_9::number_of_failures++;
-    return power_testC2(
-		px.exact(),
-		py.exact(),
-		pwt.exact(),
-		qx.exact(),
-		qy.exact(),
-		qwt.exact(),
-		tx.exact(),
-		ty.exact(),
-		twt.exact());
-  }
-}
-
-#endif // CGAL_IA_NEW_FILTERS
 
 CGAL_END_NAMESPACE
 

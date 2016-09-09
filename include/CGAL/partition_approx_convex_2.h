@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/partition_approx_convex_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/16 09:39:49 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/01/17 11:20:34 $
 //
 // author(s)     : Susan Hert
 //
@@ -75,17 +73,17 @@ bool partition_appx_cvx_is_edge_through_interior(const Point_2& before_s,
 {
    // determine if the edge goes through the interior of the polygon or not
    typedef typename Traits::Leftturn_2   Leftturn_2;
-   Leftturn_2 leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
-   if (rightturn(before_s, source, after_s)) // concave angle
+   Leftturn_2 left_turn = traits.leftturn_2_object();
+   Turn_reverser<Point_2, Leftturn_2> right_turn(left_turn);
+   if (right_turn(before_s, source, after_s)) // concave angle
    {
-     if (rightturn(before_s, source, target) &&
-         rightturn(target, source, after_s))
+     if (right_turn(before_s, source, target) &&
+         right_turn(target, source, after_s))
        return false;
    }
    else // left turn or straight
-     if (rightturn(before_s, source, target) ||
-         rightturn(target, source, after_s))
+     if (right_turn(before_s, source, target) ||
+         right_turn(target, source, after_s))
        return false;
    return true;
 }
@@ -108,7 +106,6 @@ bool partition_appx_cvx_cuts_nonconvex_angle( Edge_circulator e_circ,
              << std::endl;
 #endif
 
-//   Circulator next_ccw_pt_ref, prev_ccw_pt_ref;
    typename Triangulation::Point next_ccw_pt_ref, prev_ccw_pt_ref;
 
    // the next and previous edges in the ccw ordering of edges around v_ref
@@ -147,9 +144,9 @@ bool partition_appx_cvx_cuts_nonconvex_angle( Edge_circulator e_circ,
 
    typedef typename Traits::Leftturn_2    Leftturn_2;
    typedef typename Traits::Point_2     Point_2;
-   Leftturn_2 leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2>  rightturn(leftturn);
-   return rightturn(*next_ccw_pt_ref, *v_ref, *prev_ccw_pt_ref); 
+   Leftturn_2 left_turn = traits.leftturn_2_object();
+   Turn_reverser<Point_2, Leftturn_2>  right_turn(left_turn);
+   return right_turn(*next_ccw_pt_ref, *v_ref, *prev_ccw_pt_ref); 
 }
 
 
@@ -299,21 +296,10 @@ OutputIterator partition_approx_convex_2(InputIterator first,
                                          OutputIterator result)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_2;
-   return CGAL_partition_approx_convex_2(first, beyond, result, 
-                                         reinterpret_cast<Point_2*>(0));
+   typedef typename Kernel_traits<Point_2>::Kernel K;
+   return partition_approx_convex_2(first, beyond, result,  
+                                    Partition_traits_2<K>());
 }
-
-template <class InputIterator, class OutputIterator, class R>
-inline
-OutputIterator CGAL_partition_approx_convex_2(InputIterator first, 
-                                              InputIterator beyond,
-                                              OutputIterator result, 
-                                              Point_2<R>*)
-{
-   return partition_approx_convex_2(first, beyond, result,
-                                    Partition_traits_2<R>());
-}
-
 
 }
 

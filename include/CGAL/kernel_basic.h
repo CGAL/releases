@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/kernel_basic.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/12 14:55:10 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/12/04 17:51:36 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -51,6 +49,7 @@
 #define CGAL_KERNEL_BASIC_H
 
 #include <CGAL/Kernel_traits.h>
+#include <CGAL/functional_base.h>
 
 #ifndef CGAL_KERNEL_INLINE
 #  define CGAL_KERNEL_INLINE inline
@@ -64,24 +63,8 @@
 #  define CGAL_KERNEL_LARGE_INLINE
 #endif
 
-#ifndef CGAL_KERNEL_CTOR_INLINE
-#  define CGAL_KERNEL_CTOR_INLINE
-#endif
-
-#ifndef CGAL_KERNEL_CTOR_MEDIUM_INLINE
-#  define CGAL_KERNEL_CTOR_MEDIUM_INLINE
-#endif
-
-#ifndef CGAL_KERNEL_CTOR_LARGE_INLINE
-#  define CGAL_KERNEL_CTOR_LARGE_INLINE
-#endif
-
 #ifndef CGAL_FRIEND_INLINE
 #  define CGAL_FRIEND_INLINE
-#endif
-
-#ifndef CGAL_KERNEL_FRIEND_INLINE
-#  define CGAL_KERNEL_FRIEND_INLINE
 #endif
 
 #endif // CGAL_KERNEL_BASIC_H

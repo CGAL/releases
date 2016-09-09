@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/partition_greene_approx_convex_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/11 15:28:26 $
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 2002/04/25 18:39:24 $
 //
 // author(s)     : Susan Hert
 //
@@ -64,6 +62,7 @@
 #include<CGAL/partition_is_valid_2.h>
 #include<CGAL/Partition_traits_2.h>
 #include<CGAL/is_y_monotone_2.h>
+#include<CGAL/is_degenerate_polygon_2.h>
 
 // These things should be constant: 
 //   front is where you add things to a chain 
@@ -215,8 +214,12 @@ void visible(Polygon& polygon,
              erase_vertices(bottom_chain.back(), bottom_chain.front(), polygon,
                             update_required);
           }
-          *result = new_polygon; 
-          result++;
+          if (!is_degenerate_polygon_2(new_polygon.vertices_begin(),
+                                       new_polygon.vertices_end(), traits))
+          {
+             *result = new_polygon; 
+             result++;
+          }
           bottom_chain.push_back(stack.back());
           if (stack.back() == stack.front())   // form new stack with previous
           {                                    // point and old stack top 
@@ -393,8 +396,12 @@ void change_top_chain(Polygon& polygon,
                            update_required);
             top_chain.push_front(stack.front());
          }
-         *result = new_polygon; 
-         result++;
+         if (!is_degenerate_polygon_2(new_polygon.vertices_begin(),
+                                      new_polygon.vertices_end(), traits))
+         {
+            *result = new_polygon; 
+            result++;
+         }
          if (stack.front() == stack.back())          // the "stack empty" case
          {
             done = true;
@@ -509,8 +516,12 @@ void change_bottom_chain(Polygon& polygon,
             erase_vertices(bottom_chain.back(), new_point_ref, polygon,
                            update_required);
          }
-         *result = new_polygon;  
-         result++;
+         if (!is_degenerate_polygon_2(new_polygon.vertices_begin(),
+                                      new_polygon.vertices_end(), traits))
+         {
+            *result = new_polygon;  
+            result++;
+         }
          bottom_chain.initialize(stack.back());
          if (stack.back() == stack.front())   // form new stack with new point
          {                                // and old stack top (still on stack)
@@ -568,7 +579,7 @@ void make_polygons_from_stack(Polygon& polygon,
                             const BidirectionalCirculator& high_point_ref, 
                             Circ_pair< BidirectionalCirculator >& stack,
                             Circ_pair< BidirectionalCirculator >& bottom_chain,
-                            OutputIterator& result, const Traits& )
+                            OutputIterator& result, const Traits& traits)
 {
    bool update_required;
    // make polygons by connecting the high point to every point on the stack
@@ -608,14 +619,22 @@ void make_polygons_from_stack(Polygon& polygon,
                         update_required);
          bottom_chain.push_back(stack.back());
        }
-       *result = new_polygon; 
-       result++;
+       if (!is_degenerate_polygon_2(new_polygon.vertices_begin(),
+                                    new_polygon.vertices_end(), traits))
+       {
+          *result = new_polygon; 
+          result++;
+       }
        stack.pop_back();  
    }
    // add remaining points from the top chain if there is more than one
    std::copy(polygon.begin(), polygon.end(), std::back_inserter(new_polygon));
-   *result = new_polygon;
-   result++;
+   if (!is_degenerate_polygon_2(new_polygon.vertices_begin(),
+                                new_polygon.vertices_end(), traits))
+   {
+      *result = new_polygon;
+      result++;
+   }
 }
 
 template<class BidirectionalCirculator, class Traits>
@@ -860,21 +879,10 @@ OutputIterator partition_greene_approx_convex_2(InputIterator first,
                                                 OutputIterator result)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_2;
-   return CGAL_partition_greene_approx_convex_2(first, beyond, result, 
-                                           reinterpret_cast<Point_2*>(0));
+   typedef typename Kernel_traits<Point_2>::Kernel   K;
+   return partition_greene_approx_convex_2(first, beyond, result,  
+                                           Partition_traits_2<K>());
 }
-
-template <class InputIterator, class OutputIterator, class R>
-inline
-OutputIterator CGAL_partition_greene_approx_convex_2(InputIterator first, 
-                                                     InputIterator beyond,
-                                                     OutputIterator result, 
-                                                     Point_2<R>*)
-{
-   return partition_greene_approx_convex_2(first, beyond, result,
-                                           Partition_traits_2<R>());
-}
-
 
 }
 

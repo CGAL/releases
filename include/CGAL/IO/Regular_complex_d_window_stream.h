@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 2001 The CGAL Consortium
+// Copyright (c) 2002 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Regular_complex_d_window_stream.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // author(s)     : ?
 // coordinator   : ?
 //
@@ -52,6 +50,8 @@
 #else
 #include <CGAL/Regular_complex_d_MSC.h>
 #endif
+
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/IO/Window_stream.h>
 #include <LEDA/graph.h>
 #include <LEDA/node_map.h>
@@ -62,7 +62,8 @@
 CGAL_BEGIN_NAMESPACE
 
 /*{\Mtext \headerline{Visualization and conversion in low dimensions}
-The corresponding operations can be found in |Regular_complex_d_window_stream.h|}*/
+The corresponding operations can be found in 
+|Regular_complex_d_window_stream.h|}*/
 
 template <class R>
 void d2_show(const Regular_complex_d<R>& RC, Window_stream& W);
@@ -70,12 +71,14 @@ void d2_show(const Regular_complex_d<R>& RC, Window_stream& W);
 \precond |dim == 2|.}*/
 
 template <class R>
-void d2_map(const Regular_complex_d<R>& RC, GRAPH<leda_point,int>& G);
+void d2_map(const Regular_complex_d<R>& RC, 
+            CGAL_LEDA_SCOPE::GRAPH<leda_point,int>& G);
 /*{\Mfunc constructs the representation of |R| as a bidirected graph |G|.
 \precond |dim == 2|.}*/
 
 template <class R>
-void d3_graph(const Regular_complex_d<R>& RC, GRAPH<leda_d3_point,int>& G);
+void d3_graph(const Regular_complex_d<R>& RC, 
+              CGAL_LEDA_SCOPE::GRAPH<leda_d3_point,int>& G);
 /*{\Mfunc constructs the representation of |R| as a bidirected graph |G|.
 \precond |dim == 3|.}*/
 
@@ -104,7 +107,8 @@ void d2_show(const Regular_complex_d<R>& RC, CGAL::Window_stream& W)
 
 
 template <class R>
-void d2_map(const Regular_complex_d<R>& RC, GRAPH<leda_point,int>& G)
+void d2_map(const Regular_complex_d<R>& RC, 
+            CGAL_LEDA_SCOPE::GRAPH<leda_point,int>& G)
 { 
   typedef Regular_complex_d<R>::Simplex_const_iterator Simplex_iterator;
   typedef Regular_complex_d<R>::Vertex_const_iterator Vertex_iterator;
@@ -153,7 +157,8 @@ void d2_map(const Regular_complex_d<R>& RC, GRAPH<leda_point,int>& G)
       leda_node vi = node_for[RC.vertex(s,i)];
       if ( untreated[vi] ) {
         untreated[vi] = false;
-        int j = (i + 1) % (RC.current_dimension() + 1);  // a vertex different from i;
+        // a vertex different from i;
+        int j = (i + 1) % (RC.current_dimension() + 1);  
         int k = (i + 2) % (RC.current_dimension() + 1); 
         leda_node vj = node_for[RC.vertex(s,j)];
         leda_node vk = node_for[RC.vertex(s,k)];
@@ -207,7 +212,7 @@ void d2_map(const Regular_complex_d<R>& RC, GRAPH<leda_point,int>& G)
 
 template <class R>
 void d3_graph(const Regular_complex_d<R>& RC, 
-              GRAPH< typename Regular_complex_d<R>::Point_d ,int>& G)
+       CGAL_LEDA_SCOPE::GRAPH< typename Regular_complex_d<R>::Point_d ,int>& G)
 { 
   typedef Regular_complex_d<R>::Simplex_const_iterator Simplex_iterator;
   typedef Regular_complex_d<R>::Vertex_const_iterator Vertex_iterator;
@@ -218,7 +223,7 @@ void d3_graph(const Regular_complex_d<R>& RC,
 
   CGAL_assertion_msg(RC.dimension() == 3,"d3_graph: dim must be 3.");
   G.clear();
-  node_map2<bool> connected(G);
+  CGAL_LEDA_SCOPE::node_map2<bool> connected(G);
   Unique_hash_map<Vertex_handle,leda_node> node_for(nil);
 
   forall_rc_vertices(v,RC) {

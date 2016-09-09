@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Pm_Geomview_stream.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -68,13 +66,14 @@
 #endif
 
 #ifndef CGAL_IO_DRAW_PM_H
-#include  <CGAL/IO/draw_pm.h>
+#include <CGAL/IO/draw_pm.h>
 #endif
 
 CGAL_BEGIN_NAMESPACE
 
 template <class Dcel,class Traits>
-Geomview_stream& operator << (Geomview_stream& os, const Planar_map_2<Dcel,Traits> &pm)
+Geomview_stream& operator<< (Geomview_stream                 & os, 
+                             const Planar_map_2<Dcel,Traits> & pm)
 {
   Pm_drawer< Planar_map_2<Dcel,Traits>, Geomview_stream>  drawer(os);
   
@@ -83,25 +82,6 @@ Geomview_stream& operator << (Geomview_stream& os, const Planar_map_2<Dcel,Trait
   return os;
 }  
 
-
-/*template <class Dcel,class Traits>
-  Window_stream& write(Window_stream& os, Planar_map_2<Dcel,Traits> &m)
-  {
-  //  os << *m.get_bounding_box();
-  Halfedge_iterator it = m.halfedges_begin(), end = m.halfedges_end();
-  const Traits& traits=m.get_traits();
-  while(it != end){
-	write(os,it->curve(),traits);
-        ++it;++it;
-        }
-        return os;
-        } */ 
-
-
 CGAL_END_NAMESPACE
 
 #endif
-
-
-
-

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/CLN/common.h
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/02/20 13:32:51 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/03/20 14:22:25 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -52,9 +50,8 @@
 // This file is included by all CLN/cl_*.h files and gathers the common code
 // and includes.
 
+#include <CGAL/tags.h>
 #include <CGAL/number_utils.h>
-#include <CGAL/number_type_tags.h>
-#include <CGAL/IO/io_tags.h>
 #include <CGAL/Interval_arithmetic.h>
 
 // So that CLN defines the operators += -= *= /=
@@ -66,11 +63,16 @@
 
 CGAL_BEGIN_NAMESPACE
 
+// TBD for all the number types ...
+template <> struct Number_type_traits<cl_number> {
+  typedef Tag_true  Has_gcd_tag;
+  typedef Tag_true  Has_division_tag;
+  typedef Tag_true  Has_sqrt_tag;
+};
+
 inline bool        is_valid        (const cl_number&) { return true; } 
 inline bool        is_finite       (const cl_number&) { return true; } 
 inline io_Operator io_tag          (const cl_number&) { return io_Operator(); }
-inline Number_tag  number_type_tag (const cl_number&) { return Number_tag(); }
-
 
 // The following is a workaround for a bug that happens on Solaris 2.6 with
 // gcc 2.95, and libcln.so (not .a).  It doesn't happen on Linux with gcc 2.95.

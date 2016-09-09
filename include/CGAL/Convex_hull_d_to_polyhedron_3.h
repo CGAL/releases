@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Convex_hull_d_to_polyhedron_3.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/16 12:09:06 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/05/07 08:22:56 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 // email         : contact@cgal.org
@@ -129,13 +127,25 @@ private:
 include |<CGAL/Convex_hull_d_to_polyhedron_3.h>|
 \setopdims{2cm}{3cm}}*/
 
-template <class R, class T>
+#if defined(_MSC_VER) && defined(CGAL_USE_POLYHEDRON_DESIGN_ONE)
+template <class R, class Tr, class HDS>       
+void 
+convex_hull_d_to_polyhedron_3(const Convex_hull_d<R>& C,
+                              Polyhedron_3<Tr,HDS>& P)
+#else // non-MSVC compilers or MSVC>1200 can handle this more general interface
+template <class R, class Polyhedron_3>
 void convex_hull_d_to_polyhedron_3(
-  const Convex_hull_d<R>& C, Polyhedron_3<T>& P)
+  const Convex_hull_d<R>& C, Polyhedron_3& P)
+#endif
 /*{\Mfunc converts the convex hull |C| to polyedral surface stored in 
    |P|.\\ \precond |dim == 3| and |dcur == 3|. }*/
 { typedef Convex_hull_d<R> ChullType;
-  typedef typename Polyhedron_3<T>::HalfedgeDS  HDS;
+
+#if defined(_MSC_VER) && defined(CGAL_USE_POLYHEDRON_DESIGN_ONE)  
+   typedef typename Polyhedron_3<Tr, HDS>::HalfedgeDS  HDS;
+#else
+  typedef typename Polyhedron_3::HalfedgeDS  HDS;
+#endif
   CGAL_assertion_msg(C.dimension()==3&&C.current_dimension()==3,
   "convex_hull_d_to_polyhedron_3: only full manifold can be transformed.");
   Build_polyhedron_from_chull<HDS,ChullType> get_surface(C);

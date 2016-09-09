@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/VectorCd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/06/13 15:47:52 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/03/18 20:34:02 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -67,11 +65,11 @@ class VectorCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Handle_for<Tuple> Base;
   typedef VectorCd<_FT,_LA> Self;
 
-typename _LA::Vector& vector_rep() { return ptr->v; }
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_FT& entry(int i) { return ptr->v[i]; }
-const _FT& entry(int i) const { return ptr->v[i]; }
-void invert_rep() { ptr->invert(); }
+typename _LA::Vector& vector_rep() { return ptr()->v; }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_FT& entry(int i) { return ptr()->v[i]; }
+const _FT& entry(int i) const { return ptr()->v[i]; }
+void invert_rep() { ptr()->invert(); }
 VectorCd(const Base& b) : Base(b) {}
 
 public: 
@@ -159,7 +157,7 @@ VectorCd(int x, int y, int z, int w) :
 VectorCd(const VectorCd<FT,LA>& p) : Base(p)  {}
 ~VectorCd() {}     
 
-int dimension() const { return ptr->size(); } 
+int dimension() const { return ptr()->size(); } 
 
 FT cartesian(int i) const 
 { CGAL_assertion_msg((0<=i && i<(dimension())), 
@@ -177,14 +175,14 @@ FT squared_length() const
 { return vector_rep()*vector_rep(); }
 
 Cartesian_const_iterator cartesian_begin() const 
-{ return ptr->begin(); }
+{ return ptr()->begin(); }
 Cartesian_const_iterator cartesian_end() const 
-{ return ptr->end(); }
+{ return ptr()->end(); }
 
 Homogeneous_const_iterator homogeneous_begin() const 
-{ return Homogeneous_const_iterator(ptr->begin(),ptr->end()); }
+{ return Homogeneous_const_iterator(ptr()->begin(),ptr()->end()); }
 Homogeneous_const_iterator homogeneous_end() const 
-{ return Homogeneous_const_iterator(ptr->beyondend()); }
+{ return Homogeneous_const_iterator(ptr()->beyondend()); }
 
 inline PointCd<FT,LA> to_point() const;
 
@@ -225,18 +223,18 @@ FT operator* (const VectorCd<FT,LA>& w) const
 
 VectorCd<FT,LA> operator+(const VectorCd<FT,LA>& w) const 
 { VectorCd<FT,LA> result(w.dimension()); 
-  result.ptr->cartesian_add(ptr,w.ptr);
+  result.ptr()->cartesian_add(ptr(),w.ptr());
   return result; }
 
 VectorCd<FT,LA> operator-(const VectorCd<FT,LA>& w) const 
 { VectorCd<FT,LA> result(w.dimension());
-  result.ptr->cartesian_sub(ptr,w.ptr);
+  result.ptr()->cartesian_sub(ptr(),w.ptr());
   return result; }
 
 VectorCd<FT,LA> operator-() const 
 { VectorCd<FT,LA> result(*this);
   result.copy_on_write(); // creates a copied object!
-  result.ptr->invert();
+  result.ptr()->invert();
   return result; 
 }
 

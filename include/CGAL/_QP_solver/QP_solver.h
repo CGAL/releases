@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/_QP_solver/QP_solver.h
-// package       : _QP_solver (0.9.3)
+// package       : _QP_solver (0.9.7)
 //
 // revision      : 0.6
 // revision_date : 2000/09/06
@@ -288,12 +286,12 @@ class QP_solver {
                      Make_quotient( Compute_quotient(), d)); }
     
     
-    bool  is_basic( int i) const
-        { CGAL_optimisation_precondition( i >= 0);
-          CGAL_optimisation_precondition( i < ( phase() == 1
+    bool  is_basic( int ii) const
+        { CGAL_optimisation_precondition( ii >= 0);
+          CGAL_optimisation_precondition( ii < ( phase() == 1
               ? number_of_variables()+number_of_constraints()
               : number_of_variables()));
-          return ( in_B[ i] >= 0); }
+          return ( in_B[ ii] >= 0); }
     
     
     // access to variables
@@ -1681,14 +1679,15 @@ QP_solver<Rep_>::
         }
 
 template < class Rep_ >
-const QP_solver<Rep_>::Pricing_strategy&
+const typename QP_solver<Rep_>::Pricing_strategy&
 QP_solver<Rep_>::
     pricing_strategy() const { return *strategyP; }
     
 template < class Rep_ >
 void
 QP_solver<Rep_>::
-    set_pricing_strategy( QP_solver<Rep_>::Pricing_strategy& pricing_strategy)
+    set_pricing_strategy( 
+      typename QP_solver<Rep_>::Pricing_strategy& pricing_strategy)
         {
             
             CGAL_optimisation_debug {

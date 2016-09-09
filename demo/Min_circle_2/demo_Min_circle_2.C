@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : demo/Min_circle_2/demo_Min_circle_2.C
 // package       : $CGAL_Package: Min_circle_2 $
 // chapter       : Geometric Optimisation
 //
-// revision      : $Revision: 5.7 $
-// revision_date : $Date: 2001/03/21 18:14:11 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 2002/02/12 09:19:16 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -89,7 +87,7 @@ main( int, char**)
     // open window
     CGAL::Window_stream ws( "CGAL Demo: Smallest Enclosing Circle in 2D");
     ws.set_icon_label("CGAL");
-    ws.set_icon_pixrect( ws.create_pixrect( CGAL::esprit_logo));
+    ws.set_icon_pixrect( ws.create_pixrect( CGAL::cgal_logo));
     ws.set_node_width( 5);
     ws.init( -100.0, 100.0, -100.0);
     ws.display();

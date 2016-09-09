@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/VectorHd.C
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
 //
@@ -46,6 +44,7 @@
 #ifndef CGAL_VECTORHD_C
 #define CGAL_VECTORHD_C
 CGAL_BEGIN_NAMESPACE
+#define PointHd PointHd2
 
 template <class RT,class LA>
 PointHd<RT,LA> VectorHd<RT,LA>::to_point() const
@@ -76,7 +75,7 @@ transform(const Aff_transformationHd<RT,LA>& t) const
 
 template <class RT, class LA>
 std::istream& operator>>(std::istream& I, VectorHd<RT,LA>& v)
-{ v.copy_on_write(); v.ptr->read(I); 
+{ v.copy_on_write(); v.ptr()->read(I); 
   CGAL_assertion_msg((v.homogeneous(v.dimension()) > 0),
   "operator>>: denominator of vector must be larger than zero.");
   return I; 
@@ -84,13 +83,13 @@ std::istream& operator>>(std::istream& I, VectorHd<RT,LA>& v)
 
 template <class RT, class LA>
 std::ostream& operator<<(std::ostream& O, const VectorHd<RT,LA>& v)
-{ v.ptr->print(O,"VectorHd"); return O; } 
+{ v.ptr()->print(O,"VectorHd"); return O; } 
 
 template <class RT, class LA>
 inline CGAL::io_Operator io_tag(const VectorHd<RT,LA>&) 
 { return CGAL::io_Operator(); }
 
-
+#undef PointHd
 CGAL_END_NAMESPACE
 #endif // CGAL_VECTORHD_C
 

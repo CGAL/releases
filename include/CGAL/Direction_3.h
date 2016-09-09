@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Direction_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:49:51 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _3 (3.31)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/01/23 12:30:05 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,75 +46,50 @@
 #ifndef CGAL_DIRECTION_3_H
 #define CGAL_DIRECTION_3_H
 
-#include <CGAL/Vector_3.h>
-#include <CGAL/Line_3.h>
-#include <CGAL/Ray_3.h>
-#include <CGAL/Segment_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Direction_3 : public R_::Direction_3_base
+class Direction_3 : public R_::Kernel_base::Direction_3
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Vector_3              Vector_3;
+  typedef typename R_::Line_3                Line_3;
+  typedef typename R_::Ray_3                 Ray_3;
+  typedef typename R_::Segment_3             Segment_3;
+  typedef typename R_::Kernel_base::Direction_3 RDirection_3;
 public:
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Direction_3_base  RDirection_3;
-  typedef typename R::Vector_3_base  RVector_3;
-  typedef typename R::Line_3_base           RLine_3;
-  typedef typename R::Ray_3_base            RRay_3;
-  typedef typename R::Segment_3_base        RSegment_3;
 
   Direction_3()
   {}
 
   Direction_3(const CGAL::Direction_3<R>& d)
-    : RDirection_3( static_cast<const RDirection_3&>(d) )
-  {}
+    : RDirection_3( static_cast<const RDirection_3&>(d) ) {}
 
-  Direction_3(const RDirection_3&  d)
-    : RDirection_3(d)
-  {}
+  Direction_3(const RDirection_3& d)
+    : RDirection_3(d) {}
 
-  Direction_3(const RVector_3&  v)
-    : RDirection_3(v)
-  {}
+  Direction_3(const Vector_3& v)
+    : RDirection_3(v) {}
 
-  Direction_3(const RLine_3& l)
-    : RDirection_3(l)
-  {}
+  Direction_3(const Line_3& l)
+    : RDirection_3(l) {}
 
-  Direction_3(const RRay_3& r)
-    : RDirection_3(r)
-  {}
+  Direction_3(const Ray_3& r)
+    : RDirection_3(r) {}
 
-  Direction_3(const RSegment_3& s)
-    : RDirection_3(s)
-  {}
+  Direction_3(const Segment_3& s)
+    : RDirection_3(s) {}
 
   Direction_3(const RT& hx, const RT& hy, const RT& hz)
-    : RDirection_3(hx, hy, hz)
-  {}
-
-  CGAL::Vector_3<R> vector() const
-  { return static_cast<CGAL::Vector_3<R> >(RDirection_3::to_vector()); }
-
-  CGAL::Vector_3<R> to_vector() const
-  { return static_cast<CGAL::Vector_3<R> >(RDirection_3::to_vector()); }
-
-  CGAL::Direction_3<R> transform(const CGAL::Aff_transformation_3<R> & t) const
-  { return RDirection_3::transform(t); }
-
-  CGAL::Direction_3<R> operator-() const
-  { return RDirection_3::operator-(); }
+    : RDirection_3(hx, hy, hz) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_DIRECTION_3
 template < class R >
 std::ostream& operator<<(std::ostream& os, const Direction_3<R>& d)
 {
-  typedef typename  R::Direction_3_base  RDirection_3;
+  typedef typename  R::Kernel_base::Direction_3 RDirection_3;
   return os << static_cast<const RDirection_3&>(d); }
 #endif // CGAL_NO_OSTREAM_INSERT_DIRECTION_3
 
@@ -125,7 +97,7 @@ std::ostream& operator<<(std::ostream& os, const Direction_3<R>& d)
 template < class R >
 std::istream& operator>>(std::istream& is, Direction_3<R>& p)
 {
-  typedef typename  R::Direction_3_base  RDirection_3;
+  typedef typename  R::Kernel_base::Direction_3  RDirection_3;
   return is >> static_cast<RDirection_3&>(p); }
 #endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTION_3
 

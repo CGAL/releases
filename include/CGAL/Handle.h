@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Handle.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/02/13 12:39:00 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2002/04/15 07:21:00 $
 // author(s)     :
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -119,13 +117,18 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-typedef handle_base      Handle;
-typedef handle_rep       Rep;
+#ifdef LEDA_NAMESPACE
+typedef leda::handle_base      Handle;
+typedef leda::handle_rep       Rep;
+#else
+typedef handle_base            Handle;
+typedef handle_rep             Rep;
+#endif
 
 inline
 unsigned long
 id(const Handle& x)
-{ return ID_Number(x); }
+{ return CGAL_LEDA_SCOPE::ID_Number(x); }
 
 CGAL_END_NAMESPACE
 

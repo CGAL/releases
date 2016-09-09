@@ -18,10 +18,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -31,11 +29,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangle_2_Triangle_2_intersection.C
-// package       : Intersections_2 (2.8)
+// package       : Intersections_2 (2.11.3)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -239,7 +237,7 @@ void _cut_off(Pointlist_2_<R> &list,
             last->next = newrec;
             newrec->side = ON_ORIENTED_BOUNDARY;
             Line_2_Line_2_pair<R> linepair(&cutter,  &l);
-            Line_2_Line_2_pair<R>::Intersection_results isr;
+            typename Line_2_Line_2_pair<R>::Intersection_results isr;
             isr = linepair.intersection_type();
             CGAL_kernel_assertion(isr == Line_2_Line_2_pair<R>::POINT);
             linepair.intersection(newrec->point);
@@ -296,7 +294,7 @@ Triangle_2_Triangle_2_pair(Triangle_2<R> const *trian1,
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class R>
-Triangle_2_Triangle_2_pair<R>::Intersection_results
+typename Triangle_2_Triangle_2_pair<R>::Intersection_results
 Triangle_2_Triangle_2_pair<R>::intersection_type() const
 {
     if (_known)
@@ -456,17 +454,17 @@ intersection(const Triangle_2<R> &tr1, const Triangle_2<R>&tr2)
     case is_t::POINT: {
         Point_2<R> pt;
         ispair.intersection(pt);
-        return Object(new Wrapper< Point_2<R> >(pt));
+        return make_object(pt);
     }
     case is_t::SEGMENT: {
         Segment_2<R> iseg;
         ispair.intersection(iseg);
-        return Object(new Wrapper< Segment_2<R> >(iseg));
+        return make_object(iseg);
     }
     case is_t::TRIANGLE: {
         Triangle_2<R> itr;
         ispair.intersection(itr);
-        return Object(new Wrapper< Triangle_2<R> >(itr));
+        return make_object(itr);
     }
     case is_t::POLYGON: {
         typedef CGAL_STD::vector<Point_2<R> > Container;
@@ -474,7 +472,7 @@ intersection(const Triangle_2<R> &tr1, const Triangle_2<R>&tr2)
         for (int i =0; i < ispair.vertex_count(); i++) {
             points[i] = ispair.vertex(i);
         }
-        return Object(new Wrapper< Container >(points));
+        return make_object(points);
     }
     }
 }

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/vector_constructions_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2000/11/03 13:53:56 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/01/28 13:25:22 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,20 +46,18 @@
 #ifndef CGAL_CARTESIAN_VECTOR_CONSTRUCTIONS_3_H
 #define CGAL_CARTESIAN_VECTOR_CONSTRUCTIONS_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/Cartesian/Vector_3.h>
 #include <CGAL/constructions/kernel_ftC3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-VectorC3<R CGAL_CTAG>
-cross_product(const VectorC3<R CGAL_CTAG> &v,
-              const VectorC3<R CGAL_CTAG> &w)
+typename R::Vector_3
+cross_product(const VectorC3<R> &v, const VectorC3<R> &w)
 {
-    return VectorC3<R CGAL_CTAG>(v.y() * w.z() - v.z() * w.y(),
-                                 v.z() * w.x() - v.x() * w.z(),
-                                 v.x() * w.y() - v.y() * w.x());
+    return VectorC3<R>(v.y() * w.z() - v.z() * w.y(),
+                       v.z() * w.x() - v.x() * w.z(),
+                       v.x() * w.y() - v.y() * w.x());
 }
 
 CGAL_END_NAMESPACE

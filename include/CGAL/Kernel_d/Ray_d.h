@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Ray_d.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/07/16 08:17:17 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/03/18 20:34:00 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -100,7 +98,7 @@ Ray_d(const Point_d<R>& p, const Point_d<R>& q)
 /*{\Mcreate introduces a ray through |p| and |q| and starting at |p|.
 \precond $p$ and $q$ are distinct and have the same dimension. }*/
  : Base( Pair(p,q) )
-{ CGAL_assertion_msg(!ptr->is_degenerate(), 
+{ CGAL_assertion_msg(!ptr()->is_degenerate(), 
     "Ray_d::constructor: the two points must be different." );
   CGAL_assertion_msg((p.dimension()==q.dimension()), 
     "Ray_d::constructor: the two points must have the same dimension." );
@@ -129,21 +127,21 @@ Ray_d(const Ray_d<R>& r) : Base(r) {}
 
 /*{\Moperations 3 3}*/
 
-int dimension() const { return (ptr->_p[0].dimension()); }
+int dimension() const { return (ptr()->_p[0].dimension()); }
 /*{\Mop returns the dimension of the underlying space.}*/
 
-Point_d<R> source() const { return (ptr->_p[0]); }
+Point_d<R> source() const { return (ptr()->_p[0]); }
 /*{\Mop returns the source point of |\Mvar|. }*/
 
 Point_d<R> point(int i) const 
 /*{\Mop returns a point on |\Mvar|. |point(0)| is the source.
 |point(i)|, with $i>0$, is different from the source. \precond $i
 \geq 0$.}*/ 
-{ return (ptr->_p[i%2]); }
+{ return (ptr()->_p[i%2]); }
 
 Direction_d<R> direction() const 
 /*{\Mop returns the direction of |\Mvar|. }*/
-{ return ptr->direction(); }
+{ return ptr()->direction(); }
 
 inline Line_d<R> supporting_line() const; 
 /*{\Mop returns the supporting line of |\Mvar|.}*/
@@ -198,7 +196,7 @@ are parallel and false otherwise. }*/
 
 template <class R>
 std::istream& operator>>(std::istream& I, Ray_d<R>& r) 
-{ r.copy_on_write(); r.ptr->read(I); 
+{ r.copy_on_write(); r.ptr()->read(I); 
   CGAL_assertion_msg(r.point(0)!=r.point(1),
     "Line_d::operator>>: trivial ray.");
   CGAL_assertion_msg(r.point(0).dimension()==r.point(1).dimension(),
@@ -208,7 +206,7 @@ std::istream& operator>>(std::istream& I, Ray_d<R>& r)
 
 template <class R>
 std::ostream& operator<<(std::ostream& O, const Ray_d<R>& r)
-{ r.ptr->print(O,"Ray_d"); return O; }
+{ r.ptr()->print(O,"Ray_d"); return O; }
 
 template <class R>
 inline CGAL::io_Operator io_tag(const Ray_d<R>&) 

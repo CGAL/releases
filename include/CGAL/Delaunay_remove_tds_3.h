@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Delaunay_remove_tds_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.13 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.20 $
 //
 // author(s)     :  Andreas Fabri
 //                  Monique Teillaud
@@ -53,9 +51,9 @@
 #include <CGAL/basic.h>
 
 #include <map>
-#include <CGAL/quadruple.h>
+#include <CGAL/utility.h>
 #include <CGAL/Triangulation_face_base_2.h>
-#include <CGAL/Triangulation_data_structure_using_list_2.h>
+#include <CGAL/Triangulation_data_structure_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -63,8 +61,6 @@ template <class I>
 class Delaunay_remove_tds_vertex_3_2
 {
 public :
-  struct Point {}; // Because the TDS_2::Vertex requires it (unfortunately).
-
   Delaunay_remove_tds_vertex_3_2() 
     : _f(NULL) {}
 
@@ -95,8 +91,7 @@ private:
 
 
 /* We derive the face class, because we need additional pointers to 
-   a successor and precessor. This is already realized in the TDS, 
-   but there we cannot change the order of the list. 
+   a successor and precessor.
  
    We want to change the order to avoid looking at faces too often.
    When we make an operation (flip of an edge / removal of a vertex)
@@ -152,9 +147,9 @@ public:
   // Remove neighbor cw(i) and ccw(i) from the list
   void remove_neighbors_from_list(int i) {
     Delaunay_remove_tds_face_3_2 * n = 
-      (Delaunay_remove_tds_face_3_2*)neighbor(cw(i));
+      (Delaunay_remove_tds_face_3_2*)neighbor(Triangulation_utils_3::cw(i));
     n->remove_from_list();
-    n = (Delaunay_remove_tds_face_3_2*)neighbor(ccw(i));
+    n = (Delaunay_remove_tds_face_3_2*)neighbor(Triangulation_utils_3::ccw(i));
     n->remove_from_list();
   }
 
@@ -240,7 +235,7 @@ private:
 template < class H>
 class Delaunay_remove_tds_halfedge_compare_3_2 {
 public:
-  bool operator()(const H & x, const H & y) {
+  bool operator()(const H & x, const H & y) const {
     return ( x.first < y.first || 
 	     ( (x.first == y.first) && (x.second < y.second)) );
   }
@@ -252,7 +247,7 @@ public:
 
 template <class T>
 class Delaunay_remove_tds_3_2 
-  : public Triangulation_data_structure_using_list_2< 
+  : public Triangulation_data_structure_2< 
            Delaunay_remove_tds_vertex_3_2<typename T::Vertex_handle>,
 	   Delaunay_remove_tds_face_3_2<typename T::Facet> > 
 {
@@ -262,28 +257,32 @@ public:
   typedef typename T::Vertex_handle Vertex_handle;
 
 private:
-  typedef Triangulation_data_structure_using_list_2< 
+  typedef Triangulation_data_structure_2< 
             Delaunay_remove_tds_vertex_3_2<typename T::Vertex_handle>,
             Delaunay_remove_tds_face_3_2<typename T::Facet> > TDSUL2;
 
 public:
-  typedef typename TDSUL2::Vertex Vertex_3_2;
-  typedef typename TDSUL2::Face Face_3_2;
   typedef typename TDSUL2::Face_iterator Face_iterator;
-  typedef quadruple<void*, void*, Face_3_2*, int> Halfedge;
+  typedef typename TDSUL2::Face          Face_3_2;
+  typedef typename TDSUL2::Vertex_handle Vertex_handle_3_2;
+  typedef typename TDSUL2::Face_handle   Face_handle_3_2;
 
-  Delaunay_remove_tds_3_2( std::vector<Facet> & boundhole ) {
+  // FIXME : similar to operator>>(), isn't it ?  Should we try to factorize ?
+  Delaunay_remove_tds_3_2(const std::vector<Facet> & boundhole ) {
 
-    typedef typename std::vector<Facet>::iterator Facet_iterator;
+    typedef Quadruple<Vertex_handle_3_2, Vertex_handle_3_2,
+                      Face_handle_3_2, int> Halfedge;
 
-    std::vector<Halfedge> halfedges(3*boundhole.size());
-    int i = 0;
-    std::map<Vertex_handle, Vertex_3_2*>  vertex_map;
-    typename std::map<Vertex_handle, Vertex_3_2*>::iterator map_it;
+    std::vector<Halfedge> halfedges;
+    halfedges.reserve(3*boundhole.size());
 
-    for(Facet_iterator fit = boundhole.begin(); fit != boundhole.end(); ++fit)
+    std::map<Vertex_handle, Vertex_handle_3_2>  vertex_map;
+    typename std::map<Vertex_handle, Vertex_handle_3_2>::iterator map_it;
+
+    for(typename std::vector<Facet>::const_iterator fit = boundhole.begin();
+	    fit != boundhole.end(); ++fit)
     {
-      Face_3_2 * f = create_face();
+      Face_handle_3_2 f = create_face();
 
       Facet facet = *fit;
       Cell_handle h = facet.first;
@@ -301,7 +300,7 @@ public:
       }
 
       // We create as many 2d vertices as there are 3d vertices.
-      Vertex_3_2 *v0, *v1, *v2;
+      Vertex_handle_3_2 v0, v1, v2;
 
       Vertex_handle w0 = h->vertex(i0);
 
@@ -339,11 +338,10 @@ public:
       f->set_info(facet);
 
       for(int j = 0; j < 3; j++) {
-	void* v = f->vertex(j); 
-	void* w = f->vertex(cw(j));
-	halfedges[i] = (v < w)? make_quadruple(v, w, f, ccw(j))
-	                      : make_quadruple(w, v, f, ccw(j));
-	i++;
+	Vertex_handle_3_2 v = f->vertex(j); 
+	Vertex_handle_3_2 w = f->vertex(cw(j));
+	halfedges.push_back((v < w) ? Halfedge(v, w, f, ccw(j))
+	                            : Halfedge(w, v, f, ccw(j)));
       }
     }
 
@@ -367,12 +365,12 @@ public:
 
     Face_3_2 dummy;
 
-    Face_3_2 *f = &dummy;
+    Face_handle_3_2 f = &dummy;
 
     for( Face_iterator fit2 = faces_begin(); fit2 != faces_end(); ++fit2) {
-      f->set_n(&(*fit2));
-      fit2->set_p(f);
-      f = &(*fit2);
+      f->set_n(&*fit2);
+      fit2->set_p(&*f);
+      f = fit2;
       for(int i = 0; i < 3; i++) {
 	// we mark an edge only on one side
 	f->set_edge(i, (f < (f->neighbor(i))));
@@ -380,10 +378,10 @@ public:
     }
     // f points to the last face
     f->set_n(dummy.n());
-    ((Face_3_2*)dummy.n())->set_p(f);
+    dummy.n()->set_p(&*f);
   }
 
-  void remove_degree_3(Vertex_3_2* v, Face_3_2* f) 
+  void remove_degree_3(Vertex_handle_3_2 v, Face_handle_3_2 f) 
   {
     int i = f->index(v);
     // As f->neighbor(cw(i)) and f->neighbor(ccw(i)) will be removed,

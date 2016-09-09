@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/Segment_overlay_traits.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Segment_overlay.lw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2001/07/16 12:47:25 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2002/04/19 08:50:51 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -59,6 +57,7 @@
 
 //#define INCLUDEBOTH
 #if defined(CGAL_USE_LEDA) || defined(INCLUDEBOTH)
+#include <CGAL/LEDA_basic.h>
 #include <LEDA/tuple.h>
 #include <LEDA/slist.h>
 #include <LEDA/list.h>
@@ -97,7 +96,7 @@ public:
   OUTPUT&  GO;
   const GEOMETRY& K;
 
-  class cmp_segs_at_sweepline : public leda_cmp_base<ISegment>
+  class cmp_segs_at_sweepline : public CGAL_LEDA_SCOPE::leda_cmp_base<ISegment>
   { const Point_2& p;
     ISegment s_bottom, s_top; // sentinel segments
     const GEOMETRY& K;
@@ -116,7 +115,7 @@ public:
      int s = 0;
      if ( p == K.source(s1) )      s =   K.orientation(s2,p);
      else if ( p == K.source(s2) ) s = - K.orientation(s1,p);
-     else ASSERT(0,"compare error in sweep.");
+     else CGAL_assertion_msg(0,"compare error in sweep.");
      if ( s || K.is_degenerate(s1) || K.is_degenerate(s2) ) 
        return s;
     
@@ -127,7 +126,7 @@ public:
    }
   };
 
-  struct cmp_pnts_xy : public leda_cmp_base<Point_2>
+  struct cmp_pnts_xy : public CGAL_LEDA_SCOPE::leda_cmp_base<Point_2>
   { const GEOMETRY& K;
   public:
    cmp_pnts_xy(const GEOMETRY& k) : K(k) {}
@@ -136,15 +135,15 @@ public:
   };
 
 
-  typedef leda_sortseq<Point_2,seq_item>      EventQueue; 
-  typedef leda_sortseq<ISegment,seq_item>     SweepStatus;
-  typedef leda_p_queue<Point_2,ISegment>      SegQueue; 
-  typedef leda_map<seq_item,Halfedge_handle>  AssocEdgeMap;
-  typedef leda_slist<ITERATOR>                IsoList;
-  typedef leda_map<seq_item, IsoList* >       AssocIsoMap;
-  typedef leda_map2<ISegment,ISegment,seq_item> EventHash;
+  typedef leda_sortseq<Point_2,CGAL_LEDA_SCOPE::seq_item>        EventQueue; 
+  typedef leda_sortseq<ISegment,CGAL_LEDA_SCOPE::seq_item>       SweepStatus;
+  typedef leda_p_queue<Point_2,ISegment>                         SegQueue; 
+  typedef leda_map<CGAL_LEDA_SCOPE::seq_item,Halfedge_handle>    AssocEdgeMap;
+  typedef leda_slist<ITERATOR>                                   IsoList;
+  typedef leda_map<CGAL_LEDA_SCOPE::seq_item, IsoList* >         AssocIsoMap;
+  typedef leda_map2<ISegment,ISegment,CGAL_LEDA_SCOPE::seq_item> EventHash;
 
-    seq_item                   event;
+    CGAL_LEDA_SCOPE::seq_item  event;
     Point_2                    p_sweep;
     cmp_pnts_xy                cmp;
     EventQueue                 XS;
@@ -169,13 +168,13 @@ public:
   { 
     std::ostrstream out;
     out << "SQ= ";
-    pq_item pqit;
+    CGAL_LEDA_SCOPE::pq_item pqit;
     forall_items(pqit,SQ) {
       if (SQ.prio(pqit)==XS.key(XS.succ(XS.min_item()))) 
       { out << SQ.inf(pqit)->first(); }
       pqit = SQ.next_item(pqit);
     }
-    seq_item sit;
+    CGAL_LEDA_SCOPE::seq_item sit;
     out << "\nXS=\n";
     forall_items(sit,XS)
       out << "  " << XS.key(sit) << " " << XS.inf(sit) 
@@ -195,26 +194,27 @@ public:
   ITERATOR original(ISegment s) const
   { return s->second(); }
 
-  int orientation(seq_item sit, const Point_2& p) const
+  int orientation(CGAL_LEDA_SCOPE::seq_item sit, const Point_2& p) const
   { return K.orientation(YS.key(sit)->first(),p); }
 
-  bool collinear(seq_item sit1, seq_item sit2) const
+  bool collinear(CGAL_LEDA_SCOPE::seq_item sit1, 
+                 CGAL_LEDA_SCOPE::seq_item sit2) const
   { Point_2 ps = source(YS.key(sit2)), pt = target(YS.key(sit2));
     return ( orientation(sit1,ps)==0 &&
              orientation(sit1,pt)==0 );
   }
 
 
-  void compute_intersection(seq_item sit0)
+  void compute_intersection(CGAL_LEDA_SCOPE::seq_item sit0)
   {    
-    seq_item sit1 = YS.succ(sit0);
+    CGAL_LEDA_SCOPE::seq_item sit1 = YS.succ(sit0);
     if ( sit0 == YS.min_item() || sit1 == YS.max_item() ) return;
     ISegment s0 = YS.key(sit0);
     ISegment s1 = YS.key(sit1);
     int or0 = K.orientation(s0->first(),target(s1));
     int or1 = K.orientation(s1->first(),target(s0));
     if ( or0 <= 0 && or1 >= 0  ) { 
-      seq_item it = IEvent(YS.key(sit0),YS.key(sit1));
+      CGAL_LEDA_SCOPE::seq_item it = IEvent(YS.key(sit0),YS.key(sit1));
       if ( it==0 ) {
         Point_2 q = K.intersection(s0->first(),s1->first());
         it = XS.insert(q,sit0);
@@ -229,8 +229,10 @@ public:
     ITERATOR it_s;  
     for ( it_s=its; it_s != ite; ++it_s ) {
       Segment_2 s = *it_s;
-      seq_item it1 = XS.insert( K.source(s), seq_item(nil));
-      seq_item it2 = XS.insert( K.target(s), seq_item(nil));
+      CGAL_LEDA_SCOPE::seq_item it1 = 
+            XS.insert( K.source(s), CGAL_LEDA_SCOPE::seq_item(nil));
+      CGAL_LEDA_SCOPE::seq_item it2 = 
+            XS.insert( K.target(s), CGAL_LEDA_SCOPE::seq_item(nil));
       if (it1 == it2) {
         if ( Isos_of[it1] == 0 ) Isos_of[it1] = new IsoList;
         Isos_of[it1]->push(it_s);
@@ -251,8 +253,8 @@ public:
     }
 
     // insert a lower and an upper sentinel segment
-    YS.insert(&sl,seq_item(nil));
-    YS.insert(&sh,seq_item(nil));
+    YS.insert(&sl,CGAL_LEDA_SCOPE::seq_item(nil));
+    YS.insert(&sh,CGAL_LEDA_SCOPE::seq_item(nil));
     TRACEN("end of initialization\n"<<YS.size());
   }
 
@@ -275,9 +277,10 @@ public:
     TRACEN("\n\n >>> process_event: "<<p_sweep<<" "<<XS[event]<<" "<<event);
 
     Vertex_handle v = GO.new_vertex(p_sweep);
-    seq_item sit = XS.inf(event);
+    CGAL_LEDA_SCOPE::seq_item sit = XS.inf(event);
         
-      seq_item sit_succ(0), sit_pred(0), sit_pred_succ(0), sit_first(0);
+      CGAL_LEDA_SCOPE::seq_item sit_succ(0), sit_pred(0), 
+                                sit_pred_succ(0), sit_first(0);
       if (sit == nil) 
         {
           Segment_2 s_sweep = K.construct_segment(p_sweep,p_sweep);
@@ -306,9 +309,9 @@ public:
                 YS.inf(sit) == YS.succ(sit) ) // overlapping
           sit = YS.succ(sit);
         sit_succ = YS.succ(sit); 
-        seq_item sit_last = sit;
+        CGAL_LEDA_SCOPE::seq_item sit_last = sit;
 
-        seq_item xit = YS.inf(sit_last);
+        CGAL_LEDA_SCOPE::seq_item xit = YS.inf(sit_last);
         if (xit) { 
           ISegment s1 = YS.key(sit_last);
           ISegment s2 = YS.key(sit_succ);
@@ -319,7 +322,7 @@ public:
         bool overlapping;
         do {
           ISegment s = YS.key(sit);
-          seq_item sit_next = YS.pred(sit);
+          CGAL_LEDA_SCOPE::seq_item sit_next = YS.pred(sit);
           overlapping = (YS.inf(sit_next) == sit);
           Halfedge_handle e = Edge_of[sit];
           if ( !overlapping ) {
@@ -335,7 +338,7 @@ public:
           } else {  // passing segment
               TRACEN("passing segment "<<PIS(s));
             if ( YS.inf(sit) != YS.succ(sit) ) 
-              YS.change_inf(sit, seq_item(0));
+              YS.change_inf(sit, CGAL_LEDA_SCOPE::seq_item(0));
             GO.passing_segment(v,original(s));
           }
           sit = sit_next;
@@ -350,8 +353,8 @@ public:
         TRACEN("\n   "<<PIS(YS.key(sit_pred)));
 
         while ( sit != sit_succ ) {
-          seq_item sub_first = sit;
-          seq_item sub_last  = sub_first;
+          CGAL_LEDA_SCOPE::seq_item sub_first = sit;
+          CGAL_LEDA_SCOPE::seq_item sub_last  = sub_first;
                             
           while (YS.inf(sub_last) == YS.succ(sub_last))
             sub_last = YS.succ(sub_last);
@@ -373,7 +376,7 @@ public:
     GO.halfedge_below(v,Edge_of[sit_pred]);
     if ( Isos_of[event] != 0 ) {
       const IsoList& IL = *(Isos_of[event]);
-      slist_item iso_it;
+      CGAL_LEDA_SCOPE::slist_item iso_it;
       for (iso_it = IL.first(); iso_it; iso_it=IL.succ(iso_it) ) 
         GO.trivial_segment(v,IL[iso_it] );
       delete (Isos_of[event]); // clean up the list
@@ -381,11 +384,11 @@ public:
 
 
     ISegment next_seg;
-    pq_item next_it = SQ.find_min();
+    CGAL_LEDA_SCOPE::pq_item next_it = SQ.find_min();
     while ( next_it && 
             (next_seg = SQ.inf(next_it), p_sweep == source(next_seg)) ) {
-      seq_item s_sit = YS.locate_succ(next_seg);
-      seq_item p_sit = YS.pred(s_sit);
+      CGAL_LEDA_SCOPE::seq_item s_sit = YS.locate_succ(next_seg);
+      CGAL_LEDA_SCOPE::seq_item p_sit = YS.pred(s_sit);
 
       TRACEN("inserting "<<PIS(next_seg)<<" at "<<PIS(YS.key(s_sit))); 
       if ( YS.max_item() != s_sit &&
@@ -393,7 +396,7 @@ public:
            orientation(s_sit, target(next_seg) ) == 0 )
         sit = YS.insert_at(s_sit, next_seg, s_sit);
       else 
-        sit = YS.insert_at(s_sit, next_seg, seq_item(nil));
+        sit = YS.insert_at(s_sit, next_seg, CGAL_LEDA_SCOPE::seq_item(nil));
       assert(YS.succ(sit)==s_sit);
 
       if ( YS.min_item() != p_sit &&
@@ -410,7 +413,7 @@ public:
       next_it = SQ.find_min();
     }
 
-    for( seq_item sitl = YS.pred(sit_succ); sitl != sit_pred; 
+    for( CGAL_LEDA_SCOPE::seq_item sitl = YS.pred(sit_succ); sitl != sit_pred; 
          sitl = YS.pred(sitl) ) {
       if ( YS.inf(sitl) != YS.succ(sitl) ) { // non-overlapping
         TRACEN("non-overlapping "<<PIS(YS.key(sitl))<<" "<<sitl);
@@ -424,13 +427,13 @@ public:
 
 
     assert(sit_pred); assert(sit_pred_succ);
-    seq_item xit = YS.inf(sit_pred);
+    CGAL_LEDA_SCOPE::seq_item xit = YS.inf(sit_pred);
     if ( xit ) { 
       ISegment s1 = YS.key(sit_pred);
       ISegment s2 = YS.key(sit_pred_succ);
       IEvent(s1,s2) = xit;
         TRACEN("hashing "<<PIS(s1)<<PIS(s2)<<xit);
-      YS.change_inf(sit_pred, seq_item(0));
+      YS.change_inf(sit_pred, CGAL_LEDA_SCOPE::seq_item(0));
     }
           
     compute_intersection(sit_pred); 
@@ -505,7 +508,7 @@ public:
        s =   K.orientation(s2,p);
      else if ( K.orientation(s2,p) == 0 ) 
        s = - K.orientation(s1,p);
-     else ASSERT(0,"compare error in sweep.");
+     else CGAL_assertion_msg(0,"compare error in sweep.");
      if ( s || K.is_degenerate(s1) || K.is_degenerate(s2) ) 
        return ( s < 0 );
     

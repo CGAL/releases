@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Polyhedron_old/Polyhedron_default_traits_3.h
-// package       : Polyhedron (3.21)
-// chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
-// source        : polyhedron.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/07/05 21:09:50 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron (3.30)
+// chapter       : 3D-Polyhedral Surfaces
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/20 15:41:38 $
+//
+// author(s)     : Lutz Kettner)
+// coordinator   : MPI Saarbruecken
 //
 // Default Traits for Polyhedral Surfaces in CGAL.
 // email         : contact@cgal.org

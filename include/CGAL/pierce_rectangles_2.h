@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/pierce_rectangles_2.h
-// package       : Matrix_search (1.49)
+// package       : Matrix_search (1.54)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.47 $
-// revision_date : $Date: 2001/07/12 07:17:55 $
+// revision      : $Revision: 1.52 $
+// revision_date : $Date: 2002/03/25 15:04:57 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH
@@ -248,10 +246,16 @@ struct Staircases : public Loc_domain< Traits_ > {
 
   template < class InputIC >
   Staircases(InputIC b, InputIC e, Traits t)
-  : Base(b, e, t), sorted(pts),
+  : Base(b, e, t),
+    sorted(pts),
     xgy(t.signed_x_distance_2_object()(maxx, minx) >
         t.signed_y_distance_2_object()(maxy, miny))
   {
+#if defined(__sun) && defined(__SUNPRO_CC)
+    // I get linker errors otherweise,  the call from above
+    // does not seem to suffice :-(
+    { Base bb(b, e, t); }
+#endif // defined(__sun) && defined(__SUNPRO_CC)
 #ifndef CGAL_CFG_NO_NAMESPACE
     using std::sort;
     using std::find_if;
@@ -1056,7 +1060,6 @@ struct Four_covering_algorithm {
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_PIERCE_RECTANGLES_2_H)
-
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian_d.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/06 11:11:47 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/04/17 15:58:14 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -212,17 +210,18 @@ public:
   { return Linear_base_d(); }
 
   // Intersection objects:
-  typedef Line_line_intersectionCd<Self> Line_line_intersection_d;
-  typedef Line_hyperplane_intersectionCd<Self> Line_hyperplane_intersection_d;
-  typedef Line_d_Line_d_pair<Self> Line_d_Line_d_pair;
-  typedef Ray_d_Ray_d_pair<Self> Ray_d_Ray_d_pair;
-  typedef Segment_d_Segment_d_pair<Self> Segment_d_Segment_d_pair;
-  typedef Line_d_Ray_d_pair<Self> Line_d_Ray_d_pair;
-  typedef Line_d_Segment_d_pair<Self> Line_d_Segment_d_pair;
-  typedef Ray_d_Segment_d_pair<Self> Ray_d_Segment_d_pair;
-  typedef Line_d_Hyperplane_d_pair<Self> Line_d_Hyperplane_d_pair;
-  typedef Ray_d_Hyperplane_d_pair<Self> Ray_d_Hyperplane_d_pair;
-  typedef Segment_d_Hyperplane_d_pair<Self> Segment_d_Hyperplane_d_pair;
+  typedef CGAL::Line_line_intersectionCd<Self> Line_line_intersection_d;
+  typedef CGAL::Line_hyperplane_intersectionCd<Self> 
+                                               Line_hyperplane_intersection_d;
+  typedef CGAL::Line_d_Line_d_pair<Self> Line_d_Line_d_pair;
+  typedef CGAL::Ray_d_Ray_d_pair<Self> Ray_d_Ray_d_pair;
+  typedef CGAL::Segment_d_Segment_d_pair<Self> Segment_d_Segment_d_pair;
+  typedef CGAL::Line_d_Ray_d_pair<Self> Line_d_Ray_d_pair;
+  typedef CGAL::Line_d_Segment_d_pair<Self> Line_d_Segment_d_pair;
+  typedef CGAL::Ray_d_Segment_d_pair<Self> Ray_d_Segment_d_pair;
+  typedef CGAL::Line_d_Hyperplane_d_pair<Self> Line_d_Hyperplane_d_pair;
+  typedef CGAL::Ray_d_Hyperplane_d_pair<Self> Ray_d_Hyperplane_d_pair;
+  typedef CGAL::Segment_d_Hyperplane_d_pair<Self> Segment_d_Hyperplane_d_pair;
 
   typedef CGALi::Intersect Intersect_d;
   Intersect_d intersect_d_object() const 

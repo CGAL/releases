@@ -14,8 +14,8 @@
 // file          : demo/Alpha_shapes_2/demo_alpha.C
 // package       : Alpha_shapes_2(1.0)
 // source        : $RCSfile: demo_alpha.C,v $
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/07/23 13:17:53 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2002/04/27 23:14:24 $
 // author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec@sophia.inria.fr>)
@@ -28,7 +28,6 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
-#include <strstream>
 #include <vector>
 #include <list>
 
@@ -455,7 +454,7 @@ int main(int argc,  char* argv[])
       int but = W.read_mouse(x,y);
 
       if (but == 0)
-	exit(0);
+        break;
 
       switch (but) 
 	{
@@ -632,13 +631,13 @@ int main(int argc,  char* argv[])
       os << A;
       std::cout << "file written" << std::endl;
 
-      list< Vertex* > L_V;
+      std::list< Vertex* > L_V;
       A.get_Alpha_shape_vertices(back_inserter(L_V));
-      list<Vertex*>::iterator vertex_it = L_V.begin();
+      std::list<Vertex*>::iterator vertex_it = L_V.begin();
       for (; vertex_it != L_V.end(); ++vertex_it)
 	std::cout << (*vertex_it)->point() << std::endl;
  
-      list< pair<Face*, int> > L_E;
+      std::list< pair<Face*, int> > L_E;
       A.get_Alpha_shape_edges(back_inserter(L_E));
    
 #endif // DEBUG   

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Convex_hull_traits_3.h
-// package       : Convex_hull_3 (2.28)
+// package       : Convex_hull_3 (2.41)
 // chapter       : Convex Hulls and Extreme Points
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/18 15:44:35 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/05/06 07:37:30 $
 //
 // author(s)     : Susan Hert
 //
@@ -61,6 +59,26 @@
 
 namespace CGAL {
 
+template <class T>
+class Max_coordinate_3 
+{
+public:
+
+    int operator()(const T& v)
+    {
+      if (CGAL_NTS abs(v.x()) >= CGAL_NTS abs(v.y()))
+      {
+         if (CGAL_NTS abs(v.x()) >= CGAL_NTS abs(v.z())) return 0;
+         return 2;
+      }
+      else
+      {
+         if (CGAL_NTS abs(v.y()) >= CGAL_NTS abs(v.z())) return 1;
+         return 2;
+      }
+    }
+};
+
 // without this we get an internal compiler error on bcc
 #if defined(__BORLANDC__)
 template <class R_, class Polyhedron_ = CGAL::Polyhedron_3<R_> >
@@ -80,7 +98,7 @@ class Convex_hull_traits_3
 #if defined(__BORLANDC__)
   typedef Polyhedron_                            Polyhedron_3;
 #else
-  typedef Polyhedron_3<R>                        Polyhedron_3;
+  typedef CGAL::Polyhedron_3<R>                  Polyhedron_3;
 #endif
 
   typedef typename R::Construct_segment_3        Construct_segment_3;
@@ -104,6 +122,7 @@ class Convex_hull_traits_3
   typedef Convex_hull_projective_xy_traits_2<Point_3>  Traits_xy;
   typedef Convex_hull_projective_xz_traits_2<Point_3>  Traits_xz;
   typedef Convex_hull_projective_yz_traits_2<Point_3>  Traits_yz;
+  typedef CGAL::Max_coordinate_3<Vector_3>             Max_coordinate_3;
 
   // for postcondition checking 
   typedef typename R::Ray_3                      Ray_3; 
@@ -171,6 +190,10 @@ class Convex_hull_traits_3
   Less_signed_distance_to_plane_3  
   less_signed_distance_to_plane_3_object() const
   { return Less_signed_distance_to_plane_3(); }
+
+  Max_coordinate_3  
+  max_coordinate_3_object() const
+  { return Max_coordinate_3(); }
 };
 
 } // namespace CGAL

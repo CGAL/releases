@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Convex_hull_d_window_stream.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
 // source        : ddgeo/Convex_hull_d.lw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/05 08:22:37 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/04/17 15:58:16 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -53,7 +51,9 @@
 #define CGAL_CONVEX_HULL_D_WINDOW_STREAM_H
 
 #include <CGAL/basic.h>
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/Convex_hull_d.h>
+#include <CGAL/Unique_hash_map.h>
 #include <CGAL/IO/Regular_complex_d_window_stream.h>
 
 
@@ -70,7 +70,7 @@ void d2_show(const Convex_hull_d<R>& C, CGAL::Window_stream& W);
 
 template <class R>
 void d3_surface_map(const Convex_hull_d<R>& C, 
-                    GRAPH< typename Convex_hull_d<R>::Point_d ,int>& G);
+          CGAL_LEDA_SCOPE::GRAPH< typename Convex_hull_d<R>::Point_d ,int>& G);
 /*{\Mfunc constructs the representation of the surface of |\Mvar| as a 
 bidirected LEDA graph |G|.\\ \precond |dim == 3|.}*/
 
@@ -105,7 +105,7 @@ void d2_show(const Convex_hull_d<R>& C, CGAL::Window_stream& W)
 
 template <class R> 
 void d3_surface_map(const Convex_hull_d<R>& C, 
-                    GRAPH< typename Convex_hull_d<R>::Point_d ,int>& G)
+           CGAL_LEDA_SCOPE::GRAPH< typename Convex_hull_d<R>::Point_d ,int>& G)
 { 
   typedef typename Convex_hull_d<R>::Vertex_const_handle  Vertex_handle;
   typedef typename Convex_hull_d<R>::Simplex_const_handle Simplex_handle;
@@ -117,7 +117,7 @@ void d3_surface_map(const Convex_hull_d<R>& C,
   if (C.dimension() != 3) 
     CGAL_assertion_msg(0,"d3_surface_map: dim must be 3");
   if (C.current_dimension() < 3) {
-    Hash_map<Vertex_handle,leda_node> node_for(nil);
+    Unique_hash_map<Vertex_handle,leda_node> node_for(nil);
     Vertex_handle v; Simplex_handle s;
     forall_rc_vertices(v,C) {
       node_for[v] = G.new_node(C.associated_point(v));
@@ -204,14 +204,15 @@ void d3_surface_map(const Convex_hull_d<R>& C,
         }// end if bounded
       }// end forall
     if (!G.make_map())
-      error_handler(1,"chull::surface_graphrep: not bidirected"); 
+      CGAL_LEDA_SCOPE::error_handler(1,
+                                    "chull::surface_graphrep: not bidirected");
     return;
     }
   }
 
   Facet_handle f; 
   Vertex_handle v;
-  Hash_map<Vertex_handle,leda_node> node_for(nil);
+  Unique_hash_map<Vertex_handle,leda_node> node_for(nil);
   int facet_num = 0;
 
   std::list<Facet_handle> Surface = C.all_facets();
@@ -226,7 +227,7 @@ void d3_surface_map(const Convex_hull_d<R>& C,
     }
   }
   if ( 2*G.number_of_nodes() != facet_num + 4)
-    error_handler(1,"d3_surface_map: node equation wrong.");
+    CGAL_LEDA_SCOPE::error_handler(1,"d3_surface_map: node equation wrong.");
  
   leda_node_array<bool> untreated(G,true);
   for(it = Surface.begin(); it != Surface.end(); ++it) {
@@ -267,9 +268,9 @@ void d3_surface_map(const Convex_hull_d<R>& C,
     } // end for i
   } // end forall
   if (G.number_of_edges() != (3*facet_num))
-    error_handler(1,"d3_surface_map: wrong number of edges");
+    CGAL_LEDA_SCOPE::error_handler(1,"d3_surface_map: wrong number of edges");
   if (!G.make_map())
-    error_handler(1,"d3_surface_map: not bidirected"); 
+    CGAL_LEDA_SCOPE::error_handler(1,"d3_surface_map: not bidirected"); 
 }
 
 

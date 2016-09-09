@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Kernel_classesHd.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/28 11:28:23 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/03/18 20:33:56 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -54,7 +52,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <typename RT, typename LA> class PointHd;
+template <typename RT, typename LA> class PointHd2;
 template <typename RT, typename LA> class VectorHd;
 template <typename RT, typename LA> class DirectionHd;
 template <typename RT, typename LA> class HyperplaneHd;

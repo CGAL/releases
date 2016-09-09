@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Regular_triangulation_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.48 $
-// revision_date : $Date: 2001/07/20 12:07:40 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.68 $
+// revision_date : $Date: 2002/04/12 22:39:42 $
 // author(s)     : Monique Teillaud
 //                 Sylvain Pion
 //                 
@@ -69,36 +67,42 @@ class Regular_triangulation_3
   friend std::istream& operator >> CGAL_NULL_TMPL_ARGS
   (std::istream& is, Triangulation_3<Gt,Tds> &tr);
 
+  typedef Regular_triangulation_3<Gt, Tds>      Self;
+  typedef Triangulation_3<Gt,Tds>               Tr_Base;
 public:
   typedef Tds                                   Triangulation_data_structure;
   typedef Gt                                    Geom_traits;
-  typedef Regular_triangulation_3<Gt, Tds>      Self;
 
-  typedef typename Triangulation_3<Gt,Tds>::Vertex_handle       Vertex_handle;
-  typedef typename Triangulation_3<Gt,Tds>::Cell_handle         Cell_handle;
-  typedef typename Triangulation_3<Gt,Tds>::Vertex              Vertex;
-  typedef typename Triangulation_3<Gt,Tds>::Cell                Cell;
-  typedef typename Triangulation_3<Gt,Tds>::Facet               Facet;
-  typedef typename Triangulation_3<Gt,Tds>::Edge                Edge;
+  typedef typename Tr_Base::Vertex_handle       Vertex_handle;
+  typedef typename Tr_Base::Cell_handle         Cell_handle;
+  typedef typename Tr_Base::Vertex              Vertex;
+  typedef typename Tr_Base::Cell                Cell;
+  typedef typename Tr_Base::Facet               Facet;
+  typedef typename Tr_Base::Edge                Edge;
 
-  typedef typename Triangulation_3<Gt,Tds>::Locate_type         Locate_type;
-  typedef typename Triangulation_3<Gt,Tds>::Cell_iterator       Cell_iterator;
-  typedef typename Triangulation_3<Gt,Tds>::Facet_iterator      Facet_iterator;
-  typedef typename Triangulation_3<Gt,Tds>::Edge_iterator       Edge_iterator;
+  typedef typename Tr_Base::Locate_type         Locate_type;
+  typedef typename Tr_Base::Cell_iterator       Cell_iterator;
+  typedef typename Tr_Base::Facet_iterator      Facet_iterator;
+  typedef typename Tr_Base::Edge_iterator       Edge_iterator;
 
-  typedef typename Gt::Weighted_point                           Weighted_point;
+  typedef typename Tr_Base::Finite_vertices_iterator Finite_vertices_iterator;
+  typedef typename Tr_Base::Finite_cells_iterator   Finite_cells_iterator;
+  typedef typename Tr_Base::Finite_facets_iterator  Finite_facets_iterator;
+  typedef typename Tr_Base::Finite_edges_iterator   Finite_edges_iterator;
+
+  typedef typename Gt::Weighted_point              Weighted_point;
 
   Regular_triangulation_3()
-    : Triangulation_3<Gt,Tds>()
+    : Tr_Base()
   {}
   
   Regular_triangulation_3(const Gt & gt)
-    : Triangulation_3<Gt,Tds>(gt)
+    : Tr_Base(gt)
   {}
   
   // copy constructor duplicates vertices and cells
-  Regular_triangulation_3(const Regular_triangulation_3<Gt,Tds> & rt)
-      : Triangulation_3<Gt,Tds>(rt)
+  Regular_triangulation_3(const Regular_triangulation_3 & rt)
+      : Tr_Base(rt)
   { 
       CGAL_triangulation_postcondition( is_valid() );  
   }
@@ -115,9 +119,10 @@ public:
     return number_of_vertices() - n;
   }
 
-  Vertex_handle insert( const Weighted_point & p,
-	                Cell_handle start = Cell_handle(),
-			Vertex_handle v = NULL);
+  Vertex_handle insert(const Weighted_point & p, Cell_handle start = NULL);
+
+  Vertex_handle insert(const Weighted_point & p, Locate_type lt,
+	               Cell_handle c, int li, int);
 
   Vertex_handle push_back(const Weighted_point &p)
   {
@@ -183,22 +188,22 @@ private:
   class Conflict_tester_3
   {
       const Weighted_point &p;
-      Self *t;
+      const Self *t;
       mutable std::vector<Vertex_handle> cv;
 
   public:
 
-      Conflict_tester_3(const Weighted_point &pt, Self *tr)
+      Conflict_tester_3(const Weighted_point &pt, const Self *tr)
 	  : p(pt), t(tr) {}
 
-      bool operator()(const typename Tds::Cell *c) const
+      bool operator()(const Cell_handle c) const
       {
 	  // We mark the vertices so that we can find the deleted ones easily.
-	  if (t->in_conflict_3(p, (Cell_handle)(Cell*)c))
+	  if (t->in_conflict_3(p, c))
 	  {
 	      for (int i=0; i<4; i++)
 	      {
-		  Vertex_handle v = ((Cell_handle)(Cell*)c)->vertex(i);
+		  Vertex_handle v = c->vertex(i);
 		  if (v->cell() != NULL)
 		  {
 		      cv.push_back(v);
@@ -219,21 +224,21 @@ private:
   class Conflict_tester_2
   {
       const Weighted_point &p;
-      Self *t;
+      const Self *t;
       mutable std::vector<Vertex_handle> cv;
 
   public:
 
-      Conflict_tester_2(const Weighted_point &pt, Self *tr)
+      Conflict_tester_2(const Weighted_point &pt, const Self *tr)
 	  : p(pt), t(tr) {}
 
-      bool operator()(const typename Tds::Cell *c) const
+      bool operator()(const Cell_handle c) const
       {
-	  if (t->in_conflict_2(p, (Cell_handle)(Cell*)c, 3))
+	  if (t->in_conflict_2(p, c, 3))
 	  {
 	      for (int i=0; i<3; i++)
 	      {
-		  Vertex_handle v = ((Cell_handle)(Cell*)c)->vertex(i);
+		  Vertex_handle v = c->vertex(i);
 		  if (v->cell() != NULL)
 		  {
 		      cv.push_back(v);
@@ -333,10 +338,9 @@ side_of_power_circle( Cell_handle c, int i, const Weighted_point &p) const
     int i0 = (i>0) ? 0 : 1;
     int i1 = (i>1) ? 1 : 2;
     int i2 = (i>2) ? 2 : 3;
-    CGAL_triangulation_precondition( orientation(c->vertex(i0)->point(),
-						 c->vertex(i1)->point(),
-						 c->vertex(i2)->point(),
-						 p) == COPLANAR );
+    CGAL_triangulation_precondition( coplanar ( c->vertex(i0)->point(),
+						c->vertex(i1)->point(),
+						c->vertex(i2)->point(), p) );
     return Bounded_side( power_test(c->vertex(i0)->point(),
 				    c->vertex(i1)->point(),
 				    c->vertex(i2)->point(), p) );
@@ -375,24 +379,32 @@ side_of_power_segment( Cell_handle c, const Weighted_point &p) const
 template < class Gt, class Tds >
 typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
 Regular_triangulation_3<Gt,Tds>::
-insert(const Weighted_point & p, Cell_handle start, Vertex_handle v) 
+insert(const Weighted_point & p, Cell_handle start) 
+{
+    Locate_type lt;
+    int li, lj;
+    Cell_handle c = locate(p, lt, li, lj, start);
+    return insert(p, lt, c, li, lj);
+}
+
+template < class Gt, class Tds >
+typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
+Regular_triangulation_3<Gt,Tds>::
+insert(const Weighted_point & p, Locate_type lt, Cell_handle c, int li, int)
 {
   switch (dimension()) {
   case 3: 
     {
-      Locate_type lt;
-      int li, lj;
-      Cell_handle c = locate( p, lt, li, lj, start);
-      
       if ( lt == VERTEX )
 	  return c->vertex(li);
-      // TODO: look at the weight...
+      // choice: not to do anything
+      // could reinsert the point with the new weight
       
       if (! in_conflict_3(p, c))
 	  return NULL;
       // Should I mark c's vertices too ?
       Conflict_tester_3 tester(p, this);
-      v = (Vertex *) _tds.insert_conflict(&(*v), &(*c), tester);
+      Vertex_handle v = insert_conflict_3(c, tester);
       v->set_point(p);
       for( typename std::vector<Vertex_handle>::iterator
 		it = tester.conflict_vector().begin();
@@ -401,11 +413,9 @@ insert(const Weighted_point & p, Cell_handle start, Vertex_handle v)
         if ((*it)->cell() == NULL)
 	{
           // vertex has to be deleted
-          set_number_of_vertices(number_of_vertices()-1);
-          _tds.delete_vertex( &(*(*it)));
+          _tds.delete_vertex(*it);
 	}
       }
-      set_number_of_vertices(number_of_vertices()+1);
       // a voir : comment compter les sommets redondants ? (***)
       // else : traiter le cas des points redondants a stocker dans
       // la face associee pour le cas d'une future suppression
@@ -413,9 +423,6 @@ insert(const Weighted_point & p, Cell_handle start, Vertex_handle v)
     }
   case 2:
     {
-      Locate_type lt;
-      int li, lj;
-      Cell_handle c = locate( p, lt, li, lj, start);
       switch (lt) {
       case OUTSIDE_CONVEX_HULL:
       case CELL:
@@ -425,7 +432,7 @@ insert(const Weighted_point & p, Cell_handle start, Vertex_handle v)
 	  if (! in_conflict_2(p, c, 3))
 	      return NULL;
 	  Conflict_tester_2 tester(p, this);
-	  v = (Vertex *) _tds.insert_conflict(&(*v), &(*c), tester);
+	  Vertex_handle v = insert_conflict_2(c, tester);
 	  v->set_point(p);
           for( typename std::vector<Vertex_handle>::iterator
 		it = tester.conflict_vector().begin();
@@ -434,85 +441,73 @@ insert(const Weighted_point & p, Cell_handle start, Vertex_handle v)
             if ((*it)->cell() == NULL)
 	    {
               // vertex has to be deleted
-              set_number_of_vertices(number_of_vertices()-1);
-              _tds.delete_vertex( &(*(*it)));
+              _tds.delete_vertex(*it);
 	    }
 	  }
-	  set_number_of_vertices(number_of_vertices()+1);
 	  return v;
 	}
       case VERTEX:
 	return c->vertex(li);
+	// choice: not to do anything
+	// could reinsert the point with the new weight
       case OUTSIDE_AFFINE_HULL:
 	{
 	  // if the 2d triangulation is Delaunay, the 3d
 	  // triangulation will be Delaunay
-	  return Triangulation_3<Gt,Tds>::insert_outside_affine_hull(p,v); 
+	  return Tr_Base::insert_outside_affine_hull(p);
 	}
       }
     }//dim 2
   case 1:
     {
-      Locate_type lt;
-      int li, lj;
-      Cell_handle c = locate( p, lt, li, lj, start);
       switch (lt) {
       case OUTSIDE_CONVEX_HULL:
       case EDGE:
 	{
 	  if (! in_conflict_1(p, c) )
 	      return NULL;
-	  Vertex_handle v = (Vertex *) _tds.create_vertex();
-	  v->set_point(p);
-	  set_number_of_vertices(number_of_vertices()+1);
-	  Cell_handle bound[2];
-	  Cell_handle n;
-	  std::set<Cell*> conflicts;
+	  Cell_handle n, bound[2];
+	  std::set<Cell_handle> conflicts;
 
 	  for (int j =0; j<2; j++ ) {
 	    n = c;
 	    while ( ( ! is_infinite(n->vertex(1-j)) ) && 
 		      in_conflict_1( p, n->neighbor(j) ) ) {
 	      if (n!=c)
-		  (void) conflicts.insert( &(*n) );
+		  (void) conflicts.insert(n);
 // 		P = new Weighted_point( n->vertex(1-j)->point() );
 // 		(void) deleted_points.insert((void*) P);
-	      _tds.delete_vertex( &(*(n->vertex(1-j))) );
-	      set_number_of_vertices(number_of_vertices()-1);
+	      _tds.delete_vertex( n->vertex(1-j) );
 	      n = n->neighbor(j);
 	    }
 	    bound[j] = n;
 	  }
+
+	  Vertex_handle v = _tds.create_vertex();
+	  v->set_point(p);
 	  if ( bound[0] != bound[1] ) {
 	    if ( (c != bound[0]) && (c != bound[1]) )
-	      (void) conflicts.insert( &(*c) );
-	    bound[0]->set_vertex(0,v);
-	    v->set_cell(bound[0]);
+	      (void) conflicts.insert(c);
 	    bound[1]->set_vertex(1,v);
-	    bound[1]->set_neighbor(0,bound[0]);
-	    bound[0]->set_neighbor(1,bound[1]);
 	  }
 	  else {
-	    bound[1] = (Cell *)
-		_tds.create_cell(&(*bound[0]->vertex(0)), &(*v), NULL, NULL,
-			 &(*bound[0]), &(*bound[0]->neighbor(1)), NULL, NULL);
-	    bound[0]->neighbor(1)->set_neighbor(0,bound[1]);
+	    bound[1] = _tds.create_face(bound[0]->vertex(0), v, NULL);
+	    _tds.set_adjacency(bound[1], 1, bound[0]->neighbor(1), 0);
 	    bound[0]->vertex(0)->set_cell(bound[1]);
-
-	    bound[0]->set_neighbor(1,bound[1]);
-	    bound[0]->set_vertex(0,v);
-	    v->set_cell(bound[0]);
 	  }
+	  bound[0]->set_vertex(0,v);
+	  _tds.set_adjacency(bound[1], 0, bound[0], 1);
+	  v->set_cell(bound[0]);
 
-	  typename std::set<Cell*>::const_iterator it;
-	  for ( it = conflicts.begin(); it != conflicts.end(); ++it)
-	    _tds.delete_cell(*it);
+	  _tds.delete_cells(conflicts.begin(), conflicts.end());
 	  return v;
 	}
       case VERTEX:
 	return c->vertex(li);
+	// choice: not to do anything
+	// could reinsert the point with the new weight
       case OUTSIDE_AFFINE_HULL:
-	return Triangulation_3<Gt,Tds>::insert_outside_affine_hull(p,v); 
+	return Tr_Base::insert_outside_affine_hull(p);
       case FACET:
       case CELL:
 	// impossible in dimension 1
@@ -521,9 +516,7 @@ insert(const Weighted_point & p, Cell_handle start, Vertex_handle v)
     }
   default :
     {
-      // temporary : will only work for non degenerated dimensions
-      // (only for the first 4 points if they form a true tetrahedron)
-      return Triangulation_3<Gt,Tds>::insert(p,start,v);
+      return Tr_Base::insert(p, c);
     }
   }
 }
@@ -540,7 +533,7 @@ is_valid(bool verbose, int level) const
     return false;
   }
 
-  if ( &(*infinite_vertex()) == NULL ) {
+  if ( infinite_vertex() == NULL ) {
     if (verbose)
 	std::cerr << "no infinite vertex" << std::endl;
     CGAL_triangulation_assertion(false);
@@ -551,13 +544,13 @@ is_valid(bool verbose, int level) const
   switch ( dimension() ) {
   case 3:
     {
-      Cell_iterator it;
-      for ( it = finite_cells_begin(); it != cells_end(); ++it ) {
-	is_valid_finite((*it).handle());
+      Finite_cells_iterator it;
+      for ( it = finite_cells_begin(); it != finite_cells_end(); ++it ) {
+	is_valid_finite(it);
 	for ( i=0; i<4; i++ ) {
-	  if ( side_of_power_sphere ( (*it).handle(), 
-		 it->vertex( (it->neighbor(i))->index((*it).handle() ) )
-		 ->point() ) == ON_BOUNDED_SIDE ) {
+	  if ( side_of_power_sphere (it, 
+		 it->vertex(it->neighbor(i)->index(it))->point() )
+		  == ON_BOUNDED_SIDE ) {
 	    if (verbose)
 	      std::cerr << "non-empty sphere " << std::endl;
 	    CGAL_triangulation_assertion(false);
@@ -569,8 +562,8 @@ is_valid(bool verbose, int level) const
     }
   case 2:
     {
-      Facet_iterator it;
-      for ( it = finite_facets_begin(); it != facets_end(); ++it ) {
+      Finite_facets_iterator it;
+      for ( it = finite_facets_begin(); it != finite_facets_end(); ++it ) {
 	is_valid_finite((*it).first);
 	for ( i=0; i<3; i++ ) {
 	  if ( side_of_power_circle
@@ -589,8 +582,8 @@ is_valid(bool verbose, int level) const
     }
   case 1:
     {
-      Edge_iterator it;
-      for ( it = finite_edges_begin(); it != edges_end(); ++it ) {
+      Finite_edges_iterator it;
+      for ( it = finite_edges_begin(); it != finite_edges_end(); ++it ) {
 	is_valid_finite((*it).first);
 	for ( i=0; i<2; i++ ) {
 	  if ( side_of_power_segment

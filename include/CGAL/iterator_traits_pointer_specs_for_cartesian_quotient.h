@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/iterator_traits_pointer_specs_for_cartesian_quotient.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:54:37 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2002/03/22 11:59:40 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -54,47 +52,33 @@
 #ifdef CGAL_CARTESIAN_H
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<int> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<long> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<float> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<double> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<leda_real> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<leda_integer> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_2C( CGAL::Quotient<CGAL::Gmpz> )
 CGAL_ITERATOR_TRAITS_POINTER_SPEC_3C( CGAL::Quotient<CGAL::Gmpz> )
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_DC( CGAL::Quotient<CGAL::Gmpz> )
 
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<int> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<int> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<long> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<long> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<float> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<float> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<double> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<double> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<leda_real> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<leda_real> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<leda_integer> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<leda_integer> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC2( CGAL::Quotient<CGAL::Gmpz> )
 CGAL_ITERATOR_TRAITS_POINTER_SPECC3( CGAL::Quotient<CGAL::Gmpz> )
-CGAL_ITERATOR_TRAITS_POINTER_SPECCD( CGAL::Quotient<CGAL::Gmpz> )
 
 #endif // CGAL_CARTESIAN_H
 #endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT

@@ -18,10 +18,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -31,11 +29,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Ray_2_Ray_2_intersection.h
-// package       : Intersections_2 (2.8)
+// package       : Intersections_2 (2.11.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -243,7 +241,7 @@ Ray_2_Ray_2_pair<R>::Ray_2_Ray_2_pair(
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class R>
-Ray_2_Ray_2_pair<R>::Intersection_results
+typename Ray_2_Ray_2_pair<R>::Intersection_results
 Ray_2_Ray_2_pair<R>::intersection_type() const
 {
     if (_known)
@@ -386,7 +384,7 @@ Ray_2_Ray_2_pair<R>::intersection(Segment_2<R> &result) const
 {
     if (!_known)
         intersection_type();
-    if (_result != RAY)
+    if (_result != SEGMENT)
         return false;
     result = Segment_2<R>(_ray1->start(), _ray2->start());
     return true;
@@ -425,17 +423,17 @@ intersection(const Ray_2<R> &ray1, const Ray_2<R>&ray2)
     case is_t::POINT: {
         Point_2<R> pt;
         ispair.intersection(pt);
-        return Object(new Wrapper< Point_2<R> >(pt));
+        return make_object(pt);
     }
     case is_t::SEGMENT: {
         Segment_2<R> iseg;
         ispair.intersection(iseg);
-        return Object(new Wrapper< Segment_2<R> >(iseg));
+        return make_object(iseg);
     }
     case is_t::RAY: {
-        Segment_2<R> iray;
+        Ray_2<R> iray;
         ispair.intersection(iray);
-        return Object(new Wrapper< Segment_2<R> >(iray));
+        return make_object(iray);
     }
     }
 }

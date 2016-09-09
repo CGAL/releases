@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/DirectionHd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/28 09:32:17 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/03/18 20:33:51 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -89,9 +87,10 @@ which are of type |Quotient<RT>|.  Two directions are equal if their
 Cartesian coordinates are positive multiples of each other. Directions
 are in one-to-one correspondence to points on the unit sphere.}*/
 
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_RT& entry(int i) const { return ptr->v[i]; }
-void invert_rep() { ptr->invert(); }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_RT& entry(int i) { return ptr()->v[i]; }
+const _RT& entry(int i) const { return ptr()->v[i]; }
+void invert_rep() { ptr()->invert(); }
 
 public: 
 /*{\Mtypes 4}*/
@@ -171,7 +170,7 @@ DirectionHd(const DirectionHd<RT,LA>& p) : Base(p)  {}
 
 /*{\Moperations 5 3}*/
 
-int dimension() const { return ptr->size()-1; }
+int dimension() const { return ptr()->size()-1; }
 /*{\Mop returns the dimension of |\Mvar|. }*/ 
 
 RT delta(int i) const  
@@ -190,9 +189,9 @@ RT operator[](int i) const
 \precond $0 \leq i < d$.}*/
 { return delta(i); }
 
-Delta_const_iterator deltas_begin() const { return ptr->begin(); }
+Delta_const_iterator deltas_begin() const { return ptr()->begin(); }
 /*{\Mop  returns an iterator pointing to the first delta of |\Mvar|. }*/
-Delta_const_iterator deltas_end() const { return ptr->last(); }
+Delta_const_iterator deltas_end() const { return ptr()->last(); }
 /*{\Mop  returns an iterator pointing beyond the last delta of |\Mvar|. }*/
 
 VectorHd<RT,LA> vector() const; 
@@ -210,7 +209,7 @@ DirectionHd<RT,LA>  opposite() const
 /*{\Mop returns the direction opposite to |\Mvar|. }*/
 { DirectionHd<RT,LA> result(*this); // creates a copied object!
   result.copy_on_write(); // creates a copied object!
-  result.ptr->invert(dimension()); 
+  result.ptr()->invert(dimension()); 
   return result; 
 }
 

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Arr_leda_segment_exact_traits.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Iddo Hanniel
 //                 Eyal Flato
 //
@@ -49,7 +47,8 @@
 
 #include <list>
 
-#include <CGAL/Pm_leda_segment_exact_traits.h>
+#include <CGAL/LEDA_basic.h>
+#include <CGAL/Pm_leda_segment_traits_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -57,21 +56,30 @@ CGAL_BEGIN_NAMESPACE
 #define	CGAL_XT_ORIGINAL_POINT 2
 
 class Arr_leda_segment_exact_traits 
-        : public Pm_leda_segment_exact_traits
+  : public Pm_leda_segment_traits_2
 {
 public:
         Arr_leda_segment_exact_traits() 
-                : Pm_leda_segment_exact_traits() {}
+                : Pm_leda_segment_traits_2() {}
 
 public:
-  typedef Pm_leda_segment_exact_traits Base;
+  typedef Pm_leda_segment_traits_2     Base;
   
-  typedef Base::Curve_status           Curve_status;
-  typedef Base::Curve_point_status     Curve_point_status;
-  
-  typedef Base::X_curve                X_curve;
-  typedef X_curve                      Curve;
+  typedef Base::Point_2                Point_2;
+  typedef Base::X_curve_2              X_curve_2;
+  typedef X_curve_2                    Curve_2;
 
+  typedef Base::Curve_point_status     Curve_point_status;
+
+  // Obsolete, for backward compatibility
+  typedef Point_2                      Point;
+  typedef X_curve_2                    X_curve;
+  typedef Curve_2                      Curve;
+
+protected:
+  typedef Base::Curve_status           Curve_status;
+
+public:
   bool is_x_monotone(const Curve& cv) {return true;}
   //segments are x_monotone:
   void make_x_monotone(const Curve& cv, std::list<Curve>& l) {} 
@@ -81,7 +89,7 @@ public:
   }
 
   void curve_split(const X_curve& cv, X_curve& c1, X_curve& c2, 
-                   const Point& split_pt) const
+                   const Point_2& split_pt) const
   {
     //split curve at split point (x coordinate) into c1 and c2
     CGAL_precondition(curve_get_point_status(cv,split_pt)==ON_CURVE);
@@ -98,7 +106,7 @@ public:
 
   //returns true iff the intersection is strictly right of pt
   bool do_intersect_to_right(const X_curve& c1, const X_curve& c2,
-                             const Point& pt) const 
+                             const Point_2& pt) const 
   {
     return intersection_base(c1, c2, pt, true, false, dummy_pnt1, dummy_pnt2, 
 			     dummy_int);
@@ -122,9 +130,9 @@ public:
   
   bool nearest_intersection_to_right(const X_curve& c1,
                                      const X_curve& c2,
-                                     const Point& pt,
-                                     Point& p1,
-                                     Point& p2) const 
+                                     const Point_2& pt,
+                                     Point_2& p1,
+                                     Point_2& p2) const 
   {
     bool res = intersection_base(c1, c2, pt, true, true, p1, p2, dummy_int);
 	if ((res) && (dummy_int & CGAL_XT_SINGLE_POINT))
@@ -162,15 +170,15 @@ public:
   }
       
 
-  Point point_reflect_in_x_and_y (const Point& pt) const
+  Point_2 point_reflect_in_x_and_y (const Point_2& pt) const
   {
-    Point reflected_pt( -pt.xcoord(), -pt.ycoord());
+    Point_2 reflected_pt( -pt.xcoord(), -pt.ycoord());
     return reflected_pt;
   }
       
 #else
   bool do_intersect_to_left(const X_curve& c1, const X_curve& c2,
-			    const Point& pt) const 
+			    const Point_2& pt) const 
   {
     return intersection_base(c1, c2, pt, false, false, dummy_pnt1, dummy_pnt2,
 			     dummy_int);
@@ -189,9 +197,9 @@ public:
 
   bool nearest_intersection_to_left(const X_curve& c1,
                                      const X_curve& c2,
-                                     const Point& pt,
-                                     Point& p1,
-                                     Point& p2) const 
+                                     const Point_2& pt,
+                                     Point_2& p1,
+                                     Point_2& p2) const 
   {
     bool res = intersection_base(c1, c2, pt, false, true, p1, p2, dummy_int);
 	if ((res) && (dummy_int & CGAL_XT_SINGLE_POINT))
@@ -228,9 +236,14 @@ public:
 
   // returns values in p1 and p2 only if return_intersection is true
   // if (xsect_type | CGAL_XT_SINGLE_POINT) then only p1 is returned
-  bool intersection_base(const X_curve& c1, const X_curve& c2,
-			 const Point& pt, bool right, bool return_intersection,
-			 Point &p1, Point &p2, int &xsect_type) const 
+  bool intersection_base(const X_curve & c1, 
+                         const X_curve & c2,
+			 const Point_2 & pt, 
+                         bool            right, 
+                         bool            return_intersection,
+			 Point_2       & p1, 
+                         Point_2       & p2, 
+                         int           & xsect_type) const 
   {
     xsect_type = 0;
     if ( c1.is_trivial() )
@@ -311,14 +324,14 @@ public:
 	  }
       }
 	  
-    int o1 = ::orientation(c1,c2.start()); 
-    int o2 = ::orientation(c1,c2.end());
+    int o1 = CGAL_LEDA_SCOPE::orientation(c1,c2.start()); 
+    int o2 = CGAL_LEDA_SCOPE::orientation(c1,c2.end());
 	  
     if ( o1 == 0 && o2 == 0 )
       { 
 	leda_rat_point sa = c1.source(); 
 	leda_rat_point sb = c1.target();
-	if ( ::compare (sa,sb) > 0 )
+	if ( CGAL_LEDA_SCOPE::compare (sa,sb) > 0 )
 	  { 
 	    leda_rat_point h = sa; 
 	    sa = sb; 
@@ -328,7 +341,7 @@ public:
 	leda_rat_point ta = c2.source(); 
 	leda_rat_point tb = c2.target();
 		  
-	if ( ::compare (ta,tb) > 0 )
+	if ( CGAL_LEDA_SCOPE::compare (ta,tb) > 0 )
 	  { 
 	    leda_rat_point h = ta; 
 	    ta = tb; 
@@ -336,14 +349,14 @@ public:
 	  }
 		  
 	leda_rat_point a = sa;
-	if (::compare(sa,ta) < 0) 
+	if (CGAL_LEDA_SCOPE::compare(sa,ta) < 0) 
 	  a = ta;
 		  
 	leda_rat_point b = tb; 
-	if (::compare(sb,tb) < 0) 
+	if (CGAL_LEDA_SCOPE::compare(sb,tb) < 0) 
 	  b = sb;
 		  
-	if ( ::compare(a,b) <= 0 )
+	if ( CGAL_LEDA_SCOPE::compare(a,b) <= 0 )
 	  { 
 	    // a is left-low to b
 	    if (right)
@@ -385,8 +398,8 @@ public:
 	return false;
       }
 
-    int o3 = ::orientation(c2,c1.start());
-    int o4 = ::orientation(c2,c1.end());
+    int o3 = CGAL_LEDA_SCOPE::orientation(c2,c1.start());
+    int o4 = CGAL_LEDA_SCOPE::orientation(c2,c1.end());
 	  
     if ( o1 != o2 && o3 != o4 )
       { 
@@ -432,7 +445,7 @@ public:
 
 
 private:
-  Point point_normalize(const Point &pt) const {
+  Point_2 point_normalize(const Point_2 &pt) const {
 
     leda_integer g, x, y, w;
     x = pt.X();
@@ -440,13 +453,13 @@ private:
     w = pt.W();
     if (x.iszero() &&  y.iszero()) {
       //g = w;
-      return Point(x,y,leda_integer(1));
+      return Point_2(x,y,leda_integer(1));
     }
     else {
       g = gcd(x, y);
       g = gcd(g, w);
 
-      return Point(x/g,y/g,w/g);
+      return Point_2(x/g,y/g,w/g);
     }
 
   }
@@ -459,7 +472,7 @@ public:
 
 //in future versions of LEDA these operators should be defined
 // friend inline
-// Window_stream& operator<<(Window_stream& os, const Point& p){
+// Window_stream& operator<<(Window_stream& os, const Point_2& p){
 //     return os << leda_point(p.xcoordD(),p.ycoordD());
 //   }
 // friend inline

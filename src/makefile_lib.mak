@@ -28,7 +28,6 @@ CXXFLAGS = $(CGAL_LIB_CXXFLAGS)
 #---------------------------------------------------------------------#
 
 CGAL_OBJECTS = \
-Bbox_2$(OBJ_EXT) \
 Bbox_2_intersections$(OBJ_EXT) \
 Bbox_3_intersections$(OBJ_EXT) \
 Color$(OBJ_EXT) \
@@ -44,8 +43,11 @@ Interval_arithmetic$(OBJ_EXT) \
 MP_Float$(OBJ_EXT) \
 Origin$(OBJ_EXT) \
 Random$(OBJ_EXT) \
+Real_timer$(OBJ_EXT) \
+Timer$(OBJ_EXT) \
 Triangulation_3$(OBJ_EXT) \
 aff_transformation_tags$(OBJ_EXT) \
+cgal_logo$(OBJ_EXT) \
 assertions$(OBJ_EXT) \
 io$(OBJ_EXT) \
 optimisation_basic$(OBJ_EXT)
@@ -55,7 +57,6 @@ optimisation_basic$(OBJ_EXT)
 #---------------------------------------------------------------------#
 
 CGAL_OBJECTS_LIBPARAM = \
-$(CGAL_OBJ_PREFIX)Bbox_2$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Bbox_2_intersections$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Bbox_3_intersections$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Color$(OBJ_EXT) \
@@ -71,9 +72,12 @@ $(CGAL_OBJ_PREFIX)Interval_arithmetic$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)MP_Float$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Origin$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Random$(OBJ_EXT) \
+$(CGAL_OBJ_PREFIX)Real_timer$(OBJ_EXT) \
+$(CGAL_OBJ_PREFIX)Timer$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Triangulation_3$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)aff_transformation_tags$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)assertions$(OBJ_EXT) \
+$(CGAL_OBJ_PREFIX)cgal_logo$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)io$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)optimisation_basic$(OBJ_EXT)
 

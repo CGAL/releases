@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/DirectionCd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/28 09:32:17 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/18 20:33:51 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -66,8 +64,9 @@ class DirectionCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Handle_for<Tuple> Base;
   typedef DirectionCd<_FT,_LA> Self;
 
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_FT& entry(int i) const { return ptr->v[i]; }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_FT& entry(int i) { return ptr()->v[i]; }
+const _FT& entry(int i) const { return ptr()->v[i]; }
 
 public: 
 /*{\Mtypes 4}*/
@@ -116,7 +115,7 @@ DirectionCd(int a, int b, int c) : Base( Tuple(FT(a),FT(b),FT(c)) ) {}
 DirectionCd(const DirectionCd<FT,LA>& p) : Base(p)  {}
 ~DirectionCd() {}     
 
-int dimension() const { return ptr->size(); }
+int dimension() const { return ptr()->size(); }
 
 FT delta(int i) const  
 { CGAL_assertion_msg((0<=i && i<(dimension())), 
@@ -128,8 +127,8 @@ FT D() { return FT(1); }
 FT operator[](int i) const  
 { return delta(i); }
 
-Delta_const_iterator deltas_begin() const { return ptr->begin(); }
-Delta_const_iterator deltas_end() const { return ptr->end(); }
+Delta_const_iterator deltas_begin() const { return ptr()->begin(); }
+Delta_const_iterator deltas_end() const { return ptr()->end(); }
 
 VectorCd<FT,LA> vector() const; 
 
@@ -141,7 +140,7 @@ DirectionCd<FT,LA> transform(const Aff_transformationCd<FT,LA>& t) const;
 DirectionCd<FT,LA>  opposite() const
 { DirectionCd<FT,LA> result(*this); // creates a copied object!
   result.copy_on_write(); // creates a copied object!
-  result.ptr->invert();
+  result.ptr()->invert();
   return result; 
 }
 DirectionCd<FT,LA> operator- () const

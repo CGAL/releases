@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/HalfedgeDS_iterator_adaptor.h
-// package       : HalfedgeDS (3.21)
-// chapter       : $CGAL_Chapter: Halfedge Data Structures $
-// source        : hds_list.fw
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 2001/03/15 17:17:44 $
-// author(s)     : Lutz Kettner
+// package       : HalfedgeDS (3.33)
+// chapter       : Halfedge Data Structures
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2001/12/18 13:01:46 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : MPI Saarbruecken
 //
 // An iterator adaptor for the identity function.
 // email         : contact@cgal.org
@@ -85,11 +83,11 @@ CGAL_BEGIN_NAMESPACE
 //  initialization happens before the surrounding function is called if
 //  the type is a POD, otherwise the initialization happens when the
 //  control flow passes through the declaration of the static variable the
-//  first time (Section 6.7), which costs performance but makes its safe
+//  first time (Section 6.7), which costs performance but makes it safe
 //  for weird static initialization situations. Usually the std::vector
 //  class uses a plain C-pointer as iterator, which would be a POD and
 //  thus efficient. However, the std::list iterators might not be POD's if
-//  they defines their own copy contructor. This is the case for
+//  they define their own copy contructor. This is the case for
 //  std::list::iterator of the current SGI STL, but not for the
 //  std::list::const_iterator, which is a funny side-effect of having
 //  only a single class for both and a constructor that allows iterator to

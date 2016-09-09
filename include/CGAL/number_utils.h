@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/number_utils.h
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/05 11:44:18 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/21 16:44:54 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -99,15 +97,6 @@ sign(const NT& x)
 {
   bool sign_is_obsolete__qualify_call_by_CGAL_NTS;
   return (x < NT(0)) ? NEGATIVE : (NT(0) < x) ? POSITIVE : ZERO;
-}
-
-template <class NT>
-CGAL_KERNEL_INLINE
-Sign
-lexicographical_sign(const NT& x, const NT& y)
-{
-  bool lexicographical_sign_is_obsolete__qualify_call_by_CGAL_NTS;
-  return (x == NT(0)) ? CGAL::sign(y) : CGAL::sign(x);
 }
 
 template <class NT>
@@ -177,12 +166,6 @@ sign(const NT& x)
 
 template <class NT>
 CGAL_KERNEL_INLINE
-Sign
-lexicographical_sign(const NT& x, const NT& y)
-{ return (x == NT(0)) ? CGAL_NTS sign(y) : CGAL_NTS sign(x); }
-
-template <class NT>
-CGAL_KERNEL_INLINE
 NT
 abs(const NT& x)
 { return (x < NT(0)) ? -x: x; }
@@ -226,6 +209,12 @@ to_double( const NT& n)
 template <class NT>
 inline
 NT
+div( const NT& n1, const NT& n2)
+{ return CGAL::div(n1, n2); }
+
+template <class NT>
+inline
+NT
 sqrt( const NT& n)
 { return CGAL::sqrt(n); }
 
@@ -246,6 +235,22 @@ inline
 bool
 is_integral( const NT& n)
 { return CGAL::is_integral(n); }
+
+template <class NT>
+inline
+NT
+gcd( const NT& n1, const NT& n2)
+{ 
+  CGAL_precondition(!CGAL_NTS is_zero(n2));
+  NT x = CGAL_NTS abs(n1);
+  NT y = CGAL_NTS abs(n2);
+  do {
+    x %= y;
+    if (CGAL_NTS is_zero(x)) return y;
+    y %= x;
+  } while (CGAL_NTS is_positive(y));
+  return x;
+}
 
 } // namespace NTS
 

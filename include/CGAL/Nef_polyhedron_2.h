@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_polyhedron_2.h
-// package       : Nef_2 
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Nef_polyhedron_2.lw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/11/07 16:30:51 $
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 2002/03/22 15:19:57 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -53,7 +51,7 @@
 #ifndef CGAL_NEF_POLYHEDRON_2_H
 #define CGAL_NEF_POLYHEDRON_2_H
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if (defined(_MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
 #define CGAL_SIMPLE_HDS
 #endif
 
@@ -89,7 +87,7 @@ std::ostream& operator<<(std::ostream&, const Nef_polyhedron_2<T>&);
 template <typename T>
 std::istream& operator>>(std::istream&, Nef_polyhedron_2<T>&);
 template <typename T>
-class Nef_polyhedron_2_rep : public Ref_counted
+class Nef_polyhedron_2_rep 
 { typedef Nef_polyhedron_2_rep<T> Self;
   friend class Nef_polyhedron_2<T>;
 #ifndef CGAL_SIMPLE_HDS
@@ -123,10 +121,10 @@ class Nef_polyhedron_2_rep : public Ref_counted
   void init_locator() 
   { if ( !pl_ ) pl_ = new Locator(pm_); }
   void clear_locator() 
-  { if ( pl_ ) delete pl_; pl_=0; }
+  { if ( pl_ ) { delete pl_; pl_=0; } }
 public:
-  Nef_polyhedron_2_rep() : Ref_counted(), pm_(), pl_(0) {}
-  Nef_polyhedron_2_rep(const Self& R) : Ref_counted(), pm_(), pl_(0) {}
+  Nef_polyhedron_2_rep() : pm_(), pl_(0) {}
+  Nef_polyhedron_2_rep(const Self& R) : pm_(), pl_(0) {}
   ~Nef_polyhedron_2_rep() { pm_.clear(); clear_locator(); }
 };
 
@@ -192,8 +190,8 @@ protected:
   typedef typename Nef_rep::Slocator        Slocator;
   typedef typename Nef_rep::Locator         Locator;
 
-  Plane_map& pm() { return ptr->pm_; } 
-  const Plane_map& pm() const { return ptr->pm_; } 
+  Plane_map& pm() { return ptr()->pm_; } 
+  const Plane_map& pm() const { return ptr()->pm_; } 
 
   friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS
       (std::ostream& os, const Nef_polyhedron_2<T>& NP);
@@ -367,7 +365,7 @@ public:
   { Base::operator=(N1); return (*this); }
   ~Nef_polyhedron_2() {}
 
-  #ifndef _MSC_VER
+  #if ! defined(_MSC_VER) || _MSC_VER >= 1300
 
   template <class Forward_iterator>
   Nef_polyhedron_2(Forward_iterator first, Forward_iterator beyond, 
@@ -441,7 +439,7 @@ public:
 
   void extract_complement()
   { TRACEN("extract complement");
-    if ( ptr->is_shared() ) clone_rep();
+    if ( is_shared() ) clone_rep();
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = !D.mark(v);
@@ -454,7 +452,7 @@ public:
 
   void extract_interior()
   { TRACEN("extract interior");
-    if ( ptr->is_shared() ) clone_rep();
+    if ( is_shared() ) clone_rep();
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = false;
@@ -466,7 +464,7 @@ public:
 
   void extract_boundary()
   { TRACEN("extract boundary");
-    if ( ptr->is_shared() ) clone_rep();
+    if ( is_shared() ) clone_rep();
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = true;
@@ -678,9 +676,10 @@ public:
 
   /*{\Moperations 3 1 }*/
 
-  void init_locator() const { ptr->init_locator(); }
+  void init_locator() const 
+  { const_cast<Self*>(this)->ptr()->init_locator(); }
   const Locator& locator() const 
-  { assert(ptr->pl_); return *(ptr->pl_); }
+  { assert(ptr()->pl_); return *(ptr()->pl_); }
 
 
   bool contains(Object_handle h) const
@@ -706,7 +705,7 @@ public:
   between different point location strategies.}*/
   { 
     if (m == DEFAULT || m == LMWT) {
-      ptr->init_locator();
+      init_locator();
       Extended_point ep = EK.construct_point(p);
       return locator().locate(ep);
     } else if (m == NAIVE) {
@@ -739,7 +738,7 @@ public:
   strategies.}*/
   { 
     if (m == DEFAULT || m == LMWT) {
-      ptr->init_locator();
+      init_locator();
       Extended_point ep = EK.construct_point(p), 
                      eq = EK.construct_point(p,d);
       return locator().ray_shoot(EK.construct_segment(ep,eq),
@@ -772,7 +771,7 @@ public:
   location strategies.}*/
   { 
     if (m == DEFAULT || m == LMWT) {
-      ptr->init_locator();
+      init_locator();
       Extended_point ep = EK.construct_point(p), 
                      eq = EK.construct_point(p,d);
       return locator().ray_shoot(EK.construct_segment(ep,eq),INSKEL()); 

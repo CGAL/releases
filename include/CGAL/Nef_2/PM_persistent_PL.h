@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/PM_persistent_PL.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/PM_point_locator_2.lw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/16 12:47:24 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2001/12/27 15:17:39 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -207,14 +205,14 @@ struct PM_persistent_PL_traits
        in which case we want to extract the face from the edge
        below (p+epsilon) available via L_plus. */
     if (!L_plus.is_nil()) { assert(L_plus.is_edge());
-      return CGAL::make_object(Edge(L_plus));
+      return Object_handle(Edge(L_plus));
     } else { 
       if ( L.is_edge() ) {
-        return CGAL::make_object(Edge(L));
+        return Object_handle(Edge(L));
       }
-      if ( L.is_node() ) { 
-        Node v(L); assert( v != Node() ); 
-        return CGAL::make_object(v);
+      if ( L.is_node() ) {
+        Node v(L); assert( v != Node() );
+        return Object_handle(v);
       }
       return Object_handle();
     }

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Bbox_2.h
-// package       : _2 (3.19)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/01/22 13:32:09 $
+// package       : _2 (3.32)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2001/10/24 14:32:18 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -50,59 +48,80 @@
 #define CGAL_BBOX_2_H
 
 #include <CGAL/basic.h>
-#include <CGAL/cartesian_classes.h>
 #include <CGAL/Fourtuple.h>
+#include <CGAL/Simple_Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
 
-class Bbox_2 : public Handle_for< Fourtuple<double> >
+class Bbox_2 : public Simple_Handle_for< Fourtuple<double> >
 {
+  typedef Simple_Handle_for< Fourtuple<double> > BBox_handle_2;
+  typedef BBox_handle_2::element_type                   BBox_ref_2;
+
 public:
-             Bbox_2();
+             Bbox_2()
+		 : BBox_handle_2(BBox_ref_2()) {}
+
              Bbox_2(double x_min, double y_min,
-                    double x_max, double y_max);
+                    double x_max, double y_max)
+		 : BBox_handle_2(BBox_ref_2(x_min, y_min,
+                                            x_max, y_max)) {}
 
-  bool       operator==(const Bbox_2 &b) const;
-  bool       operator!=(const Bbox_2 &b) const;
+  inline bool       operator==(const Bbox_2 &b) const;
+  inline bool       operator!=(const Bbox_2 &b) const;
 
-  int        dimension() const;
-  double     xmin() const;
-  double     ymin() const;
-  double     xmax() const;
-  double     ymax() const;
+  inline int        dimension() const;
+  inline double     xmin() const;
+  inline double     ymin() const;
+  inline double     xmax() const;
+  inline double     ymax() const;
 
-  double     max(int i) const;
-  double     min(int i) const;
+  inline double     max(int i) const;
+  inline double     min(int i) const;
 
-  Bbox_2     operator+(const Bbox_2 &b) const;
+  inline Bbox_2     operator+(const Bbox_2 &b) const;
 
 };
 
+inline
+double
+Bbox_2::xmin() const
+{ return Ptr()->e0; }
+
+inline
+double
+Bbox_2::ymin() const
+{ return Ptr()->e1; }
+
+inline
+double
+Bbox_2::xmax() const
+{ return Ptr()->e2; }
+
+inline
+double
+Bbox_2::ymax() const
+{ return Ptr()->e3; }
+
+inline
+bool
+Bbox_2::operator==(const Bbox_2 &b) const
+{
+  return    xmin() == b.xmin() && xmax() == b.xmax()
+         && ymin() == b.ymin() && ymax() == b.ymax();
+}
+
+inline
+bool
+Bbox_2::operator!=(const Bbox_2 &b) const
+{
+  return ! (b == *this);
+}
 
 inline
 int
 Bbox_2::dimension() const
 { return 2; }
-
-inline
-double
-Bbox_2::xmin() const
-{ return ptr->e0; }
-
-inline
-double
-Bbox_2::ymin() const
-{ return ptr->e1; }
-
-inline
-double
-Bbox_2::xmax() const
-{ return ptr->e2; }
-
-inline
-double
-Bbox_2::ymax() const
-{ return ptr->e3; }
 
 inline
 double
@@ -121,14 +140,20 @@ Bbox_2::max(int i) const
   if(i == 0) { return xmax(); }
   return ymax();
 }
-inline Bbox_2 Bbox_2::operator+(const Bbox_2 &b) const
+
+inline
+Bbox_2
+Bbox_2::operator+(const Bbox_2 &b) const
 {
   return Bbox_2(std::min(xmin(), b.xmin()),
                 std::min(ymin(), b.ymin()),
                 std::max(xmax(), b.xmax()),
                 std::max(ymax(), b.ymax()));
 }
-inline bool do_overlap(const Bbox_2 &bb1, const Bbox_2 &bb2)
+
+inline
+bool
+do_overlap(const Bbox_2 &bb1, const Bbox_2 &bb2)
 {
     // check for emptiness ??
     if (bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())
@@ -162,8 +187,6 @@ operator<<(std::ostream &os, const Bbox_2 &b)
     return os;
 }
 #endif // CGAL_NO_OSTREAM_INSERT_BBOX_2
-
-
 
 #ifndef CGAL_NO_ISTREAM_EXTRACT_BBOX_2
 inline

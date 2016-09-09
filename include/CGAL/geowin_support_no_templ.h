@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/geowin_support_no_templ.h
-// package       : GeoWin (1.3.5)
-// revision      : 1.2.2
-// revision_date : 30 January 2001 
+// package       : GeoWin (1.5)
+// revision      : 1.4
+// revision_date : 12 March 2002 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
@@ -142,7 +140,11 @@ leda_rectangle convert_to_leda(const CGAL::Iso_rectangle_2<CGAL::Cartesian<doubl
  return leda_rectangle(lp1,lp2); 
 }
 
+LEDA_BEGIN_NAMESPACE 
+
 ps_file& operator<<(ps_file& F,const leda_d3_point& obj);
+
+LEDA_END_NAMESPACE 
 
 leda_d3_point convert_to_leda(const CGAL::Point_3<CGAL::Cartesian<double> >& obj)
 {
@@ -150,6 +152,8 @@ leda_d3_point convert_to_leda(const CGAL::Point_3<CGAL::Cartesian<double> >& obj
   return p;
 }
 
+
+LEDA_BEGIN_NAMESPACE 
 
 ps_file& operator<<(ps_file& F,const CGAL::Point_2<CGAL::Cartesian<double> >& o) { F << convert_to_leda(o); return F; }
 
@@ -170,6 +174,8 @@ ps_file& operator<<(ps_file& F,const CGAL::Iso_rectangle_2<CGAL::Cartesian<doubl
 { F << convert_to_leda(o); return F; }
 
 ps_file& operator<<(ps_file& F,const CGAL::Point_3<CGAL::Cartesian<double> >& o) { F << convert_to_leda(o); return F; }
+
+LEDA_END_NAMESPACE 
 
 #include <math.h>
 #include <ctype.h>

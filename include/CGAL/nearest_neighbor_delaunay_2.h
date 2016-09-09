@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/nearest_neighbor_delaunay_2.h
-// package       : Point_set_2 (2.2.6)
-// revision      : 2.2.1
-// revision_date : 10 July 2001 
+// package       : Point_set_2 (2.3.2)
+// revision      : 2.3.2
+// revision_date : 11 April 2002 
 // author(s)     : Matthias Baesken
 //
 // coordinator   : Matthias Baesken, Trier  (<baesken>)
@@ -49,6 +47,7 @@
 #define CGAL_NEAREST_NEIGHBOR_DELAUNAY_2_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Unique_hash_map.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <list>
 #include <queue>
@@ -60,12 +59,13 @@ CGAL_BEGIN_NAMESPACE
 
 
 // compare function objects for the priority queues used in nearest neighbor search
-template<class VP, class NT>
+template<class VP, class NT,class MAP_TYPE>
 class compare_vertices {
  public:
-  std::map<VP,NT,std::less<VP> > *pmap;
+  //std::map<VP,NT,std::less<VP> > *pmap;
+  MAP_TYPE* pmap;
   
-  compare_vertices(std::map<VP,NT,std::less<VP> > *p){ pmap=p; }
+  compare_vertices(MAP_TYPE *p){ pmap=p; }
   
   bool operator()(VP e1, VP e2)
   // get the priorities from the map and return result of comparison ...
@@ -235,8 +235,8 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
   typedef typename Dt::Vertex                         Vertex;
   typedef typename Dt::Point                          Point;
   typedef typename Gt::FT                             Numb_type;  // field number type ...
-  typedef typename Gt::Compute_squared_distance_2     Compute_squared_distance_2;  
-  typedef typename std::map<Vertex*,int, std::less<Vertex*> >::iterator map_iterator;
+  typedef typename Gt::Compute_squared_distance_2     Compute_squared_distance_2;   
+  typedef Unique_hash_map<Vertex_handle, Numb_type>         MAP_TYPE;
 
   int n = delau.number_of_vertices();
    
@@ -248,50 +248,45 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
      
   Point p = v->point();
      
-  std::map<Vertex*,int, std::less<Vertex*> > mark;
+  Unique_hash_map<Vertex_handle, int>  mark;
   int cur_mark = 1;
 
-  std::map<Vertex*,Numb_type, std::less<Vertex*> > priority_number; // here we save the priorities ...
-  compare_vertices<Vertex*,Numb_type> comp(& priority_number);      // comparison object ...
-  std::priority_queue<Vertex*, std::vector<Vertex*>, CGAL::compare_vertices<Vertex*,Numb_type> > PQ(comp);
+  MAP_TYPE  priority_number; // here we save the priorities ...
+  
+  compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> comp(& priority_number);      // comparison object ...
+  std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGAL::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
 
   priority_number[v.ptr()] = 0;
   PQ.push(v.ptr());
      
-  //mark_vertex(v);
-  Vertex* vptr = v.ptr();
-  mark[vptr] = cur_mark;
+  // mark vertex v
+  mark[v] = cur_mark;
       
   while ( k > 0 )
   { 
     // find minimum from PQ ...
-    Vertex* w = PQ.top(); PQ.pop();
-    priority_number.erase(w); // and clean entry in priority map
+    Vertex_handle w = PQ.top(); 
+    PQ.pop();
    
-    res.push_back(w->handle()); k--; 
+    res.push_back(w);
+    k--; 
 
     // get the incident vertices of w ...
     Vertex_circulator vc = delau.incident_vertices(w->handle());
     Vertex_circulator start =vc;
-    Vertex* act;
+    Vertex_handle act;
      
     do {
-         act = &(*vc);
+         act = vc->handle();
 	 
 	 // test, if act is marked ...
-	 bool is_marked;
-    
-         map_iterator mit = mark.find(act);   
-         if (mit == mark.end()) is_marked=false;
-         else is_marked=true;
+	 bool is_marked = mark.is_defined(act);  
 	 
-         if ( (! is_marked) && (! delau.is_infinite(act->handle())) )
+         if ( (! is_marked) && (! delau.is_infinite(act)) )
          { 
              priority_number[act] = Compute_squared_distance_2()(p,act->point());
-             PQ.push(act);	      
-             //mark_vertex(act->handle());
-	     Vertex* vptr = act->handle().ptr();
-             mark[vptr] = cur_mark;
+             PQ.push(act);
+             mark[act] = cur_mark;
          }	   
 	             
          vc++;

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Circulator_project.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/11 09:00:23 $
+// revision      : $Revision: 1.40 $
+// revision_date : $Date: 2002/03/28 15:24:25 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -168,7 +166,7 @@ Circulator_project<C,Fct,Ref,Ptr>
 operator+( Dist n, Circulator_project<C,Fct,Ref,Ptr> i) { return i += n; }
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
 template < class C, class Fct, class Ref, class Ptr>
 inline  Circulator_tag
 query_circulator_or_iterator(

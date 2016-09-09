@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/PM_decorator.h
-// package       : Nef_2 
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/10/16 12:41:57 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/05/08 12:32:50 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -720,7 +718,7 @@ void clone(const Plane_map& H) const;
   \precond |H.check_integrity_and_topological_planarity()| and 
   |P| is empty.}*/
 
-#ifndef _MSC_VER
+#if ! defined(_MSC_VER)
 
 template <typename LINKDA>
 void clone_skeleton(const Plane_map& H, const LINKDA& L) const;
@@ -785,7 +783,7 @@ void clone_skeleton(const HDS& H, const LINKDA& L) const
 
 #endif
 
-void reflecting_inversion();
+void reflecting_inversion()
 /*{\Xop inverts the topological links corresponding to a reflecting
 inversion. Assume that the plane map is embedded into the x-y plane
 and one looks at it from the tip of the positive z-axis in space. Now
@@ -794,6 +792,26 @@ consequence faces are right of edges and adjacency list are clockwise
 order-preserving. This operation recreates our embedding invariant
 (faces are left of edges and adjacency lists are counterclockwise 
 order-preserving).}*/
+{
+  // swap faces:
+  Halfedge_iterator e;
+  for (e = halfedges_begin(); e != halfedges_end(); ++(++e)) {
+    Face_handle f1 = face(e), f2 = face(twin(e));
+    e->set_face(f2); twin(e)->set_face(f1);
+  }
+  // reverse adjacency lists:
+  std::vector<Halfedge_handle> A;
+  Vertex_iterator v;
+  for (v = vertices_begin(); v != vertices_end(); ++v) {
+    if ( is_isolted(v) ) continue;
+    Halfedge_around_vertex_circulator h = out_edges(v), hend(h);
+    CGAL_For_all(h,hend) A.push_back(h);
+    int n = A.size();
+    for (int i=0; i<n; ++i)
+      set_adjacency_at_source_between(A[(i+1)%n],A[i],A[(i-1)%n]);
+  }
+  CGAL_assertion_msg(0,"test this");
+}
 
 /*{\Mtext \headerline{Associated Information}\restoreopdims}*/
 
@@ -904,7 +922,7 @@ void PM_decorator<HDS>::clone(const HDS& H) const
   CGAL_assertion((check_integrity_and_topological_planarity(),1));
 }
 
-#ifndef _MSC_VER
+#if ! defined(_MSC_VER)
 
 template <typename HDS>
 template <typename LINKDA>
@@ -956,29 +974,6 @@ clone_skeleton(const HDS& H, const LINKDA& L) const
 }
 
 #endif
-
-template <typename  HDS>
-void PM_decorator<HDS>::reflecting_inversion()
-{
-  // swap faces:
-  Halfedge_iterator e;
-  for (e = halfedges_begin(); e != halfedges_end(); ++(++e)) {
-    Face_handle f1 = face(e), f2 = face(twin(e));
-    e->set_face(f2); twin(e)->set_face(f1);
-  }
-  // reverse adjacency lists:
-  std::vector<Halfedge_handle> A;
-  Vertex_iterator v;
-  for (v = vertices_begin(); v != vertices_end(); ++v) {
-    if ( is_isolted(v) ) continue;
-    Halfedge_around_vertex_circulator h = out_edges(v), hend(h);
-    CGAL_For_all(h,hend) A.push_back(h);
-    int n = A.size();
-    for (int i=0; i<n; ++i)
-      set_adjacency_at_source_between(A[(i+1)%n],A[i],A[(i-1)%n]);
-  }
-  CGAL_assertion_msg(0,"test this");
-}
 
 
 

@@ -1,26 +1,22 @@
 /***********************************************************************
 
-Prend une liste de points et renvoie une liste de segments
-correspondant a l'Alpha Shape.
+Takes a list of points and returns a list of segments corresponding
+to the Alpha Shape.
 
 ************************************************************************/
 
 
 
 #include <CGAL/Cartesian.h>
+
 #include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <fstream>
-#include <strstream>
-// en fait le std dit sstream
-
 #include <vector>
 #include <list>
 
 
-#include <CGAL/Triangulation_iterators_3.h>
-#include <CGAL/Triangulation_circulators_3.h>
 #include <CGAL/Alpha_shape_vertex_base_3.h>
 #include <CGAL/Triangulation_cell_base_3.h>
 #include <CGAL/Alpha_shape_cell_base_3.h>
@@ -29,7 +25,16 @@ correspondant a l'Alpha Shape.
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Alpha_shape_3.h>
 
+
+
+#if ! defined(__BORLANDC__) && ! defined(_MSC_VER) && ! defined(__MWERKS__)
+#define GEOMVIEW_SUPPORT
+#endif
+
+#if defined(GEOMVIEW_SUPPORT)
 #include <CGAL/IO/Geomview_stream.h>
+#endif
+
 //#include <CGAL/IO/Triangulation_geomview_ostream_3.h>
 
 //Choose the better number type as possible
@@ -151,12 +156,14 @@ void set_alpha(Alpha_shape_3& A, int alpha_index)
 
 int main()
 {
-  CGAL::Geomview_stream gv(CGAL::Bbox_3(0,0,0, 2, 2, 2));
   Alpha_shape_3 A;
 
+#if defined(GEOMVIEW_SUPPORT)
+  CGAL::Geomview_stream gv(CGAL::Bbox_3(0,0,0, 2, 2, 2));
   gv.set_line_width(4);
   gv.set_trace(false);
   gv.set_bg_color(CGAL::Color(0, 200, 200));
+#endif
 
   std::list<Point> L;
 
@@ -170,13 +177,19 @@ int main()
     while(n >= 0){
       std::cout << "Enter an alpha index (a < 0 -> quit): ";
       std::cin >> n; 
+#if defined(GEOMVIEW_SUPPORT)
       gv.clear();
+#endif
       //gv << (Triangulation_3) A;
       if (n == 0)
 	A.set_alpha(*A.find_optimal_alpha(2));
       else
-	set_alpha(A,n);      
+	set_alpha(A,n); 
+#if defined(GEOMVIEW_SUPPORT)     
       gv << A;
+#else
+      std::cout << A << std::endl;
+#endif
     }
 
   return 0;

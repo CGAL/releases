@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/LEDA/window.h
-// package       : cgal_window (1.0.4)
-// revision      : 1.0.3
-// revision_date : 25 June 2001
+// package       : cgal_window (1.0.8)
+// revision      : 1.0.7
+// revision_date : 03 Dec 2001
 // author(s)     : Matthias Baesken, Algorithmic Solutions
 //
 // coordinator   : Matthias Baesken, Trier  (<baesken>) 
@@ -258,7 +256,7 @@ std::list<CGAL::window_point>::const_iterator __dummy_iter__;
 
 // windows cannot be copied, use reference parameters! 
 
-window(const window&) { }
+window(const window&) : BASE_WINDOW() { }
 window& operator=(const window&) { return *this; }
 
 char* access_str(GenPtr p) { return (char*)(((string*)p)->c_str()); }

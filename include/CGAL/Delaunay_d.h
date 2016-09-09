@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Delaunay_d.h
-// package       : Kernel_d (0.9.47)
+// package       : Kernel_d (0.9.68)
 // chapter       : Basic
 //
 // source        : ddgeo/Delaunay_d.lw
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/07/30 16:16:56 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2002/04/17 15:58:15 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Susan Hert
@@ -395,12 +393,22 @@ public:
   }  
 
      
-  Vertex_handle vertex_of_simplex(Simplex_handle s, int i) const;
+  Vertex_handle vertex_of_simplex(Simplex_handle s, int i) const
   /*{\Mop returns the vertex associated with the $i$-th node of $s$.
   \precond $0 \leq i \leq |dcur|$. }*/
+  { if ( const_cast<Self*>(this)->is_S_cocircular() )
+      return Base::vertex_of_simplex(s,i);
+    else 
+     return Base::vertex_of_simplex(s,i+1);
+  }
 
   Vertex_const_handle vertex_of_simplex(Simplex_const_handle s, 
-                                        int i) const;
+                                        int i) const
+  { if ( const_cast<Self*>(this)->is_S_cocircular() )
+      return Base::vertex_of_simplex(s,i);
+    else 
+      return Base::vertex_of_simplex(s,i+1);
+  }
 
   Point_d associated_point(Vertex_handle v) const
   /*{\Mop returns the point associated with vertex $v$.}*/
@@ -422,21 +430,52 @@ public:
   { return associated_point(vertex_of_simplex(s,i)); }
 
 
-  Simplex_handle opposite_simplex(Simplex_handle s, int i) const;
+  Simplex_handle opposite_simplex(Simplex_handle s, int i) const
   /*{\Mop returns the simplex opposite to the $i$-th vertex of $s$
   (|Simplex_handle()| if there is no such simplex).
   \precond $0 \leq i \leq |dcur|$. }*/
+  { 
+    if ( const_cast<Self*>(this)->is_S_cocircular() ) {
+      Simplex_handle f = Base::opposite_simplex(s,i);
+      return ( Base::is_unbounded_simplex(f) ? 
+	       Simplex_handle() : f );    
+    } else {
+      Simplex_handle f = Base::opposite_simplex(s,i+1);
+      return ( type_of(f) == type_of(s) ? f : Simplex_handle() );
+    }
+  }  
 
   Simplex_const_handle opposite_simplex(Simplex_const_handle s, 
-                                        int i) const;
+                                        int i) const
+  { 
+    if ( const_cast<Self*>(this)->is_S_cocircular() ) {
+      Simplex_const_handle f = Base::opposite_simplex(s,i);
+      return ( Base::is_unbounded_simplex(f) ? 
+	       Simplex_const_handle() : f );    
+    } else {
+      Simplex_const_handle f = Base::opposite_simplex(s,i+1);
+      return ( type_of(f) == type_of(s) ? f : Simplex_const_handle() );
+    }
+  }  
    
-  int index_of_vertex_in_opposite_simplex(Simplex_handle s,int i) const;
+  int index_of_vertex_in_opposite_simplex(Simplex_handle s,int i) const
   /*{\Mop returns the index of the vertex opposite to the $i$-th vertex 
   of $s$. \precond $0 \leq i \leq |dcur|$.}*/
+  { 
+    if ( const_cast<Self*>(this)->is_S_cocircular() ) 
+      return Base::index_of_vertex_in_opposite_simplex(s,i);
+    else
+      return Base::index_of_vertex_in_opposite_simplex(s,i+1) - 1; 
+  }  
 
   int index_of_vertex_in_opposite_simplex(Simplex_const_handle s,
-                                          int i) const;
-
+                                          int i) const
+  { 
+    if ( const_cast<Self*>(this)->is_S_cocircular() ) 
+      return Base::index_of_vertex_in_opposite_simplex(s,i);
+    else
+      return Base::index_of_vertex_in_opposite_simplex(s,i+1) - 1; 
+  }  
 
   Simplex_handle simplex(Vertex_handle v) const;
   /*{\Mop returns a simplex of the nearest site triangulation incident 
@@ -520,12 +559,14 @@ public:
                           bool is_cocircular) const;
 
 
-  std::list<Simplex_handle> all_simplices(Delaunay_voronoi_kind k = NEAREST) const;
+  std::list<Simplex_handle> 
+  all_simplices(Delaunay_voronoi_kind k = NEAREST) const;
   /*{\Mop returns a list of all simplices of either the nearest or the
           furthest site Delaunay triangulation of |S|.}*/
 
 
-  std::list<Vertex_handle> all_vertices(Delaunay_voronoi_kind k = NEAREST) const;
+  std::list<Vertex_handle> 
+  all_vertices(Delaunay_voronoi_kind k = NEAREST) const;
   /*{\Mop returns a list of all vertices of either the nearest or the
   furthest site Delaunay triangulation of |S|.}*/
 
@@ -550,7 +591,8 @@ public:
   { return Simplex_iterator(Base::simplices_end()); }
 
 
-  Simplex_const_iterator simplices_begin(Delaunay_voronoi_kind k = NEAREST) const
+  Simplex_const_iterator 
+  simplices_begin(Delaunay_voronoi_kind k = NEAREST) const
   { return Simplex_const_iterator(this,Base::simplices_begin(),k); }
 
   Simplex_const_iterator simplices_end() const
@@ -698,77 +740,6 @@ bool Delaunay_d<R,Lifted_R>::is_S_cocircular()
   }
   return (ts == cocircular);
 }
-
-
-template <typename R, typename Lifted_R>
-typename Delaunay_d<R,Lifted_R>::Vertex_handle 
-Delaunay_d<R,Lifted_R>::
-vertex_of_simplex(Simplex_handle s, int i) const
-{ if ( const_cast<Self*>(this)->is_S_cocircular() )
-    return Base::vertex_of_simplex(s,i);
-  else 
-    return Base::vertex_of_simplex(s,i+1);
-}
-
-template <typename R, typename Lifted_R>
-typename Delaunay_d<R,Lifted_R>::Simplex_handle 
-Delaunay_d<R,Lifted_R>::
-opposite_simplex(Simplex_handle s, int i) const
-{ 
-  if ( const_cast<Self*>(this)->is_S_cocircular() ) {
-    Simplex_handle f = Base::opposite_simplex(s,i);
-    return ( Base::is_unbounded_simplex(f) ? 
-             Simplex_handle() : f );    
-  } else {
-    Simplex_handle f = Base::opposite_simplex(s,i+1);
-    return ( type_of(f) == type_of(s) ? f : Simplex_handle() );
-  }
-}  
-
-template <typename R, typename Lifted_R>
-int Delaunay_d<R,Lifted_R>::
-index_of_vertex_in_opposite_simplex(Simplex_handle s,int i) const
-{ 
-  if ( const_cast<Self*>(this)->is_S_cocircular() ) 
-     return Base::index_of_vertex_in_opposite_simplex(s,i);
-  else
-     return Base::index_of_vertex_in_opposite_simplex(s,i+1) - 1; 
-}  
-
-template <typename R, typename Lifted_R>
-typename Delaunay_d<R,Lifted_R>::Vertex_const_handle 
-Delaunay_d<R,Lifted_R>::
-vertex_of_simplex(Simplex_const_handle s, int i) const
-{ if ( const_cast<Self*>(this)->is_S_cocircular() )
-    return Base::vertex_of_simplex(s,i);
-  else 
-    return Base::vertex_of_simplex(s,i+1);
-}
-
-template <typename R, typename Lifted_R>
-typename Delaunay_d<R,Lifted_R>::Simplex_const_handle 
-Delaunay_d<R,Lifted_R>::
-opposite_simplex(Simplex_const_handle s, int i) const
-{ 
-  if ( const_cast<Self*>(this)->is_S_cocircular() ) {
-    Simplex_const_handle f = Base::opposite_simplex(s,i);
-    return ( Base::is_unbounded_simplex(f) ? 
-             Simplex_const_handle() : f );    
-  } else {
-    Simplex_const_handle f = Base::opposite_simplex(s,i+1);
-    return ( type_of(f) == type_of(s) ? f : Simplex_const_handle() );
-  }
-}  
-
-template <typename R, typename Lifted_R>
-int Delaunay_d<R,Lifted_R>::
-index_of_vertex_in_opposite_simplex(Simplex_const_handle s,int i) const
-{ 
-  if ( const_cast<Self*>(this)->is_S_cocircular() ) 
-     return Base::index_of_vertex_in_opposite_simplex(s,i);
-  else
-     return Base::index_of_vertex_in_opposite_simplex(s,i+1) - 1; 
-}  
 
 
 template <typename R, typename Lifted_R> 

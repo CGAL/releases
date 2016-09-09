@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,17 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/number_type_basic.h
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:56:26 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/03/28 15:10:07 $
 // author(s)     : Stefan Schirra
 //
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -50,6 +48,62 @@
 #ifndef CGAL_NUMBER_TYPE_BASIC_H
 #define CGAL_NUMBER_TYPE_BASIC_H
 
+#define CGAL_PI 3.14159265358979323846
+
+#define CGAL_NTS CGAL::NTS::
+
+#if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 95))
+#include <cmath>
+#endif
+
+// CGAL uses std::min and std::max
+// (see ISO C++ 25.3.7, page 562),
+// if feasible
+
+#include <algorithm>
+
+CGAL_BEGIN_NAMESPACE
+
+#if !defined CGAL_CFG_USING_USING_BUG && !defined CGAL_CFG_RETURN_TYPE_BUG
+
+using std::min;
+using std::max;
+
+#else
+
+template <class NT>
+inline
+NT
+// const NT&
+min(const NT& x, const NT& y)
+{ return (y < x) ? y : x; }
+
+template <class NT, class Comp>
+inline
+NT
+// const NT&
+min(const NT& x, const NT& y, const Comp& c)
+{ return c(x, y) ? x : y; }
+
+template <class NT>
+inline
+NT
+// const NT&
+max(const NT& x, const NT& y)
+{ return (x < y) ? y : x; }
+
+template <class NT, class Comp>
+inline
+NT
+// const NT&
+max(const NT& x, const NT& y, const Comp& c)
+{ return c(x, y) ? y : x; }
+
+#endif
+
+CGAL_END_NAMESPACE
+
+#include <CGAL/Number_type_traits.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/number_utils_classes.h>
 #include <CGAL/double.h>

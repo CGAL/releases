@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Nef_2/debug.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/27 13:50:34 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/02/05 15:21:19 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -107,8 +105,8 @@ static int debugthread=3141592;
 #else
 #define ASSERT(cond,fstr)   \
   if (!(cond)) {       \
-    std::cerr<<"   ASSERT:   "<< #fstr << endl; \
-    std::cerr<<"   COND:     "<< #cond << endl; \
+    std::cerr<<"   ASSERT:   "<< #fstr << std::endl; \
+    std::cerr<<"   COND:     "<< #cond << std::endl; \
     std::cerr<<"   POSITION: "<<__FILE__<<" at line "<<__LINE__<<std::endl; \
     abort();           \
   }

@@ -1,4 +1,4 @@
-The directory contains & graphic demo programs.
+The directory contains 6 graphic demo programs.
 To run them you need CGAL with LEDA.
 
 Segment_arr_from_file - constructs a segment arrangement from an input

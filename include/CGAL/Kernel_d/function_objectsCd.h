@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/function_objectsCd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/20 12:07:48 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/03/24 15:12:16 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -186,7 +184,8 @@ OutputIterator operator()(ForwardIterator first, ForwardIterator last,
   std::vector< Point_d > V(first,last);
   typename LA::Matrix M(d+1,V.size());
   typename LA::Vector b(d+1), x;
-  for (register int i=0; i<d; ++i) {
+  register int i;
+  for (i=0; i<d; ++i) {
     for (register int j=0; j<V.size(); ++j) 
       M(i,j)=V[j].cartesian(i);
     b[i] = p.cartesian(i);
@@ -196,7 +195,7 @@ OutputIterator operator()(ForwardIterator first, ForwardIterator last,
   b[d]=1;
   FT D;
   LA::linear_solver(M,b,x,D);
-  for (int i=0; i < x.dimension(); ++result, ++i) {
+  for (i=0; i < x.dimension(); ++result, ++i) {
     *result= x[i];
   }
   return result;

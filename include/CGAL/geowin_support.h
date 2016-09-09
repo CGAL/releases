@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/geowin_support.h
-// package       : GeoWin (1.3.5)
-// revision      : 1.2.2
-// revision_date : 30 January 2001 
+// package       : GeoWin (1.5)
+// revision      : 1.4.7
+// revision_date : 25 April 2002 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
-// coordinator   : Matthias Baesken, Halle  (<baesken>)
+// coordinator   : Matthias Baesken, Trier  (<baesken>)
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -152,22 +150,36 @@ typedef CGAL::Tetrahedron_3< DEFREP >      CGALTetrahedron_3;
 typedef std::list<CGALTetrahedron_3>    CGALTetrahedron_3_list;
 
 
-#if defined GEOWIN_USE_NAMESPACE
+#if defined GEOWIN_USE_NAMESPACE || defined LEDA_NAMESPACE
 
 #if !defined GEOWIN_NAMESPACE_NAME
-#define GEOWIN_NAMESPACE_NAME CGAL
+#define GEOWIN_NAMESPACE_NAME leda
 #endif
 
+#if !defined(GEOWIN_BEGIN_NAMESPACE)
 #define GEOWIN_BEGIN_NAMESPACE namespace GEOWIN_NAMESPACE_NAME {
 #define GEOWIN_END_NAMESPACE }
+#endif
+
 #else
-#  define GEOWIN_BEGIN_NAMESPACE
-#  define GEOWIN_END_NAMESPACE
+#define GEOWIN_BEGIN_NAMESPACE
+#define GEOWIN_END_NAMESPACE
 #endif
 
 
-// no templates on VC++
-#if defined (_MSC_VER)
+// LEDA namespace support
+#if !defined(LEDA_BEGIN_NAMESPACE)
+#define LEDA_BEGIN_NAMESPACE 
+#endif
+
+
+#if !defined(LEDA_END_NAMESPACE)
+#define LEDA_END_NAMESPACE 
+#endif
+
+
+// no fucntion templates on VC++ 6.0 ...
+#if defined (_MSC_VER) && (_MSC_VER < 1300)
 #define GEOWIN_SUPPORT_NO_TEMPLATES
 #endif
 
@@ -282,7 +294,11 @@ leda_rectangle convert_to_leda(const CGAL::Iso_rectangle_2<REP>& t)
  return leda_rectangle(lp1,lp2); 
 }
 
+
+LEDA_BEGIN_NAMESPACE 
 ps_file& operator<<(ps_file& F,const leda_d3_point& obj);
+LEDA_END_NAMESPACE 
+
 
 template<class REP>
 leda_d3_point convert_to_leda(const CGAL::Point_3<REP>& obj)
@@ -356,6 +372,8 @@ leda_polygon convert_to_leda(const CGAL::Tetrahedron_3<REP>& obj)
   leda_polygon pol(Lres);
   return pol;  
 }
+
+LEDA_BEGIN_NAMESPACE 
 
 template<class REP>
 ps_file& operator<<(ps_file& F,const CGAL::Point_2<REP>& o) { F << convert_to_leda(o); return F; }
@@ -444,6 +462,8 @@ ps_file& operator<<(ps_file& F,const CGAL::Tetrahedron_3<REP>& obj)
 }
 
 
+LEDA_END_NAMESPACE 
+
 static void geowin_generate_circle_segments(leda_list<leda_segment>& LS, leda_circle C, int n)
 {
   leda_list<leda_rat_point> L;
@@ -463,7 +483,11 @@ static void geowin_generate_circle_segments(leda_list<leda_segment>& LS, leda_ci
     }
     
   // now generate the segments desribing the circle ...
+#if defined(LEDA_NAMESPACE)  
+  leda::list_item lit = L.first();
+#else
   list_item lit = L.first();
+#endif
   
   while(lit && L.succ(lit))
   {
@@ -1285,8 +1309,8 @@ void cgal_Iso_rectangle_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,
 template<class TRAITS, class CONTAINER>
 void convert_from_leda(const leda_polygon& p, CGAL::Polygon_2<TRAITS,CONTAINER>& rc)
 {
- typedef typename TRAITS::Point_2 POINT;
- typedef typename POINT::RT  RT;
+ typedef typename TRAITS::Point_2  POINT;
+ typedef typename TRAITS::RT       RT;
 
  leda_list<leda_point> pl= p.vertices();
  std::list<POINT> sl;
@@ -1328,8 +1352,8 @@ template<class TRAITS, class CONTAINER>
 void geowin_Translate(CGAL::Polygon_2<TRAITS,CONTAINER>& obj, double dx, double dy)
 {
  typedef typename TRAITS::Point_2 POINT;
- typedef typename POINT::RT  RT;
- typedef typename POINT::R   REP;
+ typedef typename TRAITS::RT      RT;
+ typedef typename POINT::R        REP;
  
   CGAL::Vector_2<REP> vec;
   vec= CGAL::Vector_2<REP>(RT(dx), RT(dy)); 

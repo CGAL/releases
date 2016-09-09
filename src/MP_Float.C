@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : src/MP_Float.C
-// package       : Number_types (4.30)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/23 09:42:51 $
+// package       : Number_types (4.57)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/12 14:06:59 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -63,6 +61,8 @@ my_rint(double d)
 {
 #if defined __BORLANDC__ || defined _MSC_VER
   return int(d<0 ? d-0.5 : d+0.5);
+#elif defined __MWERKS__
+  return (int) std::rint(d);
 #else
   return (int) ::rint(d);
 #endif
@@ -139,11 +139,15 @@ Add_Sub(MP_Float &r, const MP_Float &a, const MP_Float &b, const BinOp &op)
 {
   CGAL_assertion(!b.is_zero());
 
-  int min_exp = std::min(a.min_exp(), b.min_exp());
-  int max_exp = std::max(a.max_exp(), b.max_exp());
+  int min_exp, max_exp;
+
   if (a.is_zero()) {
     min_exp = b.min_exp();
     max_exp = b.max_exp();
+  }
+  else {
+    min_exp = std::min(a.min_exp(), b.min_exp());
+    max_exp = std::max(a.max_exp(), b.max_exp());
   }
 
   r.exp = min_exp;
@@ -231,8 +235,8 @@ to_double(const MP_Float &b)
 
   int exp = b.max_exp();
   int steps = std::min(limbs_per_double, b.v.size());
-  double d_exp_1 = ::ldexp(1.0, - (int) log_limb);
-  double d_exp   = ::ldexp(1.0, exp * log_limb);
+  double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - (int) log_limb);
+  double d_exp   = CGAL_CLIB_STD::ldexp(1.0, exp * log_limb);
   double d = 0;
 
   for (int i = exp - 1; i > exp - 1 - steps; i--) {
@@ -252,8 +256,8 @@ to_interval(const MP_Float &b)
 
   int exp = b.max_exp();
   int steps = std::min(limbs_per_double, b.v.size());
-  double d_exp_1 = ::ldexp(1.0, - (int) log_limb);
-  double d_exp   = ::ldexp(1.0, exp * log_limb);
+  double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - (int) log_limb);
+  double d_exp   = CGAL_CLIB_STD::ldexp(1.0, exp * log_limb);
 
   // We take care of overflow.  The following should be enough.
   if (!CGAL_NTS is_finite(d_exp))
@@ -314,7 +318,7 @@ print (std::ostream & os, const MP_Float &b)
     if (exp != 0)
       os << " * 2^" << exp;
 
-    approx += ::ldexp(double(*i), exp);
+    approx += CGAL_CLIB_STD::ldexp(double(*i), exp);
 
     exp += log_limb;
   }

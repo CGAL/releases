@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/min_quadrilateral_2.h
-// package       : Min_quadrilateral_2 (1.18)
+// package       : Min_quadrilateral_2 (1.21)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : oops.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/06 14:00:03 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/03/22 09:48:19 $
 // author(s)     : Michael Hoffmann and
 //                 Emo Welzl
 //
@@ -55,7 +53,14 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>
+#include <CGAL/functional.h>
 #include <iterator>
+
+#ifdef CGAL_OPTIMISATION_EXPENSIVE_PRECONDITION_TAG
+#include <CGAL/Polygon_2_algorithms.h>
+#endif
+
+
 
 CGAL_BEGIN_NAMESPACE
 
@@ -97,9 +102,19 @@ convex_bounding_box_2(
   ForwardIterator miny;
   ForwardIterator maxy;
 
-  if (t.less_x_2_object()(*minx, *f) ||
-      t.less_y_2_object()(*minx, *f) && !t.less_x_2_object()(*f, *minx))
-    if (t.less_y_2_object()(*minx, *f))
+  typedef typename Traits::Less_xy_2        Less_xy_2;
+  typedef typename Traits::Less_yx_2        Less_yx_2;
+  typedef typename Swap<Less_xy_2,1>::Type  Greater_xy_2;
+  typedef typename Swap<Less_yx_2,1>::Type  Greater_yx_2;
+
+  Less_xy_2    less_xy_2    = t.less_xy_2_object();
+  Less_yx_2    less_yx_2    = t.less_yx_2_object();
+  Greater_xy_2 greater_xy_2 = swap_1(less_xy_2);
+  Greater_yx_2 greater_yx_2 = swap_1(less_yx_2);
+
+  if (less_xy_2(*minx, *f) ||
+      less_yx_2(*minx, *f) && !less_xy_2(*f, *minx))
+    if (less_yx_2(*minx, *f))
       // first quadrant
       for (;;) {
         maxx = f;
@@ -107,7 +122,7 @@ convex_bounding_box_2(
           maxy = minx = miny = maxx;
           break;
         }
-        if (t.less_x_2_object()(*f, *maxx)) {
+        if (less_xy_2(*f, *maxx)) {
           f = maxx;
           for (;;) {
             maxy = f;
@@ -115,7 +130,7 @@ convex_bounding_box_2(
               minx = miny = maxy;
               break;
             }
-            if (t.less_y_2_object()(*f, *maxy)) {
+            if (less_yx_2(*f, *maxy)) {
               f = maxy;
               for (;;) {
                 minx = f;
@@ -123,19 +138,19 @@ convex_bounding_box_2(
                   miny = minx;
                   break;
                 }
-                if (t.greater_x_2_object()(*f, *minx)) {
+                if (greater_xy_2(*f, *minx)) {
                   f = minx;
                   do
                     miny = f;
-                  while (++f != l && !t.greater_y_2_object()(*f, *miny));
+                  while (++f != l && !greater_yx_2(*f, *miny));
                   break;
                 }
               } // for (;;)
               break;
-            } // if (t.less_y_2_object()(*f, *maxy))
+            } // if (less_yx_2(*f, *maxy))
           } // for (;;)
           break;
-        } // if (t.less_x_2_object()(*f, *maxx))
+        } // if (less_xy_2(*f, *maxx))
       } // for (;;)
     else
       // fourth quadrant
@@ -145,7 +160,7 @@ convex_bounding_box_2(
           maxx = maxy = minx = miny;
           break;
         }
-        if (t.greater_y_2_object()(*f, *miny)) {
+        if (greater_yx_2(*f, *miny)) {
           f = miny;
           for (;;) {
             maxx = f;
@@ -153,7 +168,7 @@ convex_bounding_box_2(
               maxy = minx = maxx;
               break;
             }
-            if (t.less_x_2_object()(*f, *maxx)) {
+            if (less_xy_2(*f, *maxx)) {
               f = maxx;
               for (;;) {
                 maxy = f;
@@ -161,22 +176,22 @@ convex_bounding_box_2(
                   minx = maxy;
                   break;
                 }
-                if (t.less_y_2_object()(*f, *maxy)) {
+                if (less_yx_2(*f, *maxy)) {
                   f = maxy;
                   do
                     minx = f;
-                  while (++f != l && !t.greater_x_2_object()(*f, *minx));
+                  while (++f != l && !greater_xy_2(*f, *minx));
                   break;
                 }
               } // for (;;)
               break;
-            } // if (t.less_x_2_object()(*f, *maxx))
+            } // if (less_xy_2(*f, *maxx))
           } // for (;;)
           break;
-        } // if (t.greater_y_2_object()(*f, *miny))
+        } // if (greater_yx_2(*f, *miny))
       } // for (;;)
   else
-    if (t.less_y_2_object()(*f, *minx))
+    if (less_yx_2(*f, *minx))
       // third quadrant
       for (;;) {
         minx = f;
@@ -184,7 +199,7 @@ convex_bounding_box_2(
           miny = maxx = maxy = minx;
           break;
         }
-        if (t.greater_x_2_object()(*f, *minx)) {
+        if (greater_xy_2(*f, *minx)) {
           f = minx;
           for (;;) {
             miny = f;
@@ -192,7 +207,7 @@ convex_bounding_box_2(
               maxx = maxy = miny;
               break;
             }
-            if (t.greater_y_2_object()(*f, *miny)) {
+            if (greater_yx_2(*f, *miny)) {
               f = miny;
               for (;;) {
                 maxx = f;
@@ -200,19 +215,19 @@ convex_bounding_box_2(
                   maxy = maxx;
                   break;
                 }
-                if (t.less_x_2_object()(*f, *maxx)) {
+                if (less_xy_2(*f, *maxx)) {
                   f = maxx;
                   do
                     maxy = f;
-                  while (++f != l && !t.less_y_2_object()(*f, *maxy));
+                  while (++f != l && !less_yx_2(*f, *maxy));
                   break;
                 }
               } // for (;;)
               break;
-            } // if (t.greater_y_2_object()(*f, *miny))
+            } // if (greater_yx_2(*f, *miny))
           } // for (;;)
           break;
-        } // if (t.greater_x_2_object()(*f, *minx))
+        } // if (greater_xy_2(*f, *minx))
       } // for (;;)
     else
       // second quadrant
@@ -222,7 +237,7 @@ convex_bounding_box_2(
           minx = miny = maxx = maxy;
           break;
         }
-        if (t.less_y_2_object()(*f, *maxy)) {
+        if (less_yx_2(*f, *maxy)) {
           f = maxy;
           for (;;) {
             minx = f;
@@ -230,7 +245,7 @@ convex_bounding_box_2(
               miny = maxx = minx;
               break;
             }
-            if (t.greater_x_2_object()(*f, *minx)) {
+            if (greater_xy_2(*f, *minx)) {
               f = minx;
               for (;;) {
                 miny = f;
@@ -238,26 +253,26 @@ convex_bounding_box_2(
                   maxx = miny;
                   break;
                 }
-                if (t.greater_y_2_object()(*f, *miny)) {
+                if (greater_yx_2(*f, *miny)) {
                   f = miny;
                   do
                     maxx = f;
-                  while (++f != l && !t.less_x_2_object()(*f, *maxx));
+                  while (++f != l && !less_xy_2(*f, *maxx));
                   break;
                 }
               } // for (;;)
               break;
-            } // if (t.greater_x_2_object()(*f, *minx))
+            } // if (greater_xy_2(*f, *minx))
           } // for (;;)
           break;
-        } // if (t.less_y_2_object()(*f, *maxy))
+        } // if (less_yx_2(*f, *maxy))
       } // for (;;)
 
   // Output
-  *o++ = t.less_x_2_object()(*first, *minx) ? first : minx;
-  *o++ = t.less_y_2_object()(*first, *miny) ? first : miny;
-  *o++ = t.less_x_2_object()(*maxx, *first) ? first : maxx;
-  *o++ = t.less_y_2_object()(*maxy, *first) ? first : maxy;
+  *o++ = less_xy_2(*first, *minx) ? first : minx;
+  *o++ = less_yx_2(*first, *miny) ? first : miny;
+  *o++ = less_xy_2(*maxx, *first) ? first : maxx;
+  *o++ = less_yx_2(*maxy, *first) ? first : maxy;
   return o;
 } // convex_bounding_box_2(f, l, o, t)
 
@@ -269,11 +284,16 @@ min_rectangle_2(
   OutputIterator o,
   Traits& t)
 {
+  CGAL_optimisation_expensive_precondition(is_convex_2(f, l));
+  CGAL_optimisation_expensive_precondition(
+    orientation_2(f, l) == COUNTERCLOCKWISE);
+
   // check for trivial cases
   if (f == l) return o;
   ForwardIterator tst = f;
   if (++tst == l) {
-    *o++ = *f;
+    // all points are equal
+    for (int i = 0; i < 4; ++i) *o++ = *f;
     return o;
   }
 
@@ -330,7 +350,7 @@ min_rectangle_2(
       dir[event], event);
 
     if (curr[event] == limit[event])
-      if (--yet_to_finish == 0)
+      if (--yet_to_finish <= 0)
         break;
 
     if (event < 2)
@@ -358,13 +378,19 @@ min_parallelogram_2(ForwardIterator f,
                     OutputIterator o,
                     Traits& t)
 {
+  CGAL_optimisation_expensive_precondition(is_convex_2(f, l));
   // check for trivial cases
   if (f == l) return o;
-  ForwardIterator tst = f;
-  if (++tst == l) {
-    *o++ = *f;
-    return o;
-  }
+  
+  ForwardIterator first;
+  do {
+    first = f;
+    if (++f == l) {
+      // all points are equal
+      for (int i = 0; i < 4; ++i) *o++ = *first;
+      return o;
+    }
+  } while (t.equal_2_object()(*first, *f));
 
   // types from the traits class
   typedef typename Traits::Parallelogram_2  Parallelogram_2;
@@ -373,7 +399,7 @@ min_parallelogram_2(ForwardIterator f,
   // quadruple of points defining the bounding box
   ForwardIterator curr[4];
   // initialised to the points defining the bounding box
-  convex_bounding_box_2(f, l, curr, t);
+  convex_bounding_box_2(first, l, curr, t);
 
 
   ForwardIterator low   = curr[1];
@@ -387,13 +413,13 @@ min_parallelogram_2(ForwardIterator f,
   ForwardIterator ln = low;
   do
     if (++ln == l)
-      ln = f;
+      ln = first;
   while (t.equal_2_object()(*ln, *low));
   Direction_2 d_low = t.construct_direction_2_object()(*low, *ln);
   ForwardIterator un = upp;
   do
     if (++un == l)
-      un = f;
+      un = first;
   while (t.equal_2_object()(*un, *upp));
   Direction_2 d_upp = t.construct_direction_2_object()(*un, *upp);
 
@@ -406,14 +432,14 @@ min_parallelogram_2(ForwardIterator f,
     ForwardIterator rig = right;
     do
       if (++rig == l)
-        rig = f;
+        rig = first;
     while (t.equal_2_object()(*rig, *right));
     Direction_2 d_right = t.construct_direction_2_object()(*right, *rig);
   
     ForwardIterator len = left;
     do
       if (++len == l)
-        len = f;
+        len = first;
     while (t.equal_2_object()(*len, *left));
     Direction_2 d_left = t.construct_direction_2_object()(*len, *left);
   
@@ -441,12 +467,12 @@ min_parallelogram_2(ForwardIterator f,
     if (low_goes_next) {
       low = ln;
       if (low == curr[3])
-        if (--yet_to_finish == 0)
+        if (--yet_to_finish <= 0)
           break;
     } else {
       upp = un;
       if (upp == curr[1])
-        if (--yet_to_finish == 0)
+        if (--yet_to_finish <= 0)
           break;
     }
 
@@ -454,13 +480,13 @@ min_parallelogram_2(ForwardIterator f,
     ln = low;
     do
       if (++ln == l)
-        ln = f;
+        ln = first;
     while (t.equal_2_object()(*ln, *low));
     d_low = t.construct_direction_2_object()(*low, *ln);
     un = upp;
     do
       if (++un == l)
-        un = f;
+        un = first;
     while (t.equal_2_object()(*un, *upp));
     d_upp = t.construct_direction_2_object()(*un, *upp);
 
@@ -472,14 +498,14 @@ min_parallelogram_2(ForwardIterator f,
       ForwardIterator rig = right;
       do
         if (++rig == l)
-          rig = f;
+          rig = first;
       while (t.equal_2_object()(*rig, *right));
       Direction_2 d_right = t.construct_direction_2_object()(*right, *rig);
     
       ForwardIterator len = left;
       do
         if (++len == l)
-          len = f;
+          len = first;
       while (t.equal_2_object()(*len, *left));
       Direction_2 d_left = t.construct_direction_2_object()(*len, *left);
     
@@ -520,10 +546,16 @@ min_strip_2(ForwardIterator f,
             OutputIterator o,
             Traits& t)
 {
+  CGAL_optimisation_expensive_precondition(is_convex_2(f, l));
   // check for trivial cases
   if (f == l) return o;
-  ForwardIterator tst = f;
-  if (++tst == l) return o;
+  ForwardIterator first;
+  do {
+    first = f;
+    if (++f == l)
+      // strip undefined, if no two distinct points exist
+      return o;
+  } while (t.equal_2_object()(*first, *f));
 
   // types from the traits class
   typedef typename Traits::Strip_2        Strip_2;
@@ -532,7 +564,7 @@ min_strip_2(ForwardIterator f,
   // quadruple of points defining the bounding box
   ForwardIterator curr[4];
   // initialised to the points defining the bounding box
-  convex_bounding_box_2(f, l, curr, t);
+  convex_bounding_box_2(first, l, curr, t);
 
   ForwardIterator low = curr[0];
   ForwardIterator upp = curr[2];
@@ -541,11 +573,11 @@ min_strip_2(ForwardIterator f,
 
   ForwardIterator nlow = low;
   if (++nlow == l)
-    nlow = f;
+    nlow = first;
   Direction_2 low_dir = t.construct_direction_2_object()(*low, *nlow);
   ForwardIterator nupp = upp;
   if (++nupp == l)
-    nupp = f;
+    nupp = first;
   Direction_2 upp_dir = t.construct_direction_2_object()(*nupp, *upp);
 
   bool low_goes_next = t.less_rotate_ccw_2_object()(low_dir, upp_dir);
@@ -559,18 +591,18 @@ min_strip_2(ForwardIterator f,
     if (low_goes_next) {
       low = nlow;
       if (low == curr[2])
-        if (--yet_to_finish == 0)
+        if (--yet_to_finish <= 0)
           break;
       if (++nlow == l)
-        nlow = f;
+        nlow = first;
       low_dir = t.construct_direction_2_object()(*low, *nlow);
     } else {
       upp = nupp;
       if (upp == curr[0])
-        if (--yet_to_finish == 0)
+        if (--yet_to_finish <= 0)
           break;
       if (++nupp == l)
-        nupp = f;
+        nupp = first;
       upp_dir = t.construct_direction_2_object()(*nupp, *upp);
     }
 
@@ -603,7 +635,7 @@ min_rectangle_2(ForwardIterator f,
          ForwardIterator l,
          OutputIterator o)
 {
-  typedef std::iterator_traits< ForwardIterator >::value_type VT;
+  typedef typename std::iterator_traits< ForwardIterator >::value_type VT;
   typedef typename VT::R R;
   Min_quadrilateral_default_traits_2< R > t;
   return min_rectangle_2(f, l, o, t);
@@ -624,7 +656,7 @@ min_parallelogram_2(ForwardIterator f,
          ForwardIterator l,
          OutputIterator o)
 {
-  typedef std::iterator_traits< ForwardIterator >::value_type VT;
+  typedef typename std::iterator_traits< ForwardIterator >::value_type VT;
   typedef typename VT::R R;
   Min_quadrilateral_default_traits_2< R > t;
   return min_parallelogram_2(f, l, o, t);
@@ -645,7 +677,7 @@ min_strip_2(ForwardIterator f,
          ForwardIterator l,
          OutputIterator o)
 {
-  typedef std::iterator_traits< ForwardIterator >::value_type VT;
+  typedef typename std::iterator_traits< ForwardIterator >::value_type VT;
   typedef typename VT::R R;
   Min_quadrilateral_default_traits_2< R > t;
   return min_strip_2(f, l, o, t);

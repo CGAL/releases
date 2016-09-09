@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Random_access_adaptor.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2001/07/11 09:00:26 $
+// revision      : $Revision: 1.41 $
+// revision_date : $Date: 2002/03/28 15:24:29 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -50,148 +48,6 @@
 //
 // ======================================================================
 
-#ifndef CGAL_RANDOM_ACCESS_ADAPTOR_H
-#define CGAL_RANDOM_ACCESS_ADAPTOR_H 1
-#include <vector>
-#include <CGAL/circulator.h>
-
-CGAL_BEGIN_NAMESPACE
-
-template < class IC>
-class Random_access_adaptor {
-
-  // DEFINITION
-  //
-  // The class Random_access_adaptor<IC> provides a random access
-  // for data structures. Either the data structure supports random access
-  // iterators or circulators where this class maps function calls to the
-  // iterator or circulator, or a STL `vector' is used to provide the random
-  // access. The iterator or circulator of the data structure are of type
-  // `IC'.
-  //
-  // CREATION
-
-protected:
-  typedef std::vector< IC> Index;
-  Index   index;
-  IC      start;
-
-public:
-  typedef typename Index::size_type  size_type;
-
-  void init_index( IC i, const IC& j, std::forward_iterator_tag);
-  void init_index( const IC& i, const IC& j,
-                   std::bidirectional_iterator_tag){
-    init_index( i, j, std::forward_iterator_tag());
-  }
-  void init_index( const IC& i, const IC&,
-                   std::random_access_iterator_tag){
-    start = i;
-  }
-  void init_index( const IC& i, const IC& j) {
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-    typedef typename std::iterator_traits<IC>::iterator_category ICC;
-    init_index( i, j, ICC());
-#else
-    init_index( i, j, std::iterator_category( i));
-#endif
-  }
-
-
-  void reserve( size_type r, std::forward_iterator_tag) {
-    index.reserve( r);
-  }
-  void reserve( size_type r, std::bidirectional_iterator_tag){
-    reserve( r, std::forward_iterator_tag());
-  }
-  void reserve( size_type, std::random_access_iterator_tag){}
-
-
-  void push_back( const IC& k, std::forward_iterator_tag) {
-    index.push_back(k);
-  }
-  void push_back( const IC& k, std::bidirectional_iterator_tag){
-    push_back( k, std::forward_iterator_tag());
-  }
-  void push_back( const IC&, std::random_access_iterator_tag){}
-
-
-  const IC& find( size_type n, std::forward_iterator_tag) const {
-    // returns inverse index of k.
-    CGAL_assertion( n < index.size());
-    return index[n];
-  }
-  const IC& find( size_type n, std::bidirectional_iterator_tag) const {
-    return find( n, std::forward_iterator_tag());
-  }
-  IC  find( size_type n, std::random_access_iterator_tag) const {
-    return start + n;
-  }
-
-  typedef IC   iterator;
-  typedef IC   Circulator;
-
-  Random_access_adaptor() : start(IC()) {}
-  // invalid index.
-
-  Random_access_adaptor( const IC& i) : start(i) {}
-  // empty random access index initialized to start at i.
-
-  Random_access_adaptor( const IC& i, const IC& j) : start(i) {
-    // random access index initialized with range [i,j).
-    init_index( i, j);
-  }
-
-  void reserve( size_type r) {
-    // reserve r entries, if a `vector' is used internally.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-    typedef typename std::iterator_traits<IC>::iterator_category ICC;
-    reserve( r, ICC());
-#else
-    reserve( r, std::iterator_category( IC()));
-#endif
-  }
-
-  // OPERATIONS
-
-  IC  find( size_type n) const {
-    // returns inverse index of k.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-    typedef typename std::iterator_traits<IC>::iterator_category ICC;
-    return find( n, ICC());
-#else
-    return find( n, std::iterator_category( IC()));
-#endif
-  }
-
-  IC  operator[]( size_type n) const { return find(n); }
-
-  void push_back( const IC& k) {
-    // adds k at the end of the indices.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-    typedef typename std::iterator_traits<IC>::iterator_category ICC;
-    push_back( k, ICC());
-#else
-    push_back( k, std::iterator_category( k));
-#endif
-  }
-};
-
-template < class IC>
-void
-Random_access_adaptor< IC>::init_index( IC i, const IC& j,
-                                        std::forward_iterator_tag) {
-  if ( ! is_empty_range( i, j)) {
-    do {
-      index.push_back( i);
-    } while ((++i) != (j));
-  }
-}
-
-CGAL_END_NAMESPACE
-#endif // CGAL_RANDOM_ACCESS_ADAPTOR_H //
+// This file is obsolete; use <CGAL/iterator.h> instead.
+#include <CGAL/iterator.h>
 // EOF //

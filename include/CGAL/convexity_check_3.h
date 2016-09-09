@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/convexity_check_3.h
-// package       : Convex_hull_3 (2.28)
+// package       : Convex_hull_3 (2.41)
 // chapter       : Convex Hulls and Extreme Points
 //
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/27 16:18:07 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/11/26 17:15:41 $
 //
 // author(s)     : Susan Hert
 //               : Amol Prakash
@@ -97,12 +95,14 @@ bool is_strongly_convex_3(Polyhedron& P, const Traits& traits)
   typedef typename Traits::Point_3             Point_3; 
   typedef typename Traits::Ray_3               Ray_3; 
   typedef typename Traits::Triangle_3          Triangle_3; 
+
+  if (P.vertices_begin() == P.vertices_end()) return false;
   
   Facet_iterator f_it;
   for ( f_it = P.facets_begin(); f_it != P.facets_end(); ++f_it)
      if (!is_locally_convex(f_it, traits)) 
 	return false;
- 
+
   // Check 2: see if a point interior to the hull is actually on the same
   // side of each facet of P
  
@@ -118,25 +118,24 @@ bool is_strongly_convex_3(Polyhedron& P, const Traits& traits)
   p = v_it->point();  v_it++;
   q = v_it->point();  v_it++;
   r = v_it->point();  v_it++;
+
+  // three vertices that form a single (triangular) facet
+  if (v_it == P.vertices_end()) return P.facets_begin() != P.facets_end(); 
   
   // Now take 4th point s.t. it's not coplaner with them
-  do
-  {
-    s = v_it->point();  
+  while (v_it != P.vertices_end() && coplanar(p, q, r, (*v_it).point()))
     v_it++;
-  } while (coplanar(p,q,r,s) && (v_it != P.vertices_end()));
-  
 
   // if no such point, all are coplanar so it is not strongly convex
   if( v_it == P.vertices_end() )
     return false;
 
-  
+  s = (*v_it).point();
+
   // else construct a point inside the polyhedron
   typename Traits::Construct_centroid_3 construct_centroid =
            traits.construct_centroid_3_object();
   Point_3 inside_pt = construct_centroid(p,q,r,s);
-
 
   typename Traits::Oriented_side_3 oriented_side = 
             traits.oriented_side_3_object();

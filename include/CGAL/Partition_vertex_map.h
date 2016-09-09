@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Partition_vertex_map.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/07/16 13:11:46 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2001/12/05 15:25:52 $
 //
 // author(s)     : Susan Hert
 //
@@ -76,7 +74,7 @@ public:
    typedef typename Traits::Leftturn_2              Leftturn_2;
    typedef typename Traits::Less_xy_2               Less_xy_2;
    typedef typename Traits::Point_2                 Point_2;
-   typedef Edge_info<Iterator>                      Edge_info;
+   typedef CGAL::Edge_info<Iterator>                Edge_info;
 
    CW_indirect_edge_info_compare (Iterator v_it) : vertex_it(v_it),
       left_turn(Traits().leftturn_2_object()),
@@ -210,7 +208,8 @@ public:
        // order), and this is what you need when you construct the union 
        // polygon.
        if (size() > 2)
-        sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
+         sort(
+            CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
 
 #ifdef CGAL_PARTITION_CHECK_DEBUG
        std::cout << "after sort: edges for " << *vertex_it  << std::endl;
@@ -418,7 +417,7 @@ public:
           if ((*m_it).second.size() > 2)
            (*m_it).second.sort(
              CW_indirect_edge_info_compare<Vertex_iterator,Traits>(
-                                                                (*m_it).first));
+                                                               (*m_it).first));
           // find the previous vertex in this vertex's list
           next_v_it=(*m_it).second.next_ccw_edge_info(prev_v_it).endpoint();
           if (next_v_it != first_v_it)

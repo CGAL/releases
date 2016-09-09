@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Planar_map_2/Bounding_box_special_initializer.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -58,26 +56,26 @@ Bounding_box_base* init_default_bounding_box(T_*) const
 
 #ifdef CGAL_PM_STRAIGHT_EXACT_TRAITS_H
 template <class R_>
-Bounding_box_base* init_default_bounding_box(Pm_straight_exact_traits<R_>*)
+Bounding_box_base* init_default_bounding_box(Pm_straight_traits_2<R_>*)
 const
 {
   return new Pm_dynamic_open_bounding_box<Self>;
 }
 template <class R_>
 Bounding_box_base* 
-init_default_bounding_box(const Pm_straight_exact_traits<R_>*)
+init_default_bounding_box(const Pm_straight_traits_2<R_>*)
 const
 {
   return new Pm_dynamic_open_bounding_box<Self>;
 }
 template <class R_>
-Bounding_box_base* init_default_bounding_box(Pm_straight_exact_traits<R_>*)
+Bounding_box_base* init_default_bounding_box(Pm_straight_traits_2<R_>*)
 {
   return new Pm_dynamic_open_bounding_box<Self>;
 }
 template <class R_>
 Bounding_box_base* 
-init_default_bounding_box(const Pm_straight_exact_traits<R_>*)
+init_default_bounding_box(const Pm_straight_traits_2<R_>*)
 {
   return new Pm_dynamic_open_bounding_box<Self>;
 }
@@ -93,25 +91,25 @@ Bounding_box_base* init_default_bounding_box(T_*) const
 #ifdef CGAL_PM_SEGMENT_EXACT_TRAITS_H
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  Pm_segment_exact_traits<R_>* t_) const
+  Pm_segment_traits_2<R_>* t_) const
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  const Pm_segment_exact_traits<R_>* t_) const
+  const Pm_segment_traits_2<R_>* t_) const
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  Pm_segment_exact_traits<R_>* t_) 
+  Pm_segment_traits_2<R_>* t_) 
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  const Pm_segment_exact_traits<R_>* t_) 
+  const Pm_segment_traits_2<R_>* t_) 
 {
   return new Pm_unbounding_box<Self>;
 }
@@ -145,25 +143,25 @@ Bounding_box_base* init_default_bounding_box(
 #ifdef CGAL_PM_LEDA_SEGMENT_EXACT_TRAITS_H
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  const Pm_leda_segment_exact_traits<R_>* t_) const
+  const Pm_leda_segment_traits_2<R_>* t_) const
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  Pm_leda_segment_exact_traits<R_>* t_) const
+  Pm_leda_segment_traits_2<R_>* t_) const
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  const Pm_leda_segment_exact_traits<R_>* t_) 
+  const Pm_leda_segment_traits_2<R_>* t_) 
 {
   return new Pm_unbounding_box<Self>;
 }
 template <class R_> 
 Bounding_box_base* init_default_bounding_box(
-  Pm_leda_segment_exact_traits<R_>* t_) 
+  Pm_leda_segment_traits_2<R_>* t_) 
 {
   return new Pm_unbounding_box<Self>;
 }

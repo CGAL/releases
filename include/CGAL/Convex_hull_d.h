@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 2001 The CGAL Consortium
+// Copyright (c) 1997-2000 The CGAL Consortium
 
 // This software and related documentation are part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,21 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Convex_hull_d.h
-// package       : Kernel_d (0.9.47)
-// author(s)     : ?
-// coordinator   : ?
+// package       : Kernel_d (0.9.68)
+// chapter       : Basic
 //
+// source        : ddgeo/Convex_hull_d.lw
+// revision      : $Revision: 1.18 $
+// revision_date : $Date: 2002/04/17 15:58:56 $
+//
+// author(s)     : Michael Seel
+// coordinator   : Susan Hert
+//
+// implementation: Higher dimensional geometry
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -158,35 +163,35 @@ public:
 
   Facet_iterator_() : Base( Rep() ) {}
   Facet_iterator_(Hull_pointer p, Handle h) : Base( Rep(p,h) ) 
-  { ptr->pvisited_ = new Unique_hash_map<Handle,bool>(false); 
-    ptr->pcandidates_ = new std::list<Handle>;
-    (*(ptr->pvisited_))[ptr->current_]=true;
-    ptr->add_candidates();
+  { ptr()->pvisited_ = new Unique_hash_map<Handle,bool>(false); 
+    ptr()->pcandidates_ = new std::list<Handle>;
+    (*(ptr()->pvisited_))[ptr()->current_]=true;
+    ptr()->add_candidates();
   }
 
   reference operator*() const
-  { return ptr->current_.operator*(); }
+  { return ptr()->current_.operator*(); }
   pointer operator->() const
-  { return ptr->current_.operator->(); }
+  { return ptr()->current_.operator->(); }
 
   Self& operator++() 
-  { if ( ptr->current_ == Handle() ) return *this;
-    if ( ptr->pcandidates_->empty() ) ptr->current_ = Handle();
+  { if ( ptr()->current_ == Handle() ) return *this;
+    if ( ptr()->pcandidates_->empty() ) ptr()->current_ = Handle();
     else {
-      ptr->current_ = ptr->pcandidates_->back();
-      ptr->pcandidates_->pop_back();
-      ptr->add_candidates();
+      ptr()->current_ = ptr()->pcandidates_->back();
+      ptr()->pcandidates_->pop_back();
+      ptr()->add_candidates();
     }
     return *this;
   }
   Self  operator++(int) 
   { Self tmp = *this; ++*this; return tmp; }      
   bool operator==(const Self& x) const
-  { return ptr->current_ == x.ptr->current_; }
+  { return ptr()->current_ == x.ptr()->current_; }
   bool operator!=(const Self& x) const
   { return !operator==(x); }
 
-  operator Handle() { return ptr->current_; }
+  operator Handle() { return ptr()->current_; }
 
 };
 
@@ -244,28 +249,28 @@ public:
 
   Hull_vertex_iterator_() : Base( Rep() ) {}
   Hull_vertex_iterator_(Hull_pointer p, FHandle f) : Base( Rep(p,f) ) 
-  { ptr->pvisited_ = new Unique_hash_map<VHandle,bool>(false); 
-    ptr->advance();
+  { ptr()->pvisited_ = new Unique_hash_map<VHandle,bool>(false); 
+    ptr()->advance();
   }
 
   reference operator*() const
-  { return ptr->v_.operator*(); }
+  { return ptr()->v_.operator*(); }
   pointer operator->() const
-  { return ptr->v_.operator->(); }
+  { return ptr()->v_.operator->(); }
 
   Self& operator++() 
-  { if ( ptr->v_ == VHandle() ) return *this;
-    ptr->advance();
+  { if ( ptr()->v_ == VHandle() ) return *this;
+    ptr()->advance();
     return *this;
   }
   Self  operator++(int) 
   { Self tmp = *this; ++*this; return tmp; }      
   bool operator==(const Self& x) const
-  { return ptr->v_ == x.ptr->v_; }
+  { return ptr()->v_ == x.ptr()->v_; }
   bool operator!=(const Self& x) const
   { return !operator==(x); }
 
-  operator VHandle() { return ptr->v_; }
+  operator VHandle() { return ptr()->v_; }
 
 };
 
@@ -351,6 +356,7 @@ typedef typename Point_list::const_iterator Point_const_iterator;
 /*{\Mtypemember const iterator for all inserted points.}*/
 
 typedef typename Vertex_handle::value_type Vertex;
+
 typedef CGAL::Iterator_project<
   Hull_vertex_const_iterator, Point_from_Vertex<Vertex,Point_d>,
   const Point_d&, const Point_d*> Hull_point_const_iterator;
@@ -416,7 +422,7 @@ protected:
           in $f$.}*/
 
   void clear_visited_marks(Simplex_handle s) const; 
-  /*{\Xop removes the mark bits from all marked simplices reachable from $s$.}*/
+ /*{\Xop removes the mark bits from all marked simplices reachable from $s$.}*/
 
   void dimension_jump(Simplex_handle S, Vertex_handle x);
   /*{\Xop Adds a new vertex $x$ to the triangulation. The point associated
@@ -701,7 +707,8 @@ public:
     }
     all_pnts_.insert(all_pnts_.end(),first,last);
 
-    int dcur = current_dimension();
+    // what is the point of this line? ...
+    //int dcur = current_dimension();
     Unique_hash_map<Facet_handle, std::list<Point_d> > PointsOf;
     std::list<Facet_handle> FacetCandidates;
     typename R::Oriented_side_d side_of =
@@ -766,11 +773,11 @@ public:
               associate_vertex_with_simplex(T,k,vertex_of_simplex(S,dcur)); 
             associate_vertex_with_simplex(T,dcur,z); 
             associate_vertex_with_simplex(T,0,anti_origin_); 
-            /* in the above, it is tempting to drop the tests ( i != k ) and ( k
-               != dcur ) since the subsequent lines after will correct the
+            /* in the above, it is tempting to drop the tests ( i != k ) and 
+               ( k != dcur ) since the subsequent lines after will correct the
                erroneous assignment.  This reasoning is fallacious as the
-               procedure assoc_vertex_with_simplex also the internal data of the
-               third argument. */
+               procedure assoc_vertex_with_simplex also the internal data of 
+               the third argument. */
 
             /* compute the equation of its base facet */
             compute_equation_of_base_facet(T);
@@ -845,37 +852,42 @@ public:
   /*{\Mtext \headerline{Lists and Iterators}
   \setopdims{3.5cm}{3.5cm}}*/
 
-  Point_const_iterator points_begin() const
-  /*{\Mop returns the start iterator for points in |\Mvar|.}*/
-  { return all_pnts_.begin(); }
-
-  Point_const_iterator points_end() const
-  /*{\Mop returns the past the end iterator for points in |\Mvar|.}*/
-  { return all_pnts_.end(); }
-
   Vertex_iterator vertices_begin() { return Base::vertices_begin(); }
-  /*{\Mop the first vertex of |\Mvar|.}*/
+  /*{\Mop returns an iterator to start iteration over all vertices
+  of |\Mvar|.}*/
   Vertex_iterator vertices_end()   { return Base::vertices_end(); }
   /*{\Mop the past the end iterator for vertices.}*/
   Simplex_iterator simplices_begin() { return Base::simplices_begin(); }
-  /*{\Mop the first simplex of |\Mvar|.}*/
+  /*{\Mop returns an iterator to start iteration over all simplices 
+  of |\Mvar|.}*/
   Simplex_iterator simplices_end()   { return Base::simplices_end(); }
   /*{\Mop the past the end iterator for simplices.}*/
   Facet_iterator facets_begin() { return Facet_iterator(this,start_facet_); }
-  /*{\Mop the first facet of |\Mvar|.}*/
+  /*{\Mop returns an iterator to start iteration over all facets of |\Mvar|.}*/
   Facet_iterator facets_end() { return Facet_iterator(); }
   /*{\Mop the past the end iterator for facets.}*/
   Hull_vertex_iterator hull_vertices_begin() 
   { return Hull_vertex_iterator(this,facets_begin()); }
-  /*{\Mop the first hull vertex of |\Mvar|.}*/
+  /*{\Mop returns an iterator to start iteration over all hull vertex 
+  of |\Mvar|. Remember that the hull is a simplicial complex.}*/
   Hull_vertex_iterator hull_vertices_end() 
   { return Hull_vertex_iterator(); }
   /*{\Mop the past the end iterator for hull vertices.}*/
 
+  Point_const_iterator points_begin() const { return all_pnts_.begin(); }
+  /*{\Mop returns the start iterator for all points that have been
+  inserted to construct |\Mvar|.}*/
+  Point_const_iterator points_end() const { return all_pnts_.end(); }
+  /*{\Mop returns the past the end iterator for all points.}*/
+
   Hull_point_const_iterator hull_points_begin() const
   { return Hull_point_const_iterator(hull_vertices_begin()); }
+  /*{\Mop returns an iterator to start iteration over all inserted 
+  points that are part of the convex hull |\Mvar|. Remember that the 
+  hull is a simplicial complex.}*/
   Hull_point_const_iterator hull_points_end() const
   { return Hull_point_const_iterator(hull_vertices_end()); }
+  /*{\Mop returns the past the end iterator for points of the hull.}*/
 
   Vertex_const_iterator vertices_begin() const 
   { return Base::vertices_begin(); }
@@ -1200,14 +1212,14 @@ Convex_hull_d<R>::insert(const Point_d& x)
                     associate_vertex_with_simplex(T,i,vertex_of_simplex(S,i)); 
                 }
                 if (k != dcur) 
-                  associate_vertex_with_simplex(T,k,vertex_of_simplex(S,dcur)); 
+                  associate_vertex_with_simplex(T,k,vertex_of_simplex(S,dcur));
                 associate_vertex_with_simplex(T,dcur,z); 
                 associate_vertex_with_simplex(T,0,anti_origin_); 
-                /* in the above, it is tempting to drop the tests ( i != k ) and ( k
-                   != dcur ) since the subsequent lines after will correct the
-                   erroneous assignment.  This reasoning is fallacious as the
-                   procedure assoc_vertex_with_simplex also the internal data of the
-                   third argument. */
+                /* in the above, it is tempting to drop the tests ( i != k ) 
+                   and ( k != dcur ) since the subsequent lines after will 
+                   correct the erroneous assignment.  This reasoning is 
+                   fallacious as the procedure assoc_vertex_with_simplex also 
+                   the internal data of the third argument. */
 
                 /* compute the equation of its base facet */
                 compute_equation_of_base_facet(T);

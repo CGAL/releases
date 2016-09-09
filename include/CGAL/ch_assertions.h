@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/ch_assertions.h
-// package       : Convex_hull_2 (3.21)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/25 12:26:18 $
+// package       : Convex_hull_2 (3.34)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/05 15:16:12 $
 // author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
 //
 // coordinator   : MPI, Saarbruecken
@@ -183,7 +181,7 @@
 #  define CGAL_ch_postcondition(EX) \
    ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_ch_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__,MSG))
 #  define CGAL_ch_postcondition_code(CODE) CODE
 #endif // CH_NO_POSTCONDITIONS
 
@@ -197,7 +195,7 @@
 #  define CGAL_ch_exactness_postcondition(EX) \
    ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_ch_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__,MSG))
 #  define CGAL_ch_exactness_postcondition_code(CODE) CODE
 #endif // CH_NO_POSTCONDITIONS
 
@@ -211,7 +209,7 @@
 #  define CGAL_ch_expensive_postcondition(EX) \
    ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_ch_expensive_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__,MSG))
 #  define CGAL_ch_expensive_postcondition_code(CODE) CODE
 #endif // CH_NO_POSTCONDITIONS
 
@@ -226,7 +224,7 @@
 #  define CGAL_ch_expensive_exactness_postcondition(EX) \
    ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_ch_expensive_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__,MSG))
 #  define CGAL_ch_expensive_exactness_postcondition_code(CODE) CODE
 #endif // CH_NO_POSTCONDITIONS
 

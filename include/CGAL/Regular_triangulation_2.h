@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,14 +28,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Regular_triangulation_2.h
-// package       : Triangulation_2 (5.18)
+// package       : Triangulation_2 (7.32)
 // source        : $RCSfile: Regular_triangulation_2.h,v $
-// revision      : $Revision: 1.33 $
-// revision_date : $Date: 2001/06/20 12:02:39 $
+// revision      : $Revision: 1.37 $
+// revision_date : $Date: 2002/03/01 09:20:55 $
 // author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
 //
 // coordinator   : Mariette Yvinec
@@ -56,7 +54,7 @@
 CGAL_BEGIN_NAMESPACE 
 
 template < class Gt, 
-           class Tds  = Triangulation_data_structure_using_list_2 <
+           class Tds  = Triangulation_data_structure_2 <
                         Triangulation_vertex_base_2<Gt>,
 		        Regular_triangulation_face_base_2<Gt> > >
 class Regular_triangulation_2 : public Triangulation_2<Gt,Tds>
@@ -391,7 +389,7 @@ affiche_tout()
 //DUALITY
 template < class Gt, class Tds >
 inline
-Regular_triangulation_2<Gt,Tds>::Point
+typename Regular_triangulation_2<Gt,Tds>::Point
 Regular_triangulation_2<Gt,Tds>::
 dual (Face_handle f) const
 {
@@ -400,7 +398,7 @@ dual (Face_handle f) const
 
 template < class Gt, class Tds >
 inline
-Regular_triangulation_2<Gt,Tds>::Point
+typename Regular_triangulation_2<Gt,Tds>::Point
 Regular_triangulation_2<Gt,Tds>::
 weighted_circumcenter(Face_handle f) const
 {
@@ -412,7 +410,7 @@ weighted_circumcenter(Face_handle f) const
 
 template<class Gt, class Tds>
 inline
-Regular_triangulation_2<Gt,Tds>::Point
+typename Regular_triangulation_2<Gt,Tds>::Point
 Regular_triangulation_2<Gt,Tds>::
 weighted_circumcenter(const Weighted_point& p0, 
 		      const Weighted_point& p1, 
@@ -438,7 +436,7 @@ dual(const Edge &e) const
     Weighted_point p = (e.first)->vertex(cw(e.second))->point();
     Weighted_point q = (e.first)->vertex(ccw(e.second))->point();
     Line l  = geom_traits().construct_radical_axis_2_object()(p,q);
-    return Object(new Wrapper< Line >(l));
+    return make_object(l);
   }
   
   // dimension==2
@@ -446,7 +444,7 @@ dual(const Edge &e) const
       (! is_infinite(e.first->neighbor(e.second))) ) {
     Segment s = geom_traits().construct_segment_2_object()
       (dual(e.first),dual(e.first->neighbor(e.second)));
-    return CGAL::Object(new CGAL::Wrapper< Segment >(s));
+    return make_object(s);
   } 
 
   // one of the adjacent face is infinite
@@ -463,7 +461,7 @@ dual(const Edge &e) const
   Direction d =
     geom_traits().construct_direction_of_line_2_object()(l);
   Ray r = geom_traits().construct_ray_2_object()(dual(f), d);
-  return CGAL::Object(new CGAL::Wrapper< Ray >(r));
+  return make_object(r);
 }
   
 
@@ -487,7 +485,7 @@ dual(const Finite_edges_iterator& ei) const
 
 //INSERTION-REMOVAL
 template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 push_back(const Weighted_point &p)
 {	
@@ -495,7 +493,7 @@ push_back(const Weighted_point &p)
 }
 
 template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 insert(const Weighted_point &p, Face_handle start)
 {
@@ -506,7 +504,7 @@ insert(const Weighted_point &p, Face_handle start)
 }
 
 template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 insert(const Weighted_point &p, Locate_type lt, Face_handle loc, int li) 
 {
@@ -548,7 +546,7 @@ insert(const Weighted_point &p, Locate_type lt, Face_handle loc, int li)
 }
 
 template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 insert_in_face(const Weighted_point &p, Face_handle f)
 {
@@ -560,7 +558,7 @@ insert_in_face(const Weighted_point &p, Face_handle f)
 }
 
 template < class Gt, class Tds >
-Regular_triangulation_2<Gt,Tds>::Vertex_handle
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 insert_in_edge(const Weighted_point &p, Face_handle f, const int i)
 {
@@ -675,8 +673,7 @@ remove_2D(Vertex_handle v)
     std::list<Edge> hole;
     make_hole(v, hole);
     fill_hole_regular(hole);
-    delete &(*v);
-    set_number_of_vertices(number_of_vertices()-1);
+    delete_vertex(v);
   }
   return;   
 }

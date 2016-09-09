@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian_converter.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/07/25 11:40:50 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/04/22 23:41:16 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -64,6 +62,9 @@ template < class K1, class K2,
 class Cartesian_converter
 {
 public:
+
+    Cartesian_converter()
+	: c(), k() {}
 
     typename K2::Point_2
     operator()(const typename K1::Point_2 &a) const

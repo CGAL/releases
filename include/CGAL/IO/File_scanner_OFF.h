@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/File_scanner_OFF.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/06/25 08:38:19 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2001/12/17 12:40:55 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // File scanner for an object in an object file format (OFF) file
 // email         : contact@cgal.org
@@ -463,29 +461,31 @@ public:
     void skip_to_next_facet( int current_facet);
 };
 
-template < class R> inline
-Point_3<R>&
-file_scan_vertex( File_scanner_OFF& scanner, Point_3<R>& p) {
-    typedef typename R::RT  RT;
+template < class Point> inline
+Point&
+file_scan_vertex( File_scanner_OFF& scanner, Point& p) {
+    typedef typename Point::R R;
+    typedef typename R::RT    RT;
     double x, y, z, w;
     scanner.scan_vertex( x, y, z, w);
     if ( w == 1)
-        p = Point_3<R>( RT(x), RT(y), RT(z));
+        p = Point( RT(x), RT(y), RT(z));
     else
-        p = Point_3<R>( RT(x), RT(y), RT(z), RT(w));
+        p = Point( RT(x), RT(y), RT(z), RT(w));
     return p;
 }
 
-template < class R> inline
-Vector_3<R>&
-file_scan_normal( File_scanner_OFF& scanner, Vector_3<R>& v) {
-    typedef typename R::RT  RT;
+template < class Vector> inline
+Vector&
+file_scan_normal( File_scanner_OFF& scanner, Vector& v) {
+    typedef typename Vector::R R;
+    typedef typename R::RT     RT;
     double x, y, z, w;
     scanner.scan_normal( x, y, z, w);
     if ( w == 1)
-        v = Vector_3<R>( RT(x), RT(y), RT(z));
+        v = Vector( RT(x), RT(y), RT(z));
     else
-        v = Vector_3<R>( RT(x), RT(y), RT(z), RT(w));
+        v = Vector( RT(x), RT(y), RT(z), RT(w));
     return v;
 }
 

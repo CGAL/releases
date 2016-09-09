@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Ray_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:49:53 $
-// author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// package       : _3 (3.31)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2002/01/23 12:30:09 $
+// author(s)     : Andreas Fabri, Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,54 +46,32 @@
 #ifndef CGAL_RAY_3_H
 #define CGAL_RAY_3_H
 
-#include <CGAL/Point_3.h>
-#include <CGAL/Direction_3.h>
-#include <CGAL/Line_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Ray_3 : public R_::Ray_3_base
+class Ray_3 : public R_::Kernel_base::Ray_3
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Point_3               Point_3;
+  typedef typename R_::Direction_3           Direction_3;
+  typedef typename R_::Kernel_base::Ray_3  RRay_3;
 public:
   typedef          R_                       R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Ray_3_base  RRay_3;
 
-  Ray_3() : RRay_3()
-  {}
+  Ray_3()
+      : RRay_3() {}
 
-  Ray_3(const CGAL::Ray_3<R>& r) : RRay_3(r)
-  {}
+  Ray_3(const CGAL::Ray_3<R>& r)
+      : RRay_3(r) {}
 
-  Ray_3(const RRay_3&  r) : RRay_3(r)
-  {}
+  Ray_3(const RRay_3& r)
+      : RRay_3(r) {}
 
-  Ray_3(const CGAL::Point_3<R>& sp, const CGAL::Point_3<R>& secondp)
-    : RRay_3(sp, secondp)
-  {}
+  Ray_3(const Point_3& sp, const Point_3& secondp)
+    : RRay_3(sp, secondp) {}
 
-  Ray_3(const CGAL::Point_3<R>& sp, const CGAL::Direction_3<R>& d)
-    : RRay_3(sp, d)
-  {}
-
-  CGAL::Point_3<R>     start() const
-  { return RRay_3::start(); }
-  CGAL::Point_3<R>     source() const
-  { return RRay_3::source(); }
-  CGAL::Point_3<R>     second_point() const
-  { return RRay_3::second_point(); }
-  CGAL::Point_3<R>     point(int i) const
-  { return RRay_3::point(i); }
-  CGAL::Direction_3<R> direction() const
-  { return RRay_3::direction(); }
-  CGAL::Line_3<R>      supporting_line() const
-  { return RRay_3::supporting_line(); }
-  CGAL::Ray_3<R>       opposite() const
-  { return RRay_3::opposite(); }
-  CGAL::Ray_3<R>       transform(const CGAL::Aff_transformation_3<R>& t) const
-  { return RRay_3::transform(t); }
+  Ray_3(const Point_3& sp, const Direction_3& d)
+    : RRay_3(sp, d) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_RAY_3
@@ -104,7 +79,7 @@ template < class R >
 std::ostream&
 operator<<(std::ostream& os, const Ray_3<R>& r)
 {
-  typedef typename  R::Ray_3_base  RRay_3;
+  typedef typename  R::Kernel_base::Ray_3  RRay_3;
   return os << static_cast<const RRay_3&>(r);
 }
 #endif // CGAL_NO_OSTREAM_INSERT_RAY_3
@@ -114,7 +89,7 @@ template < class R >
 std::istream&
 operator>>(std::istream& is, Ray_3<R>& r)
 {
-  typedef typename  R::Ray_3_base  RRay_3;
+  typedef typename  R::Kernel_base::Ray_3  RRay_3;
   return is >> static_cast<RRay_3&>(r);
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_RAY_3

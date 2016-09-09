@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 09
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Arrangement_2.h
-// package       : Arrangement (2.25)
+// package       : Arrangement (2.52)
 // author(s)     : Iddo Hanniel, 
 //                 Eti Ezra,
 //                 Shai Hirsch 
@@ -81,12 +79,9 @@
 #include <CGAL/IO/Arr_file_scanner.h>
 #endif // CGAL_IO_ARR_FILE_SCANNER_H
 
-
 #include <vector>
 
-
 CGAL_BEGIN_NAMESPACE
-
 
 template <class _Dcel, class _Traits, class Base_node>
 class Arrangement_2 {
@@ -98,13 +93,13 @@ public:
   typedef Planar_map_2<Dcel,Traits> Planar_map;
   typedef Pm_walk_along_line_point_location<Planar_map> WalkPL;
   typedef Planar_map_with_intersections_2<Planar_map> Pmwx;
-  typedef typename Pmwx::Pmwx_change_notification  Pmwx_change_notification;
+  typedef typename Pmwx::Change_notification  Change_notification;
 
   typedef Arrangement_2<_Dcel,_Traits,Base_node> Self;
 
-  typedef typename Traits::Point Point;
-  typedef typename Traits::X_curve X_curve;
-  typedef typename Traits::Curve Curve;
+  typedef typename Traits::Point   Point_2;
+  typedef typename Traits::X_curve X_curve_2;
+  typedef typename Traits::Curve   Curve_2;
    
   typedef typename Planar_map::Halfedge_handle Pm_halfedge_handle;
   typedef typename Planar_map::Face_handle Pm_face_handle;
@@ -117,10 +112,14 @@ public:
   
   typedef typename Dcel::iterator_category      iterator_category;
 
+  // Obsolete, for backward compatability
+  typedef Change_notification Pmwx_change_notification; 
+  typedef Point_2             Point;
+  typedef X_curve_2           X_curve;
+  typedef Curve_2             Curve;
 
   //for Action
   //typedef typename Traits::SPLIT_FUNC SPLIT_FUNC;
-  
 
   enum Locate_type { VERTEX=Planar_map::VERTEX,
                      EDGE=Planar_map::EDGE,
@@ -137,7 +136,6 @@ public:
   class Vertex;
   class Halfedge;
   class Face;
-
 
   ///////////////////////////////////////////////////////////////////////
   //          ITERATOR DEFINITIONS
@@ -265,10 +263,6 @@ public:
   Ccb_halfedge_const_circulator,
   Difference, std::bidirectional_iterator_tag>       Holes_const_iterator;
 
-
-
-
-
   //TREE NODES:
   //subcurve_node : Base_node + hides pointers - returns handles/iterators
   //curve_node : sub_curve_node + adds levels
@@ -277,9 +271,8 @@ public:
   ///////////////////////////////////////////////////////////////////////////
   //                         SUBCURVE_NODE
   ///////////////////////////////////////////////////////////////////////////
-
-  class Subcurve_node : public  Base_node,
-			public  In_place_list_base<Subcurve_node> 
+  class Subcurve_node : public Base_node,
+                        public In_place_list_base<Subcurve_node> 
   {
   public: 
     friend class Arrangement_2<Dcel,Traits,Base_node>;
@@ -305,6 +298,7 @@ public:
     Subcurve_iterator parent() { 
       return Subcurve_iterator(ftr); 
     }
+
     Subcurve_const_iterator parent() const { 
       return Subcurve_const_iterator(ftr);
     }
@@ -312,6 +306,7 @@ public:
     Subcurve_iterator children_begin() { 
       return Subcurve_iterator(begin_child); 
     }
+
     Subcurve_const_iterator children_begin() const { 
       return Subcurve_const_iterator(begin_child);
     }
@@ -319,6 +314,7 @@ public:
     Subcurve_iterator children_end() { 
       return Subcurve_iterator(past_end_child); 
     }
+
     Subcurve_const_iterator children_end() const { 
       return Subcurve_const_iterator(past_end_child);
     }
@@ -326,41 +322,42 @@ public:
     Curve_iterator curve_node() {
       Subcurve_node* curr=this;
       while (curr->ftr) 
-	curr=curr->ftr;
+        curr = curr->ftr;
       return Curve_iterator(curr);
     }
     Curve_const_iterator curve_node() const {
       const Subcurve_node* curr=this;
-      while (curr->ftr) 
-	curr=curr->ftr;
+      while (curr->ftr)
+        curr = curr->ftr;
       return Curve_const_iterator(curr);
     }
 
     Edge_iterator edges_begin() { 
       Subcurve_node* curr=this;
       while (!curr->is_edge_node()) 
-	curr=curr->begin_child;
+        curr = curr->begin_child;
       return Edge_iterator(curr); 
     }
     Edge_const_iterator edges_begin() const {
       const Subcurve_node* curr=this;
-      while (!curr->is_edge_node()) 
-	curr=curr->begin_child;
+     
+      while (!curr->is_edge_node())
+        curr = curr->begin_child;
       return Edge_const_iterator(curr);
     }
 
     Edge_iterator edges_end() { 
-      Subcurve_node* curr=this;
+      Subcurve_node * curr = this;
       while (!curr->is_edge_node())
-	//curr will never be a past_end_value:
-	curr=curr->past_end_child->prev_link; 
+        //curr will never be a past_end_value:
+        curr=curr->past_end_child->prev_link; 
 
       return Edge_iterator(curr->next_link);
     }
     Edge_const_iterator edges_end() const {
-      const Subcurve_node* curr=this;
+      const Subcurve_node * curr = this;
       while (!curr->is_edge_node()) 
-	curr=curr->past_end_child->prev_link;
+        curr=curr->past_end_child->prev_link;
       return Edge_const_iterator(curr->next_link);
     }
 
@@ -369,9 +366,9 @@ public:
 
   protected:  
 
-    Subcurve_node* ftr;
-    Subcurve_node* begin_child;
-    Subcurve_node* past_end_child;
+    Subcurve_node * ftr;
+    Subcurve_node * begin_child;
+    Subcurve_node * past_end_child;
   };
 
 
@@ -394,20 +391,20 @@ public:
       //push_in_edge_list below). if we want to implement a linear list
       //it needs to be removed (begin_child and past_end_child should then be
       //NULL)
-      begin_child=this;
-      past_end_child=this;
+      begin_child = this;
+      past_end_child = this;
     }
 
     ~Edge_node() {} //overrides the virtual dtr in Subcurve node
 
-    Halfedge_handle halfedge() {return hdg;}
-    Halfedge_const_handle halfedge() const {return hdg;}
+    Halfedge_handle halfedge() { return hdg; }
+    Halfedge_const_handle halfedge() const { return hdg; }
 
-    bool is_edge_node() const {return true;}
+    bool is_edge_node() const { return true; }
 
   private: //maybe protected
     //  void set_halfedge(Halfedge_const_handle h) {hdg=h;} 
-    void set_halfedge(Halfedge_handle h) {hdg=h;} 
+    void set_halfedge(Halfedge_handle h) { hdg = h; } 
 
   private:
     Halfedge_handle hdg;
@@ -467,7 +464,6 @@ public:
       return edge_level.end();
     }
 
-  
   private:
     std::vector<In_place_list<Subcurve_node,true> > levels;
     //level0 is the one beneath the root
@@ -489,24 +485,20 @@ public:
   public:
     typedef typename Planar_map::Vertex PmVertex;
 
-    Vertex() : PmVertex()
-    {}
-    
-  
-    Vertex(PmVertex *v) : PmVertex(*v) //can also be PmVertex(v)
-    {}
+    Vertex() : PmVertex() {}
 
+    //can also be PmVertex(v)
+    Vertex(PmVertex * v) : PmVertex(*v) {}
 
-    Vertex(PmVertex& v) : PmVertex(v) 
-    {}
+    Vertex(PmVertex & v) : PmVertex(v) {}
 
     bool is_incident_edge(Halfedge_const_handle e) const
     {
 #ifndef _MSC_VER
       return (PmVertex::is_incident_edge(e.current_iterator()));
 #else
-      return ( (static_cast<const PmVertex*>(this))->
-	       is_incident_edge(e.current_iterator()));
+      return ((static_cast<const PmVertex*>(this))->
+               is_incident_edge(e.current_iterator()));
 #endif
     }
 
@@ -515,8 +507,8 @@ public:
 #ifndef _MSC_VER
       return (PmVertex::is_incident_face(f.current_iterator()));      
 #else
-      return ( (static_cast<const PmVertex*>(this))->
-	       is_incident_face(f.current_iterator())); 
+      return ((static_cast<const PmVertex*>(this))->
+              is_incident_face(f.current_iterator())); 
 #endif
     }
     
@@ -530,11 +522,11 @@ public:
     {
 #ifndef _MSC_VER
       return Halfedge_around_vertex_circulator
-	(Halfedge_handle(PmVertex::incident_halfedges()));
+        (Halfedge_handle(PmVertex::incident_halfedges()));
 #else
       return Halfedge_around_vertex_circulator
-	(Halfedge_handle( (static_cast<PmVertex*>(this))->
-			  incident_halfedges()));
+        (Halfedge_handle((static_cast<PmVertex*>(this))->
+                         incident_halfedges()));
 #endif
     }
 
@@ -542,19 +534,15 @@ public:
     {
 #ifndef _MSC_VER
       return Halfedge_around_vertex_const_circulator
-	(Halfedge_const_handle(PmVertex::incident_halfedges()));
+        (Halfedge_const_handle(PmVertex::incident_halfedges()));
 #else
       return Halfedge_around_vertex_const_circulator
-	(Halfedge_const_handle( (static_cast<const PmVertex*>(this))->
-				incident_halfedges()));
+        (Halfedge_const_handle((static_cast<const PmVertex*>(this))->
+                               incident_halfedges()));
 #endif
 
     }
-    
-
   };
-
-
 
   ///////////////////////////////////////////////////////////////////////
   //                 HALFEDGE
@@ -566,10 +554,9 @@ public:
 
     typedef typename Planar_map::Halfedge PmHalfedge;
 
-    Halfedge() : Planar_map::Halfedge()
-    {}
+    Halfedge() : Planar_map::Halfedge() {}
 
-    Halfedge( typename Planar_map::Halfedge *e) : Planar_map::Halfedge(*e) {}
+    Halfedge(typename Planar_map::Halfedge *e) : Planar_map::Halfedge(*e) {}
 
     Halfedge(typename Planar_map::Halfedge& e) : Planar_map::Halfedge(e) {}
 
@@ -588,11 +575,11 @@ public:
       return Vertex_const_handle(PmHalfedge::source()); 
 #else
       return 
-	Vertex_const_handle( (static_cast<const PmHalfedge*>(this))->source());
+        Vertex_const_handle((static_cast<const PmHalfedge*>(this))->source());
 #endif
     }
     
-    Vertex_handle target()	
+    Vertex_handle target()
     {
 #ifndef _MSC_VER
       return Vertex_handle(PmHalfedge::target()); 
@@ -600,13 +587,13 @@ public:
       return Vertex_handle((static_cast<PmHalfedge*>(this))->target()); 
 #endif
     }
-    Vertex_const_handle target() const	
+    Vertex_const_handle target() const
     {
 #ifndef _MSC_VER
       return Vertex_const_handle(PmHalfedge::target());
 #else
       return 
-	Vertex_const_handle((static_cast<const PmHalfedge *>(this))->target());
+        Vertex_const_handle((static_cast<const PmHalfedge *>(this))->target());
 #endif
     }
     
@@ -615,7 +602,7 @@ public:
 #ifndef _MSC_VER
       return Face_handle(PmHalfedge::face());
 #else
-      return Face_handle( (static_cast<PmHalfedge*>(this))->face());
+      return Face_handle((static_cast<PmHalfedge*>(this))->face());
 #endif
     }
     Face_const_handle face() const
@@ -632,7 +619,7 @@ public:
 #ifndef _MSC_VER
       return Halfedge_handle(PmHalfedge::twin()); 
 #else
-      return Halfedge_handle( (static_cast<PmHalfedge*>(this))->twin()); 
+      return Halfedge_handle((static_cast<PmHalfedge*>(this))->twin()); 
 #endif
     }
     Halfedge_const_handle twin() const 
@@ -641,194 +628,199 @@ public:
       return Halfedge_const_handle(PmHalfedge::twin());
 #else
       return 
-	Halfedge_const_handle((static_cast<const PmHalfedge*>(this))->twin());
+        Halfedge_const_handle((static_cast<const PmHalfedge*>(this))->twin());
 #endif
-  }
+    }
     
-  Halfedge_handle next_halfedge() 
-  { 
+    Halfedge_handle next_halfedge() 
+    { 
 #ifndef _MSC_VER
-    return Halfedge_handle(PmHalfedge::next_halfedge() );
+      return Halfedge_handle(PmHalfedge::next_halfedge() );
 #else
-    return Halfedge_handle( (static_cast<PmHalfedge*>(this))->next_halfedge());
+      return
+        Halfedge_handle((static_cast<PmHalfedge*>(this))->next_halfedge());
 #endif
-  }
-  Halfedge_const_handle next_halfedge() const 
-  { 
+    }
+    Halfedge_const_handle next_halfedge() const 
+    { 
 #ifndef _MSC_VER
-    return Halfedge_const_handle(PmHalfedge::next_halfedge() );
+      return Halfedge_const_handle(PmHalfedge::next_halfedge() );
 #else
-    return Halfedge_const_handle( (static_cast<const PmHalfedge*>(this))->
-				  next_halfedge() );
+      return Halfedge_const_handle((static_cast<const PmHalfedge*>(this))->
+                                   next_halfedge());
 #endif
-  }
+    }
     
-    
-  Ccb_halfedge_circulator ccb()
-  { 
+    Ccb_halfedge_circulator ccb()
+    { 
 #ifndef _MSC_VER
-    return Ccb_halfedge_circulator(Halfedge_handle(PmHalfedge::ccb())); 
+      return Ccb_halfedge_circulator(Halfedge_handle(PmHalfedge::ccb())); 
 #else
-    return Ccb_halfedge_circulator(Halfedge_handle
-				   ((static_cast<PmHalfedge*>(this))->ccb())); 
+      return
+        Ccb_halfedge_circulator(Halfedge_handle
+                                ((static_cast<PmHalfedge*>(this))->ccb())); 
 #endif
-  }
-  Ccb_halfedge_const_circulator ccb() const
-  { 
+    }
+
+    Ccb_halfedge_const_circulator ccb() const
+    { 
 #ifndef _MSC_VER
-    return Ccb_halfedge_const_circulator
-      (Halfedge_const_handle(PmHalfedge::ccb()));
+      return
+        Ccb_halfedge_const_circulator
+          (Halfedge_const_handle(PmHalfedge::ccb()));
 #else
-    return Ccb_halfedge_const_circulator
-      (Halfedge_const_handle( (static_cast<const PmHalfedge *>(this))->ccb()));
+      return Ccb_halfedge_const_circulator
+        (Halfedge_const_handle((static_cast<const PmHalfedge *>(this))->
+                               ccb()));
+#endif
+    }
+  
+    Edge_iterator edge_node() {
+#ifndef _MSC_VER
+      return Edge_iterator
+        (Subcurve_iterator
+         (static_cast<Subcurve_node*>(PmHalfedge::edge_node())));
+#else
+      return Edge_iterator
+        (Subcurve_iterator
+         (static_cast<Subcurve_node*>
+          ((static_cast<PmHalfedge*>(this))->edge_node())));
+#endif
+    }
+
+    Edge_const_iterator edge_node() const {
+#ifndef _MSC_VER
+      return Edge_const_iterator
+        (Subcurve_const_iterator
+         (static_cast<const Subcurve_node*>(PmHalfedge::edge_node())));
+#else
+      return Edge_const_iterator
+        (Subcurve_const_iterator
+         (static_cast<const Subcurve_node*>
+          ((static_cast<const PmHalfedge*>(this))->edge_node())));
 #endif
   }
 
-     
-  Edge_iterator edge_node() {
-#ifndef _MSC_VER
-    return Edge_iterator
-      (Subcurve_iterator
-       ( static_cast<Subcurve_node*>(PmHalfedge::edge_node())));
-#else
-    return Edge_iterator
-      (Subcurve_iterator
-       ( static_cast<Subcurve_node*>
-	 ( (static_cast<PmHalfedge*>(this))->edge_node())));
-#endif
-  }
-  Edge_const_iterator edge_node() const {
-#ifndef _MSC_VER
-    return Edge_const_iterator
-      ( Subcurve_const_iterator
-	(static_cast<const Subcurve_node*>(PmHalfedge::edge_node())));
-#else
-    return Edge_const_iterator
-      (Subcurve_const_iterator
-       ( static_cast<const Subcurve_node*>
-	 ( ( static_cast<const PmHalfedge*>(this))->edge_node())));
-#endif
-  }
-  //workaround for MSVC
+    //workaround for MSVC
 
-  //Overlap traversal
-  Overlap_circulator overlap_edges() {
-    return Overlap_circulator(edge_node());
-  }
-  Overlap_const_circulator overlap_edges() const {
-    return Overlap_const_circulator(edge_node());
-  }
+    //Overlap traversal
+    Overlap_circulator overlap_edges() {
+      return Overlap_circulator(edge_node());
+    }
+
+    Overlap_const_circulator overlap_edges() const {
+      return Overlap_const_circulator(edge_node());
+    }
 
 
-  //the curve and set curve functions in the base classes 
-  //will be required to be blank. maybe thats a problem with
-  //other functions of the pm that we use here (check it out)
-  //is there a better solution ?
+    //the curve and set curve functions in the base classes 
+    //will be required to be blank. maybe thats a problem with
+    //other functions of the pm that we use here (check it out)
+    //is there a better solution ?
 
 protected: //(private?)
 #ifndef _MSC_VER
-  void set_edge_node(Edge_node* b) {PmHalfedge::set_edge_node(b);}
+    void set_edge_node(Edge_node* b) {PmHalfedge::set_edge_node(b);}
 #else 
-  void set_edge_node(Edge_node* b) { (static_cast<PmHalfedge*>(this))->
-				       set_edge_node(b);}
+    void set_edge_node(Edge_node* b)
+    { (static_cast<PmHalfedge*>(this))->set_edge_node(b); }
 #endif
      
 private:  
   //disallow this function - allowed only for an Edge_node
   //this overloading works for egcs, if doesn't work for other
   //compilers then this will be the only version .
-  void set_edge_node(Base_node* b) {PmHalfedge::set_edge_node(b);}
-    
-};
+    void set_edge_node(Base_node* b) {PmHalfedge::set_edge_node(b);}
+  };
 
-
-///////////////////////////////////////////////////////////////////
-//                   FACE
-//////////////////////////////////////////////////////////////////
-
-class Face : public Planar_map::Face
-{
+  ///////////////////////////////////////////////////////////////////
+  //                   FACE
+  //////////////////////////////////////////////////////////////////
+  class Face : public Planar_map::Face
+  {
 public:
 
-  typedef typename Planar_map::Face PmFace;
+    typedef typename Planar_map::Face PmFace;
 
 #ifndef _MSC_VER
-  // the following two typedefs are needed for compilation on irix64 (CC7.30)
-  typedef Arrangement_2<_Dcel,_Traits,Base_node>::Holes_iterator 
-  Holes_iterator; 
-  typedef Arrangement_2<_Dcel,_Traits,Base_node>::Holes_const_iterator 
-  Holes_const_iterator; 
+    // the following two typedefs are needed for compilation on irix64 (CC7.30)
+    typedef typename Arrangement_2<_Dcel,_Traits,Base_node>::Holes_iterator 
+    Holes_iterator; 
+    typedef typename
+    Arrangement_2<_Dcel,_Traits,Base_node>::Holes_const_iterator 
+    Holes_const_iterator; 
 #endif
 
-  Face() : PmFace()
-  {}
+    Face() : PmFace() {}
     
-  Face(PmFace *f) : PmFace(*f) {}
+    Face(PmFace *f) : PmFace(*f) {}
 
-  Face(PmFace& f) : PmFace(f) {} 
+    Face(PmFace& f) : PmFace(f) {} 
 
+    /* redundant - use inheritance 
+       bool is_unbounded() const  
+       {
+       // face is not bounded iff it has no outer boundary
+       return (dface::halfedge() == NULL);
+       }
+    */
 
-  /* redundant - use inheritance 
-     bool is_unbounded() const  
-     {
-     // face is not bounded iff it has no outer boundary
-     return (dface::halfedge() == NULL);
-     }
-  */
-
-  Holes_iterator holes_begin() 
-  {
+    Holes_iterator holes_begin() 
+    {
 #ifndef _MSC_VER
-    return Holes_iterator( PmFace::holes_begin());
+      return Holes_iterator(PmFace::holes_begin());
 #else
-    return Holes_iterator( (static_cast<PmFace*>(this))->holes_begin());
+      return Holes_iterator((static_cast<PmFace*>(this))->holes_begin());
 #endif
-  }
-  Holes_const_iterator holes_begin() const
-  {
+    }
+
+    Holes_const_iterator holes_begin() const
+    {
 #ifndef _MSC_VER
-    return Holes_const_iterator(PmFace::holes_begin());
+      return Holes_const_iterator(PmFace::holes_begin());
 #else
-    return 
-      Holes_const_iterator((static_cast<const PmFace *>(this))->holes_begin());
+      return 
+        Holes_const_iterator((static_cast<const PmFace *>(this))->
+                             holes_begin());
 #endif
-  }
+    }
     
-  Holes_iterator holes_end() 
-  {
+    Holes_iterator holes_end()
+    {
 #ifndef _MSC_VER
-    return Holes_iterator(PmFace::holes_end());
+      return Holes_iterator(PmFace::holes_end());
 #else
-    return Holes_iterator((static_cast<PmFace*>(this))->holes_end());
+      return Holes_iterator((static_cast<PmFace*>(this))->holes_end());
 #endif
-  }
-  Holes_const_iterator holes_end() const 
-  {
-#ifndef _MSC_VER
-    return Holes_const_iterator(PmFace::holes_end());
-#else
-    return 
-      Holes_const_iterator((static_cast<const PmFace *>(this))->holes_end());
-#endif
-  }
+    }
 
-  bool is_halfedge_on_inner_ccb(Halfedge_const_handle e) const
-  {
+    Holes_const_iterator holes_end() const 
+    {
 #ifndef _MSC_VER
-    return PmFace::is_halfedge_on_inner_ccb(e.current_iterator());
+      return Holes_const_iterator(PmFace::holes_end());
 #else
-    return (static_cast<const PmFace*>(this))->
-      is_halfedge_on_inner_ccb(e.current_iterator());
+      return 
+        Holes_const_iterator((static_cast<const PmFace *>(this))->holes_end());
 #endif
-  }
-    
-  bool is_halfedge_on_outer_ccb(Halfedge_const_handle e) const
-  {
+    }
+
+    bool is_halfedge_on_inner_ccb(Halfedge_const_handle e) const
+    {
 #ifndef _MSC_VER
-    return PmFace::is_halfedge_on_outer_ccb(e.current_iterator());
+      return PmFace::is_halfedge_on_inner_ccb(e.current_iterator());
 #else
-    return (static_cast<const PmFace*>(this))->
-      is_halfedge_on_outer_ccb(e.current_iterator());
+      return (static_cast<const PmFace*>(this))->
+        is_halfedge_on_inner_ccb(e.current_iterator());
+#endif
+    }
+    
+    bool is_halfedge_on_outer_ccb(Halfedge_const_handle e) const
+    {
+#ifndef _MSC_VER
+      return PmFace::is_halfedge_on_outer_ccb(e.current_iterator());
+#else
+      return (static_cast<const PmFace*>(this))->
+        is_halfedge_on_outer_ccb(e.current_iterator());
 #endif
   }
       
@@ -839,121 +831,140 @@ public:
     return PmFace::does_outer_ccb_exist();
     }*/
     
-  Halfedge_handle halfedge_on_outer_ccb() 
-  {
-#ifndef _MSC_VER	
-    typename Planar_map::Halfedge_handle pmh=PmFace::halfedge_on_outer_ccb();
+    Halfedge_handle halfedge_on_outer_ccb() 
+    {
+#ifndef _MSC_VER
+      typename Planar_map::Halfedge_handle pmh=PmFace::halfedge_on_outer_ccb();
+#else
+      //workaround for MSVC, it doesn't accept the above 
+      typename Planar_map::Halfedge_handle pmh = 
+        (static_cast<typename Planar_map::Face*>(this))->
+          halfedge_on_outer_ccb();
+#endif
+      return Halfedge_handle(pmh);
+    }
+
+    Halfedge_const_handle halfedge_on_outer_ccb() const 
+    {
+#ifndef _MSC_VER
+      typename Planar_map::Halfedge_const_handle pmh =
+        PmFace::halfedge_on_outer_ccb();
 #else
     //workaround for MSVC, it doesn't accept the above 
-    typename Planar_map::Halfedge_handle pmh = 
-      (static_cast<typename Planar_map::Face*>(this))->halfedge_on_outer_ccb();
+      typename Planar_map::Halfedge_const_handle pmh = 
+        (static_cast<const typename Planar_map::Face*>(this))->
+          halfedge_on_outer_ccb();
 #endif
-    return Halfedge_handle(pmh);
-  }
+      return Halfedge_const_handle(pmh); 
+    }
 
-  Halfedge_const_handle halfedge_on_outer_ccb() const 
-  {
-#ifndef _MSC_VER	
-    typename Planar_map::Halfedge_const_handle pmh =
-      PmFace::halfedge_on_outer_ccb();
-#else
-    //workaround for MSVC, it doesn't accept the above 
-    typename Planar_map::Halfedge_const_handle pmh = 
-      (static_cast<const typename Planar_map::Face*>(this))->
-      halfedge_on_outer_ccb();
-#endif
-    return Halfedge_const_handle(pmh); 
-  }
+    Ccb_halfedge_circulator outer_ccb() 
+    {
+      return (halfedge_on_outer_ccb())->ccb();
+    }
 
-  Ccb_halfedge_circulator outer_ccb() 
-  {
-    return (halfedge_on_outer_ccb())->ccb();
-  }
-  Ccb_halfedge_const_circulator outer_ccb() const
-  {
-    return (halfedge_on_outer_ccb())->ccb();
-  }
+    Ccb_halfedge_const_circulator outer_ccb() const
+    {
+      return (halfedge_on_outer_ccb())->ccb();
+    }
+  };
 
-};
-
-
-
-
-
-//////////////////////////////////////////////////////////
-//                  ARRANGEMENT 2
-///////////////////////////////////////////////////////////
-
+  //////////////////////////////////////////////////////////
+  //                  ARRANGEMENT 2
+  ///////////////////////////////////////////////////////////
   
 public:
 
-//in future need to arrange for the pl to be an Arr_pl, 
-//and public for the arrangement
-/*
+  //in future need to arrange for the pl to be an Arr_pl, 
+  //and public for the arrangement
+  /*
   //for the first public release we use the default ctr below (with walk pl) -
   //currently it is faster
   Arrangement_2(const Traits& tr=Traits()) : traits(tr), pm(tr), 
   //do_update(true) {
   last_updated=curve_node_end();  
   }
-*/
+  */
 
-//default ctr with the walk as default point location
-Arrangement_2() : pm(Traits(), new WalkPL), do_update(true)
-{ 
-  //new Traits_wrap(tr)
-  last_updated=curve_node_end();  
-  use_delete_pl=true; //a bool flag for dtr
-  traits = (Traits_wrap *)(&pm.get_traits());
-  use_delete_traits = false;
-}
+  //default ctr with the walk as default point location
+  Arrangement_2() : pm(Traits(), new WalkPL), do_update(true)
+  { 
+    //new Traits_wrap(tr)
+    last_updated=curve_node_end();  
+    use_delete_pl=true; //a bool flag for dtr
+    traits = (Traits_wrap *)(&pm.get_traits());
+    use_delete_traits = false;
+  }
 
+  Arrangement_2(const Traits& tr, Pm_point_location_base<Planar_map> * pl_ptr)
+    : pm(Traits(), pl_ptr), do_update(true) 
+  { 
+    last_updated=curve_node_end();  
+    use_delete_pl = false; //a bool flag for dtr
+    traits = (Traits_wrap *)(&pm.get_traits());
+    use_delete_traits = false;
+  }
 
-Arrangement_2(const Traits& tr, Pm_point_location_base<Planar_map> *pl_ptr) 
-  : pm(Traits(), pl_ptr), do_update(true) 
-{ 
-  last_updated=curve_node_end();  
-  use_delete_pl=false; //a bool flag for dtr
-  traits = (Traits_wrap *)(&pm.get_traits());
-  use_delete_traits = false;
-}
+  Arrangement_2(Pm_point_location_base<Planar_map> * pl_ptr) 
+    : pm(pl_ptr), do_update(true) 
+  {
+    last_updated = curve_node_end();  
 
+    use_delete_pl=false;
+    traits = (Traits_wrap *)(&pm.get_traits());
+    use_delete_traits = false;
+  }
 
-Arrangement_2(Pm_point_location_base<Planar_map> *pl_ptr) 
-  : pm(pl_ptr), do_update(true) 
-{
-  last_updated=curve_node_end();  
+  /*! Copy constructor.
+   */
+  Arrangement_2(const Self & arr) : pm(arr.pm), do_update(true) 
+  {
+    last_updated = curve_node_end();  
+  
+    use_delete_pl = false; //a bool flag for dtr
 
-  use_delete_pl=false;
-  traits = (Traits_wrap *)(&pm.get_traits());
-  use_delete_traits = false;
-}
+    // these traits is the newly allocated traits for pm.
+    traits = (Traits_wrap *)(&pm.get_traits());
+    use_delete_traits = false;
 
-/*
-Arrangement_2(Traits_wrap *tr_ptr, Pm_point_location_base<Self> *pl_ptr) 
-  : pm(tr_ptr, pl_ptr, NULL), do_update(true)
-{
-  last_updated=curve_node_end();  
-  traits = (Traits_wrap *)(&pm.get_traits());
-  use_delete_pl = false;
-  use_delete_traits = false;
-}
-*/
+    copy_hierarchy_tree(arr);
+  }
 
-~Arrangement_2()   //dtr needs to delete the walk
-{
-  if (use_delete_pl)
-    //casting away the constness before deletion :
-    delete( const_cast<Pm_point_location_base<Planar_map>*> 
-	    (pm.get_point_location())); 
-  if (use_delete_traits)
-    delete traits;
-}
+  /*
+    Arrangement_2(Traits_wrap * tr_ptr, Pm_point_location_base<Self> * pl_ptr) 
+      : pm(tr_ptr, pl_ptr, NULL), do_update(true)
+    {
+      last_updated=curve_node_end();  
+      traits = (Traits_wrap *)(&pm.get_traits());
+      use_delete_pl = false;
+      use_delete_traits = false;
+    }
+  */
+
+  /*! Destructor
+   * need to delete the walk
+   */
+  ~Arrangement_2()
+  {
+    if (use_delete_pl)
+      //casting away the constness before deletion :
+      delete(const_cast<Pm_point_location_base<Planar_map>*> 
+             (pm.get_point_location())); 
+    if (use_delete_traits)
+      delete traits;
+  }
+
+  Self & operator=(const Self & arr)
+  {
+    pm = arr.pm;
+    copy_hierarchy_tree(arr);
+    return *this;
+  }
 
 /////////////////////////////////////////////////////////////////////////////
 //                  Reading Arrangement functions. 
 ////////////////////////////////////////////////////////////////////////////
-bool read (std::istream &in)
+bool read (std::istream & in)
 {
   clear();
 
@@ -1051,35 +1062,39 @@ Size number_of_vertices() const
   return pm.number_of_vertices();
 }
 
+Size number_of_curve_nodes() const 
+{
+  return curve_list.size();
+}
+
 Face_handle unbounded_face() {return Face_handle(pm.unbounded_face());}
 Face_const_handle unbounded_face() const {
   return Face_const_handle(pm.unbounded_face());
 }
 
-// checks validity of planar map and of arrangement's hierarchy tree structures
+//checks validity of planar map and of arrangement's hierarchy tree structures
 bool is_valid(bool verbose = false) const
 {
-
   CGAL::Verbose_ostream verr(verbose);
   //std::ostream& verr = std::cerr;
   bool         valid = true;
-
+  
   verr << std::endl;
   verr << "CGAL::Arrangment_2<Decl, Traits, Base_Node>::";
   verr << "is_valid( true ):" << std::endl;
-
+  
   // Planar Map Check
   verr << "a) planar_map check... " << std::endl;
   if (pm.is_valid())
     verr << "passed." << std::endl;
   else
     valid = false;
-
+  
   // Check each Curve Hierarchy tree
   Curve_const_iterator    cit;
   Edge_const_iterator     eit;
   Subcurve_const_iterator sit, child_it, parent_it;
-
+  
   unsigned curve_counter = 1;
   bool
     curve_node_curve_node          = true,
@@ -1094,8 +1109,11 @@ bool is_valid(bool verbose = false) const
     subcurve_edges_curve_node      = true,
     subcurve_edges_parent          = true,
     level_structure_ok             = true,
-    not_curve_node;
-
+    not_curve_node, 
+    circ_curve_is_next_curve       = true,
+    circ_curve_is_halfedge_curve   = true,
+    edge_curve_is_halfedge_curve   = true;
+  
   verr << "b) hierarchy tree check:" << std::endl;
   // for each curve tree
   for (cit = curve_node_begin(); cit != curve_node_end(); 
@@ -1107,7 +1125,7 @@ bool is_valid(bool verbose = false) const
     // is_edge_node() should return false for a Curve_node
     curve_node_is_edge_node &= (cit->is_edge_node() == false);
     
-    // curve_node() should point at this current curve
+   // curve_node() should point at this current curve
     curve_node_curve_node &= (cit->curve_node() == cit);
     
     // parent() should return NULL
@@ -1117,13 +1135,13 @@ bool is_valid(bool verbose = false) const
     sit = cit->children_begin();
     for (;sit != cit->children_end(); sit++)
       {
-	curve_node_children_curve_node &= (sit->curve_node() == cit);
-	
-	//parent() always returns Subcurve_iterator while cit is of type
-	// Curve_iterator. to check that a child's parent indeed points at cit
-	// I use the following combined test
-	curve_node_children_parent &= (sit->parent()->parent() == NULL &&
-				       sit->parent()->curve_node() == cit);  
+        curve_node_children_curve_node &= (sit->curve_node() == cit);
+
+        //parent() always returns Subcurve_iterator while cit is of type
+        // Curve_iterator. to check that a child's parent indeed points at cit
+        // I use the following combined test
+        curve_node_children_parent &= (sit->parent()->parent() == NULL &&
+                                       sit->parent()->curve_node() == cit);  
       }
     
     // check edges properties
@@ -1131,10 +1149,28 @@ bool is_valid(bool verbose = false) const
     eit = cit->edges_begin();
     for (;eit != cit->edges_end(); eit++) // for each edge
       {
-	// is_edge_node() should return true for an edge node 
-	edge_is_edge_node &= (eit->is_edge_node() == true);
-	// edged mutual reference check
-	edge_node_curve_node &= eit->curve_node() == cit;
+        // is_edge_node() should return true for an edge node 
+        edge_is_edge_node &= (eit->is_edge_node() == true);
+        // edged mutual reference check
+        edge_node_curve_node &= eit->curve_node() == cit;
+        
+        // checking the vaildity of overlappings.
+        Overlap_const_circulator ovlp_circ = eit->halfedge()->overlap_edges();
+        
+        edge_curve_is_halfedge_curve &= 
+          (traits->curve_is_same(eit->curve(), eit->halfedge()->curve()));
+
+        do{
+          Overlap_const_circulator next = ovlp_circ;
+          ++next;
+          
+          circ_curve_is_next_curve &= 
+            traits->curve_is_same(ovlp_circ->curve(), next->curve());
+          circ_curve_is_halfedge_curve &= 
+            (traits->curve_is_same(ovlp_circ->curve(),
+                                   eit->halfedge()->curve()));
+          
+        } while (++ovlp_circ != eit->halfedge()->overlap_edges());
       }
     
     // check subcurves properties
@@ -1143,139 +1179,152 @@ bool is_valid(bool verbose = false) const
     levels = cit->number_of_sc_levels();
     if (levels > 0)
       {
-	for (i = 0; i < levels; i++)
-	  {
-	    sit = cit->level_begin(i);
-	    // check that level i is indeed i deep in this tree
-	    // go up to curve node i times, expect not too find parent
-	    // not too soon, not too late
-	    int j;
-	    for (j = i, not_curve_node = true, parent_it = sit;
-		 j >= 0 && not_curve_node;
-		 j--, parent_it = parent_it->parent())
-	      {
-		// parent found too soon?
-		if (parent_it->parent() == NULL) not_curve_node = false;
-	      }
-	    level_structure_ok &= not_curve_node;
+        for (i = 0; i < levels; i++)
+          {
+            sit = cit->level_begin(i);
+            // check that level i is indeed i deep in this tree
+            // go up to curve node i times, expect not too find parent
+            // not too soon, not too late
+            int j;
+            for (j = i, not_curve_node = true, parent_it = sit;
+                 j >= 0 && not_curve_node;
+                 j--, parent_it = parent_it->parent())
+              {
+                // parent found too soon?
+                if (parent_it->parent() == NULL) not_curve_node = false;
+              }
+            level_structure_ok &= not_curve_node;
 
-	    // parent found too late :
-	    level_structure_ok &= (parent_it->parent()==NULL); 
-	    // for each subcurve in level i
-	    for (;sit != cit->level_end(i) ; sit++)
-	      {
-		// is_edge_node() should return false for a Subcurve_node
-		subcurve_is_edge_node &= (sit->is_edge_node() == false);
-		
-		// subcurve - curve check 
-		subcurve_curve_node &= (sit->curve_node() == cit);
+            // parent found too late :
+            level_structure_ok &= (parent_it->parent()==NULL); 
+            // for each subcurve in level i
+            for (;sit != cit->level_end(i) ; sit++)
+              {
+                // is_edge_node() should return false for a Subcurve_node
+                subcurve_is_edge_node &= (sit->is_edge_node() == false);
+                
+                // subcurve - curve check 
+                subcurve_curve_node &= (sit->curve_node() == cit);
 
-		// subcurve - edge check 
-		eit = sit->edges_begin();
-		for (;eit != sit->edges_end(); eit++)
-		  {
-		    // ADD CHECK TO PARENT() !!
-		    subcurve_edges_curve_node &= eit->curve_node() == cit;
-		  }
+                // subcurve - edge check 
+                eit = sit->edges_begin();
+                for (;eit != sit->edges_end(); eit++)
+                  {
+                    // ADD CHECK TO PARENT() !!
+                    subcurve_edges_curve_node &= eit->curve_node() == cit;
+                  }
 
-		child_it = sit->children_begin();
-		for (;child_it != sit->children_end(); child_it++)
-		  {
-		    // ADD CHECK TO PARENT() !!
-		    subcurve_edges_parent &= (child_it->parent() == sit);
-		  }
-	      } // for (;sit != ...
-	  } // for (i = 0 ...
-      } // if
-  }
-  verr << std::endl;
-  verr << "let cn denote the root Curve_node of the ";
-  verr << "arrangement hierarchy tree," << std::endl;
-  verr << "    sn denote a Subcurve_node in that tree," << std::endl;
-  verr << "and en denote an Edge_node in that tree." << std::endl;
-  verr << "(&x stands for an iterator that points at x)" << std::endl;
+                child_it = sit->children_begin();
+                for (;child_it != sit->children_end(); child_it++)
+                  {
+                    // ADD CHECK TO PARENT() !!
+                    subcurve_edges_parent &= (child_it->parent() == sit);
+                  }
+              } // for (;sit != ...
+          } // for (i = 0 ...
+     } // if
+ }
+ verr << std::endl;
+ verr << "let cn denote the root Curve_node of the ";
+ verr << "arrangement hierarchy tree," << std::endl;
+ verr << "    sn denote a Subcurve_node in that tree," << std::endl;
+ verr << "and en denote an Edge_node in that tree." << std::endl;
+ verr << "(&x stands for an iterator that points at x)" << std::endl;
   
-  verr << std::endl;
-  verr << "Curve checks:" << std::endl;
-  verr << "for all cn : cn.is_edge_node() == false                 ---";
-  verr << (curve_node_is_edge_node ? "PASS" : "FAIL") << std::endl;
+ verr << std::endl;
+ verr << "Curve checks:" << std::endl;
+ verr << "for all cn : cn.is_edge_node() == false                        ---";
+ verr << (curve_node_is_edge_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all cn : cn.curve_node() == &cn                     ---";
-  verr << (curve_node_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for all cn : cn.curve_node() == &cn                            ---";
+ verr << (curve_node_curve_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all cn : cn.parent() == NULL                        ---";
-  verr << (curve_node_null_parent ? "PASS" : "FAIL") << std::endl;
+ verr << "for all cn : cn.parent() == NULL                               ---";
+ verr << (curve_node_null_parent ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all children ch of cn : ch.curve_node_node() == &cn ---";
-  verr << (curve_node_children_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for all children ch of cn : ch.curve_node_node() == &cn        ---";
+ verr << (curve_node_children_curve_node ? "PASS" : "FAIL") << std::endl;
 
-  verr << "for all children ch of cn : ch.parent() is indeed cn    ---";
-  verr << ( curve_node_children_parent ? "PASS" : "FAIL") << std::endl;
+ verr << "for all children ch of cn : ch.parent() is indeed cn           ---";
+ verr << (curve_node_children_parent ? "PASS" : "FAIL") << std::endl;
 
-  verr << "level i is indeed i deep in tree                        ---";
-  verr << ( level_structure_ok ? "PASS" : "FAIL") << std::endl;
+ verr << "level i is indeed i deep in tree                               ---";
+ verr << (level_structure_ok ? "PASS" : "FAIL") << std::endl;
 
-  verr << std::endl;
-  verr << "Subcurve checks:" << std::endl;
-  verr << "for all sn : sn.is_edge_node() == false                 ---";
-  verr << (subcurve_is_edge_node ? "PASS" : "FAIL") << std::endl;
+ verr << std::endl;
+ verr << "Subcurve checks:" << std::endl;
+ verr << "for all sn : sn.is_edge_node() == false                        ---";
+ verr << (subcurve_is_edge_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all sn : sn->curve_node() == &cn                    ---";
-  verr << (subcurve_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for all sn : sn->curve_node() == &cn                           ---";
+ verr << (subcurve_curve_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all en in an sn subtree: en->curve_node() == &cn    ---";
-  verr << (subcurve_edges_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for all en in an sn subtree: en->curve_node() == &cn           ---";
+ verr << (subcurve_edges_curve_node ? "PASS" : "FAIL") << std::endl;
 
-  verr << "for each child ch of sn : ch->parent() == &sn           ---";
-  verr << (subcurve_edges_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for each child ch of sn : ch->parent() == &sn                  ---";
+ verr << (subcurve_edges_curve_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << std::endl;
-  verr << "Edge checks:" << std::endl;
-  verr << "for all en : en.is_edge_node() == true                  ---";
-  verr << (edge_is_edge_node ? "PASS" : "FAIL") << std::endl;
+ verr << std::endl;
+ verr << "Edge checks:" << std::endl;
+ verr << "for all en : en.is_edge_node() == true                          ---";
+ verr << (edge_is_edge_node ? "PASS" : "FAIL") << std::endl;
   
-  verr << "for all en : en->curve_node() == &cn                    ---";
-  verr << (edge_node_curve_node ? "PASS" : "FAIL") << std::endl;
+ verr << "for all en : en->curve_node() == &cn                            ---";
+ verr << (edge_node_curve_node ? "PASS" : "FAIL") << std::endl;
 
-  valid =
-    valid                          &
-    curve_node_curve_node          &
-    curve_node_is_edge_node        &
-    curve_node_null_parent         &
-    curve_node_children_parent     &
-    curve_node_children_curve_node &
-    edge_is_edge_node              &
-    edge_node_curve_node           &
-    subcurve_is_edge_node          &
-    subcurve_curve_node            &
-    subcurve_edges_curve_node      &
-    subcurve_edges_parent          &
-    level_structure_ok;
+ verr << "for all en : en->curve() == en->halfedge()->curve()             ---";
+ verr << (edge_curve_is_halfedge_curve  ? "PASS" : "FAIL") << std::endl;
+  
+ verr << "for all en : all overlapping circulators have the same curve    ---";
+ verr << (circ_curve_is_next_curve ? "PASS" : "FAIL") << std::endl;
+
+ verr << "for all en : all circulators curves == en->halfedge()->curve()  ---";
+ verr << (circ_curve_is_halfedge_curve ? "PASS" : "FAIL") << std::endl;
+
+
+ valid =
+   valid                          &
+   curve_node_curve_node          &
+   curve_node_is_edge_node        &
+   curve_node_null_parent         &
+   curve_node_children_parent     &
+   curve_node_children_curve_node &
+   edge_is_edge_node              &
+   edge_node_curve_node           &
+   subcurve_is_edge_node          &
+   subcurve_curve_node            &
+   subcurve_edges_curve_node      &
+   subcurve_edges_parent          &
+   level_structure_ok             &
+   edge_curve_is_halfedge_curve   &
+   circ_curve_is_next_curve       & 
+   circ_curve_is_halfedge_curve;
    
-  // Final Result
-  verr << std::endl;
-  if (valid)
-    verr << " object is valid! " << std::endl;
-  else
-    verr << "object is INVALID!" << std::endl;
-  verr <<   "------------------" << std::endl;
+ // Final Result
+ verr << std::endl;
+ if (valid)
+   verr << " object is valid! " << std::endl;
+ else
+   verr << "object is INVALID!" << std::endl;
+ verr <<   "------------------" << std::endl;
 
-  return valid;
+ return valid;
 }
 
 ///////////////////////////////////////////////////////////////////
 //               INSERTION FUNCTIONS
-Curve_iterator insert_from_vertex(const typename Traits::Curve& cv, 
-				  Vertex_handle src,
-				   Pmwx_change_notification *en = NULL)
+Curve_iterator insert_from_vertex(const Curve_2       & cv, 
+                                  Vertex_handle         src,
+                                  Change_notification * en = NULL)
 {
-  CGAL_precondition( traits->point_is_same( src->point(), 
-					    traits->curve_source( cv)));
+  CGAL_precondition(traits->point_is_same(src->point(), 
+                                          traits->curve_source(cv)));
 
-  CGAL_precondition( ! traits->point_is_same( traits->curve_source( cv),
-					      traits->curve_target( cv)) ||
-		     ! traits->is_x_monotone( cv));
-		 
+  CGAL_precondition(!traits->point_is_same(traits->curve_source(cv),
+                                           traits->curve_target(cv)) ||
+                    !traits->is_x_monotone(cv));
+
   //either add Arr to pm as friend class or make public functions
   Curve_node* cn= new Curve_node;
   cn->set_curve(cv);
@@ -1311,10 +1360,10 @@ Curve_iterator insert_from_vertex(const typename Traits::Curve& cv,
       for (; scit!=cn->levels[0].end(); ++scit) {
         Arr_hierarchy_ops aho(this, edge_list, &(*scit), en);
         Halfedge_handle h = pm.insert_from_vertex
-	  ( scit->curve(), curr_v.current_iterator(), &aho);
-	curr_v = h->target();          // vertex for next insertion
+          (scit->curve(), curr_v.current_iterator(), &aho);
+        curr_v = h->target();          // vertex for next insertion
         scit->begin_child=&(*(edge_list.begin()));
-	//add edge_list at end of edge_level :
+        //add edge_list at end of edge_level :
         cn->edge_level.splice(cn->edge_level.end(),edge_list); 
       }
       
@@ -1351,13 +1400,13 @@ Curve_iterator insert_from_vertex(const typename Traits::Curve& cv,
 }
 
 
-Curve_iterator insert(const typename Traits::Curve& cv,
-		      Pmwx_change_notification *en = NULL) 
+Curve_iterator insert(const Curve_2       & cv,
+                      Change_notification * en = NULL) 
 {
   
-  CGAL_precondition( ! traits->point_is_same( traits->curve_source( cv),
-					      traits->curve_target( cv)) ||
-		     ! traits->is_x_monotone( cv));
+  CGAL_precondition(!traits->point_is_same(traits->curve_source(cv),
+                                           traits->curve_target(cv)) ||
+                    !traits->is_x_monotone(cv));
   
   //either add Arr to pm as friend class or make public functions
   Curve_node* cn= new Curve_node;
@@ -1391,22 +1440,22 @@ Curve_iterator insert(const typename Traits::Curve& cv,
 
       Vertex_handle curr_v;
       Halfedge_handle h;
-      bool first_insert( true);
+      bool first_insert(true);
       Subcurve_iterator scit=cn->levels[0].begin();
       In_place_list<Subcurve_node,true> edge_list;    
       for (; scit!=cn->levels[0].end(); ++scit) {
-	Arr_hierarchy_ops aho(this, edge_list, &(*scit), en);
-	if (first_insert) {
-	  h = pm.insert(scit->curve(), &aho);
-	  first_insert = false;
-	}
-	else {
-	  h = pm.insert_from_vertex( scit->curve(), 
-				     curr_v.current_iterator(), &aho);
-	}
-	curr_v = h->target();       // vertex for next insertion
-	scit->begin_child=&(*(edge_list.begin()));
-	//add edge_list at end of edge_level :
+        Arr_hierarchy_ops aho(this, edge_list, &(*scit), en);
+        if (first_insert) {
+          h = pm.insert(scit->curve(), &aho);
+          first_insert = false;
+        }
+        else {
+          h = pm.insert_from_vertex(scit->curve(), 
+                                    curr_v.current_iterator(), &aho);
+        }
+        curr_v = h->target();       // vertex for next insertion
+        scit->begin_child=&(*(edge_list.begin()));
+        //add edge_list at end of edge_level :
         cn->edge_level.splice(cn->edge_level.end(),edge_list); 
       }
       
@@ -1446,10 +1495,10 @@ Curve_iterator insert(const typename Traits::Curve& cv,
 //   insertion with user defined intersection functions
 
 template <class F_iterator>
-Curve_iterator insert(const typename Traits::Curve& cv,
-                      F_iterator F_begin,
-                      F_iterator F_end,
-		      Pmwx_change_notification *en = NULL) 
+Curve_iterator insert(const Curve_2         & cv,
+                      F_iterator            F_begin,
+                      F_iterator            F_end,
+                      Change_notification * en = NULL) 
 {
   if (F_begin==F_end)
     return insert(cv); //if list is empty return the regular insert function
@@ -1473,13 +1522,12 @@ Curve_iterator insert(const typename Traits::Curve& cv,
   cn->levels.push_back(In_place_list<Subcurve_node,true>());
 
   //cut cv into curves and insert them into l
-  std::list<Curve> c_list;
-  //std::list<CGAL_TYPENAME_MSVC_NULL Traits::Curve> c_list;
+  std::list<Curve_2> c_list;
 
   (*(*F_begin))(cv,c_list); 
   ++F_begin;
   
-  typename std::list<Curve>::iterator lit=c_list.begin();
+  typename std::list<Curve_2>::iterator lit=c_list.begin();
   for (; lit!=c_list.end(); ++lit) {
     Subcurve_node* scn=new Subcurve_node;
     scn->ftr=cn;
@@ -1498,15 +1546,15 @@ Curve_iterator insert(const typename Traits::Curve& cv,
     Subcurve_iterator scit=cn->levels[i-1].begin();
     for (; scit!=cn->levels[i-1].end(); ++scit) {
       //cut cv into curves and insert them into l
-      std::list<Curve> c_list;
+      std::list<Curve_2> c_list;
       (*(*F_begin))(scit->curve(),c_list);  //split the curve
 
       Subcurve_iterator aux=cn->levels[i].end();
       if (!cn->levels[i].empty()) {
-	--aux; 
+        --aux; 
       }
 
-      typename std::list<Curve>::iterator lit=c_list.begin();
+      typename std::list<Curve_2>::iterator lit=c_list.begin();
       for (; lit!=c_list.end(); ++lit) {
         Subcurve_node* scno=new Subcurve_node;
         scno->ftr=&(*scit); 
@@ -1574,20 +1622,20 @@ Curve_iterator insert(const typename Traits::Curve& cv,
 //add a new edge_node after e->edge_node(), split the edge in the pm,
 //update the curves and halfedge pointers in the nodes and halfedges
 void handle_split_edge(Pm_halfedge_handle orig_edge, 
-		       Pm_halfedge_handle new_edge,
-		       const typename Traits::X_curve& c1,
-		       const typename Traits::X_curve& c2)
+                       Pm_halfedge_handle new_edge,
+                       const typename Traits::X_curve& c1,
+                       const typename Traits::X_curve& c2)
 {
   Halfedge_handle e = orig_edge;
   Edge_iterator eit=e->edge_node();
   Curve_iterator cit=eit->curve_node();
-	
+
   Edge_node* en=new Edge_node;
   //!! bug fix (two weeks of debugging)
   en->ftr=eit->ftr;
-	
+
   if (traits->point_is_same(traits->curve_source(c1), 
-			    orig_edge->source()->point()))
+                            orig_edge->source()->point()))
     {
       en->set_curve(c2);
       orig_edge->edge_node()->set_curve(c1);
@@ -1597,61 +1645,61 @@ void handle_split_edge(Pm_halfedge_handle orig_edge,
       en->set_curve(c1);
       orig_edge->edge_node()->set_curve(c2);
     }
-	
+
   //insert en after eit in the edge_node list
   ++eit;
   (cit->edge_level).insert(eit.current_iterator(),*en);
-	
+        
   en->set_halfedge(Halfedge_handle(new_edge));
-	
+
   new_edge->set_edge_node(en);
   new_edge->twin()->set_edge_node(en);
-	
+        
   //deal with overlapping edges of eit (if there were any)
-  if ( ((Edge_node*)(orig_edge->edge_node()))->begin_child != 
-       (Subcurve_node*)&(*(orig_edge->edge_node()))) 
+  if (((Edge_node*)(orig_edge->edge_node()))->begin_child != 
+      (Subcurve_node*)&(*(orig_edge->edge_node()))) 
     {
       //eit has overlapping edges (it doesn't point to itself)
       //split all overlapping edge_nodes and create the circular list of 
       //the edges corresponding to the new edge
-		
+
       Overlap_circulator occ= (Halfedge_handle(orig_edge))->overlap_edges();
       ++occ; //we have already dealt with the first edge
       do 
-	{
-	  //add a new edge before/after edge_iterator(occ);
-	  //set its curve,ftr,begin_child,past_end_child,halfedge
-	  eit=occ;
-	  cit=eit->curve_node();
-	  Edge_node* nen=new Edge_node;
-	  nen->ftr=eit->ftr;
-	  //insert nen into circular list before en
-	  nen->begin_child=en->begin_child;
-	  nen->past_end_child=en;
-	  en->begin_child->past_end_child=nen;
-	  en->begin_child=nen;
-			
-	  eit->set_curve(orig_edge->curve());
-	  nen->set_curve(new_edge->curve());
-			
-	  //insert en before/after eit in the edge_node list
-	  if (eit->halfedge()== Halfedge_handle(orig_edge->twin())) 
-	    { 
-	      //eit is directed opposite orig_edge->edge_node()
-	      //we take advantage of our knowledge of the pm 
-	      //split function to know this
-	      nen->set_halfedge(Halfedge_handle(new_edge->twin()));
-	      //en will be inserted before eit
-	    }
-	  else 
-	    {
-	      nen->set_halfedge(Halfedge_handle(new_edge));
-	      ++eit; //en should be inserted after eit
-	    }
-			
-	  //insertion into the in_place edge list
-	  (cit->edge_level).insert(eit.current_iterator(),*nen);
-	} while (++occ != (Halfedge_handle(orig_edge))->overlap_edges());
+        {
+          //add a new edge before/after edge_iterator(occ);
+          //set its curve,ftr,begin_child,past_end_child,halfedge
+          eit=occ;
+          cit=eit->curve_node();
+          Edge_node* nen=new Edge_node;
+          nen->ftr=eit->ftr;
+          //insert nen into circular list before en
+          nen->begin_child=en->begin_child;
+          nen->past_end_child=en;
+          en->begin_child->past_end_child=nen;
+          en->begin_child=nen;
+
+          eit->set_curve(orig_edge->curve());
+          nen->set_curve(new_edge->curve());
+
+          //insert en before/after eit in the edge_node list
+          if (eit->halfedge()== Halfedge_handle(orig_edge->twin())) 
+            { 
+              //eit is directed opposite orig_edge->edge_node()
+              //we take advantage of our knowledge of the pm 
+              //split function to know this
+              nen->set_halfedge(Halfedge_handle(new_edge->twin()));
+              //en will be inserted before eit
+            }
+          else 
+            {
+              nen->set_halfedge(Halfedge_handle(new_edge));
+              ++eit; //en should be inserted after eit
+            }
+
+          //insertion into the in_place edge list
+          (cit->edge_level).insert(eit.current_iterator(),*nen);
+        } while (++occ != (Halfedge_handle(orig_edge))->overlap_edges());
     }
 }
 
@@ -1674,7 +1722,7 @@ Halfedge_handle split_edge(Halfedge_handle e,
 ////////////////////////////
 //LOCATE
 ////////////////////////////
-Halfedge_handle locate(const typename Traits::Point& p,Locate_type& lt)
+Halfedge_handle locate(const typename Traits::Point_2& p,Locate_type& lt)
 {
   typename Planar_map::Locate_type pmlt;
   typename Planar_map::Halfedge_handle pmh=pm.locate(p,pmlt);
@@ -1705,8 +1753,8 @@ Halfedge_handle locate(const typename Traits::Point& p,Locate_type& lt)
   return Halfedge_handle(pmh);
 }
 
-Halfedge_const_handle locate(const typename Traits::Point& p,
-			     Locate_type& lt) const
+Halfedge_const_handle locate(const typename Traits::Point_2& p,
+                             Locate_type& lt) const
 {
   typename Planar_map::Locate_type pmlt;
   typename Planar_map::Halfedge_const_handle pmh=pm.locate(p,pmlt);
@@ -1739,8 +1787,8 @@ Halfedge_const_handle locate(const typename Traits::Point& p,
 //////////////////////////////////////////////////////
 //     VERTICAL RAY SHOOT
 //////////////////////////////////////////////////////
-Halfedge_handle vertical_ray_shoot(const typename Traits::Point& p,
-				   Locate_type& lt, bool up)
+Halfedge_handle vertical_ray_shoot(const typename Traits::Point_2& p,
+                                   Locate_type& lt, bool up)
 {
   typename Planar_map::Locate_type pmlt;
   typename Planar_map::Halfedge_handle pmh=pm.vertical_ray_shoot(p,pmlt,up);
@@ -1769,8 +1817,8 @@ Halfedge_handle vertical_ray_shoot(const typename Traits::Point& p,
   return Halfedge_handle(pmh);
 }
 
-Halfedge_const_handle vertical_ray_shoot(const typename Traits::Point& p,
-					 Locate_type& lt) const
+Halfedge_const_handle vertical_ray_shoot(const typename Traits::Point_2& p,
+                                         Locate_type& lt) const
 {
   typename Planar_map::Locate_type pmlt;
   typename Planar_map::Halfedge_const_handle pmh=pm.vertical_ray_shoot(p,pmlt);
@@ -1862,34 +1910,34 @@ void set_update(bool u) {
       ++last_updated;
     else
       last_updated=curve_node_begin();
-    for ( ; last_updated!=curve_node_end(); ++last_updated) {
+    for (; last_updated!=curve_node_end(); ++last_updated) {
       
       unsigned int num=last_updated->number_of_sc_levels();
       if (num>0) {
         In_place_list<Subcurve_node,true> edge_list;        
         Subcurve_iterator scit=last_updated->level_begin(num - 1);
         for (; scit!=last_updated->level_end(num - 1); ++scit) {
-	  Arr_hierarchy_ops aho(this, edge_list, &(*scit));
+          Arr_hierarchy_ops aho(this, edge_list, &(*scit));
           pm.insert(scit->curve(), &aho);
           scit->begin_child=&(*(edge_list.begin()));
-	  //add edge_list at end of edge_level :
+          //add edge_list at end of edge_level :
           last_updated->edge_level.splice(last_updated->edge_level.end(),
-					  edge_list); 
+                                          edge_list); 
         }        
         scit=last_updated->level_begin(num - 1);
         Subcurve_iterator aux=scit; ++aux;
         for (; aux!=last_updated->level_end(num-1); ++scit,++aux) { 
           scit->past_end_child=&(*(aux->begin_child));
         }
-	//the last past_end_child :
+        //the last past_end_child :
         scit->past_end_child=&(*(last_updated->edge_level.end())); 
       }
       else { //num==0, no subcurve level, insert Curve directly.
-	Arr_hierarchy_ops aho(this, 
-			      last_updated->edge_level, 
-			      &(*last_updated));
-	pm.insert(last_updated->curve(), &aho);
-	last_updated->past_end_child=&(*(last_updated->edge_level.end()));
+        Arr_hierarchy_ops aho(this, 
+                              last_updated->edge_level, 
+                              &(*last_updated));
+        pm.insert(last_updated->curve(), &aho);
+        last_updated->past_end_child=&(*(last_updated->edge_level.end()));
         last_updated->begin_child=&(*(last_updated->edge_level.begin()));
       }
     } 
@@ -1901,20 +1949,20 @@ void set_update(bool u) {
 
 // object given as a parameter to insert function of pmwx
 // such that insert will not know about curve hirarchy
-class Arr_hierarchy_ops : public Pmwx_change_notification
+class Arr_hierarchy_ops : public Change_notification
 {
 public:
   typedef Self Arr;
   Arr_hierarchy_ops(Arr *arr_,
-		  In_place_list<Subcurve_node,true>& edge_list_,
-		  Subcurve_node* ftr_,
-		  Pmwx_change_notification *user_notifier_ = NULL ) : 
+                  In_place_list<Subcurve_node,true>& edge_list_,
+                  Subcurve_node* ftr_,
+                  Change_notification *user_notifier_ = NULL ) : 
     arr(arr_), edge_list(edge_list_), ftr(ftr_), user_notifier(user_notifier_)
   {}
-	
+
   void add_edge(const typename Traits::X_curve& cv, 
-		Pm_halfedge_handle e, 
-		bool original_direction, bool overlap=false)
+                Pm_halfedge_handle e, 
+                bool original_direction, bool overlap=false)
   {
     arr->push_in_edge_list(cv, e, ftr, edge_list, original_direction, overlap);
     if (user_notifier != NULL)
@@ -1922,9 +1970,9 @@ public:
   }
 
   void split_edge(Pm_halfedge_handle orig_edge, 
-		  Pm_halfedge_handle new_edge,
-		  const typename Traits::X_curve& c1,
-		  const typename Traits::X_curve& c2)
+                  Pm_halfedge_handle new_edge,
+                  const typename Traits::X_curve& c1,
+                  const typename Traits::X_curve& c2)
   {
     arr->handle_split_edge(orig_edge, new_edge, c1, c2);
     if (user_notifier != NULL)
@@ -1959,109 +2007,102 @@ public:
   Arr *arr;
   In_place_list<Subcurve_node,true> &edge_list;
   Subcurve_node* ftr;
-  Pmwx_change_notification *user_notifier;
+  Change_notification *user_notifier;
 };
 
 friend class Arr_hierarchy_ops;
-////////////////////////////////////////////////////////////////////////
-// pushes the curve cv corresponding to halfedge e to the edge_node_list
+
+// Pushes the curve cv corresponding to halfedge e to the edge_node_list
 // push_back if original_direction
 // push_front otherwise - will be called from insert after
 // inserting cv into the pm and getting e
+//
+// *** Edge_node class:
+// Edge_node holds a curve that is used also as the curve of its
+// associated halfedge.  There are two halfedges (an halfedge and its
+// twin) which point to the Edge_node.  The Edge_node contains a
+// handle to one of these halfedges of which has the same orientation
+// as the curve the Edge_node holds.  Edge_node also contains two
+// pointers named begin_child and past_end_child which are two
+// pointers in a circulat list of all overlapping curves on the
+// specific edge.
+//
+// *** Historical comment (Eti and Eyal, January 2002)
+// original_direction was a boolean flag indicating whether cv and
+// ftr->curve() have the same orientation.  Pm_with_intersections
+// calculated this value and passed it through the add_edge
+// function of the notifier However, this value was miscalculated
+// and had an error value. As a result, we do not use
+// original_direction. Instead we compare the directions of cv and
+// ftr->curve().
+//
 void push_in_edge_list(const typename Traits::X_curve& cv,
                        Pm_halfedge_handle phe,
                        Subcurve_node* ftr,
                        In_place_list<Subcurve_node,true>& edge_list,
-                       bool original_direction,
+                       bool /* original_direction */,
                        bool overlap=false)
 {
   Halfedge_handle e = phe;
-  if (original_direction) {
-    Edge_node* en=new Edge_node;
+  Edge_node* en=new Edge_node;
+  en->ftr=ftr;
+
+  // The following condition replaces the original functionality
+  // of original_direction, as described in the histroial comment above.
+  // The original condition: if (original_direction) 
+  if (traits->compare_xy(traits->curve_source(ftr->curve()), 
+                         traits->curve_target(ftr->curve())) ==
+      traits->compare_xy(traits->curve_source(cv), 
+                         traits->curve_target(cv)))
     en->set_curve(cv);
-    en->ftr=ftr;
-    
-    //DEALING WITH OVERLAP:
-    //we use the 2 redundant pointers - begin_child and past_end_child 
-    //to create
-    //a circular linked list of overlapping edges (for the same halfedge)
-
-    //2 options: circular bidircetionsl list(bi-circulator) , 
-    //           or linear single directional list (forward iterator),
-    //           bidirectional iterator can't be implemented because we can't
-    //           have a sentinel for the past_the_end value.
-
-    //we implement below a bi-dircetional circular list, when no overlap
-    //en points at itself - this implies that the default ctr of the
-    //edge node has begin_child and past_end_child initialized to this
-    //(whereas if we implement a forward list, it is initialized to NULL).
-
-    if (overlap) {
-      //pointer shuffling to insert en into circular list
-      //past_end_child == next, begin_child == prev
-
-      Edge_node* aux=&(*e->edge_node());
-      en->past_end_child = aux; 
-      en->begin_child = aux->begin_child;
-
-      aux->begin_child->past_end_child = en;
-      aux->begin_child = en;
-    }
-    else {
-      //initialization of circular list with en - not needed - done in the ctr
-      //en->past_end_child=en;
-      //en->begin_child=en;
-    }
-
-    //the following code should replace the above code if we want a single list
-    //if (overlap)
-    //  en->past_end_child=&(*e->edge_node());
-
-    e->set_edge_node(en);
-    e->twin()->set_edge_node(en);
-    
-    if (traits->point_is_same(e->target()->point(),traits->curve_target(cv)))
-      en->set_halfedge(Halfedge_handle(e));
-    else
-      en->set_halfedge(Halfedge_handle(e->twin())); 
-    edge_list.push_back(*en);
-  }
-  else {  //right_to_left - we've done a flip at beginning
-    Edge_node* en=new Edge_node;
+  else 
     en->set_curve(traits->curve_flip(cv));
-    en->ftr=ftr;
-
-    //DEALING WITH OVERLAP: like above
-    if (overlap) {
-      //pointer shuffling to insert en into circular list
-      //past_end_child == next, begin_child == prev
-
-      Edge_node* aux=&(*e->edge_node());
-      en->past_end_child = aux; 
-      en->begin_child = aux->begin_child;
-
-      aux->begin_child->past_end_child = en;
-      aux->begin_child = en;
-    }
-    else {
-      //initialization of circular list with en - no need done in the ctr
-      //en->past_end_child=en;
-      //en->begin_child=en;
-    }
-
-    //the following code should replace the above code if we want a single list
-    //if (overlap)
-    //  en->past_end_child=&(*e->edge_node());
+  
+  // DEALING WITH OVERLAP:
+  // We use the 2 redundant pointers - begin_child and past_end_child
+  // to create a circular linked list of overlapping edges (for the
+  // same halfedge)
+  
+  // 2 options: circular bidircetionsl list(bi-circulator) , 
+  //            or linear single directional list (forward iterator),
+  //            bidirectional iterator can't be implemented because we can't
+  //            have a sentinel for the past_the_end value.
+  
+  //we implement below a bi-dircetional circular list, when no overlap
+  //en points at itself - this implies that the default ctr of the
+  //edge node has begin_child and past_end_child initialized to this
+  //(whereas if we implement a forward list, it is initialized to NULL).
+  
+  if (overlap) {
+    //pointer shuffling to insert en into circular list
+    //past_end_child == next, begin_child == prev
     
-    e->set_edge_node(en);
-    e->twin()->set_edge_node(en);
+    Edge_node* aux=&(*e->edge_node());
+    en->past_end_child = aux; 
+    en->begin_child = aux->begin_child;
     
-    if (traits->point_is_same(e->source()->point(),traits->curve_target(cv)))
-      en->set_halfedge(Halfedge_handle(e));
-    else
-      en->set_halfedge(Halfedge_handle(e->twin())); 
-    edge_list.push_front(*en);
-  }   
+    aux->begin_child->past_end_child = en;
+    aux->begin_child = en;
+  }
+  else {
+    //initialization of circular list with en - not needed - done in the ctr
+    //en->past_end_child=en;
+    //en->begin_child=en;
+  }
+  
+  //the following code should replace the above code if we want a single list
+  //if (overlap)
+  //  en->past_end_child=&(*e->edge_node());
+
+  e->set_edge_node(en);
+  e->twin()->set_edge_node(en);
+  
+  if (traits->point_is_same(e->target()->point(),
+                            traits->curve_target(en->curve())))
+    en->set_halfedge(Halfedge_handle(e));
+  else
+    en->set_halfedge(Halfedge_handle(e->twin())); 
+  edge_list.push_back(*en);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -2079,11 +2120,10 @@ protected:
 //assumes sc is not a Curve_node and not an edge_node
 
 template <class F_iterator>
-Subcurve_iterator replace(Subcurve_iterator sc,
-                          const std::list<CGAL_TYPENAME_MSVC_NULL 
-			  Traits::Curve>& cv_list, 
-                          F_iterator F_begin,
-                          F_iterator F_end)
+Subcurve_iterator replace(Subcurve_iterator          sc,
+                          const std::list<Curve_2> & cv_list, 
+                          F_iterator                 F_begin,
+                          F_iterator                 F_end)
 {
   Subcurve_node* cn= sc->ftr;
 
@@ -2141,7 +2181,7 @@ Subcurve_iterator replace(Subcurve_iterator sc,
   levels.reserve(sz+1); 
   levels.push_back(In_place_list<Subcurve_node,true>() );
   
-  typename std::list<CGAL_TYPENAME_MSVC_NULL Traits::Curve>::const_iterator 
+  typename std::list<Curve_2>::const_iterator 
     lit=cv_list.begin();
   for (; lit!=cv_list.end(); ++lit) {
     Subcurve_node* scn=new Subcurve_node;
@@ -2159,13 +2199,13 @@ Subcurve_iterator replace(Subcurve_iterator sc,
     Subcurve_iterator scit=levels[i-1].begin();
     for (; scit!=levels[i-1].end(); ++scit) {
       //cut cv into curves and insert them into l
-      std::list<CGAL_TYPENAME_MSVC_NULL Traits::Curve> c_list;
+      std::list<Curve_2> c_list;
       (*(*F_begin))(scit->curve(),c_list);  //split the curve
       Subcurve_iterator aux=levels[i].end();
       --aux; //aux keeps the last place we inserted before the coming insertion
 
-      typename std::list<CGAL_TYPENAME_MSVC_NULL Traits::Curve>::iterator
-	lit=c_list.begin();
+      typename std::list<Curve_2>::iterator
+        lit=c_list.begin();
       for (; lit!=c_list.end(); ++lit) {
         Subcurve_node* scn=new Subcurve_node;
         scn->ftr=&(*scit); 
@@ -2333,12 +2373,262 @@ Subcurve_iterator replace(Subcurve_iterator sc,
 //                 Scanning Arrangement.
 ///////////////////////////////////////////////////////////////////////// 
 private:
+void copy_hierarchy_tree(const Self& arr)
+{
+  typedef std::map<const void*, void*> ConnectMap;
+  typedef std::map<void*, Halfedge_iterator> Pointer_halfedge_Map;
+  
+  // mapping all halfedges pointers of the two arrangements.
+  ConnectMap  cross_halfedges;
+  Halfedge_iterator h_iter1;
+  Halfedge_const_iterator h_iter2;
+  // we need this for overlapping edge nodes which share pointers to
+  // edge nodes on different hirarchies trees.
+  ConnectMap  all_edges_map; 
+  
+  // assuming that the two containers are in the SAME order.
+  for (h_iter1 = halfedges_begin(), h_iter2 = arr.halfedges_begin(); 
+       h_iter1 != halfedges_end() && h_iter2 != arr.halfedges_end(); 
+       ++h_iter1, ++h_iter2)
+    cross_halfedges.insert(ConnectMap::value_type((const void*) &(*h_iter2), 
+                                                  (void*) &(*h_iter1)));
+  
+  // mapping the arrangement halfedges pointers to halfedges handles.
+  Pointer_halfedge_Map  current_halfedges_pointers;
+  for (h_iter1 = halfedges_begin(); h_iter1 != halfedges_end(); ++h_iter1)
+  {
+    current_halfedges_pointers.insert(
+      Pointer_halfedge_Map::value_type((void*) &(*h_iter1), h_iter1));
+  }
+  
+  // for each curve node
+  Curve_const_iterator cv_iter;
+  for (cv_iter = arr.curve_list.begin(); 
+       cv_iter != arr.curve_list.end(); 
+       ++cv_iter)
+  {
+    // first creating the curve node.
+    Curve_node* cn = new Curve_node;
+    cn->assign(*cv_iter);
+    
+    // creating subcurve nodes.
+    ConnectMap  scn_map;
+    unsigned int i;
+    // for each level
+    for (i = 0; i < cv_iter->levels.size(); ++i)
+    {
+      // the current level to be created
+      In_place_list<Subcurve_node,true> level; 
+      // for each subcurve node
+      Subcurve_const_iterator scv_iter;
+      for (scv_iter = cv_iter->levels[i].begin(); 
+           scv_iter !=  cv_iter->levels[i].end(); ++scv_iter){
+        Subcurve_node* scn = new Subcurve_node;
+        
+        scn->assign(*scv_iter);
+        
+        level.push_back(*scn);
+      }
+      // inserting the i'th level to current curve node.
+      cn->levels.push_back(level);
+
+      // copy the original items in cn->levels[i] - otherwise makes a
+      // copy.  Notice that the vector of levels is NOT in place and
+      // hence mapping the scn pointers instead of the original values
+      // will cause a bug!.
+      Subcurve_iterator new_scv_iter;
+      for (scv_iter = cv_iter->levels[i].begin(), 
+             new_scv_iter = cn->levels[i].begin(); 
+           scv_iter != cv_iter->levels[i].end() && 
+             new_scv_iter != cn->levels[i].end(); 
+           ++scv_iter, ++new_scv_iter)
+      {
+        scn_map.insert(ConnectMap::value_type((const void*)&(*scv_iter), 
+                                              (void*) &(*new_scv_iter)));
+      }
+      
+      // Notice that arrangement uses the pointers of end() at each
+      // level, instead of the expected NULL pointer.
+      scn_map.insert(ConnectMap::value_type(
+                       (const void*) cv_iter->levels[i].end().operator->(), 
+                     (void*) (cn->levels[i].end().operator->()) ));
+    }
+    
+    // creating edge nodes mapping, we use it (in spite we have
+    // all_edge_nodes) for efficientcy.
+    ConnectMap  edge_map;
+    ConnectMap  halfedge_edge_map;
+    Edge_const_iterator edge_iter;
+    for (edge_iter = cv_iter->edge_level.begin(); 
+         edge_iter != cv_iter->edge_level.end(); ++edge_iter){
+      Edge_node* en = new Edge_node;
+      
+      en->assign(*edge_iter);
+      
+      halfedge_edge_map.insert(
+        ConnectMap::value_type((const void*) &(*edge_iter), 
+                               (void*) &*(edge_iter->halfedge()) ));
+      cn->edge_level.push_back(*en);
+    }
+    
+    Edge_iterator new_edge_iter;
+    for (edge_iter = cv_iter->edge_level.begin(), 
+           new_edge_iter = cn->edge_level.begin(); 
+         edge_iter != cv_iter->edge_level.end() && 
+           new_edge_iter != cn->edge_level.end(); 
+         ++edge_iter, ++new_edge_iter)
+    {
+      edge_map.insert(ConnectMap::value_type((const void*) &(*edge_iter), 
+                                             (void*) &(*new_edge_iter)));
+      all_edges_map.insert(ConnectMap::value_type((const void*) &(*edge_iter),
+                                                  (void*) &(*new_edge_iter)));
+    }
+    
+    edge_map.insert(ConnectMap::value_type(
+                      (const void*) cv_iter->edge_level.end().operator->(), 
+                    (void*) (cn->edge_level.end().operator->()) ));
+    all_edges_map.insert(ConnectMap::value_type(
+                           (const void*)cv_iter->edge_level.end().operator->(),
+                         (void*) (cn->edge_level.end().operator->()) ));
+    
+    // updating all edge nodes vector - we need this for overlapping
+    // edge nodes which share pointers to edge nodes on different
+    // hirarchies trees. 
+    
+    // updating pointers between sub curve nodes.
+    for (i = 0; i < cv_iter->levels.size(); ++i)
+    {
+      Subcurve_const_iterator scv_iter;
+      Subcurve_iterator new_scv_iter;
+      for (scv_iter = cv_iter->levels[i].begin(), 
+             new_scv_iter = cn->levels[i].begin(); 
+           scv_iter != cv_iter->levels[i].end() && 
+             new_scv_iter != cn->levels[i].end(); 
+           ++scv_iter, ++new_scv_iter)
+      {
+        Subcurve_node* scn = &*new_scv_iter;
+        // if it's the first level, than the father pointer is to the
+        // curve node cn;
+        if (i == 0)
+          scn->ftr = cn;
+        else {
+          Subcurve_node* scn_ftr = 
+            (Subcurve_node*)(scn_map.find(
+                               (const void*) &*(scv_iter->ftr))->second);
+          scn->ftr = scn_ftr;
+        }
+        
+        // if the level is not the last one.
+        if (i+1 < cv_iter->levels.size())
+        {
+          Subcurve_node* scn_begin_child = 
+            (Subcurve_node*)(scn_map.find(
+                               (const void*) scv_iter->begin_child)->second);
+          scn->begin_child = scn_begin_child;
+          
+          // pay attention to the fact that the past_end_child can be end().
+          Subcurve_node* scn_past_end_child = 
+            (Subcurve_node*)(scn_map.find(
+                              (const void*) scv_iter->past_end_child)->second);
+          scn->past_end_child = scn_past_end_child;
+        }
+        else
+        {
+          // last level - the next level is the edge node.
+          Edge_node* scn_begin_child = 
+            (Edge_node*)(edge_map.find(
+                          (const void*) scv_iter->begin_child)->second);
+          scn->begin_child = scn_begin_child;
+
+          // pay attention to the fact that the past_end_child can be end(). 
+          Edge_node* scn_past_end_child = 
+            (Edge_node*)(edge_map.find(
+                           (const void*) scv_iter->past_end_child)->second);
+          scn->past_end_child = scn_past_end_child;
+        }
+      }
+    }
+    
+    // updating the father pointer of edge node.
+    new_edge_iter = cn->edge_level.begin();
+    edge_iter = cv_iter->edge_level.begin();
+    for (edge_iter = cv_iter->edge_level.begin(), 
+           new_edge_iter = cn->edge_level.begin(); 
+         edge_iter != cv_iter->edge_level.end() && 
+           new_edge_iter != cn->edge_level.end(); 
+         ++edge_iter, ++new_edge_iter)
+    {
+      Edge_node* en = &*new_edge_iter;
+
+      if (cn->levels.size() == 0)
+        en->ftr = cn;
+      else
+        en->ftr = (Subcurve_node*) (scn_map.find(
+                                      (const void*) edge_iter->ftr)->second);
+    }
+    
+    // updating cn begin and end children pointers.
+    if (cn->levels.size()){
+      cn->begin_child = &(*(cn->levels[0].begin()));
+      cn->past_end_child = &(*(cn->levels[0].end()));
+    }
+    else{
+      cn->begin_child = &(*(cn->edge_level.begin()));
+      cn->past_end_child = &(*(cn->edge_level.end()));
+    }
+    cn->ftr = 0;
+    curve_list.push_back(*cn);
+  }
+  
+  // running on both curve lists and upfdating edge node pointers.
+  // Notice that when updating edge node childrens we need all edge
+  // nodes to be defined since when there are overlappings edge nodes
+  // will points to other edge nodes on different curve lists.
+  Curve_iterator new_cv_iter;
+  for (cv_iter = arr.curve_list.begin(), new_cv_iter = curve_list.begin(); 
+       cv_iter != arr.curve_list.end() && new_cv_iter != curve_list.end(); 
+       ++cv_iter, ++new_cv_iter){
+    
+    Edge_iterator new_edge_iter = new_cv_iter->edge_level.begin();
+    Edge_const_iterator edge_iter = cv_iter->edge_level.begin();
+    for (edge_iter = cv_iter->edge_level.begin(), 
+           new_edge_iter = new_cv_iter->edge_level.begin(); 
+         edge_iter != cv_iter->edge_level.end() && 
+           new_edge_iter != new_cv_iter->edge_level.end(); 
+         ++edge_iter, ++new_edge_iter)
+    {
+      Edge_node* en = &*new_edge_iter;
+      
+      Edge_node* en_begin_child = 
+        (Edge_node*)(all_edges_map.find(
+                       (const void*) &*(edge_iter->begin_child))->second);
+      en->begin_child = en_begin_child;
+      
+      Edge_node* en_past_end_child = 
+        (Edge_node*)(all_edges_map.find(
+                       (const void*) &*(edge_iter->past_end_child))->second); 
+      en->past_end_child = en_past_end_child;
+
+      Halfedge* hp = 
+        (Halfedge*)(cross_halfedges.find(&*(edge_iter->halfedge() ))->second);
+      Halfedge_handle curr_h = current_halfedges_pointers.find(hp)->second;
+
+      curr_h->set_edge_node(en);
+      curr_h->twin()->set_edge_node(en);
+
+      // notice the fact that curr_h is in the direction of en->curve(), 
+      // since cross_halfedges maps the halfedge pointers 1-1. 
+      en->hdg = curr_h;
+    }
+  }
+}
+
 template <class Scanner>
 bool  scan_arr (Scanner& scanner) 
 { 
-  typedef typename Dcel::Vertex	                          D_vertex;
+  typedef typename Dcel::Vertex                                  D_vertex;
   typedef typename Dcel::Halfedge                         D_halfedge;
-  typedef typename Dcel::Face	                          D_face;
+  typedef typename Dcel::Face                                  D_face;
 
   typedef typename  Dcel::Vertex_iterator          D_vetrex_iterator;
   typedef typename  Dcel::Vertex_const_iterator    D_vetrex_const_iterator;
@@ -2350,32 +2640,31 @@ bool  scan_arr (Scanner& scanner)
   typedef std::pair<std::size_t, std::size_t>      Index_pair;
 
   // keeping a vector of halfedges (to access them easily by their indices).  
-  std::vector<Halfedge_handle> halfedges_vec;  
-
+  std::vector<Halfedge_handle> halfedges_vec;
   
-  if ( ! scanner.in()) {
+  if (!scanner.in()) {
     return false;
   }
 
   if (!pm.read(scanner.in(), scanner)){
     std::cerr << "can't read planar map"<<std::endl;
-    scanner.in().clear( std::ios::badbit);
+    scanner.in().clear(std::ios::badbit);
     clear();
     return false;
   }
 
   for (Halfedge_iterator h_iter = halfedges_begin(); 
        h_iter != halfedges_end(); 
-       h_iter++)
+       ++h_iter)
     halfedges_vec.push_back(h_iter);
 
   std::list<std::list<Index_pair> > en_ovlp_child_indices_all_lists;
 
   std::size_t   number_of_curves;
   scanner.scan_index(number_of_curves);
-  if ( ! scanner.in()){
+  if (!scanner.in()){
     std::cerr << "can't read number of curves"<<std::endl;
-    scanner.in().clear( std::ios::badbit);
+    scanner.in().clear(std::ios::badbit);
     clear();
     return false;
   }
@@ -2385,19 +2674,19 @@ bool  scan_arr (Scanner& scanner)
     Curve_node* cn = new Curve_node;
     scanner.scan_Curve_node(cn);
 
-    if ( ! scanner.in()){
+    if (!scanner.in()){
       std::cerr << "can't read curve node"<<std::endl;
-      scanner.in().clear( std::ios::badbit);
+      scanner.in().clear(std::ios::badbit);
       clear();
       return false;
     }
 
     // reading subcurve node levels.
-    std::size_t   number_of_levels;
+    std::size_t number_of_levels;
     scanner.scan_index(number_of_levels);
-    if ( ! scanner.in()){
+    if (!scanner.in()){
       std::cerr << "can't read number of levels"<<std::endl;
-      scanner.in().clear( std::ios::badbit);
+      scanner.in().clear(std::ios::badbit);
       clear();
       return false;
     }
@@ -2412,9 +2701,9 @@ bool  scan_arr (Scanner& scanner)
       
       std::size_t   number_of_subcurves;
       scanner.scan_index(number_of_subcurves);
-      if ( ! scanner.in()){
+      if (!scanner.in()){
         std::cerr << "can't read number of subcurves"<<std::endl;
-        scanner.in().clear( std::ios::badbit);
+        scanner.in().clear(std::ios::badbit);
         clear();
         return false;
       }
@@ -2428,16 +2717,16 @@ bool  scan_arr (Scanner& scanner)
         std::size_t   begin_child_index, end_child_index;
         
         scanner.scan_index(begin_child_index);
-        if ( ! scanner.in()){
+        if (! scanner.in()){
           std::cerr << "can't read begin child index"<<std::endl;
-          scanner.in().clear( std::ios::badbit);
+          scanner.in().clear(std::ios::badbit);
           clear();
           return false;
         }
         scanner.scan_index(end_child_index);
-        if ( ! scanner.in()){
+        if (! scanner.in()){
           std::cerr << "can't read past end child index"<<std::endl;
-          scanner.in().clear( std::ios::badbit);
+          scanner.in().clear(std::ios::badbit);
           clear();
           return false;
         }
@@ -2448,9 +2737,9 @@ bool  scan_arr (Scanner& scanner)
         Subcurve_node* scn = new Subcurve_node;
         
         scanner.scan_Subcurve_node(scn);
-        if ( ! scanner.in()){
+        if (! scanner.in()){
           std::cerr << "can't read subcurve node"<<std::endl;
-          scanner.in().clear( std::ios::badbit);
+          scanner.in().clear(std::ios::badbit);
           clear();
           return false;
         }
@@ -2459,7 +2748,7 @@ bool  scan_arr (Scanner& scanner)
 
         scn_list.push_back(*scn);
 
-	// update the tmp vector for finding scn pointers according indices.
+        // update the tmp vector for finding scn pointers according indices.
         //scn_vec.push_back(scn);  
       } 
       
@@ -2472,9 +2761,9 @@ bool  scan_arr (Scanner& scanner)
     // now scanning edge nodes.
     std::size_t     number_of_edge_nodes;
     scanner.scan_index(number_of_edge_nodes);
-    if ( ! scanner.in()){
+    if (! scanner.in()){
       std::cerr << "can't read numberof edge nodes"<<std::endl;
-      scanner.in().clear( std::ios::badbit);
+      scanner.in().clear(std::ios::badbit);
       clear();
       return false;
     }
@@ -2490,36 +2779,36 @@ bool  scan_arr (Scanner& scanner)
       // scanning the past to end child of edge node 
       // (this pointer indicates the overlapping edge nodes).
       scanner.scan_index(cn_ovlp_index);
-      if ( ! scanner.in()){
+      if (! scanner.in()){
         std::cerr << "can't read begin overlapping index"<<std::endl;
-        scanner.in().clear( std::ios::badbit);
+        scanner.in().clear(std::ios::badbit);
         clear();
         return false;
       }
      
       scanner.scan_index(en_ovlp_index);
-      if ( ! scanner.in()){
+      if (! scanner.in()){
         std::cerr << "can't read past end overlapping index"<<std::endl;
-        scanner.in().clear( std::ios::badbit);
+        scanner.in().clear(std::ios::badbit);
         clear();
         return false;
       }
       
       en_ovlp_child_indices_list.push_back(Index_pair(cn_ovlp_index, 
-						      en_ovlp_index));
+                                                      en_ovlp_index));
  
       scanner.scan_index(halfedge_index);
-      if ( ! scanner.in()){
+      if (! scanner.in()){
         std::cerr << "can't read halfedge index"<<std::endl;
-        scanner.in().clear( std::ios::badbit);
+        scanner.in().clear(std::ios::badbit);
         clear();
         return false;
       }
       
       scanner.scan_Edge_node(en);
-      if ( ! scanner.in()){
+      if (! scanner.in()){
         std::cerr << "can't read edge node"<<std::endl;
-        scanner.in().clear( std::ios::badbit);
+        scanner.in().clear(std::ios::badbit);
         clear();
         return false;
       }
@@ -2559,22 +2848,22 @@ bool  scan_arr (Scanner& scanner)
         scn_child_iter = cn->level_begin(j+1);
 
       for (Subcurve_iterator scn_iter = cn->level_begin(j); 
-	   scn_iter != cn->level_end(j); 
-	   scn_iter++, k++){
+           scn_iter != cn->level_end(j); 
+           scn_iter++, k++){
         if (j+1 < number_of_levels){ // not including the last one.
           std::size_t begin_child_index = begin_child_indices_table[j][k];
           
           for (;
-	       l < begin_child_index && scn_child_iter != cn->level_end(j+1);
-	       scn_child_iter++, l++);
+               l < begin_child_index && scn_child_iter != cn->level_end(j+1);
+               scn_child_iter++, l++);
           scn_iter->begin_child = &(*scn_child_iter);
 
           std::size_t past_end_child_index = end_child_indices_table[j][k];
           // running the pointer and also updating father field.
           for (;
-	       l < past_end_child_index && 
-		 scn_child_iter != cn->level_end(j+1);
-	       scn_child_iter++, l++){
+               l < past_end_child_index && 
+                 scn_child_iter != cn->level_end(j+1);
+               scn_child_iter++, l++){
             scn_child_iter->ftr = scn_iter.operator->();
           }
             
@@ -2585,15 +2874,15 @@ bool  scan_arr (Scanner& scanner)
           std::size_t begin_child_index = begin_child_indices_table[j][k];
           
           for(;
-	      m < begin_child_index && en_child_iter != cn->edges_end();
-	      en_child_iter++, m++) ;
+              m < begin_child_index && en_child_iter != cn->edges_end();
+              en_child_iter++, m++) ;
           scn_iter->begin_child = &(*en_child_iter);
 
           std::size_t past_end_child_index = end_child_indices_table[j][k];
           // running the pointer and also updating father field.
           for(;
-	      m < past_end_child_index && en_child_iter != cn->edges_end();
-	      en_child_iter++, m++){
+              m < past_end_child_index && en_child_iter != cn->edges_end();
+              en_child_iter++, m++){
             en_child_iter->ftr = scn_iter.operator->();
           }
           scn_iter->past_end_child = &(*en_child_iter);
@@ -2610,26 +2899,26 @@ bool  scan_arr (Scanner& scanner)
 
   for (;
        all_lists_iter != en_ovlp_child_indices_all_lists.end() && 
-	 cn_iter != curve_node_end();
+         cn_iter != curve_node_end();
        all_lists_iter++, cn_iter++){
     
     Edge_iterator en_iter = cn_iter->edges_begin();
     for (std::list<Index_pair>::iterator list_iter = (*all_lists_iter).begin();
-	 list_iter !=  (*all_lists_iter).end() && 
+         list_iter !=  (*all_lists_iter).end() && 
            en_iter != cn_iter->edges_end(); 
-	 list_iter++, en_iter++){
+         list_iter++, en_iter++){
       std::size_t cn_ovlp_index = list_iter->first;
       std::size_t en_ovlp_index = list_iter->second;
       
       unsigned int j;
       Curve_iterator tmp_cn_iter;
       for (tmp_cn_iter = curve_node_begin(), j = 0;
-	   tmp_cn_iter != curve_node_end() && j < cn_ovlp_index;
-	   tmp_cn_iter++, j++);
+           tmp_cn_iter != curve_node_end() && j < cn_ovlp_index;
+           tmp_cn_iter++, j++);
       // now tmp_cn_iter is the cn_ovlp_index'th curve node.
       Edge_iterator tmp_en_iter;
       for (tmp_en_iter = tmp_cn_iter->edges_begin(), j = 0;
-	   tmp_en_iter != tmp_cn_iter->edges_end() && j < en_ovlp_index; 
+           tmp_en_iter != tmp_cn_iter->edges_end() && j < en_ovlp_index; 
            tmp_en_iter++, j++);
       // now tmp_en_iter is the en_ovlp_index'th edge node.
 
@@ -2698,8 +2987,5 @@ Curve_iterator last_updated;
 
 CGAL_END_NAMESPACE
 
-#endif
-
-
-
-
+#endif // CGAL_ARRANGEMENT_2_H
+// EOF

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/is_y_monotone_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/01/19 10:08:42 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/12/05 17:54:48 $
 //
 // author(s)     : Susan Hert
 //
@@ -108,16 +106,9 @@ bool
 is_y_monotone_2(InputIterator first, InputIterator last)
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_2;
-   return CGAL_is_y_monotone_2(first, last, reinterpret_cast<Point_2*>(0));
+   typedef typename Kernel_traits<Point_2>::Kernel  K;
+   return is_y_monotone_2(first, last, K());
 }
-
-template<class InputIterator, class R>
-bool 
-CGAL_is_y_monotone_2(InputIterator first, InputIterator last, Point_2<R>*)
-{
-   return is_y_monotone_2(first, last, R());
-}
-
 
 }
 

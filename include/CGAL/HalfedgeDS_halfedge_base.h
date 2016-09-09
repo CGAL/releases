@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/HalfedgeDS_halfedge_base.h
-// package       : HalfedgeDS (3.21)
-// chapter       : $CGAL_Chapter: Halfedge Data Structures $
-// source        : hds_bases.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/18 04:46:19 $
-// author(s)     : Lutz Kettner
+// package       : HalfedgeDS (3.33)
+// chapter       : Halfedge Data Structures
 //
-// coordinator   : MPI Saarbruecken (Stefan Schirra)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/18 13:01:45 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : MPI Saarbruecken
 //
 // Halfedge Data Structure Base Classes for Halfedges.
 // email         : contact@cgal.org
@@ -58,7 +56,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
+#if ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION) \
+ && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 template < class Refs, class TP, class TV, class TF>
 struct HalfedgeDS_halfedge_base_base {
@@ -363,7 +362,8 @@ public:
         // is true if `h' is a border halfedge.
 };
 
-#else // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION //
+#else //    ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION)
+      // && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 // Partial specialization doesn't work. So, we cannot get rid
 // of the previous halfedge, vertex, or face reference.
@@ -447,7 +447,8 @@ public:
         // is true if `h' is a border halfedge.
 };
 
-#endif // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION //
+#endif //    ! defined( CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION)
+       // && ! defined( CGAL_CFG_SUNPRO_PARTIAL_SPEC_BUG)
 
 CGAL_END_NAMESPACE
 

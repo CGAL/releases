@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Arr_polyline_traits.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.52)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
@@ -62,23 +60,24 @@
 
 #include <CGAL/Pm_segment_exact_traits.h>
 
-//#include <typeinfo>
-
 CGAL_BEGIN_NAMESPACE
 
-
 template <class R,
-  class Container  = std::vector<Point_2<R> >
->
+  class Container  = std::vector<CGAL_TYPENAME_MSVC_NULL R::Point_2 > >
 class Arr_polyline_traits {
 public:
   typedef Arr_polyline_traits<R> Self;
 
-  typedef Point_2<R> Point;
-  typedef Vector_2<R> Vector; //for drivative
+  typedef typename R::Point_2  Point_2;
+  typedef typename R::Vector_2 Vector_2;
+  typedef Container            Curve_2;
+  typedef Container            X_curve_2;
 
-  typedef Container Curve;
-  typedef Container X_curve;
+  // Obsolete, for backward compatibility
+  typedef Point_2              Point;
+  typedef Vector_2             Vector;
+  typedef X_curve_2            X_curve;
+  typedef Curve_2              Curve;
 
   typedef enum
   {
@@ -89,32 +88,31 @@ public:
     //CURVE_VERTICAL = 3
   } Curve_point_status;
 
-
   Arr_polyline_traits() {
   }
 
-  Comparison_result compare_x(const Point& p0, const Point& p1) const {
+  Comparison_result compare_x(const Point_2& p0, const Point_2& p1) const {
     return CGAL::compare_x(p0,p1);
   }
-  Comparison_result compare_y(const Point& p0, const Point& p1) const {
+  Comparison_result compare_y(const Point_2& p0, const Point_2& p1) const {
     return CGAL::compare_y(p0,p1);
   }
 
   //on X_curve only - not Curve!
-  bool curve_is_vertical(const X_curve& cv) const {
+  bool curve_is_vertical(const X_curve_2& cv) const {
     CGAL_assertion(is_x_monotone(cv));
     return compare_x(curve_source(cv),curve_target(cv))==EQUAL;
   } 
 
-  bool curve_is_in_x_range(const X_curve& cv, const Point& p) const {
+  bool curve_is_in_x_range(const X_curve_2& cv, const Point_2& p) const {
     CGAL_assertion(is_x_monotone(cv));
     return (compare_x(p,curve_source(cv)) * 
 	    compare_x(p,curve_target(cv))) <= 0 ;
   }
 
-  Comparison_result curve_compare_at_x(const X_curve& cv1, 
-				       const X_curve& cv2, 
-				       const Point& p) const {
+  Comparison_result curve_compare_at_x(const X_curve_2& cv1, 
+				       const X_curve_2& cv2, 
+				       const Point_2& p) const {
     CGAL_assertion(is_x_monotone(cv1));
     CGAL_assertion(is_x_monotone(cv2));
 
@@ -124,9 +122,9 @@ public:
     if (curve_is_vertical(cv1) && curve_is_vertical(cv2))
       return EQUAL; //otherwise - compare_y_at_x throws an assertion 
 
-    typename X_curve::const_iterator pit_1   = cv1.begin(),
+    typename X_curve_2::const_iterator pit_1   = cv1.begin(),
       pit_2   = cv2.begin();
-    typename X_curve::const_iterator after_1 = pit_1,
+    typename X_curve_2::const_iterator after_1 = pit_1,
       after_2 = pit_2;
     ++after_1; ++after_2;
 
@@ -140,7 +138,7 @@ public:
     // the R here is the template parameter (see class def. above)
     Pm_segment_exact_traits<R> segment_traits;
     
-    const typename Pm_segment_exact_traits<R>::X_curve
+    const typename Pm_segment_exact_traits<R>::X_curve_2
       seg1(*pit_1, *after_1),
       seg2(*pit_2, *after_2);
 
@@ -150,9 +148,9 @@ public:
   }
 
   //precondition - x-monotone
-  Comparison_result curve_compare_at_x_left(const X_curve& cv1, 
-					    const X_curve& cv2,
-					    const Point& p) const {
+  Comparison_result curve_compare_at_x_left(const X_curve_2& cv1, 
+					    const X_curve_2& cv2,
+					    const Point_2& p) const {
     CGAL_assertion(is_x_monotone(cv1));
     CGAL_assertion(is_x_monotone(cv2));
 
@@ -160,9 +158,11 @@ public:
     if (!curve_is_in_x_range(cv1,p) || !curve_is_in_x_range(cv2,p) )
       return EQUAL;
 
-    Point leftmost1=(compare_x(curve_source(cv1),curve_target(cv1))==LARGER) ?
+    Point_2 leftmost1=(compare_x(curve_source(cv1),
+                                 curve_target(cv1))==LARGER) ?
       curve_target(cv1) : curve_source(cv1);
-    Point leftmost2=(compare_x(curve_source(cv2),curve_target(cv2))==LARGER) ?
+    Point_2 leftmost2=(compare_x(curve_source(cv2),
+                                 curve_target(cv2))==LARGER) ?
       curve_target(cv2) : curve_source(cv2);
 
     //special cases wher returns EQUAL
@@ -174,8 +174,8 @@ public:
 
 
     
-    typename X_curve::const_iterator pit=cv1.begin();
-    typename X_curve::const_iterator after=pit; ++after;
+    typename X_curve_2::const_iterator pit=cv1.begin();
+    typename X_curve_2::const_iterator after=pit; ++after;
     
     for( ; (compare_x(*pit,p) * compare_x(*after,p)) > 0 ; ++pit,++after) {}
     
@@ -201,18 +201,20 @@ public:
 
 
 
-  Comparison_result curve_compare_at_x_right(const X_curve& cv1, 
-					     const X_curve& cv2,
-					     const Point& p) const {
+  Comparison_result curve_compare_at_x_right(const X_curve_2& cv1, 
+					     const X_curve_2& cv2,
+					     const Point_2& p) const {
     CGAL_assertion(is_x_monotone(cv1));
     CGAL_assertion(is_x_monotone(cv2));
 
     if (!curve_is_in_x_range(cv1,p) || !curve_is_in_x_range(cv2,p))
       return EQUAL;
 
-    Point rightmost1=(compare_x(curve_source(cv1),curve_target(cv1))==SMALLER)
+    Point_2 rightmost1=(compare_x(curve_source(cv1),
+                                  curve_target(cv1))==SMALLER)
       ? curve_target(cv1) : curve_source(cv1);
-    Point rightmost2=(compare_x(curve_source(cv2),curve_target(cv2))==SMALLER)
+    Point_2 rightmost2=(compare_x(curve_source(cv2),
+                                  curve_target(cv2))==SMALLER)
       ? curve_target(cv2) : curve_source(cv2);
 
     //special cases wher returns EQUAL
@@ -228,8 +230,8 @@ public:
     if (!curve_is_in_x_range(cv1,p) || !curve_is_in_x_range(cv2,p) )
       return EQUAL;
 
-    typename X_curve::const_iterator pit=cv1.begin();
-    typename X_curve::const_iterator after=pit; ++after;
+    typename X_curve_2::const_iterator pit=cv1.begin();
+    typename X_curve_2::const_iterator after=pit; ++after;
     
     for( ; (compare_x(*pit,p) * compare_x(*after,p)) > 0 ; ++pit,++after) {}
     
@@ -262,7 +264,7 @@ public:
 
 
   Curve_point_status 
-  curve_get_point_status(const X_curve &cv, const Point& p) const
+  curve_get_point_status(const X_curve_2 &cv, const Point_2& p) const
   {
     CGAL_assertion(is_x_monotone(cv));
 
@@ -280,7 +282,7 @@ public:
 	return ABOVE_CURVE;
     }
 
-	typename X_curve::const_iterator pit=cv.begin(),after=pit; ++after;
+	typename X_curve_2::const_iterator pit=cv.begin(),after=pit; ++after;
     while ( (compare_x(*pit,p) * compare_x(*after,p)) > 0 ) {
       ++pit; ++after;
     }
@@ -300,8 +302,8 @@ public:
   
 
   //precondition - same as in pm
-  bool curve_is_between_cw(const X_curve& cv,const X_curve& first,
-                           const X_curve& second, const Point& p) const
+  bool curve_is_between_cw(const X_curve_2& cv,const X_curve_2& first,
+                           const X_curve_2& second, const Point_2& p) const
   {
     CGAL_assertion(is_x_monotone(cv));
     CGAL_assertion(is_x_monotone(first));
@@ -316,9 +318,9 @@ public:
 
 
 
-    X_curve cv0 = first;
-    X_curve cv1 = second;
-    X_curve cvx = cv;
+    X_curve_2 cv0 = first;
+    X_curve_2 cv1 = second;
+    X_curve_2 cvx = cv;
 
 
 
@@ -327,12 +329,12 @@ public:
     if ( !is_same(curve_source(cvx),p) ) cvx = curve_flip(cvx);
 
     
-    typename X_curve::iterator xcit=cv0.begin();++xcit;
-    Point p0(*xcit);
+    typename X_curve_2::iterator xcit=cv0.begin();++xcit;
+    Point_2 p0(*xcit);
     xcit=cv1.begin(); ++xcit;
-    Point p1(*xcit);
+    Point_2 p1(*xcit);
     xcit=cvx.begin(); ++xcit;
-    Point px(*xcit);
+    Point_2 px(*xcit);
 
     if (is_same(p0,p1))
       return true; 
@@ -351,16 +353,19 @@ public:
     }
   }
   
+  bool point_is_same(const Point_2 & p, const Point_2 & q) const
+  {
+    return is_same(p, q);
+  }
 
-
-  bool curve_is_same(const X_curve& cv1, const X_curve& cv2) const {
+  bool curve_is_same(const X_curve_2& cv1, const X_curve_2& cv2) const {
     CGAL_assertion(is_x_monotone(cv1));
     CGAL_assertion(is_x_monotone(cv2));
 
     if (cv1.size()!=cv2.size())
       return false;
-    typename X_curve::const_iterator it1=cv1.begin();
-    typename X_curve::const_iterator it2=cv2.begin();
+    typename X_curve_2::const_iterator it1=cv1.begin();
+    typename X_curve_2::const_iterator it2=cv2.begin();
     while (it1!=cv1.end()) {
       if (!is_same(*it1++,*it2++))
         return false;
@@ -369,47 +374,45 @@ public:
   }
 
   // SHAI: shouldn't cv  be of type Curve (even if X_curve is the same)
-  Point curve_source(const X_curve& cv) const {
+  Point_2 curve_source(const X_curve_2& cv) const {
     return *(cv.begin());
   }
 
-  // SHAI: shouldn't cv  be of type Curve (even if X_curve is the same)
-  Point curve_target(const X_curve& cv) const {
+  // SHAI: shouldn't cv  be of type Curve (even if X_curve_2 is the same)
+  Point_2 curve_target(const X_curve_2& cv) const {
     //debug
     //this seems to not work with vector
     //return *(--cv.end());
-    typename X_curve::const_iterator it=cv.end(); --it;
+    typename X_curve_2::const_iterator it=cv.end(); --it;
     return *it;
   }
 
-  Point point_to_left(const Point& p) const {
-    return p+Vector(-1,0);;
+  Point_2 point_to_left(const Point_2& p) const {
+    return p+Vector_2(-1,0);;
   }
-  Point point_to_right(const Point& p) const {
-    return p+Vector(1,0);;
+  Point_2 point_to_right(const Point_2& p) const {
+    return p+Vector_2(1,0);;
   }
-  
 
   ///////////////////////////////////////////////////////
   //         ARRANGEMENT FUNCS
 
 
-
-  X_curve curve_flip(const X_curve& cv) const {
-    X_curve cv1(cv);
+  X_curve_2 curve_flip(const X_curve_2& cv) const {
+    X_curve_2 cv1(cv);
     //cv1.reverse();
     std::reverse(cv1.begin(),cv1.end()); 
     return cv1; 
   }
 
-  bool is_x_monotone(const Curve& cv) const {
+  bool is_x_monotone(const Curve_2& cv) const {
     CGAL_assertion(cv.size()>=2); //one point is not a curve
 
     if (cv.size()==2) return true; //segment
 
-    typename X_curve::const_iterator p0=cv.begin();
-    typename X_curve::const_iterator p1=p0; ++p1;
-    typename X_curve::const_iterator p2=p1; ++p2;
+    typename X_curve_2::const_iterator p0=cv.begin();
+    typename X_curve_2::const_iterator p1=p0; ++p1;
+    typename X_curve_2::const_iterator p2=p1; ++p2;
 
     for(; p2!=cv.end(); ++p0,++p1,++p2) {
       if ( compare_x(*p0,*p1) * compare_x(*p1,*p2) <=0 )
@@ -424,7 +427,7 @@ public:
 
   //cuts into x-monotone curves, each vertical segment is 1 x-monotone curve
   //and not part of a bigger x-monotone polyline
-  void make_x_monotone(const Curve& cv, std::list<Curve>& l) {
+  void make_x_monotone(const Curve_2& cv, std::list<Curve_2>& l) {
     CGAL_assertion(cv.size()>=2); //one point is not a curve
 
     if (cv.size()==2) { //segment
@@ -432,11 +435,11 @@ public:
       return;
     }
 
-    typename X_curve::const_iterator p0=cv.begin();
-    typename X_curve::const_iterator p1=p0; ++p1;
-    typename X_curve::const_iterator p2=p1; ++p2;
+    typename X_curve_2::const_iterator p0=cv.begin();
+    typename X_curve_2::const_iterator p1=p0; ++p1;
+    typename X_curve_2::const_iterator p2=p1; ++p2;
 
-    typename X_curve::const_iterator last_cut=p0;
+    typename X_curve_2::const_iterator last_cut=p0;
 
     for(; p2!=cv.end(); ++p0,++p1,++p2) {
       //in future use constants instead of compare_x
@@ -446,20 +449,20 @@ public:
           //    o p0=lastcut (was p1 before)
           //    |
 
-          l.push_back(X_curve(last_cut,p1)); //constructor deque(first,beyond)
+          l.push_back(X_curve_2(last_cut,p1)); 
           //push_back the curve (last_cut...p0)
         }
-        l.push_back(X_curve(p0,p2)); //push_back the segment (p0,p1)
+        l.push_back(X_curve_2(p0,p2)); //push_back the segment (p0,p1)
         last_cut=p1;
       }
       else
         if ( compare_x(*p0,*p1) * compare_x(*p1,*p2) <= 0 ) {
-          l.push_back(X_curve(last_cut,p2));
+          l.push_back(X_curve_2(last_cut,p2));
           last_cut=p1;
         }
     }
 
-    l.push_back(X_curve(last_cut,p2)); //push the residue (last cut to end)
+    l.push_back(X_curve_2(last_cut,p2)); //push the residue (last cut to end)
 
 
     CGAL_assertion(p2==cv.end());
@@ -467,8 +470,8 @@ public:
   }
 
 
-  void curve_split(const X_curve& cv, X_curve& c1, X_curve& c2, 
-		   const Point& split_pt) {
+  void curve_split(const X_curve_2& cv, X_curve_2& c1, X_curve_2& c2, 
+		   const Point_2& split_pt) {
     
     //split curve at split point into c1 and c2
     CGAL_precondition(curve_get_point_status(cv,split_pt)==ON_CURVE);
@@ -477,8 +480,8 @@ public:
     CGAL_precondition(CGAL::compare_lexicographically_xy(curve_target(cv),
 							 split_pt) != EQUAL);
 
-    typename X_curve::const_iterator p0=cv.begin();
-    typename X_curve::const_iterator p1=p0; ++p1;
+    typename X_curve_2::const_iterator p0=cv.begin();
+    typename X_curve_2::const_iterator p1=p0; ++p1;
  
     bool split_at_vertex=false;
 
@@ -496,7 +499,7 @@ public:
     
     c1.clear(); c2.clear();
 
-    typename X_curve::const_iterator ci=cv.begin();
+    typename X_curve_2::const_iterator ci=cv.begin();
     while (ci!=p1) {
       c1.push_back(*ci);
       ++ci;
@@ -533,8 +536,8 @@ public:
 
   //returns true iff the intersectionis lexicographically strictly right of pt
 
-  bool do_intersect_to_right(const X_curve& ca, const X_curve& cb,
-                             const Point& pt) const 
+  bool do_intersect_to_right(const X_curve_2& ca, const X_curve_2& cb,
+                             const Point_2& pt) const 
   {
     CGAL_assertion(is_x_monotone(ca));
     CGAL_assertion(is_x_monotone(cb));
@@ -546,7 +549,7 @@ public:
     //we find an intersection point or we reach the end.
     
     //do a flip or can we assume they are left to right ??
-    X_curve c1(ca),c2(cb);
+    X_curve_2 c1(ca),c2(cb);
     if (lexicographically_xy_larger(curve_source(ca), curve_target(ca)) ==
 	LARGER )
       c1=curve_flip(ca);
@@ -554,11 +557,11 @@ public:
 	LARGER )
       c2=curve_flip(cb);
 
-    typename X_curve::const_iterator i1s=c1.begin(),i1e=c1.end();
-    typename X_curve::const_iterator i1t=i1s; ++i1t;
+    typename X_curve_2::const_iterator i1s=c1.begin(),i1e=c1.end();
+    typename X_curve_2::const_iterator i1t=i1s; ++i1t;
 
-    typename X_curve::const_iterator i2s=c2.begin(),i2e=c2.end();
-    typename X_curve::const_iterator i2t=i2s; ++i2t;
+    typename X_curve_2::const_iterator i2s=c2.begin(),i2e=c2.end();
+    typename X_curve_2::const_iterator i2t=i2s; ++i2t;
 
     int number_to_left=0; //increment this variable if curve starts left of pt
 
@@ -585,7 +588,7 @@ public:
     if (number_to_left==2) {
       //check if intersection exists and is lex larger
       Object result;
-      Point i_pt;
+      Point_2 i_pt;
       Segment_2<R> i_seg;
       
       result = intersection(Segment_2<R>(*i1s,*i1t),
@@ -650,11 +653,11 @@ public:
   //      p1 and p2 will be on a segment) even if the overlap is a polyline
   //      , this is still sufficient for the arrangement. might be
   //      changed in the future.
-  bool nearest_intersection_to_right(const X_curve& cv1,
-                                     const X_curve& cv2,
-                                     const Point& pt,
-                                     Point& p1,
-                                     Point& p2) const 
+  bool nearest_intersection_to_right(const X_curve_2& cv1,
+                                     const X_curve_2& cv2,
+                                     const Point_2& pt,
+                                     Point_2& p1,
+                                     Point_2& p2) const 
   {      
     CGAL_assertion(is_x_monotone(cv1));
     CGAL_assertion(is_x_monotone(cv2));
@@ -665,7 +668,7 @@ public:
     // curves do not necessarily intersect
     if ( ! do_intersect_to_right(cv1,cv2,pt)) return false;
 
-    X_curve c1(cv1),c2(cv2);
+    X_curve_2 c1(cv1),c2(cv2);
     if ( ! lexicographically_xy_smaller (curve_source(c1),curve_target(c1)))
       c1=curve_flip(cv1);
     if ( ! lexicographically_xy_smaller (curve_source(c2),curve_target(c2)))
@@ -676,11 +679,11 @@ public:
     //to the right of pt, if not continue with a normal sweep until 
     //we find an intersection point or we reach the end.
       
-    typename X_curve::const_iterator i1s=c1.begin(),i1e=c1.end();
-    typename X_curve::const_iterator i1t=i1s; ++i1t;
+    typename X_curve_2::const_iterator i1s=c1.begin(),i1e=c1.end();
+    typename X_curve_2::const_iterator i1t=i1s; ++i1t;
       
-    typename X_curve::const_iterator i2s=c2.begin(),i2e=c2.end();
-    typename X_curve::const_iterator i2t=i2s; ++i2t;
+    typename X_curve_2::const_iterator i2s=c2.begin(),i2e=c2.end();
+    typename X_curve_2::const_iterator i2t=i2s; ++i2t;
       
     int number_to_left=0; //increment this variable if curve starts left of pt
       
@@ -708,7 +711,7 @@ public:
       //check if intersection exists and is lex larger
       Object result=intersection(Segment_2<R>(*i1s,*i1t),
 				 Segment_2<R>(*i2s,*i2t));
-      Point i_pt;
+      Point_2 i_pt;
       Segment_2<R> i_seg;
       if (assign(i_pt,result)) {
 	//check if intersection point to the right of pt
@@ -718,7 +721,7 @@ public:
 	  p1=p2=i_pt;
 	  found =  true;
 #else
-	  p1=p2=Point(i_pt.x().normalize(),i_pt.y().normalize());
+	  p1=p2=Point_2(i_pt.x().normalize(),i_pt.y().normalize());
 	  found = true;
 #endif
 	}
@@ -740,11 +743,23 @@ public:
 	    // Finding the intersection point. We know by now
 	    // that there is exactly ONE point. Assinging this
 	    // point to p1.
-            Point ap1( pt.x(), i_seg.source().y() );
-            Point ap2( pt.x(), i_seg.target().y() );
+            
+            // Bug: What happens if the curves are vertical. The vertical ray
+            // shoot will return a segment instead of point.
+            Point_2 ap1( pt.x(), i_seg.source().y() );
+            Point_2 ap2( pt.x(), i_seg.target().y() );
             Segment_2<R> vertical_pt_x_base( ap1, ap2 );
             Object i_obj = intersection( vertical_pt_x_base, i_seg );
-            assign( p1, i_obj );
+            //assign( p1, i_obj ); // Causes a bug if the result is a segment.
+            
+            // Bug fix: Eti.
+            Point_2 tmp_p1;
+            Segment_2<R> i_vertical;
+            if ( assign( tmp_p1, i_obj ))
+              p1=tmp_p1;
+            else if ( assign(i_vertical, i_obj))
+              // the intersection vertical segment starts at pt.
+              p1=i_vertical.source();  
           }         
 	  found = true;
 	}
@@ -774,14 +789,14 @@ public:
       result = intersection(Segment_2<R>(*i1s,*i1t),
 			    Segment_2<R>(*i2s,*i2t));
         
-      Point i_pt;
+      Point_2 i_pt;
       Segment_2<R> i_seg;
       if (assign(i_pt,result)) {
           
 #ifndef ARR_USES_LEDA_RATIONAL  //normalize if we are with rational numbers
 	p1=p2=i_pt;
 #else
-	p1=p2=Point(i_pt.x().normalize(),i_pt.y().normalize());
+	p1=p2=Point_2(i_pt.x().normalize(),i_pt.y().normalize());
 #endif
 	found = true;
       }
@@ -803,11 +818,21 @@ public:
 	    // Finding the intersection point. We know by now
 	    // that there is exactly ONE point. Assinging this
 	    // point to p1.
-            Point ap1( pt.x(), i_seg.source().y() );
-            Point ap2( pt.x(), i_seg.target().y() );
+            Point_2 ap1( pt.x(), i_seg.source().y() );
+            Point_2 ap2( pt.x(), i_seg.target().y() );
             Segment_2<R> vertical_pt_x_base( ap1, ap2 );
             Object i_obj = intersection( vertical_pt_x_base, i_seg );
-            assign( p1, i_obj );
+            //assign( p1, i_obj ); // Causes a bug if the result is a segment.
+
+            // Bug fix: Eti.
+            Point_2 tmp_p1;
+            Segment_2<R> i_vertical;
+            if ( assign( tmp_p1, i_obj ))
+              p1=tmp_p1;
+            else if ( assign(i_vertical, i_obj))
+              // the intersection vertical segment starts at pt.
+              p1=i_vertical.source();  
+
 	  }    
 	  found = true;
 	}
@@ -831,7 +856,7 @@ public:
     // if the x point is at the end of a segment, then there might be 
     // an overlap in the continious of the polyline
     if ( found && is_same( p1, p2) ) {
-      typename X_curve::const_iterator s1=i1s, t1=i1t, s2=i2s, t2=i2t;
+      typename X_curve_2::const_iterator s1=i1s, t1=i1t, s2=i2s, t2=i2t;
       s1++; t1++; s2++; t2++;
       if (t1 != i1e && t2 != i2e) {
 
@@ -866,25 +891,25 @@ public:
   }
 
 
-  bool curves_overlap(const X_curve& ca, const X_curve& cb) const {
+  bool curves_overlap(const X_curve_2& ca, const X_curve_2& cb) const {
     CGAL_assertion(is_x_monotone(ca));
     CGAL_assertion(is_x_monotone(cb));
 
     //do a flip so they are left to right 
-    X_curve c1(ca),c2(cb);
+    X_curve_2 c1(ca),c2(cb);
     if (lexicographically_xy_larger(curve_source(ca),curve_target(ca)))
       c1=curve_flip(ca);
     if (lexicographically_xy_larger(curve_source(cb),curve_target(cb)))
       c2=curve_flip(cb);
 
-    typename X_curve::const_iterator i1s=c1.begin(),i1e=c1.end();
-    typename X_curve::const_iterator i1t=i1s; ++i1t;
+    typename X_curve_2::const_iterator i1s=c1.begin(),i1e=c1.end();
+    typename X_curve_2::const_iterator i1t=i1s; ++i1t;
 
-    typename X_curve::const_iterator i2s=c2.begin(),i2e=c2.end();
-    typename X_curve::const_iterator i2t=i2s; ++i2t;
+    typename X_curve_2::const_iterator i2s=c2.begin(),i2e=c2.end();
+    typename X_curve_2::const_iterator i2t=i2s; ++i2t;
 
     //now i1s holds the source vertex and i1t holds the target
-    Point i_pt;
+    Point_2 i_pt;
     Segment_2<R> i_seg;
     Segment_2<R> s1(*i1s,*i1t),s2(*i2s,*i2t);
     Object res=intersection(s1,s2);
@@ -926,10 +951,10 @@ public:
   }
 
 
-  X_curve curve_reflect_in_x_and_y( const X_curve& cv) const
+  X_curve_2 curve_reflect_in_x_and_y( const X_curve_2& cv) const
   {
-    X_curve reflected_cv;
-    typename Curve::const_iterator it  = cv.begin();
+    X_curve_2 reflected_cv;
+    typename Curve_2::const_iterator it  = cv.begin();
     for  (; it != cv.end(); it++)
       {
         reflected_cv.push_back( point_reflect_in_x_and_y( *it)); 
@@ -938,10 +963,10 @@ public:
   }
 
 
-  Point point_reflect_in_x_and_y (const Point& pt) const
+  Point_2 point_reflect_in_x_and_y (const Point_2& pt) const
   {
     // use hx(), hy(), hw() in order to support both Homogeneous and Cartesian
-    Point reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
+    Point_2 reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
     return reflected_pt;
   }
 
@@ -950,33 +975,23 @@ public:
   // PRIVATE
 private:
 
-
-  bool is_same(const Point &p1, const Point &p2) const
+  bool is_same(const Point_2 &p1, const Point_2 &p2) const
   {
     return (compare_x(p1, p2) == EQUAL) &&
       (compare_y(p1, p2) == EQUAL);
   }
 
-
 public:
-  void display(const X_curve& cv) const
+  void display(const X_curve_2& cv) const
   {
-    typename X_curve::const_iterator it=cv.begin(),eit=cv.end();
+    typename X_curve_2::const_iterator it=cv.begin(),eit=cv.end();
     while(it!=eit) { std::cerr << *it++;}
   }
   
   //the same for window stream
 };
 
-
 CGAL_END_NAMESPACE
 
-
-
-
-#endif
-
-
-
-
-
+#endif // CGAL_ARR_POLYLINE_TRAITS_H
+// EOF

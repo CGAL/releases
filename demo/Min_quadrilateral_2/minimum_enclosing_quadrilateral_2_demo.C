@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : minimum_enclosing_quadrilateral_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Min_quadrilaterals $
 // source        : oops.aw
-// revision      : $Revision: 1.20 $
-// revision_date : $Date: 2001/07/06 13:59:59 $
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2002/03/22 09:48:17 $
 // author(s)     : Michael Hoffmann and
 //                 Emo Welzl
 //
@@ -112,20 +110,24 @@ using CGAL::squared_distance;
 
 #include <LEDA/list.h>
 
+#if defined(LEDA_NAMESPACE)
+using namespace leda;
+#endif
+
 //typedef CGAL::Cartesian< double >                      R;
 typedef CGAL::Cartesian< leda_real >                   R;
 typedef R::Point_2                                     Point_2;
 typedef R::Line_2                                      Line_2;
 typedef Polygon_traits_2< R >                          P_traits;
-typedef vector< Point_2 >                              Container;
+typedef std::vector< Point_2 >                         Container;
 typedef CGAL::Polygon_2< P_traits, Container >         Polygon_2;
 typedef Creator_uniform_2< double, Point_2 >           Creator;
 typedef Random_points_in_square_2< Point_2, Creator >  Point_generator;
 
 struct Minimum_rectangle_2 :
-public geowin_update< CGALPointlist, list< leda_polygon > > {
+public geowin_update< CGALPointlist, std::list< leda_polygon > > {
   void
-  update(const CGALPointlist& ipts, list<leda_polygon>& poly)
+  update(const CGALPointlist& ipts, std::list<leda_polygon>& poly)
   {
     poly.clear();
 
@@ -183,9 +185,9 @@ public geowin_update< CGALPointlist, list< leda_polygon > > {
   } // update(pts, poly)
 };
 struct Minimum_parallelogram_2 :
-public geowin_update< CGALPointlist, list< leda_polygon > > {
+public geowin_update< CGALPointlist, std::list< leda_polygon > > {
   void
-  update(const CGALPointlist& ipts, list<leda_polygon>& poly)
+  update(const CGALPointlist& ipts, std::list<leda_polygon>& poly)
   {
     poly.clear();
 
@@ -243,9 +245,9 @@ public geowin_update< CGALPointlist, list< leda_polygon > > {
   } // update(pts, poly)
 };
 struct Minimum_strip_2 :
-public geowin_update< CGALPointlist, list< leda_line > > {
+public geowin_update< CGALPointlist, std::list< leda_line > > {
   void
-  update(const CGALPointlist& ipts, list<leda_line>& lines)
+  update(const CGALPointlist& ipts, std::list<leda_line>& lines)
   {
     lines.clear();
 

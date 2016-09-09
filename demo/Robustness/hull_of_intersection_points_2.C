@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : demo/Robustness/hull_of_intersection_points_2.C
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/26 11:52:29 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2001/12/04 17:42:25 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
@@ -60,12 +58,12 @@ typedef CGAL::Quotient<CGAL::MP_Float> exact_NT;
 #include <CGAL/point_generators_2.h>
 #include <CGAL/Join_input_iterator.h>
 #include <CGAL/copy_n.h>
+#include <CGAL/Polygon_2.h>
 #include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/Ostream_iterator.h>
 
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/squared_distance_2.h>
-#include <CGAL/IO/polygonal_2.h>
 #include <CGAL/Cartesian_converter.h>
 
 #if defined(CGAL_USE_CGAL_WINDOW)
@@ -84,6 +82,7 @@ main( int argc, char** argv)
   typedef CGAL::Cartesian<double>       C_double;
   typedef C_double::Point_2             double_Point;
   typedef C_double::Segment_2           double_Segment;
+  typedef CGAL::Polygon_2< C_double>    Polygon;
   typedef CGAL::Cartesian<exact_NT>     C_real;
   typedef C_real::Point_2               real_Point;
   typedef C_real::Segment_2             real_Segment;
@@ -161,8 +160,7 @@ main( int argc, char** argv)
           double_intersection_points.end(),
           std::back_inserter( double_convex_hull));
   W.set_fg_color( leda_grey2);
-  CGAL::send_to_stream_as_polygon( W, double_convex_hull.begin(),
-                                      double_convex_hull.end());
+  W << Polygon( double_convex_hull.begin(), double_convex_hull.end());
   W.set_fg_color( leda_green);
   std::copy( double_segments.begin(),
              double_segments.end(),

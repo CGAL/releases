@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/functional_msvc.h
-// package       : STL_Extension (2.34)
+// package       : STL_Extension (2.57)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2001/07/11 09:00:28 $
+// revision      : $Revision: 1.25 $
+// revision_date : $Date: 2002/05/02 18:00:45 $
 // author(s)     : Michael Hoffmann
 //                 Lutz Kettner
 //
@@ -98,8 +96,8 @@ namespace CGALi {
 
   template < class F >
   struct Swapper_1 {
-    typedef typename F::result_type result_type;
-    typedef typename F::Arity       Arity;
+    typedef typename F::result_type            result_type;
+    typedef typename Arity_traits< F >::Arity  Arity;
   
     Swapper_1(const F& f_) : f(f_) {}
   
@@ -130,8 +128,8 @@ namespace CGALi {
   
   template < class F >
   struct Swapper_2 {
-    typedef typename F::result_type result_type;
-    typedef typename F::Arity       Arity;
+    typedef typename F::result_type            result_type;
+    typedef typename Arity_traits< F >::Arity  Arity;
   
     Swapper_2(const F& f_) : f(f_) {}
   
@@ -162,8 +160,8 @@ namespace CGALi {
   
   template < class F >
   struct Swapper_3 {
-    typedef typename F::result_type result_type;
-    typedef typename F::Arity       Arity;
+    typedef typename F::result_type            result_type;
+    typedef typename Arity_traits< F >::Arity  Arity;
   
     Swapper_3(const F& f_) : f(f_) {}
   
@@ -194,8 +192,8 @@ namespace CGALi {
   
   template < class F >
   struct Swapper_4 {
-    typedef typename F::result_type result_type;
-    typedef typename F::Arity       Arity;
+    typedef typename F::result_type            result_type;
+    typedef typename Arity_traits< F >::Arity  Arity;
   
     Swapper_4(const F& f_) : f(f_) {}
   
@@ -272,8 +270,9 @@ swap_4(const F& f) {
 template < class F, class A >
 struct Binder_1 {
   typedef typename F::result_type result_type;
+  typedef typename Arity_traits< F >::Arity FArity;
   typedef
-    typename CGALi::Arity_minus_one< typename F::Arity >::Arity Arity;
+    typename CGALi::Arity_minus_one< FArity >::Arity Arity;
 
   Binder_1(const F& f_, const A& a_) : f(f_), a(a_) {}
 
@@ -309,8 +308,9 @@ protected:
 template < class F, class A >
 struct Binder_2 {
   typedef typename F::result_type result_type;
+  typedef typename Arity_traits< F >::Arity FArity;
   typedef
-    typename CGALi::Arity_minus_one< typename F::Arity >::Arity Arity;
+    typename CGALi::Arity_minus_one< FArity >::Arity Arity;
 
   Binder_2(const F& f_, const A& a_) : f(f_), a(a_) {}
 
@@ -342,8 +342,9 @@ protected:
 template < class F, class A >
 struct Binder_3 {
   typedef typename F::result_type result_type;
+  typedef typename Arity_traits< F >::Arity FArity;
   typedef
-    typename CGALi::Arity_minus_one< typename F::Arity >::Arity Arity;
+    typename CGALi::Arity_minus_one< FArity >::Arity Arity;
 
   Binder_3(const F& f_, const A& a_) : f(f_), a(a_) {}
 
@@ -370,8 +371,9 @@ protected:
 template < class F, class A >
 struct Binder_4 {
   typedef typename F::result_type result_type;
+  typedef typename Arity_traits< F >::Arity FArity;
   typedef
-    typename CGALi::Arity_minus_one< typename F::Arity >::Arity Arity;
+    typename CGALi::Arity_minus_one< FArity >::Arity Arity;
 
   Binder_4(const F& f_, const A& a_) : f(f_), a(a_) {}
 
@@ -393,8 +395,9 @@ protected:
 template < class F, class A >
 struct Binder_5 {
   typedef typename F::result_type result_type;
+  typedef typename Arity_traits< F >::Arity FArity;
   typedef
-    typename CGALi::Arity_minus_one< typename F::Arity >::Arity Arity;
+    typename CGALi::Arity_minus_one< FArity >::Arity Arity;
 
   Binder_5(const F& f_, const A& a_) : f(f_), a(a_) {}
 
@@ -654,8 +657,8 @@ protected:
 
 template < class F1, class F2, class F3 >
 struct Compose_shared_2 {
-  typedef typename F1::result_type result_type;
-  typedef typename F2::Arity       Arity;
+  typedef typename F1::result_type            result_type;
+  typedef typename Arity_traits< F2 >::Arity  Arity;
 
   Compose_shared_2(const F1& f1_, const F2& f2_, const F3& f3_)
   : f1(f1_), f2(f2_), f3(f3_)
@@ -1108,8 +1111,8 @@ protected:
 
 template < class F1, class F2, class F3, class F4 >
 struct Compose_shared_3 {
-  typedef typename F1::result_type result_type;
-  typedef typename F2::Arity       Arity;
+  typedef typename F1::result_type            result_type;
+  typedef typename Arity_traits< F2 >::Arity  Arity;
 
   Compose_shared_3(const F1& f1_, const F2& f2_,
                    const F3& f3_, const F4& f4_)
@@ -1161,7 +1164,7 @@ namespace CGALi {
   // msvc6 needs this, whysoever ...
   template < class T >
   struct CGAL__Wrap_type {
-    typedef typename T::Arity Arity;
+    typedef typename Arity_traits< T >::Arity Arity;
   };
 
   template < class F1, class F2, class F3, class F4 >

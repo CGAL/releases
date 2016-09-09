@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Point_2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/01/16 09:03:09 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2002/02/06 12:32:37 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,83 +46,61 @@
 #ifndef CGAL_CARTESIAN_POINT_2_H
 #define CGAL_CARTESIAN_POINT_2_H
 
-#include <CGAL/Cartesian/redefine_names_2.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
-class PointC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class PointC2
   : public R_::Point_handle_2
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Vector_2             Vector_2;
+  typedef typename R_::Point_2              Point_2;
+  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
+
+  typedef typename R_::Point_handle_2		 base;
+  typedef typename base::element_type	         rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  // Guess why we have the trailing underscore ?  Yes, that's it : VC++ !
-  typedef typename R::Point_handle_2		Point_handle_2_;
-  typedef typename Point_handle_2_::element_type	Point_ref_2;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef PointC2<R,Cartesian_tag>              Self;
-  typedef typename R::Vector_2                  Vector_2;
-  typedef typename R::Direction_2               Direction_2;
-  typedef typename R::Line_2                    Line_2;
-  typedef typename R::Ray_2                     Ray_2;
-  typedef typename R::Triangle_2                Triangle_2;
-  typedef typename R::Segment_2                 Segment_2;
-  typedef typename R::Iso_rectangle_2           Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2      Aff_transformation_2;
-  typedef typename R::Circle_2                  Circle_2;
-#else
-  typedef PointC2<R>                            Self;
-  typedef typename R::Vector_2_base             Vector_2;
-  typedef typename R::Direction_2_base          Direction_2;
-  typedef typename R::Line_2_base               Line_2;
-  typedef typename R::Ray_2_base                Ray_2;
-  typedef typename R::Triangle_2_base           Triangle_2;
-  typedef typename R::Segment_2_base            Segment_2;
-  typedef typename R::Iso_rectangle_2_base      Iso_rectangle_2;
-  typedef typename R::Aff_transformation_2_base Aff_transformation_2;
-  typedef typename R::Circle_2_base             Circle_2;
-#endif
+  typedef R_                                     R;
 
   PointC2()
-    : Point_handle_2_(Point_ref_2()) {}
+    : base(rep()) {}
 
   PointC2(const Origin &)
-    : Point_handle_2_(Point_ref_2(FT(0), FT(0))) {}
+    : base(rep(FT(0), FT(0))) {}
 
   PointC2(const FT &x, const FT &y)
-    : Point_handle_2_(Point_ref_2(x, y)) {}
+    : base(rep(x, y)) {}
 
   PointC2(const FT &hx, const FT &hy, const FT &hw)
   {
     if (hw != FT(1))
-      initialize_with( Point_ref_2(hx/hw, hy/hw) );
+      initialize_with( rep(hx/hw, hy/hw) );
     else
-      initialize_with( Point_ref_2(hx, hy) );
+      initialize_with( rep(hx, hy) );
   }
 
   PointC2(const Vector_2 &v)
-    : Point_handle_2_(v) {}
+    : base(v) {}
 
-  FT x() const
+  const FT& x() const
   {
       return Ptr()->e0;
   }
-  FT y() const
+  const FT& y() const
   {
       return Ptr()->e1;
   }
 
-  FT hx() const
+  const FT& hx() const
   {
       return x();
   }
-  FT hy() const
+  const FT& hy() const
   {
       return y();
   }
@@ -133,9 +109,9 @@ public:
       return FT(1);
   }
 
-  FT cartesian(int i) const;
+  const FT& cartesian(int i) const;
   FT homogeneous(int i) const;
-  FT operator[](int i) const
+  const FT& operator[](int i) const
   {
       return cartesian(i);
   }
@@ -145,20 +121,20 @@ public:
       return 2;
   }
 
-  bool operator==(const Self &p) const
+  bool operator==(const PointC2 &p) const
   {
       if (identical(p))
 	  return true;
       return equal_xy(*this, p);
   }
-  bool operator!=(const Self &p) const
+  bool operator!=(const PointC2 &p) const
   {
       return !(*this == p);
   }
 
   Bbox_2 bbox() const;
 
-  Self transform(const Aff_transformation_2 &t) const
+  Point_2 transform(const Aff_transformation_2 &t) const
   {
     return t.transform(*this);
   }
@@ -170,8 +146,8 @@ public:
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename PointC2<R CGAL_CTAG>::FT
-PointC2<R CGAL_CTAG>::cartesian(int i) const
+const typename PointC2<R>::FT &
+PointC2<R>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i == 0) || (i == 1) );
   return (i == 0) ? x() : y();
@@ -179,8 +155,8 @@ PointC2<R CGAL_CTAG>::cartesian(int i) const
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename PointC2<R CGAL_CTAG>::FT
-PointC2<R CGAL_CTAG>::homogeneous(int i) const
+typename PointC2<R>::FT
+PointC2<R>::homogeneous(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
   if (i<2)
@@ -191,7 +167,7 @@ PointC2<R CGAL_CTAG>::homogeneous(int i) const
 template < class R >
 CGAL_KERNEL_INLINE
 Bbox_2
-PointC2<R CGAL_CTAG>::bbox() const
+PointC2<R>::bbox() const
 {
   double bx = CGAL::to_double(x());
   double by = CGAL::to_double(y());
@@ -201,7 +177,7 @@ PointC2<R CGAL_CTAG>::bbox() const
 #ifndef CGAL_NO_OSTREAM_INSERT_POINTC2
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const PointC2<R CGAL_CTAG> &p)
+operator<<(std::ostream &os, const PointC2<R> &p)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -219,9 +195,9 @@ operator<<(std::ostream &os, const PointC2<R CGAL_CTAG> &p)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_POINTC2
 template < class R >
 std::istream &
-operator>>(std::istream &is, PointC2<R CGAL_CTAG> &p)
+operator>>(std::istream &is, PointC2<R> &p)
 {
-    typename PointC2<R CGAL_CTAG>::FT x, y;
+    typename R::FT x, y;
     switch(is.iword(IO::mode)) {
     case IO::ASCII :
         is >> x >> y;
@@ -236,7 +212,7 @@ operator>>(std::istream &is, PointC2<R CGAL_CTAG> &p)
         break;
     }
     if (is)
-	p = PointC2<R CGAL_CTAG>(x, y);
+	p = PointC2<R>(x, y);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_POINTC2

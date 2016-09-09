@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,33 +28,34 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/memory.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/01/09 18:54:39 $
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/10/22 12:50:23 $
 // author(s)     : Michael Seel
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
 // ======================================================================
 
-
 #ifndef CGAL_MEMORY_H
 #define CGAL_MEMORY_H
-#include <memory>
+
+// This file defines the macro CGAL_ALLOCATOR(t) which is the default
+// allocator used by CGAL.
 
 #ifdef CGAL_USE_LEDA
-#include <LEDA/allocator.h>
-#define CGAL_ALLOCATOR(t) leda_allocator< t >
-#define CGAL_ALLOC leda_allocator
+#  include <LEDA/allocator.h>
+#  define CGAL_ALLOCATOR(t) leda_allocator< t >
+
 #else
-#define CGAL_ALLOCATOR(t) std::allocator< t >
-#define CGAL_ALLOC std::allocator
+#  include <memory>
+#  define CGAL_ALLOCATOR(t) std::allocator< t >
 #endif
 
 #endif // CGAL_MEMORY_H

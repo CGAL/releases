@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Aff_transformation_rep_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/01/12 11:40:11 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 2002/01/22 09:46:13 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,30 +46,20 @@
 #ifndef CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_3_H
 #define CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/determinant.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
 class Aff_transformation_rep_baseC3
-  : public Rep
+  : public Ref_counted_virtual
 {
 public:
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef typename R::Point_3                   Point_3;
-  typedef typename R::Vector_3                  Vector_3;
-  typedef typename R::Direction_3               Direction_3;
-  typedef typename R::Aff_transformation_3      Aff_transformation_3;
-#else
-  typedef typename R::Point_3_base              Point_3;
-  typedef typename R::Vector_3_base             Vector_3;
-  typedef typename R::Direction_3_base          Direction_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef typename R::FT                   FT;
+  typedef typename R::Point_3              Point_3;
+  typedef typename R::Vector_3             Vector_3;
+  typedef typename R::Direction_3          Direction_3;
+  typedef typename R::Aff_transformation_3 Aff_transformation_3;
 
   virtual ~Aff_transformation_rep_baseC3(){}
 
@@ -107,7 +95,6 @@ class Aff_transformation_repC3
 
 public:
   typedef typename R::FT                                FT;
-  typedef typename R::RT                                RT;
   typedef Aff_transformation_repC3<R>                   Self;
   typedef Aff_transformation_rep_baseC3<R>              Transformation_base_3;
   typedef Aff_transformation_repC3<R>                   Transformation_3;

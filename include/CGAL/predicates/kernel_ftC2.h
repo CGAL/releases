@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/predicates/kernel_ftC2.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/04/27 16:51:37 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/01/09 10:48:48 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -187,6 +185,80 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
 }
 
 template < class FT >
+/*CGAL_NO_FILTER*/
+CGAL_KERNEL_LARGE_INLINE
+Comparison_result
+compare_y_at_xC2(const FT &px, const FT &py,
+                 const FT &ssx, const FT &ssy,
+                 const FT &stx, const FT &sty)
+{
+    // compares the y-coordinates of p and the vertical projection of p on s.
+    // Precondition : p is in the x-range of s.
+
+    CGAL_kernel_precondition(px >= min(ssx, stx) && px <= max(ssx, stx));
+
+    if (ssx < stx)
+	return (Comparison_result) orientationC2(px, py, ssx, ssy, stx, sty);
+    else if (ssx > stx)
+	return (Comparison_result) orientationC2(px, py, stx, sty, ssx, ssy);
+    else {
+	if (py < min(sty, ssy))
+	    return SMALLER;
+	if (py > max(sty, ssy))
+	    return LARGER;
+	return EQUAL;
+    }
+}
+
+template < class FT >
+CGAL_KERNEL_LARGE_INLINE
+Comparison_result
+compare_y_at_x_segment_C2(const FT &px,
+                          const FT &s1sx, const FT &s1sy,
+                          const FT &s1tx, const FT &s1ty,
+                          const FT &s2sx, const FT &s2sy,
+                          const FT &s2tx, const FT &s2ty)
+{
+    // compares the y-coordinates of the vertical projections of p on s1 and s2
+    // Precondition : p is in the x-range of s1 and s2.
+    // - if one or two segments are vertical :
+    //   - if the segments intersect, return EQUAL
+    //   - if not, return the obvious SMALLER/LARGER.
+
+    CGAL_kernel_precondition(px >= min(s1sx, s1tx) && px <= max(s1sx, s1tx));
+    CGAL_kernel_precondition(px >= min(s2sx, s2tx) && px <= max(s2sx, s2tx));
+
+    if (s1sx != s1tx && s2sx != s2tx) {
+	FT s1stx = s1sx-s1tx;
+	FT s2stx = s2sx-s2tx;
+
+	return Comparison_result(
+	    CGAL_NTS compare(s1sx, s1tx) *
+	    CGAL_NTS compare(s2sx, s2tx) *
+	    CGAL_NTS compare(-(s1sx-px)*(s1sy-s1ty)*s2stx,
+		             (s2sy-s1sy)*s2stx*s1stx
+		             -(s2sx-px)*(s2sy-s2ty)*s1stx ));
+    }
+    else {
+	if (s1sx == s1tx) { // s1 is vertical
+	    Comparison_result c1, c2;
+	    c1 = compare_y_at_xC2(px, s1sy, s2sx, s2sy, s2tx, s2ty);
+	    c2 = compare_y_at_xC2(px, s1ty, s2sx, s2sy, s2tx, s2ty);
+	    if (c1 == c2)
+		return c1;
+	    return EQUAL;
+	}
+	// s2 is vertical
+	Comparison_result c3, c4;
+	c3 = compare_y_at_xC2(px, s2sy, s1sx, s1sy, s1tx, s1ty);
+	c4 = compare_y_at_xC2(px, s2ty, s1sx, s1sy, s1tx, s1ty);
+	if (c3 == c4)
+	    return opposite(c3);
+	return EQUAL;
+    }
+}
+
+template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
 equal_directionC2(const FT &dx1, const FT &dy1,
@@ -218,6 +290,88 @@ compare_angle_with_x_axisC2(const FT &dx1, const FT &dy1,
     return SMALLER;
   return Comparison_result(-sign_of_determinant2x2(dx1,dy1,dx2,dy2));
 }
+
+template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+Comparison_result
+compare_slopesC2(const FT &l1a, const FT &l1b, const FT &l2a, const FT &l2b) 
+{
+   if (l1a == FT(0))  // l1 is horizontal
+    return l2b == FT(0) ? SMALLER : Comparison_result(CGAL_NTS sign(l2a*l2b));
+   if (l2a == FT(0)) // l2 is horizontal
+    return l1b == FT(0) ? LARGER : Comparison_result(-CGAL_NTS sign(l1a*l1b));
+   if (l1b == FT(0)) return l2b == FT(0) ? EQUAL : LARGER;
+   if (l2b == FT(0)) return SMALLER;
+   int l1_sign = CGAL_NTS sign(-l1a * l1b);
+   int l2_sign = CGAL_NTS sign(-l2a * l2b);
+
+   if (l1_sign < l2_sign) return SMALLER;
+   if (l1_sign > l2_sign) return LARGER;
+
+   if (l1_sign > 0)
+     return Comparison_result( CGAL_NTS sign ( CGAL_NTS abs(l1a * l2b) -
+                                               CGAL_NTS abs(l2a * l1b) ) );
+
+   return Comparison_result( CGAL_NTS sign ( CGAL_NTS abs(l2a * l1b) -
+                                             CGAL_NTS abs(l1a * l2b) ) );
+}
+
+template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
+Comparison_result
+compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x, 
+                 const FT &s1_tgt_y, const FT &s2_src_x, const FT &s2_src_y, 
+                 const FT &s2_tgt_x, const FT &s2_tgt_y) 
+{
+   Comparison_result cmp_y1 = CGAL_NTS compare(s1_src_y, s1_tgt_y);
+   if (cmp_y1 == EQUAL) // horizontal
+   {
+      Comparison_result cmp_x2 = CGAL_NTS compare(s2_src_x, s2_tgt_x);
+
+      if (cmp_x2 == EQUAL) return SMALLER;
+      return Comparison_result (- CGAL_NTS sign((s2_src_y - s2_tgt_y) *
+                                                (s2_src_x - s2_tgt_x)) );
+   }
+
+   Comparison_result cmp_y2 = CGAL_NTS compare(s2_src_y, s2_tgt_y);
+   if (cmp_y2 == EQUAL)
+   {
+      Comparison_result cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
+
+      if (cmp_x1 == EQUAL) return LARGER;
+      return Comparison_result ( CGAL_NTS sign((s1_src_y - s1_tgt_y) *
+                                               (s1_src_x - s1_tgt_x)) );
+   }
+
+   Comparison_result cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
+   Comparison_result cmp_x2 = CGAL_NTS compare(s2_src_x, s2_tgt_x);
+
+   if (cmp_x1 == EQUAL) return cmp_x2 == EQUAL ? EQUAL : LARGER;
+
+   if (cmp_x2 == EQUAL) return SMALLER;
+
+   FT s1_xdiff = s1_src_x - s1_tgt_x;
+   FT s1_ydiff = s1_src_y - s1_tgt_y;
+   FT s2_xdiff = s2_src_x - s2_tgt_x;
+   FT s2_ydiff = s2_src_y - s2_tgt_y;
+   Sign s1_sign = CGAL_NTS sign(s1_ydiff * s1_xdiff);
+   Sign s2_sign = CGAL_NTS sign(s2_ydiff * s2_xdiff);
+
+   if (s1_sign < s2_sign) return SMALLER;
+   if (s1_sign > s2_sign) return LARGER;
+
+   if (s1_sign > 0)
+     return Comparison_result(
+             CGAL_NTS sign ( CGAL_NTS abs(s1_ydiff * s2_xdiff) -
+                             CGAL_NTS abs(s2_ydiff * s1_xdiff)) );
+
+   return Comparison_result(
+            CGAL_NTS sign ( CGAL_NTS abs(s2_ydiff * s1_xdiff) -
+                            CGAL_NTS abs(s1_ydiff * s2_xdiff)) );
+}
+
+
+
 
 template < class FT >
 inline

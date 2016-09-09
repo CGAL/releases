@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Pm_walk_along_line_point_location.C
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.113)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -61,7 +59,7 @@ CGAL_BEGIN_NAMESPACE
 //if unbounded face - returns NULL or some edge on unbounded face 
 //if its a vertex returns a halfedge pointing _at_ it
 template <class Planar_map>
-Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
+typename Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
 Pm_walk_along_line_point_location<Planar_map>::locate(
                                                       const Point& p, 
                                                       Locate_type& lt) const
@@ -137,7 +135,7 @@ Pm_walk_along_line_point_location<Planar_map>::locate(
 }
 
 template <class Planar_map>
-Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
+typename Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
 Pm_walk_along_line_point_location<Planar_map>::locate(
 						      const Point& p, 
 						      Locate_type& lt){
@@ -149,118 +147,84 @@ Pm_walk_along_line_point_location<Planar_map>::locate(
 }
 
 template <class Planar_map>
-Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
+typename Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
 Pm_walk_along_line_point_location<Planar_map>::vertical_ray_shoot(
-                                                 const Point& p, 
-                                                 Locate_type& lt, 
-                                                 bool up) const
+  const Point & p, 
+  Locate_type & lt, 
+  bool          up) const
 {
-  Face_handle f=pm->unbounded_face(),last=pm->faces_end();  
+  Face_handle f    = pm->unbounded_face(),
+              last = pm->faces_end();  
   // p always lies in f's interior
-  Halfedge_handle e=pm->halfedges_end(); // closest halfedge so far
+  Halfedge_handle e = pm->halfedges_end(); // closest halfedge so far
   lt = Planar_map::UNBOUNDED_FACE;
-  while(f!=last) // stop at innermost level
+  while(f != last) // stop at innermost level
+  {
+    last = f;
+    Holes_iterator it  = f->holes_begin(),
+                   end = f->holes_end();
+    // For each hole
+    while(it != end && last == f) 
     {
-      last = f;
-      Holes_iterator it=f->holes_begin(),end=f->holes_end();
-      while(it!=end && last==f)     // handle holes
+      if (find_closest(p,*it,up,false,e,lt))
+      {
+        switch (lt)
         {
-          if (find_closest(p,*it,up,false,e,lt))
-            {
-              switch (lt)
-                {
-                case Planar_map::VERTEX:
+        case Planar_map::VERTEX:
                   
 #ifdef CGAL_PM_DEBUG
-                  
-                  CGAL_assertion(
-                                 traits->point_is_same_x(
-                                                         e->target()->point(),
-                                                         p)
-                                 );
-                  
+          CGAL_assertion(traits->point_is_same_x(e->target()->point(), p));
 #endif
-                  
-                case Planar_map::EDGE:
+        case Planar_map::EDGE:
                   
 #ifdef CGAL_PM_WALK_DEBUG
-                  std::cerr << "\ncalling walk_along_line(" << p << "," 
-                            << up << ",false," << e->curve() << "," << lt 
-                            << ")";
+          std::cerr << "\ncalling walk_along_line(" << p << "," 
+                    << up << ",false," << e->curve() << "," << lt 
+                    << ")";
 #endif
-                  
-                  walk_along_line(p,up,false,e,lt);
-                  switch(lt)
-                    {
-                    case Planar_map::VERTEX:
-                      f=e->twin()->face();
-                      break;
-                    case Planar_map::EDGE:
+          walk_along_line(p,up,false,e,lt);
+          switch(lt)
+          {
+          case Planar_map::VERTEX:
+            f=e->twin()->face();
+            break;
+          case Planar_map::EDGE:
                       
 #ifdef CGAL_PM_DEBUG
-                      
-                      CGAL_assertion(
-                                     up == traits->point_is_left_low(
-                                       e->target()->point(),
-                                       e->source()->point()
-                                       )
-                                     );
-                      
+            CGAL_assertion(
+              up == traits->point_is_left_low(e->target()->point(),
+                                              e->source()->point()));
 #endif                      
-                    case Planar_map::UNBOUNDED_FACE:
-                      break;
-                    default:
-                      CGAL_assertion(
-                                     lt==Planar_map::UNBOUNDED_FACE||
-                                     lt==Planar_map::EDGE||
-                                     lt==Planar_map::VERTEX
-                                     );
-                      break;
-                    }
-                  break;
-                default:
-                  CGAL_assertion(
-                                 lt==Planar_map::EDGE||
-                                 lt==Planar_map::VERTEX);
-                  break;
-                }
-            }
-          ++it;
+            f=e->face();
+          case Planar_map::UNBOUNDED_FACE:
+            break;
+          default:
+            CGAL_assertion(
+                           lt==Planar_map::UNBOUNDED_FACE||
+                           lt==Planar_map::EDGE||
+                           lt==Planar_map::VERTEX
+                           );
+            break;
+          }
+          break;
+        default:
+          CGAL_assertion(
+                         lt==Planar_map::EDGE||
+                         lt==Planar_map::VERTEX);
+          break;
         }
+      }
+      ++it;
     }
+  }
   if (e==pm->halfedges_end()) 
     lt=Planar_map::UNBOUNDED_FACE;
   
-  /* symmetric diagrams for downward ray shoot
-     x
-     |\
-     | x
-     p    => VERTEX
-     
-     x
-     \
-     |\  => EDGE
-     | x
-     p
-     
-     x        x
-     |        |
-     p=x   or  p   => EDGE
-     |
-     x
-     
-     x
-     |
-     x
-     => VERTEX
-     p
-  */
   return e;
 }
 
-
 template <class Planar_map>
-Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
+typename Pm_walk_along_line_point_location<Planar_map>::Halfedge_handle
 Pm_walk_along_line_point_location<Planar_map>::vertical_ray_shoot(
                                                  const Point& p, 
                                                  Locate_type& lt, bool up){
@@ -298,12 +262,15 @@ Pm_walk_along_line_point_location<Planar_map>::vertical_ray_shoot(
  lt == unbounded face, ( an unbounded face in the planar map)
       DEBUG: ?
 }
-
-This function takes a point p , p is in the face to the side of e. 
-We walk along  a the vertical line enamating from p (in direction up), one each iteration 
-find_closest finds the closest halfedge to p (in direction up), the loop stops when find_closest found the 
-closest face to p (the condition last_face != face) or we got to the unbounded face so there is nothing left to do.
 */
+
+// This function takes a point p , p is in the face to the side of e.
+// We walk along a the vertical line enamating from p (in direction
+// up), one each iteration find_closest finds the closest halfedge to
+// p (in direction up), the loop stops when find_closest found the
+// closest face to p (the condition last_face != face) or we got to
+// the unbounded face so there is nothing left to do.
+
 
 
 template <class Planar_map>
@@ -359,7 +326,8 @@ void Pm_walk_along_line_point_location<Planar_map>::walk_along_line(
 #endif
           }
         
-        face =(type || lt != Planar_map::VERTEX) ? e->face() : e->twin()->face();
+        face =
+	  (type || lt != Planar_map::VERTEX) ? e->face() : e->twin()->face();
     }
   while((type == (lt==Planar_map::UNBOUNDED_FACE)) && last_face != face);
 }
@@ -372,7 +340,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 	     Halfedge_handle& e,
 	     Locate_type& lt) const
 {
-  bool type = including; // for possible future implementation (if the ray includes its source).
+  // for possible future implementation (if the ray includes its source).
+  bool type = including; 
   bool intersection = e != pm->halfedges_end(); 
   // used to answer is it known that ray shoot intersects curves?
   bool inside = false; // used to calculate if point is inside ccb
@@ -384,8 +353,10 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
         curr->target()->point()<<std::endl;
 #endif
 
-      const X_curve& cv = curr->curve(), &ecv = e->curve();   // ecv holds the closest curve to p found so far.
-      const Point& p1 = traits->curve_source(cv),&p2 = traits->curve_target(cv);
+      // ecv holds the closest curve to p found so far.
+      const X_curve& cv = curr->curve(), &ecv = e->curve();   
+      const Point& p1 = traits->curve_source(cv),
+                 & p2 = traits->curve_target(cv);
       Curve_point_status s = traits->curve_get_point_status(cv, p);
       if ( s == (up ? Traits::UNDER_CURVE : Traits::ABOVE_CURVE)
 // && !traits->curve_is_vertical(cv)
@@ -397,7 +368,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
              |
              p
 
-        The vertical case is excluded for lexicographically the curve is not intersecting with the ray:
+        The vertical case is excluded for lexicographically the curve
+        is not intersecting with the ray:
 
            x        |  x
            |        | /
@@ -407,12 +379,17 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
         */
 
 	{
-	  if (traits->point_is_left_low(p,p1)!=traits->point_is_left_low(p,p2))  // p is lexicographically between p1 and p2.
+	  if (traits->point_is_left_low(p,p1) != 
+              traits->point_is_left_low(p,p2))  
+	    // p is lexicographically between p1 and p2.
 	    {
-	      inside = !inside; // count parity of curves intersecting ray in their interior
+	      // count parity of curves intersecting ray in their interior
+	      inside = !inside; 
 	    }
-	  if (!intersection ||   // if we had an intersection in the previoes iteration.
-	      traits->curve_compare_at_x(ecv, cv , p) == (up ? LARGER : SMALLER)
+	  // if we had an intersection in the previoes iteration.
+	  if (!intersection ||   
+	      traits->curve_compare_at_x(ecv, cv , p) == 
+	                                               (up ? LARGER : SMALLER)
 	      )   // we know that curr is above (or below, if up false) p.
 	    {
               // orient e leftlow
@@ -425,26 +402,30 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
                 e = curr->twin();
 
 #ifdef CGAL_PM_WALK_DEBUG
-              std::cout<<"e is "<< e->source()->point()<<" towards "<< e->target()->point()<<std::endl;
+              std::cout<<"e is "<< e->source()->point()<<" towards "
+		       << e->target()->point()<<std::endl;
 #endif  
 
               if (!type)
                 if (!traits->curve_is_vertical(cv))
                   {
                     if (traits->point_is_same_x(e->source()->point(),p)) 
-		      { e=e->twin(); lt=Planar_map::VERTEX;}  // p is below (above if not up) e->source().  
+		      // p is below (above if not up) e->source().  
+		      { e=e->twin(); lt=Planar_map::VERTEX;}  
                     else if (traits->point_is_same_x(e->target()->point(),p)) 
 		      { lt=Planar_map::VERTEX;}
                     else lt=Planar_map::EDGE;
                   }
                 else // for p is within e'th x range
                   lt=Planar_map::VERTEX;
-              intersection = true;   // the vertical ray intersects a vertex or an edge.
+	      // the vertical ray intersects a vertex or an edge.
+              intersection = true;   
 	    }
 	  else if (e != curr && e != curr->twin() && 
 		   traits->curve_compare_at_x(ecv, cv , p) == EQUAL)
-            // here the common edge point of cv and ecv is on the vertical ray enamating from p, and 
-            // q will hold that point.
+            // here the common edge point of cv and ecv is on the
+            // vertical ray enamating from p, and q will hold that
+            // point.
 	    /* first intersection point of ray and curve is an end point like
 
 	                   x x
@@ -460,20 +441,27 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 		  q!=traits->curve_target(ecv))
 	      q=traits->curve_target(cv);
 	      if ((up ? traits->curve_compare_at_x_from_bottom(ecv,cv,q) :
-                   traits->curve_compare_at_x_from_top(ecv,cv,q)) == LARGER){  // ecv is closer to p than cv.
-                if (type != (traits->point_is_same(curr->target()->point(),q))) 
-                  e = curr;      // means we 're under cv (so we take the outer edge part).
+                   traits->curve_compare_at_x_from_top(ecv,cv,q)) == LARGER)
+	      {  // ecv is closer to p than cv.
+                if (type != (traits->point_is_same(curr->target()->point(),q)))
+		  // means we 're under cv (so we take the outer edge part).
+		  e = curr;      
+		
                 else
-                  e= curr->twin();  // means we're above cv (between cv and ecv) and so we take the inner edge part.
+		  // means we're above cv (between cv and ecv) and so
+		  // we take the inner edge part.
+                  e= curr->twin();  
               }
               
               if (traits->curve_is_vertical(cv))
                 {
                   if (traits->point_is_lower(traits->curve_lowest(cv), q))
                     // special treatment for this special case:
-                    // vertical segment downward - here we should take the opposite direction
+                    // vertical segment downward - here we should take
+                    // the opposite direction
                     {
-                      if (type != (traits->point_is_same(curr->target()->point(),q))) 
+                      if (type != 
+                          (traits->point_is_same(curr->target()->point(),q))) 
                         e = curr->twin();
                       else
                         e = curr;
@@ -507,7 +495,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 	     The Locate type is always EDGE
 	  */
 	    {
-	      if (traits->curve_is_vertical(cv) && traits->point_is_higher(traits->curve_highest(cv),p))
+	      if (traits->curve_is_vertical(cv) && 
+		  traits->point_is_higher(traits->curve_highest(cv),p))
 
 		/*
 		  x       x
@@ -519,7 +508,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 
 		{
 		  lt = Planar_map::EDGE;
-		  if (up==traits->point_is_left_low(curr->target()->point(),curr->source()->point()))
+		  if (up==traits->point_is_left_low(curr->target()->point(),
+						    curr->source()->point()))
                     e = curr;
                   else 
                     e = curr->twin();
@@ -544,7 +534,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 		   !traits->point_is_same(p,traits->curve_target(cv)))
 		{
 		  lt = Planar_map::EDGE;
-		  if (up==traits->point_is_left_low(curr->target()->point(),curr->source()->point()))
+		  if (up==traits->point_is_left_low(curr->target()->point(),
+						    curr->source()->point()))
                     e = curr;
                   else 
                     e = curr->twin();
@@ -564,8 +555,7 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
                     e = find_vertex_representation(curr->twin(),p,up);
 
 #ifdef CGAL_PM_DEBUG
-
-		  CGAL_assertion(traits->point_is_same(e->target()->point(),p));
+		 CGAL_assertion(traits->point_is_same(e->target()->point(),p));
 
 #endif
 
@@ -612,7 +602,8 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
   }
   
   if (lt == Planar_map::UNBOUNDED_FACE && !(e->face()->is_unbounded()) ){
-    cout<<"Error - lt is UNBOUNDED_FACE, but e is on a bounded face"<<std::endl;
+    cout<<"Error - lt is UNBOUNDED_FACE, but e is on a bounded face"
+	<<std::endl;
     if (e->twin()->face()->is_unbounded())
       cout<<"Probably confused with twin halfedge"<<std::endl;
   }
@@ -625,4 +616,5 @@ bool Pm_walk_along_line_point_location<Planar_map>::find_closest(
 CGAL_END_NAMESPACE
 
 #endif
+
 

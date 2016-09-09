@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/predicates_on_points_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/07/23 17:31:12 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 2002/01/23 17:59:16 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,7 +46,6 @@
 #ifndef CGAL_CARTESIAN_PREDICATES_ON_POINTS_3_H
 #define CGAL_CARTESIAN_PREDICATES_ON_POINTS_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/predicates/kernel_ftC3.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -56,7 +53,7 @@ CGAL_BEGIN_NAMESPACE
 template < class R >
 inline
 bool
-x_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+x_equal(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.x() == q.x();
 }
@@ -64,7 +61,7 @@ x_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-y_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+y_equal(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.y() == q.y();
 }
@@ -72,7 +69,7 @@ y_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-z_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+z_equal(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.z() == q.z();
 }
@@ -80,7 +77,7 @@ z_equal(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-less_x(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+less_x(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.x() < q.x();
 }
@@ -88,7 +85,7 @@ less_x(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-less_y(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+less_y(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.y() < q.y();
 }
@@ -96,7 +93,7 @@ less_y(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-less_z(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+less_z(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.z() < q.z();
 }
@@ -104,7 +101,7 @@ less_z(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 Comparison_result
-compare_x(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+compare_x(const PointC3<R> &p, const PointC3<R> &q)
 {
   return CGAL_NTS compare(p.x(), q.x());
 }
@@ -112,7 +109,7 @@ compare_x(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 Comparison_result
-compare_y(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+compare_y(const PointC3<R> &p, const PointC3<R> &q)
 {
   return CGAL_NTS compare(p.y(), q.y());
 }
@@ -120,7 +117,7 @@ compare_y(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 Comparison_result
-compare_z(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+compare_z(const PointC3<R> &p, const PointC3<R> &q)
 {
   return CGAL_NTS compare(p.z(), q.z());
 }
@@ -128,7 +125,7 @@ compare_z(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-equal_xy(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+equal_xy(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.x() == q.x() && p.y() == q.y();
 }
@@ -136,7 +133,7 @@ equal_xy(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 bool
-equal_xyz(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
+equal_xyz(const PointC3<R> &p, const PointC3<R> &q)
 {
   return p.x() == q.x() && p.y() == q.y() && p.z() == q.z();
 }
@@ -144,8 +141,8 @@ equal_xyz(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 template < class R >
 inline
 Comparison_result
-compare_xy(const PointC3<R CGAL_CTAG> &p, 
-	   const PointC3<R CGAL_CTAG> &q)
+compare_xy(const PointC3<R> &p, 
+	   const PointC3<R> &q)
 {
   return compare_lexicographically_xyC2(p.x(), p.y(), q.x(), q.y()); 
 }
@@ -153,8 +150,8 @@ compare_xy(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Comparison_result
-compare_lexicographically_xy(const PointC3<R CGAL_CTAG> &p, 
-			     const PointC3<R CGAL_CTAG> &q)
+compare_lexicographically_xy(const PointC3<R> &p, 
+			     const PointC3<R> &q)
 {
   return compare_lexicographically_xyC2(p.x(), p.y(), q.x(), q.y()); 
 }
@@ -162,8 +159,8 @@ compare_lexicographically_xy(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-lexicographically_xy_smaller_or_equal(const PointC3<R CGAL_CTAG> &p, 
-				      const PointC3<R CGAL_CTAG> &q)
+lexicographically_xy_smaller_or_equal(const PointC3<R> &p, 
+				      const PointC3<R> &q)
 { 
   return compare_lexicographically_xy(p, q) != LARGER;
 }
@@ -171,16 +168,16 @@ lexicographically_xy_smaller_or_equal(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-lexicographically_xy_smaller(const PointC3<R CGAL_CTAG> &p, 
-			     const PointC3<R CGAL_CTAG> &q)
+lexicographically_xy_smaller(const PointC3<R> &p, 
+			     const PointC3<R> &q)
 { 
   return compare_lexicographically_xy(p, q) == SMALLER;
 }
 
 template < class R >
 Comparison_result
-compare_xyz(const PointC3<R CGAL_CTAG> &p,
-                              const PointC3<R CGAL_CTAG> &q)
+compare_xyz(const PointC3<R> &p,
+                              const PointC3<R> &q)
 {
   return compare_lexicographically_xyzC3(p.x(), p.y(), p.z(),
                                          q.x(), q.y(), q.z());
@@ -188,8 +185,8 @@ compare_xyz(const PointC3<R CGAL_CTAG> &p,
 
 template < class R >
 Comparison_result
-compare_lexicographically_xyz(const PointC3<R CGAL_CTAG> &p,
-                              const PointC3<R CGAL_CTAG> &q)
+compare_lexicographically_xyz(const PointC3<R> &p,
+                              const PointC3<R> &q)
 {
   return compare_lexicographically_xyzC3(p.x(), p.y(), p.z(),
                                          q.x(), q.y(), q.z());
@@ -197,16 +194,16 @@ compare_lexicographically_xyz(const PointC3<R CGAL_CTAG> &p,
 
 template < class R >
 bool
-lexicographically_xyz_smaller_or_equal(const PointC3<R CGAL_CTAG> &p,
-                                       const PointC3<R CGAL_CTAG> &q)
+lexicographically_xyz_smaller_or_equal(const PointC3<R> &p,
+                                       const PointC3<R> &q)
 {
   return compare_lexicographically_xyz(p, q) != LARGER;
 }
 
 template < class R >
 bool
-lexicographically_xyz_smaller(const PointC3<R CGAL_CTAG> &p,
-                              const PointC3<R CGAL_CTAG> &q)
+lexicographically_xyz_smaller(const PointC3<R> &p,
+                              const PointC3<R> &q)
 {
   return compare_lexicographically_xyz(p, q) == SMALLER;
 }
@@ -214,8 +211,8 @@ lexicographically_xyz_smaller(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-strict_dominance(const PointC3<R CGAL_CTAG> &p,
-		 const PointC3<R CGAL_CTAG> &q)
+strict_dominance(const PointC3<R> &p,
+		 const PointC3<R> &q)
 {
   return strict_dominanceC3(p.x(), p.y(), p.z(),
 			    q.x(), q.y(), q.z());
@@ -224,8 +221,8 @@ strict_dominance(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-dominance(const PointC3<R CGAL_CTAG> &p,
-	  const PointC3<R CGAL_CTAG> &q)
+dominance(const PointC3<R> &p,
+	  const PointC3<R> &q)
 {
   return dominanceC3(p.x(), p.y(), p.z(),
 		     q.x(), q.y(), q.z());
@@ -234,9 +231,9 @@ dominance(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-collinear(const PointC3<R CGAL_CTAG> &p,
-          const PointC3<R CGAL_CTAG> &q,
-          const PointC3<R CGAL_CTAG> &r)
+collinear(const PointC3<R> &p,
+          const PointC3<R> &q,
+          const PointC3<R> &r)
 {
   return collinearC3(p.x(), p.y(), p.z(),
                      q.x(), q.y(), q.z(),
@@ -246,10 +243,10 @@ collinear(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Orientation
-orientation(const PointC3<R CGAL_CTAG> &p,
-            const PointC3<R CGAL_CTAG> &q,
-            const PointC3<R CGAL_CTAG> &r,
-            const PointC3<R CGAL_CTAG> &s)
+orientation(const PointC3<R> &p,
+            const PointC3<R> &q,
+            const PointC3<R> &r,
+            const PointC3<R> &s)
 {
   return orientationC3(p.x(), p.y(), p.z(),
                        q.x(), q.y(), q.z(),
@@ -260,9 +257,9 @@ orientation(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Angle
-angle(const PointC3<R CGAL_CTAG> &p,
-      const PointC3<R CGAL_CTAG> &q,
-      const PointC3<R CGAL_CTAG> &r)
+angle(const PointC3<R> &p,
+      const PointC3<R> &q,
+      const PointC3<R> &r)
 {
     return angleC3(p.x(), p.y(), p.z(),
 	           q.x(), q.y(), q.z(),
@@ -272,10 +269,10 @@ angle(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-coplanar(const PointC3<R CGAL_CTAG> &p,
-         const PointC3<R CGAL_CTAG> &q,
-         const PointC3<R CGAL_CTAG> &r,
-         const PointC3<R CGAL_CTAG> &s)
+coplanar(const PointC3<R> &p,
+         const PointC3<R> &q,
+         const PointC3<R> &r,
+         const PointC3<R> &s)
 {
   return orientation(p, q, r, s) == COPLANAR;
 }
@@ -283,10 +280,10 @@ coplanar(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Orientation
-coplanar_orientation(const PointC3<R CGAL_CTAG> &p,
-                     const PointC3<R CGAL_CTAG> &q,
-                     const PointC3<R CGAL_CTAG> &r,
-                     const PointC3<R CGAL_CTAG> &s)
+coplanar_orientation(const PointC3<R> &p,
+                     const PointC3<R> &q,
+                     const PointC3<R> &r,
+                     const PointC3<R> &s)
 {
   // p,q,r,s supposed to be coplanar
   // p,q,r supposed to be non collinear
@@ -306,9 +303,9 @@ coplanar_orientation(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Orientation
-coplanar_orientation(const PointC3<R CGAL_CTAG> &p,
-                     const PointC3<R CGAL_CTAG> &q,
-                     const PointC3<R CGAL_CTAG> &r)
+coplanar_orientation(const PointC3<R> &p,
+                     const PointC3<R> &q,
+                     const PointC3<R> &r)
 {
   // Returns an Orientation which is coherent for all (p,q,r) in a same plane.
   return coplanar_orientationC3(p.x(), p.y(), p.z(),
@@ -319,10 +316,10 @@ coplanar_orientation(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 Bounded_side
-coplanar_side_of_bounded_circle(const PointC3<R CGAL_CTAG> &p,
-                                const PointC3<R CGAL_CTAG> &q,
-                                const PointC3<R CGAL_CTAG> &r,
-                                const PointC3<R CGAL_CTAG> &t)
+coplanar_side_of_bounded_circle(const PointC3<R> &p,
+                                const PointC3<R> &q,
+                                const PointC3<R> &r,
+                                const PointC3<R> &t)
 {
   // p,q,r,t are supposed to be coplanar.
   // p,q,r determine an orientation of this plane (not collinear).
@@ -338,10 +335,10 @@ coplanar_side_of_bounded_circle(const PointC3<R CGAL_CTAG> &p,
 template < class R>
 inline
 bool
-are_positive_oriented(const PointC3<R CGAL_CTAG>& p,
-                      const PointC3<R CGAL_CTAG>& q,
-                      const PointC3<R CGAL_CTAG>& r,
-                      const PointC3<R CGAL_CTAG>& s)
+are_positive_oriented(const PointC3<R>& p,
+                      const PointC3<R>& q,
+                      const PointC3<R>& r,
+                      const PointC3<R>& s)
 {
   return orientation(p, q, r, s) == POSITIVE;
 }
@@ -349,10 +346,10 @@ are_positive_oriented(const PointC3<R CGAL_CTAG>& p,
 template < class R>
 inline
 bool
-are_negative_oriented(const PointC3<R CGAL_CTAG>& p,
-                      const PointC3<R CGAL_CTAG>& q,
-                      const PointC3<R CGAL_CTAG>& r,
-                      const PointC3<R CGAL_CTAG>& s)
+are_negative_oriented(const PointC3<R>& p,
+                      const PointC3<R>& q,
+                      const PointC3<R>& r,
+                      const PointC3<R>& s)
 {
   return orientation(p, q, r, s) == NEGATIVE;
 }
@@ -360,9 +357,9 @@ are_negative_oriented(const PointC3<R CGAL_CTAG>& p,
 template < class R >
 inline
 bool
-are_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
-                       const PointC3<R CGAL_CTAG> &q,
-                       const PointC3<R CGAL_CTAG> &r)
+are_ordered_along_line(const PointC3<R> &p,
+                       const PointC3<R> &q,
+                       const PointC3<R> &r)
 {
   return collinear(p, q, r) ? collinear_are_ordered_along_line(p, q, r)
                             : false;
@@ -371,9 +368,9 @@ are_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-collinear_are_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
-                                 const PointC3<R CGAL_CTAG> &q,
-                                 const PointC3<R CGAL_CTAG> &r)
+collinear_are_ordered_along_line(const PointC3<R> &p,
+                                 const PointC3<R> &q,
+                                 const PointC3<R> &r)
 {
   CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   return collinear_are_ordered_along_lineC3(p.x(), p.y(), p.z(),
@@ -384,9 +381,9 @@ collinear_are_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-are_strictly_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
-                                const PointC3<R CGAL_CTAG> &q,
-                                const PointC3<R CGAL_CTAG> &r)
+are_strictly_ordered_along_line(const PointC3<R> &p,
+                                const PointC3<R> &q,
+                                const PointC3<R> &r)
 {
   return (collinear(p, q, r))
          ? collinear_are_strictly_ordered_along_line(p, q, r)
@@ -396,9 +393,9 @@ are_strictly_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
 template < class R >
 inline
 bool
-collinear_are_strictly_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
-                                          const PointC3<R CGAL_CTAG> &q,
-                                          const PointC3<R CGAL_CTAG> &r)
+collinear_are_strictly_ordered_along_line(const PointC3<R> &p,
+                                          const PointC3<R> &q,
+                                          const PointC3<R> &r)
 {
   CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   return collinear_are_strictly_ordered_along_lineC3(p.x(), p.y(), p.z(),
@@ -409,11 +406,11 @@ collinear_are_strictly_ordered_along_line(const PointC3<R CGAL_CTAG> &p,
 template <class R >
 inline
 Oriented_side
-side_of_oriented_sphere(const PointC3<R CGAL_CTAG> &p,
-                        const PointC3<R CGAL_CTAG> &q,
-                        const PointC3<R CGAL_CTAG> &r,
-                        const PointC3<R CGAL_CTAG> &s,
-                        const PointC3<R CGAL_CTAG> &test)
+side_of_oriented_sphere(const PointC3<R> &p,
+                        const PointC3<R> &q,
+                        const PointC3<R> &r,
+                        const PointC3<R> &s,
+                        const PointC3<R> &test)
 {
   return side_of_oriented_sphereC3(p.x(), p.y(), p.z(),
                                    q.x(), q.y(), q.z(),
@@ -425,9 +422,9 @@ side_of_oriented_sphere(const PointC3<R CGAL_CTAG> &p,
 template <class R >
 inline
 Bounded_side
-side_of_bounded_sphere(const PointC3<R CGAL_CTAG> &p,
-                       const PointC3<R CGAL_CTAG> &q,
-                       const PointC3<R CGAL_CTAG> &test)
+side_of_bounded_sphere(const PointC3<R> &p,
+                       const PointC3<R> &q,
+                       const PointC3<R> &test)
 {
   return side_of_bounded_sphereC3(p.x(), p.y(), p.z(),
                                   q.x(), q.y(), q.z(),
@@ -437,10 +434,10 @@ side_of_bounded_sphere(const PointC3<R CGAL_CTAG> &p,
 template <class R >
 inline
 Bounded_side
-side_of_bounded_sphere(const PointC3<R CGAL_CTAG> &p,
-                       const PointC3<R CGAL_CTAG> &q,
-                       const PointC3<R CGAL_CTAG> &r,
-                       const PointC3<R CGAL_CTAG> &test)
+side_of_bounded_sphere(const PointC3<R> &p,
+                       const PointC3<R> &q,
+                       const PointC3<R> &r,
+                       const PointC3<R> &test)
 {
   return side_of_bounded_sphereC3(p.x(), p.y(), p.z(),
                                   q.x(), q.y(), q.z(),
@@ -451,11 +448,11 @@ side_of_bounded_sphere(const PointC3<R CGAL_CTAG> &p,
 template <class R >
 inline
 Bounded_side
-side_of_bounded_sphere(const PointC3<R CGAL_CTAG> &p,
-                       const PointC3<R CGAL_CTAG> &q,
-                       const PointC3<R CGAL_CTAG> &r,
-                       const PointC3<R CGAL_CTAG> &s,
-                       const PointC3<R CGAL_CTAG> &test)
+side_of_bounded_sphere(const PointC3<R> &p,
+                       const PointC3<R> &q,
+                       const PointC3<R> &r,
+                       const PointC3<R> &s,
+                       const PointC3<R> &test)
 {
   return side_of_bounded_sphereC3(p.x(), p.y(), p.z(),
                                   q.x(), q.y(), q.z(),

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Geomview_stream.h
-// package       : Geomview (3.19)
-// revision      : $Revision: 1.37 $
-// revision_date : $Date: 2001/06/19 18:36:10 $
+// package       : Geomview (3.32)
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2001/09/22 10:13:18 $
 // author(s)     : Andreas Fabri, Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -49,17 +47,13 @@
 #ifndef CGAL_GEOMVIEW_STREAM_H
 #define CGAL_GEOMVIEW_STREAM_H
 
+#include <CGAL/basic.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Bbox_3.h>
 #include <CGAL/IO/Color.h>
 
-// #include <CGAL/Iso_rectangle_2.h>
-// #include <CGAL/intersections.h>
-
 #include <map>
 #include <string>
-#include <strstream> // deprecated
-// #include <sstream>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -197,12 +191,7 @@ public:
 	return !binary_flag;
     }
 
-    std::string get_new_id(const std::string & s)
-    {
-	std::ostrstream str;
-	str << s << id[s]++ << std::ends;
-	return str.str();
-    }
+    std::string get_new_id(const std::string & s);
 
     const Bbox_3 & get_bbox()
     {
@@ -214,6 +203,9 @@ public:
         pickplane(get_bbox());
     }
 
+    static char* nth(char* s, int count);
+    static void parse_point(const char* pickpoint,
+		     double &x, double &y, double &z, double &w);
 private:
     void setup_geomview(const char *machine, const char *login);
     void frame(const Bbox_3 &bbox);
@@ -230,7 +222,7 @@ private:
     double radius;    // radius of vertices
     int in, out;      // file descriptors for input and output pipes
     int pid;          // the geomview process identification
-    std::map<const std::string, int> id; // used to get a unique ID per type.
+    std::map<std::string, int> id; // used to get a unique ID per type.
 };
 
 // Factorize code for Point_2 and Point_3.
@@ -261,7 +253,8 @@ template < class R >
 Geomview_stream&
 operator<<(Geomview_stream &gv, const Point_2<R> &p)
 {
-    output_point(gv, p.x(), p.y(), typename R::FT(0));
+    typename R::FT zero(0);
+    output_point(gv, p.x(), p.y(), zero);
     return gv;
 }
 #endif
@@ -514,25 +507,6 @@ operator<<(Geomview_stream &gv, const Bbox_2 &bbox);
 Geomview_stream&
 operator<<(Geomview_stream &gv, const Bbox_3 &bbox);
 
-char*
-nth(char* s, int count);
-
-#ifdef CGAL_POINT_3_H
-template < class R >
-void
-parse_point(const char* pickpoint, Point_3<R> &point)
-{
-    // std::stringstream ss;
-    std::strstream ss;
-    ss << pickpoint << std::ends;
-
-    double x, y, z, w;
-    char parenthesis;
-    ss >> parenthesis >> x >> y >> z >> w;
-    point = Point_3<R>(x, y, z, w);
-}
-#endif
-
 #if defined CGAL_POINT_3_H && !defined CGAL_GV_IN_POINT_3_H
 #define CGAL_GV_IN_POINT_3_H
 template < class R >
@@ -549,9 +523,11 @@ operator>>(Geomview_stream &gv, Point_3<R> &point)
     char sexpr[1024];
     gv >> sexpr;  // this reads a gcl expression
 
-    const char* pickpoint = nth(sexpr, 3);
+    const char* pickpoint = Geomview_stream::nth(sexpr, 3);
     // this gives something as: (0.0607123 0.0607125 4.76837e-07 0.529628)
-    parse_point(pickpoint, point);
+    double x, y, z, w;
+    Geomview_stream::parse_point(pickpoint, x, y, z, w);
+    point = Point_3<R>(x, y, z, w);
 
     // we echo the input
     if (gv.get_echo())

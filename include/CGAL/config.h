@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/config.h
-// package       : Configuration (2.11)
+// package       : Configuration (2.32)
 // source        :
 // revision      : 1.11
 // revision_date : 30 Mar 1998
@@ -51,8 +49,8 @@
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 2.3
-#define CGAL_VERSION_NR 1002003100
+#define CGAL_VERSION 2.4
+#define CGAL_VERSION_NR 1002004100
 
 #define CGAL_CFG_NO_ADVANCED_KERNEL 1
 
@@ -64,8 +62,10 @@
 #ifdef _MSC_VER
 #   define CGAL_SCOPE
 #   define CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT 1
-#   include <stl_config.h>
-#   include <stl_iterator_base.h>
+#	if _MSC_VER < 1300
+#           include <stl_config.h>
+#           include <stl_iterator_base.h>
+#	endif
 #else  // not _MSC_VER
 #   define CGAL_SCOPE CGAL::
 #   define CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(a)
@@ -89,7 +89,6 @@
 #   define CGAL_TYPENAME_MSVC_NULL typename
 #endif
 
-
 #ifdef CGAL_CFG_NO_NAMESPACE
 #  define CGAL_USING_NAMESPACE_STD
 #  define CGAL_STD
@@ -110,8 +109,16 @@
 #  define CGAL_END_NAMESPACE
 #endif
 
-#ifdef CGAL_CFG_NO_MUTABLE
-#  define mutable
+#ifdef CGAL_CFG_VC7_PRIVATE_TYPE_BUG
+#  define CGAL_VC7_BUG_PROTECTED protected:
+#else
+#  define CGAL_VC7_BUG_PROTECTED
+#endif
+
+#ifdef CGAL_CFG_MATCHING_BUG_2
+#   define CGAL_MSVC_DUMMY_ARGUMENT , int dummy=1
+#else
+#   define CGAL_MSVC_DUMMY_ARGUMENT
 #endif
 
 #ifdef CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION
@@ -125,7 +132,6 @@
 #else
 #  define CGAL_TEMPLATE_NULL template <>
 #endif
-
 
 #ifdef CGAL_CFG_NO_STDC_NAMESPACE
 #define CGAL_CLIB_STD
@@ -143,11 +149,13 @@
 #if defined(__BORLANDC__) && __BORLANDC__ > 0x520
 #include <CGAL/Borland_fixes.h>
 #endif
+#if defined(__sun) && defined(__SUNPRO_CC)
+#include <CGAL/Sun_fixes.h>
+#endif
 
 //----------------------------------------------------------------------//
 //             select old or new style headers
 //----------------------------------------------------------------------//
-
 
 #ifndef CGAL_USE_NEWSTYLE_HEADERS
 #  ifndef CGAL_CFG_NO_STANDARD_HEADERS

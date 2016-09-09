@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -29,13 +27,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Tee_for_output_iterator.h
-// package       : Convex_hull_2 (3.21)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/25 12:26:25 $
+// package       : Convex_hull_2 (3.34)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/12/05 15:16:22 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -48,6 +46,7 @@
 #ifndef CGAL_IO_TEE_FOR_OUTPUT_ITERATOR_H
 #define CGAL_IO_TEE_FOR_OUTPUT_ITERATOR_H
 
+#include <CGAL/basic.h>
 #include <iterator>
 #include <vector>
 #include <CGAL/Handle.h>
@@ -58,19 +57,14 @@ template <class T> class _Tee_for_output_iterator_rep;
 template <class OutputIterator, class T>
 class Tee_for_output_iterator 
   : public Handle
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  , public std::output_iterator
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS
 {
   typedef std::vector<T>                             container;
   typedef typename container::iterator               iterator;
   typedef T                                          value_type;
   typedef std::output_iterator_tag                   iterator_category;
-#ifndef CGAL_CFG_NO_ITERATOR_TRAITS
   typedef std::iterator_traits<iterator>             iter_traits;
   typedef typename iter_traits::pointer              pointer;
   typedef typename iter_traits::reference            reference;
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS
 
 public:
   Tee_for_output_iterator(const OutputIterator& o) : o_it(o) 
@@ -130,18 +124,6 @@ public:
   std::vector<T> output_so_far;
 };
 
-template <class OutputIterator, class T>
-inline 
-T*
-value_type(const Tee_for_output_iterator<OutputIterator,T>&)
-{ return (T*)0; }
 CGAL_END_NAMESPACE
-
-template <class OutputIterator, class T>
-inline 
-std::output_iterator_tag
-iterator_category(const CGAL::Tee_for_output_iterator<OutputIterator,T>&)
-{ return std::output_iterator_tag(); }
-
 
 #endif // CGAL_IO_TEE_FOR_OUTPUT_ITERATOR_H

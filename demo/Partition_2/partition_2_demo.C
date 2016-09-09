@@ -22,8 +22,13 @@ int main() {
 #include <CGAL/Partition_traits_2.h>
 #include <fstream>
 
+#if defined(LEDA_NAMESPACE)
+using leda::menu;
+using leda::panel_item;
+#endif
+
 enum Button_nums {QUIT=4, MOUSE_POLYGON, RANDOM_POLYGON, 
-                  READ_FROM_FILE, WRITE_INPUT_TO_FILE};
+                  READ_FROM_FILE, WRITE_INPUT_TO_FILE, REFRESH};
 
 const int WINDOW_SIZE = 500;
 const int MAX_POLY_SIZE = 100;
@@ -157,9 +162,9 @@ void compute_partitions(Polygon_2& polygon)
                                   ".opt_cvx");
 
     CGAL::greene_approx_convex_partition_2(polygon.vertices_begin(), 
-                                        polygon.vertices_end(),
-                                        std::back_inserter(greene_approx_polys),
-                                        partition_traits);
+                                       polygon.vertices_end(),
+                                       std::back_inserter(greene_approx_polys),
+                                       partition_traits);
     save_partition_p_list_to_file(greene_opt_polys, current_file_name,
                                   ".greene_approx");
 
@@ -176,6 +181,7 @@ int main( )
    controls.button("Load", READ_FROM_FILE);
    controls.button("Save Input", WRITE_INPUT_TO_FILE);
    controls.button("Polygon", polygon_menu);
+   controls.button("Refresh", REFRESH);
    controls.button("Quit", QUIT);
    controls.make_menu_bar();
    controls.bool_item("Show convex optimal", show_greene_opt, draw_polygons);

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Iso_rectangle_2.h
-// package       : _2 (3.19)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/06/27 14:51:30 $
+// package       : _2 (3.32)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/01/23 12:28:30 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -48,64 +46,36 @@
 #ifndef CGAL_ISO_RECTANGLE_2_H
 #define CGAL_ISO_RECTANGLE_2_H
 
-#include <CGAL/Point_2.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Iso_rectangle_2 : public R_::Iso_rectangle_2_base
+class Iso_rectangle_2 : public R_::Kernel_base::Iso_rectangle_2
 {
+  typedef typename R_::RT                    RT;
+  typedef typename R_::Point_2               Point_2;
+  typedef typename R_::Kernel_base::Iso_rectangle_2  RIso_rectangle_2;
 public:
   typedef  R_   R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
-  typedef typename R::Iso_rectangle_2_base  RIso_rectangle_2;
 
   Iso_rectangle_2()
-    : RIso_rectangle_2()
-  {}
+    : RIso_rectangle_2() {}
 
   Iso_rectangle_2(const CGAL::Iso_rectangle_2<R> &r)
-    : RIso_rectangle_2(r)
-  {}
+    : RIso_rectangle_2(r) {}
 
   Iso_rectangle_2(const RIso_rectangle_2& r)
-    : RIso_rectangle_2(r)
-  {}
+    : RIso_rectangle_2(r) {}
 
-  Iso_rectangle_2(const CGAL::Point_2<R> &p, const CGAL::Point_2<R> &q)
-    : RIso_rectangle_2(p,q)
-  {}
+  Iso_rectangle_2(const Point_2 &p, const Point_2 &q)
+    : RIso_rectangle_2(p,q) {}
 
   Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
                   const RT& max_hx, const RT& max_hy)
-    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy)
-  {}
+    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy) {}
 
   Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
                   const RT& max_hx, const RT& max_hy, const RT& hw)
-    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy, hw)
-  {}
-
-  CGAL::Point_2<R>
-  min() const
-  { return RIso_rectangle_2::min(); }
-
-  CGAL::Point_2<R>
-  max() const
-  { return RIso_rectangle_2::max(); }
-
-  CGAL::Point_2<R>
-  vertex(int i) const
-  { return RIso_rectangle_2::vertex(i); }
-
-  CGAL::Point_2<R>
-  operator[](int i) const
-  { return vertex(i); }
-
-  CGAL::Iso_rectangle_2<R>
-  transform(const CGAL::Aff_transformation_2<R> &t) const
-  { return  RIso_rectangle_2::transform(t); }
+    : RIso_rectangle_2(min_hx, min_hy, max_hx, max_hy, hw) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
@@ -113,7 +83,7 @@ template < class R >
 std::ostream &
 operator<<(std::ostream &os, const Iso_rectangle_2<R> &r)
 {
-  typedef typename R::Iso_rectangle_2_base  RIso_rectangle_2;
+  typedef typename R::Kernel_base::Iso_rectangle_2  RIso_rectangle_2;
   return  os << (const RIso_rectangle_2&)r;
 }
 #endif // CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
@@ -123,7 +93,7 @@ template < class R >
 std::istream &
 operator>>(std::istream &is, Iso_rectangle_2<R> &r)
 {
-  typedef typename R::Iso_rectangle_2_base  RIso_rectangle_2;
+  typedef typename R::Kernel_base::Iso_rectangle_2  RIso_rectangle_2;
   is >> (RIso_rectangle_2&)r;
   return is;
 }

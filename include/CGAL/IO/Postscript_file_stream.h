@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/IO/Postscript_file_stream.h
-// package       : window (2.8.10)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/11 17:25:02 $
+// package       : window (2.8.27)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2002/03/20 15:47:54 $
 // author(s)     : Stefan Schirra
 //
 //
@@ -50,6 +48,7 @@
 #ifndef CGAL_POSTSCRIPT_FILE_STREAM_H
 #define CGAL_POSTSCRIPT_FILE_STREAM_H
 
+#include <CGAL/LEDA_basic.h>
 #include <CGAL/IO/Color.h>
 #ifdef LEDA_PS_FILE_H
 # error Internal CGAL error: <LEDA/ps_file.h> should not have been included yet
@@ -76,12 +75,12 @@
 # include <LEDA/ps_file.h>
 # undef private
 #endif // LEDA_PS_FILE_H
-#include <CGAL/IO/esprit_logo.xpm>
+#include <CGAL/IO/cgal_logo.h>
 
 CGAL_BEGIN_NAMESPACE
 
 
-typedef ::ps_file   leda_ps_file;
+typedef CGAL_LEDA_SCOPE::ps_file   leda_ps_file;
 
 class Postscript_file_stream : public leda_ps_file
 {
@@ -117,7 +116,7 @@ Postscript_file_stream::change_rgb(const Color& c)
 inline
 bool
 Postscript_file_stream::is_in_colormode()
-{ return (outputmode==colored_mode); }
+{ return (outputmode== CGAL_LEDA_SCOPE::colored_mode); }
 
 
 inline

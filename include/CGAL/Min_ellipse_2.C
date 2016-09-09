@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Min_ellipse_2.C
-// package       : Min_ellipse_2 (3.14)
+// package       : Min_ellipse_2 (3.19)
 // chapter       : Geometric Optimisation
 //
 // source        : web/Min_ellipse_2.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/17 12:51:07 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/01/23 11:25:03 $
 //
 // author(s)     : Sven Schönherr, Bernd Gärtner
 // coordinator   : ETH Zürich (Bernd Gärtner)
@@ -49,6 +47,8 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
+
+#include <iterator>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -63,7 +63,7 @@ operator << ( std::ostream& os,
 {
     CGAL_USING_NAMESPACE_STD
 
-    typedef  Min_ellipse_2<Traits_>::Point  Point;
+    typedef typename Min_ellipse_2<Traits_>::Point  Point;
     typedef  ostream_iterator<Point>        Os_it;
 
     switch ( CGAL::get_mode( os)) {
@@ -120,7 +120,7 @@ operator >> ( std::istream& is, CGAL::Min_ellipse_2<Traits_>& min_ellipse)
 
       case CGAL::IO::ASCII:
       case CGAL::IO::BINARY:
-        typedef  Min_ellipse_2<Traits_>::Point  Point;
+        typedef typename Min_ellipse_2<Traits_>::Point  Point;
         typedef  istream_iterator<Point>       Is_it;
         min_ellipse.clear();
         min_ellipse.insert( Is_it( is), Is_it());

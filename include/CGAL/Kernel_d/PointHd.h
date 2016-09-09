@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/PointHd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/06 11:11:50 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2002/03/18 20:34:00 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -44,19 +42,20 @@
 // www           : http://www.cgal.org
 //
 // ======================================================================
-#ifndef CGAL_POINTHD_H
-#define CGAL_POINTHD_H 
-
+#ifndef CGAL_POINTHDXXX_H
+#define CGAL_POINTHDXXX_H 
 #ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Quotient.h>
 #endif
-#include <CGAL/Kernel_d/Tuple_d.h> 
+#include <CGAL/Kernel_d/Tuple_d.h>
 #include <CGAL/Kernel_d/VectorHd.h> 
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
 
+
 CGAL_BEGIN_NAMESPACE
+#define PointHd PointHd2
 
 template <class RT, class LA> class PointHd;
 template <class RT, class LA>
@@ -90,9 +89,10 @@ We call $p_i$, $0 \leq i < d$ the $i$-th Cartesian coordinate and
 $h_i$, $0 \le i \le d$, the $i$-th homogeneous coordinate. We call $d$
 the dimension of the point.}*/
 
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_RT& entry(int i) const { return ptr->v[i]; }
-void invert_rep() const { ptr->invert(); }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_RT& entry(int i) { return ptr()->v[i]; }
+const _RT& entry(int i) const { return ptr()->v[i]; }
+void invert_rep() { ptr()->invert(); }
 PointHd(const Base& b) : Base(b) {}
 
 public: 
@@ -213,7 +213,7 @@ PointHd(const PointHd<RT,LA>& p) : Base(p) {}
 
 /*{\Moperations 4 3}*/
 
-int dimension() const  { return ptr->size()-1; }
+int dimension() const  { return ptr()->size()-1; }
 /*{\Mop  returns the dimension of |\Mvar|. }*/
 
 Quotient<RT> cartesian(int i) const
@@ -231,30 +231,30 @@ Quotient<RT> operator[](int i) const  { return cartesian(i); }
 RT homogeneous(int i) const 
 /*{\Mop  returns the $i$-th homogeneous coordinate of |\Mvar|.
    \precond $0 \leq i \leq d$.}*/
-{ CGAL_assertion_msg((0<=i && i<=(dimension())), "PointHd::homogeneous():\
-  index out of range.");
+{ CGAL_assertion_msg((0<=i && i<=(dimension())), 
+    "PointHd::homogeneous():index out of range.");
   return entry(i);
 }
 
 Cartesian_const_iterator cartesian_begin() const 
 /*{\Mop returns an iterator pointing to the zeroth Cartesian coordinate 
 $p_0$ of |\Mvar|. }*/
-{ return Cartesian_const_iterator(ptr->begin(),ptr->last()); }
+{ return Cartesian_const_iterator(ptr()->begin(),ptr()->last()); }
 
 Cartesian_const_iterator cartesian_end() const 
 /*{\Mop returns an iterator pointing beyond the last Cartesian coordinate 
 of |\Mvar|. }*/
-{ return Cartesian_const_iterator(ptr->last(),ptr->last()); }
+{ return Cartesian_const_iterator(ptr()->last(),ptr()->last()); }
 
 Homogeneous_const_iterator homogeneous_begin() const 
 /*{\Mop returns an iterator pointing to the zeroth homogeneous coordinate 
 $h_0$ of |\Mvar|. }*/
-{ return ptr->begin(); }
+{ return ptr()->begin(); }
 
 Homogeneous_const_iterator homogeneous_end() const 
 /*{\Mop returns an iterator pointing beyond the last homogeneous coordinate 
 of |\Mvar|. }*/
-{ return ptr->end(); }
+{ return ptr()->end(); }
 
 PointHd<RT,LA> transform(const Aff_transformationHd<RT,LA>& t) const; 
 /*{\Mop returns $t(p)$. }*/
@@ -267,7 +267,7 @@ inline VectorHd<RT,LA> operator-(const Origin& o) const;
 VectorHd<RT,LA> operator-(const PointHd<RT,LA>& q) const 
 /*{\Mbinop  returns $p - q$. \precond |p.dimension() == q.dimension()|.}*/
 { VectorHd<RT,LA> res(dimension()); 
-  res.ptr->homogeneous_sub(ptr,q.ptr); 
+  res.ptr()->homogeneous_sub(ptr(),q.ptr());
   return res; 
 }
 
@@ -334,7 +334,7 @@ output on a point $p$ take time $O(|p.dimension()|)$. |dimension()|,
 coordinate access and conversions take constant time.  The space
 requirement for points is $O(|p.dimension()|)$.}*/
 
-
+#undef PointHd 
 CGAL_END_NAMESPACE
 #endif // CGAL_POINTHD_H 
 //----------------------- end of file ----------------------------------

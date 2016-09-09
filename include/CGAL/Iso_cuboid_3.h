@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Iso_cuboid_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2001/06/27 14:49:52 $
+// package       : _3 (3.31)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/01/23 12:30:06 $
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -48,42 +46,37 @@
 #ifndef CGAL_ISO_CUBOID_3_H
 #define CGAL_ISO_CUBOID_3_H
 
-#include <CGAL/Point_3.h>
-
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class Iso_cuboid_3 : public R_::Iso_cuboid_3_base
+class Iso_cuboid_3 : public R_::Kernel_base::Iso_cuboid_3
 {
+  typedef typename R_::RT                 RT;
+  typedef typename R_::Point_3            Point_3;
+  typedef typename R_::Kernel_base::Iso_cuboid_3  RIso_cuboid_3;
 public:
   typedef          R_                    R;
-  typedef typename R::RT                 RT;
-  typedef typename R::FT                 FT;
-  typedef typename R::Iso_cuboid_3_base  RIso_cuboid_3;
 
   Iso_cuboid_3() : RIso_cuboid_3()
   {}
 
-  Iso_cuboid_3(const CGAL::Iso_cuboid_3<R>& r) : RIso_cuboid_3(r)
-  {}
+  Iso_cuboid_3(const CGAL::Iso_cuboid_3<R>& r)
+      : RIso_cuboid_3(r) {}
 
-  Iso_cuboid_3(const RIso_cuboid_3&  r) : RIso_cuboid_3(r)
-  {}
+  Iso_cuboid_3(const RIso_cuboid_3&  r)
+      : RIso_cuboid_3(r) {}
 
-  Iso_cuboid_3(const CGAL::Point_3<R>& p, const CGAL::Point_3<R>& q)
-   : RIso_cuboid_3(p,q)
-  {}
+  Iso_cuboid_3(const Point_3& p, const Point_3& q)
+   : RIso_cuboid_3(p,q) {}
 
   Iso_cuboid_3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
                const RT& max_hx, const RT& max_hy, const RT& max_hz, 
                const RT& hw)
-   : RIso_cuboid_3(min_hx, min_hy, min_hz, max_hx, max_hy, max_hz, hw)
-  {}
+   : RIso_cuboid_3(min_hx, min_hy, min_hz, max_hx, max_hy, max_hz, hw) {}
 
   Iso_cuboid_3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
                const RT& max_hx, const RT& max_hy, const RT& max_hz)
-   : RIso_cuboid_3(min_hx, min_hy, min_hz, max_hx, max_hy, max_hz)
-  {}
+   : RIso_cuboid_3(min_hx, min_hy, min_hz, max_hx, max_hy, max_hz) {}
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_ISO_CUBOID_3
@@ -91,7 +84,7 @@ template < class R >
 std::ostream&
 operator<<(std::ostream& os, const Iso_cuboid_3<R>& r)
 {
-  typedef typename  R::Iso_cuboid_3_base  RIso_cuboid_3;
+  typedef typename  R::Kernel_base::Iso_cuboid_3  RIso_cuboid_3;
   return  os << (const RIso_cuboid_3& )r; }
 #endif // CGAL_NO_OSTREAM_INSERT_ISO_CUBOID_3
 
@@ -100,7 +93,7 @@ template < class R >
 std::istream&
 operator>>(std::istream& is, Iso_cuboid_3<R>& r)
 {
-  typedef typename  R::Iso_cuboid_3_base  RIso_cuboid_3;
+  typedef typename  R::Kernel_base::Iso_cuboid_3  RIso_cuboid_3;
   is >> (RIso_cuboid_3& )r;
   return is;
 }

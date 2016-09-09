@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_ds_vertex_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.21 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.27 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
@@ -45,78 +43,69 @@
 //
 // ======================================================================
 
-// vertex of a combinatotial triangulation of any dimension <=3
+// vertex of a combinatorial triangulation of any dimension <=3
 
 #ifndef CGAL_TRIANGULATION_DS_VERTEX_3_H
 #define CGAL_TRIANGULATION_DS_VERTEX_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Triangulation_ds_iterators_3.h>
 #include <CGAL/Triangulation_short_names_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Vb, class Cb >
+template <class Tds>
 class  Triangulation_ds_vertex_3 
-  : public Vb
+  : public Tds::Vertex_base
 {
+  typedef typename Tds::Vertex_base        Vb;
+  typedef typename Tds::Vertex_handle      Vertex_handle;
+  typedef typename Tds::Cell_handle        Cell_handle;
 public:
-  typedef typename Vb::Point Point;
-  typedef Triangulation_ds_vertex_3<Vb,Cb> Vertex;
-  typedef Triangulation_ds_cell_3<Vb,Cb> Cell;
-
-  // CONSTRUCTORS
+  typedef typename Tds::Vertex      Vertex;
+  typedef typename Tds::Cell        Cell;
 
   Triangulation_ds_vertex_3()
     : Vb()
   { set_order_of_creation(); }
     
-  Triangulation_ds_vertex_3(const Point & p)
-    :  Vb(p)
-  { set_order_of_creation(); }
-    
-  Triangulation_ds_vertex_3(const Point & p, Cell * c)
-    :  Vb(p, c)
-  { set_order_of_creation(); }
-
-  Triangulation_ds_vertex_3(Cell * c)
-    :  Vb(c)
-  { set_order_of_creation(); }
-
-  // ACCESS
-
-  Cell* cell() const
+  Cell_handle cell() const
   {
     return (Cell *) (Vb::cell());
   }
     
-  // SETTING
-
-  void set_cell(Cell* c)
+  void set_cell(const Cell_handle c)
   {
-    Vb::set_cell(c);
+    Vb::set_cell(&*c);
   }
-
-  // CHECKING
 
   bool is_valid(bool verbose = false, int level = 0) const;
 
   // used for symbolic perturbation in remove_vertex for Delaunay
   // undocumented
-  void set_order_of_creation()
-  {
-    static int nb=-1; 
-    _order_of_creation = ++nb;
-  }
-
   int get_order_of_creation() const
   {
       return _order_of_creation;
   }
-  
+
+  Vertex_handle handle() const
+  {
+      return const_cast<Vertex*>(this);
+  }
+
 private:
+  void set_order_of_creation()
+  {
+    _order_of_creation = ++nb;
+  }
+
   int _order_of_creation;
+
+  static int nb;
 };
+
+template <class Tds>
+int Triangulation_ds_vertex_3<Tds>::nb;
+
 
 template < class VH>
 class Vertex_tds_compare_order_of_creation {
@@ -126,12 +115,12 @@ public:
   }
 };
 
-template <class Vb, class Cb >
+template <class Tds>
 bool
-Triangulation_ds_vertex_3<Vb,Cb>::is_valid
+Triangulation_ds_vertex_3<Tds>::is_valid
 (bool verbose, int level) const
 {
-  bool result = Vb::is_valid(verbose,level) && cell()->has_vertex(this);
+  bool result = Vb::is_valid(verbose,level) && cell()->has_vertex(handle());
   if ( ! result ) {
     if ( verbose )
       std::cerr << "invalid vertex" << std::endl;

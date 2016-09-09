@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/Segment_d.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/07/16 08:17:17 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/03/18 20:34:01 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -109,13 +107,13 @@ Segment_d(const Segment_d<R>& s) : Base(s) {}
 
 /*{\Moperations 3 3}*/
 
-int dimension() const { return (ptr->_p[0].dimension()); }
+int dimension() const { return (ptr()->_p[0].dimension()); }
 /*{\Mop returns the dimension of the underlying space. }*/
 
-Point_d<R>  source() const { return ptr->_p[0]; }
+Point_d<R>  source() const { return ptr()->_p[0]; }
 /*{\Mop    returns the source point of segment |\Mvar|. }*/ 
 
-Point_d<R>  target() const { return ptr->_p[1]; } 
+Point_d<R>  target() const { return ptr()->_p[1]; } 
 /*{\Mop    returns the target point of segment |\Mvar|. }*/ 
 
 // defined for historical reasons
@@ -124,7 +122,7 @@ Point_d<R>  vertex(int i) const
 source, |vertex(1)| returns the target. The parameter $i$ is taken
 modulo $2$, which gives easy access to the other vertex.
 \precond $i \geq 0$.}*/
-{ CGAL_assertion(i>=0); return ptr->_p[i%2]; }
+{ CGAL_assertion(i>=0); return ptr()->_p[i%2]; }
 
 Point_d<R>  point(int i) const { return vertex(i); }
 /*{\Mop returns |vertex(i)|.}*/ 
@@ -156,12 +154,12 @@ Direction_d<R> direction() const
 \precond |\Mvar| is non-degenerate. }*/
 { CGAL_assertion_msg((!is_degenerate()), 
   "Segment_d::direction(): degenerate segment cannot be converted.");
-  return ptr->direction(); 
+  return ptr()->direction(); 
 }
 
 Vector_d<R> vector() const
 /*{\Mop returns the vector from source to target.}*/
-{ return ptr->vector(); }
+{ return ptr()->vector(); }
 
 FT squared_length() const
 /*{\Mop returns the square of the length of |\Mvar|.}*/
@@ -192,7 +190,7 @@ Segment_d<R> operator+(const Vector_d<R>& v) const
 bool is_degenerate() const 
 /*{\Mop returns true if |\Mvar| is degenerate i.e. 
 |\Mvar.source()=\Mvar.target()|. }*/
-{ return ptr->is_degenerate(); } 
+{ return ptr()->is_degenerate(); } 
 
 bool operator==(const Segment_d<R>& t) const
 { if (identical(t)) return true;
@@ -239,7 +237,7 @@ result is |false|. }*/
 
 template <class R> 
 std::istream& operator>>(std::istream& I, Segment_d<R>& s)
-{ s.copy_on_write(); s.ptr->read(I); 
+{ s.copy_on_write(); s.ptr()->read(I); 
   CGAL_assertion_msg(s.source().dimension()==s.target().dimension(),
   "Segment_d::operator>>: dimensions disagree.");
   return I; 
@@ -247,7 +245,7 @@ std::istream& operator>>(std::istream& I, Segment_d<R>& s)
 
 template <class R> 
 std::ostream& operator<<(std::ostream& O, const Segment_d<R>& s)
-{ s.ptr->print(O,"Segment_d"); return O; }
+{ s.ptr()->print(O,"Segment_d"); return O; }
 
 template <class R>
 inline CGAL::io_Operator io_tag(const Segment_d<R>&) 

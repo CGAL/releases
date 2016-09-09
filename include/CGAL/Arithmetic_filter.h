@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Arithmetic_filter.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 2.43 $
-// revision_date : $Date: 2001/07/23 08:51:56 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 2.48 $
+// revision_date : $Date: 2002/04/09 14:43:43 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -55,12 +53,14 @@
 //       kernel level.
 
 #include <CGAL/basic.h>
+#include <CGAL/tags.h>
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Static_filter_error.h>
 #include <CGAL/Restricted_double.h>
 #include <CGAL/misc.h>
 
 CGAL_BEGIN_NAMESPACE
+
 
 // CT = construction type
 // ET = exact type (used for exact predicate evaluation)
@@ -95,6 +95,12 @@ template < class CT, class ET, class Type = Dynamic,
            bool Protection = true, class Cache = No_Filter_Cache >
 class Filtered_exact
 {
+public:
+  typedef typename Number_type_traits<CT>::Has_gcd      Has_gcd;
+  typedef typename Number_type_traits<CT>::Has_division Has_division;
+  typedef typename Number_type_traits<CT>::Has_sqrt     Has_sqrt;
+
+private:
   typedef Filtered_exact<CT, ET, Type, Protection, Cache> Fil;
   typedef Interval_nt_advanced IA;
 
@@ -174,9 +180,17 @@ public:
 
 // We forward the following functions to the CT value:
 // sqrt, square, is_valid, is_finite, to_double, sign, compare, abs, min, max,
-// io_tag, number_type_tag, operator>>, operator<<.
+// div, gcd, io_tag, operator>>, operator<<.
 
 #ifndef CGAL_DENY_INEXACT_OPERATIONS_ON_FILTER
+
+template <class CT, class ET, class Type, bool Protection, class Cache>
+inline
+Filtered_exact<CT,ET,Type,Protection,Cache>
+div (const Filtered_exact<CT,ET,Type,Protection,Cache>& fil1,
+     const Filtered_exact<CT,ET,Type,Protection,Cache>& fil2)
+{ return CGAL::div(fil1.value(), fil2.value()); }
+
 template <class CT, class ET, class Type, bool Protection, class Cache>
 inline
 Filtered_exact<CT,ET,Type,Protection,Cache>
@@ -184,6 +198,13 @@ sqrt (const Filtered_exact<CT,ET,Type,Protection,Cache>& fil)
 { return CGAL::sqrt(fil.value()); }
 
 namespace NTS {
+
+template <class CT, class ET, class Type, bool Protection, class Cache>
+inline
+Filtered_exact<CT,ET,Type,Protection,Cache>
+gcd (const Filtered_exact<CT,ET,Type,Protection,Cache>& fil1,
+     const Filtered_exact<CT,ET,Type,Protection,Cache>& fil2)
+{ return CGAL_NTS gcd(fil1.value(), fil2.value()); }
 
 template <class CT, class ET, class Type, bool Protection, class Cache>
 inline
@@ -254,12 +275,6 @@ inline
 io_Operator
 io_tag (const Filtered_exact<CT,ET,Type,Protection,Cache> &fil)
 { return io_tag(fil.value()); }
-
-template <class CT, class ET, class Type, bool Protection, class Cache>
-inline
-Number_tag
-number_type_tag (const Filtered_exact<CT,ET,Type,Protection,Cache> &fil)
-{ return number_type_tag(fil.value()); }
 
 template <class CT, class ET, class Type, bool Protection, class Cache>
 inline

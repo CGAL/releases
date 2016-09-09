@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Cartesian/Tetrahedron_3.h
-// package       : Cartesian_kernel (6.24)
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2001/02/19 11:19:40 $
+// package       : Cartesian_kernel (6.59)
+// revision      : $Revision: 1.27 $
+// revision_date : $Date: 2002/02/06 12:32:39 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
@@ -48,7 +46,6 @@
 #ifndef CGAL_CARTESIAN_TETRAHEDRON_3_H
 #define CGAL_CARTESIAN_TETRAHEDRON_3_H
 
-#include <CGAL/Cartesian/redefine_names_3.h>
 #include <CGAL/Cartesian/solve_3.h>
 #include <vector>
 #include <functional>
@@ -56,47 +53,40 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
-class TetrahedronC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+class TetrahedronC3
   : public R_::Tetrahedron_handle_3
 {
+CGAL_VC7_BUG_PROTECTED
+  typedef typename R_::FT                   FT;
+  typedef typename R_::Point_3              Point_3;
+  typedef typename R_::Plane_3              Plane_3;
+  typedef typename R_::Tetrahedron_3        Tetrahedron_3;
+  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+
+  typedef typename R_::Tetrahedron_handle_3      base;
+  typedef typename base::element_type            rep;
+
 public:
-  typedef R_                                    R;
-  typedef typename R::FT                        FT;
-  typedef typename R::RT                        RT;
-
-  typedef typename R::Tetrahedron_handle_3      Tetrahedron_handle_3_;
-  typedef typename Tetrahedron_handle_3_::element_type Tetrahedron_ref_3;
-
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-  typedef TetrahedronC3<R CGAL_CTAG>            Self;
-  typedef typename R::Point_3                   Point_3;
-  typedef typename R::Plane_3                   Plane_3;
-  typedef typename R::Aff_transformation_3      Aff_transformation_3;
-#else
-  typedef TetrahedronC3<R>                      Self;
-  typedef typename R::Point_3_base              Point_3;
-  typedef typename R::Plane_3_base              Plane_3;
-  typedef typename R::Aff_transformation_3_base Aff_transformation_3;
-#endif
+  typedef R_                                     R;
 
   TetrahedronC3()
-    : Tetrahedron_handle_3_(Tetrahedron_ref_3()) {}
+    : base(rep()) {}
 
   TetrahedronC3(const Point_3 &p, const Point_3 &q, const Point_3 &r,
                 const Point_3 &s)
-    : Tetrahedron_handle_3_(Tetrahedron_ref_3(p, q, r, s)) {}
+    : base(rep(p, q, r, s)) {}
 
-  Point_3    vertex(int i) const;
-  Point_3    operator[](int i) const;
+  const Point_3 &    vertex(int i) const;
+  const Point_3 &    operator[](int i) const;
 
-  bool       operator==(const Self &t) const;
-  bool       operator!=(const Self &t) const;
+  bool       operator==(const TetrahedronC3 &t) const;
+  bool       operator!=(const TetrahedronC3 &t) const;
 
   Bbox_3     bbox() const;
 
-  Self       transform(const Aff_transformation_3 &t) const
+  Tetrahedron_3       transform(const Aff_transformation_3 &t) const
   {
-    return Self(t.transform(vertex(0)),
+    return TetrahedronC3<R>(t.transform(vertex(0)),
                 t.transform(vertex(1)),
                 t.transform(vertex(2)),
                 t.transform(vertex(3)));
@@ -122,8 +112,8 @@ public:
 
 template < class R >
 bool
-TetrahedronC3<R CGAL_CTAG>::
-operator==(const TetrahedronC3<R CGAL_CTAG> &t) const
+TetrahedronC3<R>::
+operator==(const TetrahedronC3<R> &t) const
 {
   if (identical(t))
       return true;
@@ -150,15 +140,15 @@ operator==(const TetrahedronC3<R CGAL_CTAG> &t) const
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::
-operator!=(const TetrahedronC3<R CGAL_CTAG> &t) const
+TetrahedronC3<R>::
+operator!=(const TetrahedronC3<R> &t) const
 {
   return !(*this == t);
 }
 
 template < class R >
-typename TetrahedronC3<R CGAL_CTAG>::Point_3
-TetrahedronC3<R CGAL_CTAG>::
+const typename TetrahedronC3<R>::Point_3 &
+TetrahedronC3<R>::
 vertex(int i) const
 {
   if (i<0) i=(i%4)+4;
@@ -174,8 +164,8 @@ vertex(int i) const
 
 template < class R >
 inline
-typename TetrahedronC3<R CGAL_CTAG>::Point_3
-TetrahedronC3<R CGAL_CTAG>::
+const typename TetrahedronC3<R>::Point_3 &
+TetrahedronC3<R>::
 operator[](int i) const
 {
   return vertex(i);
@@ -183,8 +173,8 @@ operator[](int i) const
 
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
-typename TetrahedronC3<R CGAL_CTAG>::FT
-TetrahedronC3<R CGAL_CTAG>::volume() const
+typename TetrahedronC3<R>::FT
+TetrahedronC3<R>::volume() const
 {
   typename R::Vector_3 v1 = vertex(1)-vertex(0);
   typename R::Vector_3 v2 = vertex(2)-vertex(0);
@@ -196,7 +186,7 @@ TetrahedronC3<R CGAL_CTAG>::volume() const
 
 template < class R >
 Orientation
-TetrahedronC3<R CGAL_CTAG>::
+TetrahedronC3<R>::
 orientation() const
 {
   return CGAL::orientation(vertex(0), vertex(1), vertex(2), vertex(3));
@@ -204,8 +194,8 @@ orientation() const
 
 template < class R >
 Oriented_side
-TetrahedronC3<R CGAL_CTAG>::
-oriented_side(const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::
+oriented_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
   Orientation o = orientation();
   if (o != ZERO)
@@ -217,8 +207,8 @@ oriented_side(const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
 
 template < class R >
 Bounded_side
-TetrahedronC3<R CGAL_CTAG>::
-bounded_side(const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::
+bounded_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
   FT alpha, beta, gamma;
 
@@ -238,8 +228,8 @@ bounded_side(const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::has_on_boundary
-  (const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::has_on_boundary
+  (const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return oriented_side(p) == ON_ORIENTED_BOUNDARY;
 }
@@ -247,8 +237,8 @@ TetrahedronC3<R CGAL_CTAG>::has_on_boundary
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::has_on_positive_side
-  (const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::has_on_positive_side
+  (const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return oriented_side(p) == ON_POSITIVE_SIDE;
 }
@@ -256,8 +246,8 @@ TetrahedronC3<R CGAL_CTAG>::has_on_positive_side
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::has_on_negative_side
-  (const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::has_on_negative_side
+  (const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return oriented_side(p) == ON_NEGATIVE_SIDE;
 }
@@ -265,8 +255,8 @@ TetrahedronC3<R CGAL_CTAG>::has_on_negative_side
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::has_on_bounded_side
-  (const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::has_on_bounded_side
+  (const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return bounded_side(p) == ON_BOUNDED_SIDE;
 }
@@ -274,15 +264,15 @@ TetrahedronC3<R CGAL_CTAG>::has_on_bounded_side
 template < class R >
 inline
 bool
-TetrahedronC3<R CGAL_CTAG>::has_on_unbounded_side
-  (const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p) const
+TetrahedronC3<R>::has_on_unbounded_side
+  (const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return bounded_side(p) == ON_UNBOUNDED_SIDE;
 }
 
 template < class R >
 bool
-TetrahedronC3<R CGAL_CTAG>::is_degenerate() const
+TetrahedronC3<R>::is_degenerate() const
 {
   Plane_3 plane(vertex(0), vertex(1), vertex(2));
   return (plane.is_degenerate()) ? true
@@ -292,7 +282,7 @@ TetrahedronC3<R CGAL_CTAG>::is_degenerate() const
 template < class R >
 inline
 Bbox_3
-TetrahedronC3<R CGAL_CTAG>::bbox() const
+TetrahedronC3<R>::bbox() const
 {
   return vertex(0).bbox() + vertex(1).bbox()
        + vertex(2).bbox() + vertex(3).bbox();
@@ -301,7 +291,7 @@ TetrahedronC3<R CGAL_CTAG>::bbox() const
 #ifndef CGAL_NO_OSTREAM_INSERT_TETRAHEDRONC3
 template < class R >
 std::ostream &
-operator<<(std::ostream &os, const TetrahedronC3<R CGAL_CTAG> &t)
+operator<<(std::ostream &os, const TetrahedronC3<R> &t)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -319,14 +309,14 @@ operator<<(std::ostream &os, const TetrahedronC3<R CGAL_CTAG> &t)
 #ifndef CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONC3
 template < class R >
 std::istream &
-operator>>(std::istream &is, TetrahedronC3<R CGAL_CTAG> &t)
+operator>>(std::istream &is, TetrahedronC3<R> &t)
 {
-    typename TetrahedronC3<R CGAL_CTAG>::Point_3 p, q, r, s;
+    typename R::Point_3 p, q, r, s;
 
     is >> p >> q >> r >> s;
 
     if (is)
-	t = TetrahedronC3<R CGAL_CTAG>(p, q, r, s);
+	t = TetrahedronC3<R>(p, q, r, s);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONC3

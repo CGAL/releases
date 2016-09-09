@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Linear_algebraCd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/07/09 12:01:37 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2002/05/03 11:46:44 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : Michael.Seel
 //
@@ -52,9 +50,11 @@
 #include <CGAL/Kernel_d/Matrix__.h>
 #include <memory>
 #include <vector>
+
 #undef _DEBUG
 #define _DEBUG 13
 #include <CGAL/Kernel_d/debug.h>
+
 
 //#define CGAL_LA_SELFTEST
 

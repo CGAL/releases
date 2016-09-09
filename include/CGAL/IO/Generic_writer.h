@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,18 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/IO/Generic_writer.h
-// package       : Polyhedron_IO (3.9)
-// chapter       : $CGAL_Chapter: Support Library ... $
-// source        : polyhedron_io.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/12 05:34:38 $
-// author(s)     : Lutz Kettner
+// package       : Polyhedron_IO (3.11)
+// chapter       : Support Library
 //
-// coordinator   : Herve Bronnimann
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/12/17 12:40:56 $
+//
+// author(s)     : Lutz Kettner
+// coordinator   : INRIA, Sophia Antipolis
 //
 // Generic STL compliant interface to write boundary rep file formats.
 // email         : contact@cgal.org
@@ -72,11 +70,15 @@ public:
 
 template <class Writer>
 class I_Generic_writer_vertex_iterator
-    : public std::iterator< output_iterator_tag,
-                            typedef typename Writer::Point >
 {
     Writer&  m_writer;
 public:
+    typedef std::output_iterator_tag  iterator_category;
+    typedef typename Writer::Point    value_type;
+    typedef std::ptrdiff_t            difference_type;
+    typedef value_type*               pointer;
+    typedef value_type&               reference;
+
     typedef I_Generic_writer_vertex_proxy< Writer>    Proxy;
     typedef I_Generic_writer_vertex_iterator< Writer> Self;
 
@@ -96,10 +98,15 @@ public:
 
 template <class Writer>
 class I_Generic_writer_facet_iterator
-    : public std::iterator< output_iterator_tag, std::size_t>
 {
     Writer& m_writer;
 public:
+    typedef std::output_iterator_tag  iterator_category;
+    typedef std::size_t               value_type;
+    typedef std::ptrdiff_t            difference_type;
+    typedef value_type*               pointer;
+    typedef value_type&               reference;
+
     typedef  I_Generic_writer_facet_proxy<Writer>    Proxy;
     typedef  I_Generic_writer_facet_iterator<Writer> Self;
 

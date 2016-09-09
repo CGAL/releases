@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,12 +28,12 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Triangulation_ds_circulators_3.h
-// package       : Triangulation_3 (1.83)
-// revision      : $Revision: 1.34 $
+// package       : Triangulation_3 (1.114)
+// revision      : $Revision: 1.41 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
@@ -48,98 +46,82 @@
 #ifndef CGAL_TRIANGULATION_DS_CIRCULATORS_3_H
 #define CGAL_TRIANGULATION_DS_CIRCULATORS_3_H
 
-#include <utility>
-
 #include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/circulator.h>
 #include <CGAL/Triangulation_utils_3.h>
+#include <CGAL/circulator_bases.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class Tds_ >
 class Triangulation_ds_cell_circulator_3
-  : public Bidirectional_circulator_base<typename Tds_::Cell,
-    ptrdiff_t, size_t>,
-    public Triangulation_utils_3
+ : public Bidirectional_circulator_base<typename Tds_::Cell,
+                                        std::ptrdiff_t, std::size_t>
 {
   // circulates on cells around a given edge
-public:
 
-  typedef Tds_                  Tds;
-  typedef typename Tds::Cell    Cell;
-  typedef typename Tds::Edge    Edge;
-  typedef typename Tds::Vertex  Vertex;
+  typedef Tds_                         Tds;
+  typedef typename Tds::Cell           Cell;
+  typedef typename Tds::Edge           Edge;
+  typedef typename Tds::Vertex_handle  Vertex_handle;
+  typedef typename Tds::Cell_handle    Cell_handle;
 
   typedef Triangulation_ds_cell_circulator_3<Tds> Cell_circulator;
 
+public:
+
   Triangulation_ds_cell_circulator_3()
-    : _tds(NULL), _c(NULL), _s(0), _t(0), pos(NULL)
+    : _s(NULL), _t(NULL), pos(NULL)
   {}
 
-  Triangulation_ds_cell_circulator_3(const Tds * tds, Cell* c, int s, int t)
-    : _tds(const_cast<Tds *>(tds)), _c(c), _s(s), _t(t)
+  Triangulation_ds_cell_circulator_3(Cell_handle c, int s, int t)
+    : _s(c->vertex(s)), _t(c->vertex(t)), pos(c)
   {
     CGAL_triangulation_precondition( c != NULL &&
 				     s >= 0 && s < 4 &&
 				     t >= 0 && t < 4 );
-    //     if ( _tds->dimension() <3 ) useless since precondition in tds
-    //     incident_cells
-    pos = c;
   }
 
-  Triangulation_ds_cell_circulator_3(const Tds * tds, const Edge & e)
-    : _tds(const_cast<Tds *>(tds)), _c(e.first), _s(e.second), _t(e.third)
+  Triangulation_ds_cell_circulator_3(const Edge & e)
+    : _s(e.first->vertex(e.second)), _t(e.first->vertex(e.third)), pos(e.first)
   {
     CGAL_triangulation_precondition( e.first != NULL &&
 				     e.second >=0 && e.second < 4 &&
 				     e.third  >=0 && e.third  < 4);
-    //     if ( _tds->dimension() <3 ) useless since precondition in tds
-    //     incident_cells
-      pos = e.first;
   }
 
-  Triangulation_ds_cell_circulator_3(const Tds * tds, Cell* c, int s, int t,
-				     Cell* start)
-    : _tds(const_cast<Tds *>(tds)), _c(c), _s(s), _t(t)
+  Triangulation_ds_cell_circulator_3(Cell_handle c, int s, int t,
+	                             Cell_handle start)
+    : _s(c->vertex(s)), _t(c->vertex(t)), pos(start)
   {
     CGAL_triangulation_precondition( c != NULL &&
 				     s >= 0 && s < 4 &&
 				     t >= 0 && t < 4 &&
-                                     start->has_vertex( c->vertex(s) ) &&
-	                             start->has_vertex( c->vertex(t) ) );
-    pos = start;
+                                     start->has_vertex( _s ) &&
+	                             start->has_vertex( _t ) );
   }
 
-  Triangulation_ds_cell_circulator_3(const Tds * tds, const Edge & e,
-	                             Cell* start)
-    : _tds(const_cast<Tds *>(tds)), _c(e.first), _s(e.second), _t(e.third)
+  Triangulation_ds_cell_circulator_3(const Edge & e, Cell_handle start)
+    : _s(e.first->vertex(e.second)), _t(e.first->vertex(e.third)), pos(start)
   {
     CGAL_triangulation_precondition( e.first != NULL &&
 				     e.second >=0 && e.second < 4 &&
 				     e.third  >=0 && e.third  < 4 &&
-                            start->has_vertex( e.first->vertex(e.second) ) &&
-	                    start->has_vertex( e.first->vertex(e.third) ) );
-    pos = start;
+                                     start->has_vertex( _s ) &&
+	                             start->has_vertex( _t ) );
   }
-
-  Triangulation_ds_cell_circulator_3(const Cell_circulator & ccir)
-    : _tds(ccir._tds), _c(ccir._c), _s(ccir._s), _t(ccir._t), pos(ccir.pos)
-  {}
 
   Cell_circulator & operator++()
   {
     CGAL_triangulation_precondition( pos != NULL );
     //then dimension() cannot be < 3
 
-    pos = pos->neighbor( next_around_edge( pos->index(_c->vertex(_s)),
-					   pos->index(_c->vertex(_t)) ) );
+    pos = pos->neighbor(next_around_edge(pos->index(_s), pos->index(_t)));
     return *this;
   }
 
   Cell_circulator operator++(int)
   {
-    CGAL_triangulation_precondition( pos != NULL );
     Cell_circulator tmp(*this);
     ++(*this);
     return tmp;
@@ -149,14 +131,12 @@ public:
   {
     CGAL_triangulation_precondition( pos != NULL );
 
-    pos = pos->neighbor( next_around_edge( pos->index(_c->vertex(_t)),
-					   pos->index(_c->vertex(_s)) ) );
+    pos = pos->neighbor(next_around_edge(pos->index(_t), pos->index(_s)));
     return *this;
   }
 
   Cell_circulator operator--(int)
   {
-    CGAL_triangulation_precondition( pos != NULL );
     Cell_circulator tmp(*this);
     --(*this);
     return tmp;
@@ -169,15 +149,12 @@ public:
 
   Cell* operator->() const
   {
-    return pos;
+    return &*pos;
   }
 
   bool operator==(const Cell_circulator & ccir) const
   {
-    return _tds == ccir._tds &&
-	   _c->vertex(_s) == ccir._c->vertex(ccir._s) &&
-	   _c->vertex(_t) == ccir._c->vertex(ccir._t) &&
-	   pos == ccir.pos;
+    return pos == ccir.pos && _s == ccir._s && _t == ccir._t;
   }
 
   bool operator!=(const Cell_circulator & ccir) const
@@ -185,158 +162,150 @@ public:
     return ! (*this == ccir);
   }
 
+  operator Cell_handle() const { return (*this)->handle(); }
+
 private:
-  Tds* _tds;
-  Cell* _c;  // cell containing the considered edge
-  int _s;    // index of the source vertex of the edge in _c
-  int _t;    // index of the target vertex of the edge in _c
-  Cell* pos; // current cell
+  Vertex_handle _s;    // source vertex of the edge
+  Vertex_handle _t;    // target vertex of the edge
+  Cell_handle pos;     // current cell
+
+  static int next_around_edge(const int i, const int j)
+  {
+      return Triangulation_utils_3::next_around_edge(i,j);
+  } 
 };
 
 template < class Tds_ >
 class Triangulation_ds_facet_circulator_3
   : public Bidirectional_circulator_base<typename Tds_::Facet,
-    ptrdiff_t, size_t>,
-    public Triangulation_utils_3
+                                         std::ptrdiff_t, std::size_t>
 {
   // circulates on facets around a given edge
-public:
 
-  typedef Tds_                  Tds;
-  typedef typename Tds::Cell    Cell;
-  typedef typename Tds::Facet   Facet;
-  typedef typename Tds::Edge    Edge;
-  typedef typename Tds::Vertex  Vertex;
+  typedef Tds_                         Tds;
+  typedef typename Tds::Cell           Cell;
+  typedef typename Tds::Cell_handle    Cell_handle;
+  typedef typename Tds::Facet          Facet;
+  typedef typename Tds::Edge           Edge;
+  typedef typename Tds::Vertex_handle  Vertex_handle;
 
   typedef Triangulation_ds_facet_circulator_3<Tds> Facet_circulator;
 
+public:
+
   Triangulation_ds_facet_circulator_3()
-    : _tds(NULL), _c(NULL), _s(0), _t(0), pos(NULL)
+    : _s(NULL), _t(NULL), pos(NULL)
   {}
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, Cell* c, int s, int t)
-    : _tds(tds), _c(c), _s(s), _t(t)
+  Triangulation_ds_facet_circulator_3(Cell_handle c, int s, int t)
+    : _s(c->vertex(s)), _t(c->vertex(t)), pos(c)
   {
     CGAL_triangulation_precondition( c != NULL &&
 				     s >= 0 && s < 4 &&
 				     t >= 0 && t < 4 );
-    //     if ( _tds->dimension() <3 ) useless since precondition in tds
-    //     incident_facets
-    pos = c;
   }
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, const Edge & e)
-    : _tds(tds), _c(e.first), _s(e.second), _t(e.third)
+  Triangulation_ds_facet_circulator_3(const Edge & e)
+    : _s(e.first->vertex(e.second)), _t(e.first->vertex(e.third)), pos(e.first)
   {
     CGAL_triangulation_precondition( e.first != NULL &&
 				     e.second >= 0 && e.second < 4 &&
 				     e.third  >= 0 && e.third  < 4);
-    //     if ( _tds->dimension() <3 ) useless since precondition in tds
-    //     incident_facets
-      pos = e.first;
   }
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, Cell* c, int s, int t,
-				      Cell* start, int f)
-    : _tds(tds), _c(c), _s(s), _t(t)
+  Triangulation_ds_facet_circulator_3(Cell_handle c, int s, int t,
+	                              Cell_handle start, int f)
+    : _s(c->vertex(s)), _t(c->vertex(t))
   {
     CGAL_triangulation_precondition( c != NULL &&
 				     s >= 0 && s < 4 &&
 				     t >= 0 && t < 4 &&
 				     f >= 0 && f < 4 &&
-                                     start->has_vertex( c->vertex(s) ) &&
-	                             start->has_vertex( c->vertex(t) ) );
+                                     start->has_vertex( _s ) &&
+	                             start->has_vertex( _t ) );
 
-    int i = start->index( c->vertex(s) );
-    int j = start->index( c->vertex(t) );
+    int i = start->index( _s );
+    int j = start->index( _t );
 
     CGAL_triangulation_precondition( f!=i && f!=j );
 
-    if ( f == (int) next_around_edge(i,j) )
+    if ( f == next_around_edge(i,j) )
 	pos = start;
     else
 	pos = start->neighbor(f); // other cell with same facet
   }
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, Cell* c, int s, int t,
-				      const Facet & start)
-    : _tds(tds), _c(c), _s(s), _t(t)
+  Triangulation_ds_facet_circulator_3(Cell_handle c, int s, int t,
+	                              const Facet & start)
+    : _s(c->vertex(s)), _t(c->vertex(t))
   {
     CGAL_triangulation_precondition( c != NULL &&
 				     s >= 0 && s < 4 &&
 				     t >= 0 && t < 4 &&
-                                     start.first->has_vertex( c->vertex(s) ) &&
-	                             start.first->has_vertex( c->vertex(t) ) );
+                                     start.first->has_vertex( _s ) &&
+	                             start.first->has_vertex( _t ) );
 
-    int i = start.first->index( c->vertex(s) );
-    int j = start.first->index( c->vertex(t) );
+    int i = start.first->index( _s );
+    int j = start.first->index( _t );
 
     CGAL_triangulation_precondition( start.second !=i && start.second !=j );
 
-    if ( start.second == (int) next_around_edge(i,j) )
+    if ( start.second == next_around_edge(i,j) )
 	pos = start.first;
     else
       pos = start.first->neighbor(start.second); // other cell with same facet
   }
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, const Edge & e,
-				       Cell* start, int f)
-    : _tds(tds), _c(e.first), _s(e.second), _t(e.third)
+  Triangulation_ds_facet_circulator_3(const Edge & e, Cell_handle start, int f)
+    : _s(e.first->vertex(e.second)), _t(e.first->vertex(e.third))
   {
     CGAL_triangulation_precondition( e.first != NULL &&
 				     e.second >= 0 && e.second < 4 &&
 				     e.third  >= 0 && e.third  < 4 &&
 				     f >= 0 && f < 4 &&
-                     start.first->has_vertex( e.first->vertex(e.second) ) &&
-	             start.first->has_vertex( e.first->vertex(e.third) ) );
+                                     start->has_vertex( _s ) &&
+	                             start->has_vertex( _t ) );
 
-    int i = start.first->index( e.first->vertex(e.second) );
-    int j = start.first->index( e.first->vertex(e.third) );
+    int i = start->index( _s );
+    int j = start->index( _t );
 
     CGAL_triangulation_precondition( f!=i && f!=j );
 
-    if ( f == (int) next_around_edge(i,j) )
-	pos = start.first;
+    if ( f == next_around_edge(i,j) )
+	pos = start;
     else
-	pos = start.first->neighbor(f); // other cell with same facet
+	pos = start->neighbor(f); // other cell with same facet
   }
 
-  Triangulation_ds_facet_circulator_3(Tds * tds, const Edge & e,
-				     const Facet & start)
-    : _tds(tds), _c(e.first), _s(e.second), _t(e.third)
+  Triangulation_ds_facet_circulator_3(const Edge & e, const Facet & start)
+    : _s(e.first->vertex(e.second)), _t(e.first->vertex(e.third))
   {
     CGAL_triangulation_precondition( e.first != NULL &&
 				     e.second >= 0 && e.second < 4 &&
 				     e.third  >= 0 && e.third  < 4 &&
-                       start.first->has_vertex( e.first->vertex(e.second) ) &&
-	               start.first->has_vertex( e.first->vertex(e.third) ) );
+                                     start.first->has_vertex( _s ) &&
+	                             start.first->has_vertex( _t ) );
 
-    int i = start.first->index( e.first->vertex(e.second) );
-    int j = start.first->index( e.first->vertex(e.third) );
+    int i = start.first->index( _s );
+    int j = start.first->index( _t );
 
-    if ( start.second == (int) next_around_edge(i,j) )
+    if ( start.second == next_around_edge(i,j) )
 	pos = start.first;
     else
 	pos = start.first->neighbor(start.second);
   }
-
-  Triangulation_ds_facet_circulator_3(const Facet_circulator & ccir)
-    : _tds(ccir._tds), _c(ccir._c), _s(ccir._s), _t(ccir._t), pos(ccir.pos)
-  {}
 
   Facet_circulator & operator++()
   {
     CGAL_triangulation_precondition( pos != NULL );
     //then dimension() cannot be < 3
 
-    pos = pos->neighbor( next_around_edge( pos->index(_c->vertex(_s)),
-					   pos->index(_c->vertex(_t)) ) );
+    pos = pos->neighbor( next_around_edge( pos->index(_s), pos->index(_t) ) );
     return *this;
   }
 
   Facet_circulator operator++(int)
   {
-    CGAL_triangulation_precondition( pos != NULL );
     Facet_circulator tmp(*this);
     ++(*this);
     return tmp;
@@ -346,14 +315,12 @@ public:
   {
     CGAL_triangulation_precondition( pos != NULL );
 
-    pos = pos->neighbor( next_around_edge( pos->index(_c->vertex(_t)),
-					   pos->index(_c->vertex(_s)) ) );
+    pos = pos->neighbor( next_around_edge( pos->index(_t), pos->index(_s) ) );
     return *this;
   }
 
   Facet_circulator operator--(int)
   {
-    CGAL_triangulation_precondition( pos != NULL );
     Facet_circulator tmp(*this);
     --(*this);
     return tmp;
@@ -361,17 +328,12 @@ public:
 
   Facet operator*() const
   {
-    return std::make_pair(pos,
-			  next_around_edge( pos->index(_c->vertex(_s)),
-					    pos->index(_c->vertex(_t)) ) );
+    return Facet(pos, next_around_edge( pos->index(_s), pos->index(_t) ) );
   }
 
   bool operator==(const Facet_circulator & ccir) const
   {
-    return _tds == ccir._tds &&
-	   _c->vertex(_s) == ccir._c->vertex(ccir._s) &&
-	   _c->vertex(_t) == ccir._c->vertex(ccir._t) &&
-	   pos == ccir.pos;
+    return pos == ccir.pos && _s == ccir._s && _t == ccir._t;
   }
 
   bool operator!=(const Facet_circulator & ccir) const
@@ -380,14 +342,110 @@ public:
   }
 
 private:
-  Tds* _tds;
-  Cell* _c;  // cell containing the considered edge
-  int _s;    // index of the source vertex of the edge in _c
-  int _t;    // index of the target vertex of the edge in _c
-  Cell* pos; // current cell
+  Vertex_handle _s; // source vertex of the edge
+  Vertex_handle _t; // target vertex of the edge
+  Cell_handle pos;  // current cell
   // the current facet is the facet of pos numbered
   // next_around_edge( pos->index(_c->vertex(_s)),
   //                   pos->index(_c->vertex(_t)) )
+
+  static int next_around_edge(const int i, const int j)
+  {
+      return Triangulation_utils_3::next_around_edge(i,j);
+  } 
+};
+
+template < class Tds_ >
+class Triangulation_ds_face_circulator_3
+ : public Bidirectional_circulator_base<typename Tds_::Cell,
+                                        std::ptrdiff_t, std::size_t>
+{
+  // circulates on faces (Cell) around a given vertex,
+  // valid in dimension 2 only.
+
+  typedef Tds_                         Tds;
+  typedef typename Tds::Cell           Cell;
+  typedef typename Tds::Vertex         Vertex;
+  typedef typename Tds::Vertex_handle  Vertex_handle;
+  typedef typename Tds::Cell_handle    Cell_handle;
+
+  typedef Triangulation_ds_face_circulator_3<Tds> Face_circulator;
+
+public:
+
+  Triangulation_ds_face_circulator_3()
+    : _s(NULL), pos(NULL)
+  {}
+
+  Triangulation_ds_face_circulator_3(Vertex_handle v, Cell_handle c)
+    : _s(v), pos(c)
+  {}
+
+  Face_circulator & operator++()
+  {
+    CGAL_triangulation_precondition( pos != NULL );
+    //then dimension() cannot be < 3
+
+    pos = pos->neighbor(ccw(pos->index(_s)));
+    return *this;
+  }
+
+  Face_circulator operator++(int)
+  {
+    Face_circulator tmp(*this);
+    ++(*this);
+    return tmp;
+  }
+
+  Face_circulator & operator--()
+  {
+    CGAL_triangulation_precondition( pos != NULL );
+
+    pos = pos->neighbor(cw(pos->index(_s)));
+    return *this;
+  }
+
+  Face_circulator operator--(int)
+  {
+    Face_circulator tmp(*this);
+    --(*this);
+    return tmp;
+  }
+
+  Cell& operator*() const
+  {
+    return *pos;
+  }
+
+  Cell* operator->() const
+  {
+    return &*pos;
+  }
+
+  bool operator==(const Face_circulator & ccir) const
+  {
+    return pos == ccir.pos && _s == ccir._s;
+  }
+
+  bool operator!=(const Face_circulator & ccir) const
+  {
+    return ! (*this == ccir);
+  }
+
+  operator Cell_handle() const { return (*this)->handle(); }
+
+private:
+  Vertex_handle _s;    // source vertex
+  Cell_handle pos;     // current cell
+
+  static int cw(int i)
+  {
+      return Triangulation_utils_3::cw(i);
+  } 
+  static int ccw(int i)
+  {
+      return Triangulation_utils_3::ccw(i);
+  } 
 };
 
 CGAL_END_NAMESPACE

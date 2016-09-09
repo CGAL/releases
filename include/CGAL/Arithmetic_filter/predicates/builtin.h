@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/Arithmetic_filter/predicates/builtin.h
-// package       : Interval_arithmetic (4.114)
+// package       : Interval_arithmetic (4.141)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -105,36 +103,6 @@ struct Static_Filtered_compare_2
     if (to_double(a) > to_double(b)+epsilon_0) return LARGER;
     if (to_double(a) < to_double(b)-epsilon_0) return SMALLER;
     if (to_double(a)==to_double(b) && epsilon_0==0) return EQUAL;
-    Interval_nt_advanced::number_of_failures++;
-    throw Interval_nt_advanced::unsafe_comparison();
-  }
-};
-
-struct Static_Filtered_lexicographical_sign_2
-{
-  static double _bound;
-  static double _epsilon_0;
-  static Sign update_epsilon(
-          const Static_filter_error &,
-          const Static_filter_error &,
-          double &)
-  {
-      // Not finished.
-      return ZERO;
-  }
-
-  static void new_bound (const double b) // , const double error = 0)
-  {
-    _bound = b;
-    (void) update_epsilon(b,b,_epsilon_0);
-  }
-
-  static Sign epsilon_variant(
-          const Restricted_double &,
-          const Restricted_double &,
-          const double &)
-  {
-    // Not finished.
     Interval_nt_advanced::number_of_failures++;
     throw Interval_nt_advanced::unsafe_comparison();
   }

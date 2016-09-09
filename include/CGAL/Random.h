@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Random.h
-// package       : Random_numbers (2.3.1)
+// package       : Random_numbers (2.3.5)
 // chapter       : Random Numbers Generator
 //
 // source        : web/Random.aw
-// revision      : $Revision: 1.1.2.2 $
-// revision_date : $Date: 2001/04/02 18:49:08 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2002/01/10 10:10:49 $
 //
 // author(s)     : Sven Schönherr
 // coordinator   : INRIA Sophia-Antipolis
@@ -55,9 +53,7 @@
 
 // includes
 // --------
-#ifndef CGAL_BASIC_H
 #  include <CGAL/basic.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -95,10 +91,7 @@ CGAL_END_NAMESPACE
 // Class implementation (inline functions)
 // =======================================
 // includes
-#ifndef CGAL_PROTECT_CSTDLIB
 #  include <cstdlib>
-#  define CGAL_PROTECT_CSTDLIB
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -108,7 +101,7 @@ bool
 Random::
 get_bool( )
 {
-    return( static_cast< bool>( rand() & 1));
+    return( static_cast< bool>( CGAL_CLIB_STD::rand() & 1));
 }
 
 inline
@@ -117,7 +110,8 @@ Random::
 get_int( int lower, int upper)
 {
     return( lower + static_cast< int>(
-      ( static_cast< double>( upper) - lower) * rand() / rand_max_plus_1));
+      ( static_cast< double>( upper) - lower) * 
+      CGAL_CLIB_STD::rand() / rand_max_plus_1));
 }
 
 inline
@@ -125,7 +119,8 @@ double
 Random::
 get_double( double lower, double upper)
 {
-    return( lower + ( ( upper-lower) * rand() / rand_max_plus_1));
+    return( lower + ( ( upper-lower) * 
+		      CGAL_CLIB_STD::rand() / rand_max_plus_1));
 }
 
 inline

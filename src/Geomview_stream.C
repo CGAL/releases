@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : src/Geomview_stream.C
-// package       : Geomview (3.19)
-// revision      : $Revision: 1.45 $
-// revision_date : $Date: 2001/06/19 06:59:28 $
+// package       : Geomview (3.32)
+// revision      : $Revision: 1.49 $
+// revision_date : $Date: 2001/10/17 15:43:23 $
 // author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -47,7 +45,7 @@
 // ======================================================================
 
 // Geomview doesn't work on M$ at the moment, so we don't compile this file.
-#if !defined(__BORLANDC__) && !defined(_MSC_VER)
+#if !defined(__BORLANDC__) && !defined(_MSC_VER) && !defined(__MWERKS__)
 
 #include <CGAL/basic.h>
 
@@ -56,6 +54,9 @@
 #include <cerrno>
 #include <cstring>
 #include <unistd.h>
+
+#include <sys/types.h> // kill() on SunPro requires these 2 #includes.
+#include <signal.h>
 
 #include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/IO/binary_file_io.h>
@@ -486,7 +487,7 @@ Geomview_stream::operator>>(char *expr)
 // It's either a word terminated by ' ' or ')', or a well parenthesed
 // expression, or a quoted "string".
 char*
-nth(char* s, int count)
+Geomview_stream::nth(char* s, int count)
 {
     s++; // skip first character (always a parenthesis)
  
@@ -520,6 +521,26 @@ nth(char* s, int count)
  
     s[j] = '\0';
     return s;
+}
+
+void
+Geomview_stream::parse_point(const char* pickpoint,
+		     double &x, double &y, double &z, double &w)
+{
+    // std::stringstream ss;
+    std::strstream ss;
+    ss << pickpoint << std::ends;
+
+    char parenthesis;
+    ss >> parenthesis >> x >> y >> z >> w;
+}
+
+std::string
+Geomview_stream::get_new_id(const std::string & s)
+{
+    std::ostrstream str;
+    str << s << id[s]++ << std::ends;
+    return str.str();
 }
 
 CGAL_END_NAMESPACE

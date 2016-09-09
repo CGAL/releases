@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,11 +28,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : config/testfiles/CGAL_CFG_NO_ITERATOR_TRAITS.C
-// package       : Configuration (2.11)
+// package       : Configuration (2.32)
 // source        :
 // revision      : 1.11
 // revision_date : 29 Mar 1998
@@ -54,13 +52,45 @@
 // The following documentation will be pasted in the generated configfile.
 // ---------------------------------------------------------------------
 
-//| Iterator traits are documented in the Dec. 1996 C++ Standard draft.
-//| The following definition is set if iterator are not fully supported 
-//| including their use in a template class, as a default template
-//| argument and as a return type of global function.
+//| The class std::iterator_traits is part of the std library.
+//| It is used to access certain properties of iterators, such as
+//| their value type or iterator category (forward, bidirectional, etc.).
+//| The macro CGAL_CFG_NO_ITERATOR_TRAITS is set if std::iterator_traits
+//| is not fully supported.
 
 #include <iterator>
 #include <vector>
+
+#if defined(__sun) && defined(__SUNPRO_CC)
+// For sunpro 5.3 we fake it, since it can do partial specialization
+// but ships a non-compliant std library for backwards compatibility.
+namespace std {
+  template <class Iterator> struct iterator_traits
+  {
+    typedef _TYPENAME Iterator::value_type value_type;
+    typedef _TYPENAME Iterator::difference_type difference_type;
+    typedef _TYPENAME Iterator::pointer pointer;
+    typedef _TYPENAME Iterator::reference reference;
+    typedef _TYPENAME Iterator::iterator_category iterator_category;
+  };
+  template <class T> struct iterator_traits<T*>
+  {
+    typedef T value_type;
+    typedef ptrdiff_t difference_type;
+    typedef T* pointer;
+    typedef T& reference;
+    typedef random_access_iterator_tag iterator_category;
+  };
+  template <class T> struct iterator_traits<const T*>
+  {
+    typedef T value_type;
+    typedef ptrdiff_t difference_type;
+    typedef const T* pointer;
+    typedef const T& reference;
+    typedef random_access_iterator_tag iterator_category;
+  };
+}
+#endif // defined(__sun) && defined(__SUNPRO_CC)
 
 // This class implements an iterator adaptor that forwards all
 // member function calls to its template argument. It uses 

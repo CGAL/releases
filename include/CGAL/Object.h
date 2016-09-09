@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Object.h
-// package       : Kernel_basic (3.53)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/02/13 12:39:01 $
-// author(s)     : Stefan.Schirra
+// package       : Kernel_basic (3.90)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2002/02/06 19:02:31 $
+// author(s)     : Stefan Schirra
 //                 Andreas Fabri
 //                 Geert-Jan Giezeman
 //                 Michael Seel
+//                 Sylvain Pion
 //
 // coordinator   : MPI Saarbruecken, Germany 
 //
@@ -52,100 +51,92 @@
 #ifndef CGAL_OBJECT_H
 #define CGAL_OBJECT_H
 
-#ifdef CGAL_CFG_NO_DYNAMIC_CAST
-#error fatal error: dynamic cast not supported
-#endif
+#include <CGAL/Handle_for_virtual.h>
 
-#include <CGAL/Handle_for.h>
-
-namespace CGAL {
-
-class Object;
-class Object_base;
-template <class T> class Wrapper;
-
-
-class Object_base : public Ref_counted  
-{
-  public:
-    virtual   ~Object_base() {}
-};
-
+CGAL_BEGIN_NAMESPACE
 
 template <class T>
-class Wrapper : public Object_base 
+class Wrapper : public Ref_counted_virtual
 {
   public:
     Wrapper(const T& object) : _object(object) {}
 
     Wrapper() {}
 
-    operator T() { return _object; }
+    operator T() const { return _object; }
 
-    virtual   ~Wrapper() {}
+    ~Wrapper() {}
 
   private:
     T         _object;
 };
 
-
 class Object
+  : public Handle_for_virtual<Ref_counted_virtual>
 {
+    struct empty{};
+    typedef Handle_for_virtual<Ref_counted_virtual> base;
+
   public:
-    Object() : ptr( static_cast<Object_base*>(0) ) {}
 
-    Object(Object_base *base) 
-    { 
-      ptr = base; 
-      CGAL_kernel_assertion( !ptr || (ptr->count == 1));
-    }
+    struct private_tag{};
 
-    Object(const Object& o) : ptr(o.ptr)
-    { if (ptr) ptr->count++; }
-
-    ~Object()
-    { if (ptr && (--ptr->count == 0)) { delete ptr; } }
-
-    Object&       
-    operator=(const Object& o)
+    Object()
     {
-      if (o.ptr) o.ptr->count++;
-      if (ptr && (--ptr->count == 0)) { delete ptr; }
-      ptr = o.ptr;
-      return *this;
+	initialize_with(Wrapper<empty>());
     }
-
-    bool          
-    is_empty() const { return ptr == static_cast<Object_base*>(0); }
 
     template <class T>
-    friend bool assign(T& t, const Object& o);
+    Object(const T&t, private_tag)
+    {
+	initialize_with(Wrapper<T>(t));
+    }
 
-  protected:
-    Object_base*  ptr;
+    template <class T>
+    bool assign(T &t) const
+    {
+#ifdef _MSC_VER
+      try {
+#endif
+        const Wrapper<T> *wp = dynamic_cast<const Wrapper<T> *>(Ptr());
+        if (wp == NULL)
+            return false;
+        t = *wp;
+#ifdef _MSC_VER
+      }
+      catch (...) {
+          std::cerr << "ERROR : YOUR COMPILER MUST SUPPORT RTTI" << std::endl;
+          abort();
+      }
+#endif
+      return true;
+    }
+
+    bool
+    is_empty() const
+    {
+	empty E;
+	return assign(E);
+    }
 };
 
 
 template <class T>
+inline
 Object
 make_object(const T& t)
-{ return Object(new Wrapper< T >(t)); }
-
+{
+    return Object(t, Object::private_tag());
+}
 
 template <class T>
+inline
 bool
 assign(T& t, const Object& o)
 {
-# ifdef CGAL_CFG_DYNAMIC_CAST_BUG
-  Wrapper<T>   instantiate_it;
-# endif // CGAL_CFG_DYNAMIC_CAST_BUG
-  Wrapper<T>*  wp = dynamic_cast<Wrapper<T>*>(o.ptr);
-  if ( wp == static_cast<Wrapper<T>*>(0) ) { return false; }
-  t = *(wp);
-  return true;
+    return o.assign(t);
 }
 
-} // namespace CGAL
+CGAL_END_NAMESPACE
 
 #endif // CGAL_OBJECT_H
-

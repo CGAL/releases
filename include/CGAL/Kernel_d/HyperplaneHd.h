@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Kernel_d/HyperplaneHd.h
-// package       : Kernel_d (0.9.47)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/11 08:43:18 $
+// package       : Kernel_d (0.9.68)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2002/03/18 20:33:54 $
 // author(s)     : Michael Seel
 // coordinator   : MPI Saarbruecken
 //
@@ -57,6 +55,7 @@
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
 
 CGAL_BEGIN_NAMESPACE
+#define PointHd PointHd2
 
 template <class RT, class LA>
 std::istream& operator>>(std::istream&, HyperplaneHd<RT,LA>&);
@@ -96,9 +95,10 @@ coefficient vectors are positive multiples of each other and they are
 (weakly) equal if their coefficient vectors are multiples of each
 other.}*/
 
-const typename _LA::Vector& vector_rep() const { return ptr->v; }
-_RT& entry(int i) const { return ptr->v[i]; }
-void invert_rep() { ptr->invert(); }
+const typename _LA::Vector& vector_rep() const { return ptr()->v; }
+_RT& entry(int i) { return ptr()->v[i]; }
+const _RT& entry(int i) const { return ptr()->v[i]; }
+void invert_rep() { ptr()->invert(); }
 
 public: 
 /*{\Mtypes 4}*/
@@ -188,7 +188,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
     set P is full dimensional."); 
 
   if (side == ON_ORIENTED_BOUNDARY) { 
-    ptr->v = spanning_vecs.column(0); 
+    ptr()->v = spanning_vecs.column(0); 
     return; 
   }
 
@@ -204,7 +204,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
     CGAL_assertion_msg(0,"HyperplaneHd::constructor: \
     cannot use o to determine side.");
 
-  ptr->v = spanning_vecs.column(j);
+  ptr()->v = spanning_vecs.column(j);
   if ( CGAL_NTS sign(sum) > 0 && side == ON_NEGATIVE_SIDE || 
        CGAL_NTS sign(sum) < 0 && side == ON_POSITIVE_SIDE)   
     invert_rep();
@@ -295,7 +295,7 @@ HyperplaneHd(const HyperplaneHd<RT,LA>& h) : Base(h) {}
 
 /*{\Moperations 4 2}*/
 
-int dimension() const { return ptr->size()-1; }
+int dimension() const { return ptr()->size()-1; }
 /*{\Mop returns the dimension of |\Mvar|. }*/
 
 RT operator[](int i) const
@@ -314,11 +314,11 @@ const typename LA::Vector& coefficient_vector() const
 
 Coefficient_const_iterator coefficients_begin() const 
 /*{\Mop returns an iterator pointing to the first coefficient.}*/
-{ return ptr->begin(); }
+{ return ptr()->begin(); }
 
 Coefficient_const_iterator coefficients_end() const 
 /*{\Mop returns an iterator pointing beyond the last coefficient.}*/
-{ return ptr->end(); }
+{ return ptr()->end(); }
 
 VectorHd<RT,LA> orthogonal_vector() const; 
 /*{\Mop returns the orthogonal vector of |\Mvar|. It points from the 
@@ -416,6 +416,7 @@ arithmetic, input and output on a hyperplane $h$ take time
 $O(|h.dimension()|)$. coordinate access and |dimension()| take
 constant time.  The space requirement is $O(|h.dimension()|)$.  }*/
 
+#undef PointHd
 CGAL_END_NAMESPACE
 #endif // CGAL_HYPERPLANEHD_H
 

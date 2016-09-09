@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,17 +28,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 // 
 // file          : include/CGAL/basic_constructions_3.h
-// package       : _3 (3.23)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/06/20 15:13:22 $
+// package       : _3 (3.31)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2002/01/22 09:43:33 $
 // author(s)     : Stefan Schirra
 //
-//
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// coordinator   : MPI, Saarbruecken
 // email         : contact@cgal.org
 // www           : http://www.cgal.org
 //
@@ -49,62 +46,6 @@
 #ifndef CGAL_BASIC_CONSTRUCTIONS_3_H
 #define CGAL_BASIC_CONSTRUCTIONS_3_H
 
-CGAL_BEGIN_NAMESPACE
-
-template < class R >
-inline
-Point_3<R>
-midpoint( const Point_3<R>& p,
-          const Point_3<R>& q )
-{
-    typedef typename R::Point_3_base  RPoint_3;
-    return( midpoint( static_cast<const RPoint_3&>(p),
-                      static_cast<const RPoint_3&>(q)));
-}
-
-template < class R >
-inline
-Point_3<R>
-centroid( const Point_3<R>& p,
-          const Point_3<R>& q,
-          const Point_3<R>& r,
-          const Point_3<R>& s)
-{
-    typedef typename R::Point_3_base  RPoint_3;
-    return( centroid( static_cast<const RPoint_3&>(p),
-                      static_cast<const RPoint_3&>(q),
-                      static_cast<const RPoint_3&>(r),
-                      static_cast<const RPoint_3&>(s)));
-}
-
-template < class R >
-inline
-Point_3<R>
-centroid( const Point_3<R>& p,
-          const Point_3<R>& q,
-          const Point_3<R>& r)
-{
-    typedef typename R::Point_3_base  RPoint_3;
-    return( centroid( static_cast<const RPoint_3&>(p),
-                      static_cast<const RPoint_3&>(q),
-                      static_cast<const RPoint_3&>(r)));
-}
-
-template < class R >
-inline
-Point_3<R>
-circumcenter( const Point_3<R>& p,
-              const Point_3<R>& q,
-              const Point_3<R>& r,
-              const Point_3<R>& s)
-{
-    typedef typename R::Point_3_base  RPoint_3;
-    return( circumcenter( static_cast<const RPoint_3&>(p),
-                          static_cast<const RPoint_3&>(q),
-                          static_cast<const RPoint_3&>(r),
-                          static_cast<const RPoint_3&>(s)));
-}
-
-CGAL_END_NAMESPACE
+// Only kept for backward compatibility.
 
 #endif // CGAL_BASIC_CONSTRUCTIONS_3_H

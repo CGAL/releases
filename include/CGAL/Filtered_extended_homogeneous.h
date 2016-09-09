@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions
-//   (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,16 +28,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3 (patch 1)
-// release_date  : 2001, November 12
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Filtered_extended_homogeneous.h
-// package       : Nef_2 
+// package       : Nef_2 (1.18)
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Filtered_extended_points.lw
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2001/11/12 09:55:56 $
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2002/04/19 08:40:08 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -56,6 +54,7 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Homogeneous.h>
+#include <CGAL/number_utils.h>
 #undef _DEBUG
 #define _DEBUG 59
 #include <CGAL/Nef_2/debug.h>
@@ -208,14 +207,14 @@ template <typename RT> class Extended_point;
 template <typename RT> class Extended_point_rep;
 
 template <typename RT>
-class Extended_point_rep : public Ref_counted {
+class Extended_point_rep {
   friend class Extended_point<RT>;
   SPolynomial<RT> x_,y_; RT w_;
   typedef Interval_nt_advanced DT;
   DT mxd,myd,nxd,nyd,wd;
 public:
   Extended_point_rep(const RT& x, const RT& y, const RT& w) :
-    Ref_counted(), x_(x),y_(y),w_(w)
+    x_(x),y_(y),w_(w)
   { CGAL_assertion_msg(w!=0,"denominator is zero.");
     nxd=CGAL::to_interval(x);
     nyd=CGAL::to_interval(y);
@@ -225,7 +224,7 @@ public:
 
   Extended_point_rep(const SPolynomial<RT>& x, 
                      const SPolynomial<RT>& y, 
-                     const RT& w) : Ref_counted(), x_(x),y_(y),w_(w)
+                     const RT& w) : x_(x),y_(y),w_(w)
   { CGAL_assertion_msg(w!=0,"denominator is zero.");
     mxd=CGAL::to_interval(x.m());
     myd=CGAL::to_interval(y.m());
@@ -234,7 +233,7 @@ public:
     wd=CGAL::to_interval(w);
   }
 
-  Extended_point_rep() : Ref_counted(), x_(),y_(),w_() {}
+  Extended_point_rep() : x_(),y_(),w_() {}
   ~Extended_point_rep() {}
   void negate() 
   { x_ = -x_; y_ = -y_; w_ = -w_; 
@@ -249,22 +248,23 @@ class Extended_point : public Handle_for< Extended_point_rep<RT_> > {
 public:
   typedef typename Rep::DT DT;
   typedef RT_ RT;
+  typedef SPolynomial<RT>  SP;
 
   Extended_point() : Base( Rep() ) {}
 
   Extended_point(const RT& x, const RT& y, const RT& w) :
     Base( Rep(x,y,w) )
-  { if (w < 0) ptr->negate(); }
+  { if (w < 0) ptr()->negate(); }
   
   Extended_point(const SPolynomial<RT>& x, 
                  const SPolynomial<RT>& y, 
                  const RT& w) : Base( Rep(x,y,w) )
-  { if (w < 0) ptr->negate(); }
+  { if (w < 0) ptr()->negate(); }
 
   Extended_point(const RT& mx, const RT& nx,
                  const RT& my, const RT& ny, const RT& w) :
-    Base( Rep(SPolynomial<RT>(mx,nx), SPolynomial<RT>(my,ny), w) )
-  { if (w < 0) ptr->negate(); }
+    Base( Rep(SP(mx,nx), SP(my,ny), w) )
+  { if (w < 0) ptr()->negate(); }
   
   Extended_point(const Extended_point<RT>& p) : Base(p) {}
   ~Extended_point() {}
@@ -272,24 +272,24 @@ public:
   Extended_point& operator=(const Extended_point<RT>& p) 
   { Base::operator=(p); return *this; }
 
-  const RT& mx() const { return ptr->x_.m(); }
-  const RT& nx() const { return ptr->x_.n(); }
-  const RT& my() const { return ptr->y_.m(); }
-  const RT& ny() const { return ptr->y_.n(); }
-  const RT& hw()  const { return ptr->w_; }
-  const DT& mxD() const { return ptr->mxd; }
-  const DT& nxD() const { return ptr->nxd; }
-  const DT& myD() const { return ptr->myd; }
-  const DT& nyD() const { return ptr->nyd; }
-  const DT& hwD() const { return ptr->wd; }
+  const RT& mx() const { return ptr()->x_.m(); }
+  const RT& nx() const { return ptr()->x_.n(); }
+  const RT& my() const { return ptr()->y_.m(); }
+  const RT& ny() const { return ptr()->y_.n(); }
+  const RT& hw()  const { return ptr()->w_; }
+  const DT& mxD() const { return ptr()->mxd; }
+  const DT& nxD() const { return ptr()->nxd; }
+  const DT& myD() const { return ptr()->myd; }
+  const DT& nyD() const { return ptr()->nyd; }
+  const DT& hwD() const { return ptr()->wd; }
 
   SQuotient<RT> x() const 
-  { return SQuotient<RT>(ptr->x_, ptr->w_); }
+  { return SQuotient<RT>(ptr()->x_, ptr()->w_); }
   SQuotient<RT> y() const 
-  { return SQuotient<RT>(ptr->y_, ptr->w_); }
+  { return SQuotient<RT>(ptr()->y_, ptr()->w_); }
 
-  const SPolynomial<RT> hx() const { return ptr->x_; }
-  const SPolynomial<RT> hy() const { return ptr->y_; }
+  const SPolynomial<RT> hx() const { return ptr()->x_; }
+  const SPolynomial<RT> hy() const { return ptr()->y_; }
 
   bool is_standard() const { return (mx()==0)&&(my()==0); }
   Extended_point<RT> opposite() const 
@@ -748,10 +748,10 @@ Extended_point<RT> intersection(
   #ifdef REDUCE_INTERSECTION_POINTS
   RT xgcd,ygcd;
   if ( x.m() == RT(0) )  xgcd = ( x.n() == 0 ? RT(1) : x.n() ); 
-  else /* != 0 */    xgcd = ( x.n() == 0 ? x.m() : gcd(x.m(),x.n()) ); 
+  else /* != 0 */    xgcd = ( x.n() == 0 ? x.m() : CGAL_NTS gcd(x.m(),x.n()) );
   if ( y.m() == RT(0) )  ygcd = ( y.n() == 0 ? RT(1) : y.n() ); 
-  else /* != 0 */    ygcd = ( y.n() == 0 ? y.m() : gcd(y.m(),y.n()) ); 
-  RT d = gcd(w,gcd(xgcd,ygcd));
+  else /* != 0 */    ygcd = ( y.n() == 0 ? y.m() : CGAL_NTS gcd(y.m(),y.n()) );
+  RT d = CGAL_NTS gcd(w,CGAL_NTS gcd(xgcd,ygcd));
   x /= d;
   y /= d;
   w /= d;

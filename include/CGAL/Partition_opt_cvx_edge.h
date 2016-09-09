@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Partition_opt_cvx_edge.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2001/03/22 10:06:21 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2002/03/19 20:34:37 $
 //
 // author(s)     : Susan Hert
 //
@@ -95,6 +93,7 @@ public:
       Leftturn_2 leftturn = traits.leftturn_2_object();
 
       _validity = PARTITION_OPT_CVX_NOT_VALID;
+
       Turn_reverser<Point_2_, Leftturn_2>  rightturn(leftturn);
       if (rightturn(p1, p2, p3))
          _validity = PARTITION_OPT_CVX_START_VALID;

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Interval_arithmetic.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 2.125 $
-// revision_date : $Date: 2001/03/19 18:20:30 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 2.127 $
+// revision_date : $Date: 2002/03/20 18:53:10 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -71,6 +69,10 @@ CGAL_BEGIN_NAMESPACE
 template <bool Protected = true>
 struct Interval_nt : public Interval_base
 {
+  typedef Tag_false   Has_gcd;
+  typedef Tag_true    Has_division;
+  typedef Tag_true    Has_sqrt;
+
   typedef Interval_nt<Protected> IA;
 
   Interval_nt() {}

@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,13 +28,13 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Interval_base.h
-// package       : Interval_arithmetic (4.114)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/05/16 15:39:55 $
+// package       : Interval_arithmetic (4.141)
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2002/04/15 20:23:20 $
 // author(s)     : Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
@@ -52,12 +50,7 @@
 // by the number types Interval_nt<>.
 
 #include <CGAL/basic.h>
-#include <utility>				// Relational operators.
-#include <CGAL/double.h>                        // is_finite(double)
-
-#ifdef __GNUG__
-#  define CGAL_IA_NEW_FILTERS   // VC++ is not ready.
-#endif
+#include <CGAL/double.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -69,6 +62,12 @@ struct Interval_base
   static const IA Smallest, Largest;	// Useful constant intervals.
 
   Interval_base () {}
+
+  // This copy ctor, normally equivalent to the one created by the compiler,
+  // appears to fix a code generation problem with GCC 3.0.4...
+  // (see test/IA/gcc_3.0.bug.C).
+  Interval_base (const Interval_base &i)
+    : inf_(i.inf_), sup_(i.sup_) {}
 
   Interval_base (const double d)
     : inf_(d), sup_(d) {}
@@ -231,13 +230,6 @@ io_Operator
 io_tag (const Interval_base &)
 {
   return io_Operator();
-}
-
-inline
-Number_tag
-number_type_tag (const Interval_base &)
-{
-  return Number_tag();
 }
 
 std::ostream & operator<< (std::ostream &, const Interval_base &);

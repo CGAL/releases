@@ -17,10 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
-// - Commercial users may apply for an evaluation license by writing to
-//   (Andreas.Fabri@geometryfactory.com). 
+// - Please check the CGAL web site http://www.cgal.org/index2.html for 
+//   availability.
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
@@ -30,15 +28,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.4
+// release_date  : 2002, May 16
 //
 // file          : include/CGAL/Partitioned_polygon_2.h
-// package       : Partition_2 (1.18)
+// package       : Partition_2 (1.38)
 // chapter       : Planar Polygon Partitioning
 //
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2001/03/12 10:49:30 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2002/05/03 12:29:07 $
 //
 // author(s)     : Susan Hert
 //
@@ -54,9 +52,14 @@
 #define CGAL_PARTITIONED_POLYGON_2_H
 
 #include <list>
+//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
+//  (from stlport?)
+#if defined( _MSC_VER) && (_MSC_VER <= 1200)
 #include <vector>
+#else
+#include <CGAL/vector.h>
+#endif // MSVC6
 #include <CGAL/circulator.h>
-#include <CGAL/Turn_reverser.h>
 
 namespace CGAL {
 
@@ -67,10 +70,10 @@ template<class Iterator, class Traits>
 class Indirect_CW_diag_compare  
 {
 public:
-   typedef typename Traits::R              R;
+   typedef typename Traits::Point_2        Point_2;
    typedef typename Traits::Orientation_2  Orig_orientation;
 
-   Indirect_CW_diag_compare(Point_2<R> vertex, Iterator prev_ref, 
+   Indirect_CW_diag_compare(Point_2 vertex, Iterator prev_ref, 
                          Iterator next_ref) : 
                 _orientation(Traits().orientation_2_object()),
                 _vertex(vertex),
@@ -110,7 +113,7 @@ public:
    }
 private:
    Orig_orientation _orientation;
-   Point_2<R>       _vertex;
+   Point_2          _vertex;
    Iterator         _prev_v_ref;
    Orientation      _vertex_orientation;
 };
@@ -124,31 +127,39 @@ class Partition_vertex;
 //   Traits::Point_2
 //   Traits::Leftturn_2
 //   Traits::Orientation_2
-//   Traits::leftturn_2_object
-//   Traits::orientation_2_object
+//
+//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
+//  (from stlport?)
 template <class Traits_>
+#if defined( _MSC_VER) && (_MSC_VER <= 1200)
 class Partitioned_polygon_2 : public std::vector< Partition_vertex< Traits_ > >
+#else
+class Partitioned_polygon_2 : 
+                            public CGALi::vector< Partition_vertex< Traits_ > >
+#endif // MSVC 6
 {
 public:
    typedef Traits_                                      Traits;
    typedef Partition_vertex<Traits>                     Vertex;
+#if defined( _MSC_VER) && (_MSC_VER <= 1200)
    typedef typename std::vector< Vertex >::iterator     Iterator;
+#else
+   typedef typename CGALi::vector< Vertex >::iterator   Iterator;
+#endif
    typedef Circulator_from_iterator<Iterator>           Circulator;
    typedef typename Traits::Polygon_2                   Subpolygon_2;
    typedef typename Traits::Point_2                     Point_2;
-   typedef typename Traits::Leftturn_2                  Leftturn_2;
-   typedef Turn_reverser<Point_2, Leftturn_2>           Rightturn_2;
+   typedef typename Traits::Leftturn_2                  Left_turn_2;
    typedef std::list<Circulator>                        Diagonal_list;
    typedef typename Diagonal_list::iterator             Diagonal_iterator;
 
 
-   Partitioned_polygon_2() : 
-       _rightturn(Rightturn_2(Traits().leftturn_2_object()))
+   Partitioned_polygon_2() : _left_turn(Traits().leftturn_2_object())
    { }
 
    template <class InputIterator>
    Partitioned_polygon_2(InputIterator first, InputIterator beyond) :  
-       _rightturn(Rightturn_2(Traits().leftturn_2_object()))
+       _left_turn(Traits().leftturn_2_object())
    {
       for (; first != beyond; first++) {
          push_back(Vertex(*first));
@@ -306,7 +317,8 @@ private:
       else
          next = *next_d_it;
    
-      return _rightturn(*prev, *vertex_ref, *next);
+//      return _rightturn(*prev, *vertex_ref, *next);
+      return _left_turn(*vertex_ref, *prev, *next);
    }
 
    bool diagonal_is_necessary(Circulator diag_ref1, Circulator diag_ref2) 
@@ -315,7 +327,7 @@ private:
                cuts_reflex_angle(diag_ref2, diag_ref1));
    }
 
-   Rightturn_2 _rightturn;
+   Left_turn_2 _left_turn;
 };
 
 template <class Traits_>
@@ -378,7 +390,7 @@ class Partition_vertex : public Traits_::Point_2
     void sort_diagonals(const Circulator& prev, const Circulator& next) 
     {
        diag_endpoint_refs.sort(
-          Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next));
+               Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next));
        diag_endpoint_refs.unique();
        current_diag = diag_endpoint_refs.begin();
     }
