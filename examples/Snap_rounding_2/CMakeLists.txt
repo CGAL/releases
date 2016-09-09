@@ -24,6 +24,7 @@ if ( CGAL_FOUND )
   include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "snap_rounding.cpp" )
+  create_single_source_cgal_program( "snap_rounding_data.cpp" )
   create_single_source_cgal_program( "snap_rounding_to_integer.cpp" )
 
 else()

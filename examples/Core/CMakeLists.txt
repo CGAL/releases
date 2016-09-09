@@ -1,8 +1,5 @@
-# Created by the script cgal_create_cmake_script
-# This is the CMake script for compiling a CGAL application.
+project( Core_examples )
 
-
-project( Core_example )
 
 cmake_minimum_required(VERSION 2.6.2)
 if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
@@ -13,21 +10,48 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
   endif()
 endif()
 
-find_package(CGAL QUIET COMPONENTS Core )
+set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true )
 
-if ( CGAL_FOUND )
+if ( COMMAND cmake_policy )
 
-  include( ${CGAL_USE_FILE} )
+  cmake_policy( SET CMP0003 NEW )
 
-  include( CGAL_CreateSingleSourceCGALProgram )
-
-  include_directories (BEFORE "../../include")
-
-  create_single_source_cgal_program( "delaunay.cpp" )
-
-else()
-  
-    message(STATUS "This program requires the CGAL library, and will not be compiled.")
-  
 endif()
 
+# CGAL and its components
+find_package( CGAL QUIET COMPONENTS Core )
+
+if ( NOT CGAL_Core_FOUND )
+
+  message(STATUS "This project requires the CGAL_Core library, and will not be compiled.")
+  return()
+
+endif()
+
+# include helper file
+include( ${CGAL_USE_FILE} )
+
+
+# Boost and its components
+find_package( Boost REQUIRED )
+
+if ( NOT Boost_FOUND )
+
+  message(STATUS "This project requires the Boost library, and will not be compiled.")
+
+  return()
+
+endif()
+
+# include for local directory
+
+# include for local package
+include_directories( BEFORE ../../include )
+
+
+# Creating entries for all .cpp/.C files with "main" routine
+# ##########################################################
+
+include( CGAL_CreateSingleSourceCGALProgram )
+
+create_single_source_cgal_program( "delaunay.cpp" )

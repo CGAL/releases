@@ -18,6 +18,13 @@ find_package(CGAL QUIET COMPONENTS Core )
 if ( CGAL_FOUND )
 
   include( ${CGAL_USE_FILE} )
+  
+  find_package( TBB QUIET )
+
+  if( TBB_FOUND )
+    include(${TBB_USE_FILE})
+    list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
+  endif()
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
@@ -25,7 +32,6 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "adding_handles_3.cpp" )
   create_single_source_cgal_program( "color.cpp" )
-  create_single_source_cgal_program( "copy_triangulation_3.cpp" )
   create_single_source_cgal_program( "fast_location_3.cpp" )
   create_single_source_cgal_program( "find_conflicts_3.cpp" )
   create_single_source_cgal_program( "info_insert_with_pair_iterator.cpp" )
@@ -33,6 +39,9 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "info_insert_with_transform_iterator.cpp" )
   create_single_source_cgal_program( "info_insert_with_zip_iterator.cpp" )
   create_single_source_cgal_program( "linking_2d_and_3d.cpp" )
+  create_single_source_cgal_program( "sequential_parallel.cpp" )
+  create_single_source_cgal_program( "parallel_insertion_in_delaunay_3.cpp" )
+  create_single_source_cgal_program( "parallel_insertion_and_removal_in_regular_3.cpp" )
   create_single_source_cgal_program( "regular_3.cpp" )
   create_single_source_cgal_program( "simple_triangulation_3.cpp" )
   create_single_source_cgal_program( "simplex.cpp" )
