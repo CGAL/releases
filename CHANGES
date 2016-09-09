@@ -1,9 +1,21 @@
 
 -------------------------------- Release 4.6 --------------------------------
 
-Release date: March 2015
+Release date: April 2015
 
 
+* Installation
+
+  - The required version of Boost is now 1.48 or higher.
+
+
+* 2D Polyline Simplification (new package)
+
+  - This package enables to simplify polylines with the guarantee that the
+    topology of the polylines does not change. This can be done for a single
+    polyline as well as for a set of polyline constraints in a constrained
+    triangulation. The simplification can be controlled with cost and stop
+    functions.
 
 
 * 2D Generalized Barycentric Coordinates (new package)
@@ -26,16 +38,22 @@ Release date: March 2015
 
 * Surface Mesh (new package)
 
-  - The surface mesh class provided by this package is a data structure that
-    can be used as halfedge data structure or polyhedral surface. It is an
+  - The surface mesh class provided by this package is an implementation of the
+    halfedge data structure allowing to represent polyhedral surfaces. It is an
     alternative to the packages CGAL::Polyhedron_3 and CGAL::HalfedgeDS.
 
 
-* Triangulation (new package)
+* dD Triangulation (new package)
 
   - This new package provides classes for manipulating triangulations in
     Euclidean spaces whose dimension can be specified at compile-time or at
-    run-time.
+    run-time. It also provides a class that represents Delaunay triangulations.
+
+
+* dD Convex Hulls and Delaunay Triangulations
+
+  - This package is deprecated and the new package Triangulation should be used
+    instead.
 
 
 
@@ -58,6 +76,9 @@ Release date: March 2015
 
   - Fix a robustness issue in Convex_hull_traits_3. This traits is used by
     default with the kernel Exact_predicates_inexact_constructions_kernel.
+
+  - The function CGAL::convex_hull_incremental_3 is deprecated and the function
+    convex_hull_3 should be used instead.
 
 
 
@@ -103,7 +124,7 @@ Release date: March 2015
 
 * Spatial Searching
 
-  - Fixed a bug in CGAL::Splitters.h sliding mitdpoint rule, where degenerated
+  - Fixed a bug in CGAL::Splitters.h sliding midpoint rule, where degenerated
     point sets (e.g.,points on segment) caused the kd-tree to get linear.
 
   - Improved performance of Orthogonal_k_neighbor_search. Note that VC 2013
@@ -116,7 +137,7 @@ Release date: March 2015
 
   - Breaking change: The order of the points in the iterator range [tree.begin
     (),tree.end()] is not the order of insertion of the points into the tree.
-    This was not guaranteed before but might have beeen observed and exploited
+    This was not guaranteed before but might have been observed and exploited
     by users.
 
   - Derived kd_tree_leaf_node and kd_tree_internal_node from kd_tree_node to
