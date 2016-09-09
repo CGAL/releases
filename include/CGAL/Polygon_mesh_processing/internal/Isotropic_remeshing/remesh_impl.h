@@ -33,6 +33,7 @@
 
 #include <CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/AABB_filtered_projection_traits.h>
 
+#include <CGAL/property_map.h>
 #include <CGAL/iterator.h>
 #include <CGAL/boost/graph/Euler_operations.h>
 #include <boost/graph/graph_traits.hpp>
@@ -44,6 +45,7 @@
 #include <boost/property_map/property_map.hpp>
 #include <boost/range.hpp>
 #include <boost/unordered_map.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <map>
 #include <list>
@@ -61,10 +63,13 @@
 #endif
 
 
-namespace PMP = CGAL::Polygon_mesh_processing;
+
 
 
 namespace CGAL {
+
+namespace PMP = Polygon_mesh_processing;
+
 namespace Polygon_mesh_processing {
 namespace internal {
 
@@ -75,42 +80,69 @@ namespace internal {
     MESH_BORDER  //h belongs to the mesh, face(hopp, pmesh) == null_face()
   };
 
-  // A property map 
+  // A property map
+  template<typename Descriptor>
+  struct No_constraint_pmap
+  {
+  public:
+    typedef Descriptor                          key_type;
+    typedef bool                                value_type;
+    typedef value_type&                         reference;
+    typedef boost::read_write_property_map_tag  category;
+
+    friend bool get(const No_constraint_pmap& , const key_type& ) {
+      return false;
+    }
+    friend void put(No_constraint_pmap& , const key_type& , const bool ) {}
+  };
+
   template <typename PM, typename FaceRange>
   struct Border_constraint_pmap
   {
     typedef typename boost::graph_traits<PM>::halfedge_descriptor halfedge_descriptor;
     typedef typename boost::graph_traits<PM>::edge_descriptor edge_descriptor;
 
-    std::map<edge_descriptor, bool> border_edges;
+    boost::shared_ptr< std::set<edge_descriptor> > border_edges_ptr;
     const PM* pmesh_ptr_;
+
   public:
-    Border_constraint_pmap():pmesh_ptr_(NULL) {}
+    typedef edge_descriptor                     key_type;
+    typedef bool                                value_type;
+    typedef value_type&                         reference;
+    typedef boost::read_write_property_map_tag  category;
+
+    Border_constraint_pmap()
+      : border_edges_ptr(new std::set<edge_descriptor>() )
+      , pmesh_ptr_(NULL)
+    {}
     Border_constraint_pmap(const PM& pmesh, const FaceRange& faces)
-      : pmesh_ptr_(&pmesh)
+      : border_edges_ptr(new std::set<edge_descriptor>() )
+      , pmesh_ptr_(&pmesh)
     {
       std::vector<halfedge_descriptor> border;
       PMP::border_halfedges(faces, *pmesh_ptr_, std::back_inserter(border));
 
-      BOOST_FOREACH(edge_descriptor e, edges(*pmesh_ptr_))
-        border_edges.insert(std::make_pair(e, false));
-
       BOOST_FOREACH(halfedge_descriptor h, border)
-        border_edges[edge(h, *pmesh_ptr_)] = true;
+        border_edges_ptr->insert(edge(h, *pmesh_ptr_));
     }
 
     friend bool get(const Border_constraint_pmap<PM, FaceRange>& map,
                     const edge_descriptor& e)
     {
       CGAL_assertion(map.pmesh_ptr_!=NULL);
-      CGAL_assertion(!map.border_edges.empty());
-      typename std::map<edge_descriptor, bool>::const_iterator it
-        = map.border_edges.find(e);
-
-      CGAL_assertion(it != map.border_edges.end());
-      return it->second;
+      return map.border_edges_ptr->count(e)!=0;
     }
 
+    friend void put(Border_constraint_pmap<PM, FaceRange>& map,
+                    const edge_descriptor& e,
+                    const bool is)
+    {
+      CGAL_assertion(map.pmesh_ptr_ != NULL);
+      if (is)
+        map.border_edges_ptr->insert(e);
+      else
+        map.border_edges_ptr->erase(e);
+    }
   };
 
   template<typename PM,
@@ -142,6 +174,10 @@ namespace internal {
   template<typename PolygonMesh
          , typename VertexPointMap
          , typename GeomTraits
+         , typename EdgeIsConstrainedMap = No_constraint_pmap<
+              typename boost::graph_traits<PolygonMesh>::edge_descriptor>
+         , typename VertexIsConstrainedMap = No_constraint_pmap<
+              typename boost::graph_traits<PolygonMesh>::vertex_descriptor>
   >
   class Incremental_remesher
   {
@@ -156,7 +192,11 @@ namespace internal {
     typedef typename GeomTraits::Plane_3    Plane_3;
     typedef typename GeomTraits::Triangle_3 Triangle_3;
 
-    typedef Incremental_remesher<PM, VertexPointMap, GeomTraits> Self;
+    typedef Incremental_remesher<PM, VertexPointMap
+                               , GeomTraits
+                               , EdgeIsConstrainedMap
+                               , VertexIsConstrainedMap
+                               > Self;
 
   private:
     typedef std::size_t                                  Patch_id;
@@ -172,6 +212,8 @@ namespace internal {
     Incremental_remesher(PolygonMesh& pmesh
                        , VertexPointMap& vpmap
                        , const bool protect_constraints
+                       , EdgeIsConstrainedMap ecmap = EdgeIsConstrainedMap()
+                       , VertexIsConstrainedMap vcmap = VertexIsConstrainedMap()
                        , const bool own_tree = true)//built by the remesher
       : mesh_(pmesh)
       , vpmap_(vpmap)
@@ -181,6 +223,8 @@ namespace internal {
       , halfedge_status_map_()
       , protect_constraints_(protect_constraints)
       , patch_ids_map_()
+      , ecmap_(ecmap)
+      , vcmap_(vcmap)
     {
       CGAL_assertion(CGAL::is_triangle_mesh(mesh_));
     }
@@ -191,12 +235,10 @@ namespace internal {
         delete tree_ptr_;
     }
     
-    template<typename FaceRange
-           , typename EdgeIsConstrainedMap>
-    void init_remeshing(const FaceRange& face_range
-                      , const EdgeIsConstrainedMap& ecmap)
+    template<typename FaceRange>
+    void init_remeshing(const FaceRange& face_range)
     {
-      tag_halfedges_status(face_range, ecmap); //called first
+      tag_halfedges_status(face_range); //called first
       Constraint_property_map cpmap(*this);
 
       //build AABB tree of input surface
@@ -204,7 +246,7 @@ namespace internal {
         boost::make_assoc_property_map(patch_ids_map_),// set patch_id() for each face
         PMP::parameters::edge_is_constrained_map(cpmap));
 
-      BOOST_FOREACH(face_descriptor f, faces(mesh_))
+      BOOST_FOREACH(face_descriptor f, face_range)
       {
         input_triangles_.push_back(triangle(f));
         input_patch_ids_.push_back(get_patch_id(f));
@@ -217,10 +259,9 @@ namespace internal {
     }
 
     // split edges of edge_range that have their length > high
-    template<typename EdgeRange, typename OutputIterator>
+    template<typename EdgeRange>
     void split_long_edges(const EdgeRange& edge_range,
-                          const double& high,
-                          OutputIterator out)//new edges, replacing edge_range
+                          const double& high)
     {
       typedef boost::bimap<
         boost::bimaps::set_of<halfedge_descriptor>,
@@ -239,9 +280,12 @@ namespace internal {
       {
         double sqlen = sqlength(e);
         if (sqlen > sq_high)
+        {
           long_edges.insert(long_edge(halfedge(e, mesh_), sqlen));
+          put(ecmap_, e, false);
+        }
         else
-          *out++ = e;
+          put(ecmap_, e, true);
       }
 
       //split long edges
@@ -277,8 +321,8 @@ namespace internal {
         }
         else
         {
-          *out++ = edge(hnew, mesh_);
-          *out++ = edge(next(hnew, mesh_), mesh_);
+          put(ecmap_, edge(hnew, mesh_), true);
+          put(ecmap_, edge(next(hnew, mesh_), mesh_), true);
         }
 
         //insert new edges to keep triangular faces, and update long_edges
@@ -540,8 +584,9 @@ namespace internal {
             break;
           }
         }
+        //before collapsing va into vb, check that it does not break a corner
         //if it is allowed, perform the collapse
-        if (collapse_ok)
+        if (collapse_ok && !is_constrained(va) && !is_corner(va))
         {
           //"collapse va into vb along e"
           // remove edges incident to va and vb, because their lengths will change
@@ -739,7 +784,7 @@ namespace internal {
       // at each vertex, compute barycenter of neighbors
       BOOST_FOREACH(vertex_descriptor v, vertices(mesh_))
       {
-        if (is_on_patch(v))
+        if (is_on_patch(v) && !is_constrained(v))
         {
         Vector_3 vn = PMP::compute_vertex_normal(v, mesh_
                             , PMP::parameters::vertex_point_map(vpmap_)
@@ -758,7 +803,11 @@ namespace internal {
 
           barycenters[v] = get(vpmap_, v) + move;
         }
-        else if (smooth_along_features && !protect_constraints_ && is_on_patch_border(v))
+        else if (smooth_along_features
+              && !protect_constraints_
+              && is_on_patch_border(v)
+              && !is_corner(v)
+              && !is_constrained(v))
         {
           put(propmap_normals, v, CGAL::NULL_VECTOR);
 
@@ -844,8 +893,9 @@ namespace internal {
 
       BOOST_FOREACH(vertex_descriptor v, vertices(mesh_))
       {
-        if (!is_on_patch(v))
+        if (!is_on_patch(v) && !is_constrained(v))
           continue;
+        //note if v is constrained, it has not moved
 
         Patch_id_property_map pid_pmap(*this);
         internal::Filtered_projection_traits<typename AABB_tree::AABB_traits,
@@ -1110,6 +1160,24 @@ private:
       return res;
     }
 
+    bool is_constrained(const vertex_descriptor& v) const
+    {
+      return get(vcmap_, v);
+    }
+
+    bool is_corner(const vertex_descriptor& v) const
+    {
+      unsigned int nb_incident_features = 0;
+      BOOST_FOREACH(halfedge_descriptor h, halfedges_around_target(v, mesh_))
+      {
+        if (is_on_border(h) || is_on_patch_border(h))
+          ++nb_incident_features;
+        if (nb_incident_features > 2)
+          return true;
+      }
+      return false;
+    }
+
     Vector_3 compute_normal(const face_descriptor& f) const
     {
       halfedge_descriptor hd = halfedge(f, mesh_);
@@ -1124,9 +1192,8 @@ private:
         return PMP::compute_face_normal(f, mesh_);
     }
 
-    template<typename FaceRange, typename EdgeIsConstrainedMap>
-    void tag_halfedges_status(const FaceRange& face_range
-                            , const EdgeIsConstrainedMap& ecmap)
+    template<typename FaceRange>
+    void tag_halfedges_status(const FaceRange& face_range)
     {
       //tag MESH,        //h and hopp belong to the mesh, not the patch
       //tag MESH_BORDER  //h belongs to the mesh, face(hopp, pmesh) == null_face()
@@ -1154,7 +1221,7 @@ private:
       //tag PATCH_BORDER,//h belongs to the patch, hopp doesn't
       BOOST_FOREACH(edge_descriptor e, edges(mesh_))
       {
-        if (get(ecmap, e) || get(border_map, e))
+        if (get(ecmap_, e) || get(border_map, e))
         {
           //deal with h and hopp for borders that are sharp edges to be preserved
           halfedge_descriptor h = halfedge(e, mesh_);
@@ -1164,6 +1231,8 @@ private:
           halfedge_descriptor hopp = opposite(h, mesh_);
           if (halfedge_status_map_[hopp] == PATCH)
             halfedge_status_map_[hopp] = PATCH_BORDER;
+
+          put(ecmap_, e, false);
         }
       }
 
@@ -1175,6 +1244,8 @@ private:
       typename boost::unordered_map <
         halfedge_descriptor, Halfedge_status >::const_iterator
           it = halfedge_status_map_.find(h);
+      if (it == halfedge_status_map_.end())
+        std::cout << "Something goes wrong with status function" << std::endl;
       CGAL_assertion(it != halfedge_status_map_.end());
       return it->second;
     }
@@ -1500,6 +1571,18 @@ private:
       return input_patch_ids_;
     }
 
+    void update_constraints_property_map()
+    {
+      BOOST_FOREACH(edge_descriptor e, edges(mesh_))
+      {
+        if (is_on_patch_border(halfedge(e, mesh_))
+          || is_on_patch_border(opposite(halfedge(e, mesh_), mesh_)))
+          put(ecmap_, e, true);
+        else
+          put(ecmap_, e, false);
+      }
+    }
+
   private:
     PolygonMesh& mesh_;
     VertexPointMap& vpmap_;
@@ -1510,6 +1593,8 @@ private:
     boost::unordered_map<halfedge_descriptor, Halfedge_status> halfedge_status_map_;
     bool protect_constraints_;
     boost::unordered_map<face_descriptor, Patch_id> patch_ids_map_;
+    EdgeIsConstrainedMap ecmap_;
+    VertexIsConstrainedMap vcmap_;
 
   };//end class Incremental_remesher
 }//end namespace internal

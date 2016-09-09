@@ -52,7 +52,7 @@ Polyhedron_demo_off_to_xyz_plugin::load(QFileInfo fileinfo) {
     }
   }
 
-  item->setName(fileinfo.baseName());
+  item->setName(fileinfo.completeBaseName());
   return item;
 }
 
@@ -77,6 +77,7 @@ bool Polyhedron_demo_off_to_xyz_plugin::save(const CGAL::Three::Scene_item* item
 
   // Save point set as .xyz
   std::ofstream out(fileinfo.filePath().toUtf8().data());
+  out.precision (std::numeric_limits<double>::digits10 + 2);
   return point_set_item->write_off_point_set(out);
 }
 

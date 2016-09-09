@@ -27,13 +27,13 @@ public:
     this->scene = scene_interface;
     this->mw = mainWindow;
     this->messages = m;
-    actionTriangulateFacets = new QAction("Triangulate facets", mw);
+    actionTriangulateFacets = new QAction("Triangulate Facets", mw);
     actionTriangulateFacets->setProperty("subMenuName","Polygon Mesh Processing");
     if(actionTriangulateFacets) {
       connect(actionTriangulateFacets, SIGNAL(triggered()),
               this, SLOT(triangulate())); 
     }
-    actionUnTriangulateFacets = new QAction("Untriangulate facets", mw);
+    actionUnTriangulateFacets = new QAction("Untriangulate Facets", mw);
     actionUnTriangulateFacets->setProperty("subMenuName","Polygon Mesh Processing");
     if(actionUnTriangulateFacets) {
       connect(actionUnTriangulateFacets, SIGNAL(triggered()),
@@ -46,14 +46,13 @@ public:
                              << actionUnTriangulateFacets;
   }
 
-  bool applicable(QAction*) const { 
-    Q_FOREACH(CGAL::Three::Scene_interface::Item_id index, scene->selectionIndices())  {
-      Scene_polyhedron_item* item = qobject_cast<Scene_polyhedron_item*>(scene->item(index));
-      if(!item) return false;
+  bool applicable(QAction*) const {
+    Q_FOREACH(CGAL::Three::Scene_interface::Item_id index, scene->selectionIndices()){
+      if ( qobject_cast<Scene_polyhedron_item*>(scene->item(index)) )
+        return true;
     }
-    return true;
+    return false;
   }
-
 
 public Q_SLOTS:
   void untriangulate() {

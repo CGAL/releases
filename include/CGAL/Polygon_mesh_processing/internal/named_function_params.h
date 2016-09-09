@@ -35,9 +35,11 @@ namespace CGAL{
   enum geom_traits_t                { geom_traits };
   enum number_of_iterations_t       { number_of_iterations };
   enum protect_constraints_t        { protect_constraints };
+  enum vertex_is_constrained_t      { vertex_is_constrained };
 
   //to be documented
   enum smooth_along_features_t      { smooth_along_features };
+  enum face_normal_t                { face_normal };
 
   //internal
   enum weight_calculator_t          { weight_calculator };
@@ -100,6 +102,14 @@ namespace CGAL{
       return Params(w, *this);
     }
 
+    template <typename FaceNormalMap>
+    pmp_bgl_named_params<FaceNormalMap, face_normal_t, self>
+    face_normal_map(const FaceNormalMap& m) const
+    {
+      typedef pmp_bgl_named_params<FaceNormalMap, face_normal_t, self> Params;
+      return Params(m, *this);
+    }
+
     //overload
     template <typename PointMap>
     pmp_bgl_named_params<PointMap, boost::vertex_point_t, self>
@@ -139,6 +149,14 @@ namespace CGAL{
     {
       typedef pmp_bgl_named_params<Boolean, smooth_along_features_t, self> Params;
       return Params(b, *this);
+    }
+
+    template <typename VertexIsConstrained>
+    pmp_bgl_named_params<VertexIsConstrained, vertex_is_constrained_t, self>
+    vertex_is_constrained_map(const VertexIsConstrained& vm) const
+    {
+      typedef pmp_bgl_named_params<VertexIsConstrained, vertex_is_constrained_t, self> Params;
+      return Params(vm, *this);
     }
 
     //overload
@@ -230,6 +248,14 @@ namespace parameters{
     return Params(w);
   }
 
+  template <typename FaceNormalMap>
+  pmp_bgl_named_params<FaceNormalMap, face_normal_t>
+  face_normal_map(const FaceNormalMap& m)
+  {
+    typedef pmp_bgl_named_params<FaceNormalMap, face_normal_t> Params;
+    return Params(m);
+  }
+
   //overload
   template <typename PointMap>
   pmp_bgl_named_params<PointMap, boost::vertex_point_t>
@@ -269,6 +295,14 @@ namespace parameters{
   {
     typedef pmp_bgl_named_params<Boolean, smooth_along_features_t> Params;
     return Params(b);
+  }
+
+  template <typename VertexIsConstrained>
+  pmp_bgl_named_params<VertexIsConstrained, vertex_is_constrained_t>
+  vertex_is_constrained_map(const VertexIsConstrained& vm)
+  {
+    typedef pmp_bgl_named_params<VertexIsConstrained, vertex_is_constrained_t> Params;
+    return Params(vm);
   }
 
   //overload

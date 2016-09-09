@@ -120,11 +120,12 @@ Scene::replaceItem(Scene::Item_id index, CGAL::Three::Scene_item* item, bool emi
   Q_EMIT updated();
     itemChanged(index);
     Q_EMIT restoreCollapsedState();
+    group_added();
     return item;
 }
 
-int
-Scene::erase(int index)
+Scene::Item_id
+Scene::erase(Scene::Item_id index)
 {
     clear();
     index_map.clear();
@@ -1025,7 +1026,7 @@ Scene::Bbox Scene::bbox() const
     Bbox bbox = Bbox(0,0,0,0,0,0);
     Q_FOREACH(CGAL::Three::Scene_item* item, m_entries)
     {
-        if(item->isFinite() && !item->isEmpty() && item->visible()) {
+        if(item->isFinite() && !item->isEmpty()) {
             if(bbox_initialized) {
 
                 bbox = bbox + item->bbox();

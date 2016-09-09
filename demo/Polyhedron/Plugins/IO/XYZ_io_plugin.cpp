@@ -35,7 +35,7 @@ public:
       this->scene = scene_interface;
       this->mw = mainWindow;
       //creates and link the actions
-      actionAdd_point_set= new QAction("Add point sets", mw);
+      actionAdd_point_set= new QAction("Add Point Sets", mw);
       if(actionAdd_point_set) {
         connect(actionAdd_point_set, SIGNAL(triggered()),
                 this, SLOT(on_actionAdd_point_set_triggered()));
@@ -51,7 +51,7 @@ public:
         for ( QList<QAction*>::iterator it_action = menuFileActions.begin(),
              end = menuFileActions.end() ; it_action != end ; ++ it_action ) //Q_FOREACH( QAction* action, menuFileActions)
         {
-          if ( NULL != *it_action && (*it_action)->text().contains("Load plugin") )
+          if ( NULL != *it_action && (*it_action)->text().contains("Load Plugin") )
           {
             ++it_action;
             if ( it_action != end && NULL != *it_action )
@@ -140,6 +140,7 @@ bool Polyhedron_demo_xyz_plugin::save(const CGAL::Three::Scene_item* item, QFile
 
   // Save point set as .xyz
   std::ofstream out(fileinfo.filePath().toUtf8().data());
+  out.precision (std::numeric_limits<double>::digits10 + 2);
   return point_set_item->write_xyz_point_set(out);
 }
 
