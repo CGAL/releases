@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -11,14 +11,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/demo/Straight_skeleton_2/cgal_types.h $
-// $Id: cgal_types.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $Id: cgal_types.h 31990 2006-06-20 18:56:09Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_TYPES
 #define CGAL_TYPES
-
-#include "definitions.h"
 
 #include <CGAL/basic.h>
 #include <CGAL/Simple_cartesian.h>
@@ -32,11 +30,8 @@
 namespace demo
 {
 
-#if defined(SLS_DEMO_FAST)
-typedef CGAL::Simple_cartesian<double> K ;
-#else
+//typedef CGAL::Simple_cartesian<double> K ;
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-#endif
 
 typedef CGAL::Polygon_2<K>            CGAL_Polygon ;
 

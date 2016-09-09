@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Sort.h $
-// $Id: Sort.h 31000 2006-05-04 09:15:56Z drussel $
+// $Id: Sort.h 32235 2006-07-06 12:42:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -214,7 +214,7 @@ void audit() const
 	if (!wrote_objects_) {
 	  wrote_objects_=true;
 	  std::cerr << "Objects are: ";
-	  for (typename Traits::Active_points_1_table::Keys_iterator kit= mot_listener_.notifier()->keys_begin();
+	  for (typename Traits::Active_points_1_table::Key_iterator kit= mot_listener_.notifier()->keys_begin();
 	       kit != mot_listener_.notifier()->keys_end(); ++kit){
 	    std::cerr <<  mot_listener_.notifier()->at(*kit) << std::endl;
 	  }
@@ -233,7 +233,8 @@ void audit() const
 void set(Object_key k) {
   iterator it =  std::equal_range(sorted_.begin(), sorted_.end(),k).first;
   v_.modify_vertex(it);
-  rebuild_certificate(it); rebuild_certificate(--it);
+  rebuild_certificate(it);
+  if (it != sorted_.begin()) rebuild_certificate(--it);
 }
 
 /* Remove object k and destroy 2 certificates and create one new one.

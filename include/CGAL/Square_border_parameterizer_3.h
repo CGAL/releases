@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Square_border_parameterizer_3.h $
-// $Id: Square_border_parameterizer_3.h 29301 2006-03-09 17:15:04Z lsaboret $
-// 
+// $Id: Square_border_parameterizer_3.h 31402 2006-06-02 14:29:41Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -181,7 +181,7 @@ Square_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
     // map to [0,4[
     double len = 0.0;           // current position on square in [0, total_len[
     Offset_map offset;          // vertex index -> offset map
-    offset.reserve(mesh.count_mesh_vertices());
+    offset.resize(mesh.count_mesh_vertices());
     Border_vertex_iterator it;
     for(it = mesh.mesh_main_border_vertices_begin();
         it != mesh.mesh_main_border_vertices_end();

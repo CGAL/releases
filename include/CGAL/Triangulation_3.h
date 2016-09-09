@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: Triangulation_3.h 31587 2006-06-15 08:51:51Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -802,12 +802,12 @@ public:
   {
       if ( dimension() < 3 )
 	  return finite_cells_end();
-      return filter_iterator(cells_end(), Infinite_tester(this),
-	                     cells_begin());
+      return CGAL::filter_iterator(cells_end(), Infinite_tester(this),
+	                           cells_begin());
   }
   Finite_cells_iterator finite_cells_end() const
   {
-      return filter_iterator(cells_end(), Infinite_tester(this));
+      return CGAL::filter_iterator(cells_end(), Infinite_tester(this));
   }
 
   Cell_iterator cells_begin() const
@@ -832,12 +832,12 @@ public:
   {
       if ( number_of_vertices() <= 0 )
 	  return finite_vertices_end();
-      return filter_iterator(vertices_end(), Infinite_tester(this),
-	                     vertices_begin());
+      return CGAL::filter_iterator(vertices_end(), Infinite_tester(this),
+	                           vertices_begin());
   }
   Finite_vertices_iterator finite_vertices_end() const
   {
-      return filter_iterator(vertices_end(), Infinite_tester(this));
+      return CGAL::filter_iterator(vertices_end(), Infinite_tester(this));
   }
 
   Vertex_iterator vertices_begin() const
@@ -862,12 +862,12 @@ public:
   {
       if ( dimension() < 1 )
 	  return finite_edges_end();
-      return filter_iterator(edges_end(), Infinite_tester(this),
-	                     edges_begin());
+      return CGAL::filter_iterator(edges_end(), Infinite_tester(this),
+	                           edges_begin());
   }
   Finite_edges_iterator finite_edges_end() const
   {
-      return filter_iterator(edges_end(), Infinite_tester(this));
+      return CGAL::filter_iterator(edges_end(), Infinite_tester(this));
   }
 
   Edge_iterator edges_begin() const
@@ -892,12 +892,12 @@ public:
   {
       if ( dimension() < 2 )
 	  return finite_facets_end();
-      return filter_iterator(facets_end(), Infinite_tester(this),
-	                     facets_begin());
+      return CGAL::filter_iterator(facets_end(), Infinite_tester(this),
+	                           facets_begin());
   }
   Finite_facets_iterator finite_facets_end() const
   {
-      return filter_iterator(facets_end(), Infinite_tester(this));
+      return CGAL::filter_iterator(facets_end(), Infinite_tester(this));
   }
 
   Facet_iterator facets_begin() const

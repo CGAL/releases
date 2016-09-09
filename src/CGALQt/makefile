@@ -16,7 +16,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/src/CGALQt/makefile $
-# $Id: makefile 30316 2006-04-14 09:19:29Z spion $
+# $Id: makefile 31272 2006-05-23 15:07:39Z spion $
 #
 # Author(s)     : various
 

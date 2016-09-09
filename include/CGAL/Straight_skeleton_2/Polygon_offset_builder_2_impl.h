@@ -10,13 +10,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_2.C $
-// $Id: Polygon_offset_builder_2.C 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Polygon_offset_builder_2_impl.h $
+// $Id: Polygon_offset_builder_2_impl.h 31990 2006-06-20 18:56:09Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
-#ifndef CGAL_POLYGON_OFFSET_BUILDER_2_C
-#define CGAL_POLYGON_OFFSET_BUILDER_2_C 1
+#ifndef CGAL_POLYGON_OFFSET_BUILDER_2_IMPL_H
+#define CGAL_POLYGON_OFFSET_BUILDER_2_IMPL_H 1
 
 CGAL_BEGIN_NAMESPACE
 
@@ -196,5 +196,5 @@ OutputIterator Polygon_offset_builder_2<Ss,Gt,Cont>::construct_offset_contours( 
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_POLYGON_OFFSET_BUILDER_2_C //
+#endif // CGAL_POLYGON_OFFSET_BUILDER_2_IMPL_H //
 // EOF //

@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Double_with_infinity.h $
-// $Id: Double_with_infinity.h 29747 2006-03-24 01:57:48Z drussel $
+// $Id: Double_with_infinity.h 32476 2006-07-13 11:42:26Z drussel $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -83,7 +83,7 @@ namespace std {
 
 CGAL_BEGIN_NAMESPACE
 
-double to_double(CGAL_POLYNOMIAL_NS::internal::Double_with_infinity d) {
+inline double to_double(CGAL_POLYNOMIAL_NS::internal::Double_with_infinity d) {
   return to_double(static_cast<double>(d));
 }
 

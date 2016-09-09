@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Heap_pointer_event_queue.h $
-// $Id: Heap_pointer_event_queue.h 31252 2006-05-22 12:26:07Z drussel $
+// $Id: Heap_pointer_event_queue.h 32205 2006-07-05 08:01:31Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -217,7 +217,7 @@ public:
   //! remove the event referenced by item from the queue
   void erase(const Key &item) {
     if (item == end_key()) return;
-    CGAL_expensive_precondition(item);
+    CGAL_expensive_precondition(item != Key());
     CGAL_expensive_precondition(is_in_heap(item));
     int bin= item->bin();
     //if (bin ==-1) return;

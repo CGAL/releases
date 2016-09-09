@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_segment_traits_2.h $
-// $Id: Arr_segment_traits_2.h 29412 2006-03-12 09:38:57Z wein $
+// $Id: Arr_segment_traits_2.h 31543 2006-06-12 13:26:10Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -38,9 +38,15 @@ template <class Kernel_> class Arr_segment_2;
 /*!
  * \class A traits class for maintaining an arrangement of segments, aoviding
  * cascading of computations as much as possible.
+ *
+ * The class is derived from the parameterized kernel to extend the traits
+ * with all the types and operations supported by the kernel. This makes it
+ * possible to use the traits class for data structures that extends the
+ * Arrangement_2 type and require objects and operations supported by the
+ * kernel, but not defined in this derived class.
  */
 template <class Kernel_>
-class Arr_segment_traits_2
+class Arr_segment_traits_2 : public Kernel_
 {
   friend class Arr_segment_2<Kernel_>;
 

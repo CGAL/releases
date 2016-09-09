@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/predicates/Ag2_incircle_C2.h $
-// $Id: Ag2_incircle_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: Ag2_incircle_C2.h 32342 2006-07-10 07:41:20Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -224,7 +224,7 @@ public:
     Orientation o1 = orientation(bl1_perp, q.point(), tag);
     Orientation o2 = orientation(bl2_perp, q.point(), tag);
 
-    CGAL_assertion( o1 != COLLINEAR && o2 != COLLINEAR );
+    CGAL_assertion( o1 != COLLINEAR || o2 != COLLINEAR );
     if ( o1 == o2 ) { return POSITIVE; }
     return NEGATIVE;
   }  

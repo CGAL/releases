@@ -16,7 +16,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/src/CGAL/makefile $
-# $Id: makefile 30642 2006-04-18 12:42:52Z lsaboret $
+# $Id: makefile 31272 2006-05-23 15:07:39Z spion $
 #
 # Author(s)     : Radu Ursu
 #                 Sylvain Pion

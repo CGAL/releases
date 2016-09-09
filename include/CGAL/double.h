@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/double.h $
-// $Id: double.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: double.h 32102 2006-06-27 21:12:30Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -27,6 +27,12 @@
 #include <CGAL/basic.h>
 #include <utility>
 #include <cmath>
+#include <limits>
+
+#ifdef _MSC_VER
+#include <float.h>
+#endif
+
 #ifdef CGAL_CFG_IEEE_754_BUG
 #  include <CGAL/IEEE_754_unions.h>
 #endif
@@ -145,15 +151,38 @@ is_valid( const double& dble)
 
 #else
 
+#ifdef _MSC_VER
+
+inline
+bool
+is_valid(double d)
+{ return ! _isnan(d); }
+#else
+
 inline
 bool
 is_valid(double d)
 { return (d == d); }
+#endif 
+
+#ifdef CGAL_CFG_NUMERIC_LIMITS_BUG
 
 inline
 bool
 is_finite(double d)
 { return (d == d) && (is_valid(d-d)); }
+
+#else 
+
+inline
+bool
+is_finite(double d)
+{ return (d != std::numeric_limits<double>::infinity()) 
+    && (-d != std::numeric_limits<double>::infinity())
+    && is_valid(d); }
+
+#endif
+
 
 #endif
 

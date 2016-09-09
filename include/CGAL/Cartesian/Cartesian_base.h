@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: Cartesian_base.h 31661 2006-06-16 21:12:43Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -85,7 +85,7 @@ struct Cartesian_base
     // These are currently undocumented.
     // Should they be part of the Kernel interface ?
     typedef typename Same_uncertainty_nt<bool, FT>::type
-                                                        Bool;
+                                                        Bool_type;
     typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type
                                                         Sign;
     typedef typename Same_uncertainty_nt<CGAL::Comparison_result, FT>::type

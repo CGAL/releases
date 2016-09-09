@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_listener_helper.h $
-// $Id: Active_objects_listener_helper.h 29334 2006-03-10 00:00:09Z drussel $
+// $Id: Active_objects_listener_helper.h 31630 2006-06-16 13:09:51Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -47,10 +47,10 @@ public:
 
   //! The constructor
   Active_objects_listener_helper(typename Moving_object_table_listener::Notifier_handle h,
-				 KDS *kds):
+                                 KDS *kds):
     Moving_object_table_listener(h), t_(kds) {
-    for (typename Moving_object_table_listener::Notifier::Keys_iterator it= P::notifier()->keys_begin();
-	 it != P::notifier()->keys_end(); ++it) {
+    for (typename Moving_object_table_listener::Notifier::Key_iterator it= P::notifier()->keys_begin();
+         it != P::notifier()->keys_end(); ++it) {
       t_->insert(*it);
     }
   }

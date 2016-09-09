@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/QP_solver/include/CGAL/QP_solver.h $
-// $Id: QP_solver.h 29086 2006-03-06 14:22:18Z gaertner $
+// $Id: QP_solver.h 31326 2006-05-30 14:30:53Z gaertner $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -1178,6 +1178,7 @@ private:
   bool is_solution_optimal_for_auxiliary_problem();
   bool is_solution_feasible();
   bool is_solution_optimal();
+  bool is_value_correct();
   bool is_solution_unbounded();
 
 public:

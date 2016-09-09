@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGAL/numeric_solvers_support.cpp $
-// $Id: numeric_solvers_support.cpp 30316 2006-04-14 09:19:29Z spion $
+// $Id: numeric_solvers_support.cpp 32476 2006-07-13 11:42:26Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -145,7 +145,7 @@ static inline void filter_roots_t(const NT *begin, const NT *end,
     typedef CGAL_POLYNOMIAL_NS::Interval_polynomial IFn;
     typedef CGAL_POLYNOMIAL_NS::internal::Derivative<IFn> Diff;
     typedef typename IFn::NT INT;
-
+    Interval_arithmetic_guard gd;
     // if the last valid root is closer than last, consider it as doubtful instead
     if (lb-last_root > roots.back()-lb) {
       last_root= roots.back();

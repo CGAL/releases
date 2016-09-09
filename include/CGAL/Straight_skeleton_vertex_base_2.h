@@ -11,7 +11,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
-// $Id: Straight_skeleton_vertex_base_2.h 29770 2006-03-26 16:16:40Z fcacciola $
+// $Id: Straight_skeleton_vertex_base_2.h 31990 2006-06-20 18:56:09Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -198,7 +198,6 @@ public:
   bool is_skeleton() const { return  halfedge()->is_bisector() ; }
   bool is_contour () const { return !halfedge()->is_bisector() ; }
   
-//  Point_2&              point()          { return mP; }
   const Point_2&        point() const    { return mP; }
   
   Halfedge_handle       halfedge()       { return mHE; }
@@ -243,7 +242,6 @@ private:
     
   void set_halfedge( Halfedge_handle aHE)  { Base::set_halfedge(aHE) ; }
 } ;
-
 
 CGAL_END_NAMESPACE
 

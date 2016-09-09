@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: 
-// $Revision: 30642 $ $Date: 2006-04-18 14:42:52 +0200 (Tue, 18 Apr 2006) $
+// $Revision: 31450 $ $Date: 2006-06-06 15:14:58 +0200 (Tue, 06 Jun 2006) $
 // $Name:  $
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -34,7 +34,7 @@ namespace CGAL {
 
     template < class TDS3 >
     struct Rebind_TDS {
-      typedef typename Base::template Rebind_TDS<TDS3>::Other  Cb3;
+      typedef typename Cb::template Rebind_TDS<TDS3>::Other  Cb3;
       typedef Surface_mesh_cell_base_3 <GT, Cb3> Other;
     };
     

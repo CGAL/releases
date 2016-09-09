@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/make_root_of_2.h $
-// $Id: make_root_of_2.h 30034 2006-04-06 09:10:38Z spion $
+// $Id: make_root_of_2.h 32148 2006-06-29 09:23:23Z lsaboret $
 // 
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias

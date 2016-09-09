@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 29760 2006-03-25 11:16:13Z spion $
+// $Id: Regular_triangulation_2.h 31605 2006-06-16 07:40:03Z yvinec $
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -1915,7 +1915,7 @@ typename Regular_triangulation_2<Gt,Tds>::All_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 all_vertices_begin () const
 {
-  return filter_iterator(Base::all_vertices_end(), 
+  return CGAL::filter_iterator(Base::all_vertices_end(), 
 			 Hidden_tester(),
 			 Base::all_vertices_begin());
 }
@@ -1925,7 +1925,7 @@ typename Regular_triangulation_2<Gt,Tds>::All_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 all_vertices_end () const
 {
-  return filter_iterator(Base::all_vertices_end(), 
+  return CGAL::filter_iterator(Base::all_vertices_end(), 
 			 Hidden_tester() ); 
 }
 
@@ -1934,7 +1934,7 @@ typename Regular_triangulation_2<Gt,Tds>::Finite_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 finite_vertices_begin () const
 {
-  return filter_iterator(Base::finite_vertices_end(), 
+  return CGAL::filter_iterator(Base::finite_vertices_end(), 
 			 Hidden_tester(),
 			 Base::finite_vertices_begin());
 }
@@ -1945,7 +1945,7 @@ Regular_triangulation_2<Gt,Tds>::
 finite_vertices_end () const
 {
 
-  return filter_iterator(Base::finite_vertices_end(), 
+  return CGAL::filter_iterator(Base::finite_vertices_end(), 
 			 Hidden_tester() );
 
 }
@@ -1955,7 +1955,7 @@ typename Regular_triangulation_2<Gt,Tds>::Hidden_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 hidden_vertices_begin () const
 {
-  return filter_iterator(Base::finite_vertices_end(), 
+  return CGAL::filter_iterator(Base::finite_vertices_end(), 
 			 Unhidden_tester(), 
 			 Base::finite_vertices_begin() );
 
@@ -1966,7 +1966,7 @@ typename Regular_triangulation_2<Gt,Tds>::Hidden_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 hidden_vertices_end () const
 {
-  return filter_iterator(Base::finite_vertices_end(), 
+  return CGAL::filter_iterator(Base::finite_vertices_end(), 
 			 Unhidden_tester() );
 }
 

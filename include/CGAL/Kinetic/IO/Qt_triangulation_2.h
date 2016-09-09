@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
-// $Id: Qt_triangulation_2.h 31252 2006-05-22 12:26:07Z drussel $
+// $Id: Qt_triangulation_2.h 31993 2006-06-21 07:39:27Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -81,7 +81,7 @@ protected:
 
   template <class V>
   void set_color(const Edge &e, CGAL::Qt_widget &w, const V &) const {
-    if (!TDS_helper::get_undirected_edge_label(e)) {
+    if (!TDS_helper::get_undirected_edge_label(e).is_valid()) {
       w << CGAL::Color(125,125,125);
     } else if (TDS_helper::get_undirected_edge_label(e) == kdel_->simulation_traits_object().simulator_handle()->null_event()){
       w << CGAL::Color(0,0,0);
@@ -93,7 +93,7 @@ protected:
   typedef Delaunay_triangulation_recent_edges_visitor_2<typename Kinetic_Delaunay::Triangulation> REV;
 
   void set_color(const Edge &e, CGAL::Qt_widget &w,
-		 const REV& ) const {
+                 const REV& ) const {
     w << CGAL::LineWidth(2);
     if (!TDS_helper::get_undirected_edge_label(e).is_valid()) {
       w << CGAL::Color(125,125,125);

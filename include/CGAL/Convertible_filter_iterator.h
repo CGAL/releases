@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Convertible_filter_iterator.h $
-// $Id: Convertible_filter_iterator.h 28933 2006-02-28 17:48:20Z lsaboret $
-// 
+// $Id: Convertible_filter_iterator.h 31402 2006-06-02 14:29:41Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -60,9 +60,9 @@ public:
   /// OPERATIONS Forward Category
   /// ---------------------------
 
-    bool  operator==(CGAL_NULL_TYPE ptr) const { return Base::operator==(ptr); }
+    bool  operator==(CGAL_NULL_TYPE ptr) const { return (const Base&)*this == ptr; }
     bool  operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
-    bool  operator==(const Self& it) const { return (Base&)*this == (Base&)it; }
+    bool  operator==(const Self& it) const { return (const Base&)*this == it; }
     bool  operator!=(const Self& it) const { return ! (*this == it); }
 
     Self& operator++()     { Base::operator++(); return *this; }

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_iterators.h $
-// $Id: Param_mesh_patch_iterators.h 28974 2006-03-01 17:20:56Z lsaboret $
-// 
+// $Id: Param_mesh_patch_iterators.h 31402 2006-06-02 14:29:41Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -29,7 +29,7 @@
 CGAL_BEGIN_NAMESPACE
 
 
-/// The class Param_mesh_patch_vertex_list si the type of
+/// The class Param_mesh_patch_vertex_list is the type of
 /// the list of all vertices of a
 /// Parameterization_mesh_patch_3<ParameterizationPatchableMesh_3> mesh
 template<class ParameterizationPatchableMesh_3>
@@ -44,9 +44,9 @@ public:
 };
 
 
-/// Param_mesh_patch_vertex_list_iterator is an iterator of a 
+/// Param_mesh_patch_vertex_list_iterator is an iterator of a
 /// Param_mesh_patch_vertex_list list.
-/// It provides the same features as 
+/// It provides the same features as
 /// Param_mesh_patch_vertex_list<ParameterizationPatchableMesh_3>::iterator
 /// + a conversion to Param_mesh_patch_vertex_handle
 template<class ParameterizationPatchableMesh_3>
@@ -83,13 +83,13 @@ public:
     Self operator++(int)    { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int)    { Self tmp(*this); --(*this); return tmp; }
 
-    bool operator==(const Self& it) const { return Base::operator==(it); }
+    bool operator==(const Self& it) const { return (const Base&)*this == it; }
     bool operator!=(const Self& it) const { return ! (*this == it); }
 
     /// Comparison to NULL pointer
     bool operator==(CGAL_NULL_TYPE ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
-        return Base::operator==( Base() );
+        return (const Base&)*this == Base();
     }
     bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
 
@@ -103,7 +103,7 @@ public:
 };
 
 
-/// Param_mesh_patch_vertex_list_const_iterator is an iterator of a 
+/// Param_mesh_patch_vertex_list_const_iterator is an iterator of a
 /// Param_mesh_patch_vertex_list list.
 /// It provides the same features as
 /// Param_mesh_patch_vertex_list<ParameterizationPatchableMesh_3>::const_iterator
@@ -142,13 +142,13 @@ public:
     Self operator++(int)    { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int)    { Self tmp(*this); --(*this); return tmp; }
 
-    bool operator==(const Self& it) const { return Base::operator==(it); }
+    bool operator==(const Self& it) const { return (const Base&)*this == it; }
     bool operator!=(const Self& it) const { return ! (*this == it); }
 
     /// Comparison to NULL pointer
     bool operator==(CGAL_NULL_TYPE ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
-        return Base::operator==( Base() );
+        return (const Base&)*this == Base();
     }
     bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
 

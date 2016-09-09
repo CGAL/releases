@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: Interval_nt.h 31497 2006-06-09 17:58:12Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -64,9 +64,9 @@ public:
   typedef Tag_false   Has_exact_division;
   typedef Tag_false   Has_exact_sqrt;
 
-  typedef std::exception                    unsafe_comparison;
-  typedef Protect_FPU_rounding<Protected>   Internal_protector;
-  typedef Protect_FPU_rounding<!Protected>  Protector;
+  typedef std::exception                            unsafe_comparison;
+  typedef Checked_protect_FPU_rounding<Protected>   Internal_protector;
+  typedef Protect_FPU_rounding<!Protected>          Protector;
 
   Interval_nt() {}
 

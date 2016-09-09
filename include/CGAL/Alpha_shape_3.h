@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: Alpha_shape_3.h 30351 2006-04-17 11:02:08Z spion $
+// $Id: Alpha_shape_3.h 31588 2006-06-15 08:53:00Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -491,15 +491,15 @@ public:
 
   Alpha_shape_cells_iterator alpha_shape_cells_begin() const 
     {
-      return filter_iterator(finite_cells_end(),
-			     Exterior_cell_test(this),
-			     finite_cells_begin());
+      return CGAL::filter_iterator(finite_cells_end(),
+			           Exterior_cell_test(this),
+			           finite_cells_begin());
     }
   
   Alpha_shape_cells_iterator alpha_shape_cells_end() const
     {
-      return filter_iterator(finite_cells_end(),
-			     Exterior_cell_test(this));
+      return CGAL::filter_iterator(finite_cells_end(),
+			           Exterior_cell_test(this));
     }
 
 

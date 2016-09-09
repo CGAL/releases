@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="polytope_distance_d_fast_exact"
+	Name="polytope_distance_d_exact"
 	ProjectGUID="{7E47FDD3-2BE2-4190-B391-03778A146F31}"
 	Keyword="ManagedCProj">
 	<Platforms>
@@ -34,7 +34,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="CGAL.lib"
-				OutputFile="$(OutDir)/polytope_distance_d_fast_exact.exe"
+				OutputFile="$(OutDir)/polytope_distance_d_exact.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\..\lib\msvc7&quot;"
 				GenerateDebugInformation="TRUE"/>
@@ -82,7 +82,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="CGAL.lib"
-				OutputFile="$(OutDir)/polytope_distance_d_fast_exact.exe"
+				OutputFile="$(OutDir)/polytope_distance_d_exact.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\..\lib\msvc7&quot;"
 				GenerateDebugInformation="TRUE"/>
@@ -115,7 +115,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="polytope_distance_d_fast_exact.C">
+				RelativePath="polytope_distance_d_exact.C">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

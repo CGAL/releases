@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
-// $Id: Param_mesh_patch_circulators.h 29020 2006-03-03 09:33:29Z lsaboret $
-// 
+// $Id: Param_mesh_patch_circulators.h 31402 2006-06-02 14:29:41Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -81,7 +81,7 @@ public:
 /// --------
 
     /// Circulator pointing to NULL
-    Mesh_patch_vertex_around_vertex_cir() 
+    Mesh_patch_vertex_around_vertex_cir()
     {
         m_mesh_patch = NULL;
     }
@@ -133,9 +133,9 @@ public:
 /// OPERATIONS Forward Category
 /// ---------------------------
 
-    bool operator==(const Self& cir)    const { return Base::operator==(cir); }
+    bool operator==(const Self& cir)    const { return (const Base&)*this == cir; }
     bool operator!=(const Self& cir)    const { return !(*this == cir); }
-    bool operator==(CGAL_NULL_TYPE ptr) const { return Base::operator==(ptr); }
+    bool operator==(CGAL_NULL_TYPE ptr) const { return (const Base&)*this == ptr; }
     bool operator!=(CGAL_NULL_TYPE ptr) const { return !(*this == ptr); }
 
     ///  operator*() and operator->() are inherited
@@ -497,7 +497,7 @@ public:
 /// --------
 
     /// Circulator pointing to NULL
-    Mesh_patch_vertex_around_facet_cir() 
+    Mesh_patch_vertex_around_facet_cir()
     {
         m_mesh_patch = NULL;
     }
@@ -539,9 +539,9 @@ public:
 /// OPERATIONS Forward Category
 /// ---------------------------
 
-    bool operator==(CGAL_NULL_TYPE ptr) const { return Base::operator==(ptr); }
+    bool operator==(CGAL_NULL_TYPE ptr) const { return (const Base&)*this == ptr; }
     bool operator!=(CGAL_NULL_TYPE ptr) const { return !(*this == ptr); }
-    bool operator==(const Self& cir)    const { return Base::operator==(cir); }
+    bool operator==(const Self& cir)    const { return (const Base&)*this == cir; }
     bool operator!=(const Self& cir)    const { return !(*this == cir); }
 
     ///  operator*() and operator->() are inherited

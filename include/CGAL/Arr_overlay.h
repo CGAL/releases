@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_overlay.h $
-// $Id: Arr_overlay.h 28835 2006-02-27 14:34:53Z baruchzu $
+// $Id: Arr_overlay.h 32018 2006-06-22 15:34:18Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -112,15 +112,17 @@ void overlay (const Arrangement_2<Traits_, Dcel1>& arr1,
 
     
   //the res arrangement can't be the same one as one as the input arrangement
-  CGAL_precondition((&res != &arr1) && (&res != &arr2));
+  CGAL_precondition(((void *)(&res) != (void *)(&arr1)) &&
+                    ((void *)(&res) != (void *)(&arr2)));
 
   
   typedef Edge_iterator_adaptor<Base_X_monotone_curve_2,
                                 X_monotone_curve_2,
                                 Arrangement1,
-                                Arrangement1>    Edge_iterator_adaptor;
+                                Arrangement2>    Edge_iterator_adaptor;
 
-  Edge_iterator_adaptor begin(arr1.edges_begin(), arr1.edges_end(), arr2.edges_begin());
+  Edge_iterator_adaptor begin(arr1.edges_begin(), arr1.edges_end(),
+                              arr2.edges_begin());
   Edge_iterator_adaptor end(arr2.edges_end());
 
 
