@@ -8,12 +8,11 @@
 
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/boost/graph/properties_Polyhedron_3.h>
-#include <CGAL/internal/Operations_on_polyhedra/compute_normal.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
 
 #include <iostream>
 #include <fstream>
 
-#include <CGAL/glu.h>
 #include <QGLViewer/manipulatedFrame.h>
 #include <QGLViewer/qglviewer.h>
 #include <QGLViewer/camera.h>
@@ -21,6 +20,9 @@
 #include "ui_Deform_mesh.h"
 #include <CGAL/Surface_mesh_deformation.h>
 #include <boost/function_output_iterator.hpp>
+#include <QGLBuffer>
+#include <QGLShader>
+#include <QGLShaderProgram>
 
 
 typedef Polyhedron::Vertex_handle Vertex_handle;
@@ -41,12 +43,14 @@ public:
 };
 
 
+inline
 Array_based_vertex_point_map::value_type
 get(Array_based_vertex_point_map,
   Array_based_vertex_point_map::key_type key) {
     return key->point();
 }
 
+inline
 void
 put(Array_based_vertex_point_map pmap,
   Array_based_vertex_point_map::key_type key,
@@ -97,7 +101,7 @@ public:
     frame_initial_center = calculate_initial_center();
     bbox = calculate_initial_bbox();
 
-    bool oldState = frame->blockSignals(true); // do not let it emit modified, which will cause a deformation
+    bool oldState = frame->blockSignals(true); // do not let it Q_EMIT modified, which will cause a deformation
                                   // but we are just adjusting the center so it does not require a deformation
     frame->setOrientation(qglviewer::Quaternion());
     frame->setPosition(frame_initial_center);
@@ -195,12 +199,11 @@ public:
     return m == Gouraud; 
   }
   // Points/Wireframe/Flat/Gouraud OpenGL drawing in a display list
-  void draw() const;
-  void draw_edges() const;
-  void draw_bbox(const Scene_interface::Bbox& bb ) const;
-  void gl_draw_edge(double px, double py, double pz,
-                          double qx, double qy, double qz) const;
-  void gl_draw_point(const Point& p) const;
+  void draw() const{}
+  void draw(Viewer_interface*) const;
+  void draw_edges(Viewer_interface*) const;
+  void draw_bbox(const Scene_interface::Bbox&) const;
+  void draw_ROI_and_control_vertices(Viewer_interface *viewer) const;
 
   // Get wrapped polyhedron
   Polyhedron*       polyhedron();
@@ -225,9 +228,9 @@ public:
   
 protected:
   void timerEvent(QTimerEvent *event);
-  void draw_ROI_and_control_vertices() const;
 
-public slots:
+
+public Q_SLOTS:
   void changed();
   void selected(const std::set<Polyhedron::Vertex_handle>& m)
   {
@@ -246,7 +249,7 @@ public slots:
       }
       any_changes |= changed;
     }
-    if(any_changes) { emit itemChanged(); }
+    if(any_changes) { Q_EMIT itemChanged(); }
   }
 
   void select(double orig_x,
@@ -262,10 +265,32 @@ private:
   Ui::DeformMesh* ui_widget;
   Scene_polyhedron_item* poly_item;
   // For drawing
-  std::vector<double> positions;
+  std::vector<GLdouble> positions;
   std::vector<unsigned int> tris;
   std::vector<unsigned int> edges;
-  std::vector<double> normals;
+  std::vector<GLdouble> color_lines;
+  std::vector<GLdouble> color_bbox;
+  std::vector<GLdouble> ROI_points;
+  std::vector<GLdouble> control_points;
+  std::vector<GLdouble> ROI_color;
+  std::vector<GLdouble> control_color;
+  std::vector<GLdouble> normals;
+  std::vector<GLdouble> pos_bbox;
+  std::vector<GLdouble> pos_axis;
+  std::vector<GLdouble> pos_sphere;
+  std::vector<GLdouble> normals_sphere;
+  mutable QOpenGLShaderProgram *program;
+  mutable QOpenGLShaderProgram bbox_program;
+
+  mutable QOpenGLBuffer *in_bu;
+  using Scene_item::initialize_buffers;
+  void initialize_buffers(Viewer_interface *viewer) const;
+  void compute_normals_and_vertices(void);
+  void compute_bbox(const Scene_interface::Bbox&);
+  void create_Sphere(double);
+
+
+
 
   Deform_mesh deform_mesh;
   typedef std::list<Control_vertices_data> Ctrl_vertices_group_data_list;
@@ -364,9 +389,7 @@ public:
 
     active_group = --ctrl_vertex_frame_map.end();
 
-    connect(new_frame, SIGNAL(modified()), this, SLOT(deform()));  // OK we are deforming via timer,
-    // but it makes demo more responsive if we also add this signal
-    emit itemChanged();
+    Q_EMIT itemChanged();
 
     print_message("A new empty group of control vertices is created.");
   }
@@ -561,7 +584,7 @@ public:
       (vertices(*polyhedron()).first, vertices(*polyhedron()).second,
       polyhedron()->size_of_vertices(), Is_selected(deform_mesh), visitor);
 
-    if(visitor.any_inserted) { emit itemChanged(); }
+    if(visitor.any_inserted) { Q_EMIT itemChanged(); }
     return visitor.minimum_visitor.minimum;
   }
 protected:
@@ -658,14 +681,13 @@ protected:
     {
       std::size_t id = vd->id();
       const Polyhedron::Traits::Vector_3& n = 
-        compute_vertex_normal<Polyhedron::Vertex, Polyhedron::Traits>(*vd);
+        CGAL::Polygon_mesh_processing::compute_vertex_normal(vd, deform_mesh.halfedge_graph());
       normals[id*3] = n.x();
       normals[id*3+1] = n.y(); 
       normals[id*3+2] = n.z(); 
+
     }
   }
-protected:
-  GLUquadric* quadric; // for drawing spheres
 }; // end class Scene_edit_polyhedron_item
 
 #endif // SCENE_EDIT_POLYHEDRON_ITEM_H

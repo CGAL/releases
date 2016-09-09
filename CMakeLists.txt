@@ -6,31 +6,25 @@
 project(CGAL CXX C)
 
 # Minimal version of CMake:
-if(WIN32)
-  cmake_minimum_required(VERSION 2.8.6)
-else()
-  cmake_minimum_required(VERSION 2.6.2)
-endif()
+cmake_minimum_required(VERSION 2.8.11)
 
 # Tested version:
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-  cmake_policy(VERSION 2.8.4)
-else()
-  cmake_policy(VERSION 2.6)
-endif()
+cmake_policy(VERSION 2.8.11)
 
 #
 # Compatibility with CMake 3.0
 #
-if(POLICY CMP0026)
-  # Allow the LOCATION target property
-  # http://www.cmake.org/cmake/help/v3.0/policy/CMP0026.html
-  cmake_policy(SET CMP0026 OLD)
-endif()
 if(POLICY CMP0042)
   # Do not enable the use of MACOSX_RPATH
   # http://www.cmake.org/cmake/help/v3.0/policy/CMP0042.html
   cmake_policy(SET CMP0042 OLD)
+endif()
+
+# Compatibility with CMake 3.1
+if(POLICY CMP0054)
+  # http://www.cmake.org/cmake/help/v3.1/policy/CMP0054.html
+  # See the discussion https://github.com/CGAL/cgal/issues/189
+  cmake_policy(SET CMP0054 OLD)
 endif()
 
 
@@ -341,10 +335,11 @@ endif()
 #   CGAL-4.4   : 10.0.3 (Nothing different in CGAL compiled libraries¹.)
 #   CGAL-4.5   : 10.0.4 (Nothing different in CGAL compiled libraries¹.)
 #   CGAL-4.6   : 11.0.0 (int->size_t in CGAL_ImageIO)
+#   CGAL-4.7   : 11.0.1 (Nothing different in CGAL compiled libraries.)
 # ¹) According to http://upstream-tracker.org/versions/cgal.html
 
 set( CGAL_SONAME_VERSION "11" )
-set( CGAL_SOVERSION      "11.0.0" )
+set( CGAL_SOVERSION      "11.0.1" )
 
 message( STATUS "CGAL_SONAME_VERSION=${CGAL_SONAME_VERSION}" )
 message( STATUS "CGAL_SOVERSION     =${CGAL_SOVERSION}" )
@@ -476,6 +471,20 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
   
     if ( RUNNING_CGAL_AUTO_TEST )
       uniquely_add_flags( CGAL_CXX_FLAGS "-Wall" )
+      # Remove -g from the relevant CMAKE_CXX_FLAGS. This will also
+      # propagate to the rest of the tests, since we overwrite those
+      # flags with the ones used to build CGAL.
+      string(REGEX REPLACE "-g( |$)" ""
+        CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS}")
+      # We only allow the release types DEBUG and RELEASE, but handle
+      # all possible values just to be sure.
+      foreach(release_type DEBUG RELEASE MINSIZEREL RELWITHDEBINFO)
+        string(REGEX REPLACE "-g( |$)" ""
+          CMAKE_CXX_FLAGS_${release_type}
+          "${CMAKE_CXX_FLAGS_${release_type}}")
+      endforeach()
+
     endif()
     
     if ( "${GCC_VERSION}" MATCHES "^[4-9]." )
@@ -525,7 +534,7 @@ endmacro()
  
 # this is the place to tell which external libs are supporting
 # Remarks: 
-#  External libs Qt3 and Qt34are configured when Qt3 or Qt4 as lib of cgal are required
+#  External libs Qt3 and Qt34are configured when Qt3 or Qt5 as lib of cgal are required
 #  Coin is used in KDS, but no FindCoin or FindCOIN exists
 #  There exists FindF2C, FindIPE, FindMKL, but they are only used to support supporting libs
 list (INSERT CGAL_SUPPORTING_3RD_PARTY_LIBRARIES 0 GMP MPFR ZLIB OpenGL LEDA MPFI RS RS3 OpenNL Eigen3 BLAS LAPACK QGLViewer ESBTL Coin3D NTL IPE)
@@ -544,7 +553,7 @@ set(SPECIAL_PREFIXES "${SPECIAL_PREFIXES}set(CGAL_EXT_LIB_${library}_PREFIX \"${
 set(CGAL_EXT_LIB_${library}_PREFIX ${prefix})
 endmacro()
 
-set_special_prefix(Qt4 QT)
+set_special_prefix(Qt5 QT)
 set_special_prefix(Eigen3 EIGEN3)
 set_special_prefix(QGLViewer QGLVIEWER)
 set_special_prefix(Coin3D COIN3D)
@@ -758,7 +767,6 @@ endforeach()
 
 include_directories (${CGAL_INCLUDE_DIRS})
 
-cache_get(CGAL_LIBRARY)
 cache_get(CGAL_3RD_PARTY_PRECONFIGURED )
 
 cache_get(CGAL_3RD_PARTY_DEFINITIONS   )
@@ -814,25 +822,6 @@ if (CGAL_BRANCH_BUILD AND CGAL_REPORT_DUPLICATE_FILES )
 
 endif()
 
-#--------------------------------------------------------------------------------------------------
-#
-#                                    -= USER SIDE SETTINGS =-
-#
-#--------------------------------------------------------------------------------------------------
-
-# Set CGAL_LIBRARY_INSTALLED, CGAL_Qt3_LIBRARY_INSTALLED and so on. Those
-# variables are the path to the libraries installed by the install
-# target. Used in the generation of the installed CGALConfig.cmake
-foreach(lib ${CGAL_CONFIGURED_LIBRARIES} CGAL) # note the added fake 'CGAL'
- if(${lib}_LIBRARY)
-    get_filename_component(lib_name "${${lib}_LIBRARY}" NAME)
-    set(${lib}_LIBRARY_INSTALLED "${CMAKE_INSTALL_PREFIX}/${CGAL_INSTALL_LIB_DIR}/${lib_name}")
- else()
-    set(${lib}_LIBRARY_INSTALLED "")
-  endif()
-  hide_variable(${lib}_LIBRARY_INSTALLED)
-endforeach()
-
 create_CGALconfig_files()
 
 #--------------------------------------------------------------------------------------------------
@@ -865,7 +854,8 @@ install(PROGRAMS ${scripts} DESTINATION ${CGAL_INSTALL_BIN_DIR})
 
 install(DIRECTORY ${CGAL_MODULES_REL_DIR}/                DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
 install(FILES     ${CGAL_MODULES_REL_DIR}/UseCGAL.cmake   DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
-
+install(EXPORT    CGALExports                             DESTINATION ${CGAL_INSTALL_CMAKE_DIR}
+        NAMESPACE CGAL:: )
 
 if ( GMP_IN_AUXILIARY )
   install(DIRECTORY auxiliary/gmp/include/ DESTINATION ${CGAL_INSTALL_INC_DIR} )

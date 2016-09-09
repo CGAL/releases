@@ -48,7 +48,9 @@ class Polyhedron_demo_mesh_segmentation_plugin :
     public Polyhedron_demo_plugin_helper
 {
     Q_OBJECT
-        Q_INTERFACES(Polyhedron_demo_plugin_interface)
+    Q_INTERFACES(Polyhedron_demo_plugin_interface)
+    Q_PLUGIN_METADATA(IID "com.geometryfactory.PolyhedronDemo.PluginInterface/1.0")
+
 private:
     typedef std::map<Scene_polyhedron_item*, std::vector<double> > Item_sdf_map;
 public:
@@ -94,7 +96,7 @@ public:
     void init_color_map_sdf();
     void init_color_map_segmentation();
     
-    public slots:
+    public Q_SLOTS:
         void on_actionSegmentation_triggered();
         void on_Partition_button_clicked();
         void on_SDF_button_clicked();
@@ -208,8 +210,10 @@ void Polyhedron_demo_mesh_segmentation_plugin::on_SDF_button_clicked()
     pair->first->setName(tr("(SDF-%1-%2)").arg(number_of_rays).arg(ui_widget.Cone_angle_spin_box->value()));
     
     if(create_new_item) {
-        index = scene->addItem(pair->first);
+        scene->addItem(pair->first);
         item->setVisible(false);
+        scene->itemChanged(item);
+        scene->itemChanged(pair->first);
         scene->setSelectedItem(index);
     }
     else {
@@ -277,8 +281,10 @@ void Polyhedron_demo_mesh_segmentation_plugin::on_Partition_button_clicked()
     pair->first->setName(tr("(Segmentation-%1-%2)").arg(number_of_clusters).arg(smoothness));   
 
     if(create_new_item) {
-        index = scene->addItem(pair->first);
+        scene->addItem(pair->first);
         item->setVisible(false);
+        scene->itemChanged(item);
+        scene->itemChanged(pair->first);
         scene->setSelectedItem(index);
     }
     else {
@@ -347,7 +353,5 @@ void Polyhedron_demo_mesh_segmentation_plugin::colorize_segmentation(
         color_vector.push_back(aColor);     
     }    
 }
-
-Q_EXPORT_PLUGIN2(Polyhedron_demo_mesh_segmentation_plugin, Polyhedron_demo_mesh_segmentation_plugin)
 
 #include "Polyhedron_demo_mesh_segmentation_plugin.moc"

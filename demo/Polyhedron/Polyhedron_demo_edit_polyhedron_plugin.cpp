@@ -16,6 +16,7 @@ class Polyhedron_demo_edit_polyhedron_plugin :
 {
   Q_OBJECT
   Q_INTERFACES(Polyhedron_demo_plugin_interface)
+  Q_PLUGIN_METADATA(IID "com.geometryfactory.PolyhedronDemo.PluginInterface/1.0")
 
 public:
   Polyhedron_demo_edit_polyhedron_plugin() 
@@ -28,7 +29,7 @@ public:
   QList<QAction*> actions() const;
   bool applicable(QAction*) const;
 
-public slots:
+public Q_SLOTS:
   void on_actionDeformation_triggered();
   /////// Dock window signal handlers //////
   // what they do is simply transmiting required 'action' to selected scene_edit_polyhedron_item object
@@ -389,9 +390,5 @@ Polyhedron_demo_edit_polyhedron_plugin::convert_to_plain_polyhedron(Item_id i,
   delete edit_item;
   return poly_item;
 }
-
-
-
-Q_EXPORT_PLUGIN2(Polyhedron_demo_edit_polyhedron_plugin, Polyhedron_demo_edit_polyhedron_plugin)
 
 #include "Polyhedron_demo_edit_polyhedron_plugin.moc"

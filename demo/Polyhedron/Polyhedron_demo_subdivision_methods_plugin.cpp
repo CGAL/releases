@@ -14,7 +14,7 @@ class Polyhedron_demo_subdivision_methods_plugin :
 {
   Q_OBJECT
   Q_INTERFACES(Polyhedron_demo_plugin_interface)
-
+  Q_PLUGIN_METADATA(IID "com.geometryfactory.PolyhedronDemo.PluginInterface/1.0")
 public:
   // used by Polyhedron_demo_plugin_helper
   QStringList actionsNames() const {
@@ -26,7 +26,7 @@ public:
   bool applicable(QAction*) const { 
     return qobject_cast<Scene_polyhedron_item*>(scene->item(scene->mainSelectionIndex()));
   }
-public slots:
+public Q_SLOTS:
   void on_actionLoop_triggered();
   void on_actionCatmullClark_triggered();
   void on_actionSqrt3_triggered();
@@ -90,7 +90,5 @@ void Polyhedron_demo_subdivision_methods_plugin::on_actionSqrt3_triggered()
   QApplication::restoreOverrideCursor();
   scene->itemChanged(item);
 }
-
-Q_EXPORT_PLUGIN2(Polyhedron_demo_subdivision_methods_plugin, Polyhedron_demo_subdivision_methods_plugin)
 
 #include "Polyhedron_demo_subdivision_methods_plugin.moc"

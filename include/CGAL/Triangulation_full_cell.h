@@ -121,7 +121,6 @@ protected:
 
 // FUNCTIONS THAT ARE NOT MEMBER FUNCTIONS:
 
-
 inline
 std::istream &
 operator>>(std::istream & is, No_full_cell_data &)

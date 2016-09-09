@@ -4,14 +4,7 @@
 
 project( Minkowski_sum_2_example )
 
-cmake_minimum_required(VERSION 2.6.2)
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-    cmake_policy(VERSION 2.8.4)
-  else()
-    cmake_policy(VERSION 2.6)
-  endif()
-endif()
+cmake_minimum_required(VERSION 2.8.10)
 
 find_package(CGAL QUIET COMPONENTS Core )
 
@@ -28,7 +21,8 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "exact_inset.cpp" )
   create_single_source_cgal_program( "exact_offset.cpp" )
   create_single_source_cgal_program( "sum_by_decomposition.cpp" )
-  create_single_source_cgal_program( "sum_triangles.cpp" )
+  create_single_source_cgal_program( "sum_of_holes.cpp" )
+  create_single_source_cgal_program( "sum_triangle_square.cpp" )
   create_single_source_cgal_program( "sum_with_holes.cpp" )
 
 else()

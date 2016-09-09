@@ -3,7 +3,7 @@
 
 Scene_polyhedron_item_decorator::Scene_polyhedron_item_decorator
   (Scene_polyhedron_item* poly_item, bool delete_item)
-  : poly_item(poly_item), delete_poly_item(delete_item)
+  :Scene_item(), poly_item(poly_item), delete_poly_item(delete_item)
 { }
 
 Scene_polyhedron_item_decorator::~Scene_polyhedron_item_decorator()
@@ -99,4 +99,3 @@ void Scene_polyhedron_item_decorator::set_polyhedron_item(Scene_polyhedron_item*
   this->poly_item = poly_item;
 }
 
-#include "Scene_polyhedron_item_decorator.moc"

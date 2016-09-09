@@ -4,7 +4,8 @@
 #include <QGLViewer/qglviewer.h>
 #include <QWidget>
 #include <QPoint>
-
+#include <QOpenGLFunctions_3_3_Core>
+#include <CGAL/Qt/CreateOpenGLContext.h>
 // forward declarations
 class QWidget;
 class Scene_draw_interface;
@@ -13,13 +14,13 @@ class QKeyEvent;
 
 #include "../Viewer_config.h" // for VIEWER_EXPORT
 
-class VIEWER_EXPORT Viewer_interface : public QGLViewer {
+class VIEWER_EXPORT Viewer_interface : public QGLViewer, public QOpenGLFunctions_3_3_Core {
 
   Q_OBJECT
 
 public:
-  Viewer_interface(QWidget* parent) : QGLViewer(parent) {};
-  virtual ~Viewer_interface() {};
+  Viewer_interface(QWidget* parent) : QGLViewer(CGAL::Qt::createOpenGLContext(), parent) {}
+  virtual ~Viewer_interface() {}
 
   virtual void setScene(Scene_draw_interface* scene) = 0;
   virtual bool antiAliasing() const = 0;
@@ -29,14 +30,15 @@ public:
   static QString dumpFrame(const qglviewer::Frame&);
 
   virtual bool inFastDrawing() const = 0;
+  GLfloat pickMatrix_[16];
 
-signals:
+Q_SIGNALS:
   void selected(int);
   void requestContextMenu(QPoint global_pos);
   void selectedPoint(double, double, double);
   void selectionRay(double, double, double, double, double, double);
 
-public slots:
+public Q_SLOTS:
   virtual void setAntiAliasing(bool b) = 0;
   virtual void setTwoSides(bool b) = 0;
 

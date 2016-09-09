@@ -38,10 +38,13 @@ int main(int argc, char **argv)
   app.setOrganizationDomain("geometryfactory.com");
   app.setOrganizationName("GeometryFactory");
   app.setApplicationName("Polyhedron_3 demo");
+  //for windows
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+  app.setAttribute(Qt::AA_UseDesktopOpenGL);
+#endif
 
-  // Import resources from libCGALQt4.
-  // See http://doc.trolltech.com/4.4/qdir.html#Q_INIT_RESOURCE
-  CGAL_QT4_INIT_RESOURCES;
+  // Import resources from libCGAL (Qt5).
+  CGAL_QT_INIT_RESOURCES;
 
   MainWindow mainWindow;
   mainWindow.show();
@@ -59,7 +62,10 @@ int main(int argc, char **argv)
     mainWindow.enableScriptDebugger();
     args.removeAt(0);
   }
-  mainWindow.load_script(QFileInfo("autostart.js"));
+  QFileInfo autostart_js("autostart.js");
+  if(autostart_js.exists()) {
+    mainWindow.load_script(autostart_js);
+  }
 #endif
   Q_FOREACH(QString filename, args) {
     mainWindow.open(filename);
@@ -78,7 +84,6 @@ int main(int argc, char **argv)
 #ifndef USE_FORWARD_DECL
 #  include "Scene.cpp"
 #  include "Scene_item.cpp"
-#  include "Scene_moc.cpp"
 #  include "Viewer.cpp"
 #  include "Viewer_moc.cpp"
 #  include "MainWindow.cpp"

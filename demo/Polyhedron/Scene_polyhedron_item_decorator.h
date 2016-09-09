@@ -27,7 +27,7 @@ public:
   // QMenu* contextMenu();
   
   // Indicate if rendering mode is supported
-  bool supportsRenderingMode(RenderingMode m) const { return (m!=PointsPlusNormals && m!=Splatting); }
+  bool supportsRenderingMode(RenderingMode m) const { return m!=PointsPlusNormals; }
   // Points/Wireframe/Flat/Gouraud OpenGL drawing in a display list
   // dispatch to poly_item direct_draw and direct_draw_edges
   void draw() const;
@@ -48,7 +48,7 @@ public:
   bool delete_item() { return delete_poly_item; }
   void set_delete_item(bool delete_item) { delete_poly_item = delete_item; }
 
-public slots:
+public Q_SLOTS:
   void changed();
   void select(double orig_x,
               double orig_y,

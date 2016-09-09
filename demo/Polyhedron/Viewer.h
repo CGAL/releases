@@ -29,12 +29,14 @@ public:
   void initializeGL();
   void drawWithNames();
   void postSelection(const QPoint&);
-
+  void beginSelection(const QPoint &point);
+  void endSelection(const QPoint &point);
   void setScene(Scene_draw_interface* scene);
   bool antiAliasing() const;
 
   bool inFastDrawing() const;
-public slots:
+
+public Q_SLOTS:
   void setAntiAliasing(bool b);
   void setTwoSides(bool b);
 
@@ -47,6 +49,8 @@ public slots:
 protected:
   void mousePressEvent(QMouseEvent*);
   void keyPressEvent(QKeyEvent*);
+  void pickMatrix(GLdouble x, GLdouble y, GLdouble width, GLdouble height,
+                  GLint viewport[4]);
 
 protected:
   Viewer_impl* d;

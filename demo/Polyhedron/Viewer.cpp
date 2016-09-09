@@ -1,11 +1,10 @@
 #include "Viewer.h"
 #include <CGAL/gl.h>
-#include <CGAL/check_gl_error.h>
 #include "Scene_draw_interface.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QGLViewer/manipulatedCameraFrame.h>
-
+#include <QDebug>
 class Viewer_impl {
 public:
   Scene_draw_interface* scene;
@@ -48,6 +47,12 @@ Viewer::Viewer(QWidget* parent, bool antialiasing)
                              tr("Selects and display context "
                                 "menu of the selected item"));
 #endif // QGLVIEWER_VERSION >= 2.5.0
+  for(int i=0; i<16; i++)
+      pickMatrix_[i]=0;
+  pickMatrix_[0]=1;
+  pickMatrix_[5]=1;
+  pickMatrix_[10]=1;
+  pickMatrix_[15]=1;
 }
 
 Viewer::~Viewer()
@@ -83,35 +88,26 @@ bool Viewer::inFastDrawing() const {
 
 void Viewer::draw()
 {
+  glEnable(GL_DEPTH_TEST);
   d->inFastDrawing = false;
-  // ::glFogf(GL_FOG_END, 2*sceneRadius());
-  // ::glEnable(GL_FOG);
   QGLViewer::draw();
   d->draw_aux(false, this);
-  // drawLight(GL_LIGHT0);
 }
 
 void Viewer::fastDraw()
 {
   d->inFastDrawing = true;
-  // ::glFogf(GL_FOG_END, 2*sceneRadius());
-  // ::glEnable(GL_FOG);
   QGLViewer::fastDraw();
   d->draw_aux(false, this);
-  // drawLight(GL_LIGHT0);
 }
 
 void Viewer::initializeGL()
 {
   QGLViewer::initializeGL();
+  initializeOpenGLFunctions();
   setBackgroundColor(::Qt::white);
   d->scene->initializeGL();
 
-  // ::glFogf(GL_FOG_DENSITY, 0.05f);
-  // ::glHint(GL_FOG_HINT, GL_NICEST);
-  // ::glFogi(GL_FOG_MODE, GL_LINEAR);
-  // static const GLfloat fogColor[] = {0.5f, 0.5f, 0.5f, 1};
-  // ::glFogfv(GL_FOG_COLOR, fogColor);
 }
 
 #include <QMouseEvent>
@@ -139,13 +135,17 @@ void Viewer::keyPressEvent(QKeyEvent* e)
     }
     else if(e->key() == Qt::Key_M) {
       d->macro_mode = ! d->macro_mode;
+
       if(d->macro_mode) {
-        camera()->setZNearCoefficient(0.0005f);
+          camera()->setZNearCoefficient(0.0005f);
       } else {
         camera()->setZNearCoefficient(0.005f);
       }
       this->displayMessage(tr("Macro mode: %1").
                            arg(d->macro_mode ? tr("on") : tr("off")));
+
+
+
       return;
     }
   }
@@ -202,7 +202,6 @@ void Viewer_impl::draw_aux(bool with_names, Viewer* viewer)
     scene->drawWithNames(viewer);
   else
     scene->draw(viewer);
-  CGAL::check_gl_error(__FILE__, __LINE__);
 }
 
 void Viewer::drawWithNames()
@@ -216,17 +215,16 @@ void Viewer::postSelection(const QPoint& pixel)
   bool found = false;
   qglviewer::Vec point = camera()->pointUnderPixel(pixel, found);
   if(found) {
-    emit selectedPoint(point.x,
+    Q_EMIT selectedPoint(point.x,
                        point.y,
                        point.z);
-    emit selected(this->selectedName());
+    Q_EMIT selected(this->selectedName());
     const qglviewer::Vec orig = camera()->position();
     const qglviewer::Vec dir = point - orig;
-    emit selectionRay(orig.x, orig.y, orig.z,
+    Q_EMIT selectionRay(orig.x, orig.y, orig.z,
                       dir.x, dir.y, dir.z);
   }
 }
-
 bool Viewer_interface::readFrame(QString s, qglviewer::Frame& frame)
 {
   QStringList list = s.split(" ", QString::SkipEmptyParts);
@@ -287,4 +285,71 @@ QString Viewer::dumpCameraCoordinates()
   } else {
     return QString();
   }
+}
+
+/**
+ * @brief Viewer::pickMatrix
+ * Source code of gluPickMatrix slightly modified : instead of multiplying the current matrix by this value,
+ * sets the viewer's pickMatrix_ so that the drawing area is only around the cursor. This is because since CGAL 4.7,
+ * the drawing sustem changed to use shaders, and these need this value. pickMatrix_ is passed to the shaders in
+ * Scene_item::attrib_buffers(Viewer_interface* viewer, int program_name).
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @param viewport
+ */
+
+void Viewer::pickMatrix(GLdouble x, GLdouble y, GLdouble width, GLdouble height,
+GLint viewport[4])
+{
+ //GLfloat m[16];
+ GLfloat sx, sy;
+ GLfloat tx, ty;
+
+ sx = viewport[2] / width;
+ sy = viewport[3] / height;
+ tx = (viewport[2] + 2.0 * (viewport[0] - x)) / width;
+ ty = (viewport[3] + 2.0 * (viewport[1] - y)) / height;
+
+ #define M(row, col) pickMatrix_[col*4+row]
+  M(0, 0) = sx;
+  M(0, 1) = 0.0;
+  M(0, 2) = 0.0;
+  M(0, 3) = tx;
+  M(1, 0) = 0.0;
+  M(1, 1) = sy;
+  M(1, 2) = 0.0;
+  M(1, 3) = ty;
+  M(2, 0) = 0.0;
+  M(2, 1) = 0.0;
+  M(2, 2) = 1.0;
+  M(2, 3) = 0.0;
+  M(3, 0) = 0.0;
+  M(3, 1) = 0.0;
+  M(3, 2) = 0.0;
+  M(3, 3) = 1.0;
+ #undef M
+
+ //pickMatrix_[i] = m[i];
+}
+void Viewer::beginSelection(const QPoint &point)
+{
+    QGLViewer::beginSelection(point);
+    //set the picking matrix to allow the picking
+    static GLint viewport[4];
+    camera()->getViewport(viewport);
+    pickMatrix(point.x(), point.y(), selectRegionWidth(), selectRegionHeight(), viewport);
+
+}
+void Viewer::endSelection(const QPoint& point)
+{
+  QGLViewer::endSelection(point);
+   //set dthe pick matrix to Identity
+    for(int i=0; i<16; i++)
+        pickMatrix_[i]=0;
+    pickMatrix_[0]=1;
+    pickMatrix_[5]=1;
+    pickMatrix_[10]=1;
+    pickMatrix_[15]=1;
 }

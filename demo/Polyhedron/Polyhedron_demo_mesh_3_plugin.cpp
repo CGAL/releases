@@ -25,12 +25,13 @@ Scene_item* cgal_code_mesh_3(const Polyhedron*,
                              const bool protect_features,
                              Scene_interface* scene);
 
-class Polyhedron_demo_mesh_3_plugin : 
+class Polyhedron_demo_mesh_3_plugin :
   public QObject,
   protected Polyhedron_demo_plugin_helper
 {
   Q_OBJECT
   Q_INTERFACES(Polyhedron_demo_plugin_interface)
+  Q_PLUGIN_METADATA(IID "com.geometryfactory.PolyhedronDemo.PluginInterface/1.0")
 
 public:
   void init(QMainWindow* mainWindow, Scene_interface* scene_interface) {
@@ -47,10 +48,12 @@ public:
     return QList<QAction*>() << actionMesh_3;
   }
 
+
   bool applicable(QAction*) const {
-    return qobject_cast<Scene_polyhedron_item*>(scene->item(scene->mainSelectionIndex()));
+      return qobject_cast<Scene_polyhedron_item*>(scene->item(scene->mainSelectionIndex()));
   }
-public slots:
+
+public Q_SLOTS:
   void mesh_3();
 
 private:
@@ -60,23 +63,23 @@ private:
 double
 get_approximate(double d, int precision, int& decimals)
 {
-  if ( d<0 ) { return 0; }
+    if ( d<0 ) { return 0; }
 
-  double i = std::pow(10.,precision-1);
+    double i = std::pow(10.,precision-1);
 
-  decimals = 0;
-  while ( d > i*10 ) { d = d/10.; ++decimals; }
-  while ( d < i ) { d = d*10.; --decimals; }
+    decimals = 0;
+    while ( d > i*10 ) { d = d/10.; ++decimals; }
+    while ( d < i ) { d = d*10.; --decimals; }
 
-  return std::floor(d)*std::pow(10.,decimals);
+    return std::floor(d)*std::pow(10.,decimals);
 }
 
 void Polyhedron_demo_mesh_3_plugin::mesh_3()
 {
   const Scene_interface::Item_id index = scene->mainSelectionIndex();
-  
-  Scene_polyhedron_item* item = 
-    qobject_cast<Scene_polyhedron_item*>(scene->item(index));
+
+  Scene_polyhedron_item* item =
+  qobject_cast<Scene_polyhedron_item*>(scene->item(index));
 
   if(!item) return;
 
@@ -167,22 +170,20 @@ void Polyhedron_demo_mesh_3_plugin::mesh_3()
                                              protect_features,
                                              scene);
   if(result_item) {
-    result_item->setName(tr("%1 3d mesh (%2 %3 %4 %5)")
-                         .arg(item->name())
-                         .arg(angle)
-                         .arg(facet_sizing)
-                         .arg(tet_sizing)
-                         .arg(approx));
-    result_item->setColor(Qt::magenta);
-    result_item->setRenderingMode(item->renderingMode());
-    item->setVisible(false);
-    scene->itemChanged(index);
-    scene->addItem(result_item);
+      result_item->setName(tr("%1 3d mesh (%2 %3 %4 %5)")
+                           .arg(item->name())
+                           .arg(angle)
+                           .arg(facet_sizing)
+                           .arg(tet_sizing)
+                           .arg(approx));
+      result_item->setColor(Qt::magenta);
+      result_item->setRenderingMode(item->renderingMode());
+      item->setVisible(false);
+      scene->itemChanged(index);
+      scene->addItem(result_item);
   }
   QApplication::restoreOverrideCursor();
 }
-
-Q_EXPORT_PLUGIN2(Polyhedron_demo_mesh_3_plugin, Polyhedron_demo_mesh_3_plugin)
 
 #include "Polyhedron_demo_mesh_3_plugin.moc"
 

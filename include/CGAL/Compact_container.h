@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstring>
+#include <functional>
 
 #include <CGAL/memory.h>
 #include <CGAL/iterator.h>
@@ -306,6 +307,11 @@ public:
   {
     clear();
     delete time_stamper;
+  }
+
+  bool is_used(const_iterator ptr) const
+  {
+    return (type(&*ptr)==USED);
   }
 
   bool is_used(size_type i) const
@@ -855,7 +861,10 @@ void Compact_container<T, Allocator, Increment_policy, TimeStamper>::clear()
     size_type s = it->second;
     for (pointer pp = p + 1; pp != p + s - 1; ++pp) {
       if (type(pp) == USED)
+      {
         alloc.destroy(pp);
+        set_type(pp, NULL, FREE);
+      }
     }
     alloc.deallocate(p, s);
   }
@@ -1072,8 +1081,8 @@ namespace internal {
     {
       CGAL_assertion_msg(m_ptr.p != NULL,
          "Incrementing a singular iterator or an empty container iterator ?");
-      CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED,
-                         "Incrementing an invalid iterator.");
+      /* CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED,
+         "Incrementing an invalid iterator."); */
       increment();
       return *this;
     }
@@ -1082,9 +1091,9 @@ namespace internal {
     {
       CGAL_assertion_msg(m_ptr.p != NULL,
          "Decrementing a singular iterator or an empty container iterator ?");
-      CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED
+      /*CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED
                       || DSC::type(m_ptr.p) == DSC::START_END,
-                         "Decrementing an invalid iterator.");
+                      "Decrementing an invalid iterator.");*/
       decrement();
       return *this;
     }
@@ -1159,8 +1168,39 @@ namespace internal {
     return rhs.operator->() != NULL;
   }
 
+  template <class DSC, bool Const>
+  std::size_t hash_value(const CC_iterator<DSC, Const>&  i)
+  {
+    return reinterpret_cast<std::size_t>(&*i) / sizeof(typename DSC::value_type);
+  }
+
 } // namespace internal
 
 } //namespace CGAL
+
+namespace std {
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4099) // For VC10 it is class hash 
+#endif
+  
+  template < class T>
+  struct hash;
+  
+  template < class DSC, bool Const >
+  struct hash<CGAL::internal::CC_iterator<DSC, Const> >
+    : public std::unary_function<CGAL::internal::CC_iterator<DSC, Const>, std::size_t> {
+
+    std::size_t operator()(const CGAL::internal::CC_iterator<DSC, Const>& i) const
+    {
+      return reinterpret_cast<std::size_t>(&*i) / sizeof(typename DSC::value_type);
+    }
+  };
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
+}
 
 #endif // CGAL_COMPACT_CONTAINER_H

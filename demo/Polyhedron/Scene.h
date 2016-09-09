@@ -21,7 +21,6 @@
 
 class QEvent;
 class QMouseEvent;
-namespace GlSplat { class SplatRenderer; }
 
 class Viewer_interface;
 
@@ -110,7 +109,7 @@ public:
   QItemSelection createSelection(int i);
   QItemSelection createSelectionAll();
 
-public slots:
+public Q_SLOTS:
   // Notify the scene that an item was modified
   void itemChanged(); // slots called by items themself
   void itemChanged(int i); 
@@ -119,6 +118,21 @@ public slots:
   void setSelectedItem(int i )
   {
     selected_item = i;
+    Q_EMIT selectionChanged(i);
+  };
+
+  void setSelectedItem(Scene_item* item_to_select)
+  {
+    int i=0;
+    Q_FOREACH(Scene_item* item, m_entries)
+    {
+      if (item==item_to_select)
+      {
+        Q_EMIT setSelectedItem(i);
+        break;
+      }
+      ++i;
+    }
   };
 
   void setSelectedItemsList(QList<int> l )
@@ -131,14 +145,15 @@ public slots:
   void setItemA(int i);
   void setItemB(int i);
 
-signals:
+Q_SIGNALS:
   void newItem(int);
   void updated_bbox();
   void updated();
   void itemAboutToBeDestroyed(Scene_item*);
   void selectionRay(double, double, double, double, double, double);
+  void selectionChanged(int i);
 
-private slots:
+private Q_SLOTS:
   void setSelectionRay(double, double, double, double, double, double);
 
 private:
@@ -149,12 +164,6 @@ private:
   QList<int> selected_items_list;
   int item_A;
   int item_B;
-#ifdef CGAL_GLEW_ENABLED
-  static GlSplat::SplatRenderer* ms_splatting;
-  static int ms_splattingCounter;
-public:
-  static GlSplat::SplatRenderer* splatting();
-#endif
 }; // end class Scene
 
 class SCENE_EXPORT SceneDelegate : public QItemDelegate
