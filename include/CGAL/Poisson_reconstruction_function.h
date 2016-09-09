@@ -48,6 +48,7 @@
 #include <CGAL/poisson_refine_triangulation.h>
 #include <CGAL/Robust_circumcenter_filtered_traits_3.h>
 #include <CGAL/compute_average_spacing.h>
+#include <CGAL/Timer.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
@@ -573,7 +574,7 @@ public:
 
   /*! 
     `ImplicitFunction` interface: evaluates the implicit function at a 
-    given 3D query point. The function `compute_implicit_function` must be 
+    given 3D query point. The function `compute_implicit_function()` must be 
     called before the first call to `operator()`. 
   */ 
   FT operator()(const Point& p) const
