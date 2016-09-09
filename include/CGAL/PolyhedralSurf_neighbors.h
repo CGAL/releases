@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
 // $Id: PolyhedralSurf_neighbors.h 39640 2007-08-01 14:06:29Z glisse $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

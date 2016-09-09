@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_triangulation_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_triangulation_3.h $
 // $Id: SoQt_triangulation_3.h 41622 2008-01-14 22:01:20Z drussel $
 //
 //

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/polygon_delaunay_graph_2.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/polygon_delaunay_graph_2.cpp $
 // $Id: polygon_delaunay_graph_2.cpp 45459 2008-09-09 22:29:51Z lrineau $
 //
 //

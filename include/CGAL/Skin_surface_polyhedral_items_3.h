@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
 // $Id: Skin_surface_polyhedral_items_3.h 35895 2007-01-28 21:31:37Z nicokruithof $
 // 
 //

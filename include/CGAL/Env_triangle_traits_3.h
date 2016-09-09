@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
 // $Id: Env_triangle_traits_3.h 42807 2008-04-09 12:46:22Z spion $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>

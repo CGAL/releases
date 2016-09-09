@@ -20,6 +20,13 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  # This package has problems with g++ strict-aliasing optimizations
+  # (implied by -O2, -O3 and -Os).
+  if (CMAKE_COMPILER_IS_GNUCXX)
+    SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing")
+    SET (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -fno-strict-aliasing")
+  endif()
+
   create_single_source_cgal_program( "aggregated_insertion.cpp" )
   create_single_source_cgal_program( "batched_point_location.cpp" )
   create_single_source_cgal_program( "Bezier_curves.cpp" )

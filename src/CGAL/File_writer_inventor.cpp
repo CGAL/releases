@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/src/CGAL/File_writer_inventor.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Stream_support/src/CGAL/File_writer_inventor.cpp $
 // $Id: File_writer_inventor.cpp 35794 2007-01-24 18:00:30Z spion $
 // 
 //

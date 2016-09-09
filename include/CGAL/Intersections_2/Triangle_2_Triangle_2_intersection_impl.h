@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Intersections_2/Triangle_2_Triangle_2_intersection_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Intersections_2/include/CGAL/Intersections_2/Triangle_2_Triangle_2_intersection_impl.h $
 // $Id: Triangle_2_Triangle_2_intersection_impl.h 45075 2008-08-21 12:50:41Z spion $
 // 
 //

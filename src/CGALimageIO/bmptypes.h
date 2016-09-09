@@ -14,7 +14,7 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/bmptypes.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/CGALimageIO/src/CGALimageIO/bmptypes.h $
 // $Id: bmptypes.h 45591 2008-09-16 12:45:40Z lrineau $
 //
 //

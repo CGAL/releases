@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/demo/Interpolation/surface_voronoi.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Interpolation/demo/Interpolation/surface_voronoi.cpp $
 // $Id: surface_voronoi.cpp 44910 2008-08-12 12:58:18Z spion $
 //
 //

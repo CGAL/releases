@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
 // $Id: Envelope_overlay_functor.h 40822 2007-11-07 16:51:18Z ameyer $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>

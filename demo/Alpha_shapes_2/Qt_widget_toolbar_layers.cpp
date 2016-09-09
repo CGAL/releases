@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar_layers.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar_layers.cpp $
 // $Id: Qt_widget_toolbar_layers.cpp 45379 2008-09-08 13:10:50Z lrineau $
 //
 //

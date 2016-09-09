@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp $
 // $Id: CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp 45006 2008-08-19 08:20:28Z spion $
 //
 // Author(s)     : Sylvain Pion

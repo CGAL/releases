@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
 // $Id: generic_copy_OFF.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //

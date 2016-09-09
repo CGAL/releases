@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Modular_arithmetic/src/CGAL/primes.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Modular_arithmetic/src/CGAL/primes.cpp $
 // $Id: primes.cpp 45609 2008-09-17 07:49:08Z hemmer $
 //
 // Author(s)     : Michael Hemmer

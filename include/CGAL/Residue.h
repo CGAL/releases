@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Modular_arithmetic/include/CGAL/Residue.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Modular_arithmetic/include/CGAL/Residue.h $
 // $Id: Residue.h 45762 2008-09-25 13:24:05Z hemmer $
 //
 // Author(s)     : Michael Hemmer

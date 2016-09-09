@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/SearchStructures/include/CGAL/Range_tree_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/SearchStructures/include/CGAL/Range_tree_d.h $
 // $Id: Range_tree_d.h 46286 2008-10-15 07:52:05Z afabri $
 // 
 //

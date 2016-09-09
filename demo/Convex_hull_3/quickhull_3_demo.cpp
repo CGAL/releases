@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.cpp $
 // $Id: quickhull_3_demo.cpp 44910 2008-08-12 12:58:18Z spion $
 //
 //

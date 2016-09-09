@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/extended_euclidean_algorithm.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Algebraic_foundations/include/CGAL/extended_euclidean_algorithm.h $
 // $Id: extended_euclidean_algorithm.h 42664 2008-03-31 12:43:38Z hemmer $
 //
 // Author(s)     : Michael Hemmer, Dominik Hülse

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_vertices_generator.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_vertices_generator.h $
 // $Id: Arr_lm_vertices_generator.h 41847 2008-01-26 09:05:42Z golubevs $
 // 
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 47313 2008-12-09 13:35:51Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $Id: Polynomial_traits_d.h 47689 2009-01-08 12:47:13Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -27,6 +27,7 @@
 #include <functional>
 #include <list>
 #include <vector>
+#include <utility>
 
 #include <CGAL/Polynomial/fwd.h>
 #include <CGAL/Polynomial/misc.h>
@@ -1477,7 +1478,7 @@ struct Construct_innermost_coefficient_const_iterator_range
     template <class OutputIterator>
     void operator()( const Polynomial_d& p, OutputIterator oit ) const {
       if(CGAL::is_zero(p)){
-        *oit= make_pair(Exponent_vector(std::vector<int>(d,0)), 
+        *oit= std::make_pair(Exponent_vector(std::vector<int>(d,0)), 
             Innermost_coefficient_type(0));
         oit++;
         return;

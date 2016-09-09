@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/demo/Triangulation_3/Triangulation_3_color_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/demo/Triangulation_3/Triangulation_3_color_demo.cpp $
 // $Id: Triangulation_3_color_demo.cpp 47439 2008-12-15 09:44:03Z lrineau $
 //
 //

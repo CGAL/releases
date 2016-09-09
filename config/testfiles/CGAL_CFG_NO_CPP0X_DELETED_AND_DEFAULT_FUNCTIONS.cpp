@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp $
 // $Id: CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp 47317 2008-12-09 14:56:51Z spion $
 //
 // Author(s)     : Sylvain Pion

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/pdg_insert.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/pdg_insert.h $
 // $Id: pdg_insert.h 40822 2007-11-07 16:51:18Z ameyer $
 //
 //

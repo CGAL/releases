@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/IO/Dxf_variant_reader.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_2/include/CGAL/IO/Dxf_variant_reader.h $
 // $Id: Dxf_variant_reader.h 45153 2008-08-26 13:15:21Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion

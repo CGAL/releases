@@ -8,7 +8,7 @@
  *
  * Zilin Du, 2003
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/GmpIO.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/src/CGALCore/GmpIO.cpp $
  * $Id: GmpIO.cpp 37454 2007-03-24 23:21:40Z spion $
  ***************************************************************************/
 

@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/test_BOOST_PROGRAM_OPTIONS.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/support/test_BOOST_PROGRAM_OPTIONS.cpp $
 // $Id: test_BOOST_PROGRAM_OPTIONS.cpp 37323 2007-03-20 19:14:02Z reichel $
 // 
 //

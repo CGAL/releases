@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/GraphicsViewIsoRectangleInput.h $
-// $Id: GraphicsViewIsoRectangleInput.h 45924 2008-10-01 09:19:53Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/GraphicsView/include/CGAL/Qt/GraphicsViewIsoRectangleInput.h $
+// $Id: GraphicsViewIsoRectangleInput.h 47641 2009-01-05 12:11:03Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>

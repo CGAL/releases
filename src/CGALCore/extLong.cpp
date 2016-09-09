@@ -34,7 +34,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/extLong.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/src/CGALCore/extLong.cpp $
  * $Id: extLong.cpp 37060 2007-03-13 18:10:39Z reichel $
  ***************************************************************************/
 

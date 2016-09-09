@@ -48,7 +48,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/RefCount.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/include/CGAL/CORE/RefCount.h $
  * $Id: RefCount.h 28567 2006-02-16 14:30:13Z lsaboret $
  ***************************************************************************/
 

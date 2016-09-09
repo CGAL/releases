@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
 // $Id: Arr_spherical_gaussian_map_3.h 43512 2008-06-07 09:22:08Z efif $
 // 
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>

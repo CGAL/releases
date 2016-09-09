@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_lines_2/include/CGAL/Stream_lines_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Stream_lines_2/include/CGAL/Stream_lines_2.h $
 // $Id: Stream_lines_2.h 44492 2008-07-27 12:01:51Z spion $
 // 
 //

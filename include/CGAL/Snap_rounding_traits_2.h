@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
 // $Id: Snap_rounding_traits_2.h 30667 2006-04-19 16:56:12Z glisse $
 // 
 //

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_circle_2/demo/Min_circle_2/min_circle_2_toolbar.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_circle_2/demo/Min_circle_2/min_circle_2_toolbar.h $
 // $Id: min_circle_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
 //
 //

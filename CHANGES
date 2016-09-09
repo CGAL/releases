@@ -20,6 +20,9 @@ The following functionality has been added or changed:
     It is not possible anymore to set the CONTINUE mode for assertion failures.
     Functions that allow to change the assertion behaviour are now declared in <CGAL/assertions_behaviour.h>.
 
+  - Qt3 based demos are still there but the documentation has been removed as the CGAL::Qt_Widget will be deprecated.
+  - Qt4 based demos use the Qt GraphicsView framework and the libQGLViewer. 
+  
 2 Installation
 
   - install_cgal has been replaced by CMake.
@@ -46,6 +49,9 @@ The following functionality has been added or changed:
 
   - the counter Interval_nt::number_of_failures() has been removed, replaced by
     a profiling counter enabled with CGAL_PROFILE.
+
+  - Fix of a bug in CORE/Expr.h; as a consequence, the arrangement demo works properly when handling 
+     arrangements of conics, for example, when defining an arc with 5 points.
 
 
 
@@ -106,33 +112,28 @@ The following functionality has been added or changed:
 
 5 Data Structures and Algorithms
 
-5.1 3D Minkowski Sum (new package)
-
-  - This package provides a function, which computes the Minkowski sum of two point sets in R^3
-
-5.2 Convex Decomposition of Polyhedra (new package)
-
-  - This package allows to decompose a 3D Nef Polyhedron in convex parts.
-
-
-5.3 3D Triangulations
+5.1 3D Triangulations
 
   - Removed the deprecated functions Cell:mirror_index() and Cell::mirror_vertex().
   - Derecursification of two functions that in some cases lead to stack overflows
 
 
-5.4 3D Nef Polyhedron
+5.2 3D Nef Polyhedron
 
   - n-ary union/intersection
   - intersection with halfspace under standard kernel
   - constructor for polylines
 
 
-5.5 CGAL and the Qt4 GraphicsView (new package)
+5.3 CGAL and the Qt4 GraphicsView (new package)
 
   - 2D CGAL Kernel objects and many data structures have can be rendered in a QGraphicsView
+    using the Qt4 based GraphicsView framework.  We encourage users to switch from
+    Qt3 to Qt4, removed the manual of the Qt3 related manual pages, as Qt3 support
+    will be dropped starting from the next release.
 
-6 STL Extensions:
+
+5.4 STL Extensions:
 
   - The functor adaptors for argument binding and composition
     (bind_*, compose, compose_shared, swap_*, negate, along with the helper
@@ -151,6 +152,55 @@ The following functionality has been added or changed:
   - The class CGAL::Uncertain<> has been documented.  It is typically used to report
     uncertain results for predicates using interval arithmetic, and other filtering
     techniques.
+
+
+5.5 2D Arrangements
+
+  - Changed the name of the arrangement package from Arrangement_2 to Arrangement_on_surface_2 
+    to reflect the potential capabilities of the package to construct and maintain arrangements 
+    induced by curves embedded on two dimensional surfaces in three space. Most of these capabilities 
+    will become available only in future releases though.
+  - Enhanced the geometry traits concept to handle arrangements embedded on surfaces. Each geometry-traits 
+    class must now define the 'Boundary_category' tag.
+  - Fixed a bug in Arr_polyline_traits_2.h, where the operator that compares two curves failed to evaluate 
+    the correct result (true) when the curves are different, but their graphs are identical.
+  - Permanently removed IO/Arr_postscript_file_stream.h and IO/Polyline_2_postscript_file_stream.h, 
+    as they depend on obsolete features and LEDA.
+  - Fixed several bugs in the arrangement demo and enhanced it. e.g., fixed background color change, 
+    allowed vertex coloring , enabled "smart" color selection, etc.
+  - Enhanced the arrangement demo with new features, such as allowing the abortion of the merge function 
+    (de-select), updated the how-to description, etc.
+  - Replace the functions CGAL::insert_curve(), CGAL::insert_curves(), CGAL::insert_x_monotone_curve(), 
+    and CGAL::insert_x_monotone_curves() with a single overloaded function CGAL::insert(). The former 
+    4 functions are now deprecated, and may no longer be supported in future releases. 
+
+
+5.6 Envelopes of Surfaces in 3D
+
+  - Fixed a bug in the computation of the envelope of unbounded planes caused by multiple removals 
+    of vertices at infinity.
+
+
+5.7 2D Regularized Boolean Set-Operations 
+           
+  - Fixed a bug in connect_holes() that caused failures when connecting holes touching the outer boundary.
+  - Fixed the concept GeneralPolygonSetTraits_2. Introduced two new concepts GpsTraitsGeneralPolygon_2 
+    and GpsTraitsGeneralPolygonWithHoles_2. Fixed the definition of the two nested required types Polygon_2 
+    and Polygon_with_holes_2 of the GeneralPolygonSetTraits_2 concept. They must model now the two new 
+    concepts above. 
+  - Added a default template parameter to 'General_polygon_set_2' to allow users to pass their specialized 
+    DCEL used to instantiate the underlying arrangement.
+  - Enhanced the BOP demo to use multiple windows.
+       
+
+5.8 2D Minkowski Sums
+  - Fixed a few bugs in the approximate offset function, making it robust to highly degenerate inputs.
+  - Fixed a bug in the exact Minkowski sum computation when processing degenerate inputs that induce overlapping 
+    of contiguous segments in the convolution cycles.
+  - Optimized the approximate offset function (reduced time consumption up to a factor of 2 in some cases).
+  - Added functionality to compute the offset (or to approximate the offset) of a Polygon_with_holes_2 
+    (and not just of a Polygon_2).
+  - Added the functionality to compute (or to approximate) the inner offset of a polygon.
 
 
 

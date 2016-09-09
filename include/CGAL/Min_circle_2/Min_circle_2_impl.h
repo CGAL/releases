@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_circle_2/include/CGAL/Min_circle_2/Min_circle_2_impl.h $
 // $Id: Min_circle_2_impl.h 32387 2006-07-11 11:59:32Z gaertner $
 // 
 //

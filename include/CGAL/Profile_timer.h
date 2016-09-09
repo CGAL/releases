@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Profiling_tools/include/CGAL/Profile_timer.h $
-// $Id: Profile_timer.h 47218 2008-12-04 01:57:33Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Profiling_tools/include/CGAL/Profile_timer.h $
+// $Id: Profile_timer.h 47683 2009-01-07 14:41:29Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -48,7 +48,7 @@ struct Profile_timer
     };
 
     Profile_timer(const std::string & ss)
-      : t(0) {}
+      : t(0), s(ss) {}
 
     ~Profile_timer()
     {

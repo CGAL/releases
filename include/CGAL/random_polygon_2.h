@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/random_polygon_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Generator/include/CGAL/random_polygon_2.h $
 // $Id: random_polygon_2.h 42624 2008-03-27 22:59:00Z spion $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>

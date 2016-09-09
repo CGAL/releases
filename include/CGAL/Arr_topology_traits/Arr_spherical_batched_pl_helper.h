@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h $
 // $Id: Arr_spherical_batched_pl_helper.h 37392 2007-03-23 12:55:32Z efif $
 // 
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>

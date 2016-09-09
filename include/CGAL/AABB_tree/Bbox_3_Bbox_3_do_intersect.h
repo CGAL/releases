@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_tree/Bbox_3_Bbox_3_do_intersect.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/AABB_tree/include/CGAL/AABB_tree/Bbox_3_Bbox_3_do_intersect.h $
 // $Id: Bbox_3_Bbox_3_do_intersect.h 46267 2008-10-14 12:15:10Z palliez $
 // 
 //

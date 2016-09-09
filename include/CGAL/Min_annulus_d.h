@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_annulus_d/include/CGAL/Min_annulus_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_annulus_d/include/CGAL/Min_annulus_d.h $
 // $Id: Min_annulus_d.h 46189 2008-10-09 09:42:37Z gaertner $
 // 
 //

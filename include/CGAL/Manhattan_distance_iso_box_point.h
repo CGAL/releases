@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Manhattan_distance_iso_box_point.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Spatial_searching/include/CGAL/Manhattan_distance_iso_box_point.h $
 // $Id: Manhattan_distance_iso_box_point.h 37363 2007-03-21 17:11:17Z afabri $
 // 
 //

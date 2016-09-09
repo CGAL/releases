@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG.cpp $
 // $Id: CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG.cpp 32421 2006-07-12 09:03:57Z spion $
 // 
 //

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
 // $Id: internal_function_has_on_spherical_kernel.h 47312 2008-12-09 13:32:48Z pmachado $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
 // $Id: Circular_kernel_type_equality_wrapper.h 44373 2008-07-23 17:13:44Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado

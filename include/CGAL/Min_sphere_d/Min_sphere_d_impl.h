@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_d/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_sphere_d/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
 // $Id: Min_sphere_d_impl.h 32393 2006-07-11 12:24:07Z gaertner $
 // 
 //

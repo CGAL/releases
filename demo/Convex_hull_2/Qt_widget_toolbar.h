@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/demo/Convex_hull_2/Qt_widget_toolbar.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Convex_hull_2/demo/Convex_hull_2/Qt_widget_toolbar.h $
 // $Id: Qt_widget_toolbar.h 38483 2007-04-30 15:07:37Z afabri $
 //
 //
