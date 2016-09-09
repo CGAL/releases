@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_reconstruction_points_3/include/CGAL/Robust_circumcenter_filtered_traits_3.h $
-// $Id: Robust_circumcenter_filtered_traits_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -290,7 +290,7 @@ public:
   { return c.rep().squared_radius(); }
 
   result_type
-  operator()( const Point_3& p) const
+  operator()( const Point_3& ) const
   { return FT(0); }
 
 private:
@@ -362,6 +362,7 @@ private:
 
 
 /**
+ * \internal
  * Robust_circumcenter_filtered_traits_3
  * overrides construct_circumcenter_3_object() and compute_squared_radius_3_object()
  * to get robust ones when called on slivers.

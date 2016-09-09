@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_global.h $
-// $Id: Arrangement_on_surface_2_global.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -40,6 +40,8 @@
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
 #include <CGAL/Sweep_line_2/Sweep_line_2_utils.h>
 #include <CGAL/Sweep_line_2/Sweep_line_2_visitors.h>
+#include <CGAL/assertions.h>
+#include <CGAL/use.h>
 
 #include <boost/type_traits.hpp>
 
@@ -614,6 +616,7 @@ insert_non_intersecting_curve
                                                          Traits_adaptor_2;
   typedef typename Arr::Vertex_const_handle              Vertex_const_handle;
   typedef typename Arr::Halfedge_const_handle            Halfedge_const_handle;
+  CGAL_USE_TYPE(Halfedge_const_handle);
 
   const Traits_adaptor_2 * geom_traits =
     static_cast<const Traits_adaptor_2*> (arr.geometry_traits());

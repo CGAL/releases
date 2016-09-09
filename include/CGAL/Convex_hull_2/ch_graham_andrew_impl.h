@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
-// $Id: ch_graham_andrew_impl.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -41,7 +41,6 @@ ch_graham_andrew_scan( BidirectionalIterator first,
                        OutputIterator        result,
                        const Traits&         ch_traits)
 {
-  typedef  typename Traits::Point_2     Point_2;
   typedef  typename Traits::Left_turn_2  Left_turn;
 
   std::vector< BidirectionalIterator >    S;
@@ -49,7 +48,7 @@ ch_graham_andrew_scan( BidirectionalIterator first,
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( cpp0x::next(first) != last );
+  CGAL_ch_precondition( cpp11::next(first) != last );
 
   --last;
   CGAL_ch_precondition( *first != *last );
@@ -100,6 +99,7 @@ ch_graham_andrew_scan( BidirectionalIterator first,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
+  typedef  typename Traits::Point_2     Point_2;
   Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   for ( ++stack_iter;  stack_iter != S.end(); ++stack_iter)
@@ -142,7 +142,7 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( cpp0x::next(first) != last );
+  CGAL_ch_precondition( cpp11::next(first) != last );
 
   --last;
   CGAL_ch_precondition(! equal_points(*first,*last) );

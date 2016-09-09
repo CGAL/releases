@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Segment_2.h $
-// $Id: Segment_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -35,7 +35,7 @@ class SegmentC2
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Segment_2            Segment_2;
 
-  typedef cpp0x::array<Point_2, 2>          Rep;
+  typedef cpp11::array<Point_2, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

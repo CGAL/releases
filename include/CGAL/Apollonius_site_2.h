@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h $
-// $Id: Apollonius_site_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -78,7 +78,9 @@ operator>>(std::istream& is, Apollonius_site_2<K>& wp)
   typename Apollonius_site_2<K>::Weight   weight;
   typename Apollonius_site_2<K>::Point_2  p;
   is >> p >> weight;
-  wp = Apollonius_site_2<K>(p, weight);
+  if(is) {
+    wp = Apollonius_site_2<K>(p, weight);
+  }
   return is;
 }
 

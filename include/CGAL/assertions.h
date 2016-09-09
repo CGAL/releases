@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/assertions.h $
-// $Id: assertions.h 67370 2012-01-23 12:29:17Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr
@@ -26,6 +26,8 @@
 
 #ifndef CGAL_ASSERTIONS_H
 #define CGAL_ASSERTIONS_H
+
+#include <CGAL/export/CGAL.h>
 
 // #include <CGAL/assertions_behaviour.h> // for backward compatibility
 
@@ -80,12 +82,21 @@ inline bool possibly(Uncertain<bool> c);
 #  define CGAL_assertion(EX) (static_cast<void>(0))
 #  define CGAL_assertion_msg(EX,MSG) (static_cast<void>(0))
 #  define CGAL_assertion_code(CODE)
+#  ifdef CGAL_ASSUME
+#    define CGAL_assume(EX) CGAL_ASSUME(EX)
+#    define CGAL_assume_code(CODE) CODE
+#  else // not def CGAL_ASSUME
+#    define CGAL_assume(EX)  CGAL_assertion(EX)
+#    define CGAL_assume_code(CODE) CGAL_assertion_code(CODE)
+#  endif // not def CGAL_ASSUME
 #else // no CGAL_NO_ASSERTIONS
 #  define CGAL_assertion(EX) \
    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_assertion_msg(EX,MSG) \
    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_assertion_code(CODE) CODE
+#  define CGAL_assume(EX) CGAL_assertion(EX)
+#  define CGAL_assume_code(CODE) CGAL_assertion_code(CODE)
 #endif // no CGAL_NO_ASSERTIONS
 
 #ifndef CGAL_CFG_NO_CPP0X_STATIC_ASSERT
@@ -113,18 +124,18 @@ inline bool possibly(Uncertain<bool> c);
 #  if defined(CGAL_NO_ASSERTIONS)
 
 #    define CGAL_static_assertion(EX) \
-     BOOST_STATIC_ASSERT(true)
+     BOOST_STATIC_ASSERT(true) CGAL_UNUSED
   
 #    define CGAL_static_assertion_msg(EX,MSG) \
-     BOOST_STATIC_ASSERT(true)
+     BOOST_STATIC_ASSERT(true) CGAL_UNUSED
 
 #  else // no CGAL_NO_ASSERTIONS
 
 #    define CGAL_static_assertion(EX) \
-     BOOST_STATIC_ASSERT(EX)
+     BOOST_STATIC_ASSERT(EX) CGAL_UNUSED
   
 #    define CGAL_static_assertion_msg(EX,MSG) \
-     BOOST_STATIC_ASSERT(EX)
+     BOOST_STATIC_ASSERT(EX) CGAL_UNUSED
 
 #  endif // no CGAL_NO_ASSERTIONS
 

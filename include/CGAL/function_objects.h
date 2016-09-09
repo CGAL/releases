@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/function_objects.h $
-// $Id: function_objects.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,6 +28,8 @@
 #define CGAL_FUNCTION_OBJECTS_H 1
 
 #include <functional>
+
+#include <CGAL/enum.h>
 
 namespace CGAL {
 

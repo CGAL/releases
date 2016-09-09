@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Interval_evaluate_2.h $
-// $Id: Interval_evaluate_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -40,7 +40,7 @@ namespace internal {
 
 template<typename Polynomial_2, typename Bound>
 struct Interval_evaluate_2 : public std::binary_function
-<Polynomial_2,CGAL::cpp0x::array<Bound,4>,
+<Polynomial_2,CGAL::cpp11::array<Bound,4>,
       std::pair<typename CGAL::Coercion_traits<typename CGAL::Polynomial_traits_d<Polynomial_2>::Innermost_coefficient_type,Bound>::Type,
                 typename CGAL::Coercion_traits<typename CGAL::Polynomial_traits_d<Polynomial_2>::Innermost_coefficient_type,Bound>::Type> > {
   
@@ -57,7 +57,7 @@ public:
   typedef std::pair< Coercion_type, Coercion_type > result_type;
   
   result_type operator()(const Polynomial_2& p,
-                         const CGAL::cpp0x::array< Bound, 4 >& b) const {
+                         const CGAL::cpp11::array< Bound, 4 >& b) const {
     
     typename CT::Cast cast;
     
@@ -86,7 +86,7 @@ public:
     Coefficient_const_iterator_range range =
       typename PT_2::Construct_coefficient_const_iterator_range()(p);
     
-    Coefficient_const_iterator it = CGAL::cpp0x::prev(range.second);
+    Coefficient_const_iterator it = CGAL::cpp11::prev(range.second);
     
     Interval_result_type initial_pair = interval_evaluate_1(*it,x_pair);
     Coercion_interval res(initial_pair.first,initial_pair.second);

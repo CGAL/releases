@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/Gmp.h $
- * $Id: Gmp.h 67175 2012-01-16 15:37:02Z lrineau $
+ * $URL$
+ * $Id$
  ***************************************************************************/
 
 // CORE LIBRARY FILE

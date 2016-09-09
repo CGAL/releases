@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Boolean_set_operations_2/include/CGAL/connect_holes.h $
-// $Id: connect_holes.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 //						 Guy Zucker	<guyzucke@post.tau.ac.il>	
@@ -79,7 +79,6 @@ OutputIterator connect_holes(const Polygon_with_holes_2<Kernel,
                              OutputIterator oi)
 {
   typedef Polygon_2<Kernel,Container>              Polygon_2;
-  typedef Polygon_with_holes_2<Kernel,Container>   Polygon_with_holes_2;
   typedef Arr_segment_traits_2<Kernel>             Traits_2;
   typedef typename Kernel::Point_2                 Point_2;
   typedef typename Traits_2::X_monotone_curve_2    Segment_2;

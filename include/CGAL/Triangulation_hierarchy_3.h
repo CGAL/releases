@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h 69983 2012-06-22 14:22:16Z pmoeller $
+// $URL$
+// $Id$
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -176,9 +176,9 @@ public:
     std::vector<Vertex_handle> vo(first, beyond), vc;
     int l=0;
     while(1) {
-      int n = vo.size();
-      if(!n) break;
-      for(int i=0; i<n; i++) {
+      size_type n = vo.size();
+      if(n == 0) break;
+      for(size_type i=0; i<n; i++) {
         if(vo[i]->up() != Vertex_handle()) vc.push_back(vo[i]->up());
       }
       hierarchy[l++]->remove_cluster(vo.begin(), vo.end());

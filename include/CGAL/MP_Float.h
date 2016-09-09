@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/MP_Float.h $
-// $Id: MP_Float.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Sylvain Pion
@@ -877,6 +877,28 @@ CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int, MP_Float)
 
 
 } //namespace CGAL
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CGAL::MP_Float>
+  {
+    typedef CGAL::MP_Float Real;
+    typedef CGAL::Quotient<CGAL::MP_Float> NonInteger;
+    typedef CGAL::MP_Float Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 1, // Is this lie right?
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 40,
+      MulCost = 40
+    };
+  };
+}
 
 #include <CGAL/MP_Float_impl.h>
 

@@ -13,8 +13,8 @@
 //
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/CGALimageIO/include/CGAL/ImageIO.h $
-// $Id: ImageIO.h 67097 2012-01-13 13:36:56Z lrineau $
+// $URL$
+// $Id$
 //
 
 #ifndef IMAGEIO_H

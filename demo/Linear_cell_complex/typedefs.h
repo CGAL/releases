@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
-// $Id: typedefs.h 69081 2012-05-11 11:55:15Z gdamiand $
+// $URL$
+// $Id$
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //
@@ -107,7 +107,7 @@ public:
     typedef CGAL::Cell_attribute_with_point< Refs > Vertex_attrib;
     typedef CGAL::Cell_attribute< Refs, Volume_info> Volume_attrib;
     
-    typedef CGAL::cpp0x::tuple<Vertex_attrib,void,void,
+    typedef CGAL::cpp11::tuple<Vertex_attrib,void,void,
                                Volume_attrib> Attributes;
   };
 };

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
-// $Id: Extended_homogeneous.h 69629 2012-06-15 09:55:26Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -53,7 +53,7 @@ class Extended_homogeneous : public
   CGAL::Homogeneous< CGAL::Nef_polynomial<RT_> > { public:
 
 /*{\Mdefinition |\Mname| is a kernel concept providing extended
-geometry\footnote{It is called extended geometry for simplicity,
+geometry\cgalFootnote{It is called extended geometry for simplicity,
 though it is not a real geometry in the classical sense.}. Let |\Mvar|
 be an instance of the data type |\Mname|.  The central notion of
 extended geometry are extended points. An extended point represents
@@ -61,7 +61,7 @@ either a standard affine point of the Cartesian plane or a
 non-standard point representing the equivalence class of rays where
 two rays are equivalent if one is contained in the other.
 
-Let $R$ be an infinimaximal number\footnote{A finite but very large
+Let $R$ be an infinimaximal number\cgalFootnote{A finite but very large
 number.}, $F$ be the square box with corners $NW(-R,R)$, $NE(R,R)$,
 $SE(R,-R)$, and $SW(-R,-R)$. Let $p$ be a non-standard point and let
 $r$ be a ray defining it. If the frame $F$ contains the source point

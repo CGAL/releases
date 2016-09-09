@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/kernel_basic.h $
-// $Id: kernel_basic.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,17 +25,7 @@
 #ifndef CGAL_KERNEL_BASIC_H
 #define CGAL_KERNEL_BASIC_H
 
-#ifndef CGAL_KERNEL_INLINE
-#  define CGAL_KERNEL_INLINE inline
-#endif
-
-#ifndef CGAL_KERNEL_MEDIUM_INLINE
-#  define CGAL_KERNEL_MEDIUM_INLINE
-#endif
-
-#ifndef CGAL_KERNEL_LARGE_INLINE
-#  define CGAL_KERNEL_LARGE_INLINE
-#endif
+#include <CGAL/kernel_config.h>
 
 #include <CGAL/kernel_assertions.h>
 #include <CGAL/enum.h>

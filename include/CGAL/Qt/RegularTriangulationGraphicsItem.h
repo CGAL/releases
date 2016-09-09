@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/GraphicsView/include/CGAL/Qt/RegularTriangulationGraphicsItem.h $
-// $Id: RegularTriangulationGraphicsItem.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -211,7 +211,6 @@ RegularTriangulationGraphicsItem<T>::paintVertices(QPainter *painter)
         it != t->finite_vertices_end();
         it++){
       QPointF point = matrix.map(convert(it->point().point()));
-      typedef typename Kernel_traits<typename T::Bare_point>::Kernel K;
       painter->drawPoint(point);
     }
   }

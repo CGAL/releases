@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Win32_exception.h $ 
-// $Id: Win32_exception.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$ 
+// $Id$
 //
 // Author(s) : Laurent Saboret
 
@@ -28,7 +28,7 @@
 
 namespace CGAL {
 
-/// C++ class wrapping a Win32 structured exception.
+// C++ class wrapping a Win32 structured exception.
 class Win32_exception
 {
 // Data
@@ -45,6 +45,7 @@ public:
 };
 
 
+/// \internal
 /// Class Win32_exception_handler:
 /// - Translate Win32 structured exceptions to C++ exceptions.
 /// - Protect application against stack overflow using _resetstkoflw()

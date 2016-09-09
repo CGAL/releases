@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/Triangulation_data_structure_3.h $
-// $Id: Triangulation_data_structure_3.h 68361 2012-04-04 16:12:23Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -133,7 +133,7 @@ public:
   typedef Triple<Cell_handle, int, int>            Edge;
 
   typedef Triangulation_simplex_3<Tds>             Simplex;
-#ifndef CGAL_TDS_USE_OLD_CREATE_STAR_3
+//#ifndef CGAL_TDS_USE_RECURSIVE_CREATE_STAR_3
   //internally used for create_star_3 (faster than a tuple)
   struct iAdjacency_info{
     int v1;
@@ -155,7 +155,7 @@ public:
       a6=v6;
     }
   };
-#endif  
+//#endif  
  
 
 public:
@@ -392,8 +392,19 @@ private:
 		   int i2, int j2, int next2,
 		   Vertex_handle v3);
 
+  #ifdef CGAL_TDS_USE_RECURSIVE_CREATE_STAR_3
   Cell_handle create_star_3(Vertex_handle v, Cell_handle c,
 	                    int li, int prev_ind2 = -1);
+  #else
+  Cell_handle recursive_create_star_3(Vertex_handle v, Cell_handle c, int li, int prev_ind2,int depth);
+  Cell_handle non_recursive_create_star_3(Vertex_handle v, Cell_handle c, int li, int prev_ind2);
+
+  Cell_handle create_star_3(Vertex_handle v, Cell_handle c,
+	                    int li, int prev_ind2 = -1)
+  {
+    return recursive_create_star_3(v,c,li,prev_ind2,0);
+  }
+  #endif
 
   Cell_handle create_star_2(Vertex_handle v,
 	                    Cell_handle c, int li);
@@ -883,9 +894,13 @@ public:
     if (dimension() == 1) {
       CGAL_triangulation_assertion( number_of_vertices() >= 3);
       Cell_handle n0 = v->cell();
-      Cell_handle n1 = n0->neighbor(1-n0->index(v));
-      if(!f(n0->vertex(1-n0->index(v)))) *edges++ = Edge(n0, n0->index(v), 1-n0->index(v));
-      if(!f(n1->vertex(1-n1->index(v)))) *edges++ = Edge(n1, n1->index(v), 1-n1->index(v));
+      const int index_v_in_n0 = n0->index(v);
+      CGAL_assume(index_v_in_n0 <= 1);
+      Cell_handle n1 = n0->neighbor(1-index_v_in_n0);
+      const int index_v_in_n1 = n1->index(v);
+      CGAL_assume(index_v_in_n1 <= 1);
+      if(!f(n0->vertex(1-index_v_in_n0))) *edges++ = Edge(n0, n0->index(v), 1-index_v_in_n0);
+      if(!f(n1->vertex(1-index_v_in_n1))) *edges++ = Edge(n1, n1->index(v), 1-index_v_in_n1);
       return edges;
     }
     return visit_incident_cells<Vertex_extractor<Edge_feeder_treatment<OutputIterator>,
@@ -920,9 +935,13 @@ public:
     if (dimension() == 1) {
       CGAL_triangulation_assertion( number_of_vertices() >= 3);
       Cell_handle n0 = v->cell();
-      Cell_handle n1 = n0->neighbor(1-n0->index(v));
-      Vertex_handle v1 = n0->vertex(1-n0->index(v));
-      Vertex_handle v2 = n1->vertex(1-n1->index(v));
+      const int index_v_in_n0 = n0->index(v);
+      CGAL_assume(index_v_in_n0 <= 1);
+      Cell_handle n1 = n0->neighbor(1-index_v_in_n0);
+      const int index_v_in_n1 = n1->index(v);
+      CGAL_assume(index_v_in_n1 <= 1);
+      Vertex_handle v1 = n0->vertex(1-index_v_in_n0);
+      Vertex_handle v2 = n1->vertex(1-index_v_in_n1);
       if(!f(v1)) *vertices++ = v1;
       if(!f(v2)) *vertices++ = v2;
       return vertices;
@@ -1062,12 +1081,11 @@ private:
   // counts AND checks the validity
 };
 
-#ifdef CGAL_TDS_USE_OLD_CREATE_STAR_3
+#ifdef CGAL_TDS_USE_RECURSIVE_CREATE_STAR_3
 template <class Vb, class Cb >
 typename Triangulation_data_structure_3<Vb,Cb>::Cell_handle
 Triangulation_data_structure_3<Vb,Cb>::
-create_star_3(Vertex_handle v, Cell_handle c, int li,
-	      int prev_ind2)
+create_star_3(Vertex_handle v, Cell_handle c, int li, int prev_ind2)
 {
     CGAL_triangulation_precondition( dimension() == 3);
     CGAL_triangulation_precondition( c->tds_data().is_in_conflict() );
@@ -1121,20 +1139,71 @@ create_star_3(Vertex_handle v, Cell_handle c, int li,
     return cnew;
 }
 #else
-//This function used to be recursive.
-//This design resulted in call stack overflow in some cases.
-//When we rewrote it, to emulate the class stack, we use a c++ stack.
-//The stack used is a enriched std::vector that call reserve(N) when constructed
-//(faster that testing capacity>N at each call of create_star_3).
-//We use the class iAdjacency_info instead of a tuple because
-//at the moment we made the change it was faster like this.
-//The stack is a static variable of the function because it was also
-//faster when we tested it.
 template <class Vb, class Cb >
 typename Triangulation_data_structure_3<Vb,Cb>::Cell_handle
 Triangulation_data_structure_3<Vb,Cb>::
-create_star_3(Vertex_handle v, Cell_handle c, int li,
-	      int prev_ind2)
+recursive_create_star_3(Vertex_handle v, Cell_handle c, int li,
+                        int prev_ind2, int depth)
+{
+    if ( depth == 100 ) return non_recursive_create_star_3(v,c,li,prev_ind2);
+    CGAL_triangulation_precondition( dimension() == 3);
+    CGAL_triangulation_precondition( c->tds_data().is_in_conflict() );
+    CGAL_triangulation_precondition( ! c->neighbor(li)->tds_data().is_in_conflict() );
+
+    Cell_handle cnew = create_cell(c->vertex(0),
+				   c->vertex(1),
+				   c->vertex(2),
+				   c->vertex(3));
+    cnew->set_vertex(li, v);
+    Cell_handle c_li = c->neighbor(li);
+    set_adjacency(cnew, li, c_li, c_li->index(c));
+
+    // Look for the other neighbors of cnew.
+    for (int ii=0; ii<4; ++ii) {
+      if (ii == prev_ind2 || cnew->neighbor(ii) != Cell_handle())
+	  continue;
+      cnew->vertex(ii)->set_cell(cnew);
+
+      // Indices of the vertices of cnew such that ii,vj1,vj2,li positive.
+      Vertex_handle vj1 = c->vertex(next_around_edge(ii, li));
+      Vertex_handle vj2 = c->vertex(next_around_edge(li, ii));
+      Cell_handle cur = c;
+      int zz = ii;
+      Cell_handle n = cur->neighbor(zz);
+      // turn around the oriented edge vj1 vj2
+      while ( n->tds_data().is_in_conflict() ) {
+	CGAL_triangulation_assertion( n != c );
+	cur = n;
+	zz = next_around_edge(n->index(vj1), n->index(vj2));
+	n = cur->neighbor(zz);
+      }
+      // Now n is outside region, cur is inside.
+
+      n->tds_data().clear(); // Reset the flag for boundary cells.
+
+      int jj1 = n->index(vj1);
+      int jj2 = n->index(vj2);
+      Vertex_handle vvv = n->vertex(next_around_edge(jj1, jj2));
+      Cell_handle nnn = n->neighbor(next_around_edge(jj2, jj1));
+      int zzz = nnn->index(vvv);
+      if (nnn == cur) {
+	// Neighbor relation is reciprocal, ie
+	// the cell we are looking for is not yet created.
+	nnn = recursive_create_star_3(v, nnn, zz, zzz,depth+1);
+      }
+
+      set_adjacency(nnn, zzz, cnew, ii);
+    }
+
+    return cnew;
+}
+
+//We use the class iAdjacency_info instead of a tuple because
+//at the moment we made the change it was faster like this.
+template <class Vb, class Cb >
+typename Triangulation_data_structure_3<Vb,Cb>::Cell_handle
+Triangulation_data_structure_3<Vb,Cb>::
+non_recursive_create_star_3(Vertex_handle v, Cell_handle c, int li, int prev_ind2)
 {
     CGAL_triangulation_precondition( dimension() == 3);
     CGAL_triangulation_precondition( c->tds_data().is_in_conflict() );
@@ -1148,17 +1217,7 @@ create_star_3(Vertex_handle v, Cell_handle c, int li,
     Cell_handle c_li = c->neighbor(li);
     set_adjacency(cnew, li, c_li, c_li->index(c));
     
-#ifdef CGAL_HAS_THREADS  
-  static boost::thread_specific_ptr< std::vector<iAdjacency_info> > stack_safe_ptr;
-    if (stack_safe_ptr.get() == NULL) {
-      stack_safe_ptr.reset(new std::vector<iAdjacency_info>());
-      stack_safe_ptr.get()->reserve(64);
-    }
-  std::vector<iAdjacency_info>& adjacency_info_stack=* stack_safe_ptr.get();  
-#else
-    static std::vector<iAdjacency_info> adjacency_info_stack;
-    adjacency_info_stack.reserve(64);
-#endif  
+    std::stack<iAdjacency_info> adjacency_info_stack;
   
     int ii=0;
     do
@@ -1193,7 +1252,7 @@ create_star_3(Vertex_handle v, Cell_handle c, int li,
           // Neighbor relation is reciprocal, ie
           // the cell we are looking for is not yet created.
           //re-run the loop
-          adjacency_info_stack.push_back( iAdjacency_info(zzz,cnew,ii,c,li,prev_ind2) );
+          adjacency_info_stack.push( iAdjacency_info(zzz,cnew,ii,c,li,prev_ind2) );
           c=nnn;  li=zz; prev_ind2=zzz; ii=0;
           //copy-pasted from beginning to avoid if ii==0
           CGAL_triangulation_precondition( c->tds_data().is_in_conflict() );
@@ -1210,8 +1269,8 @@ create_star_3(Vertex_handle v, Cell_handle c, int li,
         if ( adjacency_info_stack.empty() ) return cnew;
         Cell_handle nnn=cnew; 
         int zzz;
-        adjacency_info_stack.back().update_variables(zzz,cnew,ii,c,li,prev_ind2);
-        adjacency_info_stack.pop_back();
+        adjacency_info_stack.top().update_variables(zzz,cnew,ii,c,li,prev_ind2);
+        adjacency_info_stack.pop();
         set_adjacency(nnn, zzz, cnew, ii);
       }
     }
@@ -2361,7 +2420,8 @@ insert_increase_dimension(Vertex_handle star)
     {
       Cell_handle c = star->cell();
       int i = c->index(star); // i== 0 or 1
-      int j = (1-i);
+      CGAL_assertion(i==0 || i==1);
+      int j = (i == 0) ? 1 : 0;
       Cell_handle d = c->neighbor(j);
 	
       c->set_vertex(2,v);
@@ -2559,7 +2619,7 @@ remove_degree_2(Vertex_handle v)
 
     c0 = v->cell();
     i0 = c0->index(v);
-    c1 = c0->neighbor(1-i0);
+    c1 = c0->neighbor((i0 == 0) ? 1 : 0);
     i1 = c1->index(v);
 
     // New cell : we copy the content of c0, so we keep the orientation.

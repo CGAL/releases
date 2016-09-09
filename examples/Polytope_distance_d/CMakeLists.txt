@@ -23,8 +23,10 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
+  create_single_source_cgal_program( "all_furthest_neighbors_2.cpp" )
   create_single_source_cgal_program( "polytope_distance_d.cpp" )
   create_single_source_cgal_program( "polytope_distance_d_fast_exact.cpp" )
+  create_single_source_cgal_program( "width_simplex.cpp" )
 
 else()
   

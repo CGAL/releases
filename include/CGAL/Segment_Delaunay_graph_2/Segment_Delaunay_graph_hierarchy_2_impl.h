@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h $
-// $Id: Segment_Delaunay_graph_hierarchy_2_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -1004,7 +1004,7 @@ Segment_Delaunay_graph_hierarchy_2<Gt,ST,STag,D_S,LTag>::
 print_error_message() const
 {
   std::cerr << std::endl;
-  std::cerr << "WARNING:" << std::endl;
+  std::cerr << "ATTENTION:" << std::endl;
   std::cerr << "A segment-segment intersection was found."
 	    << std::endl;
   std::cerr << "The Segment_Delaunay_graph_hierarchy_2 class is not"

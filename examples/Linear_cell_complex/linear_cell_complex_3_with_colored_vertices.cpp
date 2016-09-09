@@ -6,7 +6,7 @@
 struct Average_functor
 {
   template<class CellAttribute>
-  void operator()(CellAttribute& ca1,const CellAttribute& ca2)
+  void operator()(CellAttribute& ca1, CellAttribute& ca2)
   { ca1.info()=(ca1.info()+ ca2.info())/2; }
 };
 
@@ -21,7 +21,7 @@ struct Myitem
                                              Average_functor >
     Vertex_attribute;
     
-    typedef CGAL::cpp0x::tuple<Vertex_attribute> Attributes;
+    typedef CGAL::cpp11::tuple<Vertex_attribute> Attributes;
   };
 };
 

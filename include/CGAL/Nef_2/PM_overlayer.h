@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
-// $Id: PM_overlayer.h 68820 2012-04-24 15:52:23Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -33,6 +33,11 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 13
 #include <CGAL/Nef_2/debug.h>
+
+#include <CGAL/assertions.h>
+#include <CGAL/use.h>
+
+#include <boost/type_traits/is_same.hpp>
 
 #ifndef CGAL_USE_LEDA
 #define LEDA_MEMORY(t) 
@@ -226,7 +231,7 @@ if there is no vertex in the relative interior of the embedding of $e$.
 
 The faces refer to the maximal connected open point sets of the
 planar subdivision implied by the embedding of the vertices and edges.
-Faces are bounded by possibly several face cycles\footnote{For the
+Faces are bounded by possibly several face cycles\cgalFootnote{For the
 definition of plane maps and their concepts see the manual page of
 |PMConstDecorator|.} including isolated vertices. The overlay process
 in the method |create| creates the objects, the topology of the result
@@ -909,7 +914,6 @@ void create_face_objects_pl(const Below_info& D) const
           p3 = point(target(next(e)));
     if ( K.left_turn(p1,p2,p3) ) { // left_turn => outer face cycle
       CGAL_NEF_TRACEN("  creating new face object");
-      Halfedge_around_face_circulator hfc(e),hend(hfc);
       Face_handle f = this->new_face();
       link_as_outer_face_cycle(f,e);
     }
@@ -958,7 +962,8 @@ bool is_forward_edge(const Const_decorator& N,
 
 void assert_type_precondition() const
 { typename PM_decorator_::Point p1; Point p2;
-  assert_equal_types(p1,p2); }
+  CGAL_static_assertion((boost::is_same<typename PM_decorator_::Point, Point>::value)); }
+
 
 
 

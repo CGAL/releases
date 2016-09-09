@@ -23,6 +23,8 @@
 #include <CGAL/Dart_iterators.h>
 #include <CGAL/Combinatorial_map_basic_operations.h>
 
+#include <boost/type_traits/is_same.hpp>
+
 // TODO do all the orbit iterator of any orbit ?
 
 namespace CGAL {
@@ -135,11 +137,13 @@ namespace CGAL {
     Self& operator++()
     {
       CGAL_assertion(this->cont());
-      while (this->cont() &&
-             this->mmap->is_marked((*this), mcell_mark_number))
+      do
       {
         Ite::operator++();
       }
+      while (this->cont() &&
+             this->mmap->is_marked((*this), mcell_mark_number));
+      
       if (this->cont())
       {
         mark_cell<Map,i,dim>(*this->mmap, (*this), 
@@ -244,9 +248,13 @@ namespace CGAL {
     Self& operator++()
     {
       CGAL_assertion(this->cont());
-      while (this->cont() &&
-             this->mmap->is_marked((*this), mmark_number))
+      do
+      {
         Ite::operator++();
+      }
+      while (this->cont() &&
+             this->mmap->is_marked((*this), mmark_number));
+
       if (this->cont())
         mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
       return *this;
@@ -346,9 +354,13 @@ namespace CGAL {
     Self& operator++()
     {
       CGAL_assertion(this->cont());
-      while (this->cont() &&
-             this->mmap->is_marked((*this), mmark_number))
+      do
+      {
         Base::operator++();
+      }
+      while (this->cont() &&
+             this->mmap->is_marked((*this), mmark_number));
+
       if (this->cont())
         mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
       return *this;

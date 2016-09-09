@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
-// $Id: Gps_agg_op_sweep.h 67117 2012-01-13 18:14:48Z lrineau $ $Date: 2012-01-13 19:14:48 +0100 (Fri, 13 Jan 2012) $
+// $URL$
+// $Id$ $Date$
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -114,7 +114,7 @@ public:
 
     this->m_visitor->before_sweep();
     // Allocate all of the Subcurve objects as one block.
-    this->m_num_of_subCurves = std::distance (curves_begin, curves_end);
+    this->m_num_of_subCurves = static_cast<unsigned int>(std::distance (curves_begin, curves_end));
     this->m_subCurves = 
       this->m_subCurveAlloc.allocate (this->m_num_of_subCurves);
 
@@ -126,7 +126,7 @@ public:
     Vertex_handle      vh;
     Vertex_handle      invalid_v;
     unsigned int       i = lower;
-    unsigned int       n = (arr_vec[i].second)->size();
+    unsigned int       n = static_cast<unsigned int>((arr_vec[i].second)->size());
     unsigned int       j;
     EventQueueIter     q_iter;
     bool               first = true;
@@ -172,7 +172,7 @@ public:
     {
       // Merge the vertices of the other vectors into the existing queue.
       q_iter = this->m_queue->begin();
-      n = (arr_vec[i].second)->size();
+      n = static_cast<unsigned int>((arr_vec[i].second)->size());
 
       for (j = 0;
            j < n && (vh = (*(arr_vec[i].second))[j]) != invalid_v;

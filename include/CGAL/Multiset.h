@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/Multiset.h $
-// $Id: Multiset.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -25,6 +25,7 @@
 #include <CGAL/multiset_assertions.h>
 #include <CGAL/enum.h>
 #include <CGAL/memory.h>
+#include <CGAL/number_utils_classes.h>
 #include <iterator>
 
 namespace CGAL {

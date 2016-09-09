@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h $
-// $Id: internal_functions_on_circular_arc_2.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -543,8 +543,8 @@ namespace CircularFunctors {
 	       OutputIterator res )
   {
     typedef std::vector<CGAL::Object> solutions_container; 
-    typedef typename CK::Circular_arc_2 Circular_arc_2; 
-    typedef typename CK::Circular_arc_point_2 Circular_arc_point_2; 
+    typedef typename CK::Circular_arc_2 Circular_arc_2;
+
 
 #ifdef CGAL_INTERSECTION_MAP_FOR_XMONOTONIC_ARC_WITH_SAME_SUPPORTING_CIRCLE
     // same curve
@@ -566,6 +566,7 @@ namespace CircularFunctors {
 #endif
 
 #ifdef  CGAL_CK_EXPLOIT_IDENTITY
+    typedef typename CK::Circular_arc_point_2 Circular_arc_point_2; 
     bool a1s_a2s = a1.source().equal_ref(a2.source());
     bool a1s_a2t = a1.source().equal_ref(a2.target());
     bool a1t_a2s = a1.target().equal_ref(a2.source());

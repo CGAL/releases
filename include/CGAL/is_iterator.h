@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/is_iterator.h $
-// $Id: is_iterator.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Marc Glisse
@@ -23,7 +23,9 @@
 #define CGAL_IS_ITERATOR_H
 
 #include <iterator>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_convertible.hpp>
+#include <boost/type_traits/remove_reference.hpp>
+#include <boost/type_traits/remove_cv.hpp>
 #include <boost/mpl/has_xxx.hpp>
 
 namespace CGAL {

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Installation/include/CGAL/config.h $
-// $Id: config.h 69584 2012-06-14 09:13:24Z pmoeller $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Wieger Wesselink 
@@ -78,47 +78,48 @@
 #if defined(BOOST_NO_0X_HDR_ARRAY) || BOOST_VERSION < 104000
 #define CGAL_CFG_NO_CPP0X_ARRAY 1
 #endif
-#if defined(BOOST_NO_DECLTYPE)
+#if defined(BOOST_NO_DECLTYPE) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_DECLTYPE 1
 #endif
-#if defined(BOOST_NO_DELETED_FUNCTIONS) || defined(BOOST_NO_DEFAULTED_FUNCTIONS)
+#if defined(BOOST_NO_DELETED_FUNCTIONS) || defined(BOOST_NO_DEFAULTED_FUNCTIONS) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS 1
 #endif
-#if defined(BOOST_NO_FUNCTION_TEMPLATE_DEFAULT_ARGS)
+#if defined(BOOST_NO_FUNCTION_TEMPLATE_DEFAULT_ARGS) || (BOOST_VERSION < 104100)
 #define CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES 1
 #endif
-#if defined(BOOST_NO_INITIALIZER_LISTS)
+#if defined(BOOST_NO_INITIALIZER_LISTS) || (BOOST_VERSION < 103900)
 #define CGAL_CFG_NO_CPP0X_INITIALIZER_LISTS 1
 #endif
-#if defined(_MSC_VER) && _MSC_VER <= 1600
+#if defined(BOOST_MSVC)
 #define CGAL_CFG_NO_CPP0X_ISFINITE 1
 #endif
-#if defined(BOOST_NO_LONG_LONG)
+#if defined(BOOST_NO_LONG_LONG) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_LONG_LONG 1
 #endif
 #if defined(BOOST_NO_LAMBDAS) || BOOST_VERSION < 104000
 #define CGAL_CFG_NO_CPP0X_LAMBDAS 1
 #endif
-#if defined(BOOST_NO_RVALUE_REFERENCES)
+#if defined(BOOST_NO_RVALUE_REFERENCES) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE 1
 #endif
-#if defined(BOOST_NO_STATIC_ASSERT)
+#if defined(BOOST_NO_STATIC_ASSERT) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_STATIC_ASSERT 1
 #endif
 #if defined(BOOST_NO_0X_HDR_TUPLE) || (BOOST_VERSION < 104000)
 #define CGAL_CFG_NO_CPP0X_TUPLE 1
 #endif
-#if defined(BOOST_NO_VARIADIC_TEMPLATES)
+#if defined(BOOST_NO_VARIADIC_TEMPLATES) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES 1
 #endif
-#if !defined(BOOST_HAS_TR1_ARRAY)
+// never use TR1
 #define CGAL_CFG_NO_TR1_ARRAY 1
-#endif
-#if !defined(BOOST_HAS_TR1_TUPLE)
+// never use TR1
 #define CGAL_CFG_NO_TR1_TUPLE 1
-#endif
-#if !defined(__GNUC__)
+#if !defined(__GNUC__) || defined(__INTEL_COMPILER)
 #define CGAL_CFG_NO_STATEMENT_EXPRESSIONS 1
+#endif
+#if defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX) || (BOOST_VERSION < 105100)
+#define CGAL_CFG_NO_CPP0X_UNIFIED_INITIALIZATION_SYNTAX
 #endif
 #if __cplusplus < 201103L && !(_MSC_VER >= 1600)
 #define CGAL_CFG_NO_CPP0X_COPY_N 1
@@ -278,11 +279,31 @@ using std::max;
 // with sunpro, this requires -features=extensions
 #endif
 
+// Macro to detect GCC versions.
+// It evaluates to 0 if the compiler is not GCC. Be careful that the Intel
+// compilers on Linux, and the LLVM/clang compiler both define GCC version
+// macros.
+#define CGAL_GCC_VERSION (__GNUC__ * 10000       \
+                          + __GNUC_MINOR__ * 100 \
+                          + __GNUC_PATCHLEVEL__)
+
+// Macros to detect features of clang. We define them for the other
+// compilers.
+// See http://clang.llvm.org/docs/LanguageExtensions.html
+#ifndef __has_feature
+  #define __has_feature(x) 0  // Compatibility with non-clang compilers.
+#endif
+#ifndef __has_extension
+  #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+#endif
+#ifndef __has_builtin
+  #define __has_builtin(x) 0  // Compatibility with non-clang compilers.
+#endif
 
 // Macro to trigger deprecation warnings
 #ifdef CGAL_NO_DEPRECATION_WARNINGS
 #  define CGAL_DEPRECATED
-#elif defined (__GNUC__) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#elif defined(__GNUC__)
 #  define CGAL_DEPRECATED __attribute__((__deprecated__))
 #elif defined (_MSC_VER) && (_MSC_VER > 1300)
 #  define CGAL_DEPRECATED __declspec(deprecated)
@@ -291,13 +312,32 @@ using std::max;
 #endif
 
 
-// Macro to specify a noreturn attribute.
+// Macro to specify a 'noreturn' attribute.
 #ifdef __GNUG__
 #  define CGAL_NORETURN  __attribute__ ((__noreturn__))
 #else
 #  define CGAL_NORETURN
 #endif
 
+// Macro to specify a 'unused' attribute.
+#ifdef __GNUG__
+#  define CGAL_UNUSED  __attribute__ ((__unused__))
+#else
+#  define CGAL_UNUSED
+#endif
+
+// Macro CGAL_ASSUME
+// Call a builtin of the compiler to pass a hint to the compiler
+#if __has_builtin(__builtin_unreachable) || (CGAL_GCC_VERSION >= 40500)
+// From g++ 4.5, there exists a __builtin_unreachable()
+// Also in LLVM/clang
+#  define CGAL_ASSUME(EX) if(!EX) { __builtin_unreachable(); }
+#elif defined(_MSC_VER)
+// MSVC has __assume
+#  define CGAL_ASSUME(EX) __assume(EX)
+#endif
+// If CGAL_ASSUME is not defined, then CGAL_assume and CGAL_assume_code are
+// defined differently, in <CGAL/assertions.h>
 
 // If CGAL_HAS_THREADS is not defined, then CGAL code assumes
 // it can do any thread-unsafe things (like using static variables).

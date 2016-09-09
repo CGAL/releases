@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Qt_widget/include/CGAL/IO/Qt_widget_focus.h $
-// $Id: Qt_widget_focus.h 69974 2012-06-22 09:52:10Z pmoeller $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Radu Ursu

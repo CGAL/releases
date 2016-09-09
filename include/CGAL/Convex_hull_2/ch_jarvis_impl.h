@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
-// $Id: ch_jarvis_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -45,7 +45,6 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
 
   if (first == last) return result;
   typedef   typename Traits::Less_rotate_ccw_2     Less_rotate_ccw;
-  typedef   typename Traits::Point_2               Point_2;
   typedef   typename Traits::Equal_2               Equal_2; 
   
   Equal_2     equal_points = ch_traits.equal_2_object();     
@@ -54,6 +53,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
+  typedef   typename Traits::Point_2               Point_2;
   Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   CGAL_ch_assertion_code( \

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/Search_traits_vertex_handle_3.h $
-// $Id: Search_traits_vertex_handle_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -24,6 +24,7 @@
 
 namespace CGAL {
 
+/// \cond SKIP_IN_MANUAL
 
 /// A Point_vertex_handle_3 objects wraps either
 /// a Vertex_handle or a 3D point.
@@ -182,6 +183,7 @@ class Search_traits_vertex_handle_3
                           Construct_cartesian_const_iterator_vertex_handle_3<Vertex_handle> >
 {};
 
+/// \endcond
 
 } //namespace CGAL
 

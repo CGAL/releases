@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
-// $Id: regular_neighbor_coordinates_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -82,7 +82,6 @@ regular_neighbor_coordinates_vertex_2(const Rt& rt,
   // recomputation)
   typedef typename Rt::Geom_traits        Traits;
   typedef typename Traits::FT             Coord_type;
-  typedef typename Rt::Weighted_point     Weighted_point;
 
   typedef typename Rt::Vertex_handle      Vertex_handle;
   typedef typename Rt::Face_handle        Face_handle;
@@ -172,7 +171,6 @@ regular_neighbor_coordinates_vertex_2(const Rt& rt,
   typedef typename Rt::Geom_traits         Traits;
   typedef typename Traits::FT              Coord_type;
   typedef typename Traits::Bare_point      Bare_point;
-  typedef typename Rt::Weighted_point      Weighted_point;
 
   typedef typename Rt::Vertex_handle     Vertex_handle;
   typedef typename Rt::Face_circulator   Face_circulator;

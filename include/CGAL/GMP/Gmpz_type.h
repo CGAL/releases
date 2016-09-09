@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/GMP/Gmpz_type.h $
-// $Id: Gmpz_type.h 67487 2012-01-27 14:10:45Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra, Sylvain Pion, Michael Hemmer

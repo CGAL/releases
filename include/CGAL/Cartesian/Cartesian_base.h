@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -138,8 +138,8 @@ struct Cartesian_base
     typedef CircleC3<Kernel>                            Circle_3;
     typedef Aff_transformationC3<Kernel>                Aff_transformation_3;
 
-    typedef typename cpp0x::array<FT_, 2>::const_iterator Cartesian_const_iterator_2;
-    typedef typename cpp0x::array<FT_, 3>::const_iterator Cartesian_const_iterator_3;
+    typedef typename cpp11::array<FT_, 2>::const_iterator Cartesian_const_iterator_2;
+    typedef typename cpp11::array<FT_, 3>::const_iterator Cartesian_const_iterator_3;
 
     // Undocumented stuff.
     typedef Data_accessorC2<Kernel>                     Data_accessor_2;

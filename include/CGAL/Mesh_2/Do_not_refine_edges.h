@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_2/include/CGAL/Mesh_2/Do_not_refine_edges.h $
-// $Id: Do_not_refine_edges.h 69218 2012-05-21 06:53:58Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Laurent Rineau

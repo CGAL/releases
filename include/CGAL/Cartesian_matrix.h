@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/Cartesian_matrix.h $
-// $Id: Cartesian_matrix.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -39,8 +39,8 @@ public:
                    RandomAccessIC_column c_l)
   : row_vec(r_f),
     column_vec(c_f),
-    n_rows(r_l - r_f),
-    n_columns(c_l - c_f)
+    n_rows(static_cast<int>(r_l - r_f)),
+    n_columns(static_cast<int>(c_l - c_f))
   {}
 
   Cartesian_matrix(RandomAccessIC_row r_f,
@@ -50,8 +50,8 @@ public:
                    const Operation& o)
   : row_vec(r_f),
     column_vec(c_f),
-    n_rows(r_l - r_f),
-    n_columns(c_l - c_f),
+    n_rows(static_cast<int>(r_l - r_f)),
+    n_columns(static_cast<int>(c_l - c_f)),
     op(o)
   {}
 

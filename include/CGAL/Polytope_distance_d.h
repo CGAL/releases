@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
-// $Id: Polytope_distance_d.h 67403 2012-01-24 14:28:52Z afabri $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -386,10 +386,10 @@ public:
   // access to point sets
   int  ambient_dimension( ) const { return d; }
     
-  int  number_of_points( ) const { return p_points.size()+q_points.size();}
+  int  number_of_points( ) const { return static_cast<int>(p_points.size()+q_points.size());}
     
-  int  number_of_points_p( ) const { return p_points.size(); }
-  int  number_of_points_q( ) const { return q_points.size(); }
+  int  number_of_points_p( ) const { return static_cast<int>(p_points.size()); }
+  int  number_of_points_q( ) const { return static_cast<int>(q_points.size()); }
     
   Point_iterator  points_p_begin( ) const { return p_points.begin(); }
   Point_iterator  points_p_end  ( ) const { return p_points.end  (); }
@@ -401,10 +401,10 @@ public:
   int
   number_of_support_points( ) const
   { return is_finite() ? 
-      p_support_indices.size()+q_support_indices.size() : 0; }
+      static_cast<int>(p_support_indices.size()+q_support_indices.size()) : 0; }
     
-  int  number_of_support_points_p() const { return p_support_indices.size();}
-  int  number_of_support_points_q() const { return q_support_indices.size();}
+  int  number_of_support_points_p() const { return static_cast<int>(p_support_indices.size());}
+  int  number_of_support_points_q() const { return static_cast<int>(q_support_indices.size());}
     
   Support_point_iterator
   support_points_p_begin() const
@@ -574,8 +574,8 @@ public:
   insert( InputIterator1 p_first, InputIterator1 p_last,
 	  InputIterator2 q_first, InputIterator2 q_last)
   { 
-    int old_r = p_points.size();
-    int old_s = q_points.size();
+    int old_r = static_cast<int>(p_points.size());
+    int old_s = static_cast<int>(q_points.size());
     p_points.insert( p_points.end(), p_first, p_last);
     q_points.insert( q_points.end(), q_first, q_last);
     set_dimension();
@@ -590,7 +590,7 @@ public:
   void
   insert_p( InputIterator p_first, InputIterator p_last)
   { 
-    int old_r = p_points.size();
+    int old_r = static_cast<int>(p_points.size());
     p_points.insert( p_points.end(), p_first, p_last);
     set_dimension();
     CGAL_optimisation_precondition_msg
@@ -603,7 +603,7 @@ public:
   void
   insert_q( InputIterator q_first, InputIterator q_last)
   { 
-    int old_s = q_points.size();
+    int old_s = static_cast<int>(q_points.size());
     q_points.insert( q_points.end(), q_first, q_last);
     set_dimension();
     CGAL_optimisation_precondition_msg
@@ -679,13 +679,13 @@ private:
     if ( ( p_points.size() == 0) || ( q_points.size() == 0)) return;
         
     // construct program
-    unsigned int n = 2 * d + p_points.size() + q_points.size();
-    unsigned int m = d + 2;
+    int n = 2 * d + static_cast<int>(p_points.size() + q_points.size());
+    int m = d + 2;
     CGAL_optimisation_precondition (p_points.size() > 0);
     QP qp (n, m, 
 	   A_iterator 
 	   (boost::counting_iterator<int>(0), 
-	    A_matrix (d, da_coord, p_points.begin(), p_points.size(), 
+	    A_matrix (d, da_coord, p_points.begin(), static_cast<int>(p_points.size()), 
 			 q_points.begin())),
 	   B_iterator (boost::counting_iterator<int>(0), B_vector (d)), 
 	   R_iterator (CGAL::EQUAL), 
@@ -699,7 +699,7 @@ private:
     CGAL_optimisation_assertion(solver->status() == QP_OPTIMAL);
     // compute support and realizing points
     ET  et_0 = 0;
-    int r = p_points.size();
+    int r = static_cast<int>(p_points.size());
     p_coords.resize( ambient_dimension()+1);
     q_coords.resize( ambient_dimension()+1);
     std::fill( p_coords.begin(), p_coords.end(), et_0);
@@ -740,16 +740,12 @@ private:
 
 // Function declarations
 // =====================
-// I/O operators
+// output operator
 template < class Traits_ >
 std::ostream&
 operator << ( std::ostream& os,
               const Polytope_distance_d<Traits_>& poly_dist);
 
-template < class Traits_ >
-std::istream&
-operator >> ( std::istream& is,
-              Polytope_distance_d<Traits_>& poly_dist);
 
 // ============================================================================
 
@@ -928,34 +924,6 @@ operator << ( std::ostream& os,
   return( os);
 }
 
-// input operator
-template < class Traits_ >
-std::istream&
-operator >> ( std::istream& is,
-              CGAL::Polytope_distance_d<Traits_>& poly_dist)
-{
-  using namespace std;
-  /*
-    switch ( CGAL::get_mode( is)) {
-
-    case CGAL::IO::PRETTY:
-    cerr << endl;
-    cerr << "Stream must be in ascii or binary mode" << endl;
-    break;
-
-    case CGAL::IO::ASCII:
-    case CGAL::IO::BINARY:
-    typedef  CGAL::Polytope_distance_d<Traits_>::Point  Point;
-    typedef  istream_iterator<Point>             Is_it;
-    poly_dist.set( Is_it( is), Is_it());
-    break;
-
-    default:
-    CGAL_optimisation_assertion_msg( false, "CGAL::IO::mode invalid!");
-    break; }
-  */
-  return( is);
-}
 
 } //namespace CGAL
 

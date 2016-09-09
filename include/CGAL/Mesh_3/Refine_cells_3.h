@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -417,7 +417,7 @@ void
 Refine_cells_3<Tr,Cr,MD,C3T3_,P_,C_>::
 treat_new_cell(const Cell_handle& cell)
 {
-  typedef typename MD::Subdomain Subdomain;
+  typedef boost::optional<typename MD::Subdomain_index> Subdomain;
   
   // treat cell
   const Subdomain subdomain = r_oracle_.is_in_domain_object()(r_tr_.dual(cell));

@@ -1,22 +1,3 @@
-// Copyright (c) 2011 CNRS and LIRIS' Establishments (France).
-// All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL$
-// $Id$
-//
-// Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
-//
 #include <CGAL/Linear_cell_complex.h>
 #include <CGAL/Linear_cell_complex_constructors.h>
 #include <CGAL/Linear_cell_complex_operations.h>
@@ -158,7 +139,7 @@ int main(int narg, char** argv)
   
   std::istream_iterator<Point> begin(iFile), end;
   T.insert(begin, end);
-  assert(T.is_valid(false));
+  CGAL_assertion(T.is_valid(false));
  
   // 2) Convert the triangulation into a 2D lcc.
   LCC_2 lcc;

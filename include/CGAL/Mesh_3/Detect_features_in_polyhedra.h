@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/Detect_features_in_polyhedra.h $
-// $Id: Detect_features_in_polyhedra.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -59,14 +59,16 @@ public:
 public:
   Detect_features_in_polyhedra() : current_surface_index_(1) {}
   
-  void detect_sharp_edges(Polyhedron& polyhedron, FT angle_in_deg = FT(60)) const;
+  void detect_sharp_edges(Polyhedron& polyhedron,
+                          FT angle_in_deg = FT(60)) const;
   void detect_surface_patches(Polyhedron& polyhedron);
   void detect_vertices_incident_patches(Polyhedron& p);
   
 private:
   Vector_3 facet_normal(const Facet_handle& f) const;
   bool is_sharp(const Halfedge_handle& he, FT cos_angle) const;
-  void flood(Facet& f, const int index, Facet_handle_set& unsorted_faces) const;
+  void flood(Facet& f, const int index,
+             Facet_handle_set& unsorted_faces) const;
   
 private:
   // Stores the current surface index (usefull to detect different patches

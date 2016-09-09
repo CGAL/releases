@@ -29,6 +29,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "ch_from_cin_to_cout.cpp" )
   create_single_source_cgal_program( "ch_graham_anderson.cpp" )
   create_single_source_cgal_program( "ch_timing.cpp" )
+  create_single_source_cgal_program( "convex_hull_yz.cpp" )
   create_single_source_cgal_program( "iostream_convex_hull_2.cpp" )
   create_single_source_cgal_program( "vector_convex_hull_2.cpp" )
 

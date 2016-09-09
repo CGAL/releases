@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h $
-// $Id: Trapezoidal_decomposition_2.h 70292 2012-07-05 11:06:58Z efif $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -697,7 +697,7 @@ public:
     }
 
     template < typename T >
-    boost::optional<Curve_end> operator()(T& t) const
+    boost::optional<Curve_end> operator()(T& /* t */) const
     {
       CGAL_assertion(false);
       return boost::none;
@@ -718,7 +718,7 @@ public:
     }
     
     template < typename T >
-    Point operator()(T& t) const
+    Point operator()(T& /* t */) const
     {
       CGAL_assertion(false);
       return Point();
@@ -786,7 +786,7 @@ public:
     }
 
     template <typename T>
-    boost::optional<const X_monotone_curve_2&> operator()(T& t) const
+    boost::optional<const X_monotone_curve_2&> operator()(T& /* t */) const
     {
       CGAL_assertion(false);
       return boost::none;
@@ -1061,7 +1061,7 @@ protected:
     {
       left.merge_trapezoid(right);
       //set the depth to be the max of the two merged nodes
-      left.dag_node()->depth() = std::max ( left.dag_node()->depth(),
+      left.dag_node()->depth() = (std::max)(left.dag_node()->depth(),
                                             right.dag_node()->depth());
       CGAL_postcondition(
         left.is_on_right_boundary() == right.is_on_right_boundary());
@@ -1629,7 +1629,7 @@ public:
   //  locate call may change the class
   Td_map_item& locate( Vertex_const_handle v, Locate_type& lt) const
   {
-    CGAL_precondition(traits);
+    CGAL_precondition(traits != NULL);
     return locate(traits->vtx_to_ce(v), lt);
   }
 
@@ -2252,7 +2252,7 @@ private:
     }
     if (traits->is_td_edge(item))
     { 
-      bool is_active = traits->is_active(item);
+      // bool is_active = traits->is_active(item);
       // if the map item represents an edge
       const X_monotone_curve_2& he_cv = *(boost::apply_visitor(cv_for_edge_visitor(), item));
       

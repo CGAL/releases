@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -90,7 +90,15 @@ public:
 	       const Delaunay_triangulation_2<Gt,Tds> &tr)
        : Triangulation_2<Gt,Tds>(tr)
   {   CGAL_triangulation_postcondition( is_valid() );  }
-  
+
+ template <class InputIterator>
+ Delaunay_triangulation_2(InputIterator first, InputIterator last,
+                          const Gt& gt = Gt())
+ : Triangulation_2<Gt,Tds>(gt)
+ {
+  insert(first,last);
+ }
+
 // CHECK -QUERY
   bool is_valid(bool verbose = false, int level = 0) const;
 
@@ -98,7 +106,7 @@ public:
   nearest_vertex(const Point& p, Face_handle f= Face_handle()) const;
   
   bool does_conflict(const Point  &p, Face_handle fh) const;// deprecated
-  bool test_conflict(const Point  &p, Face_handle fh) const;
+  bool test_conflict(const Point  &p, Face_handle fh, bool strict = true) const;
   bool find_conflicts(const Point  &p,                //deprecated
 		      std::list<Face_handle>& conflicts,
 		      Face_handle start= Face_handle() ) const;
@@ -175,8 +183,13 @@ public:
 #endif
 
 private:
-  void propagating_flip(Face_handle& f,int i);
-  void remove_2D(Vertex_handle v );
+#ifndef CGAL_DT2_USE_RECURSIVE_PROPAGATING_FLIP
+  void non_recursive_propagating_flip(Face_handle f,int i);
+  void propagating_flip(const Face_handle& f,int i, int depth=0);
+#else
+  void propagating_flip(const Face_handle& f,int i);
+#endif
+
 
 // auxilliary functions for remove
   void remove_degree_init(Vertex_handle v, std::vector<Face_handle> &f,
@@ -390,7 +403,8 @@ public:
   get_conflicts_and_boundary(const Point  &p, 
 			     OutputItFaces fit, 
 			     OutputItBoundaryEdges eit,
-			     Face_handle start = Face_handle()) const {
+			     Face_handle start = Face_handle(),
+                             bool strict = true) const {
     CGAL_triangulation_precondition( this->dimension() == 2);
     int li;
     Locate_type lt;
@@ -405,9 +419,9 @@ public:
       *fit++ = fh; //put fh in OutputItFaces
       std::pair<OutputItFaces,OutputItBoundaryEdges>
 	pit = std::make_pair(fit,eit);
-      pit = propagate_conflicts(p,fh,0,pit);
-      pit = propagate_conflicts(p,fh,1,pit);
-      pit = propagate_conflicts(p,fh,2,pit);
+      pit = propagate_conflicts(p,fh,0,pit, strict);
+      pit = propagate_conflicts(p,fh,1,pit, strict);
+      pit = propagate_conflicts(p,fh,2,pit, strict);
       return pit;    
     }
     CGAL_triangulation_assertion(false);
@@ -418,9 +432,10 @@ public:
   OutputItFaces
   get_conflicts (const Point  &p, 
 		 OutputItFaces fit, 
-		 Face_handle start= Face_handle()) const {
+		 Face_handle start= Face_handle(),
+                 bool strict = true) const {
     std::pair<OutputItFaces,Emptyset_iterator> pp = 
-      get_conflicts_and_boundary(p,fit,Emptyset_iterator(),start);
+      get_conflicts_and_boundary(p,fit,Emptyset_iterator(),start, strict);
     return pp.first;
   }
 
@@ -428,31 +443,92 @@ public:
   OutputItBoundaryEdges
   get_boundary_of_conflicts(const Point  &p, 
 			    OutputItBoundaryEdges eit, 
-			    Face_handle start= Face_handle()) const {
+			    Face_handle start= Face_handle(),
+                            bool strict = true) const {
     std::pair<Emptyset_iterator, OutputItBoundaryEdges> pp = 
-      get_conflicts_and_boundary(p,Emptyset_iterator(),eit,start);
+      get_conflicts_and_boundary(p,Emptyset_iterator(),eit,start,strict);
     return pp.second;
   }
 
 private:
+  
+
+
+
+#ifdef CGAL_DT2_USE_RECURSIVE_PROPAGATE_CONFLICTS
   template <class OutputItFaces, class OutputItBoundaryEdges> 
   std::pair<OutputItFaces,OutputItBoundaryEdges>
   propagate_conflicts (const Point  &p,
-		       Face_handle fh, 
-		       int i,
+		       const Face_handle fh, 
+		       const int i,
 		       std::pair<OutputItFaces,OutputItBoundaryEdges>
-		       pit)  const {
+		       pit,
+                       bool strict = true)  const {
     Face_handle fn = fh->neighbor(i);
-    if (! test_conflict(p,fn)) {
+    if (! test_conflict(p,fn,strict)) {
       *(pit.second)++ = Edge(fn, fn->index(fh));
     } else {
       *(pit.first)++ = fn;
       int j = fn->index(fh);
-      pit = propagate_conflicts(p,fn,ccw(j),pit);
-      pit = propagate_conflicts(p,fn,cw(j), pit);
+      pit = propagate_conflicts(p,fn,ccw(j),pit,strict);
+      pit = propagate_conflicts(p,fn,cw(j), pit,strict);
     }
     return pit;
   }
+#else // NO CGAL_DT2_USE_RECURSIVE_PROPAGATE_CONFLICTS
+  template <class OutputItFaces, class OutputItBoundaryEdges> 
+  std::pair<OutputItFaces,OutputItBoundaryEdges>
+  non_recursive_propagate_conflicts ( const Point  &p,
+                                      const Face_handle fh, 
+                                      const int i,
+		                      std::pair<OutputItFaces,OutputItBoundaryEdges> pit,
+                                      bool strict = true)  const 
+  {
+    std::stack<std::pair<Face_handle, int> > stack;
+    stack.push( std::make_pair(fh,i) );
+    while ( !stack.empty() )
+    {
+      const Face_handle fh=stack.top().first;
+      const int i=stack.top().second;
+      stack.pop();
+      Face_handle fn = fh->neighbor(i);
+      if (! test_conflict(p,fn,strict)) {
+        *(pit.second)++ = Edge(fn, fn->index(fh));
+      } else {
+        *(pit.first)++ = fn;
+        int j = fn->index(fh);
+        stack.push( std::make_pair(fn,ccw(j)) );
+        stack.push( std::make_pair(fn,cw(j)) );
+      }
+    }
+    return pit;
+  }
+
+  template <class OutputItFaces, class OutputItBoundaryEdges> 
+  std::pair<OutputItFaces,OutputItBoundaryEdges>
+  propagate_conflicts (const Point  &p,
+		       const Face_handle fh, 
+		       const int i,
+		       std::pair<OutputItFaces,OutputItBoundaryEdges>
+		       pit,
+                       bool strict = true,
+                       int depth=0)  const 
+  {
+    if (depth == 100)
+      return non_recursive_propagate_conflicts(p, fh, i, pit, strict);
+
+    Face_handle fn = fh->neighbor(i);
+    if (! test_conflict(p,fn,strict)) {
+      *(pit.second)++ = Edge(fn, fn->index(fh));
+    } else {
+      *(pit.first)++ = fn;
+      int j = fn->index(fh);
+      pit = propagate_conflicts(p,fn,ccw(j),pit, strict, depth+1);
+      pit = propagate_conflicts(p,fn,cw(j), pit, strict, depth+1);
+    }
+    return pit;
+  }
+#endif // NO CGAL_DT2_USE_RECURSIVE_PROPAGATE_CONFLICTS
 
 protected:
 
@@ -547,8 +623,12 @@ protected:
 template < class Gt, class Tds >
 inline bool
 Delaunay_triangulation_2<Gt,Tds>::
-test_conflict(const Point  &p, Face_handle fh) const
+test_conflict(const Point  &p, Face_handle fh, bool strict) const
 {
+  if(! strict){
+    Oriented_side os = side_of_oriented_circle(fh,p,false);
+    return os == ON_POSITIVE_SIDE;
+  }
   // return true  if P is inside the circumcircle of fh
   // if fh is infinite, return true when p is in the positive
   // halfspace or on the boundary and in the  finite edge of fh
@@ -873,15 +953,70 @@ restore_Delaunay(Vertex_handle v)
   return;
 }
 
+#ifndef CGAL_DT2_USE_RECURSIVE_PROPAGATING_FLIP
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_2<Gt,Tds>::
-propagating_flip(Face_handle& f,int i)
+non_recursive_propagating_flip(Face_handle f , int i)
 {
+  std::stack<Edge> edges;
+  const Vertex_handle& vp = f->vertex(i);
+  const Point& p = vp->point();
+  edges.push(Edge(f,i));
+
+  while(! edges.empty()){
+    const Edge& e = edges.top();
+    f = e.first; 
+    i = e.second;
+    const Face_handle& n = f->neighbor(i);
+    
+    if ( ON_POSITIVE_SIDE != 
+         side_of_oriented_circle(n,  p, true) ) {
+      edges.pop();
+      continue;
+    }
+    this->flip(f, i);
+    // As we haven't popped it, we don't have to push it
+    edges.push(Edge(n,n->index(vp)));
+  }
+}
+
+template < class Gt, class Tds >
+void
+Delaunay_triangulation_2<Gt,Tds>::
+propagating_flip(const Face_handle& f,int i, int depth)
+{
+#ifdef CGAL_DT2_IMMEDIATELY_NON_RECURSIVE_PROPAGATING_FLIP
+  non_recursive_propagating_flip(f,i);
+#else
+  int max_depth = 100;
+  if(depth==max_depth){
+    non_recursive_propagating_flip(f,i);
+    return;
+  }
   Face_handle n = f->neighbor(i);
       
   if ( ON_POSITIVE_SIDE != 
-       side_of_oriented_circle(n,  f->vertex(i)->point(), true) ) {          
+       side_of_oriented_circle(n,  f->vertex(i)->point(), true) ) {
+    return;
+  }
+  this->flip(f, i);
+  propagating_flip(f,i,depth+1);
+  i = n->index(f->vertex(i));
+  propagating_flip(n,i,depth+1);
+#endif
+}
+#else 
+template < class Gt, class Tds >
+void
+Delaunay_triangulation_2<Gt,Tds>::
+propagating_flip(const Face_handle& f,int i)
+{
+ 
+  Face_handle n = f->neighbor(i);
+      
+  if ( ON_POSITIVE_SIDE != 
+       side_of_oriented_circle(n,  f->vertex(i)->point(), true) ) {
     return;
   }
   this->flip(f, i);
@@ -889,7 +1024,7 @@ propagating_flip(Face_handle& f,int i)
   i = n->index(f->vertex(i));
   propagating_flip(n,i);
 }
-
+#endif
 
 ///////////////////////////////////////////////////////////////
 //  REMOVE    see INRIA RResearch Report 7104

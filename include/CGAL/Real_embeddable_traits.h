@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_foundations/include/CGAL/Real_embeddable_traits.h $
-// $Id: Real_embeddable_traits.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -24,7 +24,7 @@
 #ifndef CGAL_REAL_EMBEDDABLE_TRAITS_H
 #define CGAL_REAL_EMBEDDABLE_TRAITS_H
 
-#include <CGAL/number_type_basic.h>
+#include <CGAL/Algebraic_structure_traits.h>
 
 namespace CGAL {
 

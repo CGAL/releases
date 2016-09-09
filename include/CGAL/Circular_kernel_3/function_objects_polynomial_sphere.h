@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/function_objects_polynomial_sphere.h $
-// $Id: function_objects_polynomial_sphere.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot

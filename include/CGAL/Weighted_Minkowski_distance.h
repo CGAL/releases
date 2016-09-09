@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
-// $Id: Weighted_Minkowski_distance.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -57,7 +57,7 @@ namespace CGAL {
     Weighted_Minkowski_distance(const int d,const SearchTraits& traits_=SearchTraits()) 
       : traits(traits_),power(2), the_weights(d)
     {
-      for (unsigned int i = 0; i < d; ++i) the_weights[i]=FT(1);
+      for (int i = 0; i < d; ++i) the_weights[i]=FT(1);
     }
 
     //default copy constructor and destructor

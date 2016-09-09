@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 67248 2012-01-18 11:05:35Z afabri $
+// $URL$
+// $Id$
 //
 // Author(s)     : Sylvain Pion
 
@@ -550,7 +550,9 @@ private:
   // Sets the pointer part and the type of the pointee.
   static void set_type(pointer ptr, void * p, Type t)
   {
-    CGAL_precondition(0 <= t && t < 4);
+    // This out of range compare is always true and causes lots of
+    // unnecessary warnings.
+    // CGAL_precondition(0 <= t && t < 4); 
     Traits::pointer(*ptr) = (void *) ((clean_pointer((char *) p)) + (int) t);
   }
 

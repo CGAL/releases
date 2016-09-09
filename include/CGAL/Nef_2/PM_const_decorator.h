@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -83,7 +83,7 @@ target(e)|. The list of all edges with source |v| is called the
 adjacency list |A(v)|.
 
 Edges are paired into twins. For each edge |e = (v,w)| there's an edge
-|twin(e) = (w,v)| and |twin(twin(e)) == e|\footnote{The existence of 
+|twin(e) = (w,v)| and |twin(twin(e)) == e|\cgalFootnote{The existence of 
 the edge pairs makes |P| a bidirected graph, the |twin| links make
 |P| a map.}.
 

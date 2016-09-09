@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
-// $Id: Triangle_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -39,7 +39,7 @@ class TriangleC3
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Triangle_3           Triangle_3;
 
-  typedef cpp0x::array<Point_3, 3>          Rep;
+  typedef cpp11::array<Point_3, 3>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

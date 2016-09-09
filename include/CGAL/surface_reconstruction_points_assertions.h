@@ -12,13 +12,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_reconstruction_points_3/include/CGAL/surface_reconstruction_points_assertions.h $
-// $Id: surface_reconstruction_points_assertions.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sven Schoenherr, Laurent Saboret
 //
 // Generated from script create_assertions.sh
+
+/// \cond SKIP_IN_MANUAL
 
 /// @file surface_reconstruction_points_assertions.h
 /// Define checking macros for the Surface_reconstruction_points_3 package
@@ -362,3 +364,5 @@
 #  define CGAL_surface_reconstruction_points_expensive_exactness_warning_code(CODE) CODE
 #  define CGAL_surface_reconstruction_points_expensive_exactness_warnings 1
 #endif // CGAL_SURFACE_RECONSTRUCTION_POINTS_NO_WARNINGS
+
+/// \endcond

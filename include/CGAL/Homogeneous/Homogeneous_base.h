@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
-// $Id: Homogeneous_base.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -142,8 +142,8 @@ struct Homogeneous_base
     typedef CircleC3<Kernel>                        Circle_3;
     typedef Aff_transformationH3<Kernel>            Aff_transformation_3;
 
-    typedef Cartesian_const_iterator_d<typename cpp0x::array<RT, 3>::const_iterator> Cartesian_const_iterator_2;
-    typedef Cartesian_const_iterator_d<typename cpp0x::array<RT, 4>::const_iterator> Cartesian_const_iterator_3;
+    typedef Cartesian_const_iterator_d<typename cpp11::array<RT, 3>::const_iterator> Cartesian_const_iterator_2;
+    typedef Cartesian_const_iterator_d<typename cpp11::array<RT, 4>::const_iterator> Cartesian_const_iterator_3;
 
     typedef FT_                                     Cartesian_coordinate_type;
     typedef const RT_&                              Homogeneous_coordinate_type;

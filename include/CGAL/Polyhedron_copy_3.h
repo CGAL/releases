@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron/include/CGAL/Polyhedron_copy_3.h $
-// $Id: Polyhedron_copy_3.h 68162 2012-03-23 16:29:54Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
-// $Id: Regular_complex_d.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -278,7 +278,7 @@ sequel.
 
 All maximal simplices in a regular simplicial complex have the same
 dimension, which we denote |dcur|.  For each maximal
-simplex\footnote{we drop the adjective maximal in the sequel} in
+simplex\cgalFootnote{we drop the adjective maximal in the sequel} in
 |\Mvar| there is an item of type |RC_simplex_d| and for each vertex
 there is an item of type |rc_vertex|.  Each maximal simplex has |1+dcur| 
 vertices indexed from $0$ to |dcur|. For any simplex $s$ and any

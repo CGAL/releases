@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Filtered_kernel/include/CGAL/Filtered_predicate.h $
-// $Id: Filtered_predicate.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -81,6 +81,11 @@ public:
   Filtered_predicate(const O1 &o1, const O2 &o2)
     : ep(c2e(o1), c2e(o2)), ap(c2a(o1), c2a(o2))
   {}
+
+  explicit Filtered_predicate(const EP&  e, const AP&  a)
+    : ep(e), ap(a)
+  {}
+
 
 #ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
   template <typename... Args>

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_triangles_3.h $
-// $Id: linear_least_squares_fitting_triangles_3.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/all_furthest_neighbors_2.h $
-// $Id: all_furthest_neighbors_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -98,7 +98,7 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
 
  // check preconditions:
   int number_of_points(
-    iterator_distance( points_begin, points_end));
+                       static_cast<int>(iterator_distance( points_begin, points_end)));
   CGAL_optimisation_precondition( number_of_points > 0);
   CGAL_optimisation_expensive_precondition(
     is_convex_2( points_begin, points_end, t));
@@ -140,7 +140,7 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
 
   // check preconditions:
   int number_of_points(
-    iterator_distance( points_begin, points_end));
+                       static_cast<int>(iterator_distance( points_begin, points_end)));
   CGAL_optimisation_precondition( number_of_points > 0);
   CGAL_optimisation_expensive_precondition(
     is_convex_2( points_begin, points_end, t));

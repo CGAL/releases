@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Distance_2/include/CGAL/squared_distance_2_1.h $
-// $Id: squared_distance_2_1.h 68995 2012-05-09 09:24:54Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -35,6 +35,7 @@
 #include <CGAL/enum.h>
 #include <CGAL/wmult.h>
 #include <CGAL/squared_distance_utils.h>
+#include <CGAL/Kernel/global_functions_2.h>
 
 namespace CGAL {
 

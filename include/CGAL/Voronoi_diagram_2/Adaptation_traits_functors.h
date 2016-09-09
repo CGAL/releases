@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Adaptation_traits_functors.h $
-// $Id: Adaptation_traits_functors.h 71169 2012-08-10 13:34:02Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -355,7 +355,9 @@ insert_corners()
           nearest =  (*it)->point();
         }
       }
-      const FT nearest_sq_dist = CGAL::squared_distance( nearest, p);
+      typename Gt::Compute_squared_distance_3 squared_distance = 
+        c3t3_.triangulation().geom_traits().compute_squared_distance_3_object();
+      const FT nearest_sq_dist = squared_distance( nearest, p);
       
       w = (std::min)(w, nearest_sq_dist / FT(9));
     }
@@ -373,6 +375,7 @@ Protect_edges_sizing_field<C3T3, MD, Sf>::
 insert_point(const Bare_point& p, const Weight& w, int dim, const Index& index)
 {
   typedef typename Tr::size_type size_type;
+  CGAL_USE_TYPE(size_type);
   
   // Insert point
   CGAL_assertion_code(size_type nb_vertices_before = c3t3_.triangulation().number_of_vertices());
@@ -517,7 +520,7 @@ Protect_edges_sizing_field<C3T3, MD, Sf>::
 insert_balls_on_edges()
 {
   // Get features
-  typedef CGAL::cpp0x::tuple<Curve_segment_index,
+  typedef CGAL::cpp11::tuple<Curve_segment_index,
                              std::pair<Bare_point,Index>,
                              std::pair<Bare_point,Index> >    Feature_tuple;
   typedef std::vector<Feature_tuple>                          Input_features;
@@ -529,17 +532,17 @@ insert_balls_on_edges()
   for ( typename Input_features::iterator fit = input_features.begin(),
        end = input_features.end() ; fit != end ; ++fit )
   {
-    const Curve_segment_index& curve_index = CGAL::cpp0x::get<0>(*fit);
+    const Curve_segment_index& curve_index = CGAL::cpp11::get<0>(*fit);
     if ( ! is_treated(curve_index) )
     {
 #ifdef PROTECTION_DEBUG
       std::cerr << "** treat curve #" << curve_index << std::endl;
 #endif
-      const Bare_point& p = CGAL::cpp0x::get<1>(*fit).first;
-      const Bare_point& q = CGAL::cpp0x::get<2>(*fit).first; 
+      const Bare_point& p = CGAL::cpp11::get<1>(*fit).first;
+      const Bare_point& q = CGAL::cpp11::get<2>(*fit).first; 
       
-      const Index& p_index = CGAL::cpp0x::get<1>(*fit).second;
-      const Index& q_index = CGAL::cpp0x::get<2>(*fit).second;
+      const Index& p_index = CGAL::cpp11::get<1>(*fit).second;
+      const Index& q_index = CGAL::cpp11::get<2>(*fit).second;
       
       Vertex_handle vp,vq;
       if ( ! domain_.is_cycle(p, curve_index) )
@@ -845,6 +848,12 @@ change_ball_size(const Vertex_handle& v, const FT size)
     c3t3_.remove_from_complex(v,vit->first);
   }
   
+  
+  // Store point data
+  Index index = v->index();
+  int dim = v->in_dimension();
+  Bare_point p = v->point().point();
+
   // Remove v from corners
   boost::optional<Corner_index> corner_index;
   if ( c3t3_.is_in_complex(v) )
@@ -852,12 +861,6 @@ change_ball_size(const Vertex_handle& v, const FT size)
     corner_index = c3t3_.corner_index(v);
     c3t3_.remove_from_complex(v);
   }
-  
-  // Store point data
-  Index index = v->index();
-  int dim = v->in_dimension();
-  Bare_point p = v->point().point();  
-  
   // Change v size
   c3t3_.triangulation().remove(v);
   Vertex_handle new_v = insert_point(p, size*size, dim, index);

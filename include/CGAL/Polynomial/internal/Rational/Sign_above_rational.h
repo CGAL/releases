@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_above_rational.h $
-// $Id: Sign_above_rational.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -25,8 +25,8 @@
 
 namespace CGAL { namespace POLYNOMIAL { namespace internal {
 template <class Kernel>
-CGAL::Sign sign_above(const typename Kernel::Function &p,
-		      const typename Kernel::NT &nt, const Kernel &k)
+CGAL::Sign sign_above(const typename Kernel::Function &,
+		      const typename Kernel::NT &, const Kernel &)
 {
   // to make sure this is not called in vain
   CGAL_precondition( false );

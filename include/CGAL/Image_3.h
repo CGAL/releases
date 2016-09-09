@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/CGALimageIO/include/CGAL/Image_3.h $
-// $Id: Image_3.h 68213 2012-03-26 16:52:17Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Rineau, Pierre Alliez
@@ -75,7 +75,7 @@ public:
 protected:
   Image_shared_ptr image_ptr;
 
-   // implementation in src/CGALimageIO/Image_3.cpp
+   // implementation in src/CGAL_ImageIO/Image_3.cpp
   bool private_read(_image* im);
 
 public:
@@ -145,6 +145,7 @@ public:
 
   bool read(const char* file)
   {
+    std::cerr << "read((const char* file)\n";
     return private_read(::_readImage(file));
   }
 
@@ -166,13 +167,13 @@ public:
   bool read_vtk_image_data(vtkImageData*);
 #endif // CGAL_USE_VTK
 
-  // implementation in src/CGALimageIO/Image_3.cpp
+  // implementation in src/CGAL_ImageIO/Image_3.cpp
   void gl_draw(const float point_size,
                const unsigned char r,
                const unsigned char g,
                const unsigned char b);
 
-  // implementation in src/CGALimageIO/Image_3.cpp
+  // implementation in src/CGAL_ImageIO/Image_3.cpp
   void gl_draw_bbox(const float line_width,
                     const unsigned char red,
                     const unsigned char green,

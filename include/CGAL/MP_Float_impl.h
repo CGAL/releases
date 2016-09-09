@@ -13,16 +13,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/MP_Float_impl.h $
-// $Id: MP_Float_impl.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sylvain Pion
+
+#ifndef CGAL_MP_FLOAT_IMPL_H
+#define CGAL_MP_FLOAT_IMPL_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Quotient.h>
 #include <functional>
 #include <cmath>
+#include <CGAL/MP_Float.h>
 
 namespace CGAL {
 
@@ -505,3 +509,5 @@ operator>> (std::istream & is, MP_Float &b)
 }
 
 } //namespace CGAL
+
+#endif // CGAL_MP_FLOAT_IMPL_H

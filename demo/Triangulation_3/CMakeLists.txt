@@ -4,16 +4,15 @@
 project (Triangulation_demo_3)
 
 cmake_minimum_required(VERSION 2.6.2)
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-    cmake_policy(VERSION 2.8.4)
-  else()
-    cmake_policy(VERSION 2.6)
-  endif()
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+  cmake_policy(VERSION 2.8.4)
+else()
+  cmake_policy(VERSION 2.6)
 endif()
 
 find_package(CGAL  COMPONENTS Qt4)
 include(${CGAL_USE_FILE})
+
 
 set( QT_USE_QTXML    TRUE )
 set( QT_USE_QTMAIN   TRUE )
@@ -43,6 +42,7 @@ if ( CGAL_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND )
 
   # moc files (meta object compiler files, run moc preprocessor on the files with Widget defs)
   qt4_automoc( MainWindow.cpp Viewer.cpp PreferenceDlg.cpp )
+
 
   # cpp files
   add_executable  ( T3_demo T3_demo.cpp

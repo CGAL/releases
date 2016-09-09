@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 67417 2012-01-24 17:25:20Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -197,7 +197,15 @@ public:
     : Base(Weighted_point_mapper_2<Gt>(gt)), _hidden_vertices(0) {}
 
   Regular_triangulation_2(const Regular_triangulation_2 &rt);
-  
+
+  template < class InputIterator >
+  Regular_triangulation_2(InputIterator first, InputIterator last,
+                          const Gt& gt=Gt())
+    : Base(Weighted_point_mapper_2<Gt>(gt)), _hidden_vertices(0)
+  {
+    insert(first, last);
+  }
+
   Regular_triangulation_2 & operator=(const Regular_triangulation_2 &tr);
 
   size_type number_of_vertices() const {
@@ -392,7 +400,7 @@ private:
   template <class Tuple_or_pair,class InputIterator>
   std::ptrdiff_t insert_with_info(InputIterator first,InputIterator last)
   {
-    int n = number_of_vertices();
+    size_type n = number_of_vertices();
     std::vector<std::ptrdiff_t> indices;
     std::vector<Weighted_point> points;
     std::vector<typename Triangulation_data_structure::Vertex::Info> infos;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Minkowski_sum_2/include/CGAL/Small_side_angle_bisector_decomposition_2.h $
-// $Id: Small_side_angle_bisector_decomposition_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 //                 (based on an old version by Eyal Flato)
@@ -247,7 +247,7 @@ private:
                                  unsigned int i) const
   {
     if (i == 0)
-      return (vec.size() - 1);
+      return static_cast<unsigned int>(vec.size() - 1);
     return (i - 1);
   }
 
@@ -414,7 +414,7 @@ private:
                                 Point_vector_2& vec) const
   {
     // Resize the vector to fit the polygon.
-    const unsigned int  n = pgn.size();
+    const unsigned int  n = static_cast<unsigned int>(pgn.size());
     const bool          forward = (pgn.orientation() == COUNTERCLOCKWISE);
     Vertex_circulator          prev, curr, next;
     unsigned int        reflex_count = 0;
@@ -755,7 +755,7 @@ private:
           }
           else if (*iter < ind1)
           {
-            vec2[i2].visible.push_back (*iter + vec.size() - ind2);
+            vec2[i2].visible.push_back (*iter + static_cast<unsigned int>(vec.size()) - ind2);
           }
         }
         
@@ -769,7 +769,7 @@ private:
           }
           else if (*iter < ind1)
           {
-            vec2[i2].non_visible.push_back (*iter + vec.size() - ind2);
+            vec2[i2].non_visible.push_back (*iter + static_cast<int>(vec.size()) - ind2);
           }
         }
       }
@@ -922,7 +922,7 @@ private:
   OutputIterator _output_polygon (const Point_vector_2& vec,
                                   OutputIterator oi) const
   {
-    const unsigned int    n = vec.size();
+    const unsigned int    n = static_cast<int>(vec.size());
     Polygon_2             pgn;
     unsigned int          k;
 

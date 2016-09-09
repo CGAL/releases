@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
-// $Id: rectangular_p_center_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -225,7 +225,7 @@ rectangular_p_center_2_matrix_search(
   const Traits& t,
   const MatrixOperator& mop)
 {
-  int number_of_points( iterator_distance( f, l));
+  std::size_t number_of_points( iterator_distance( f, l));
   CGAL_optimisation_precondition( number_of_points > 0);
 
   using std::minus;

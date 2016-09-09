@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_grid_generator.h $
-// $Id: Arr_lm_grid_generator.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -248,7 +248,7 @@ protected:
     // set it to be the number of vertices V in the arrangement (actually
     // we generate ceiling(sqrt(V))^2 landmarks to obtain a square grid).
     if (!fixed_number_of_lm)
-      num_landmarks = arr->number_of_vertices();
+      num_landmarks = static_cast<unsigned int>(arr->number_of_vertices());
 
     sqrt_n = static_cast<unsigned int>
       (std::sqrt(static_cast<double> (num_landmarks)) + 0.99999);

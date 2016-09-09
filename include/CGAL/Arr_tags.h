@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_tags.h $
-// $Id: Arr_tags.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
@@ -22,6 +22,7 @@
 #ifndef CGAL_ARR_TAGS_H
 #define CGAL_ARR_TAGS_H
 
+#include <CGAL/config.h>
 #include <boost/type_traits.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
@@ -82,14 +83,16 @@ struct Validate_left_side_category {};
 
 template < class GeometryTraits_2 >
 struct Validate_left_side_category< GeometryTraits_2, true > {
+  template <typename T>
   void missing__Left_side_category() {}
 };
 
 template < class GeometryTraits_2 >
 struct Validate_left_side_category< GeometryTraits_2, false > {
+  template <typename T>
   void missing__Left_side_category()
   { 
-    bool 
+    T
       missing__Left_side_category__assuming__Arr_oblivious_side_tag__instead; 
   }
 };
@@ -127,14 +130,16 @@ struct Validate_bottom_side_category {};
 
 template < class GeometryTraits_2 >
 struct Validate_bottom_side_category< GeometryTraits_2, true > {
+  template <typename T>
   void missing__Bottom_side_category() {}
 };
 
 template < class GeometryTraits_2 >
 struct Validate_bottom_side_category< GeometryTraits_2, false > {
+  template <typename T>
   void missing__Bottom_side_category()
   { 
-    bool 
+    T
       missing__Bottom_side_category__assuming__Arr_oblivious_side_tag__instead; 
   }
 };
@@ -171,14 +176,16 @@ struct Validate_top_side_category {};
 
 template < class GeometryTraits_2 >
 struct Validate_top_side_category< GeometryTraits_2, true > {
+  template <typename T>
   void missing__Top_side_category() {}
 };
 
 template < class GeometryTraits_2 >
 struct Validate_top_side_category< GeometryTraits_2, false > {
+  template <typename T>
   void missing__Top_side_category()
   { 
-    bool missing__Top_side_category__assuming__Arr_oblivious_side_tag__instead; 
+    T missing__Top_side_category__assuming__Arr_oblivious_side_tag__instead; 
   }
 };
 
@@ -215,14 +222,16 @@ struct Validate_right_side_category {};
 
 template < class GeometryTraits_2 >
 struct Validate_right_side_category< GeometryTraits_2, true > {
+  template <typename T>
   void missing__Right_side_category() {}
 };
 
 template < class GeometryTraits_2 >
 struct Validate_right_side_category< GeometryTraits_2, false > {
+  template <typename T>
   void missing__Right_side_category()
   { 
-    bool 
+    T
       missing__Right_side_category__assuming__Arr_oblivious_side_tag__instead; 
   }
 };

@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
  *                                                                           
  *                                                                           
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/geom2d/line2d.h $                                                                     
- * $Id: line2d.h 67175 2012-01-16 15:37:02Z lrineau $                                                                      
+ * $URL$                                                                     
+ * $Id$                                                                      
  ***************************************************************************/
 /*****************************************************************
  * File: line2d.h
@@ -36,7 +36,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: line2d.h 67175 2012-01-16 15:37:02Z lrineau $
+ * $Id$
  *****************************************************************/
 
 #ifndef _LINE2D_H_

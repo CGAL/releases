@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/Point_with_normal_3.h $
-// $Id: Point_with_normal_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -35,7 +35,8 @@
 
 namespace CGAL {
 
-
+/// \cond SKIP_IN_MANUAL
+  
 /// The Point_with_normal_3 class represents a 3D point with:
 /// - a position,
 /// - a normal (oriented).
@@ -150,8 +151,7 @@ struct Normal_of_point_with_normal_pmap
 
   /// Access a property map element.
   ///
-  /// @commentheading Template Parameters:
-  /// @param Iter Type convertible to key_type.
+  /// @tparam Iter Type convertible to key_type.
   template <class Iter>
   reference operator[](Iter it) const { return (reference) it->normal(); }
 };
@@ -170,6 +170,7 @@ make_normal_of_point_with_normal_pmap(Iter)
   return Normal_of_point_with_normal_pmap<Kernel>();
 }
 
+/// \endcond
 
 } //namespace CGAL
 

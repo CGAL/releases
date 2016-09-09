@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Triangle_2.h $
-// $Id: Triangle_2.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri
@@ -26,7 +26,7 @@
 #define CGAL_TRIANGLE_2_H
 
 #include <CGAL/assertions.h>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Dimension.h>
@@ -107,13 +107,13 @@ public:
     return !(*this == t);
   }
 
-  typename boost::result_of<typename R::Construct_vertex_2( Triangle_2, int)>::type
+  typename cpp11::result_of<typename R::Construct_vertex_2( Triangle_2, int)>::type
   vertex(int i) const
   {
     return R().construct_vertex_2_object()(*this,i);
   }
 
-  typename boost::result_of<typename R::Construct_vertex_2( Triangle_2, int)>::type
+  typename cpp11::result_of<typename R::Construct_vertex_2( Triangle_2, int)>::type
   operator[](int i) const
   {
     return vertex(i);

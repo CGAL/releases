@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
-// $Id: partition_approx_convex_2.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -29,7 +29,7 @@
 #include <CGAL/Partition_traits_2.h>
 #include <CGAL/partition_is_valid_2.h>
 #include <CGAL/Partition_2/partition_assertions.h>
-#include <CGAL/Safe_circulator_from_iterator.h>
+#include <CGAL/Circulator/Safe_circulator_from_iterator.h>
 #include <utility>
 #include <iterator>
 

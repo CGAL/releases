@@ -13,12 +13,10 @@ else()
 endif()
 
 # Tested version:
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-    cmake_policy(VERSION 2.8.4)
-  else()
-    cmake_policy(VERSION 2.6)
-  endif()
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+  cmake_policy(VERSION 2.8.4)
+else()
+  cmake_policy(VERSION 2.6)
 endif()
 
 #--------------------------------------------------------------------------------------------------
@@ -155,22 +153,8 @@ if ( CGAL_BRANCH_BUILD )
   set(CGAL_CREATED_VERSION_NR "1${CGAL_TMP_MAJOR}${CGAL_TMP_MINOR}${CGAL_BUGFIX_VERSION}${CGAL_TMP_BUILD}")
   message(STATUS "CGAL_VERSION_NR is ${CGAL_CREATED_VERSION_NR}")
 
-  if ( ${CGAL_SCM_NAME} STREQUAL "svn" )
-
-    # The function Subversion_GET_REVISION is defined in ../CMakeLists.txt
-    Subversion_GET_REVISION("${CMAKE_SOURCE_DIR}" CGAL_TMP_REVISION)
-    set(CGAL_CREATED_SVN_REVISION "${CGAL_TMP_REVISION}")
-    message(STATUS "CGAL_SVN_REVISION is ${CGAL_TMP_REVISION}")
-  
-  endif()
-
-  if ( ${CGAL_SCM_NAME} STREQUAL "git" )
-
-    ### TODO EBEB GIT_NR?
-    set(CGAL_GIT_HASH "n/a")
-
-    message(STATUS "CGAL_GIT_HASH is ${CGAL_GIT_HASH}")
-  endif()
+  message(STATUS "CGAL_GIT_HASH is ${CGAL_GIT_HASH}")
+  message(STATUS "CGAL_CREATED_SVN_REVISION is ${CGAL_CREATED_SVN_REVISION} (dummy)")
 
   file(REMOVE ${CMAKE_BINARY_DIR}/include/CGAL/version.h)
   configure_file(${CGAL_INSTALLATION_PACKAGE_DIR}/config/version.h.in ${CMAKE_BINARY_DIR}/include/CGAL/version.h @ONLY)
@@ -327,10 +311,13 @@ endif()
 #   CGAL-3.8   : 7.0.0 (At least CGAL::Random has changed its member fields.)
 #   CGAL-3.9   : 8.0.0 (No way to check the binary compatibility.)
 #   CGAL-4.0   : 9.0.0 (No way to check the binary compatibility.)
-#   CGAL-4.1: : 10.0.0 (No way to check the binary compatibility.)
+#   CGAL-4.1   : 10.0.0 (No way to check the binary compatibility.)
+#   CGAL-4.2   : 10.0.1 (Nothing different in CGAL compiled libraries¹.)
+
+# ¹) According to abi-http://upstream-tracker.org/versions/cgal.html
 
 set( CGAL_SONAME_VERSION "10" )
-set( CGAL_SOVERSION      "10.0.0" )
+set( CGAL_SOVERSION      "10.0.1" )
 
 message( STATUS "CGAL_SONAME_VERSION=${CGAL_SONAME_VERSION}" )
 message( STATUS "CGAL_SOVERSION     =${CGAL_SOVERSION}" )
@@ -411,6 +398,8 @@ if( MSVC )
   uniquely_add_flags ( CGAL_CXX_FLAGS "-D_CRT_SECURE_NO_DEPRECATE;-D_SCL_SECURE_NO_DEPRECATE;-D_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS" )
   uniquely_add_flags ( CGAL_CXX_FLAGS "/fp:strict" )
   uniquely_add_flags ( CGAL_CXX_FLAGS "/fp:except-" )
+  uniquely_add_flags ( CGAL_CXX_FLAGS "/wd4503" ) # Suppress warnings C4503 about "decorated name length exceeded"
+  uniquely_add_flags ( CGAL_CXX_FLAGS "/bigobj" ) # Use /bigobj by default
 
   if ( RUNNING_CGAL_AUTO_TEST )
     set(CMAKE_CXX_WARNING_LEVEL 2 CACHE STRING "MSVC C++ compiler warning level" FORCE)
@@ -770,26 +759,18 @@ endif()
 #
 #--------------------------------------------------------------------------------------------------
 
-# fake to simplify loop
-set(CGAL_CGAL_LIBRARY ${CGAL_LIBRARY})
-hide_variable(CGAL_CGAL_LIBRARY)
-
-# Set CGAL_INSTALLED_LIBRARY, CGAL_INSTALLED_Qt3_LIBRARY and so on. Those
+# Set CGAL_LIBRARY_INSTALLED, CGAL_Qt3_LIBRARY_INSTALLED and so on. Those
 # variables are the path to the libraries installed by the install
 # target. Used in the generation of the installed CGALConfig.cmake
 foreach(lib ${CGAL_CONFIGURED_LIBRARIES} CGAL) # note the added fake 'CGAL'
-  if(CGAL_${lib}_LIBRARY)
-    get_filename_component(lib_name "${CGAL_${lib}_LIBRARY}" NAME)
-    set(CGAL_INSTALLED_${lib}_LIBRARY "${CMAKE_INSTALL_PREFIX}/${CGAL_INSTALL_LIB_DIR}/${lib_name}")
-  else()
-    set(CGAL_INSTALLED_${lib}_LIBRARY "")
+ if(${lib}_LIBRARY)
+    get_filename_component(lib_name "${${lib}_LIBRARY}" NAME)
+    set(${lib}_LIBRARY_INSTALLED "${CMAKE_INSTALL_PREFIX}/${CGAL_INSTALL_LIB_DIR}/${lib_name}")
+ else()
+    set(${lib}_LIBRARY_INSTALLED "")
   endif()
-  hide_variable(CGAL_INSTALLED_${lib}_LIBRARY)
+  hide_variable(${lib}_LIBRARY_INSTALLED)
 endforeach()
-
-# set back from the fake
-set(CGAL_INSTALLED_LIBRARY  ${CGAL_INSTALLED_CGAL_LIBRARY})
-hide_variable(CGAL_INSTALLED_LIBRARY)
 
 create_CGALconfig_files()
 
@@ -896,7 +877,9 @@ if ( NOT RUNNING_CGAL_AUTO_TEST )
 
   add_programs(examples examples OFF )
   add_programs(demo     demos    OFF )
-  
+  if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test")
+    add_programs(test     tests    OFF )
+  endif()
 endif()
 
 #--------------------------------------------------------------------------------------------------
@@ -957,3 +940,65 @@ if( WITH_CPACK AND EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake" )
     
 endif()
 
+
+if ( CGAL_BRANCH_BUILD )
+  option(CGAL_ENABLE_CHECK_HEADERS 
+    "Enable the special targets \"check_pkg_headers\", and \"check_pkg_<package>_headers\" for each package"
+    FALSE)
+
+  if(CGAL_ENABLE_CHECK_HEADERS)
+
+    if(NOT DEFINED CGAL_CHECK_SYNTAX_ONLY)
+      execute_process(COMMAND 
+        ${CMAKE_CXX_COMPILER} -x c++ -fsyntax-only ${CMAKE_CURRENT_SOURCE_DIR}/config/support/test_syntaxonly.cpp
+        ERROR_QUIET
+        RESULT_VARIABLE ok)
+      if(ok EQUAL 0)
+        set(CGAL_CHECK_SYNTAX_ONLY ON CACHE INTERNAL "")
+      else()
+        set(CGAL_CHECK_SYNTAX_ONLY OFF CACHE INTERNAL "")
+      endif()
+    endif(NOT DEFINED CGAL_CHECK_SYNTAX_ONLY)
+
+    if(NOT CGAL_CHECK_SYNTAX_ONLY)
+      message(FATAL_ERROR "Your compiler does not seem to support -fsyntax-only.
+You must disable CGAL_ENABLE_CHECK_HEADERS.")
+    endif()
+
+    ## Fill the variable include_options with all the -I and -isystem options
+    set(include_options)
+    foreach (incdir ${CGAL_INCLUDE_DIRS})
+      list(APPEND include_options "-I${incdir}")
+    endforeach()
+    foreach (incdir ${CGAL_3RD_PARTY_INCLUDE_DIRS})
+      list(APPEND include_options "-isystem${incdir}")
+    endforeach()
+    include_directories ( SYSTEM ${CGAL_3RD_PARTY_INCLUDE_DIRS} )
+
+    ## Loop on package and headers
+    set(check_pkg_target_list)
+    foreach (package ${CGAL_CONFIGURED_PACKAGES_NAMES})
+      if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include)
+        set(depends "")
+        file(GLOB ${package}_HEADERS 
+          RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include" 
+          "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/CGAL/*.h")
+        foreach(header ${${package}_HEADERS})
+          string(REPLACE "/" "__" header2 "${header}")
+          string(REPLACE "." "_" header2 "${header2}")
+          add_custom_command(OUTPUT check_${header2}
+            COMMAND ${CMAKE_CXX_COMPILER} ${CGAL_3RD_PARTY_DEFINITIONS} ${CGAL_DEFINITIONS} ${include_options} -x c++ -fsyntax-only "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}"
+            COMMAND ${CMAKE_COMMAND} -E touch check_${header2}
+            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}"
+            VERBATIM
+            COMMENT "Check header ${header}"
+            )
+          list(APPEND depends check_${header2})
+        endforeach() # look on headers
+        add_custom_target(check_pkg_${package}_headers DEPENDS ${depends})
+        list(APPEND check_pkg_target_list check_pkg_${package}_headers)
+      endif() # if the package has an include directory
+    endforeach() # loop on packages
+    add_custom_target(check_headers DEPENDS ${check_pkg_target_list})
+  endif()
+endif( CGAL_BRANCH_BUILD )

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
-// $Id: mesh_standard_facet_criteria.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -27,7 +27,9 @@
 #ifndef CGAL_MESH_3_MESH_STANDARD_FACET_CRITERIA_H
 #define CGAL_MESH_3_MESH_STANDARD_FACET_CRITERIA_H
 
+#include <CGAL/number_utils.h> // for to_double
 #include <CGAL/Mesh_3/mesh_standard_criteria.h>
+#include <cmath>
 
 
 namespace CGAL {

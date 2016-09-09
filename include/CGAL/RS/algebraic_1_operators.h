@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_operators.h $
-// $Id: algebraic_1_operators.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -35,8 +35,6 @@ Algebraic_1 Algebraic_1::operator-()const{
                                              pol().minusx(),
                                              nr(),
                                              mult(),
-                                             NULL,
-                                             NULL,
                                              -lefteval());
         return *inverse;
 }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/refine_zero_against.h $
-// $Id: refine_zero_against.h 70399 2012-07-08 10:47:58Z eric $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>

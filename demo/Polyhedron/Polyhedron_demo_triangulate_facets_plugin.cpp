@@ -42,7 +42,11 @@ public:
   }
 
   bool applicable() const { 
-    return qobject_cast<Scene_polyhedron_item*>(scene->item(scene->mainSelectionIndex()));
+    Q_FOREACH(Scene_interface::Item_id index, scene->selectionIndices())  {
+      Scene_polyhedron_item* item = qobject_cast<Scene_polyhedron_item*>(scene->item(index));
+      if(!item) return false;
+    }
+    return true;
   }
 
 
@@ -117,12 +121,11 @@ public slots:
       CGAL_assertion(pMesh->is_valid(false, 3));
 
       scene->itemChanged(item);
-
+      // default cursor
+      QApplication::restoreOverrideCursor();
     } // end of if(item)
 
     } // end of the loop on the selected items
-    // default cursor
-    QApplication::restoreOverrideCursor();
   }
   
 private:

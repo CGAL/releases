@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Exponent_vector.h $
-// $Id: Exponent_vector.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <vector>
 #include <CGAL/assertions.h>
+#include <CGAL/use.h>
 
 
 namespace CGAL {
@@ -63,6 +64,7 @@ public:
   Exponent_vector(InputIterator begin , InputIterator end)
     :v(begin,end){
     typedef typename std::iterator_traits<InputIterator>::value_type value_type;
+    CGAL_USE_TYPE(value_type);
     CGAL_static_assertion(( ::boost::is_same<value_type, int>::value));
   }
 

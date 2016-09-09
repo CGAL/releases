@@ -29,8 +29,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/CORE.h $
- * $Id: CORE.h 67117 2012-01-13 18:14:48Z lrineau $
+ * $URL$
+ * $Id$
  ***************************************************************************/
 
 #ifndef _CORE_CORE_H_

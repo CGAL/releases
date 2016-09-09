@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_construction_helper.h $
-// $Id: Arr_spherical_construction_helper.h 67477 2012-01-26 15:40:29Z efif $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -238,7 +238,7 @@ public:
   }
 
   /*! A notification invoked when a new subcurve is created. */
-  virtual void add_subcurve(Halfedge_handle he, Subcurve* sc) { return; }
+  virtual void add_subcurve(Halfedge_handle , Subcurve* ) { return; }
 
   /*! Collect a subcurve index that does not see any status-line from below.
    */
@@ -246,7 +246,7 @@ public:
   { m_subcurves_at_nf.push_back(index); }
 
   /*! A notification invoked before the given event it deallocated. */
-  void before_deallocate_event(Event* event) { return; }
+  void before_deallocate_event(Event* ) { return; }
   //@} 
   
   /*! Set the map that maps each halfedge to the list of subcurve indices

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Sign_below.h $
-// $Id: Sign_below.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -42,8 +42,8 @@ public:
   typedef typename K::Function first_argument_type;
   typedef typename K::Root second_argument_type;
   typedef CGAL::Sign result_type;
-  result_type operator()(const typename K::Function &p,
-				     const typename K::Root &v) const
+  result_type operator()(const typename K::Function &,
+				     const typename K::Root &) const
   {
     CGAL_Polynomial_precondition(0);
     return ZERO;

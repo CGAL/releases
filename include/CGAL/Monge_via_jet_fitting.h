@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
-// $Id: Monge_via_jet_fitting.h 67421 2012-01-24 17:51:43Z sloriot $
+// $URL$
+// $Id$
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_MONGE_VIA_JET_FITTING_H_
@@ -30,7 +30,9 @@
 #ifdef CGAL_EIGEN3_ENABLED
 #include <CGAL/Eigen_svd.h>
 #else
+#ifdef CGAL_LAPACK_ENABLED
 #include <CGAL/Lapack/Linear_algebra_lapack.h>
+#endif
 #endif
 
 namespace CGAL {
@@ -46,7 +48,11 @@ unsigned int fact(unsigned int n){
 #ifdef CGAL_EIGEN3_ENABLED
 template < class DataKernel, class LocalKernel = Cartesian<double>, class SvdTraits = Eigen_svd >
 #else
+#ifdef CGAL_LAPACK_ENABLED
 template < class DataKernel, class LocalKernel = Cartesian<double>, class SvdTraits = Lapack_svd>  
+#else
+template < class DataKernel, class LocalKernel, class SvdTraits >  
+#endif
 #endif
   class Monge_via_jet_fitting {
  public:
@@ -108,7 +114,7 @@ public:
   // if given_normal.monge_normal < 0 then change the orientation
   // if z=g(x,y) in the basis (d1,d2,n) then in the basis (d2,d1,-n)
   // z=h(x,y)=-g(y,x)
-  void comply_wrt_given_normal(const Vector_3 given_normal);
+  void comply_wrt_given_normal(const Vector_3& given_normal);
   void dump_verbose(std::ostream& out_stream) const;
   void dump_4ogl(std::ostream& out_stream, const FT scale);
 };
@@ -220,7 +226,7 @@ set_up(std::size_t degree) {
 
 template < class DataKernel, class LocalKernel, class SvdTraits>  
 void Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::Monge_form::
-comply_wrt_given_normal(const Vector_3 given_normal)
+comply_wrt_given_normal(const Vector_3& given_normal)
 {
   if ( given_normal*this->normal_direction() < 0 )
     {

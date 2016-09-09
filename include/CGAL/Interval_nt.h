@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -40,9 +40,16 @@
 // - test whether stopping constant propagation only in functions taking
 //   double as arguments, improves performance.
 
-#include <CGAL/number_type_basic.h>
+#include <utility> // for std::pair
+#include <CGAL/number_type_config.h>
+#include <CGAL/number_utils.h>
+#include <CGAL/utils_classes.h>
+#include <CGAL/number_utils.h>
 #include <CGAL/Uncertain.h>
 #include <CGAL/Interval_traits.h>
+#include <CGAL/double.h>
+#include <CGAL/FPU.h>
+#include <CGAL/IO/io.h>
 #include <iostream>
 
 namespace CGAL {
@@ -71,6 +78,46 @@ public:
   Interval_nt(int i)
     : _inf(i), _sup(i) {}
 
+  Interval_nt(unsigned i)
+    : _inf(i), _sup(i) {}
+
+  Interval_nt(long long i)
+    : _inf((double)i), _sup((double)i)
+  {
+    // gcc ignores -frounding-math when converting integers to floats.
+#ifdef __GNUC__
+    long long safe = 1LL << 52; // Use numeric_limits?
+    bool exact = ((long long)_inf == i) || (i <= safe && i >= -safe);
+    if (!(__builtin_constant_p(exact) && exact))
+#endif
+      *this += smallest();
+  }
+
+  Interval_nt(unsigned long long i)
+    : _inf((double)i), _sup((double)i)
+  {
+#ifdef __GNUC__
+    unsigned long long safe = 1ULL << 52; // Use numeric_limits?
+    bool exact = ((unsigned long long)_inf == i) || (i <= safe);
+    if (!(__builtin_constant_p(exact) && exact))
+#endif
+      *this += smallest();
+  }
+
+  Interval_nt(long i)
+  {
+    *this = (sizeof(int)==sizeof(long)) ?
+      Interval_nt((int)i) :
+      Interval_nt((long long)i);
+  }
+
+  Interval_nt(unsigned long i)
+  {
+    *this = (sizeof(int)==sizeof(long)) ?
+      Interval_nt((unsigned)i) :
+      Interval_nt((unsigned long long)i);
+  }
+
   Interval_nt(double d)
     : _inf(d), _sup(d) { CGAL_assertion(is_finite(d)); }
 
@@ -84,9 +131,11 @@ public:
   Interval_nt(double i, double s)
     : _inf(i), _sup(s)
   {
-      // VC++ should use instead : (i<=s) || !is_valid(i) || !is_valid(s)
-      // Or should I use is_valid() ? or is_valid_or_nan() ?
-    CGAL_assertion_msg(!(i>s),
+    // Previously it was:
+    //    CGAL_assertion_msg(!(i>s);
+    // But MSVC++ 2012 optimizes the test "!(i>s)" to "i<=s", even with
+    // /fp:strict. If 'i' or 's' is a NaN, that makes a difference.
+    CGAL_assertion_msg( (!is_valid(i)) || (!is_valid(s)) || (!(i>s)),
 	      " Variable used before being initialized (or CGAL bug)");
 #ifndef CGAL_DISABLE_ROUNDING_MATH_CHECK
     CGAL_assertion_code((void) tester;) // Necessary to trigger a runtime test of rounding modes.
@@ -1374,5 +1423,28 @@ public:
 };
 
 } //namespace CGAL
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<bool b> struct NumTraits<CGAL::Interval_nt<b> >
+  {
+    typedef CGAL::Interval_nt<b> Real;
+    typedef CGAL::Interval_nt<b> NonInteger;
+    typedef CGAL::Interval_nt<b> Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    // Costs could depend on b.
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 0,
+      ReadCost = 2,
+      AddCost = 2,
+      MulCost = 10
+    };
+  };
+}
 
 #endif // CGAL_INTERVAL_NT_H

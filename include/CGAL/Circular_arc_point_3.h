@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_arc_point_3.h $
-// $Id: Circular_arc_point_3.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Julien Hazebrouck, Damien Leroy
@@ -197,15 +197,15 @@ public:
 
       
       
-  typename boost::result_of<typename R::Compute_circular_x_3(Circular_arc_point_3)>::type
+  typename cpp11::result_of<typename R::Compute_circular_x_3(Circular_arc_point_3)>::type
   x() const
   { return typename R::Compute_circular_x_3()(*this);}
 
-  typename boost::result_of<typename R::Compute_circular_y_3(Circular_arc_point_3)>::type
+  typename cpp11::result_of<typename R::Compute_circular_y_3(Circular_arc_point_3)>::type
   y() const
   { return typename R::Compute_circular_y_3()(*this);}
 
-  typename boost::result_of<typename R::Compute_circular_z_3(Circular_arc_point_3)>::type
+  typename cpp11::result_of<typename R::Compute_circular_z_3(Circular_arc_point_3)>::type
   z() const
   { return typename R::Compute_circular_z_3()(*this);}
 

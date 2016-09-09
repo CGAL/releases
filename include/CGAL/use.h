@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Installation/include/CGAL/use.h $
-// $Id: use.h 71169 2012-08-10 13:34:02Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Sylvain Pion
 
@@ -25,10 +25,15 @@ namespace CGAL { namespace internal {
 template < typename T > inline
 void use(const T&) {}
 
+template<typename> void use_type() {}
+
 } }
 
-// CGAL_USE() is a macro which aims at removing "variable is unused" warnings.
-
+/// CGAL_USE() is a macro which aims at removing "variable is unused" warnings.
 #define CGAL_USE(x) ::CGAL::internal::use(x)
+
+/// CGAL_USE_TYPE() is a macro which aims at removing "typedef locally
+/// defined but not used" warnings.
+#define CGAL_USE_TYPE(T) ::CGAL::internal::use_type<T>()
 
 #endif // CGAL_USE_H

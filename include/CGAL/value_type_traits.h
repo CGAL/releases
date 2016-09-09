@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/value_type_traits.h $
-// $Id: value_type_traits.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s) : Alberto Ganesh Barbati and Laurent Saboret
 
@@ -24,6 +24,7 @@
 
 namespace CGAL {
 
+/// \cond SKIP_IN_MANUAL
 
 /// Traits class to get the value type of any iterator,
 /// including an output iterator.
@@ -45,6 +46,7 @@ struct value_type_traits<std::back_insert_iterator<T> >
   typedef typename T::value_type type;
 };
 
+/// \endcond
 
 } //namespace CGAL
 

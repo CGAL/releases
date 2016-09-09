@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Weighted_point.h $
-// $Id: Weighted_point.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -26,11 +26,10 @@
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/Dimension.h>
 #include <boost/utility/enable_if.hpp>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_convertible.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/logical.hpp>
-#include <boost/utility.hpp>
 
 namespace CGAL {
 

@@ -51,8 +51,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: Sturm.h 69976 2012-06-22 10:05:26Z pmoeller $
+ * $URL$
+ * $Id$
  ***************************************************************************/
 
 

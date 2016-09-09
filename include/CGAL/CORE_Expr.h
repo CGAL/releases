@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: CORE_Expr.h 73040 2012-10-18 08:47:27Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -188,5 +188,27 @@ template <> class Real_embeddable_traits< CORE::Expr >
 #include <CGAL/CORE_BigRat.h>
 #include <CGAL/CORE_BigFloat.h>
 #include <CGAL/CORE_arithmetic_kernel.h>
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CORE::Expr>
+  {
+    typedef CORE::Expr Real;
+    typedef CORE::Expr NonInteger;
+    typedef CORE::Expr Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 200,
+      MulCost = 200
+    };
+  };
+}
 
 #endif // CGAL_CORE_EXPR_H

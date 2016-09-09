@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 71169 2012-08-10 13:34:02Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Laurent Saboret
 
@@ -35,12 +35,12 @@
 
 namespace CGAL {
 
-
+/// \cond SKIP_IN_MANUAL
+  
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
 namespace internal {
-
 
 /// Functor for operator< that compares iterators address.
 template <typename Iterator>
@@ -62,7 +62,7 @@ struct Compare_iterator_address
 
 
 /// Template class "index" property map, which associates a 0-based index (unsigned int) 
-/// to the [first, beyond) range of elements.
+/// to the `[first, beyond)` range of elements.
 /// 
 /// 2 specializations exist:
 /// - if Iter is a random access iterator (typically vector and deque), 
@@ -71,7 +71,7 @@ struct Compare_iterator_address
 /// and get() requires a lookup in the map.
 ///
 /// @heading Is Model for the Concepts:
-/// Model of the boost::ReadablePropertyMap concept.
+/// Model of the <a href="http://www.boost.org/doc/libs/release/libs/property_map/doc/ReadablePropertyMap.html">boost::ReadablePropertyMap</a> concept.
 ///
 /// @heading Parameters:
 /// @param Iter iterator over input elements.
@@ -153,11 +153,10 @@ private:
 
 /// Free function to create an Index_property_map property map.
 ///
-/// @commentheading Template Parameters:
-/// @param Iter iterator over input elements.
+/// @tparam Iter iterator over input elements.
 ///
 /// @return an "index" property map, which associates a 0-based index (unsigned int) 
-/// to the [first, beyond) range of elements.
+/// to the `[first, beyond)` range of elements.
 template <class Iter>
 Index_property_map<Iter>
 make_index_property_map(
@@ -167,6 +166,7 @@ make_index_property_map(
   return Index_property_map<Iter>(first, beyond);
 }
 
+/// \endcond
 
 } // namespace CGAL
 

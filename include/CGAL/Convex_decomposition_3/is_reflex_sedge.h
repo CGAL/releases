@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/is_reflex_sedge.h $
-// $Id: is_reflex_sedge.h 67117 2012-01-13 18:14:48Z lrineau $ 
+// $URL$
+// $Id$ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -23,6 +23,7 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 239
 #include <CGAL/Nef_2/debug.h>
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -144,6 +145,7 @@ int is_reflex_sedge(typename SNC_structure::SHalfedge_handle se,
     result |= 2;
   
   typedef typename SNC_structure::Sphere_segment Sphere_segment;
+  CGAL_USE_TYPE(Sphere_segment);
   if(os1 == ON_POSITIVE_SIDE && 
      se2->twin()->source()->point() == dir)
     CGAL_assertion(Sphere_segment(se2->source()->point(), se2->twin()->source()->point(), se2->circle()).is_long());

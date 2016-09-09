@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Generator/include/CGAL/random_convex_set_2.h $
-// $Id: random_convex_set_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -53,7 +53,7 @@ random_convex_set_2( std::size_t n,
   using std::partial_sum;
   using std::less;
   using std::max_element;
-  using CGAL::cpp0x::copy_n;
+  using CGAL::cpp11::copy_n;
 
   typedef typename Traits::Point_2         Point_2;
   typedef typename Traits::FT              FT;
@@ -72,7 +72,7 @@ random_convex_set_2( std::size_t n,
   // build random point set:
   Container points;
   points.reserve( n);
-  CGAL::cpp0x::copy_n( pg, n, back_inserter( points));
+  CGAL::cpp11::copy_n( pg, n, back_inserter( points));
 
   // compute centroid of points:
   Point_2 centroid = CGAL::centroid( points.begin(), points.end(), t );

@@ -1,5 +1,15 @@
+#include <boost/config.hpp>
+
+#if defined(BOOST_MSVC)
+ // Avoid warning concerning spatial_sort(QList::begin(), QList.end() QT "bug" 
+#  pragma warning(disable: 4267 )
+#  pragma warning(disable: 4244 )
+#endif
+
 #include "Viewer.h"
 #include <CGAL/glu.h>
+
+
 
 using namespace std;
 
@@ -971,7 +981,7 @@ void Viewer::wheelEvent(QWheelEvent *event)
     //  negative value: rotate backwards toward the user.
     m_fRadius += (event->delta()*1. / m_iStep ); // inc-/decrease by 0.1 per step
     if( m_fRadius < 0.1 )
-      m_fRadius = 0.1;
+      m_fRadius = 0.1f;
 
     // redraw
     updateGL();
@@ -985,7 +995,7 @@ void Viewer::wheelEvent(QWheelEvent *event)
   	float origR = m_fRadius;
     m_fRadius += (event->delta()*1. / m_iStep ); // inc-/decrease by 0.1 per step
     if( m_fRadius < 0.1 )
-      m_fRadius = 0.1;
+      m_fRadius = 0.1f;
     // update the new point and its conflict region
     if( m_hasNewPt ) {
       origR = m_fRadius / origR;
@@ -1003,7 +1013,7 @@ void Viewer::wheelEvent(QWheelEvent *event)
   	float origR = m_fRadius;
     m_fRadius += (event->delta()*1. / m_iStep ); // inc-/decrease by 0.1 per step
     if( m_fRadius < 0.1 )
-      m_fRadius = 0.1;
+      m_fRadius = 0.1f;
     origR = m_fRadius / origR;
     Point_3 pt = m_pScene->m_vhArray.at( m_vidMoving )->point();
     // note: QList::operator[] return a modifiable reference;
@@ -1189,7 +1199,7 @@ void Viewer::toggleIncremental(bool on) {
       /* start play */
       if( m_pScene->m_dt.number_of_vertices() == 0 ) {
         CGAL::Random_points_in_cube_3<Point_3> pts_generator(1.0);
-        CGAL::cpp0x::copy_n( pts_generator, 100, std::back_inserter(m_incrementalPts) );
+        CGAL::cpp11::copy_n( pts_generator, 100, std::back_inserter(m_incrementalPts) );
       } else {
         for(QList<Vertex_handle>::iterator vit = m_pScene->m_vhArray.begin();
             vit < m_pScene->m_vhArray.end(); ++vit) {

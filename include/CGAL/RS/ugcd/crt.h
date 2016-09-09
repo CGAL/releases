@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/ugcd/crt.h $
-// $Id: crt.h 70626 2012-07-19 15:46:15Z penarand $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h $
-// $Id: Segment_overlay_traits.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -645,7 +645,7 @@ public:
       : K(lt.K) 
     {}
     
-    int 
+    bool 
     operator()(const Point_2& p1, const Point_2& p2) const
     { 
       return K.compare_xy(p1,p2) < 0; 

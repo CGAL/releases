@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_generator_base.h $
-// $Id: Arr_lm_generator_base.h 70195 2012-07-01 15:11:31Z efif $
+// $URL$
+// $Id$
 // 
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>

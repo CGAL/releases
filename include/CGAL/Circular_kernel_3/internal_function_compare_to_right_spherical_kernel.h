@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h $
-// $Id: internal_function_compare_to_right_spherical_kernel.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s) : Sebastien Loriot
 

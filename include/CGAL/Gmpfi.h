@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Gmpfi.h $
-// $Id: Gmpfi.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 //         Michael Hemmer <Michael.Hemmer@sophia.inria.fr>
@@ -331,6 +331,28 @@ public:
 };
 
 } // namespace CGAL
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CGAL::Gmpfi>
+  {
+    typedef CGAL::Gmpfi Real;
+    typedef CGAL::Gmpfi NonInteger;
+    typedef CGAL::Gmpfi Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 12,
+      AddCost = 100,
+      MulCost = 100
+    };
+  };
+}
 
 #include <CGAL/GMP/Gmpfi_type.h>
 #include <CGAL/GMP_arithmetic_kernel.h>

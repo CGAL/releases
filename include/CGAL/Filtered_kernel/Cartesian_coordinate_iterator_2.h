@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
-// $Id: Cartesian_coordinate_iterator_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -49,7 +49,7 @@ public:
 
   typedef std::random_access_iterator_tag iterator_category;
   typedef FT                              value_type;
-  typedef std::ptrdiff_t                  difference_type;
+  typedef int                             difference_type;
   typedef const value_type&               reference;
   typedef const value_type*               pointer;
 
@@ -68,7 +68,7 @@ public:
     if (const P* const* p = boost::get<const P*>(&var))
       return (*p)->cartesian(index);
     const V* const* v = boost::get<const V*>(&var);
-    CGAL_assertion(v);
+    CGAL_assertion(v != 0);
     return (*v)->cartesian(index);
   }
 

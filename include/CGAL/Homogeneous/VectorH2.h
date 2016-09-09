@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
-// $Id: VectorH2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -30,6 +30,8 @@
 #include <CGAL/array.h>
 #include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
 #include <CGAL/Handle_for.h>
+
+#include <boost/next_prior.hpp>
 
 namespace CGAL {
 
@@ -46,7 +48,7 @@ class VectorH2
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Vector_2             Vector_2;
 
-  typedef cpp0x::array<RT, 3>               Rep;
+  typedef cpp11::array<RT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   typedef Rational_traits<FT>               Rat_traits;

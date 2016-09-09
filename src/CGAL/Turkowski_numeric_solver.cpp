@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
-// $Id: Turkowski_numeric_solver.cpp 70759 2012-07-26 12:46:30Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>

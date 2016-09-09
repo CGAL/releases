@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -30,12 +30,12 @@
 #ifndef CGAL_COERCION_TRAITS_H
 #define CGAL_COERCION_TRAITS_H 1
 
-#include <CGAL/number_type_basic.h>
-
 #include <iterator>
 
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/type_traits/is_same.hpp>
+
+#include <CGAL/tags.h>
 
 // Makro to define an additional operator for binary functors which takes
 // two number types as parameters that are interoperable with the

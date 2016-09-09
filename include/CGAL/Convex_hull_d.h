@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_d/include/CGAL/Convex_hull_d.h $
-// $Id: Convex_hull_d.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -39,7 +39,7 @@ The data type supports incremental construction of hulls.
 
 The closure of the hull is maintained as a simplicial complex, i.e.,
 as a collection of simplices. The intersection of any two is a face of
-both\footnote{The empty set if a facet of every simplex.}. In the
+both\cgalFootnote{The empty set if a facet of every simplex.}. In the
 sequel we reserve the word simplex for the simplices of dimension
 |dcur|. For each simplex there is a handle of type |Simplex_handlex|
 and for each vertex there is a handle of type |Vertex_handle|.  Each

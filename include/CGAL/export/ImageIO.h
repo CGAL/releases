@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/CGALimageIO/include/CGAL/export/ImageIO.h $
-// $Id: ImageIO.h 70278 2012-07-04 19:28:22Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri

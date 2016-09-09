@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
-// $Id: internal_function_has_on_spherical_kernel.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot

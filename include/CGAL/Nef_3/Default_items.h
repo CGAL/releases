@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/Default_items.h $
-// $Id: Default_items.h 67316 2012-01-19 16:51:59Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri <andreas.fabri@geometryfactory.com>

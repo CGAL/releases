@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_pm_dcel.h $
-// $Id: Envelope_pm_dcel.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -111,7 +111,7 @@ public:
    */
   int number_of_data_objects() const
   {
-    return (m_data.size());
+    return static_cast<int>(m_data.size());
   }
 
   /*!

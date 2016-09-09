@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
-// $Id: Arr_algebraic_segment_traits_2.h 73202 2012-10-23 14:03:05Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Kerber    <mkerber@mpi-inf.mpg.de>

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Raphaelle Chaine
@@ -86,7 +86,6 @@ laplace_natural_neighbor_coordinates_3(const Dt& dt,
   typedef typename Dt::Cell_handle Cell_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;
   typedef typename Dt::Facet Facet;
-  typedef typename Dt::Cell_circulator Cell_circulator;
   typedef typename Dt::Locate_type Locate_type;
   typedef typename Gt::FT Coord_type;
 
@@ -178,7 +177,6 @@ sibson_natural_neighbor_coordinates_3(const Dt& dt,
   typedef typename Dt::Cell_handle Cell_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;
   typedef typename Dt::Facet Facet;
-  typedef typename Dt::Cell_circulator Cell_circulator;
   typedef typename Dt::Locate_type Locate_type;
   typedef typename Gt::FT Coord_type;
 
@@ -287,7 +285,6 @@ bool is_correct_natural_neighborhood(const Dt& /*dt*/,
 				     const typename Dt::Geom_traits::FT & norm_coeff)
 { 
   typedef typename Dt::Geom_traits Gt;
-  typedef typename Gt::Point_3 Point;
   typedef typename Gt::FT Coord_type;
   Coord_type sum_x(0);
   Coord_type sum_y(0);

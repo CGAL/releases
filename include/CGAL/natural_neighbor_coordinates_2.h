@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_2.h $
-// $Id: natural_neighbor_coordinates_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Frank Da, Julia Floetotto
@@ -155,55 +155,7 @@ natural_neighbor_coordinates_vertex_2(const Dt& dt,
 
   std::list<Edge> hole;
 
-  dt.get_boundary_of_conflicts(p, std::back_inserter(hole), fh);
-
-  // The symbolic perturbation makes that the conflict zone
-  // is too big for the interpolation. As a consequence 
-  // we would have points with lambda = 0 in the output
-  // Therefore we filter them out again 
-  typedef typename std::list<Edge>::iterator Edge_iterator;
-  Edge_iterator it = hole.begin(), nit = it;
-  ++nit;
-  
-  do {
-    Point_2 p0 = it->first->vertex(dt.cw(it->second))->point();
-    Point_2 p1 = it->first->vertex(dt.ccw(it->second))->point();
-    Point_2 p2 = nit->first->vertex(dt.ccw(nit->second))->point();
-    if(dt.geom_traits().side_of_oriented_circle_2_object()(p, p0, p1, p2) 
-       == ON_ORIENTED_BOUNDARY){
-      Face_handle nh = it->first->neighbor(it->second);
-      int ni = nh->index(it->first->vertex(dt.ccw(it->second)));
-      Edge_iterator eit = hole.insert(it, Edge(nh, ni));
-      hole.erase(it);
-      hole.erase(nit);
-      it = eit;
-      nit = it;
-    } else {
-      it = nit;
-    }
-    ++nit;
-  }while (nit != hole.end());
-
-  // now a similar test for the last and first edge
-  
-  nit = hole.begin();
-  do {
-    Point_2 p0 = it->first->vertex(dt.cw(it->second))->point();
-    Point_2 p1 = it->first->vertex(dt.ccw(it->second))->point();
-    Point_2 p2 = nit->first->vertex(dt.ccw(nit->second))->point();
-    if(dt.geom_traits().side_of_oriented_circle_2_object()(p, p0, p1, p2) 
-       == ON_ORIENTED_BOUNDARY){
-      Face_handle nh = it->first->neighbor(it->second);
-      int ni = nh->index(it->first->vertex(dt.ccw(it->second)));
-      Edge_iterator eit = hole.insert(it, Edge(nh, ni));
-      hole.erase(it);
-      hole.erase(nit);
-      it = eit;
-      nit = hole.begin();
-    } else {
-      ++it;
-    }
-  }while (it != hole.end());
+  dt.get_boundary_of_conflicts(p, std::back_inserter(hole), fh, false);
 
   return natural_neighbor_coordinates_vertex_2
          (dt, p, out, hole.begin(), hole.end());
@@ -227,7 +179,6 @@ natural_neighbor_coordinates_vertex_2(const Dt& dt,
   typedef typename Traits::Point_2       Point_2;
 
   typedef typename Dt::Vertex_handle     Vertex_handle;
-  typedef typename Dt::Face_handle     Face_handle;
   typedef typename Dt::Face_circulator   Face_circulator;
 
 

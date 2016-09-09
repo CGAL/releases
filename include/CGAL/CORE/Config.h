@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/Config.h $
- * $Id: Config.h 67487 2012-01-27 14:10:45Z lrineau $
+ * $URL$
+ * $Id$
  ***************************************************************************/
 
 #ifndef _CORE_CONFIG_H_

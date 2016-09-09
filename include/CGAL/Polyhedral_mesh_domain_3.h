@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
-// $Id: Polyhedral_mesh_domain_3.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -170,7 +170,7 @@ public:
   typedef typename Mesh_3::details::Index_generator<
     Subdomain_index, Surface_patch_index>::type           Index;
 
-  typedef CGAL::cpp0x::tuple<Point_3,Index,int> Intersection;
+  typedef CGAL::cpp11::tuple<Point_3,Index,int> Intersection;
 
 
   typedef typename IGT::FT         FT;
@@ -574,8 +574,8 @@ Construct_initial_points::operator()(OutputIterator pts,
     const Ray_3 ray_shot = ray(center, vector(CGAL::ORIGIN,*random_point));
     if(r_domain_.do_intersect_surface_object()(ray_shot)) {
       Intersection intersection = r_domain_.construct_intersection_object()(ray_shot);
-      *pts++ = std::make_pair(CGAL::cpp0x::get<0>(intersection),
-                              CGAL::cpp0x::get<1>(intersection));
+      *pts++ = std::make_pair(CGAL::cpp11::get<0>(intersection),
+                              CGAL::cpp11::get<1>(intersection));
         
       --i;
         

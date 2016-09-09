@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h $
-// $Id: Iso_cuboid_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -40,7 +40,7 @@ class Iso_cuboidC3
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
   typedef typename R_::Construct_point_3    Construct_point_3;
 
-  typedef cpp0x::array<Point_3, 2>          Rep;
+  typedef cpp11::array<Point_3, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

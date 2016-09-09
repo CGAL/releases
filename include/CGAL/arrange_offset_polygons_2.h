@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
-// $Id: arrange_offset_polygons_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar> 
 //
@@ -38,7 +38,7 @@ template<class K, class InputPolygonPtrIterator, class OutputPolygonWithHolesPtr
 void arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
                                , InputPolygonPtrIterator           aEnd
                                , OutputPolygonWithHolesPtrIterator rOut
-                               , K const&                          k  
+                               , K const&
                                )
 {
   typedef typename std::iterator_traits<InputPolygonPtrIterator>::difference_type difference_type ;

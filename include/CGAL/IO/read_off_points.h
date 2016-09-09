@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/IO/read_off_points.h $
-// $Id: read_off_points.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -39,17 +39,17 @@ namespace CGAL {
 
 
 //===================================================================================
+/// \ingroup PkgPointSetProcessing
 /// Reads points (positions + normals, if available) from a .off ASCII stream.
 /// The function expects for each point a line with the x y z position,
 /// optionally followed by the nx ny nz normal.
 /// Faces are ignored.
 ///
-/// @commentheading Template Parameters:
-/// @param OutputIterator iterator over output points.
-/// @param PointPMap is a model of boost::WritablePropertyMap with a value_type = Point_3<Kernel>.
+/// @tparam OutputIterator iterator over output points.
+/// @tparam PointPMap is a model of <a href="http://www.boost.org/doc/libs/release/libs/property_map/doc/WritablePropertyMap.html">boost::WritablePropertyMap</a> with a value_type = Point_3<Kernel>.
 ///        It can be omitted if OutputIterator value_type is convertible to Point_3<Kernel>.
-/// @param NormalPMap is a model of boost::WritablePropertyMap with a value_type = Vector_3<Kernel>.
-/// @param Kernel Geometric traits class.
+/// @tparam NormalPMap is a model of <a href="http://www.boost.org/doc/libs/release/libs/property_map/doc/WritablePropertyMap.html">boost::WritablePropertyMap</a> with a value_type = Vector_3<Kernel>.
+/// @tparam Kernel Geometric traits class.
 ///        It can be omitted and deduced automatically from PointPMap value_type.
 ///
 /// @return true on success.
@@ -85,15 +85,17 @@ read_off_points_and_normals(
   int pointsRead = 0; // current number of points read
   int lineNumber = 0; // current line number
   std::string line;
+  std::istringstream iss;
   while(getline(stream,line))
   {
+    iss.clear();
+    iss.str(line);
     lineNumber++;
 
     // Reads file signature on first line
     if (lineNumber == 1)
     {
       std::string signature;
-      std::istringstream iss(line);
       if ( !(iss >> signature)
         || (signature != "OFF" && signature != "NOFF") )
       {
@@ -106,7 +108,6 @@ read_off_points_and_normals(
     // Reads number of points on 2nd line
     else if (lineNumber == 2)
     {
-      std::istringstream iss(line);
       if ( !(iss >> pointsCount >> facesCount >> edgesCount) )
       {
         std::cerr << "Error line " << lineNumber << " of file" << std::endl;
@@ -120,21 +121,21 @@ read_off_points_and_normals(
       // Reads position + normal...
       double x,y,z;
       double nx,ny,nz;
-      if (std::istringstream(line) >> x >> y >> z >> nx >> ny >> nz)
-      {
-        Point point(x,y,z);
-        Vector normal(nx,ny,nz);
-        Enriched_point pwn;
-        put(point_pmap,  &pwn, point);  // point_pmap[&pwn] = point
-        put(normal_pmap, &pwn, normal); // normal_pmap[&pwn] = normal
-        *output++ = pwn;
-        pointsRead++;
-      }
-      // ...or read only position...
-      else if (std::istringstream(line) >> x >> y >> z)
+      if (iss >> x >> y >> z)
       {
         Point point(x,y,z);
         Vector normal = CGAL::NULL_VECTOR;
+        // ... + normal...
+        if (iss >> nx)
+          {
+            // In case we could read one number, we expect that there are two more
+            if(iss  >> ny >> nz){
+              normal = Vector(nx,ny,nz);
+            } else {
+              std::cerr << "Error line " << lineNumber << " of file" << std::endl;
+              return false;
+            }
+          }
         Enriched_point pwn;
         put(point_pmap,  &pwn, point);  // point_pmap[&pwn] = point
         put(normal_pmap, &pwn, normal); // normal_pmap[&pwn] = normal
@@ -194,16 +195,16 @@ read_off_points_and_normals(
 
 
 //===================================================================================
+/// \ingroup PkgPointSetProcessing
 /// Reads points (position only) from a .off ASCII stream.
 /// The function expects for each point a line with the x y z position.
 /// If the position is followed by the nx ny nz normal, then the normal will be ignored.
 /// Faces are ignored.
 ///
-/// @commentheading Template Parameters:
-/// @param OutputIterator iterator over output points.
-/// @param PointPMap is a model of boost::WritablePropertyMap with a value_type = Point_3<Kernel>.
+/// @tparam OutputIterator iterator over output points.
+/// @tparam PointPMap is a model of <a href="http://www.boost.org/doc/libs/release/libs/property_map/doc/WritablePropertyMap.html">boost::WritablePropertyMap</a> with a value_type = Point_3<Kernel>.
 ///        It can be omitted if OutputIterator value_type is convertible to Point_3<Kernel>.
-/// @param Kernel Geometric traits class.
+/// @tparam Kernel Geometric traits class.
 ///        It can be omitted and deduced automatically from PointPMap value_type.
 ///
 /// @return true on success.

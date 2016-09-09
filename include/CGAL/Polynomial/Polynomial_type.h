@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h 70794 2012-07-27 12:05:53Z glisse $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -44,6 +44,8 @@ typename CGAL::internal::Innermost_coefficient_type<T>::Type , 2>::Type
 #include <cstdio>
 #include <sstream>
 #include <CGAL/Polynomial/misc.h>
+
+#include <CGAL/use.h>
 
 #ifdef CGAL_HAS_THREADS
 #  include <boost/thread/tss.hpp>
@@ -900,6 +902,7 @@ public:
         //   the terms of q and hence in NT.
         Polynomial<NT> q, r;
         Polynomial<NT>::euclidean_division(p1, p2, q, r);
+        CGAL_USE_TYPE(AST);
         CGAL_postcondition( !AST::Is_exact::value || p2 * q == p1);
         return (*this) = q;
       }
@@ -1159,6 +1162,7 @@ void Polynomial<NT>::pseudo_division(
   if (delta < 0 || A.is_zero()) {
     Q = Polynomial<NT>(NT(0)); R = A; D = NT(1);
        
+    CGAL_USE_TYPE(AST);
     CGAL_postcondition( !AST::Is_exact::value || Polynomial<NT>(D)*A == Q*B + R);
     return;
   }

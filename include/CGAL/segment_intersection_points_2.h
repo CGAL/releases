@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/segment_intersection_points_2.h $
-// $Id: segment_intersection_points_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra 
@@ -62,7 +62,7 @@ si_brute_force_II(ForwardIterator first, ForwardIterator last,
   Orientation orientation = traits.orientation_2_object();
 
   for ( ForwardIterator outer = first; outer != last; ++outer)
-    for ( ForwardIterator inner = cpp0x::next(outer); inner != last; ++inner)
+    for ( ForwardIterator inner = cpp11::next(outer); inner != last; ++inner)
       {
           Point s1 = (*outer).source();
           Point e1 = (*outer).target();

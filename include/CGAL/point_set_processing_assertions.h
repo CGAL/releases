@@ -12,13 +12,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/point_set_processing_assertions.h $
-// $Id: point_set_processing_assertions.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sven Schoenherr, Laurent Saboret
 //
 // Generated from script create_assertions.sh
+
+
+/// \cond SKIP_IN_MANUAL
 
 /// @file point_set_processing_assertions.h
 /// Define checking macros for the Point_set_processing_3 package
@@ -362,3 +365,5 @@
 #  define CGAL_point_set_processing_expensive_exactness_warning_code(CODE) CODE
 #  define CGAL_point_set_processing_expensive_exactness_warnings 1
 #endif // CGAL_POINT_SET_PROCESSING_NO_WARNINGS
+
+/// \endcond

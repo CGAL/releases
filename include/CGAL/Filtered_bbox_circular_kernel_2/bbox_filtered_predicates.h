@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/bbox_filtered_predicates.h $
-// $Id: bbox_filtered_predicates.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Constantinos Tsirogiannis , Pedro Machado
 
@@ -517,13 +517,13 @@ public:
   {  return _equal_2(a,b);}
 
   result_type
-  operator()( const Circular_arc_2 &a ,
-              const Line_arc_2 &b ) const
+  operator()( const Circular_arc_2 & ,
+              const Line_arc_2 & ) const
   {  return false;}
 
   result_type
-  operator()( const Line_arc_2 &a ,
-              const Circular_arc_2 &b ) const
+  operator()( const Line_arc_2 & ,
+              const Circular_arc_2 & ) const
   {  return false;}
 
 };
@@ -573,13 +573,13 @@ public:
   {  return _do_overlap_2(a,b);}
 
   result_type
-  operator()( const Circular_arc_2 &a ,
-              const Line_arc_2 &b ) const
+  operator()( const Circular_arc_2 & ,
+              const Line_arc_2 & ) const
   {  return false;}
 
   result_type
-  operator()( const Line_arc_2 &a ,
-              const Circular_arc_2 &b ) const
+  operator()( const Line_arc_2 & ,
+              const Circular_arc_2 & ) const
   {  return false;}
 
 };

@@ -5,14 +5,28 @@
 project (Linear_cell_complex_3_demo)
 
 cmake_minimum_required(VERSION 2.6.2)
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-    cmake_policy(VERSION 2.8.4)
-  else()
-    cmake_policy(VERSION 2.6)
-  endif()
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+  cmake_policy(VERSION 2.8.4)
+else()
+  cmake_policy(VERSION 2.6)
 endif()
 
+## To add expensive tests
+# add_definitions("-DCGAL_CHECK_EXPENSIVE")
+
+## For profilling with gprof
+# add_definitions("-pg")
+# SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+
+## To add an is_valid test after each operation (only in debug mode)
+# add_definitions("-DCGAL_CMAP_TEST_VALID_REMOVALS")
+# add_definitions("-DCGAL_CMAP_TEST_VALID_CONTRACTIONS")
+# add_definitions("-DCGAL_CMAP_TEST_VALID_INSERTIONS")
+
+# Option allowing to profile each operation of the demo (cout times on stdout).
+add_definitions(-DCGAL_PROFILE_LCC_DEMO)
+
+##################
 find_package(CGAL COMPONENTS Qt4)
 include(${CGAL_USE_FILE})
 
@@ -25,7 +39,7 @@ find_package(Qt4)
 find_package(OpenGL)
 find_package(QGLViewer)
 
-if ( NOT (CGAL_FOUND AND CGAL_Qt4_FOUND AND QT4_FOUND AND 
+if ( NOT (CGAL_FOUND AND CGAL_Qt4_FOUND AND QT4_FOUND AND
       OPENGL_FOUND AND QGLVIEWER_FOUND) )
 
   MESSAGE(STATUS "NOTICE: This demo requires CGAL, QGLViewer, OpenGL "
@@ -36,9 +50,6 @@ else()
 include(${QT_USE_FILE})
 include_directories(${QGLVIEWER_INCLUDE_DIR})
 include_directories(BEFORE . ../../include/)
-
-# Option allowing to profile each operation of the demo.
-add_definitions(-DCGAL_PROFILE_LCC_DEMO)
 
 # ui file, created wih Qt Designer
 qt4_wrap_ui(uis MainWindow.ui CreateMesh.ui CreateMenger.ui)

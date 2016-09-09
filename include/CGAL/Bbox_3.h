@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Bbox_3.h $
-// $Id: Bbox_3.h 70567 2012-07-17 08:56:13Z gdamiand $
+// $URL$
+// $Id$
 //
 // Author(s)     : Andreas Fabri
 
@@ -36,7 +36,7 @@ struct Simple_cartesian;
 
 class Bbox_3
 {
-  cpp0x::array<double, 6>   rep;
+  cpp11::array<double, 6>   rep;
 
 public:
 

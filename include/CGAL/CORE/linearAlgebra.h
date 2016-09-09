@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
  *                                                                           
  *                                                                           
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/linearAlgebra.h $                                                                     
- * $Id: linearAlgebra.h 67175 2012-01-16 15:37:02Z lrineau $                                                                      
+ * $URL$                                                                     
+ * $Id$                                                                      
  ***************************************************************************/
 /******************************************************************
  * Core Library Version 1.7, August 2004
@@ -35,7 +35,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: linearAlgebra.h 67175 2012-01-16 15:37:02Z lrineau $
+ * $Id$
  *****************************************************************/
 
 #ifndef CORE_LINEAR_ALGEBRA_H

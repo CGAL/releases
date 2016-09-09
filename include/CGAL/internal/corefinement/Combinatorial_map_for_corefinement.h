@@ -1,3 +1,4 @@
+// Copyright (c) 2012  GeometryFactory Sarl (France)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
@@ -99,7 +100,7 @@ public:
       typedef My_cell_attribute_with_point< Refs,CGAL::Tag_true,Point>                                Vertex_attribute;
       #endif
       typedef CGAL::Cell_attribute< Refs,Volume_info<Polyhedron>,CGAL::Tag_true,Volume_on_merge >     Volume_attribute;
-      typedef CGAL::cpp0x::tuple< Vertex_attribute,
+      typedef CGAL::cpp11::tuple< Vertex_attribute,
                                   void,
                                   void,
                                   Volume_attribute>    Attributes;

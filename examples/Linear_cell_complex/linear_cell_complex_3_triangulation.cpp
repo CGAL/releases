@@ -1,23 +1,3 @@
-// Copyright (c) 2011 CNRS and LIRIS' Establishments (France).
-// All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL$
-// $Id$
-//
-// Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
-//                 Vivek Mahajan <vivek2286@gmail.com>
-//
 #include <CGAL/Linear_cell_complex.h>
 #include <CGAL/Linear_cell_complex_constructors.h>
 #include <CGAL/Linear_cell_complex_operations.h>
@@ -29,7 +9,6 @@
 
 #include <iostream>
 #include <algorithm>
-#include <cassert>
 #include <vector>
 
 /* If you want to use a viewer, you can use one of the following file
@@ -79,11 +58,11 @@ int number_of_existing_edge(CDT::Face_handle fh)
 
 int get_free_edge(CDT::Face_handle fh)
 {
-  assert( number_of_existing_edge(fh)==2 );
+  CGAL_assertion( number_of_existing_edge(fh)==2 );
   for (int i=0; i<3; ++i)
     if (!fh->info().exist_edge[i]) return i;
   
-  assert(false);
+  CGAL_assertion(false);
   return -1;
 }
 
@@ -116,14 +95,14 @@ void constrained_delaunay_triangulation(LCC_3 &lcc, Dart_handle d1)
        first=vh;
      }
      if( previous!=NULL){
-       assert( previous !=vh );
+       CGAL_assertion( previous !=vh );
        cdt.insert_constraint(previous,vh);
      }
 
      previous=vh;
    }
    cdt.insert_constraint(previous,first);
-   assert(cdt.is_valid());
+   CGAL_assertion(cdt.is_valid());
    
    // sets mark is_external
    for( CDT::All_faces_iterator fit = cdt.all_faces_begin(),
@@ -178,17 +157,17 @@ void constrained_delaunay_triangulation(LCC_3 &lcc, Dart_handle d1)
    {
      CDT::Face_handle fh = face_queue.front();
      face_queue.pop();
-     assert( number_of_existing_edge(fh)>=2 ); // i.e. ==2 or ==3
-     assert( !fh->info().is_external );
+     CGAL_assertion( number_of_existing_edge(fh)>=2 ); // i.e. ==2 or ==3
+     CGAL_assertion( !fh->info().is_external );
      
      if (number_of_existing_edge(fh)==2)
      {
        int index = get_free_edge(fh);
        CDT::Face_handle opposite_fh = fh->neighbor(index);
 
-       assert(fh->info().exist_edge[index]==false);
-       assert(opposite_fh->info().exist_edge[cdt.mirror_index(fh,index)]==
-              false);       
+       CGAL_assertion( !fh->info().exist_edge[index] );
+       CGAL_assertion( !opposite_fh->info().
+                       exist_edge[cdt.mirror_index(fh,index)] );
        
        const CDT::Vertex_handle va = fh->vertex(cdt. cw(index));
        const CDT::Vertex_handle vb = fh->vertex(cdt.ccw(index));

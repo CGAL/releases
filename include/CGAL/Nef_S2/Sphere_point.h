@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_point.h $
-// $Id: Sphere_point.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -47,7 +47,7 @@ two |Sphere_segment|s, and two arbitrary |Sphere_segment|s can
 intersect in two points. 
 
 If we restrict our geometric objects to a so-called perfect hemisphere
-of $S_2$\footnote{A perfect hemisphere of $S_2$ is an open half-sphere
+of $S_2$\cgalFootnote{A perfect hemisphere of $S_2$ is an open half-sphere
 plus an open half-circle in the boundary of the open half-sphere plus one
 endpoint of the half-circle.} then the restricted objects behave like
 in classical geometry, e.g., two points define exactly one segment,

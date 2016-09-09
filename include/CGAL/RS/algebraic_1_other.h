@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_other.h $
-// $Id: algebraic_1_other.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -97,8 +97,8 @@ std::istream& operator>>(std::istream &is,Algebraic_1 &a){
                       *(new RS_polynomial_1(pol)),      // polynomial
                       nr,               // number of root
                       mult,             // multiplicity
-                      (mpfi_ptr)NULL,   // previous root
-                      (mpfi_ptr)NULL,   // next root
+                      //(mpfi_ptr)NULL,   // previous root
+                      //(mpfi_ptr)NULL,   // next root
                       (CGAL::Sign)eval);// evaluation on the left bound
         goto is_ret;
 is_fail_ret:

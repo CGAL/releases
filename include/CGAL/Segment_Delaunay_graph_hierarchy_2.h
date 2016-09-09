@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_hierarchy_2.h $
-// $Id: Segment_Delaunay_graph_hierarchy_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -25,7 +25,7 @@
 
 #include <map>
 
-#include <boost/random.hpp>
+#include <boost/random/random_number_generator.hpp>
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/geometric_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
@@ -459,11 +459,11 @@ protected:
   }
 
   Vertex_handle
-  vertex_at_level(const Vertex_handle& v, int k) const
+  vertex_at_level(const Vertex_handle& v, unsigned int k) const
   {
     CGAL_precondition( k <= sdg_hierarchy_2__maxlevel );
 
-    int level = 0;
+    unsigned int level = 0;
     Vertex_handle v_at_level = v;
     while ( level < k ) {
       v_at_level = v_at_level->up();

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/Handle_with_policy.h $
-// $Id: Handle_with_policy.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Michael Seel <seel@mpi-inf.mpg.de>
 //                 Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -27,6 +27,8 @@
 #include <CGAL/type_traits.h>
 
 #include <CGAL/assertions.h>
+#include <CGAL/use.h>
+
 #include <boost/mpl/if.hpp>
 
 #include <cstddef>
@@ -364,6 +366,7 @@ namespace Intern {
             typedef typename T::Allocator Alloc;
             typedef ::CGAL::Reference_counted_hierarchy_with_union<Alloc> 
                 Reference_counted_hierarchy_with_union;
+            CGAL_USE_TYPE(Reference_counted_hierarchy_with_union);
             CGAL_static_assertion((
               ::CGAL::is_same_or_derived< Reference_counted_hierarchy_with_union, T >::value ));
         }

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/to_rational.h $
-// $Id: to_rational.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
@@ -43,7 +43,9 @@ to_rational(double x)
     typename FT::Compose compose;
 
     CGAL_static_assertion((::boost::is_same<Is_fraction,Tag_true>::value));
+    CGAL_USE_TYPE(Is_fraction);
     CGAL_static_assertion((::boost::is_same<Numerator_type,Denominator_type>::value));
+    CGAL_USE_TYPE(Denominator_type);
 
     Numerator_type num(0),den(1);
 

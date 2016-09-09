@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Apollonius_graph_nearest_site_2.h $
-// $Id: Apollonius_graph_nearest_site_2.h 68299 2012-03-30 15:53:30Z mkaravel $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/plane_constructions_3.h $
-// $Id: plane_constructions_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -26,6 +26,7 @@
 #define CGAL_CARTESIAN_PLANE_CONSTRUCTIONS_3_H
 
 #include <CGAL/Cartesian/Point_3.h>
+#include <CGAL/Cartesian/Direction_3.h>
 #include <CGAL/constructions/kernel_ftC3.h>
 
 namespace CGAL {
@@ -36,9 +37,9 @@ class PlaneC3;
 template <class R>
 CGAL_KERNEL_LARGE_INLINE
 PlaneC3<R>
-plane_from_points(const PointC3<R> &p,
-                  const PointC3<R> &q,
-		  const PointC3<R> &r)
+plane_from_points(const typename R::Point_3 &p,
+                  const typename R::Point_3 &q,
+		  const typename R::Point_3 &r)
 {
   typename R::FT a, b, c, d;
   plane_from_pointsC3(p.x(), p.y(), p.z(),
@@ -51,8 +52,8 @@ plane_from_points(const PointC3<R> &p,
 template <class R>
 CGAL_KERNEL_LARGE_INLINE
 PlaneC3<R>
-plane_from_point_direction(const PointC3<R> &p,
-                           const DirectionC3<R> &d)
+plane_from_point_direction(const typename R::Point_3 &p,
+                           const typename R::Direction_3 &d)
 {
   typename R::FT A, B, C, D;
   plane_from_point_directionC3(p.x(), p.y(), p.z(), d.dx(), d.dy(), d.dz(),

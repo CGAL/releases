@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/array.h $
-// $Id: array.h 69586 2012-06-14 09:19:47Z pmoeller $
+// $URL$
+// $Id$
 //
 // Author(s)     : Sylvain Pion
 
@@ -23,8 +23,6 @@
 #include <CGAL/config.h>
 #ifndef CGAL_CFG_NO_CPP0X_ARRAY
 #  include <array>
-#elif !defined CGAL_CFG_NO_TR1_ARRAY
-#  include <tr1/array>
 #else
 #  include <boost/array.hpp>
 #endif
@@ -35,8 +33,6 @@ namespace cpp11 {
 
 #ifndef CGAL_CFG_NO_CPP0X_ARRAY
 using std::array;
-#elif !defined CGAL_CFG_NO_TR1_ARRAY
-using std::tr1::array;
 #else
 using boost::array;
 #endif
@@ -46,7 +42,7 @@ using boost::array;
 namespace cpp0x = cpp11;
 
 // This using is just for short-term backward-compat, people should take the
-// habit to use CGAL::cpp0x::array.
+// habit to use CGAL::cpp11::array.
 using cpp11::array;
 
 

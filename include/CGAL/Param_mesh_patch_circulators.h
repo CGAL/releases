@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
-// $Id: Param_mesh_patch_circulators.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -34,6 +34,7 @@
 
 namespace CGAL {
 
+/// \cond SKIP_IN_MANUAL
 
 /// Class Mesh_patch_vertex_around_vertex_cir
 /// represents a (clockwise) circulator around a vertex
@@ -47,9 +48,6 @@ template<class MeshPatchType,    ///< = [const] Parameterization_mesh_patch_3
 class Mesh_patch_vertex_around_vertex_cir
     : public VertexHandleType
 {
-// PRIVATE TYPES
-// -------------
-
     /// Base and self classes
     typedef VertexHandleType                    Base;
     typedef Mesh_patch_vertex_around_vertex_cir Self;
@@ -59,8 +57,8 @@ class Mesh_patch_vertex_around_vertex_cir
 
 public:
 
-// PUBLIC TYPES
-// ------------
+  /// \name Types
+  /// @{
 
     // Export template parameter types
     typedef MeshPatchType                       Parameterization_mesh_patch_3;
@@ -78,8 +76,10 @@ public:
     typedef typename Vertex_handle::reference   reference;
     typedef typename Vertex_handle::pointer     pointer;
 
-/// CREATION
-/// --------
+  /// @}
+
+  /// \name Creation
+  /// @{
 
     /// Circulator pointing to NULL
     Mesh_patch_vertex_around_vertex_cir()
@@ -131,8 +131,10 @@ public:
         return *this;
     }
 
-/// OPERATIONS Forward Category
-/// ---------------------------
+  /// @}
+
+  /// \name Forward Category
+  /// @{
 
     bool operator==(const Self& cir)    const { return (const Base&)*this == cir; }
     bool operator!=(const Self& cir)    const { return !(*this == cir); }
@@ -254,8 +256,10 @@ public:
         return tmp;
     }
 
-/// OPERATIONS Bidirectional Category
-/// ---------------------------------
+  /// @}
+
+  /// \name Bidirectional Category
+  /// @{
 
     /// Counter-clockwise rotation
     Self& operator--()
@@ -373,7 +377,7 @@ public:
 private:
     /// Update the inherited vertex handle.
     ///
-    /// @commentheading Precondition: m_adaptor_circulator and m_center are valid.
+    /// \pre m_adaptor_circulator and m_center are valid.
     void update_inherited_handle()
     {
         Vertex_handle current_decorated_vertex = NULL;
@@ -569,7 +573,7 @@ public:
 private:
     /// Update the inherited vertex handle.
     ///
-    /// @commentheading Precondition: m_adaptor_circulator is valid.
+    /// \pre m_adaptor_circulator is valid.
     void update_inherited_handle()
     {
         Vertex_handle current_decorated_vertex = NULL;
@@ -611,6 +615,7 @@ private:
 
 }; // Mesh_patch_vertex_around_facet_cir
 
+/// \endcond
 
 } //namespace CGAL
 

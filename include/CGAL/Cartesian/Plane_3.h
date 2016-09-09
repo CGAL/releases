@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: Plane_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -48,7 +48,7 @@ class PlaneC3
   typedef typename R_::Construct_point_3    Construct_point_3;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef cpp0x::array<FT, 4>               Rep;
+  typedef cpp11::array<FT, 4>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -60,27 +60,27 @@ public:
   PlaneC3() {}
 
   PlaneC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
-  { *this = plane_from_points(p, q, r); }
+  { *this = plane_from_points<R>(p, q, r); }
 
   PlaneC3(const Point_3 &p, const Direction_3 &d)
-  { *this = plane_from_point_direction(p, d); }
+  { *this = plane_from_point_direction<R>(p, d); }
 
   PlaneC3(const Point_3 &p, const Vector_3 &v)
-  { *this = plane_from_point_direction(p, v.direction()); }
+  { *this = plane_from_point_direction<R>(p, v.direction()); }
 
   PlaneC3(const FT &a, const FT &b, const FT &c, const FT &d)
     : base(CGAL::make_array(a, b, c, d)) {}
 
   PlaneC3(const Line_3 &l, const Point_3 &p)
-  { *this = plane_from_points(l.point(),
+  { *this = plane_from_points<R>(l.point(),
 	                      l.point()+l.direction().to_vector(),
 			      p); }
 
   PlaneC3(const Segment_3 &s, const Point_3 &p)
-  { *this = plane_from_points(s.start(), s.end(), p); }
+  { *this = plane_from_points<R>(s.start(), s.end(), p); }
 
   PlaneC3(const Ray_3 &r, const Point_3 &p)
-  { *this = plane_from_points(r.start(), r.second_point(), p); }
+  { *this = plane_from_points<R>(r.start(), r.second_point(), p); }
 
   typename R::Boolean   operator==(const PlaneC3 &p) const;
   typename R::Boolean   operator!=(const PlaneC3 &p) const;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Validity_testers.h $
-// $Id: Validity_testers.h 68299 2012-03-30 15:53:30Z mkaravel $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -56,9 +56,9 @@ class Edge_validity_tester
     CGAL_assertion( !vda_->edge_rejector()(vda_->dual(), eit->dual()) );
 
     int cw_i = CW_CCW_2::cw( eit->dual().second );
-    int ccw_i = CW_CCW_2::ccw( eit->dual().second );
+    CGAL_assertion_code( int ccw_i = CW_CCW_2::ccw( eit->dual().second ); )
 
-    Delaunay_vertex_handle v_ccw_i = eit->dual().first->vertex(ccw_i);
+    CGAL_assertion_code(Delaunay_vertex_handle v_ccw_i = eit->dual().first->vertex(ccw_i);)
     CGAL_assertion(  !vda_->face_rejector()(vda_->dual(), v_ccw_i)  );
 
     Delaunay_vertex_handle v_cw_i = eit->dual().first->vertex(cw_i);

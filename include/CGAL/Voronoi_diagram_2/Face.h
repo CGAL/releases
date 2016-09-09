@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Face.h $
-// $Id: Face.h 68299 2012-03-30 15:53:30Z mkaravel $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -85,7 +85,7 @@ class Face
 
     // the edge circulator gives edges that have v_ as their target
     Delaunay_edge_circulator ec = vda_->dual().incident_edges(v_);
-    Delaunay_edge_circulator ec_start = ec;
+    CGAL_assertion_code( Delaunay_edge_circulator ec_start = ec );
 
     // if I want to return also infinite edges replace the test in
     // the while loop by the following test (i.e., should omit the
@@ -112,10 +112,11 @@ class Face
 		      );
   }
 
-  Ccb_halfedge_circulator outer_ccb() const {
+  Ccb_halfedge_circulator ccb() const {
     return Ccb_halfedge_circulator( *halfedge() );
   }
 
+  Ccb_halfedge_circulator outer_ccb() const { return ccb(); }
   // PREDICATES
   //-----------
   bool is_unbounded() const {
@@ -131,7 +132,7 @@ class Face
   }
 
   bool is_halfedge_on_ccb(const Halfedge_handle& he) const {
-    Ccb_halfedge_circulator hc_start = outer_ccb();
+    Ccb_halfedge_circulator hc_start = ccb();
     Ccb_halfedge_circulator hc = hc_start;
     do {
       if ( he == *hc ) { return true; }
@@ -155,7 +156,7 @@ class Face
 
     valid = valid && !vda_->edge_rejector()(vda_->dual(), halfedge()->dual());
 
-    Ccb_halfedge_circulator hc = outer_ccb();
+    Ccb_halfedge_circulator hc = ccb();
     Ccb_halfedge_circulator hc_start = hc;
     Face_handle f_this(*this);
     do {

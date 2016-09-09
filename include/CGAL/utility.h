@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/utility.h $
-// $Id: utility.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -30,7 +30,7 @@
 #include <CGAL/basic.h>
 
 // The Triple and Quadruple classes are NOT RECOMMENDED anymore.
-// We recommend that you use cpp0x::tuple or cpp0x::array instead
+// We recommend that you use cpp11::tuple or cpp11::array instead
 // for new uses.
 
 namespace CGAL {

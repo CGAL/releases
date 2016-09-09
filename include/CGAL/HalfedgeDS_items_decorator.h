@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/HalfedgeDS/include/CGAL/HalfedgeDS_items_decorator.h $
-// $Id: HalfedgeDS_items_decorator.h 70779 2012-07-27 08:59:52Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>

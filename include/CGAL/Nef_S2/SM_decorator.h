@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
-// $Id: SM_decorator.h 68820 2012-04-24 15:52:23Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -125,6 +125,9 @@ handles |SVertex_handle|, |SHalfedge_handle|, or
 |SHalfloop_handle|.}*/
 
 protected: 
+  // don't change this into a shared_ptr even if it seems sensible.
+  // minkowski_sum_3 already has a fix in place that deletes the
+  // object psm_ points to.
   Map* psm_;
 
 public:

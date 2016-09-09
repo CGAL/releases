@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
-// $Id: Khachiyan_approximation_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -168,7 +168,7 @@ namespace CGAL {
 
   template<bool Embed,class Traits>
   bool Khachiyan_approximation<Embed,Traits>::
-    compute_inverse_of_t_into_mi(const Tag_true exact)
+  compute_inverse_of_t_into_mi(const Tag_true /* exact*/)
   // Note: this routine is not used in CGAL; it turned out that using
   // exact arithmetic, the algorithm is very slow.
   {

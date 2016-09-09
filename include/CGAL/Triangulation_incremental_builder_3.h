@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Skin_surface_3/include/CGAL/Triangulation_incremental_builder_3.h $
-// $Id: Triangulation_incremental_builder_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -71,7 +71,7 @@ private:
   typedef std::pair < Vertex_handle, Vertex_handle > Vpair;
   typedef std::map < Vpair, Facet > MapPair;
   typedef typename MapPair::iterator   MapPairIt;
-  typedef cpp0x::array < Vertex_handle, 3 > Vtriple;
+  typedef cpp11::array < Vertex_handle, 3 > Vtriple;
   typedef std::map < Vtriple, Facet > MapTriple;
   typedef typename MapTriple::iterator   MapTripleIt;
 	

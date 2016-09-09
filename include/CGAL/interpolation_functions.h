@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Interpolation/include/CGAL/interpolation_functions.h $
-// $Id: interpolation_functions.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Julia Floetotto
@@ -23,6 +23,7 @@
 
 #include <utility>
 #include <CGAL/double.h>
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -139,6 +140,7 @@ sibson_c1_interpolation(ForwardIterator first, ForwardIterator beyond,
 
     if(squared_dist ==0){
       ForwardIterator it = first;
+      CGAL_USE(it);
       CGAL_assertion(++it==beyond);
       return std::make_pair(f.first, true);
     }
@@ -212,6 +214,7 @@ sibson_c1_interpolation_square(ForwardIterator first, ForwardIterator
 
     if(squared_dist ==0){
       ForwardIterator it = first;
+      CGAL_USE(it);
       CGAL_assertion(++it==beyond);
       return std::make_pair(f.first,true);
     }

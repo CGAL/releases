@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h 68820 2012-04-24 15:52:23Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -321,6 +321,7 @@ public:
         return make_object(SFace_handle(v_res->incident_sface()));
       default: CGAL_error_msg("missing solution.");
     }
+    CGAL_error();
     return Object_handle(); // never reached!
   }
 
@@ -659,6 +660,8 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
       if ( collinear ) lower = e->twin()->incident_sface()->mark();
       else lower = e->incident_sface()->mark();
     }
+  } else {
+    CGAL_error();
   }
 }
 

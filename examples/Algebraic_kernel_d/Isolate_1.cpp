@@ -1,5 +1,5 @@
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/examples/Algebraic_kernel_d/Isolate_1.cpp $
-// $Id: Isolate_1.cpp 57161 2010-06-28 16:40:05Z mkerber $
+// $URL$
+// $Id$
 
 #include <CGAL/basic.h>
 #ifdef CGAL_USE_MPFI 

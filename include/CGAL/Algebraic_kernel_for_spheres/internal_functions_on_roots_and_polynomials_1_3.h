@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_1_3.h $
-// $Id: internal_functions_on_roots_and_polynomials_1_3.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion

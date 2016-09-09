@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Two_vertices_parameterizer_3.h $
-// $Id: Two_vertices_parameterizer_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -28,6 +28,8 @@
 #include <cfloat>
 #include <climits>
 
+/// \file Two_vertices_parameterizer_3.h
+
 namespace CGAL {
 
 
@@ -35,20 +37,20 @@ namespace CGAL {
 // Declaration
 //
 
-/// The class Two_vertices_parameterizer_3
+
+/// \ingroup  PkgSurfaceParameterizationBorderParameterizationMethods
+///
+/// The class `Two_vertices_parameterizer_3`
 /// parameterizes two extreme vertices of a 3D surface.
 /// This kind of border parameterization is used by free border parameterizations.
 ///
 /// Implementation note:
-/// To simplify the implementation, BorderParameterizer_3 models know only the
-/// ParameterizationMesh_3 class. They do not know the parameterization algorithm
+/// To simplify the implementation, `BorderParameterizer_3` models know only the
+/// `ParameterizationMesh_3` class. They do not know the parameterization algorithm
 /// requirements or the kind of sparse linear system used.
 ///
-/// @heading Is Model for the Concepts: Model of the BorderParameterizer_3 concept.
+/// \cgalModels `BorderParameterizer_3`
 ///
-/// @heading Design Pattern:
-/// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
-/// a strategy of border parameterization for models of ParameterizationMesh_3.
 
 template<class ParameterizationMesh_3>      //< 3D surface
 class Two_vertices_parameterizer_3
@@ -97,7 +99,7 @@ private:
 public:
     // Default constructor, copy constructor and operator =() are fine.
 
-    /// Map two extreme vertices of the 3D mesh and mark them as "parameterized".
+    /// Map two extreme vertices of the 3D mesh and mark them as <i>parameterized</i>.
     typename Parameterizer_traits_3<Adaptor>::Error_code
                                         parameterize_border(Adaptor& mesh);
 

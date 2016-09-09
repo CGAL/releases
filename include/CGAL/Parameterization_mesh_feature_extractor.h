@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
-// $Id: Parameterization_mesh_feature_extractor.h 68565 2012-04-16 14:36:03Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -24,13 +24,16 @@
 #include <list>
 #include <vector>
 
+/// \file Parameterization_mesh_feature_extractor.h
+
 namespace CGAL {
 
 
+/// \ingroup  PkgSurfaceParameterizationHelper
+///
 /// The class Parameterization_mesh_feature_extractor
 /// computes features (genus, borders, ...) of a 3D surface,
 /// model of the ParameterizationMesh_3 concept.
-
 template<class ParameterizationMesh_3>      //< 3D surface
 class Parameterization_mesh_feature_extractor
 {
@@ -86,8 +89,8 @@ public:
 
     /// Constructor.
     ///
-    /// CAUTION: This class caches the result of feature extractions
-    /// => The caller must *not* modify 'mesh' during the
+    /// \attention This class caches the result of feature extractions
+    /// => The caller must *not* modify `mesh` during the
     /// Parameterization_mesh_feature_extractor life cycle.
     Parameterization_mesh_feature_extractor(Adaptor& mesh)
         // Store reference to adapted mesh
@@ -177,7 +180,7 @@ private:
         while (add_border(tag_free,tag_done)) {}
 
         // #borders
-        m_nb_borders = m_skeleton.size();
+        m_nb_borders = static_cast<int>(m_skeleton.size());
 
         // put longest border first
         if (m_nb_borders>1)
@@ -206,7 +209,7 @@ private:
         return true;
     }
 
-    /// Find a border tagged as "free" and tag it as "processed".
+    /// Find a border tagged as <i>free</i> and tag it as <i>processed</i>.
     /// Return an empty list if not found.
     std::list<Vertex_handle> find_free_border(int tag_free, int tag_done)
     {
@@ -246,7 +249,7 @@ private:
         double max = 0.0;
 
         // #borders
-        int nb = m_skeleton.size();
+        int nb = static_cast<int>(m_skeleton.size());
 
         for(int i=0;i<nb;i++)
         {

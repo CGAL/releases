@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Reflex_vertex_searcher.h $
-// $Id: Reflex_vertex_searcher.h 71169 2012-08-10 13:34:02Z lrineau $ 
+// $URL$
+// $Id$ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>

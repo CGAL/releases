@@ -30,8 +30,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/poly/Curves.tcc $
- * $Id: Curves.tcc 67165 2012-01-16 14:43:24Z lrineau $
+ * $URL$
+ * $Id$
  ***************************************************************************/
 
 

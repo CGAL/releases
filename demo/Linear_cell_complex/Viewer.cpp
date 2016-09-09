@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Linear_cell_complex/demo/Linear_cell_complex/Viewer.cpp $
-// $Id: Viewer.cpp 70567 2012-07-17 08:56:13Z gdamiand $
+// $URL$
+// $Id$
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //                 Kumar Snehasish <kumar.snehasish@gmail.com>
@@ -72,7 +72,7 @@ void Viewer::drawFacet(Dart_const_handle ADart)
 {
   LCC &m = *scene->lcc;
   ::glBegin(GL_POLYGON);
-  assert( ADart->attribute<3>()!=NULL );
+  CGAL_assertion( ADart->attribute<3>()!=NULL );
 
   //  double r = (double)ADart->attribute<3>()->info().r()/255.0;
   double r = (double)ADart->attribute<3>()->info().color().r()/255.0;

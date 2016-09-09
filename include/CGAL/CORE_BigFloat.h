@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/CORE_BigFloat.h $
-// $Id: CORE_BigFloat.h 70285 2012-07-05 08:36:44Z eric $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -521,5 +521,27 @@ template <> class Real_embeddable_traits< CORE::BigFloat >
 #include <CGAL/CORE_BigRat.h>
 #include <CGAL/CORE_BigFloat.h>
 #include <CGAL/CORE_arithmetic_kernel.h>
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CORE::BigFloat>
+  {
+    typedef CORE::BigFloat Real;
+    typedef CORE::BigFloat NonInteger;
+    typedef CORE::BigFloat Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 60,
+      MulCost = 60
+    };
+  };
+}
 
 #endif // CGAL_CORE_BIGFLOAT_H

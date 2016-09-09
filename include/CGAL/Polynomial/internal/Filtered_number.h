@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_number.h $
-// $Id: Filtered_number.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -60,7 +60,7 @@ class Filtered_number
             if (!double_) return CGAL_POLYNOMIAL_TO_DOUBLE(nt_);
             return d_;
         }
-        const std::pair<double, double> &it() const
+        const std::pair<double, double> it() const
         {
             if (!double_) return CGAL_POLYNOMIAL_TO_INTERVAL(nt_);
             return std::pair<double,double>(d_, d_);

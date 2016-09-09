@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -35,7 +35,7 @@ template <class K>
 Object
 intersection(const typename K::Plane_3  &plane, 
 	     const typename K::Line_3 &line, 
-	     const K&)
+	     const K& k)
 {
     typedef typename K::Point_3 Point_3;
     typedef typename K::Direction_3 Direction_3;
@@ -57,7 +57,7 @@ intersection(const typename K::Plane_3  &plane,
             return Object();
         }
     }
-    return make_object(Point_3(
+    return make_object(k.construct_point_3_object()(
         den*line_pt.hx()-num*line_dir.dx(),
         den*line_pt.hy()-num*line_dir.dy(),
         den*line_pt.hz()-num*line_dir.dz(),

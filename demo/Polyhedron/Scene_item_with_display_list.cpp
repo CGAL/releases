@@ -9,6 +9,18 @@ Scene_item_with_display_list::Scene_item_with_display_list()
   }
 }
 
+Scene_item_with_display_list::Scene_item_with_display_list(GLuint id, GLuint edges_id)
+{
+  for(int i = 0; i < NB_OF_DISPLAY_LISTS; ++i) {
+    display_list[i] = 0;
+    display_list_built[i] = false;
+  }
+  display_list[DRAW] = id;
+  display_list_built[DRAW] = true;
+  display_list[DRAW_EDGES] = edges_id;
+  display_list_built[DRAW_EDGES] = (edges_id != 0);
+}
+
 // Scene_item_with_display_list::
 // Scene_item_with_display_list(const Scene_item_with_display_list& item)
 //   : Scene_item(item),
@@ -48,7 +60,7 @@ void Scene_item_with_display_list::draw(int i) const
       }
     }
     // draw the item in a display list
-    ::glNewList(display_list[i],GL_COMPILE_AND_EXECUTE);
+    ::glNewList(display_list[i],GL_COMPILE);
     if(i == 0) {
       direct_draw();
     }
@@ -56,6 +68,7 @@ void Scene_item_with_display_list::draw(int i) const
       direct_draw_edges();
     }
     ::glEndList();
+    ::glCallList(display_list[i]);
     display_list_built[i] = true;
   }
   else {

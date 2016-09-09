@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_foundations/include/CGAL/number_utils_classes.h $
-// $Id: number_utils_classes.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,7 +28,8 @@
 #ifndef CGAL_NUMBER_UTILS_CLASSES_H
 #define CGAL_NUMBER_UTILS_CLASSES_H 1
 
-#include <CGAL/number_type_basic.h>
+#include <CGAL/Real_embeddable_traits.h>
+#include <CGAL/Algebraic_structure_traits.h>
 #include <algorithm>
 #include <utility>
 

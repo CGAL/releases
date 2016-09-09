@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
-// $Id: DirectionH3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,9 +25,10 @@
 #ifndef CGAL_HOMOGENEOUS_DIRECTION_3_H
 #define CGAL_HOMOGENEOUS_DIRECTION_3_H
 
+#include <CGAL/kernel_config.h>
 #include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
-
+#include <CGAL/number_utils.h>
 namespace CGAL {
 
 template < class R_ >
@@ -41,7 +42,7 @@ class DirectionH3
    typedef typename R_::Line_3               Line_3;
    typedef typename R_::Ray_3                Ray_3;
 
-    typedef cpp0x::array<RT, 4>              Rep;
+    typedef cpp11::array<RT, 4>              Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
  
     Base base;

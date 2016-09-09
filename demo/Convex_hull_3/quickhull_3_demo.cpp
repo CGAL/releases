@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.cpp $
-// $Id: quickhull_3_demo.cpp 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Susan Hert
@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
   Generator gen(100.0);
 
   // generate num points and copy them to a vector
-  CGAL::cpp0x::copy_n( gen, num, std::back_inserter(points) );
+  CGAL::cpp11::copy_n( gen, num, std::back_inserter(points) );
 
   // define object to hold convex hull
   CGAL::Object ch_object;

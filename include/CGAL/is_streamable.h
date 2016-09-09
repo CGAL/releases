@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/is_streamable.h $
-// $Id: is_streamable.h 68498 2012-04-13 10:40:12Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Laurent Rineau, Philipp Moeller
 

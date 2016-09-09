@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Vector_2.h $
-// $Id: Vector_2.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -28,7 +28,7 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Kernel/mpl.h>
 #include <CGAL/assertions.h>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/Dimension.h>
@@ -99,26 +99,26 @@ public:
       : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), x,y,w)) {}
 
 
-  typename boost::result_of<typename R::Compute_x_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_x_2(Vector_2)>::type
   x() const
   {
     return R().compute_x_2_object()(*this);
   }
 
-  typename boost::result_of<typename R::Compute_y_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_y_2(Vector_2)>::type
   y() const
   {
     return R().compute_y_2_object()(*this);
   }
 
-  typename boost::result_of<typename R::Compute_y_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_y_2(Vector_2)>::type
   cartesian(int i) const
   {
     CGAL_kernel_precondition( (i == 0) || (i == 1) );
     return (i==0) ?  x() : y();
   }
 
-  typename boost::result_of<typename R::Compute_x_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_x_2(Vector_2)>::type
   operator[](int i) const
   {
       return cartesian(i);
@@ -134,26 +134,26 @@ public:
     return typename R::Construct_cartesian_const_iterator_2()(*this,2);
   }
 
-  typename boost::result_of<typename R::Compute_hx_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_hx_2(Vector_2)>::type
   hx() const
   {
     return R().compute_hx_2_object()(*this);
   }
 
 
-  typename boost::result_of<typename R::Compute_hy_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_hy_2(Vector_2)>::type
   hy() const
   {
     return R().compute_hy_2_object()(*this);
   }
 
-  typename boost::result_of<typename R::Compute_hw_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_hw_2(Vector_2)>::type
   hw() const
   {
     return R().compute_hw_2_object()(*this);
   }
 
-  typename boost::result_of<typename R::Compute_hx_2(Vector_2)>::type
+  typename cpp11::result_of<typename R::Compute_hx_2(Vector_2)>::type
   homogeneous(int i) const
   {
     CGAL_kernel_precondition( (i >= 0) || (i <= 2) );

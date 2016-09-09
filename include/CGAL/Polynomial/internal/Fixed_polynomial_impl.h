@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Fixed_polynomial_impl.h $
-// $Id: Fixed_polynomial_impl.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -94,7 +94,7 @@ public:
   template <class Iterator>
   Fixed_polynomial_impl(Iterator first, Iterator beyond) {
     std::copy(first, beyond, coefs_);
-    for (unsigned int i=std::distance(first, beyond); i<= D; ++i){
+    for (unsigned int i=static_cast<unsigned int>(std::distance(first, beyond)); i<= D; ++i){
       coefs_[i]=0;
     }
   }

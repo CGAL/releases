@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Circular_arc_point_2.h $
-// $Id: Circular_arc_point_2.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -74,14 +74,14 @@ public:
   {}
       
   typename
-  boost::result_of<typename R::Compute_circular_x_2(Circular_arc_point_2)>::type
+  cpp11::result_of<typename R::Compute_circular_x_2(Circular_arc_point_2)>::type
   x() const
   { 
     return typename R::Compute_circular_x_2()(*this); 
   }
 
   typename
-  boost::result_of<typename R::Compute_circular_y_2(Circular_arc_point_2)>::type
+  cpp11::result_of<typename R::Compute_circular_y_2(Circular_arc_point_2)>::type
   y() const
   { 
     return typename R::Compute_circular_y_2()(*this); 

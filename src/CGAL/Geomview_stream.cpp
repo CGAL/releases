@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Geomview/src/CGAL/Geomview_stream.cpp $
-// $Id: Geomview_stream.cpp 69517 2012-06-11 15:19:15Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion

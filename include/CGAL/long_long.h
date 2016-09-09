@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/long_long.h $
-// $Id: long_long.h 69161 2012-05-17 07:11:35Z glisse $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -69,18 +69,24 @@ template <> class Real_embeddable_traits< long long int >
       : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
-          Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
-          Interval_nt<false> approx ((double) x);
-          FPU_set_cw(CGAL_FE_UPWARD);
-          approx += Interval_nt<false>::smallest();
-          return approx.pair();
+          return Interval_nt<true>(x).pair();
         }
     };
 };
 
 // unsigned long long
 template <> class Real_embeddable_traits< unsigned long long >
-  : public INTERN_RET::Real_embeddable_traits_base< unsigned long long , CGAL::Tag_true > {};
+  : public INTERN_RET::Real_embeddable_traits_base< unsigned long long , CGAL::Tag_true > {
+  public:
+
+    class To_interval
+      : public std::unary_function< Type, std::pair< double, double > > {
+      public:
+        std::pair<double, double> operator()( const Type& x ) const {
+          return Interval_nt<true>(x).pair();
+        }
+    };
+};
 
 } //namespace CGAL
 

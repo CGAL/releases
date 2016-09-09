@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
-// $Id: Regular_triangulation_cell_base_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Christophe Delage <christophe.delage@sophia.inria.fr>
 
@@ -24,7 +24,7 @@
 #define CGAL_REGULAR_TRIANGULATION_CELL_BASE_3_H
 
 #include <list>
-#include <CGAL/Triangulation_vertex_base_3.h>
+#include <CGAL/Triangulation_cell_base_3.h>
 
 namespace CGAL {
 

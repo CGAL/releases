@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
  *                                                                           
  *                                                                           
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/geometry2d.h $                                                                     
- * $Id: geometry2d.h 67175 2012-01-16 15:37:02Z lrineau $                                                                      
+ * $URL$                                                                     
+ * $Id$                                                                      
  ***************************************************************************/
 /******************************************************************
  * Core Library Version 1.5, August 2002
@@ -33,7 +33,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geometry2d.h 67175 2012-01-16 15:37:02Z lrineau $
+ * $Id$
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY2D_H

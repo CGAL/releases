@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
-// $Id: Gps_agg_op_visitor.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,7 +25,7 @@
 #include <CGAL/Unique_hash_map.h> 
 #include <CGAL/Sweep_line_2/Arr_construction_sl_visitor.h>
 #include <boost/mpl/if.hpp>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h>
 #include <CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h>

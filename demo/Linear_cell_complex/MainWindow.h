@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Linear_cell_complex/demo/Linear_cell_complex/MainWindow.h $
-// $Id: MainWindow.h 70428 2012-07-09 20:01:34Z gdamiand $
+// $URL$
+// $Id$
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //                 Kumar Snehasish <kumar.snehasish@gmail.com>

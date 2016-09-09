@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
-// $Id: SNC_simplify.h 67506 2012-01-29 10:53:20Z efif $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>

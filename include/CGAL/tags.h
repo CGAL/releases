@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 67336 2012-01-20 15:01:53Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -57,10 +57,6 @@ struct Null_functor {
 
 // A function that asserts a specific compile time tag
 // forcing its two arguments to have equal type.
-// It is encapsulated with #ifdef since it will be defined also elsewhere.
-// ======================================================
-#ifndef CGAL_ASSERT_COMPILE_TIME_TAG
-#define CGAL_ASSERT_COMPILE_TIME_TAG 1
 template <class Base>
 struct Assert_tag_class
 {
@@ -75,12 +71,6 @@ Assert_compile_time_tag( const Tag&, const Derived& b)
   Assert_tag_class<Tag> x;
   x.match_compile_time_tag(b);
 }
-#endif // CGAL_ASSERT_COMPILE_TIME_TAG
-
-template < class T>
-inline
-void
-assert_equal_types( const T&, const T&) {}
 
 } //namespace CGAL
 

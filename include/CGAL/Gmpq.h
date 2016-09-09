@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Gmpq.h $
-// $Id: Gmpq.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -133,6 +133,28 @@ public:
 };
 
 } //namespace CGAL
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CGAL::Gmpq>
+  {
+    typedef CGAL::Gmpq Real;
+    typedef CGAL::Gmpq NonInteger;
+    typedef CGAL::Gmpq Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 150,
+      MulCost = 100
+    };
+  };
+}
 
 //since types are included by Gmp_coercion_traits.h:
 #include <CGAL/Gmpz.h>

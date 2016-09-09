@@ -13,6 +13,7 @@
 #include <CGAL/Search_traits_3.h>
 
 #include <QObject>
+#include <QMenu>
 
 #include <set>
 #include <stack>
@@ -81,10 +82,11 @@ void Scene_points_with_normal_item::deleteSelection()
   // Delete selected points
   m_points->delete_selection();
 
-  long memory = CGAL::Memory_sizer().virtual_size();
+  std::size_t memory = CGAL::Memory_sizer().virtual_size();
   std::cerr << "done: " << task_timer.time() << " seconds, "
                         << (memory>>20) << " Mb allocated"
                         << std::endl;
+  emit itemChanged();
 }
 
 // Reset selection mark
@@ -92,6 +94,7 @@ void Scene_points_with_normal_item::resetSelection()
 {
   // Un-select all points
   m_points->select(m_points->begin(), m_points->end(), false);
+  emit itemChanged();
 }
 
 // Loads point set from .OFF file
@@ -222,7 +225,6 @@ Scene_points_with_normal_item::bbox() const
 void Scene_points_with_normal_item::computes_local_spacing(int k)
 {
   typedef Kernel Geom_traits;
-  typedef Geom_traits::FT FT;
   typedef CGAL::Search_traits_3<Geom_traits> TreeTraits;
   typedef CGAL::Orthogonal_k_neighbor_search<TreeTraits> Neighbor_search;
   typedef Neighbor_search::Tree Tree;
@@ -244,6 +246,41 @@ void Scene_points_with_normal_item::computes_local_spacing(int k)
   }
 
   m_points->set_radii_uptodate(true);
+}
+
+QMenu* Scene_points_with_normal_item::contextMenu()
+{
+  const char* prop_name = "Menu modified by Scene_points_with_normal_item.";
+
+  QMenu* menu = Scene_item::contextMenu();
+
+  // Use dynamic properties:
+  // http://doc.trolltech.com/lastest/qobject.html#property
+  bool menuChanged = menu->property(prop_name).toBool();
+
+  if(!menuChanged) {
+    actionDeleteSelection = menu->addAction(tr("Delete Selection"));
+    actionDeleteSelection->setObjectName("actionDeleteSelection");
+    connect(actionDeleteSelection, SIGNAL(triggered()),this, SLOT(deleteSelection()));
+
+    actionResetSelection = menu->addAction(tr("Reset Selection"));
+    actionResetSelection->setObjectName("actionResetSelection");
+    connect(actionResetSelection, SIGNAL(triggered()),this, SLOT(resetSelection()));
+    menu->setProperty(prop_name, true);
+  }
+
+  if (isSelectionEmpty())
+  {
+    actionDeleteSelection->setDisabled(true);
+    actionResetSelection->setDisabled(true);
+  }
+  else
+  {
+    actionDeleteSelection->setDisabled(false);
+    actionResetSelection->setDisabled(false);
+  }
+
+  return menu;
 }
 
 void Scene_points_with_normal_item::setRenderingMode(RenderingMode m)

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -887,10 +887,10 @@ public:
       // In case of a full conic (an ellipse or a circle), compute the
       // horizontal and vertical tangency points and use them to bound the arc.
       Point_2   tan_ps[2];
-      int       n_tan_ps;
+      CGAL_assertion_code(int n_tan_ps);
 
-      n_tan_ps = vertical_tangency_points (tan_ps);
-      CGAL_assertion (n_tan_ps == 2);
+      CGAL_assertion_code(n_tan_ps = vertical_tangency_points(tan_ps));
+      CGAL_assertion(n_tan_ps == 2);
 
       if (CGAL::to_double(tan_ps[0].x()) < CGAL::to_double(tan_ps[1].x()))
       {
@@ -903,8 +903,8 @@ public:
         x_max = CGAL::to_double(tan_ps[0].x());
       }
 
-      n_tan_ps = horizontal_tangency_points (tan_ps);
-      CGAL_assertion (n_tan_ps == 2);
+      CGAL_assertion_code(n_tan_ps = horizontal_tangency_points(tan_ps));
+      CGAL_assertion(n_tan_ps == 2);
 
       if (CGAL::to_double(tan_ps[0].y()) < CGAL::to_double(tan_ps[1].y()))
       {

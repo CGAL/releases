@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Circle_3.h $
-// $Id: Circle_3.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -31,7 +31,7 @@
 #define CGAL_CIRCLE_3_H
 
 #include <CGAL/assertions.h>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_3.h>
 #include <CGAL/representation_tags.h>
@@ -101,7 +101,7 @@ public:
   Circle_3(const Rep& r)
     : Rep(r) {}
 
-  typename boost::result_of
+  typename cpp11::result_of
   <typename R::Construct_sphere_3( Circle_3)>::type
   diametral_sphere() const
   {
@@ -118,7 +118,7 @@ public:
     return typename R::Construct_sphere_3()(*this).squared_radius();
   }
 
-  typename boost::result_of
+  typename cpp11::result_of
   <typename R::Construct_plane_3( Circle_3)>::type
   supporting_plane() const
   {

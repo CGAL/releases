@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
-// $Id: Bezier_bounding_rational_traits.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Iddo Hanniel <iddoh@cs.technion.ac.il>
@@ -120,17 +120,17 @@ struct _Bez_point_bbox
   /*! Add two bounding boxes, and obtain a box bounding them both. */
   Self operator+ (const Self& other) const
   {
-    return (Self (std::min(min_x, other.min_x), std::max(max_x, other.max_x),
-                  std::min(min_y, other.min_y), std::max(max_y, other.max_y)));
+    return (Self ((std::min)(min_x, other.min_x), (std::max)(max_x, other.max_x),
+                  (std::min)(min_y, other.min_y), (std::max)(max_y, other.max_y)));
   }
 
   /*! Addition and assignment. */
   void operator+= (const Self& other)
   {
-    min_x = std::min(min_x, other.min_x);
-    max_x = std::max(max_x, other.max_x);
-    min_y = std::min(min_y, other.min_y);
-    max_y = std::max(max_y, other.max_y);
+    min_x = (std::min)(min_x, other.min_x);
+    max_x = (std::max)(max_x, other.max_x);
+    min_y = (std::min)(min_y, other.min_y);
+    max_y = (std::max)(max_y, other.max_y);
     return;
   }
 

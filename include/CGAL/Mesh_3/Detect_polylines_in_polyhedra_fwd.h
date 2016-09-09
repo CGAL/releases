@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/Detect_polylines_in_polyhedra_fwd.h $
-// $Id: Detect_polylines_in_polyhedra_fwd.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Rineau
@@ -27,7 +27,9 @@ namespace CGAL { namespace Mesh_3 {
 template <typename Polyhedron>
 struct Detect_polylines;
 
-template <typename Polyhedron, typename Polyline, typename Polylines_output_iterator>
+template <typename Polyhedron,
+          typename Polyline_and_context,
+          typename Polylines_output_iterator>
 Polylines_output_iterator
 detect_polylines(Polyhedron* pMesh, 
                  Polylines_output_iterator out_it);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/AABB_tree/include/CGAL/AABB_traits.h $
-// $Id: AABB_traits.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s) : Stéphane Tayeb, Pierre Alliez, Camille Wormser
@@ -31,63 +31,84 @@
 
 #include <boost/optional.hpp>
 
+/// \file AABB_traits.h
+
 namespace CGAL {
 
-/**
- * @class AABB_traits
- *
- *
- */
+/// \addtogroup PkgAABB_tree
+/// @{
+
+/// The class AABB_traits is a model of the concept \ref
+/// AABBTraits. This traits class handles any type of 3D geometric
+/// primitives provided that the proper intersection tests and
+/// constructions are implemented. It handles points, rays, lines and
+/// segments as query types for intersection detection and
+/// computations, and it handles points as query type for distance
+/// queries. 
+/// \tparam GeomTraits must  be a model of the concept \ref AABBGeomTraits,
+/// snd provide the geometric types as well as the intersection tests and computations.
+/// \tparam Primitive must be a model of the concept \ref AABBPrimitive and provide the
+/// type of primitives stored in the AABB_tree.
+///
+/// \sa `AABBTraits`
+/// \sa `AABB_tree`
+/// \sa `AABBPrimitive`
 template<typename GeomTraits, typename AABB_primitive>
 class AABB_traits
 {
+  typedef typename CGAL::Object Object;
 public:
   typedef AABB_traits<GeomTraits, AABB_primitive> AT;
-  /// AABBTraits concept types
-  typedef typename CGAL::Bbox_3 Bounding_box;
-  typedef typename CGAL::Object Object;
-
+  // AABBTraits concept types
+  typedef typename GeomTraits::FT FT;
   typedef AABB_primitive Primitive;
-  typedef typename AABB_primitive::Datum Datum;
-
-  typedef typename GeomTraits::Point_3 Point;
 
   typedef typename std::pair<Object,typename Primitive::Id> Object_and_primitive_id;
-  typedef typename std::pair<Point,typename Primitive::Id> Point_and_primitive_id;
+  typedef typename std::pair<typename GeomTraits::Point_3, typename Primitive::Id> Point_and_primitive_id;
 
   // types for search tree
-  typedef typename GeomTraits::FT FT;
+  /// \name Types
+  /// @{
+
+  /// Point query type.
   typedef typename GeomTraits::Point_3 Point_3;
-  typedef typename GeomTraits::Sphere_3 Sphere_3;
+
+  /// additionnal types for the search tree, required by the RangeSearchTraits concept
+  /// \bug This is not documented for now in the AABBTraits concept.
   typedef typename GeomTraits::Iso_cuboid_3 Iso_cuboid_3;
-  typedef typename GeomTraits::Construct_center_3 Construct_center_3;
-  typedef typename GeomTraits::Construct_iso_cuboid_3 Construct_iso_cuboid_3;
-  typedef typename GeomTraits::Construct_min_vertex_3 Construct_min_vertex_3;
-  typedef typename GeomTraits::Construct_max_vertex_3 Construct_max_vertex_3;
-  typedef typename GeomTraits::Compute_squared_radius_3 Compute_squared_radius_3;
-  typedef typename GeomTraits::Compute_squared_distance_3 Compute_squared_distance_3;
-  typedef typename GeomTraits::Cartesian_const_iterator_3 Cartesian_const_iterator_3;
-  typedef typename GeomTraits::Construct_cartesian_const_iterator_3
-                     Construct_cartesian_const_iterator_3;
-
-  /// Constructor
-  AABB_traits() { };
-
-  /// Non-virtual Destructor
-  ~AABB_traits() { };
-
 
   /// 
+  typedef typename CGAL::Bbox_3 Bounding_box;
+
+  /// @}
+
+  typedef typename GeomTraits::Sphere_3 Sphere_3;
+  typedef typename GeomTraits::Cartesian_const_iterator_3 Cartesian_const_iterator_3; 
+  typedef typename GeomTraits::Construct_cartesian_const_iterator_3 Construct_cartesian_const_iterator_3;
+  typedef typename GeomTraits::Construct_center_3 Construct_center_3;
+  typedef typename GeomTraits::Compute_squared_radius_3 Compute_squared_radius_3;
+  typedef typename GeomTraits::Construct_min_vertex_3 Construct_min_vertex_3;
+  typedef typename GeomTraits::Construct_max_vertex_3 Construct_max_vertex_3;  
+  typedef typename GeomTraits::Construct_iso_cuboid_3 Construct_iso_cuboid_3;
+  
+
+  /// Default constructor.
+  AABB_traits() { };
+
+
+  typedef typename GeomTraits::Compute_squared_distance_3 Squared_distance;
+  Squared_distance squared_distance_object() const { return GeomTraits().compute_squared_distance_3_object(); }
+
   /**
+   * @internal
    * @brief Sorts [first,beyond[
    * @param first iterator on first element
    * @param beyond iterator on beyond element
    * @param bbox the bounding box of [first,beyond[
    *
    * Sorts the range defined by [first,beyond[. Sort is achieved on bbox longuest
-   * axis, using the comparison function <dim>_less_than (dim in {x,y,z})
+   * axis, using the comparison function `<dim>_less_than` (dim in {x,y,z})
    */
-
 class Sort_primitives
 {
 public:
@@ -117,13 +138,12 @@ void operator()(PrimitiveIterator first,
 Sort_primitives sort_primitives_object() {return Sort_primitives();}
 
 
-  /**
+  /*
    * Computes the bounding box of a set of primitives
    * @param first an iterator on the first primitive
    * @param beyond an iterator on the past-the-end primitive
    * @return the bounding box of the primitives of the iterator range
    */
-
    class Compute_bbox {
 public:
 template<typename ConstPrimitiveIterator>
@@ -180,7 +200,7 @@ Intersection intersection_object() {return Intersection();}
 
   // This should go down to the GeomTraits, i.e. the kernel
   class Closest_point {
-      typedef typename AT::Point Point;
+      typedef typename AT::Point_3 Point;
       typedef typename AT::Primitive Primitive;
   public:
       Point operator()(const Point& p, const Primitive& pr, const Point& bound) const
@@ -194,7 +214,7 @@ Intersection intersection_object() {return Intersection();}
   // do_intersect to something like does_contain (this is what we compute,
   // this is not the same do_intersect as the spherical kernel)
   class Compare_distance {
-      typedef typename AT::Point Point;
+      typedef typename AT::Point_3 Point;
       typedef typename AT::FT FT;
       typedef typename AT::Primitive Primitive;
   public:
@@ -238,6 +258,7 @@ private:
                  CGAL_AXIS_Z = 2} Axis;
 
   static Axis longest_axis(const Bounding_box& bbox);
+
   /// Comparison functions
   static bool less_x(const Primitive& pr1, const Primitive& pr2)
   { return pr1.reference_point().x() < pr2.reference_point().x(); }
@@ -284,6 +305,7 @@ AABB_traits<GT,P>::longest_axis(const Bounding_box& bbox)
   }
 }
 
+/// @}
 
 }  // end namespace CGAL
 

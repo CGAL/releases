@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/exude_mesh_3.h $
-// $Id: exude_mesh_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -29,6 +29,8 @@
 #include <CGAL/Mesh_3/Slivers_exuder.h>
 #include <CGAL/Mesh_optimization_return_code.h>
 #include <CGAL/Mesh_3/parameters_defaults.h>
+#include <CGAL/Mesh_3/global_parameters.h>
+#include <boost/parameter.hpp>
 
 namespace CGAL {
 

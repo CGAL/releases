@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
-// $Id: Min_sphere_d.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
@@ -181,7 +181,7 @@ public:
     
     int number_of_points() const
     {
-        return points.size();
+        return static_cast<int>(points.size());
     }
     
     int number_of_support_points() const

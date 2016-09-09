@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -29,8 +29,9 @@
 // See comments in CGAL/Kernel/global_functions_internal_3.h.
 
 #include <CGAL/basic.h>
+#include <CGAL/Dimension.h>
 #include <boost/utility/enable_if.hpp>
-#include "boost/mpl/equal_to.hpp"
+#include <boost/mpl/equal_to.hpp>
 #include <boost/mpl/integral_c.hpp>
 
 namespace CGAL {

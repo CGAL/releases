@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/Dynamic_matrix.h $
-// $Id: Dynamic_matrix.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -56,7 +56,7 @@ public:
 
   int
   number_of_columns() const
-  { return column_indices.size(); }
+  { return static_cast<int>(column_indices.size()); }
 
   Value
   operator()( int r, int c) const

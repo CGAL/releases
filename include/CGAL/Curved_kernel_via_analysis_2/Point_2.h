@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Point_2.h $
-// $Id: Point_2.h 70399 2012-07-08 10:47:58Z eric $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -496,7 +496,7 @@ public:
         CGAL_precondition(q.ptr()->_m_xy);
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Compare_x_2, compare_x_2)
-        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this));
+        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this) != NULL);
         return compare_x_2(*dynamic_cast< const Kernel_point_2* >(this), q);
     }
 
@@ -518,7 +518,7 @@ public:
         CGAL_precondition(q.ptr()->_m_xy);
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Compare_xy_2, compare_xy_2)
-        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this));
+        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this) != NULL);
         return compare_xy_2(
                 *dynamic_cast< const Kernel_point_2* >(this), q, equal_x
         );
@@ -537,7 +537,7 @@ public:
         CGAL_precondition(this->ptr()->_m_xy);
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Is_on_2, is_on_2)
-        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this));
+        CGAL_precondition(dynamic_cast< const Kernel_point_2* >(this) != NULL);
         return is_on_2(*dynamic_cast< const Kernel_point_2* >(this), curve);
     }
 

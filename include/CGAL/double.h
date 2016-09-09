@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/double.h $
-// $Id: double.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Geert-Jan Giezeman, Michael Hemmer
@@ -25,8 +25,9 @@
 #ifndef CGAL_DOUBLE_H
 #define CGAL_DOUBLE_H
 
-#include <CGAL/number_type_basic.h>
-
+#include <CGAL/utils.h>
+#include <CGAL/utils_classes.h>
+#include <CGAL/number_utils.h>
 #include <utility>
 #include <cmath>
 #include <math.h> // for nextafter

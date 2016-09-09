@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_bounded_planar_topology_traits_2.h $
-// $Id: Arr_bounded_planar_topology_traits_2.h 67517 2012-01-31 07:09:24Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s) : Ron Wein        <wein@post.tau.ac.il>
@@ -407,7 +407,7 @@ public:
                   const X_monotone_curve_2& cv, Arr_curve_end ind,
                   Arr_parameter_space ps_x, Arr_parameter_space ps_y) const
   {
-    CGAL_assertion (ps_x == ARR_INTERIOR && ps_y == ARR_INTERIOR);
+    CGAL_assertion ((ps_x == ARR_INTERIOR) && (ps_y == ARR_INTERIOR));
 
     if (ind == ARR_MIN_END)
     {

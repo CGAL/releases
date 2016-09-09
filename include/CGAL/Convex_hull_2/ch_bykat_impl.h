@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_bykat_impl.h $
-// $Id: ch_bykat_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -159,8 +159,8 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   P.push_back(Point_2() );
   std::copy(first,last,std::back_inserter(P));
   P.push_back(Point_2() );
-  Pbegin = cpp0x::next(P.begin());
-  Pend   = cpp0x::prev(P.end());
+  Pbegin = cpp11::next(P.begin());
+  Pend   = cpp11::prev(P.end());
   ch_we_point(Pbegin, Pend, l, r, ch_traits);
   Point_2 a = *l;
   Point_2 b = *r;
@@ -201,15 +201,15 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
               std::swap( b, *++r);
               if ( ch_traits.less_xy_2_object()(*l,*r) )
               {
-		std::sort(cpp0x::next(l), r, 
+		std::sort(cpp11::next(l), r, 
 			  ch_traits.less_xy_2_object() );
               }
               else
               {
-		std::sort(cpp0x::next(l), r, 
+		std::sort(cpp11::next(l), r, 
                             boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
               }
-              ch__ref_graham_andrew_scan(l, cpp0x::next(r), res, ch_traits);
+              ch__ref_graham_andrew_scan(l, cpp11::next(r), res, ch_traits);
               std::swap( a, *l);
               std::swap( b, *r);
               if ( L.empty() ) break;

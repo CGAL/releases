@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
-// $Id: nearest_neighbor_delaunay_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -99,7 +99,6 @@ typename Dt::Vertex_handle lookup(const Dt& delau, const typename Dt::Point& p)
 template<class Dt, class OutputIterator>
 OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, std::size_t k, OutputIterator res)
 {
-  typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
@@ -147,7 +146,6 @@ OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, std::
 template<class Dt, class OutputIterator>  
 OutputIterator  nearest_neighbors(const Dt& delau, typename Dt::Vertex_handle v, std::size_t k, OutputIterator res)
 {  
-  typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
@@ -193,9 +191,7 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, std::
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
-  typedef typename Dt::Vertex_iterator                Vertex_iterator;
   typedef typename Dt::Vertex_circulator              Vertex_circulator;
-  typedef typename Dt::Vertex                         Vertex;
   typedef typename Dt::Point                          Point;
   typedef typename Gt::FT                             Numb_type;  // field number type ...
   typedef typename Gt::Compute_squared_distance_2     Compute_squared_distance_2;   

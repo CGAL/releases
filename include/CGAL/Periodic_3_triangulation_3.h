@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
-// $Id: Periodic_3_triangulation_3.h 71169 2012-08-10 13:34:02Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -38,6 +38,7 @@
 #include <boost/random/variate_generator.hpp>
 
 #include <CGAL/triangulation_assertions.h>
+#include <CGAL/use.h>
 
 #include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Periodic_3_triangulation_ds_cell_base_3.h>
@@ -217,6 +218,7 @@ public:
     _gt.set_domain(_domain);
     typedef typename internal::Exact_type_selector<FT>::Type EFT;
     typedef NT_converter<FT,EFT> NTC;
+    CGAL_USE_TYPE(NTC);
     CGAL_triangulation_assertion_code( NTC ntc; )
     CGAL_triangulation_precondition(ntc(_domain.xmax())-ntc(_domain.xmin())
 	== ntc(_domain.ymax())-ntc(_domain.ymin()));

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_reconstruction_points_3/include/CGAL/Lightweight_vector_3.h $
-// $Id: Lightweight_vector_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -27,15 +27,14 @@
 namespace CGAL {
 
 
+/// \internal
 /// The Lightweight_vector_3 class represents a 3D vector (oriented).
 /// The purpose of this class is to save memory as the actual vector 
 /// is allocated only when needed.
 ///
-/// @heading Is Model for the Concepts: Model of the Kernel::Vector_3 concept.
+/// \cgalModels `Kernel::Vector_3`
 ///
-/// @heading Parameters:
-/// @param Gt   Geometric traits class.
-
+/// @tparam Gt   Geometric traits class.
 template<class Gt>
 class Lightweight_vector_3
 {

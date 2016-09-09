@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader_doubles.h $
-// $Id: Dxf_reader_doubles.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
 
@@ -44,7 +44,7 @@ class Dxf_reader_doubles {
 
 public:
   typedef double       FT;
-  typedef cpp0x::array<double, 3>  Triplet;
+  typedef cpp11::array<double, 3>  Triplet;
   typedef Triplet Point_2_and_bulge;
   typedef Triplet Circle_2;
 

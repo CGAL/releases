@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd_ntl.h $
-// $Id: polynomial_gcd_ntl.h 73197 2012-10-23 12:11:34Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Kerber   <mkerber@mpi-inf.mpg.de>

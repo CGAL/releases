@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,6 +32,9 @@
 #include <CGAL/Kinetic/Ref_counted.h>
 
 #include <CGAL/Kinetic/listeners.h>
+
+#include <CGAL/use.h>
+#include <CGAL/assertions.h>
 
 
 #if defined(BOOST_MSVC)
@@ -357,7 +360,7 @@ protected:
     VisitorT v_;
   };
 
-  friend class Delaunay_visitor;
+  friend struct Delaunay_visitor;
 
   typedef typename Delaunay::Facet Facet;
   typedef typename Delaunay::Edge Edge;
@@ -840,6 +843,7 @@ protected:
 	    }
 	  }
 	  CGAL_assertion(found);
+          CGAL_USE(found);
 	}
 
 	
@@ -872,6 +876,7 @@ protected:
 	  }
 	}
 	CGAL_assertion(found);
+        CGAL_USE(found);
       } 
 
       for (typename RCMap::const_iterator it= redundant_cells_.begin(); 

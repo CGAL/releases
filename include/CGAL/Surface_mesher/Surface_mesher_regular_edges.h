@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
-// $Id: Surface_mesher_regular_edges.h 67353 2012-01-23 07:40:54Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri

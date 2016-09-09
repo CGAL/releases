@@ -33,7 +33,7 @@
  * Email: exact@cs.nyu.edu
  *
  * $Source: /home/exact/cvsroot/exact/corelib/inc/CORE/Promote.h,v $
- * $Revision: 67117 $ $Date: 2012-01-13 19:14:48 +0100 (Fri, 13 Jan 2012) $
+ * $Revision$ $Date$
  ***************************************************************************/
 
 #ifndef __PROMOTE_H__

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_halton_generator.h $
-// $Id: Arr_lm_halton_generator.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <haranidi@post.tau.ac.il>
@@ -127,7 +127,7 @@ protected:
     // Create N Halton points. If N was not given to the constructor,
     // set it to be the number of vertices in the arrangement.
     if (num_landmarks == 0)
-      num_landmarks = arr->number_of_vertices();
+      num_landmarks = static_cast<unsigned int>(arr->number_of_vertices());
 
     if (num_landmarks == 0)
       return;

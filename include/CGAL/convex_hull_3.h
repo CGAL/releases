@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
-// $Id: convex_hull_3.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -43,7 +43,7 @@
 #include <vector>
 #include <boost/bind.hpp>
 #include <boost/next_prior.hpp>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_floating_point.hpp>
 #include <CGAL/internal/Exact_type_selector.h>
 
 

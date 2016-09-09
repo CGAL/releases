@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h $
-// $Id: Env_divide_and_conquer_2_impl.h 70395 2012-07-07 15:37:56Z efif $
+// $URL$
+// $Id$
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 

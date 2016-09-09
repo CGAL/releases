@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Homogeneous_kernel/include/CGAL/Homogeneous/LineH2.h $
-// $Id: LineH2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,6 +25,7 @@
 #ifndef CGAL_LINEH2_H
 #define CGAL_LINEH2_H
 
+#include <CGAL/kernel_config.h>
 #include <CGAL/array.h>
 
 namespace CGAL {
@@ -41,7 +42,7 @@ class LineH2
     typedef typename R_::Ray_2                Ray_2;
     typedef typename R_::Line_2               Line_2;
 
-    typedef cpp0x::array<RT, 3>               Rep;
+    typedef cpp11::array<RT, 3>               Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
 
     Base base;

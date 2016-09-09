@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Gmpfr.h $
-// $Id: Gmpfr.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -153,6 +153,28 @@ public INTERN_RET::Real_embeddable_traits_base<Gmpfr,CGAL::Tag_true>{
         };
 };
 
+}
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CGAL::Gmpfr>
+  {
+    typedef CGAL::Gmpfr Real;
+    typedef CGAL::Gmpfr NonInteger;
+    typedef CGAL::Gmpfr Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 50,
+      MulCost = 50
+    };
+  };
 }
 
 #include <CGAL/GMP/Gmpfr_type.h>

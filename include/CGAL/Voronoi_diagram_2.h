@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
-// $Id: Voronoi_diagram_2.h 71987 2012-09-05 10:56:06Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -614,6 +614,7 @@ public:
 
   Halfedge_around_vertex_circulator
   incident_halfedges(const Vertex_handle& v, const Halfedge_handle& he) const {
+    internal::use(v);
     CGAL_precondition( he->target() == v );
     return Halfedge_around_vertex_circulator(*he);
   }
@@ -621,7 +622,7 @@ public:
   // POINT LOCATION
   //---------------
  private:
-  Locate_result locate(const Point_2& p, const Tag_false&) const {
+  Locate_result locate(const Point_2& , const Tag_false&) const {
     static unsigned int i = 0;
     if ( i == 0 ) {
       i++;

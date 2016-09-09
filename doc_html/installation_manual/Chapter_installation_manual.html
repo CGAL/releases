@@ -3,7 +3,7 @@
 <html lang="en-US"> <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="generator" content="CGAL latex_to_html converter">
-<!-- by cc_extract_html, $Id: cc_extract_html.cpp 44195 2008-07-16 08:46:48Z spion $ -->
+<!-- by cc_extract_html, $Id$ -->
 <!-- LaTeX source file: './installation_manual.tex' -->
 <link rel="canonical" href="http://www.cgal.org/Manual/latest/doc_html/cgal_manual/Chapter_installation_manual.html">
 <link href="latex_to_html.css" rel="STYLESHEET">
@@ -245,7 +245,7 @@ source files
 </CENTER>
 <P>
 
-The directories <TT>include/CGAL/CORE</TT> and <TT>src/CGALCore</TT> contain a
+The directories <TT>include/CGAL/CORE</TT> and <TT>src/CGAL_Core</TT> contain a
 distribution of the <span class="textsc">Core</span> library<A HREF="#Footnote_1"><SUP>1</SUP></A> version&nbsp;1.7 for
 dealing with algebraic numbers. <span class="textsc">Core</span> is not part of <span class="textsc">Cgal</span> and has its
 own license.
@@ -585,7 +585,7 @@ party software.
 <P>
 
 The libraries <span class="textsc">STL</span> (shipped with any compiler) and <span class="textsc">Boost</span> are essential to all components (i.e.&nbsp;libCGAL,
-libCGAL_Core,  libCGAL_imageIO, libCGAL_Qt3 and libCGAL_Qt4).
+libCGAL_Core,  libCGAL_ImageIO, libCGAL_Qt3 and libCGAL_Qt4).
 <P>
 
 <A NAME="thirdparty:stl"></A><a name="Subsection_8.1"></a>
@@ -702,7 +702,7 @@ Qt is a cross-platform application and UI framework.
 The component libCGAL_Qt3 requires <span class="textsc">Qt</span>3 installed on your system, while
 the component libCGAL_Qt4 requires <span class="textsc">Qt</span>4 installed on your system. 
 In case <span class="textsc">Qt</span> is not yet installed on your system, you can download 
-it from <A HREF="http://qt.nokia.com/"><TT>http://qt.nokia.com/</TT></A>.
+it from <A HREF="http://qt-project.org/"><TT>http://qt-project.org/</TT></A>.
 <P>
 
 Older demos of <span class="textsc">Cgal</span>use libCGAL_Qt3 and <span class="textsc">Qt</span>3, while newer and newly
@@ -765,37 +765,34 @@ Free and commercial editions of <span class="textsc">Leda</span> are available f
 <h3>10.2&nbsp;&nbsp;&nbsp;<span class="textsc">Mpfi</span> </h3>
 <P>
 
-<span class="textsc">Mpfi</span> provide arbitrary precision interval arithmetic with intervals 
-represented using <span class="textsc">Mpfr</span> reliable floating-point numbers. 
-It is based on the <span class="textsc">Gmp</span> library and on the <span class="textsc">Mpfr</span> library.
-In the setting of <span class="textsc">Cgal</span> it is mainly used in sync with Rs. 
-The library is optional and needed in certain algebraic
-kernels.
+<span class="textsc">Mpfi</span> provides arbitrary precision interval arithmetic with intervals
+represented using <span class="textsc">Mpfr</span> reliable floating-point numbers. It is based on
+the libraries <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span>. In the setting of <span class="textsc">Cgal</span>, this library is
+optional: it is used by some models of the
+Algebraic Kernel.
 <P>
 
-<span class="textsc">Mpfi</span> can be downloaded from <A HREF="http://mpfi.gforge.inria.fr/"><TT>http://mpfi.gforge.inria.fr/</TT></A>. Version 1.4 or higher is recommended.
+<span class="textsc">Mpfi</span> can be downloaded from <A HREF="http://mpfi.gforge.inria.fr/"><TT>http://mpfi.gforge.inria.fr/</TT></A>. Version 1.4 or higher is
+recommended.
 <P>
 
 <A NAME="thirdparty:RS3"></A><a name="Subsection_10.3"></a>
 <h3>10.3&nbsp;&nbsp;&nbsp;Rs and Rs3<A NAME="thirdparty:RS"></A></h3>
 <P>
 
-Rs (Real Solutions) is devoted to the study of the real
-roots of polynomial systems with a finite number of complex roots
-(including univariate polynomials).
-<P>
-
-In <span class="textsc">Cgal</span>, Rs is used by one model of the Algebraic Kernel.
+Rs (Real Solutions) is devoted to the study of the real roots of
+polynomial systems with a finite number of complex roots (including
+univariate polynomials). In <span class="textsc">Cgal</span>, Rs is used by one model of the
+Algebraic Kernel.
 <P>
 
 Rs is freely distributable for non-commercial use. You can download it
-from <A HREF="http://vegas.loria.fr/rs/"><TT>http://vegas.loria.fr/rs/</TT></A>. The library Rs needs <span class="textsc">Mpfi</span>, which can be downloaded from <A HREF="http://mpfi.gforge.inria.fr/"><TT>http://mpfi.gforge.inria.fr/</TT></A>. 
-Version 1.4 or higher is recommended.
+from <A HREF="http://vegas.loria.fr/rs/"><TT>http://vegas.loria.fr/rs/</TT></A>. Actually, the Rs package also includes Rs3, the
+successor of Rs, which is used in conjunction with it.
 <P>
 
-The successor of Rs is called Rs3. It less restrictive when it comes
-to licencing and also contains improved and more efficient interfaces.
-Mainly parts in <span class="textsc">Cgal</span>'s algebraic kernel require Rs3.
+The libraries Rs and Rs3 need <span class="textsc">Mpfi</span>, which can be downloaded from
+<A HREF="http://mpfi.gforge.inria.fr/"><TT>http://mpfi.gforge.inria.fr/</TT></A>.
 <P>
 
 <A NAME="thirdparty:NTL"></A><a name="Subsection_10.4"></a>
@@ -1356,6 +1353,8 @@ configuration.
 
 If the parameter is not given, the script creates <B>one executable for each given
   source file</B>.
+<P>
+
 <DT><B><TT>-c com1:com2:...</TT></B><DD> Lists components (``com1'',
   ``com2'') of <span class="textsc">Cgal</span> to which the executable(s) should be linked. Valid components are <span class="textsc">Cgal</span>'s
   libraries (i.e.&nbsp;``Core'', ``ImageIO'', ``Qt3'' and ``Qt4''; note
@@ -1407,7 +1406,7 @@ this file within a CMake script sets up include paths and libraries to
 link with <span class="textsc">Cgal</span> and essential third party libraries. Beyond,
 <TT>find_package</TT> can demand for <TT>COMPONENTS</TT> of <span class="textsc">Cgal</span>,
 that is, all <span class="textsc">Cgal</span> libraries libCGAL_Core (``Core''),
-libCGAL_imageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
+libCGAL_ImageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
 (``Qt4'') or optional 3rd party software such as ``MPFI'' or ``RS3''.
 A user is free to create the <TT>CMakeLists.txt</TT>
 without calling the script (manual creation).
@@ -2334,7 +2333,7 @@ Similar variables exist for Rs3.
 <TABLE CELLSPACING=5  BORDER=2>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<B>Variable</B>             
+<B>Variable</B>              
     <TD class="math" ALIGN=LEFT NOWRAP>
 <B>Description</B>                                  
     <TD class="math" ALIGN=LEFT NOWRAP>
@@ -2343,14 +2342,14 @@ Similar variables exist for Rs3.
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS3_DIR</TT>              
     <TD class="math" ALIGN=LEFT NOWRAP>
-Directory of Rs3 default installation          
+Directory of Rs3 default installation                
     <TD class="math" ALIGN=LEFT NOWRAP>
 Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS3_INCLUDE_DIR</TT>     
     <TD class="math" ALIGN=LEFT NOWRAP>
-Directory containing the <TT>rs_exports.h</TT> file  
+Directory containing the <TT>rs3_fncts.h</TT> file   
     <TD class="math" ALIGN=LEFT NOWRAP>
 CMake
   <TR>
@@ -2364,7 +2363,7 @@ Environment
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS3_LIBRARIES_DIR</TT>   
     <TD class="math" ALIGN=LEFT NOWRAP>
-Directory containing the compiled Rs library          
+Directory containing the compiled Rs3 library       
     <TD class="math" ALIGN=LEFT NOWRAP>
 CMake
   <TR>
@@ -2378,7 +2377,7 @@ Environment
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS3_LIBRARIES</TT>        
     <TD class="math" ALIGN=LEFT NOWRAP>
-Full pathname of the compiled Rs library              
+Full pathname of the compiled Rs3 library           
     <TD class="math" ALIGN=LEFT NOWRAP>
 CMake
 </TABLE>
@@ -2713,6 +2712,8 @@ configuration.
 
 If the parameter is not given, the script creates <B>one executable for each given
   source file</B>.
+<P>
+
 <DT><B><TT>-c com1:com2:...</TT></B><DD> Lists components (``com1'',
   ``com2'') of <span class="textsc">Cgal</span> to which the executable(s) should be linked. Valid components are <span class="textsc">Cgal</span>'s
   libraries (i.e.&nbsp;``Core'', ``ImageIO'', ``Qt3'' and ``Qt4''; note
@@ -2764,7 +2765,7 @@ this file within a CMake script sets up include paths and libraries to
 link with <span class="textsc">Cgal</span> and essential third party libraries. Beyond,
 <TT>find_package</TT> can demand for <TT>COMPONENTS</TT> of <span class="textsc">Cgal</span>,
 that is, all <span class="textsc">Cgal</span> libraries libCGAL_Core (``Core''),
-libCGAL_imageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
+libCGAL_ImageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
 (``Qt4'') or optional 3rd party software such as ``MPFI'' or ``RS3''.
 A user is free to create the <TT>CMakeLists.txt</TT>
 without calling the script (manual creation).
@@ -2864,6 +2865,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href="http://www.cgal.org" target="_top">CGAL Open Source Project</a>.
 Separate Build.
-23 October 2012.</SMALL>
+7 March 2013.</SMALL>
 </div>
 </body>  </html>

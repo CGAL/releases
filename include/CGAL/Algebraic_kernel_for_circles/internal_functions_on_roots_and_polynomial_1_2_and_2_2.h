@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomial_1_2_and_2_2.h $
-// $Id: internal_functions_on_roots_and_polynomial_1_2_and_2_2.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 

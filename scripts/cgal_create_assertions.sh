@@ -17,8 +17,8 @@
 # This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
-# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Scripts/scripts/cgal_create_assertions.sh $
-# $Id: cgal_create_assertions.sh 67587 2012-02-03 11:03:49Z lrineau $
+# $URL$
+# $Id$
 # 
 #
 # Author(s)     : Geert-Jan Giezeman, Sven Schönherr
@@ -44,8 +44,8 @@ sed -e "s/XXX_/${nameUC}/g" -e "s/xxx_/${nameLC}/g" <<"EOF" \
         > "${nameLC}assertions.h"
 // Replace this remark by a proper copyright notice.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Scripts/scripts/cgal_create_assertions.sh $
-// $Id: cgal_create_assertions.sh 67587 2012-02-03 11:03:49Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sven Schoenherr

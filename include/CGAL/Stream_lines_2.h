@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Stream_lines_2/include/CGAL/Stream_lines_2.h $
-// $Id: Stream_lines_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -36,6 +36,7 @@
 #include <CGAL/streamlines_assertions.h>
 
 #include <boost/tuple/tuple.hpp>
+#include <boost/random/uniform_real.hpp> // undocumented class
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/uniform_smallint.hpp>
 
@@ -106,6 +107,17 @@ protected:
 public:
   void set_separating_distance(FT new_value){separating_distance = new_value;}
   void set_saturation_ratio(FT new_value){ saturation_ratio = new_value;}
+
+  FT get_separating_distance() const
+  {
+    return separating_distance;
+  } 
+
+  FT get_saturation_ratio() const
+  {
+    return saturation_ratio;
+  }
+
   void update()
     {
       ir = il = 0; // initialization

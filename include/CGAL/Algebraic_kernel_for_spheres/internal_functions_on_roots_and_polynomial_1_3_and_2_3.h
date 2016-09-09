@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomial_1_3_and_2_3.h $
-// $Id: internal_functions_on_roots_and_polynomial_1_3_and_2_3.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -29,6 +29,10 @@
 #define CGAL_ALGEBRAIC_KERNEL_FUNCTIONS_ON_ROOTS_AND_POLYNOMIAL_1_3_AND_2_3_H
 
 #include <vector>
+#include <iterator> // for std::back_inserter
+#include <utility>  // for std::pair and std::make_pair
+#include <CGAL/enum.h> // for CGAL::Sign
+#include <CGAL/use.h>  // for CGAL_USE_TYPE()
 
 namespace CGAL {
   namespace AlgebraicSphereFunctors {
@@ -59,6 +63,7 @@ namespace CGAL {
                  const typename AK::Polynomial_1_3 & p2) {
     typedef typename AK::RT RT;
 
+    CGAL_USE_TYPE(RT);
     CGAL_kernel_precondition(!(same_solutions<RT>(p1,p2)));
 
     if(p1.empty_space()) return false;
@@ -236,7 +241,7 @@ namespace CGAL {
         Root_for_spheres_2_3(Root_of_2(p.a1() * alpha + p.b1()),
                              Root_of_2(p.a2() * alpha + p.b2()),
                              Root_of_2(p.a3() * alpha + p.b3())), 
-        static_cast<unsigned>(2)); 
+        2); 
       return res;
     }
 
@@ -258,23 +263,23 @@ namespace CGAL {
         Root_for_spheres_2_3(p.a1() * t1 + p.b1(),
                              p.a2() * t1 + p.b2(),
                              p.a3() * t1 + p.b3()), 
-        static_cast<unsigned>(1)); 
+        1); 
       *res++ = std::make_pair(
         Root_for_spheres_2_3(p.a1() * t2 + p.b1(),
                              p.a2() * t2 + p.b2(),
                              p.a3() * t2 + p.b3()), 
-        static_cast<unsigned>(1));
+        1);
     } else {
       *res++ = std::make_pair(
         Root_for_spheres_2_3(p.a1() * t2 + p.b1(),
                              p.a2() * t2 + p.b2(),
                              p.a3() * t2 + p.b3()), 
-        static_cast<unsigned>(1)); 
+        1); 
       *res++ = std::make_pair(
         Root_for_spheres_2_3(p.a1() * t1 + p.b1(),
                              p.a2() * t1 + p.b2(),
                              p.a3() * t1 + p.b3()), 
-        static_cast<unsigned>(1));
+        1);
     } 
 
     return res;
@@ -316,7 +321,7 @@ namespace CGAL {
         Root_for_spheres_2_3(Root_of_2(p.a() * t + s.a()),
                              Root_of_2(p.b() * t + s.b()),
                              Root_of_2(p.c() * t + s.c())), 
-        static_cast<unsigned>(2)); 
+        2); 
 
       return res;
     }
@@ -413,7 +418,7 @@ namespace CGAL {
           const std::pair<typename AK::Polynomial_for_spheres_2_3, typename AK::Polynomial_1_3 > & e2,
 	  OutputIterator res )
   {
-    return solve<AK>(e2,e1);
+    return solve<AK>(e2,e1,res);
   }
 
   template < class AK, class OutputIterator >
@@ -433,7 +438,7 @@ namespace CGAL {
           const std::pair<typename AK::Polynomial_for_spheres_2_3, typename AK::Polynomial_1_3 > & e2,
 	  OutputIterator res )
   {
-    return solve<AK>(e2,e1);
+    return solve<AK>(e2,e1, res);
   }
 
   template < class AK, class OutputIterator >
@@ -476,7 +481,7 @@ namespace CGAL {
       return solve<AK>(s1, s2, p1, res);
     }
 
-    typedef std::vector< std::pair<Root_for_spheres_2_3, size_t> > solutions_container;
+    typedef std::vector< std::pair<Root_for_spheres_2_3, int> > solutions_container;
     solutions_container solutions;
     solve<AK>(p1, p2, s1, std::back_inserter(solutions));
     if(solutions.size() == 0) return res;
@@ -530,7 +535,7 @@ template < class AK, class OutputIterator >
       return solve<AK>(s1, l, res);
     }
 
-    typedef std::vector< std::pair<Root_for_spheres_2_3, size_t> > solutions_container;
+    typedef std::vector< std::pair<Root_for_spheres_2_3, int> > solutions_container;
     solutions_container solutions;
     solve<AK>(s1, l, std::back_inserter(solutions));
     if(solutions.size() == 0) return res;

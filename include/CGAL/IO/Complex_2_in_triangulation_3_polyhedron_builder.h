@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_polyhedron_builder.h $
-// $Id: Complex_2_in_triangulation_3_polyhedron_builder.h 71225 2012-08-16 10:20:46Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Rineau
@@ -63,11 +63,9 @@ public:
 
   void operator()(HDS& hds) {
     typedef typename Tr::Vertex_handle Vertex_handle;
-    typedef typename Tr::Point Point;
     typedef typename Tr::Geom_traits::Vector_3 Vector;
     typedef typename Tr::Edge Edge;
     typedef typename Tr::Facet Facet;
-    typedef typename Tr::Finite_vertices_iterator Finite_vertices_iterator;
     typedef typename Tr::Finite_facets_iterator Finite_facets_iterator;
 
     const Tr& tr = c2t3.triangulation();

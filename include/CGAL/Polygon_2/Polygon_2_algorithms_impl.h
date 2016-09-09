@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
-// $Id: Polygon_2_algorithms_impl.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -304,21 +304,22 @@ int which_side_in_slab(Point const &point, Point const &low, Point const &high,
 
 }  // end namespace i_polygon
 
-template <class ForwardIterator, class Point, class Traits>
+template <class ForwardIterator, class Point, class PolygonTraits>
 Bounded_side bounded_side_2(ForwardIterator first,
                                       ForwardIterator last,
                                       const Point& point,
-                                      const Traits& traits)
+                                      const PolygonTraits& traits)
 {
+  
   ForwardIterator current = first;
   if (current == last) return ON_UNBOUNDED_SIDE;
 
   ForwardIterator next = current; ++next;
   if (next == last) return ON_UNBOUNDED_SIDE;
 
-  typename Traits::Compare_x_2 compare_x_2 = traits.compare_x_2_object();
-  typename Traits::Compare_y_2 compare_y_2 = traits.compare_y_2_object();
-  typename Traits::Orientation_2 orientation_2 = traits.orientation_2_object();
+  typename PolygonTraits::Compare_x_2 compare_x_2 = traits.compare_x_2_object();
+  typename PolygonTraits::Compare_y_2 compare_y_2 = traits.compare_y_2_object();
+  typename PolygonTraits::Orientation_2 orientation_2 = traits.orientation_2_object();
   bool IsInside = false;
   Comparison_result cur_y_comp_res = compare_y_2(*current, point);
 

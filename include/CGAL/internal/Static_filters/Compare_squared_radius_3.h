@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Compare_squared_radius_3.h $
-// $Id: Compare_squared_radius_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Sebastien Loriot
 // This predicates was generated using the fpg tool written by Andreas Meyer.

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
-// $Id: Gps_polygon_simplifier.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -117,7 +117,7 @@ public:
       Curve_data cv_data(1, 0, index);
       curves_list.push_back(Meta_X_monotone_curve_2(*itr, cv_data));
     }
-    m_traits->set_polygon_size(curves_list.size());
+    m_traits->set_polygon_size(static_cast<unsigned int>(curves_list.size()));
    
     m_sweep_line.sweep(curves_list.begin(), curves_list.end());
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/trace.h $ 
-// $Id: trace.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$ 
+// $Id$
 //
 // Author(s) : Laurent Saboret
 
@@ -25,6 +25,7 @@
 #include <iostream>
 #include <fstream>
 
+/// \cond SKIP_IN_MANUAL
 
 // Trace utilities
 // ---------------
@@ -54,5 +55,6 @@ inline void print_stderr(const char *fmt, ...)
   #define CGAL_TRACE_STREAM  if (false) std::cerr
 #endif
 
+/// \endcond
 
 #endif // CGAL_TRACE_H

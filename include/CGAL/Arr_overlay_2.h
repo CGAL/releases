@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_overlay_2.h $
-// $Id: Arr_overlay_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -155,8 +155,8 @@ void overlay (const Arrangement_on_surface_2<GeomTraitsA, TopTraitsA>& arr1,
 
   // In case both arrangement do not contain isolated vertices, go on and
   // overlay them.
-  const unsigned int  total_iso_verts = arr1.number_of_isolated_vertices() +
-                                        arr2.number_of_isolated_vertices();
+  const std::size_t  total_iso_verts = arr1.number_of_isolated_vertices() +
+                                       arr2.number_of_isolated_vertices();
 
   if (total_iso_verts == 0) {
     // Clear the result arrangement and perform the sweep to construct it.

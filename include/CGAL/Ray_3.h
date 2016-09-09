@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Ray_3.h $
-// $Id: Ray_3.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -26,7 +26,7 @@
 #define CGAL_RAY_3_H
 
 #include <CGAL/assertions.h>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/Dimension.h>
@@ -105,25 +105,25 @@ public:
   bool        collinear_has_on(const Point_3 &p) const;
 */
 
-  typename boost::result_of<typename R::Construct_point_on_3(Ray_3, int)>::type
+  typename cpp11::result_of<typename R::Construct_point_on_3(Ray_3, int)>::type
   point(int i) const // TODO : use Qrt
   {
     return R().construct_point_on_3_object()(*this, i);
   }
 
-  typename boost::result_of<typename R::Construct_source_3(Ray_3)>::type
+  typename cpp11::result_of<typename R::Construct_source_3(Ray_3)>::type
   source() const
   {
     return R().construct_source_3_object()(*this);
   }
 
-  typename boost::result_of<typename R::Construct_second_point_3(Ray_3)>::type
+  typename cpp11::result_of<typename R::Construct_second_point_3(Ray_3)>::type
   second_point() const
   {
     return R().construct_second_point_3_object()(*this);
   }
 
-  typename boost::result_of<typename R::Construct_source_3(Ray_3)>::type
+  typename cpp11::result_of<typename R::Construct_source_3(Ray_3)>::type
   start() const
   {
     return source();

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
-// $Id: Simple_interval_root.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -210,7 +210,7 @@ public:
   //! Return true if the root is +/- infinity.
   bool is_infinite() const
   {
-    return type_&INF;
+    return ((type_&INF)!= 0);
   }
  
   
@@ -581,7 +581,7 @@ protected:
   //! return true if the this is uninitialized
   bool is_null() const
   {
-    return (type_&INVALID);
+    return (type_&INVALID)!= 0;
   }
 
   mutable std::pair<NT, NT> ii_;

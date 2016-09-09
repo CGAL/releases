@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_cuboidH3.h $
-// $Id: Iso_cuboidH3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -26,6 +26,9 @@
 #define CGAL_ISO_CUBOIDH3_H
 
 #include <CGAL/array.h>
+#include <CGAL/enum.h>
+#include <CGAL/kernel_config.h>
+#include <CGAL/kernel_assertions.h>
 
 namespace CGAL {
 
@@ -37,7 +40,7 @@ class Iso_cuboidH3
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef cpp0x::array<Point_3, 2>          Rep;
+  typedef cpp11::array<Point_3, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

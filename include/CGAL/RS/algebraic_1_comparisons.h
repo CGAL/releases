@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_comparisons.h $
-// $Id: algebraic_1_comparisons.h 68268 2012-03-29 13:44:24Z eric $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/CORE_BigRat.h $
-// $Id: CORE_BigRat.h 70094 2012-06-26 23:35:18Z eric $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -233,5 +233,27 @@ public:
 #include <CGAL/CORE_BigRat.h>
 #include <CGAL/CORE_BigFloat.h>
 #include <CGAL/CORE_arithmetic_kernel.h>
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CORE::BigRat>
+  {
+    typedef CORE::BigRat Real;
+    typedef CORE::BigRat NonInteger;
+    typedef CORE::BigRat Nested;
+
+    static inline Real epsilon() { return 0; }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 150,
+      MulCost = 100
+    };
+  };
+}
 
 #endif // CGAL_CORE_BIGRAT_H

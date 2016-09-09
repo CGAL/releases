@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_constructors.h $
-// $Id: algebraic_1_constructors.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -35,8 +35,6 @@ Algebraic_1::Algebraic_1(const Algebraic_1 &i,mpfr_prec_t pl,mpfr_prec_t pr){
         set_pol(i.pol());
         set_nr(i.nr());
         set_mult(i.mult());
-        set_prev(i.prev());
-        set_next(i.next());
         set_lefteval(i.lefteval());
 }
 
@@ -200,16 +198,12 @@ Algebraic_1::Algebraic_1(
                          mpfi_srcptr i,
                          const RS_polynomial_1 &p,
                          int n,
-                         int m,
-                         mpfi_ptr prevroot,
-                         mpfi_ptr nextroot){
+                         int m){
         mpfi_init(mpfi());
         set_mpfi_ptr(i);
         set_pol(p);
         set_nr(n);
         set_mult(m);
-        set_prev(prevroot);
-        set_next(nextroot);
         // we don't evaluate in the sf part of p, since p is sf
         // TODO: add assertion
         set_lefteval(RSSign::signat(p,&i->left));
@@ -219,14 +213,12 @@ Algebraic_1::Algebraic_1(
 // left evaluation
 inline
 Algebraic_1::Algebraic_1(mpfi_srcptr i,const RS_polynomial_1 &p,int n,int m,
-                         mpfi_ptr prevroot,mpfi_ptr nextroot,CGAL::Sign s){
+                         CGAL::Sign s){
         mpfi_init(mpfi());
         set_mpfi_ptr(i);
         set_pol(p);
         set_nr(n);
         set_mult(m);
-        set_prev(prevroot);
-        set_next(nextroot);
         set_lefteval(s);
 }
 

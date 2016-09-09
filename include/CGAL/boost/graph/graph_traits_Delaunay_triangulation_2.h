@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
-// $Id: graph_traits_Delaunay_triangulation_2.h 73202 2012-10-23 14:03:05Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_3/include/CGAL/internal/Intersections_3/Triangle_3_Ray_3_intersection.h $
-// $Id: Triangle_3_Ray_3_intersection.h 70837 2012-07-28 06:21:06Z glisse $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     :  Laurent Rineau, Stephane Tayeb

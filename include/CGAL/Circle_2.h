@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Andreas Fabri
@@ -27,7 +27,7 @@
 #define CGAL_CIRCLE_2_H
 
 #include <CGAL/assertions.h>
-#include <boost/type_traits.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Dimension.h>
@@ -95,13 +95,13 @@ public:
   Circle_2(const Point_2 & center)
     : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), center, FT(0), COUNTERCLOCKWISE)) {}
 
-  typename boost::result_of<typename R::Construct_center_2(Circle_2)>::type
+  typename cpp11::result_of<typename R::Construct_center_2(Circle_2)>::type
   center() const
   {
     return R().construct_center_2_object()(*this);
   }
 
-  typename boost::result_of<typename R::Compute_squared_radius_2(Circle_2)>::type
+  typename cpp11::result_of<typename R::Compute_squared_radius_2(Circle_2)>::type
   squared_radius() const
   {
     return R().compute_squared_radius_2_object()(*this);

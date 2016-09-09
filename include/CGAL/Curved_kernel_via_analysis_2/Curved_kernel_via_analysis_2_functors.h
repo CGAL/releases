@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_functors.h $
-// $Id: Curved_kernel_via_analysis_2_functors.h 70397 2012-07-08 10:24:27Z eric $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -2301,9 +2301,8 @@ public:
             cv2 << "; end1: " << ce1 << "; end2: " << ce2 << "\n");
         /*CGAL::Arr_boundary_type bnd1 = boundary(end1), 
             bnd2 = cv2.boundary(ce2);*/
-        CGAL::Arr_parameter_space 
-            loc1 = cv1.location(ce1), 
-            loc2 = cv2.location(ce2);
+        CGAL_precondition_code(CGAL::Arr_parameter_space loc1 = cv1.location(ce1));
+        CGAL_precondition_code(CGAL::Arr_parameter_space loc2 = cv2.location(ce2));
         CGAL_precondition(cv1.is_on_bottom_top(loc1));
         CGAL_precondition(cv1.is_on_bottom_top(loc2));
         
@@ -2373,9 +2372,9 @@ public:
         CERR("\ncompare_x_near_limit: cv1: " << cv1 << "\n cv2: " <<
             cv2 << "; ce: " << ce << "\n");
 
-        CGAL::Arr_parameter_space 
-	  loc1 = cv1.location(ce), 
-	  loc2 = cv2.location(ce);
+        CGAL::Arr_parameter_space loc1 = cv1.location(ce);
+        CGAL_precondition_code(CGAL::Arr_parameter_space loc2 =
+                               cv2.location(ce));
         CGAL_precondition(cv1.is_on_bottom_top(loc1));
         CGAL_precondition(cv1.is_on_bottom_top(loc2));
 	CGAL_precondition(cv1.compare_x_at_limit(ce, cv2, ce) == CGAL::EQUAL);

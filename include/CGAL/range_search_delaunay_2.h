@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_2/include/CGAL/range_search_delaunay_2.h $
-// $Id: range_search_delaunay_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -45,7 +45,6 @@ void dfs(const Dt& delau,
 	 bool first_vertex)
 {
     typedef typename Dt::Geom_traits               Gt;
-    typedef typename Dt::Vertex                    Vertex;
     typedef typename Dt::Vertex_circulator         Vertex_circulator;
     typedef typename Dt::Vertex_handle             Vertex_handle;
     typedef typename Gt::Bounded_side_2            Bounded_side_2;
@@ -92,7 +91,6 @@ bool dfs(const Dt& delau,
 	 Pred& pred)
 {
     typedef typename Dt::Geom_traits               Gt;
-    typedef typename Dt::Vertex                    Vertex;
     typedef typename Dt::Vertex_circulator         Vertex_circulator;
     typedef typename Dt::Vertex_handle             Vertex_handle;
     typedef typename Gt::Bounded_side_2            Bounded_side_2;
@@ -159,7 +157,6 @@ OutputIterator range_search(Dt& delau,
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::Point                          Point;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
-  typedef typename Dt::Vertex                         Vertex;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
   typedef typename Gt::Bounded_side_2                 Bounded_side_2;
   typedef typename Gt::Construct_center_2             Construct_center_2;
@@ -307,7 +304,6 @@ OutputIterator range_search(Dt& delau,
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::Point                          Point;
   typedef typename Dt::Vertex_handle                  Vertex_handle;
-  typedef typename Dt::Vertex                         Vertex;
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
   typedef typename Gt::Bounded_side_2                 Bounded_side_2;
   typedef typename Gt::Construct_center_2             Construct_center_2;

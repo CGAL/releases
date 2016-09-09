@@ -9,15 +9,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/utils_classes.h $
-// $Id: utils_classes.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-sb.mpg.de>
 
 #ifndef CGAL_UTILS_CLASSES_H
 #define CGAL_UTILS_CLASSES_H
-#include <CGAL/basic.h>
+
+#include <CGAL/config.h>
+#include <functional> // for std::binary_function
 
 #ifdef CGAL_USE_SSE2_MAX
 #include <CGAL/sse2.h>

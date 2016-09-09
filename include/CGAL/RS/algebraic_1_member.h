@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_member.h $
-// $Id: algebraic_1_member.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -97,16 +97,6 @@ void Algebraic_1::set_prec(mp_prec_t p){
 }
 
 inline
-void Algebraic_1::set_prev(mpfi_ptr p){
-        ptr()->_prev=p;
-}
-
-inline
-void Algebraic_1::set_next(mpfi_ptr n){
-        ptr()->_next=n;
-}
-
-inline
 void Algebraic_1::set_lefteval(Sign s)const{
         Ptr()->_lefteval=s;
 }
@@ -124,16 +114,6 @@ mpfr_srcptr Algebraic_1::left()const{
 inline
 mpfr_srcptr Algebraic_1::right()const{
         return &(mpfi()->right);
-}
-
-inline
-mpfi_ptr Algebraic_1::prev()const{
-        return ptr()->_prev;
-}
-
-inline
-mpfi_ptr Algebraic_1::next()const{
-        return ptr()->_next;
 }
 
 inline

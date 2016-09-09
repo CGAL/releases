@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
-// $Id: Sweep_line_event.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Tali Zvi        <talizvi@post.tau.ac.il>,
@@ -313,13 +313,13 @@ public:
 
   /*! Returns the number of curves defined to the left of the event. */
   unsigned int number_of_left_curves() {
-    return m_leftCurves.size();
+    return static_cast<unsigned int>(m_leftCurves.size());
   }
 
   /*! Returns the number of curves defined to the right of the event. */
   unsigned int number_of_right_curves()
   {
-    return (m_rightCurves.size());
+    return static_cast<unsigned int>(m_rightCurves.size());
   }
 
   /*! Checks if at least one curve is defined to the left of the event. */

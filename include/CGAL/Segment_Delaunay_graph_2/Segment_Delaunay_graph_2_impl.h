@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: Segment_Delaunay_graph_2_impl.h 70787 2012-07-27 10:38:58Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -642,8 +642,6 @@ insert_point_on_segment(const Storage_site_2& ss, const Site_2& ,
   Storage_site_2 ssitev = v->storage_site();
   Storage_site_2 ssx = st_.construct_storage_site_2_object()(ss, ssitev);
 
-  Site_2 sitev = ssitev.site();
-
   Face_pair fpair = find_faces_to_split(v, ssx.site());
 
   boost::tuples::tuple<Vertex_handle,Vertex_handle,Face_handle,Face_handle>
@@ -659,8 +657,6 @@ insert_point_on_segment(const Storage_site_2& ss, const Site_2& ,
   Storage_site_2 ssv2 =
     st_.construct_storage_site_2_object()(ssitev, ss, false);
 
-  Site_2 sv1 = ssv1.site();
-  Site_2 sv2 = ssv2.site();
   v1->set_site( ssv1 );
   v2->set_site( ssv2 );
 
@@ -1127,7 +1123,7 @@ add_bogus_vertex(Edge e, List& l)
 {
   Edge esym = sym_edge(e);
   Face_handle g1 = e.first;
-  Face_handle g2 = esym.first;
+  CGAL_assertion_code(Face_handle g2 = esym.first);
 
   Vertex_handle v = insert_degree_2(e);
 
@@ -1257,7 +1253,7 @@ retriangulate_conflict_region(Vertex_handle v, List& l,
   Edge e_start = l.front();
   Edge eit = e_start;
   do {
-    Edge esym = sym_edge(eit);
+    CGAL_assertion_code(Edge esym =) sym_edge(eit);
     Face_handle f = eit.first;
     int k = eit.second;
     CGAL_assertion( !l.is_in_list(esym) );
@@ -2702,7 +2698,7 @@ Segment_Delaunay_graph_2<Gt,ST,D_S,LTag>::
 print_error_message() const
 {
   std::cerr << std::endl;
-  std::cerr << "WARNING:" << std::endl;
+  std::cerr << "ATTENTION:" << std::endl;
   std::cerr << "A segment-segment intersection was found."
 	    << std::endl;
   std::cerr << "The Segment_Delaunay_graph_2 class is not configured"

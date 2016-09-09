@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/dihedral_angle_3.h $
-// $Id: dihedral_angle_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -57,8 +57,8 @@ dihedral_angle(const typename K::Point_3& a,
 
   const Vector_3 abad = cross_product(ab,ad);
   const double x = CGAL::to_double(scalar_product(cross_product(ab,ac), abad));
-  const FT l_ab = CGAL::sqrt(sq_distance(a,b));
-  const double y = CGAL::to_double(l_ab * scalar_product(ac,abad));
+  const double l_ab = CGAL::sqrt(CGAL::to_double(sq_distance(a,b)));
+  const double y = l_ab * CGAL::to_double(scalar_product(ac,abad));
 
   return FT(std::atan2(y, x) * 180 / CGAL_PI );
 }

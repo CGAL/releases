@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 69983 2012-06-22 14:22:16Z pmoeller $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sylvain Pion

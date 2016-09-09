@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
-// $Id: surface_neighbors_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -215,7 +215,6 @@ surface_neighbors_3(const Dt& dt,
 		    typename Dt::Cell_handle start
 		    = typename Dt::Cell_handle())
 {
-  typedef typename ITraits::FT            Coord_type;
   typedef typename ITraits::Point_2       Point_3;
 
   typedef typename Dt::Cell_handle        Cell_handle;

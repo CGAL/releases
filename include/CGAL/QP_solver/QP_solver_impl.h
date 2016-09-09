@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
-// $Id: QP_solver_impl.h 67582 2012-02-02 22:43:24Z ybrise $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -418,7 +418,7 @@ ratio_test_init__A_Cj( Value_iterator A_Cj_it, int j_, Tag_true)
     // store exact version of `A_Cj' (implicit conversion)
     if ( j_ < qp_n) {                                   // original variable
 
-	CGAL::cpp0x::copy_n( *(qp_A + j_), qp_m, A_Cj_it);
+	CGAL::cpp11::copy_n( *(qp_A + j_), qp_m, A_Cj_it);
 
     } else {                                            // artificial variable
 

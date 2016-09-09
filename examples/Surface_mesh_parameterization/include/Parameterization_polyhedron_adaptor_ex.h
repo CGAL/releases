@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
-// $Id: Parameterization_polyhedron_adaptor_ex.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -44,7 +44,7 @@
 // It can have have any number of borders. Its "main border"
 // will be the mesh's longest border (if there is at least one border).
 //
-// @heading Design Pattern:
+// @heading Design Pattern
 // Parameterization_polyhedron_adaptor_ex is an Adaptor [GHJV95]: it changes the
 // Polyhedron_ex interface to match the ParameterizationPatchableMesh_3 concept
 
@@ -156,7 +156,7 @@ public:
 public:
 
     //******************************************************************
-    // INTERFACE SPECIFIC TO Polyhedron_ex
+    // Interface specific to Polyhedron_ex
     //******************************************************************
 
     // Create an adaptator for an existing Polyhedron_ex mesh.

@@ -1,27 +1,3 @@
-// Copyright (c) 2000, 2001, 2004  
-// Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland),
-// INRIA Sophia-Antipolis (France),
-// Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
-//
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Geomview/demo/Geomview/gv_terrain.cpp $
-// $Id: gv_terrain.cpp 69557 2012-06-12 14:25:52Z lrineau $
-//
-//
-// Author(s)     : Sylvain Pion
-
 #include <CGAL/Cartesian.h>
 #include <iostream>
 

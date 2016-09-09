@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h $
-// $Id: Arr_spherical_batched_pl_helper.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 //                 Ron Wein <wein@post.tau.ac.il>
@@ -82,7 +82,7 @@ public:
   /*! A notification invoked after the sweep-line finishes handling the given
    * event.
    */
-  void after_handle_event(Event * event) { return; }
+  void after_handle_event(Event * ) { return; }
   //@}
 
   /*! Get the current top face. */

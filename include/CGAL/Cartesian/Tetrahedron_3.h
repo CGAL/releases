@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -27,6 +27,7 @@
 
 #include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
+#include <CGAL/enum.h>
 #include <vector>
 #include <functional>
 
@@ -40,7 +41,7 @@ class TetrahedronC3
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Tetrahedron_3        Tetrahedron_3;
 
-  typedef cpp0x::array<Point_3, 4>          Rep;
+  typedef cpp11::array<Point_3, 4>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

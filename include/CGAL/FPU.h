@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Sylvain Pion
@@ -25,7 +25,7 @@
 #ifndef CGAL_FPU_H
 #define CGAL_FPU_H
 
-#include <CGAL/number_type_basic.h>
+#include <CGAL/assertions.h>
 
 #ifndef __INTEL_COMPILER
 #include <cmath> // for HUGE_VAL
@@ -126,8 +126,15 @@ inline double IA_force_to_double(double x)
 {
 #if defined __GNUG__ && !defined __INTEL_COMPILER
   // Intel does not emulate GCC perfectly...
-  asm("" : "=m"(x) : "m"(x));
+  // Is that still true? -- Marc Glisse, 2012-12-17
+#  ifdef CGAL_SAFE_SSE2
+  // For an explanation of volatile:
+  // http://gcc.gnu.org/bugzilla/show_bug.cgi?id=56027
+  asm volatile ("" : "+mx"(x) );
+#  else
+  asm volatile ("" : "=m"(x) : "m"(x));
   // asm("" : "+m"(x) );
+#  endif
   return x;
 #else
   volatile double e = x;

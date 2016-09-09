@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_decomposition_3/include/CGAL/convex_decomposition_3.h $
-// $Id: convex_decomposition_3.h 70936 2012-08-01 13:29:16Z lrineau $ 
+// $URL$
+// $Id$ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -31,8 +31,39 @@
 #include <CGAL/Convex_decomposition_3/Edge_sorter.h>
 #include <CGAL/Convex_decomposition_3/is_reflex_sedge.h>
 
+/*! 
+  \file convex_decomposition_3.h 
+*/
+
+
+/// The CGAL namespace.
 namespace CGAL {
 
+/*!
+\ingroup PkgConvexDecomposition3
+
+The function `convex_decomposition_3()` inserts additional facets 
+into the given `Nef_polyhedron_3` `N`, such that each bounded 
+marked volume (the outer volume is unbounded) is subdivided into convex 
+pieces. The modified polyhedron represents a decomposition into 
+\f$ O(r^2)\f$ convex pieces, where \f$ r\f$ is the number of edges that have two 
+adjacent facets that span an angle of more than 180 degrees with 
+respect to the interior of the polyhedron. 
+
+The worst-case running time of our implementation is 
+\f$ O(n^2r^4\sqrt[3]{nr^2}\log{(nr)})\f$, where \f$ n\f$ is the complexity of 
+the polyhedron (the complexity of a `Nef_polyhedron_3` is the sum 
+of its `Vertices`, `Halfedges` and `SHalfedges`) and \f$ r\f$ 
+is the number of reflex edges. 
+
+\pre The polyhedron `N` is bounded. Otherwise, the outer volume is ignored. 
+
+\post If the polyhedron `N` is non-convex, it is modified to represent the 
+convex decomposition. If `N` is convex, it is not modified. 
+
+\sa `CGAL::Nef_polyhedron_3<Traits>` 
+
+*/
 template<typename Nef_polyhedron>
 void convex_decomposition_3(Nef_polyhedron& N) 
 {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: Arrangement_on_surface_2_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -58,28 +58,28 @@ Arrangement_on_surface_2<GeomTraits, TopTraits>::Arrangement_on_surface_2 () :
   typedef internal::Validate_left_side_category< GeomTraits, Cond_left::value > 
     Validate_left_side_category;
   void (Validate_left_side_category::*pleft)(void) =
-    &Validate_left_side_category::missing__Left_side_category;
+    &Validate_left_side_category::template missing__Left_side_category<int>;
   (void)pleft;
   
  typedef has_Bottom_side_category<GeomTraits> Cond_bottom;
   typedef internal::Validate_bottom_side_category< GeomTraits, Cond_bottom::value > 
     Validate_bottom_side_category;
   void (Validate_bottom_side_category::*pbottom)(void) =
-    &Validate_bottom_side_category::missing__Bottom_side_category;
+    &Validate_bottom_side_category::template missing__Bottom_side_category<int>;
   (void)pbottom;
 
  typedef has_Top_side_category<GeomTraits> Cond_top;
   typedef internal::Validate_top_side_category< GeomTraits, Cond_top::value > 
     Validate_top_side_category;
   void (Validate_top_side_category::*ptop)(void) =
-    &Validate_top_side_category::missing__Top_side_category;
+    &Validate_top_side_category::template missing__Top_side_category<int>;
   (void)ptop;
 
  typedef has_Right_side_category<GeomTraits> Cond_right;
   typedef internal::Validate_right_side_category< GeomTraits, Cond_right::value > 
     Validate_right_side_category;
   void (Validate_right_side_category::*pright)(void) =
-    &Validate_right_side_category::missing__Right_side_category;
+    &Validate_right_side_category::template missing__Right_side_category<int>;
   (void)pright;
 
   // Initialize the DCEL structure to represent an empty arrangement.
@@ -115,28 +115,28 @@ Arrangement_on_surface_2(const Geometry_traits_2 * geom_traits) :
   typedef internal::Validate_left_side_category< GeomTraits, Cond_left::value > 
     Validate_left_side_category;
   void (Validate_left_side_category::*pleft)(void) =
-    &Validate_left_side_category::missing__Left_side_category;
+    &Validate_left_side_category::template missing__Left_side_category<int>;
   (void)pleft;
   
  typedef has_Bottom_side_category<GeomTraits> Cond_bottom;
   typedef internal::Validate_bottom_side_category< GeomTraits, Cond_bottom::value > 
     Validate_bottom_side_category;
   void (Validate_bottom_side_category::*pbottom)(void) =
-    &Validate_bottom_side_category::missing__Bottom_side_category;
+    &Validate_bottom_side_category::template missing__Bottom_side_category<int>;
   (void)pbottom;
 
  typedef has_Top_side_category<GeomTraits> Cond_top;
   typedef internal::Validate_top_side_category< GeomTraits, Cond_top::value > 
     Validate_top_side_category;
   void (Validate_top_side_category::*ptop)(void) =
-    &Validate_top_side_category::missing__Top_side_category;
+    &Validate_top_side_category::template missing__Top_side_category<int>;
   (void)ptop;
 
  typedef has_Right_side_category<GeomTraits> Cond_right;
   typedef internal::Validate_right_side_category< GeomTraits, Cond_right::value > 
     Validate_right_side_category;
   void (Validate_right_side_category::*pright)(void) =
-    &Validate_right_side_category::missing__Right_side_category;
+    &Validate_right_side_category::template missing__Right_side_category<int>;
   (void)pright;
 
   // Initialize the DCEL structure to represent an empty arrangement.

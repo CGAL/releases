@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Kernel/function_objects.h $
-// $Id: function_objects.h 69073 2012-05-11 09:20:13Z pmoeller $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -33,6 +33,7 @@
 #include <CGAL/intersection_2.h>
 #include <CGAL/intersection_3.h>
 #include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Kernel/global_functions_3.h>
 
 namespace CGAL {
 

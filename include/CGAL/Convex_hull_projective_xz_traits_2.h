@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h $
-// $Id: Convex_hull_projective_xz_traits_2.h 69350 2012-05-28 07:28:03Z sloriot $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Susan Hert

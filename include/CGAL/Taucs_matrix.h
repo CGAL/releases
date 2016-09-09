@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Taucs_matrix.h $
-// $Id: Taucs_matrix.h 70794 2012-07-27 12:05:53Z glisse $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -32,7 +32,7 @@
 
 namespace CGAL {
 
-
+/// @cond SKIP_IN_MANUAL
 // Forward declaration
 template<class T> struct Taucs_traits;
 
@@ -43,9 +43,8 @@ template<class T> struct Taucs_traits;
 /// This kind of matrix can be either symmetric or not. Symmetric
 /// matrices store only the lower triangle.
 ///
-/// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d::Matrix concept.
+/// \cgalModels `SparseLinearAlgebraTraits_d::Matrix`
 ///
-/// @heading Parameters:
 /// @param T Number type. Tested with T = taucs_single or taucs_double.
 /// May also work with T = taucs_dcomplex and taucs_scomplex.
 
@@ -78,7 +77,7 @@ private:
     public:
 
         // Return the number of elements in the column
-        int size() const    { return m_values.size(); }
+      int size() const    { return static_cast<int>(m_values.size()); }
 
         // return address of column{index}
         // (NULL if coefficient does not exist).
@@ -167,7 +166,7 @@ public:
 
     /// Create a rectangular matrix initialized with zeros.
     ///
-    /// @commentheading Precondition: rows == columns if is_symmetric is true.
+    /// \pre rows == columns if is_symmetric is true.
     Taucs_matrix(int  rows,                 ///< Number of rows.
                  int  columns,              ///< Number of columns.
                  bool is_symmetric = false) ///< Symmetric/hermitian?
@@ -206,9 +205,8 @@ public:
 
     /// Read access to a matrix coefficient.
     ///
-    /// @commentheading Preconditions:
-    /// - 0 <= i < row_dimension().
-    /// - 0 <= j < column_dimension().
+    /// \pre 0 <= i < row_dimension().
+    /// \pre 0 <= j < column_dimension().
     T  get_coef(int i, int j) const
     {
         CGAL_precondition(i < m_row_dimension);
@@ -234,9 +232,8 @@ public:
     /// - Caller can optimize this call by setting 'new_coef' to true
     ///   if the coefficient does not already exist in the matrix.
     ///
-    /// @commentheading Preconditions:
-    /// - 0 <= i < row_dimension().
-    /// - 0 <= j < column_dimension().
+    /// \pre 0 <= i < row_dimension().
+    /// \pre 0 <= j < column_dimension().
     void set_coef(int i, int j, T  val, bool new_coef = false)
     {
         CGAL_precondition(i < m_row_dimension);
@@ -267,9 +264,8 @@ public:
     /// For symmetric matrices, Taucs_matrix stores only the lower triangle
     /// add_coef() does nothing if (i, j) belongs to the upper triangle.
     ///
-    /// @commentheading Preconditions:
-    /// - 0 <= i < row_dimension().
-    /// - 0 <= j < column_dimension().
+    /// \pre 0 <= i < row_dimension().
+    /// \pre 0 <= j < column_dimension().
     void add_coef(int i, int j, T val)
     {
         CGAL_precondition(i < m_row_dimension);
@@ -409,9 +405,8 @@ private:
 ///
 /// Symmetric matrices store only the lower triangle.
 ///
-/// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d::Matrix concept.
+/// \cgalModels `SparseLinearAlgebraTraits_d::Matrix`
 ///
-/// @heading Parameters:
 /// @param T Number type. Tested with T = taucs_single or taucs_double.
 /// May also work with T = taucs_dcomplex and taucs_scomplex.
 
@@ -435,7 +430,7 @@ public:
 
     /// Create a square *symmetric* matrix initialized with zeros.
     ///
-    /// @commentheading Precondition: rows == columns.
+    /// \pre rows == columns.
     Taucs_symmetric_matrix(int  rows,                 ///< Number of rows.
                            int  columns)              ///< Number of columns.
         : Taucs_matrix<T>(rows, columns, true /* symmetric */)
@@ -459,7 +454,7 @@ template<> struct Taucs_traits<taucs_dcomplex> {
 template<> struct Taucs_traits<taucs_scomplex> {
     enum { TAUCS_FLAG = TAUCS_SCOMPLEX };
 };
-
+/// @endcond
 
 } //namespace CGAL
 

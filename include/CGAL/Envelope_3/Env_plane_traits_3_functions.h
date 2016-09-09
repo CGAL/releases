@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
-// $Id: Env_plane_traits_3_functions.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -22,6 +22,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Object.h>
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -140,6 +141,7 @@ Object line_under_linear_constraint(const typename K::Line_2& l1,
   }
  
   // the two lines overlap
+  CGAL_USE_TYPE(Line_2);
   CGAL_assertion_code(Line_2 dummy;);
   CGAL_assertion_code(bool b =  assign(dummy, obj););
   CGAL_assertion(b);
@@ -152,7 +154,6 @@ Object ray_under_linear_constraint(const typename K::Ray_2&  ray,
                                    const typename K::Line_2& l,
                                    const K& k)
 {
-  typedef typename K::Ray_2         Ray_2;
   typedef typename K::Vector_2      Vector_2;
   typedef typename K::Point_2       Point_2;
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/algebraic_curve_kernel_2_tools.h $
-// $Id: algebraic_curve_kernel_2_tools.h 70399 2012-07-08 10:47:58Z eric $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -194,10 +194,9 @@ template<typename AlgebraicKernel_1,
 					  InputIterator start,
 					  InputIterator end,
 					  OutputIterator output) {
-    typedef typename AlgebraicKernel_1::Algebraic_real_1 Alg_real;
     CGAL_static_assertion
       ((::boost::is_same
-	<Alg_real,
+	<typename AlgebraicKernel_1::Algebraic_real_1,
 	typename std::iterator_traits<InputIterator>::value_type >::value));
     
     typedef typename AlgebraicKernel_1::Bound Bound;

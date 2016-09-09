@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_misc.h $
-// $Id: Trapezoidal_decomposition_2_misc.h 70193 2012-06-30 23:35:30Z efif $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>

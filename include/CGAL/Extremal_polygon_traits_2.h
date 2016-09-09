@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/Extremal_polygon_traits_2.h $
-// $Id: Extremal_polygon_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -87,7 +87,8 @@ struct Extremal_polygon_area_traits_2 {
   //  the past-the-end iterator for that range (== o + min_k()).
   {
     int number_of_points(
-      iterator_distance( points_begin, points_end));
+                         static_cast<int>(iterator_distance( points_begin, 
+                                                             points_end)));
     CGAL_optimisation_precondition( number_of_points > min_k());
     
     // this gives the area of the triangle of two points with
@@ -216,7 +217,8 @@ struct Extremal_polygon_perimeter_traits_2 {
 
     CGAL_optimisation_precondition_code(
       int number_of_points(
-        iterator_distance( points_begin, points_end));)
+                           static_cast<int>(iterator_distance( points_begin, 
+                                                               points_end)));)
     CGAL_optimisation_precondition( number_of_points > min_k());
     
     // kind of messy, but first we have to have something
@@ -232,7 +234,7 @@ struct Extremal_polygon_perimeter_traits_2 {
     
     // give result:
     max_perimeter = operation(*points_begin)(*maxi, *points_begin);
-    *o++ = iterator_distance(points_begin, maxi);
+    *o++ = static_cast<int>(iterator_distance(points_begin, maxi));
     *o++ = 0;
     
     return o;

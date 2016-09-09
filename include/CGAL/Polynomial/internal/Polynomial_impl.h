@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
-// $Id: Polynomial_impl.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -312,8 +312,8 @@ public:
   //! check if the coefficients are equal
   bool operator==(const This &o) const
   {
-    if (degree() != o.degree()) return false;
-    int max_size = (std::max)(o.coefs_.size(), coefs_.size());
+    if (degree() != static_cast<int>(o.degree())) return false;
+    int max_size = static_cast<int>((std::max)(o.coefs_.size(), coefs_.size()));
     for (int i = 0; i < max_size; ++i) {
       if (o[i] != operator[](i)) return false;
     }

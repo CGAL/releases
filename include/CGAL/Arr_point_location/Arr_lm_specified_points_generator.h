@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_specified_points_generator.h $
-// $Id: Arr_lm_specified_points_generator.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 // Author(s)     : Shlomo Golubev   <golubevs@post.tau.ac.il>
 #ifndef CGAL_ARR_SPECIFIED_POINTS_GENERATOR_H
@@ -103,11 +103,9 @@ public:
     Base (arr)
   {
     //this constructor creates a single landmark in the origin
-    Points_set points;
-    points.push_back(Point_2(0,0));
-    num_landmarks = points.size();
+    m_points.push_back(Point_2(0,0));
+    num_landmarks = 1;
     m_traits = static_cast<const Traits_adaptor_2*> (arr.geometry_traits());
-    m_points = points;
     build_landmark_set();
   }
 

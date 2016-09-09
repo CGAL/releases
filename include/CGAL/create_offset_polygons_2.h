@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/create_offset_polygons_2.h $
-// $Id: create_offset_polygons_2.h 70936 2012-08-01 13:29:16Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -127,7 +127,7 @@ create_partial_exterior_straight_skeleton_2 ( FT const&      aMaxOffset
 //
 template<class OutPolygon, class FT, class Skeleton, class K>
 std::vector< boost::shared_ptr<OutPolygon> > 
-create_offset_polygons_2 ( FT const& aOffset, Skeleton const& aSs, K const& k, Tag_false )
+create_offset_polygons_2 ( FT const& aOffset, Skeleton const& aSs, K const& , Tag_false )
 {
   typedef boost::shared_ptr<OutPolygon> OutPolygonPtr ; 
   typedef std::vector<OutPolygonPtr>    OutPolygonPtrVector ;

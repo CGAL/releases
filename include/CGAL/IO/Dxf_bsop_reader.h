@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Boolean_set_operations_2/include/CGAL/IO/Dxf_bsop_reader.h $
-// $Id: Dxf_bsop_reader.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -134,8 +134,8 @@ public:
     typename Dxf_polygon_2::iterator      curr, next;
     Point_2                               ps, pt;
     Circle_2                              supp_circ;
-    int                                   n_subarcs;
-    int                                   i;
+    std::size_t                           n_subarcs;
+    std::size_t                           i;
 
     for (pgn_it = polygons.begin(); pgn_it != polygons.end(); ++pgn_it)
     {

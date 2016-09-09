@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -852,5 +852,27 @@ public:
 };
 
 } //namespace CGAL
+
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<class NT> struct NumTraits<CGAL::Quotient<NT> >
+  {
+    typedef CGAL::Quotient<NT> Real;
+    typedef CGAL::Quotient<NT> NonInteger;
+    typedef CGAL::Quotient<NT> Nested;
+
+    static inline Real epsilon() { return NumTraits<NT>::epsilon(); }
+
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = NumTraits<NT>::RequireInitialization,
+      ReadCost = 2*NumTraits<NT>::ReadCost,
+      AddCost = 150,
+      MulCost = 100
+    };
+  };
+}
 
 #endif  // CGAL_QUOTIENT_H

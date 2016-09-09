@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
-// $Id: Minkowski_sum_conv_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -173,7 +173,7 @@ public:
     CGAL_precondition (pgn2.is_simple());
 
     // Prepare the vector of directions for the first polygon.
-    const unsigned int    n1 = pgn1.size();
+    const unsigned int    n1 = static_cast<unsigned int>(pgn1.size());
     const bool            forward1 = (pgn1.orientation() == COUNTERCLOCKWISE);
     std::vector<Direction_2>  dirs1 (n1);
     Vertex_circulator         curr1, next1;
@@ -193,7 +193,7 @@ public:
 
     // Prepare the vector of directions for the second polygon.
     // Also prepare a list containing all reflex vertices of this polygon.
-    const unsigned int    n2 = pgn2.size();
+    const unsigned int    n2 = static_cast<unsigned int>(pgn2.size());
     const bool            forward2 = (pgn2.orientation() == COUNTERCLOCKWISE);
     std::vector<Direction_2>  dirs2 (n2);
     Vertex_circulator         prev2, curr2, next2;
@@ -527,7 +527,7 @@ private:
     // the list contains no "cyclic" sub-cylces. We do that by making sure that
     // the first and last segments of the list correspond to traversals of
     // different polygons.
-    int     steps = cycle.size();
+    int     steps = static_cast<int>(cycle.size());
 
     while (steps > 0 &&
            cycle.front().label().get_flag() == 

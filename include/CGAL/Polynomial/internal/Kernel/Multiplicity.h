@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Multiplicity.h $
-// $Id: Multiplicity.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL$
+// $Id$
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -39,7 +39,7 @@ class Multiplicity: public Rational_multiplicity<K>
         Multiplicity(){}
 
         using P::operator();
-        typename P::result_type operator()(const typename K::Root &v) const
+        typename P::result_type operator()(const typename K::Root &) const
         {
             CGAL_Polynomial_precondition(0);
             return 1;

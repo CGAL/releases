@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/int.h $
-// $Id: int.h 69161 2012-05-17 07:11:35Z glisse $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -111,7 +111,18 @@ template<> class Algebraic_structure_traits< long int >
 };
 
 template <> class Real_embeddable_traits< long int >
-  : public INTERN_RET::Real_embeddable_traits_base< long int , CGAL::Tag_true > {};
+  : public INTERN_RET::Real_embeddable_traits_base< long int , CGAL::Tag_true > {
+public:
+
+    class To_interval
+      : public std::unary_function< Type, std::pair< double, double > > {
+      public:
+        std::pair<double, double> operator()( const Type& x ) const {
+          return Interval_nt<true>(x).pair();
+        }
+    };
+};
+
 
 /*! \ingroup CGAL_Modular_traits_spec
   \brief Specialization of CGAL::Modular_traits for \c long.
@@ -259,7 +270,17 @@ template <> class Real_embeddable_traits< unsigned int >
 // unsigned long
 
 template <> class Real_embeddable_traits< unsigned long >
-   : public INTERN_RET::Real_embeddable_traits_base< unsigned long , CGAL::Tag_true > {};
+   : public INTERN_RET::Real_embeddable_traits_base< unsigned long , CGAL::Tag_true > {
+public:
+
+    class To_interval
+      : public std::unary_function< Type, std::pair< double, double > > {
+      public:
+        std::pair<double, double> operator()( const Type& x ) const {
+          return Interval_nt<true>(x).pair();
+        }
+    };
+};
 
 // Note : "long long" support is in <CGAL/long_long.h>
 
