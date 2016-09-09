@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
-// $Id: AABB_search_tree.h 67117 2012-01-13 18:14:48Z lrineau $
+// $Id: AABB_search_tree.h 67743 2012-02-14 10:43:34Z lrineau $
 //
 //
 // Author(s) : Pierre Alliez, Camille Wormser

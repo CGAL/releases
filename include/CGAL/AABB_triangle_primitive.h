@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/AABB_tree/include/CGAL/AABB_triangle_primitive.h $
-// $Id: AABB_triangle_primitive.h 67117 2012-01-13 18:14:48Z lrineau $
+// $Id: AABB_triangle_primitive.h 67771 2012-02-15 13:03:09Z lrineau $
 //
 //
 // Author(s)     : Pierre Alliez, Stephane Tayeb
