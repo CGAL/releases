@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h 68828 2012-04-24 16:06:55Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: SM_overlayer.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -336,12 +336,12 @@ void link_as_target_and_append(SVertex_handle v, SHalfedge_handle e)
 SHalfedge_handle new_halfedge_pair_at_source(SVertex_handle v)
 { return G.new_shalfedge_pair_at_source(v,Graph::BEFORE); }
 
-void supporting_segment(SHalfedge_handle e, ITERATOR it) {}
-void halfedge_below(SVertex_handle v, SHalfedge_handle e) {}
-void trivial_segment(SVertex_handle v, ITERATOR it) {}
-void starting_segment(SVertex_handle v, ITERATOR it) {}
-void passing_segment(SVertex_handle v, ITERATOR it) {}
-void ending_segment(SVertex_handle v, ITERATOR it) {}
+void supporting_segment(SHalfedge_handle /*e*/, ITERATOR /*it*/) {}
+void halfedge_below(SVertex_handle /*v*/, SHalfedge_handle /*e*/) {}
+void trivial_segment(SVertex_handle /*v*/, ITERATOR /*it*/) {}
+void starting_segment(SVertex_handle /*v*/, ITERATOR /*it*/) {}
+void passing_segment(SVertex_handle /*v*/, ITERATOR /*it*/) {}
+void ending_segment(SVertex_handle /*v*/, ITERATOR /*it*/) {}
 
 
 }; // SMO_decorator

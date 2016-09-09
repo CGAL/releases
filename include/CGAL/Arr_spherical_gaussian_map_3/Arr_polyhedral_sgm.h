@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
-// $Id: Arr_polyhedral_sgm.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
+// $Id: Arr_polyhedral_sgm.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
 //            Naama mayer       <naamamay@post.tau.ac.il>
@@ -607,9 +607,7 @@ public:
 /*!
  */
 template <class Geometry_traits_2,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
           template <class T>
-#endif
           class T_Dcel = Arr_polyhedral_sgm_arr_dcel>
 class Arr_polyhedral_sgm :
   public Arr_spherical_gaussian_map_3<Geometry_traits_2, T_Dcel>
@@ -621,11 +619,7 @@ public:
   typedef typename Geometry_traits_2::Point_3               Point_3;
   typedef typename Geometry_traits_2::Vector_3              Vector_3;
 
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
   typedef T_Dcel<Geometry_traits_2>                         Dcel;
-#else
-  typedef typename T_Dcel::template Dcel<Geometry_traits_2> Dcel;
-#endif
   
   // For some reason MSVC barfs on the friend statement below. Therefore,
   // we declare the Base to be public to overcome the problem.

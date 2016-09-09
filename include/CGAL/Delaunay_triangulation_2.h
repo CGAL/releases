@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 67417 2012-01-24 17:25:20Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -2249,7 +2249,6 @@ move_if_no_collision_and_give_new_faces(Vertex_handle v,
   CGAL_triangulation_precondition(!this->is_infinite(v));	
   if(v->point() == p) return v;
 
-  typedef std::list<Face_handle>                        Faces_list;	
   const int dim = this->dimension();
 
   if(dim == 2) {

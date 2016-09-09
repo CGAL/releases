@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 68361 2012-04-04 16:12:23Z lrineau $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -30,6 +30,7 @@
 #include <utility>
 #include <stack>
 
+#include <CGAL/Unique_hash_map.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_utils_3.h>
 
@@ -1571,7 +1572,7 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
   CGAL_triangulation_assertion( i == n+1 );
   CGAL_triangulation_assertion( tr.is_infinite(TV[0]) );
 
-  std::map<Vertex_handle, std::size_t > V;
+  Unique_hash_map<Vertex_handle, std::size_t > V;
 
   V[tr.infinite_vertex()] = 0;
   for (i=1; i <= n; i++) {

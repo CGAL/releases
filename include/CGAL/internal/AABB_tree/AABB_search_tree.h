@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
-// $Id: AABB_search_tree.h 67743 2012-02-14 10:43:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
+// $Id: AABB_search_tree.h 70837 2012-07-28 06:21:06Z glisse $
 //
 //
 // Author(s) : Pierre Alliez, Camille Wormser
@@ -125,7 +125,6 @@ namespace CGAL
 
                 Point_and_primitive_id closest_point(const Point& query) const
                 {
-                        typedef typename Add_decorated_point<Traits, typename Traits::Primitive::Id>::Point_3 Decorated_point;
                         Neighbor_search search(*m_p_tree, query, 1);
                         return Point_and_primitive_id(static_cast<Point>(search.begin()->first), search.begin()->first.id());
                 }

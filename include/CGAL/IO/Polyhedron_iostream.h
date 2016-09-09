@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_iostream.h $
-// $Id: Polyhedron_iostream.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_iostream.h $
+// $Id: Polyhedron_iostream.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -30,9 +30,7 @@ namespace CGAL {
 
 template < class Traits,
            class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
-#endif
            class HDS, class Alloc>
 std::ostream&
 operator<<( std::ostream& out, const Polyhedron_3<Traits,Items,HDS,Alloc>& P) {
@@ -45,9 +43,7 @@ operator<<( std::ostream& out, const Polyhedron_3<Traits,Items,HDS,Alloc>& P) {
 
 template < class Traits,
            class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
-#endif
            class HDS, class Alloc>
 std::istream& operator>>(std::istream& in,
                          Polyhedron_3<Traits,Items,HDS,Alloc>& P) {

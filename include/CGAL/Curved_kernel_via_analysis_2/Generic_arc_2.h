@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h $
-// $Id: Generic_arc_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h $
+// $Id: Generic_arc_2.h 70398 2012-07-08 10:30:22Z eric $
 //
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -279,7 +279,7 @@ public:
 
 template <class SweepCurvesAdaptor_2, class Rep_>
 std::ostream& operator << (std::ostream& os,
-    const Generic_arc_2<SweepCurvesAdaptor_2, Rep_>& arc) {
+                           const Generic_arc_2<SweepCurvesAdaptor_2, Rep_>& arc) {
 
     os << arc.id() << "@";
     if(arc.is_degenerate())
@@ -291,7 +291,7 @@ std::ostream& operator << (std::ostream& os,
 
 template <class SweepCurvesAdaptor_2, class Rep_>
 std::istream& operator >> (std::istream& is,
-    Generic_arc_2<SweepCurvesAdaptor_2, Rep_>& arc) {
+                           Generic_arc_2<SweepCurvesAdaptor_2, Rep_>& /* arc */) {
 
     std::cerr << "bogus >> call for generic_arc\n";
     return is;

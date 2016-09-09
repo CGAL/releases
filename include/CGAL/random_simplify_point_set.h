@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
-// $Id: random_simplify_point_set.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
+// $Id: random_simplify_point_set.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 // Author(s) : Laurent Saboret
 
@@ -65,8 +65,8 @@ random_simplify_point_set(
   std::random_shuffle (first, beyond);
 
   // Computes first iterator to remove
-  int nb_points = std::distance(first, beyond);
-  int first_index_to_remove = int(double(nb_points) * ((100.0-removed_percentage)/100.0));
+  std::size_t nb_points = std::distance(first, beyond);
+  std::size_t first_index_to_remove = (std::size_t)(double(nb_points) * ((100.0-removed_percentage)/100.0));
   ForwardIterator first_point_to_remove = first;
   std::advance(first_point_to_remove, first_index_to_remove);
 

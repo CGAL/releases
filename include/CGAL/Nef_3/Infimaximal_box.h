@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
-// $Id: Infimaximal_box.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
+// $Id: Infimaximal_box.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
@@ -139,7 +139,9 @@ class Infimaximal_box {
     return NT(1);
   }
 
-  static void compute_min_max(const Plane_3& , NT orth_coords[3], int& /* min */, int& /* max */) { }
+  static void compute_min_max(const Plane_3& , NT orth_coords[3], int& /* min */, int& /* max */) { 
+    (void)orth_coords;
+  }
 
   static Point_3 scale_infibox_vertex(const Point_3& ) {
     return Point_3();
@@ -163,7 +165,7 @@ class Infimaximal_box {
     return std::list<Point_3>();
   }
 
-  static typename std::list<Point_3>::const_iterator segment_on_side(int side_of_point, 
+  static typename std::list<Point_3>::const_iterator segment_on_side(int /*side_of_point*/, 
 							      const std::list<Point_3>& segs) {  
     return segs.begin();
   }

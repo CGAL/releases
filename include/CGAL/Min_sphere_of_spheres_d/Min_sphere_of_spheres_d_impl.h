@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
-// $Id: Min_sphere_of_spheres_d_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
+// $Id: Min_sphere_of_spheres_d_impl.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -64,7 +64,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   template<class Traits>
   void Min_sphere_of_spheres_d<Traits>::update(LP_algorithm) {
     using namespace Min_sphere_of_spheres_d_impl;
-    const int n = l.size();
+    const int n = (int)l.size();
     int i, k = n;
     do {
       CGAL_MINIBALL_ASSERT(k>=e && e>=0);
@@ -224,7 +224,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
   template<class Traits>
   void Min_sphere_of_spheres_d<Traits>::update(Farthest_first_heuristic) {
-    const int n = l.size();
+    const int n = (int)l.size();
     int i = e;
     CGAL_MINIBALL_ASSERT(e <= n);
   

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/halfedge_collapse_Polyhedron_3.h $
-// $Id: halfedge_collapse_Polyhedron_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/halfedge_collapse_Polyhedron_3.h $
+// $Id: halfedge_collapse_Polyhedron_3.h 69044 2012-05-10 10:18:01Z pmoeller $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -22,11 +22,7 @@
 #include <CGAL/Surface_mesh_simplification/Detail/Common.h>
 #include <CGAL/Polyhedron_3.h>
 
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
 #  define CGAL_HDS_PARAM_ template < class Traits, class Items, class Alloc> class HDS
-#else
-#  define CGAL_HDS_PARAM_ class HDS
-#endif
 
 namespace CGAL {
 
@@ -124,7 +120,7 @@ halfedge_collapse( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edg
 
 } //namespace CGAL
 
-#undef CGAL_HDS_
+#undef CGAL_HDS_PARAM
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_COLLAPSE_TRIANGULATION_EDGE_POLYHEDRON_3_H
 // EOF //

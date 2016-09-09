@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Kernel_traits.h $
-// $Id: Kernel_traits.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Kernel_traits.h $
+// $Id: Kernel_traits.h 68849 2012-04-25 11:48:29Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -31,6 +31,7 @@ template <class T>
 struct Kernel_traits
 {
   typedef typename T::R Kernel;
+  typedef Kernel type;
 };
 
 } // end namespace CGAL

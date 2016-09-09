@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
-// $Id: partition_optimal_convex_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
+// $Id: partition_optimal_convex_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -205,7 +205,6 @@ bool collinearly_visible(unsigned int edge_num1, unsigned int e_num,
                          const Polygon& polygon,
                          const Traits& traits)
 {
-   typedef typename Polygon::size_type                   size_type;
    typedef typename Traits::Orientation_2                Orientation_2;
    Orientation_2 orientation = traits.orientation_2_object();
 
@@ -447,7 +446,6 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
 {
     typedef typename Polygon::size_type                   size_type;
 
-    typedef typename Polygon::iterator                    Vertex_iterator;
     typedef Vertex_visibility_graph_2<Traits>             Vis_graph;
     typedef typename Traits::Point_2                      Point_2;
     typedef std::pair<Point_2, Point_2>                   Point_pair;

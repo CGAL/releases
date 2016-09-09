@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron/demo/Polyhedron/include/CGAL/AABB_polyhedral_oracle.h $
-// $Id: AABB_polyhedral_oracle.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron/demo/Polyhedron/include/CGAL/AABB_polyhedral_oracle.h $
+// $Id: AABB_polyhedral_oracle.h 70725 2012-07-25 08:10:35Z sloriot $
 //
 //
 // Author(s) : Pierre Alliez, Laurent Rineau, Stephane Tayeb
@@ -137,9 +137,9 @@ namespace CGAL {
       }
 
       template <typename OutputIteratorPoints>
-      OutputIteratorPoints operator() (const Surface_3& surface,
+      OutputIteratorPoints operator() (const Surface_3& /* surface */,
 	OutputIteratorPoints out,
-	int n) const
+	int /* n */) const
       {
 	// std::cout << "AABB_polyhedral_oracle: empty initial point set" << std::endl;
 	return out;

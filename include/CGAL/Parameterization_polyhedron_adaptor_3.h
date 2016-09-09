@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
-// $Id: Parameterization_polyhedron_adaptor_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
+// $Id: Parameterization_polyhedron_adaptor_3.h 68566 2012-04-16 15:24:14Z lrineau $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -441,7 +441,7 @@ public:
         int index = 0;
         for (Vertex_iterator it=mesh_vertices_begin(); it!=mesh_vertices_end(); it++)
         {
-            Point_3 position = get_vertex_position(it);
+            // Point_3 position = get_vertex_position(it);
 /*#ifdef DEBUG_TRACE
             fprintf(stderr, "    %d=(%f,%f,%f)\n",
                             index,

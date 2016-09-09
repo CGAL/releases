@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial/determinant.h $
-// $Id: determinant.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/determinant.h $
+// $Id: determinant.h 70341 2012-07-06 07:19:16Z eric $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -134,7 +134,7 @@ namespace internal {
     template <class M, class other> inline
     typename M::NT inexact_determinant_select (const M& matrix,
                                                int n,
-                                               other type)
+                                               other /* type */)
     {
         return det_berkowitz(matrix, n);
     }

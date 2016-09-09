@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/CGALimageIO/include/CGAL/Image_3.h $
-// $Id: Image_3.h 68449 2012-04-11 16:57:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/CGALimageIO/include/CGAL/Image_3.h $
+// $Id: Image_3.h 68213 2012-03-26 16:52:17Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Pierre Alliez

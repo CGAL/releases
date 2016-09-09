@@ -16,14 +16,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
-// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
+// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 69615 2012-06-14 14:57:19Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
 
 //| This flag is set if the compiler bugs when handling denormal values at
 //| compile time.  At least PGCC 7.1-2 has the bug.
+//|
+//| Laurent Rineau, 2012/06/14: no supported platform has the bug now.
 
 #undef NDEBUG
 #include <cassert>

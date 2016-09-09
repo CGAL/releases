@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
+// $Id: Index_property_map.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 // Author(s)     : Laurent Saboret
 
@@ -126,13 +126,13 @@ class Index_property_map<Iter,
 public:
   // Property maps' required types
   typedef boost::readable_property_map_tag  category;
-  typedef unsigned int                      value_type;
+  typedef std::size_t                       value_type;
   typedef value_type                        reference;
   typedef Iter                              key_type;
 
   Index_property_map(
     Iter first,  ///< iterator over the first element (index 0)
-    Iter beyond) ///< past-the-end iterator over the elements
+    Iter /*beyond*/) ///< past-the-end iterator over the elements
   : m_first(first)
   {
     CGAL_TRACE("  Index_property_map: optimized version for a random access container\n");

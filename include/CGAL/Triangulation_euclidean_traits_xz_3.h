@@ -12,14 +12,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_xz_3.h $
-// $Id: Triangulation_euclidean_traits_xz_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_xz_3.h $
+// $Id: Triangulation_euclidean_traits_xz_3.h 69350 2012-05-28 07:28:03Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
 
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XZ_3_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XZ_3_H
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Triangulation_euclidean_traits_xz_3.h>"
+#define CGAL_REPLACEMENT_HEADER "<CGAL/Projection_traits_xz_3.h>"
+#include <CGAL/internal/deprecation_warning.h>
 
 #include <CGAL/internal/Projection_traits_3.h>
 namespace CGAL {

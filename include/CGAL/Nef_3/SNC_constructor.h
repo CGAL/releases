@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
-// $Id: SNC_constructor.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
+// $Id: SNC_constructor.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de> 
@@ -498,7 +498,6 @@ public:
   Vertex_handle create_from_plane(const Plane_3& pl, const Point_3& p, 
 				  const Mark& bnd, 
 				  const Mark& in, const Mark& out) const {
-    typedef typename CGAL::SNC_const_decorator<SNC_structure> SNC_const_decorator;
     Vertex_handle v = this->sncp()->new_vertex( p, bnd);
     v->point() = p;
     Sphere_circle c(pl); // circle through origin parallel to h

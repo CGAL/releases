@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
-// $Id: QP_functions_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
+// $Id: QP_functions_impl.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -46,7 +46,7 @@ namespace QP_functions_detail {
   // type of LinearInequalitySystem must be convertible to ET
   template <class Ar, class ET>
   bool has_linearly_independent_equations 
-  (const Ar& ar, const ET& dummy) {
+  (const Ar& ar, const ET& /*dummy*/) {
     // we solve the following auxiliary LP, using exact type ET:
     // --------
     // min 0

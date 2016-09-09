@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 70027 2012-06-25 12:04:15Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -287,7 +287,7 @@ split_points( RandomAccessIter begin, RandomAccessIter end,
 
 
 template< class ForwardIter, class Traits >
-void dump_points( ForwardIter begin, ForwardIter end, Traits traits,
+void dump_points( ForwardIter begin, ForwardIter end, Traits /* traits */,
                   int dim ) {
     while( begin != end ) {
         std::cout << Traits::min_coord( *begin, dim ) << " ";
@@ -297,7 +297,7 @@ void dump_points( ForwardIter begin, ForwardIter end, Traits traits,
 }
 
 template< class ForwardIter, class Traits >
-void dump_intervals( ForwardIter begin, ForwardIter end, Traits traits,
+void dump_intervals( ForwardIter begin, ForwardIter end, Traits /* traits */,
                      int dim ) {
     while( begin != end ) {
         std::cout << "[" << Traits::min_coord( *begin, dim ) << ","
@@ -308,7 +308,7 @@ void dump_intervals( ForwardIter begin, ForwardIter end, Traits traits,
 }
 
 template< class ForwardIter, class  Traits >
-void dump_box_numbers( ForwardIter begin, ForwardIter end, Traits traits ) {
+void dump_box_numbers( ForwardIter begin, ForwardIter end, Traits /* traits */ ) {
     while( begin != end ) {
         std::cout << Traits::id( *begin ) << " ";
         ++begin;

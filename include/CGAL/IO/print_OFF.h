@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron_IO/include/CGAL/IO/print_OFF.h $
-// $Id: print_OFF.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron_IO/include/CGAL/IO/print_OFF.h $
+// $Id: print_OFF.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -55,9 +55,7 @@ void print_polyhedron_OFF( std::ostream& out,
 
 template < class Traits,
            class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
-#endif
            class HDS, class Alloc>
 void
 print_OFF( std::ostream& out,
@@ -73,9 +71,7 @@ print_OFF( std::ostream& out,
 
 template < class Traits,
            class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
-#endif
            class HDS, class Alloc>
 void
 print_OFF( std::ostream& out,

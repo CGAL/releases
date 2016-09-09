@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
 // $Id: GraphicsViewPolygonWithHolesInput.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //

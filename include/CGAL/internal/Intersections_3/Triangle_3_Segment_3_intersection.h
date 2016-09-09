@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_3/include/CGAL/internal/Intersections_3/Triangle_3_Segment_3_intersection.h $
-// $Id: Triangle_3_Segment_3_intersection.h 68389 2012-04-05 12:47:18Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_3/include/CGAL/internal/Intersections_3/Triangle_3_Segment_3_intersection.h $
+// $Id: Triangle_3_Segment_3_intersection.h 70837 2012-07-28 06:21:06Z glisse $
 //
 //
 // Author(s)     :  Laurent Rineau, Stephane Tayeb
@@ -42,7 +42,6 @@ t3s3_intersection_coplanar_aux(const typename K::Point_3& p,
   // preconditions:
   //   + p,q,a,b are coplanar
 
-  typedef typename K::Point_3 Point_3;
   typedef typename K::Vector_3 Vector_3;
   typedef typename K::FT FT;
 

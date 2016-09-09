@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
-// $Id: Xy_coordinate_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
+// $Id: Xy_coordinate_2.h 70399 2012-07-08 10:47:58Z eric $
 // 
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -268,12 +268,16 @@ public:
     Algebraic_real_1 y() const {
 
         typedef std::vector< Algebraic_real_1 > Roots;
-        typedef typename Curve_analysis_2::Status_line_1 Key;
-        typedef Roots Data;
-        typedef std::map< Key, Data, CGAL::Handle_id_less_than< Key > > 
-            Y_root_map;
+        // EBEB 2012-07-05 deactivated map for y-roots for not being used
+        // typedef typename Curve_analysis_2::Status_line_1 Key;
+        // EBEB 2012-07-05 deactivated map for y-roots for not being used
+        // typedef Roots Data;
+        // EBEB 2012-07-05 deactivated map for y-roots for not being used
+        //        typedef std::map< Key, Data, CGAL::Handle_id_less_than< Key > > 
+        //    Y_root_map;
         
-        static Y_root_map y_root_map;
+        // EBEB 2012-07-05 deactivated map for y-roots for not being used
+        //static Y_root_map y_root_map;
 
         if (!this->ptr()->_m_y) {
             
@@ -287,8 +291,9 @@ public:
             typename Curve_analysis_2::Status_line_1 line =
                 curve().status_line_at_exact_x(x());
             
-            typename Y_root_map::iterator yit = 
-                y_root_map.find(line);
+            // EBEB 2012-07-05 deactivated map for y-roots for not being used
+            //typename Y_root_map::iterator yit = 
+            //    y_root_map.find(line);
 
             // TODO: Cache resultant computation
             // exacus-related code shouldn't be used here

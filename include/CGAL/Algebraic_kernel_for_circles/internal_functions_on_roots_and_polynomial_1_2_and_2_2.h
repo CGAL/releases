@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomial_1_2_and_2_2.h $
-// $Id: internal_functions_on_roots_and_polynomial_1_2_and_2_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomial_1_2_and_2_2.h $
+// $Id: internal_functions_on_roots_and_polynomial_1_2_and_2_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -174,7 +174,6 @@ namespace CGAL {
     Sign sign_at( const typename AK::Polynomial_1_2 & equation,
 		  const typename AK::Root_for_circles_2_2 & r)
     {
-      typedef typename AK::Root_of_2 Root_of_2;
       Comparison_result c = compare(r.x()*equation.a(), 
                                     -equation.c() - r.y()*equation.b());
       if(c == EQUAL) return ZERO;

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circulator/include/CGAL/circulator.h $
-// $Id: circulator.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circulator/include/CGAL/circulator.h $
+// $Id: circulator.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -30,6 +30,7 @@
 #include <functional>
 #include <iterator>
 #include <CGAL/circulator_bases.h>
+#include <CGAL/use.h>
 
 // These are name redefinitions for backwards compatibility
 // with the pre iterator-traits style adaptors.
@@ -743,6 +744,7 @@ public:
 // OPERATIONS
 
     bool operator==( Nullptr_t p) const {
+        CGAL_USE(p);
         CGAL_assertion( p == NULL);
         return (ctnr == NULL) || (ctnr->begin() == ctnr->end());
     }
@@ -876,6 +878,7 @@ public:
 // OPERATIONS
 
     bool operator==( Nullptr_t p) const {
+        CGAL_USE(p);
         CGAL_assertion( p == NULL);
         return (ctnr == NULL) || (ctnr->begin() == ctnr->end());
     }
@@ -1028,6 +1031,7 @@ public:
 // OPERATIONS
 
     bool operator==( Nullptr_t p) const {
+        CGAL_USE(p);
         CGAL_assertion( p == NULL);
         return empty;
     }

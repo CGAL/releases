@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
-// $Id: Regular_triangulation_euclidean_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
+// $Id: Regular_triangulation_euclidean_traits_2.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -180,8 +180,8 @@ compare_power_distance(const Weighted_point<Bare_point, Weight>& p,
 		       const Bare_point& r, Homogeneous_tag)
 {
   typedef typename Kernel_traits<Bare_point>::Kernel::RT  RT;
-  return compare_power_distanceH2(p.hx(), p.hy(), p.hw(), FT(p.weight()),
-				  q.hx(), q.hy(), q.hw(), FT(q.weight()),
+  return compare_power_distanceH2(p.hx(), p.hy(), p.hw(), RT(p.weight()),
+				  q.hx(), q.hy(), q.hw(), RT(q.weight()),
 				  r.hx(), r.hy(), r.hw());
 }
 
@@ -306,7 +306,6 @@ typename Kernel_traits<Bare_point>::Kernel::Oriented_side
 power_test_2(const Weighted_point<Bare_point, Weight> &p,
 	     const Weighted_point<Bare_point, Weight> &t)
 {
-  typedef typename Kernel_traits<Bare_point>::Kernel::RT  RT;
   Comparison_result r = compare(p.weight(), t.weight());
   if(r == LARGER)    return ON_NEGATIVE_SIDE;
   else if (r == SMALLER) return ON_POSITIVE_SIDE;

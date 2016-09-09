@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Subdivision_method_3/include/CGAL/Polyhedron_decorator_3.h $
-// $Id: Polyhedron_decorator_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Subdivision_method_3/include/CGAL/Polyhedron_decorator_3.h $
+// $Id: Polyhedron_decorator_3.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -116,7 +116,7 @@ public:
       a <----------> b
       H is the return halfedge connecting vertex a to b.      
   */
-  static Halfedge* insert_edge(Polyhedron& p, Vertex* a, Vertex* b) {
+  static Halfedge* insert_edge(Polyhedron& /*p*/, Vertex* a, Vertex* b) {
     return insert_edge(Vertex_handle(a), Vertex_handle(b)).ptr();
   }
   //

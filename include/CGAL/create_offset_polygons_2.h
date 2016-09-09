@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Straight_skeleton_2/include/CGAL/create_offset_polygons_2.h $
-// $Id: create_offset_polygons_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/create_offset_polygons_2.h $
+// $Id: create_offset_polygons_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -47,7 +47,6 @@ create_partial_interior_straight_skeleton_2 ( FT const&     aMaxTime
                                             )
 {
   typedef Straight_skeleton_2<K> Ss ;
-  typedef boost::shared_ptr<Ss>  SsPtr ;
 
   typedef Straight_skeleton_builder_traits_2<K> SsBuilderTraits;
   

@@ -25,7 +25,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/src/CGALCore/CoreIO.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/src/CGALCore/CoreIO.cpp $
  * $Id: CoreIO.cpp 67117 2012-01-13 18:14:48Z lrineau $
  ***************************************************************************/
 

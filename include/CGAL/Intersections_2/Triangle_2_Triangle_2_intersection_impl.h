@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Intersections_2/Triangle_2_Triangle_2_intersection_impl.h $
-// $Id: Triangle_2_Triangle_2_intersection_impl.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Intersections_2/Triangle_2_Triangle_2_intersection_impl.h $
+// $Id: Triangle_2_Triangle_2_intersection_impl.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -120,8 +120,8 @@ void _cut_off(Pointlist_2_<K> &list,
             last->next = newrec;
             newrec->side = ON_ORIENTED_BOUNDARY;
             Line_2_Line_2_pair<K> linepair(&cutter,  &l);
-            typename Line_2_Line_2_pair<K>::Intersection_results isr;
-            isr = linepair.intersection_type();
+            CGAL_kernel_assertion_code(typename Line_2_Line_2_pair<K>::Intersection_results isr =)
+            linepair.intersection_type();
             CGAL_kernel_assertion(isr == Line_2_Line_2_pair<K>::POINT);
             newrec->point = linepair.intersection_point();
         }

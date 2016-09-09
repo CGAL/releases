@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/basic.h $
-// $Id: basic.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/basic.h $
+// $Id: basic.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner
@@ -30,6 +30,14 @@
 
 #include <iostream>
 #include <cstdlib>
+
+// This cannot be disabled for now until we have a clear idea which
+// compilers implement N3276.
+
+// #if !defined(CGAL_CFG_NO_CPP0X_DECLTYPE)
+//   #define BOOST_RESULT_OF_USE_DECLTYPE
+// #endif
+#include <boost/utility/result_of.hpp>
 
 #include <CGAL/assertions.h>
 #include <CGAL/tags.h>

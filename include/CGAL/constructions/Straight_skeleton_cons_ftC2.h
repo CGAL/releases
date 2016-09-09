@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
-// $Id: Straight_skeleton_cons_ftC2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
+// $Id: Straight_skeleton_cons_ftC2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -553,7 +553,6 @@ optional< Point_2<K> > construct_normal_offset_lines_isecC2 ( intrusive_ptr< Tri
 {
   typedef typename K::FT  FT ;
   
-  typedef Point_2<K> Point_2 ;
   typedef Line_2<K>  Line_2 ;
   
   typedef optional<Line_2>  Optional_line_2 ;

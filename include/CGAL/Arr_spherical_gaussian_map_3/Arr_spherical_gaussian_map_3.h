@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
-// $Id: Arr_spherical_gaussian_map_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
+// $Id: Arr_spherical_gaussian_map_3.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
 //            Naama mayer       <naamamay@post.tau.ac.il>
@@ -331,18 +331,12 @@ protected:
  * embedded on the sphere.
  */
 template <class T_Traits,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
           template <class T>
-#endif
           class T_Dcel = Arr_default_dcel>
 class Arr_spherical_gaussian_map_3 :
   public Arrangement_on_surface_2<T_Traits,
     Arr_spherical_topology_traits_2<T_Traits,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
       T_Dcel<T_Traits>
-#else
-      typename T_Dcel::template Dcel<T_Traits>
-#endif
     >
   >
 {

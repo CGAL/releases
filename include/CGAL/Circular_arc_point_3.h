@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_3/include/CGAL/Circular_arc_point_3.h $
-// $Id: Circular_arc_point_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_arc_point_3.h $
+// $Id: Circular_arc_point_3.h 70837 2012-07-28 06:21:06Z glisse $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Julien Hazebrouck, Damien Leroy
@@ -197,18 +197,15 @@ public:
 
       
       
-  typename Qualified_result_of<typename R::Compute_circular_x_3,Circular_arc_point_3>::type
-  //const Root_of_2 &
+  typename boost::result_of<typename R::Compute_circular_x_3(Circular_arc_point_3)>::type
   x() const
   { return typename R::Compute_circular_x_3()(*this);}
 
-  typename Qualified_result_of<typename R::Compute_circular_y_3,Circular_arc_point_3>::type
-  //const Root_of_2 &
+  typename boost::result_of<typename R::Compute_circular_y_3(Circular_arc_point_3)>::type
   y() const
   { return typename R::Compute_circular_y_3()(*this);}
 
-  typename Qualified_result_of<typename R::Compute_circular_z_3,Circular_arc_point_3>::type
-  //const Root_of_2 &
+  typename boost::result_of<typename R::Compute_circular_z_3(Circular_arc_point_3)>::type
   z() const
   { return typename R::Compute_circular_z_3()(*this);}
 
@@ -228,7 +225,6 @@ public:
   std::istream &
   operator>>(std::istream & is, Circular_arc_point_3<SK> &p)
   {
-    typedef typename SK::Root_of_2               Root_of_2;
     typedef typename SK::Root_for_spheres_2_3    Root_for_spheres_2_3;
     
     Root_for_spheres_2_3 r;

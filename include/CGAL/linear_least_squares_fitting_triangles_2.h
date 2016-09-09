@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_triangles_2.h $
-// $Id: linear_least_squares_fitting_triangles_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_triangles_2.h $
+// $Id: linear_least_squares_fitting_triangles_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -56,7 +56,6 @@ linear_least_squares_fitting_2(InputIterator first,
   // types
   typedef typename Kernel::FT       FT;
   typedef typename Kernel::Line_2   Line;
-  typedef typename Kernel::Point_2  Point;
   typedef typename Kernel::Vector_2 Vector;
   typedef typename Kernel::Triangle_2 Triangle;
   typedef typename CGAL::Linear_algebraCd<FT> LA;

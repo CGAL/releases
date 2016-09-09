@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
-// $Id: refine_mesh_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
+// $Id: refine_mesh_3.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -310,7 +310,6 @@ void refine_mesh_3_impl(C3T3& c3t3,
                         bool reset_c3t3)
 {
   typedef Mesh_3::Mesher_3<C3T3, MeshCriteria, MeshDomain> Mesher;
-  typedef typename C3T3::Triangulation::Geom_traits Gt;
 
   // Reset c3t3 (i.e. remove weights) if needed
   if ( reset_c3t3 )

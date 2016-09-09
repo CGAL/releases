@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/AABB_tree/include/CGAL/AABB_segment_primitive.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/AABB_tree/include/CGAL/AABB_segment_primitive.h $
 // $Id: AABB_segment_primitive.h 67771 2012-02-15 13:03:09Z lrineau $
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Linear_cell_complex/demo/Linear_cell_complex/Linear_cell_complex_3_demo.cpp $
-// $Id: Linear_cell_complex_3_demo.cpp 67427 2012-01-24 18:39:05Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Linear_cell_complex/demo/Linear_cell_complex/Linear_cell_complex_3_demo.cpp $
+// $Id: Linear_cell_complex_3_demo.cpp 69081 2012-05-11 11:55:15Z gdamiand $
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //
@@ -21,10 +21,15 @@
 #include "typedefs.h"
 #include <QApplication>
 #include <CGAL/Qt/resources.h>
+#include <CGAL/assertions_behaviour.h>
+
+// Global random
+CGAL::Random myrandom;
 
 int main(int argc, char** argv)
 {
-  std::cout<<"Size of dart: "<<sizeof(LCC::Dart)<<std::endl;
+  // std::cout<<"Size of dart: "<<sizeof(LCC::Dart)<<std::endl;
+  CGAL::set_error_behaviour(CGAL::ABORT);
 
   QApplication application(argc,argv);
   

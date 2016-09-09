@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Subdivision_method_3/include/CGAL/Subdivision_mask_3.h $
-// $Id: Subdivision_mask_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Subdivision_method_3/include/CGAL/Subdivision_mask_3.h $
+// $Id: Subdivision_mask_3.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -104,7 +104,7 @@ public:
     pt = vertex->point();
   }
   //
-  void border_node(Halfedge_handle edge, Point& ept, Point& vpt){
+  void border_node(Halfedge_handle edge, Point& ept, Point& /*vpt*/){
     edge_node(edge, ept);
   }
 };
@@ -237,9 +237,9 @@ public:
     if (n == 6) {
       pt = Point((10*S[0]+R[0])/16, (10*S[1]+R[1])/16, (10*S[2]+R[2])/16);
     } else {
-      FT Cn = (FT) (5.0/8.0 - std::sqrt(3+2*std::cos(6.283/n))/64.0);
-      FT Sw = n*(1-Cn)/Cn;
-      FT W = n/Cn;
+      FT Cn = (FT) (5.0/8.0 - std::sqrt(3+2*std::cos(6.283/(double)n))/64.0);
+      FT Sw = (double)n*(1-Cn)/Cn;
+      FT W = (double)n/Cn;
       pt = Point((Sw*S[0]+R[0])/W, (Sw*S[1]+R[1])/W, (Sw*S[2]+R[2])/W);
     }
   }
@@ -279,7 +279,7 @@ public:
 
 public:
   //
-  void corner_node(Halfedge_handle edge, Point& pt) {};
+  void corner_node(Halfedge_handle /*edge*/, Point& /*pt*/) {};
 };
 
 
@@ -358,11 +358,11 @@ public:
     Halfedge_around_vertex_circulator vcir = vertex->vertex_begin();
     size_t n = circulator_size(vcir);
 
-    FT a = (FT) ((4.0-2.0*std::cos(2.0*CGAL_PI/n))/9.0);
+    FT a = (FT) ((4.0-2.0*std::cos(2.0*CGAL_PI/(double)n))/9.0);
 
     Vector cv = ((FT)(1.0-a)) * (vertex->point() - CGAL::ORIGIN);
     for (size_t i = 1; i <= n; ++i, --vcir) {
-      cv = cv + (a/n)*(vcir->opposite()->vertex()->point()-CGAL::ORIGIN);
+      cv = cv + (a/FT(n))*(vcir->opposite()->vertex()->point()-CGAL::ORIGIN);
     }
 
     pt = CGAL::ORIGIN + cv;    

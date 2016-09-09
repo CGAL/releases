@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
-// $Id: Basic_sweep_line_2_impl.h 68828 2012-04-24 16:06:55Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
+// $Id: Basic_sweep_line_2_impl.h 68572 2012-04-17 12:03:00Z pmoeller $
 // 
 //
 // Author(s)     : Baruch Zukerman  <baruchzu@post.tau.ac.il>

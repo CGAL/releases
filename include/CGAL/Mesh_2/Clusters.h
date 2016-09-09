@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: Clusters.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -296,9 +296,6 @@ public:
   {
     typedef typename Cluster_map::const_iterator Iterator;
     typedef std::pair<Iterator, Iterator> Range;
-    typedef typename Range::first_type Clusters_iterator;
-    typedef Pair_get_first<typename Cluster_vertices_map::value_type>
-      Get_first;
 
     Range range = cluster_map.equal_range(vh);
     Iterator first = range.first;

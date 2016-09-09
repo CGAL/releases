@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -482,13 +482,13 @@ class Algebraic_structure_traits_base< Type_, Field_tag >
     : public std::binary_function< Type, Type, bool > { 
   public:
     bool operator()( const Type& CGAL_precondition_code(x), const Type& /* y */) const {
-      typedef Algebraic_structure_traits<Type> AST;
+      CGAL_precondition_code( typedef Algebraic_structure_traits<Type> AST);
       CGAL_precondition( typename AST::Is_zero()(x) == false );
       return true;
     } 
     // second operator computing q
     bool operator()( const Type& x, const Type& y, Type& q) const {
-      typedef Algebraic_structure_traits<Type> AST;
+      CGAL_precondition_code(typedef Algebraic_structure_traits<Type> AST);
       CGAL_precondition( typename AST::Is_zero()(x) == false );
       q = y/x;
       return true;

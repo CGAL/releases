@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
-// $Id: partition_approx_convex_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
+// $Id: partition_approx_convex_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -135,7 +135,6 @@ OutputIterator partition_approx_convex_2(InputIterator first,
    typedef Triangulation_indirect_traits_2<Circulator, Traits>  Gt;
 
    typedef Constrained_triangulation_2<Gt>             Constrained_tri_2;
-   typedef typename Constrained_tri_2::Edge_iterator   Edge_iterator;
    typedef typename Constrained_tri_2::Edge_circulator Edge_circulator;
    typedef typename Constrained_tri_2::Vertex_iterator Tri_vertex_iterator;
    typedef typename Constrained_tri_2::Vertex_handle   Vertex_handle;

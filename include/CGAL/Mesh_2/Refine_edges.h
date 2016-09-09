@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
-// $Id: Refine_edges.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: Refine_edges.h 70763 2012-07-26 14:02:13Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -422,12 +422,6 @@ public:
     zone.fh = triangulation_ref_impl().locate(p, zone.locate_type, zone.i, edge.first);
 
     const Face_handle n = f->neighbor(i);
-    CGAL_assertion_msg(zone.locate_type != Tr::FACE ||
-                       zone.fh == f || zone.fh == n,
-                       "Your data set contains at least a vertex that is "
-                       "very close to \n"
-                       "  a constrained edge! "
-                       "Mesh_2 cannot mesh that sort of data set.");
 
     const bool f_does_conflict = (zone.locate_type == Tr::EDGE) ||
       triangulation_ref_impl().test_conflict(p, f);

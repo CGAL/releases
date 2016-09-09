@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/HalfedgeDS/include/CGAL/HalfedgeDS_items_decorator.h $
-// $Id: HalfedgeDS_items_decorator.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/HalfedgeDS/include/CGAL/HalfedgeDS_items_decorator.h $
+// $Id: HalfedgeDS_items_decorator.h 70779 2012-07-27 08:59:52Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -261,7 +261,7 @@ public:
         set_prev( h->next(), h);
     }
 
-    void set_vertex_in_vertex_loop( Halfedge_handle h, Vertex_handle v,
+    void set_vertex_in_vertex_loop( Halfedge_handle  , Vertex_handle  ,
                                     Tag_false) const {}
     void set_vertex_in_vertex_loop( Halfedge_handle h, Vertex_handle v,
                                     Tag_true) const {
@@ -282,7 +282,7 @@ public:
         set_vertex_in_vertex_loop( h, v, Supports_halfedge_vertex());
     }
 
-    void set_face_in_face_loop( Halfedge_handle h, Face_handle f,
+    void set_face_in_face_loop( Halfedge_handle  , Face_handle  ,
                                 Tag_false) const {}
     void set_face_in_face_loop( Halfedge_handle h, Face_handle f,
                                 Tag_true) const {

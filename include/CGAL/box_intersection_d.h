@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
-// $Id: box_intersection_d.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
+// $Id: box_intersection_d.h 70027 2012-06-25 12:04:15Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -347,7 +347,7 @@ void box_intersection_all_pairs_d(
 // - make all default parameters explicit overloads (workaround)
 template< class ForwardIter, class Callback, class BoxTraits >
 void box_self_intersection_all_pairs_d( 
-    ForwardIter begin1, ForwardIter end1, Callback callback, BoxTraits traits)
+  ForwardIter begin1, ForwardIter end1, Callback callback, BoxTraits /* traits */)
 {
     typedef Box_intersection_d::Predicate_traits_d<BoxTraits,true> Traits;
     Box_intersection_d::all_pairs( begin1, end1, callback, Traits());

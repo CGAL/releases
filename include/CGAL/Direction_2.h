@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Direction_2.h $
-// $Id: Direction_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Direction_2.h $
+// $Id: Direction_2.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -98,19 +98,19 @@ public:
     return R().construct_perpendicular_direction_2_object()(*this,o);
   }
 
-  typename Qualified_result_of<typename R::Compute_dx_2, Direction_2>::type
+  typename boost::result_of<typename R::Compute_dx_2( Direction_2)>::type
   dx() const
   {
     return R().compute_dx_2_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_dy_2, Direction_2>::type
+  typename boost::result_of<typename R::Compute_dy_2( Direction_2)>::type
   dy() const
   {
     return R().compute_dy_2_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_dx_2, Direction_2>::type
+  typename boost::result_of<typename R::Compute_dx_2( Direction_2)>::type
   delta(int i) const
   {
     CGAL_kernel_precondition( ( i == 0 ) || ( i == 1 ) );

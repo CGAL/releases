@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
-// $Id: Delaunay_mesh_criteria_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
+// $Id: Delaunay_mesh_criteria_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -77,9 +77,6 @@ public:
       typedef typename Geom_traits::Compute_area_2 Compute_area_2;
       typedef typename Geom_traits::Compute_squared_distance_2
 	Compute_squared_distance_2;
-      typedef typename Geom_traits::Construct_triangle_2
-	Construct_triangle_2;
-      typedef typename Geom_traits::FT FT;
 
       Compute_area_2 area_2 = 
         traits.compute_area_2_object();

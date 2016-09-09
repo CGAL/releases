@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
-// $Id: Triangle_2_Triangle_2_do_intersect.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
+// $Id: Triangle_2_Triangle_2_do_intersect.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -76,7 +76,8 @@ bool intersection_test_edge(const typename K::Point_2 *  P1,
 			    const typename K::Point_2 *  Q1, 
 			    const typename K::Point_2 *  R1,
 			    const typename K::Point_2 *  P2, 
-			    const typename K::Point_2 *  Q2, 
+			    const typename K::Point_2 *
+                              CGAL_kernel_precondition_code(Q2),
 			    const typename K::Point_2 *  R2,
 			    const K & k ){
   

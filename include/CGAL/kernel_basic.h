@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/kernel_basic.h $
-// $Id: kernel_basic.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/kernel_basic.h $
+// $Id: kernel_basic.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -41,7 +41,6 @@
 #include <CGAL/enum.h>
 #include <CGAL/aff_transformation_tags.h>
 #include <CGAL/Object.h>
-#include <CGAL/Qualified_result_of.h>
 #include <CGAL/Kernel_traits.h>
 
 #endif // CGAL_KERNEL_BASIC_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/refine_zero_against.h $
-// $Id: refine_zero_against.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/refine_zero_against.h $
+// $Id: refine_zero_against.h 70399 2012-07-08 10:47:58Z eric $
 // 
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -99,7 +99,6 @@ int descartes(Polynomial& p, const Field& low,const Field& high){
  */
 template <class Polynomial, class Field>
 bool refine_zero_against(Field& low, Field& high, Polynomial p, Polynomial q) {
-    typedef typename Polynomial::NT COEFF;
     typename Algebraic_structure_traits<Field>::Simplify simplify;
 
     CGAL_precondition(low < high);

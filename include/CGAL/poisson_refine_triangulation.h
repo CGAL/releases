@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: poisson_refine_triangulation.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
 
@@ -205,11 +205,6 @@ unsigned int poisson_refine_triangulation(
 
   // Convergence is guaranteed if radius_edge_ratio_bound >= 1.0
   CGAL_surface_reconstruction_points_precondition(radius_edge_ratio_bound >= 1.0);
-
-  // Basic geometric types
-  typedef typename Tr::Geom_traits Gt;
-  typedef typename Gt::FT FT;
-  typedef typename Gt::Point_3 Point;
 
   // Mesher_level types
   typedef Poisson_mesh_cell_criteria_3<Tr> Tets_criteria;

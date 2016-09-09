@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h 67216 2012-01-17 15:28:40Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -680,7 +680,7 @@ public:
     }
 
   size_type 
-  number_solid_components(const Type_of_alpha& alpha) const
+  number_solid_components(const Type_of_alpha& /* alpha */) const
     {
       return number_of_solid_components(get_alpha());
     }

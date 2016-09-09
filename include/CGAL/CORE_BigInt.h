@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Number_types/include/CGAL/CORE_BigInt.h $
-// $Id: CORE_BigInt.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/CORE_BigInt.h $
+// $Id: CORE_BigInt.h 70157 2012-06-29 00:44:05Z eric $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -22,7 +22,10 @@
 #ifndef CGAL_CORE_BIGINT_H
 #define CGAL_CORE_BIGINT_H
 
+#include <CGAL/config.h>
 #include <CGAL/number_type_basic.h>
+#include <CGAL/CORE/BigInt.h>
+#include <CGAL/CORE/Expr.h>
 #include <CGAL/CORE_coercion_traits.h>
 
 #include <CGAL/Residue.h>

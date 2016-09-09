@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/Mesh_3/Detect_features_in_polyhedra.h $
-// $Id: Detect_features_in_polyhedra.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/Detect_features_in_polyhedra.h $
+// $Id: Detect_features_in_polyhedra.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -197,8 +197,6 @@ bool
 Detect_features_in_polyhedra<P_>::
 is_sharp(const Halfedge_handle& he, FT cos_angle) const
 {
-  typedef typename Geom_traits::FT FT;
-  
   Facet_handle f1 = he->facet();
   Facet_handle f2 = he->opposite()->facet();
   if(f1 == NULL || f2 == NULL)

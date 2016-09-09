@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/Mesh_edge_criteria_3.h $
-// $Id: Mesh_edge_criteria_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_edge_criteria_3.h $
+// $Id: Mesh_edge_criteria_3.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -111,7 +111,7 @@ public:
   // as int.
   template < typename Sizing_field >
   Mesh_edge_criteria_3(const Sizing_field& size,
-                       typename Sizing_field::FT dummy = 0 )
+                       typename Sizing_field::FT /*dummy*/ = 0 )
     : p_size_(new internal::Mesh_3::Sizing_field_container<Sizing_field>(size))
   {}
   

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
-// $Id: Apollonius_graph_2_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
+// $Id: Apollonius_graph_2_impl.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -244,7 +244,7 @@ primal(const Edge e) const
 {
   typedef typename Geom_traits::Segment_2  Segment;
   typedef typename Geom_traits::Ray_2      Ray;
-  typedef CGAL::Hyperbola_segment_2<Gt>    Hyperbola_segment;
+  // typedef CGAL::Hyperbola_segment_2<Gt>    Hyperbola_segment;
   typedef CGAL::Parabola_segment_2<Gt>     Parabola_segment;
   //  typedef typename Geom_traits::Hyperbola_segment_2  Hyperbola_segment;
   //  typedef typename Geom_traits::Parabola_segment_2   Parabola_segment;

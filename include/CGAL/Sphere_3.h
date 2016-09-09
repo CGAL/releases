@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Sphere_3.h $
-// $Id: Sphere_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Sphere_3.h $
+// $Id: Sphere_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -94,9 +94,7 @@ public:
 
   Sphere_3 orthogonal_transform(const Aff_transformation_3 &t) const;
 
-  // FIXME : why doesn't Qrt work here ?  We loose optimization !
-  //typename Qualified_result_of<typename R::Construct_center_3, Sphere_3>::type
-  Point_3_
+  typename boost::result_of<typename R::Construct_center_3( Sphere_3)>::type
   center() const
   {
     return R().construct_center_3_object()(*this);

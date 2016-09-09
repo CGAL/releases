@@ -12,14 +12,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h $
-// $Id: Convex_hull_projective_xz_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h $
+// $Id: Convex_hull_projective_xz_traits_2.h 69350 2012-05-28 07:28:03Z sloriot $
 // 
 //
 // Author(s)     : Susan Hert
 
 #ifndef CGAL_CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
 #define CGAL_CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Convex_hull_projective_xz_traits_2.h>"
+#define CGAL_REPLACEMENT_HEADER "<CGAL/Projection_traits_xz_3.h>"
+#include <CGAL/internal/deprecation_warning.h>
 
 #include <CGAL/predicates/kernel_ftC2.h>
 #include <CGAL/predicates_on_points_2.h>

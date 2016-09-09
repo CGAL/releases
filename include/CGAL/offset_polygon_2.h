@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Minkowski_sum_2/include/CGAL/offset_polygon_2.h $
-// $Id: offset_polygon_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Minkowski_sum_2/include/CGAL/offset_polygon_2.h $
+// $Id: offset_polygon_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -150,7 +150,6 @@ inset_polygon_2 (const Polygon_2<typename ConicTraits::Rat_kernel,
 {
   typedef Exact_offset_base_2<ConicTraits, Container>        Base;
   typedef Offset_by_convolution_2<Base>                      Exact_offset_2;
-  typedef typename Exact_offset_2::Offset_polygon_2          Offset_polygon_2;
 
   Base                                               base;
   Exact_offset_2                                     exact_offset (base);

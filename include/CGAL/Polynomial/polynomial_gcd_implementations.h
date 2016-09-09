@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd_implementations.h $
-// $Id: polynomial_gcd_implementations.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd_implementations.h $
+// $Id: polynomial_gcd_implementations.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@informatik.uni-mainz.de>  
@@ -38,7 +38,6 @@ inline
 Polynomial<NT> gcd_utcf_UFD(
         Polynomial<NT> p1, Polynomial<NT> p2
 ) {
-    typedef CGAL::Polynomial_traits_d<Polynomial<NT> > PT;
     // implemented using the subresultant algorithm for gcd computation
     // see [Cohen, 1993], algorithm 3.3.1
     // handle trivial cases

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
-// $Id: Arr_circular_line_arc_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
+// $Id: Arr_circular_line_arc_traits_2.h 68137 2012-03-21 22:14:40Z efif $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -508,7 +508,8 @@ namespace CGAL {
   // in Arr_circular_line_arc_traits_2.
   namespace internal_Argt_traits{
     struct Not_X_Monotone{};
-    std::ostream& operator<<(std::ostream& os,const Not_X_Monotone&) {return os;}
+    inline std::ostream& operator << (std::ostream& os, const Not_X_Monotone&)
+    {return os;}
   }
   
   /// Traits class for CGAL::Arrangement_2 (and similar) based on a CircularKernel.

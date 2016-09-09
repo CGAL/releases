@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_points_3.h $
-// $Id: linear_least_squares_fitting_points_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_points_3.h $
+// $Id: linear_least_squares_fitting_points_3.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -48,8 +48,6 @@ linear_least_squares_fitting_3(InputIterator first,
 {
   typedef typename K::FT       FT;
   typedef typename K::Point_3  Point;
-  typedef typename K::Plane_3  Plane;
-  typedef typename K::Vector_3 Vector;
 
   // precondition: at least one element in the container.
   CGAL_precondition(first != beyond);
@@ -82,8 +80,6 @@ linear_least_squares_fitting_3(InputIterator first,
 {
   typedef typename K::FT       FT;
   typedef typename K::Point_3  Point;
-  typedef typename K::Line_3   Line;
-  typedef typename K::Vector_3 Vector;
 
   // precondition: at least one element in the container.
   CGAL_precondition(first != beyond);

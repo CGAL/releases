@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 67417 2012-01-24 17:25:20Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 68774 2012-04-23 16:54:47Z lrineau $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -47,12 +47,18 @@
 
 namespace CGAL {
 
+// Here is the declaration of a class template with three arguments, one
+// having a default value. There is no definition of that class template.
 template < class Gt,
            class Tds_ = Default,
            class Location_policy = Default >
 class Delaunay_triangulation_3;
 
+// There is a specialization Delaunay_triangulation_3<Gt, Tds, Fast_location>
+// defined in <CGAL/internal/Delaunay_triangulation_hierarchy_3.h>.
 
+// Here is the specialization Delaunay_triangulation_3<Gt, Tds>, with two
+// arguments, that is if Location_policy being the default value 'Default'.
 template < class Gt, class Tds_ >
 class Delaunay_triangulation_3<Gt, Tds_>
   : public Triangulation_3<Gt, Tds_>

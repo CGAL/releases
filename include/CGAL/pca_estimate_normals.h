@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/pca_estimate_normals.h $
-// $Id: pca_estimate_normals.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/pca_estimate_normals.h $
+// $Id: pca_estimate_normals.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -62,7 +62,6 @@ pca_estimate_normal(const typename Kernel::Point_3& query, ///< point to compute
   // basic geometric types
   typedef typename Kernel::Point_3  Point;
   typedef typename Kernel::Plane_3  Plane;
-  typedef typename Kernel::Vector_3 Vector;
 
   // types for K nearest neighbors search
   typedef typename CGAL::Search_traits_3<Kernel> Tree_traits;
@@ -130,7 +129,7 @@ pca_estimate_normals(
   PointPMap point_pmap, ///< property map InputIterator -> Point_3.
   NormalPMap normal_pmap, ///< property map InputIterator -> Vector_3.
   unsigned int k, ///< number of neighbors.
-  const Kernel& kernel) ///< geometric traits.
+  const Kernel& /*kernel*/) ///< geometric traits.
 {
   CGAL_TRACE("Calls pca_estimate_normals()\n");
 

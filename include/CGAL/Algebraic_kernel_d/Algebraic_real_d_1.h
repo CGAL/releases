@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h $
-// $Id: Algebraic_real_d_1.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h $
+// $Id: Algebraic_real_d_1.h 70399 2012-07-08 10:47:58Z eric $
 // 
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de> 
@@ -479,7 +479,6 @@ inline
 convert_to_bfi(const internal::Algebraic_real_d_1< Coefficient_, Rational_, HandlePolicy, AlgebraicRealRep_d_1 >& x){
   typedef typename Get_arithmetic_kernel<Coefficient_>::Arithmetic_kernel AT;
   typedef typename AT::Bigfloat_interval BFI;
-  typedef internal::Algebraic_real_d_1< Coefficient_, Rational_, HandlePolicy, AlgebraicRealRep_d_1 > ALG;
 
   if (x.is_rational()) return convert_to_bfi(x.rational());
 

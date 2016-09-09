@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
-// $Id: ch_graham_andrew_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
+// $Id: ch_graham_andrew_impl.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -41,7 +41,6 @@ ch_graham_andrew_scan( BidirectionalIterator first,
                        OutputIterator        result,
                        const Traits&         ch_traits)
 {
-  typedef  typename Traits::Less_xy_2   Less_xy;
   typedef  typename Traits::Point_2     Point_2;
   typedef  typename Traits::Left_turn_2  Left_turn;
 
@@ -129,8 +128,6 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
                                  OutputIterator&       result,
                                  const Traits&         ch_traits)
 {
-  typedef  typename Traits::Less_xy_2    Less_xy;
-  typedef  typename Traits::Point_2      Point_2;
   typedef  typename Traits::Left_turn_2  Left_turn;
 
   CGAL_ch_precondition_code(
@@ -202,9 +199,7 @@ ch_graham_andrew( InputIterator  first,
                        OutputIterator result,
                        const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy_2   Less_xy;
   typedef  typename Traits::Point_2     Point_2;
-  typedef  typename Traits::Left_turn_2  Left_turn;
   typedef  typename Traits::Equal_2      Equal_2;  
   
   Equal_2      equal_points = ch_traits.equal_2_object();  
@@ -250,9 +245,7 @@ ch_lower_hull_scan( InputIterator  first,
                          OutputIterator result,
                          const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy_2    Less_xy;
   typedef  typename Traits::Point_2      Point_2;
-  typedef  typename Traits::Left_turn_2  Left_turn;
   typedef  typename Traits::Equal_2      Equal_2;  
   
   Equal_2      equal_points = ch_traits.equal_2_object();    
@@ -287,9 +280,7 @@ ch_upper_hull_scan( InputIterator  first,
                          OutputIterator result,
                          const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy_2    Less_xy;
   typedef  typename Traits::Point_2      Point_2;
-  typedef  typename Traits::Left_turn_2  Left_turn;
   typedef  typename Traits::Equal_2      Equal_2;  
   
   Equal_2      equal_points = ch_traits.equal_2_object();     

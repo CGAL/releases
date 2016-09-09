@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Ray_2_Segment_2_intersection.h $
-// $Id: Ray_2_Segment_2_intersection.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Ray_2_Segment_2_intersection.h $
+// $Id: Ray_2_Segment_2_intersection.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -101,7 +101,7 @@ Ray_2_Segment_2_pair<K>::intersection_type() const
             ? POINT :  NO_INTERSECTION;
         return _result;
     case Line_2_Line_2_pair<K>::LINE: {
-        typedef typename K::RT RT;
+        //typedef typename K::RT RT;
         const typename K::Point_2 &start1 = _seg->source();
         const typename K::Point_2 &end1 = _seg->target();
         const typename K::Point_2 &start2 = _ray->source();

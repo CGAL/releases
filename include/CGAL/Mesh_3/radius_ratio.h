@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/Mesh_3/radius_ratio.h $
-// $Id: radius_ratio.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_3/radius_ratio.h $
+// $Id: radius_ratio.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -34,7 +34,6 @@ radius_ratio(const typename K::Point_3& p0,
              K k = K())
 {
   typedef typename K::FT FT;
-  typedef typename K::Point_3 Point_3;
   typename K::Compute_squared_distance_3 sq_distance =
     k.compute_squared_distance_3_object();
   typename K::Compute_squared_radius_3 comp_sq_circumradius = 

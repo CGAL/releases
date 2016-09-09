@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_sphere_3.h $
-// $Id: internal_functions_on_sphere_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_sphere_3.h $
+// $Id: internal_functions_on_sphere_3.h 70837 2012-07-28 06:21:06Z glisse $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -51,7 +51,6 @@ namespace CGAL {
     typename SK::Polynomial_for_spheres_2_3
     get_equation( const typename SK::Sphere_3 & s )
     {
-      typedef typename SK::RT RT;
       typedef typename SK::Point_3    Point_3;
       typedef typename SK::Algebraic_kernel   Algebraic_kernel;
       Point_3 center = s.center();
@@ -297,7 +296,6 @@ namespace CGAL {
        typedef typename SK::Circle_3  Circle_3;
        typedef typename SK::Point_3  Point_3;
        typedef typename SK::Algebraic_kernel  Algebraic_kernel;
-       typedef std::vector< Object > solutions_container;
        CGAL_kernel_precondition(!s1.is_degenerate());
        CGAL_kernel_precondition(!s2.is_degenerate());
        CGAL_kernel_precondition(!s3.is_degenerate());
@@ -445,7 +443,6 @@ namespace CGAL {
       typedef typename SK::Root_for_spheres_2_3  Root_for_spheres_2_3;
       typedef typename SK::Circular_arc_point_3  Circular_arc_point_3;
       typedef typename SK::Polynomials_for_circle_3  Equation_circle;
-      typedef typename SK::Circle_3  Circle_3;
       typedef typename SK::Algebraic_kernel  Algebraic_kernel;
       if(non_oriented_equal<SK>(c1,c2)) {
          *res++ = make_object(c1);
@@ -475,7 +472,6 @@ namespace CGAL {
       typedef typename SK::Circular_arc_point_3  Circular_arc_point_3;
       typedef typename SK::Polynomials_for_circle_3  Equation_circle;
       typedef typename SK::Polynomials_for_line_3    Equation_line;
-      typedef typename SK::Circle_3  Circle_3;
       typedef typename SK::Algebraic_kernel  Algebraic_kernel;
       CGAL_kernel_precondition(!l.is_degenerate());
       Equation_circle e1 = get_equation<SK>(c);

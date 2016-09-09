@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Qt_widget/include/CGAL/IO/Qt_widget_focus.h $
-// $Id: Qt_widget_focus.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Qt_widget/include/CGAL/IO/Qt_widget_focus.h $
+// $Id: Qt_widget_focus.h 69974 2012-06-22 09:52:10Z pmoeller $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -42,7 +42,6 @@ namespace CGAL {
 class Qt_widget_focus : public Qt_widget_layer
 {
 private:
-  int     x2, y2;
   QPixmap *mouse_ico1,
           *mouse_ico2,
           *mouse_ico3;

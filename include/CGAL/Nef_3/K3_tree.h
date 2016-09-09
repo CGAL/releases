@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -782,10 +782,6 @@ public:
     typedef typename SNC_structure::Vertex_iterator Vertex_iterator;
     typedef typename SNC_structure::Halfedge_iterator Halfedge_iterator;
     typedef typename SNC_structure::Halffacet_iterator Halffacet_iterator;
-    typedef typename SNC_structure::Halffacet_cycle_iterator
-                                    Halffacet_cycle_iterator;
-    typedef typename SNC_structure::SHalfedge_around_facet_circulator
-                                    SHalfedge_around_facet_circulator;
 
     CGAL_assertion( W != NULL);
     Object_list objects;
@@ -799,7 +795,11 @@ public:
       objects.push_back(make_object(Halfedge_handle(e)));
     CGAL_forall_facets( f, *W) {
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
-   
+      typedef typename SNC_structure::SHalfedge_around_facet_circulator
+                                      SHalfedge_around_facet_circulator;
+      typedef typename SNC_structure::Halffacet_cycle_iterator
+                                      Halffacet_cycle_iterator;
+
       Halffacet_cycle_iterator fci = f->facet_cycles_begin();
       CGAL_assertion(fci.is_shalfedge());
       SHalfedge_around_facet_circulator safc(fci);

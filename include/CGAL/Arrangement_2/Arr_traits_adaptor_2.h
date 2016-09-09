@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
-// $Id: Arr_traits_adaptor_2.h 67117 2012-01-13 18:14:48Z lrineau $
-// $Date: 2012-01-13 19:14:48 +0100 (Fri, 13 Jan 2012) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $Id: Arr_traits_adaptor_2.h 70193 2012-06-30 23:35:30Z efif $
+// $Date: 2012-07-01 01:35:30 +0200 (Sun, 01 Jul 2012) $
 // 
 //
 // Author(s)     : Ron Wein             <wein@post.tau.ac.il>s
@@ -1135,8 +1135,8 @@ public:
     }
 
     Comparison_result comp_x_on_bnd(const Point_2&,
-                                    const X_monotone_curve_2& xcv,
-                                    Arr_curve_end ce,
+                                    const X_monotone_curve_2& /* xcv */,
+                                    Arr_curve_end /* ce */,
                                     Arr_use_dummy_tag) const
     {
       CGAL_error();
@@ -1153,10 +1153,10 @@ public:
       return m_base->compare_x_on_boundary_2_object()(xcv1, ce1, xcv2, ce2);
     }
 
-    Comparison_result comp_x_on_bnd(const X_monotone_curve_2&
-                                    xcv1, Arr_curve_end ce1,
-                                    const X_monotone_curve_2& xcv2,
-                                    Arr_curve_end ce2,
+    Comparison_result comp_x_on_bnd(const X_monotone_curve_2& /* xcv1 */,
+                                    Arr_curve_end /* ce1 */,
+                                    const X_monotone_curve_2& /* xcv2 */,
+                                    Arr_curve_end /* ce2 */,
                                     Arr_use_dummy_tag) const
     {
       CGAL_error();

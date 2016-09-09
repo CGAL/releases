@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
-// $Id: Sqrt_extension_type.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $Id: Sqrt_extension_type.h 70937 2012-08-01 13:50:01Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -267,10 +267,12 @@ public:
     {
       if (! is_extended_)
           return CGAL_NTS to_interval(a0_);
-      CGAL::Interval_nt<false>::Protector p;
+      
       const CGAL::Interval_nt<false>&  a0_int = CGAL_NTS to_interval(a0_);
       const CGAL::Interval_nt<false>&  a1_int = CGAL_NTS to_interval(a1_);
       const CGAL::Interval_nt<false>&  root_int = CGAL_NTS to_interval(root_);
+
+      CGAL::Interval_nt<false>::Protector p;
       const CGAL::Interval_nt<false>&  x_int = 
           a0_int + (a1_int * CGAL::sqrt(root_int));
 

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 69983 2012-06-22 14:22:16Z pmoeller $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -236,7 +236,7 @@ public:
 
 struct dont_check_equal {
   template < typename T1, typename T2 >
-  bool operator()(const T1 &t1, const T2 &t2) const
+  bool operator()(const T1 & /* t1 */, const T2 &/*t2*/) const
   { return true; }
   template < typename T >
   bool operator()(const T &t1, const T &t2) const

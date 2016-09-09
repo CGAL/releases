@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
 // $Id: triangulate_mixed_complex_3.h 67356 2012-01-23 08:09:05Z lrineau $
 // 
 //

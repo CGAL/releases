@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
-// $Id: Mesh_complex_3_in_triangulation_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
+// $Id: Mesh_complex_3_in_triangulation_3.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -569,7 +569,6 @@ is_valid() const
     const Bare_point& p = it->right->point().point();
     const Bare_point& q = it->left->point().point();
     
-    typedef typename Tr::Geom_traits::Sphere_3 Sphere_3;
     typename Tr::Geom_traits::Construct_sphere_3 sphere = 
       this->triangulation().geom_traits().construct_sphere_3_object();
 

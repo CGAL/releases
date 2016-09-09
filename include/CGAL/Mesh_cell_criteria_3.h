@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
-// $Id: Mesh_cell_criteria_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
+// $Id: Mesh_cell_criteria_3.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -62,7 +62,7 @@ public:
   template <typename Sizing_field>
   Mesh_cell_criteria_3(const FT& radius_edge_bound,
                        const Sizing_field& radius_bound,
-                       typename Sizing_field::FT dummy = 0)
+                       typename Sizing_field::FT /*dummy*/ = 0)
   { 
     init_radius(radius_bound);
 

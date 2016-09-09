@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/HalfedgeDS/include/CGAL/HalfedgeDS_list.h $
-// $Id: HalfedgeDS_list.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/HalfedgeDS/include/CGAL/HalfedgeDS_list.h $
+// $Id: HalfedgeDS_list.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -181,21 +181,12 @@ public:
     }
 };
 
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
 template < class Traits_, class HalfedgeDSItems, 
            class Alloc = CGAL_ALLOCATOR(int)>
 class HalfedgeDS_list
     : public HalfedgeDS_list_types<Traits_, HalfedgeDSItems, Alloc> {
 public:
     typedef HalfedgeDS_list<Traits_, HalfedgeDSItems, Alloc> Self;
-#else
-struct HalfedgeDS_list {
-template < class Traits_, class HalfedgeDSItems, 
-           class Alloc = CGAL_ALLOCATOR(int)>
-class HDS : public HalfedgeDS_list_types<Traits_, HalfedgeDSItems, Alloc> {
-public:
-    typedef HDS<Traits_, HalfedgeDSItems, Alloc> Self;
-#endif
 public:
     typedef HalfedgeDS_list_types<Traits_, HalfedgeDSItems, Alloc> Types;
     typedef typename Types::Traits                     Traits;
@@ -374,7 +365,6 @@ private:
     }
 
 public:
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
     HalfedgeDS_list()
         : nb_border_halfedges(0), nb_border_edges(0) {}
         // the empty polyhedron `P'.
@@ -389,13 +379,6 @@ public:
     ~HalfedgeDS_list() { clear(); }
 
     HalfedgeDS_list( const Self& hds)
-#else
-    HDS() : nb_border_halfedges(0), nb_border_edges(0) {}
-    HDS( size_type, size_type, size_type)
-          : nb_border_halfedges(0), nb_border_edges(0) {}
-    ~HDS() { clear(); }
-    HDS( const Self& hds)
-#endif // CGAL_CFG_NO_TMPL_IN_TMPL_PARAM //
     :  vertices( hds.vertices),
        //halfedges( hds.halfedges),
        faces( hds.faces),
@@ -688,9 +671,6 @@ public:
         border_halfedges = i;
     }
 };
-#ifdef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-};
-#endif
 
 
 //  #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM

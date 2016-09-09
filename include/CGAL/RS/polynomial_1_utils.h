@@ -11,21 +11,26 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_utils.h $
-// $Id: polynomial_1_utils.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_utils.h $
+// $Id: polynomial_1_utils.h 70626 2012-07-19 15:46:15Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_POLYNOMIAL_1_UTILS_H
 #define CGAL_RS_POLYNOMIAL_1_UTILS_H
 
+#include <CGAL/basic.h>
 #include <gmp.h>
-#include <rs3_fncts.h>
 #include <CGAL/RS/polynomial_1.h>
 #include <CGAL/RS/polynomial_converter.h>
 #include <CGAL/RS/solve_1.h>
-#include <CGAL/RS/ugcd.h>
+#ifdef CGAL_RS_USE_UGCD
+#include <CGAL/RS/ugcd/ugcd.h>
+#endif
 #include <rs_exports.h>
+#ifdef CGAL_USE_RS3
+#include <rs3_fncts.h>
+#endif
 
 namespace CGAL{
 
@@ -64,6 +69,7 @@ public std::binary_function<RS_polynomial_1,RS_polynomial_1,RS_polynomial_1>{
     }
 };
 
+#ifdef CGAL_RS_USE_UGCD
 // my modular gcd algorithm
 struct Modgcd_1:
 public std::binary_function<RS_polynomial_1,RS_polynomial_1,RS_polynomial_1>{
@@ -85,6 +91,7 @@ public std::binary_function<RS_polynomial_1,RS_polynomial_1,RS_polynomial_1>{
         return *result;
     }
 };
+#endif // CGAL_RS_USE_UGCD
 
 // Cont()(c,u) stores in c the gcd of the coefficients of u
 struct Cont:

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_parameterization/include/CGAL/Taucs_matrix.h $
-// $Id: Taucs_matrix.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Taucs_matrix.h $
+// $Id: Taucs_matrix.h 70794 2012-07-27 12:05:53Z glisse $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -27,6 +27,7 @@
 #include <CGAL/Taucs_fix.h>
 #include <CGAL/assertions.h>
 
+#include <cstring>
 #include <vector>
 
 namespace CGAL {
@@ -322,9 +323,9 @@ public:
               int nb_elements = m_columns[col].size(); // Number of non null elements of the column
 
               // Fast copy of column indices and values
-              memcpy(&m_matrix->rowind[first_index], &m_columns[col].m_indices[0], nb_elements*sizeof(int));
+	      std::memcpy(&m_matrix->rowind[first_index], &m_columns[col].m_indices[0], nb_elements*sizeof(int));
               T* taucs_values = (T*) m_matrix->values.v;
-              memcpy(&taucs_values[first_index], &m_columns[col].m_values[0],  nb_elements*sizeof(T));
+	      std::memcpy(&taucs_values[first_index], &m_columns[col].m_values[0],  nb_elements*sizeof(T));
 
               // Start of next column will be:
               m_matrix->colptr[col+1] = first_index + nb_elements;

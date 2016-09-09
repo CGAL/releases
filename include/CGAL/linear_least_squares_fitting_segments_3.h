@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_3.h $
-// $Id: linear_least_squares_fitting_segments_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_3.h $
+// $Id: linear_least_squares_fitting_segments_3.h 70967 2012-08-02 12:48:04Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -75,7 +75,6 @@ linear_least_squares_fitting_3(InputIterator first,
                                const K& k,                   // kernel
 			                         const CGAL::Dimension_tag<0>& tag)
 {
-  typedef typename K::FT          FT;
   typedef typename K::Segment_3  Segment;
   typedef typename K::Point_3  Point;
 
@@ -139,7 +138,6 @@ linear_least_squares_fitting_3(InputIterator first,
                                const K& k,                    // kernel
 			                         const CGAL::Dimension_tag<0>& tag)
 {
-  typedef typename K::FT          FT;
   typedef typename K::Segment_3  Segment;
   typedef typename K::Point_3  Point;
 

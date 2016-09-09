@@ -51,8 +51,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: Sturm.h 67117 2012-01-13 18:14:48Z lrineau $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/include/CGAL/CORE/poly/Sturm.h $
+ * $Id: Sturm.h 69976 2012-06-22 10:05:26Z pmoeller $
  ***************************************************************************/
 
 
@@ -125,7 +125,7 @@ public:
   // 	various support methods in BigFloat.h (exact_div, gcd, etc).
   // Constructor from a BigFloat polynomial 
   //	Need the fake argument to avoid compiler overloading errors
-  Sturm(Polynomial<BigFloat> pp, bool fake) : NEWTON_DIV_BY_ZERO(false) {
+  Sturm(Polynomial<BigFloat> pp, bool /* fake */) : NEWTON_DIV_BY_ZERO(false) {
     len = pp.getTrueDegree();
     if (len <= 0) return; // hence, seq is not defined in these cases
     seq = new Polynomial<NT> [len+1];

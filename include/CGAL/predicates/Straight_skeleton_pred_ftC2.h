@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Straight_skeleton_2/include/CGAL/predicates/Straight_skeleton_pred_ftC2.h $
-// $Id: Straight_skeleton_pred_ftC2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/predicates/Straight_skeleton_pred_ftC2.h $
+// $Id: Straight_skeleton_pred_ftC2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -235,9 +235,7 @@ Uncertain<Comparison_result> compare_offset_lines_isec_timesC2 ( intrusive_ptr< 
                                                                )
 {
   typedef typename K::FT FT ;
-  
-  typedef Trisegment_2<K> Trisegment_2 ;
-  
+
   typedef Rational<FT>       Rational ;
   typedef Quotient<FT>       Quotient ;
   typedef optional<Rational> Optional_rational ;
@@ -361,7 +359,6 @@ oriented_side_of_event_point_wrt_bisectorC2 ( intrusive_ptr< Trisegment_2<K> > c
   
   typedef Point_2     <K> Point_2 ;
   typedef Line_2      <K> Line_2 ;
-  typedef Trisegment_2<K> Trisegment_2 ;
   
   Uncertain<Oriented_side> rResult = Uncertain<Oriented_side>::indeterminate();
   
@@ -480,9 +477,6 @@ Uncertain<bool> are_events_simultaneousC2 ( intrusive_ptr< Trisegment_2<K> > con
   typedef typename K::FT FT ;
   
   typedef Point_2<K> Point_2 ;
-  typedef Line_2<K>  Line_2 ;
-  
-  typedef Trisegment_2<K> Trisegment_2 ;
   
   typedef Rational<FT> Rational ;
   typedef Quotient<FT> Quotient ;

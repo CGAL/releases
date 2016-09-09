@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v7.h $
-// $Id: CGAL_Ipelet_base_v7.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v7.h $
+// $Id: CGAL_Ipelet_base_v7.h 70787 2012-07-27 10:38:58Z sloriot $
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -502,7 +502,8 @@ public:
       typedef  typename std::multimap<double,std::pair<Type_circ_arc,const Point_2*> >::iterator Map_theta_iterator;
       Map_theta_iterator s_it=map_theta.insert(
                                 std::make_pair(get_theta(*source,circle),std::make_pair(OSRC,source)));
-      Map_theta_iterator t_it=map_theta.insert(
+      /* Map_theta_iterator t_it=*/
+                              map_theta.insert(
                                 std::make_pair(get_theta(*target,circle),std::make_pair(OTRG,target)));
       
       for (typename std::vector<Circular_arc_2>::iterator it_arc=arc_list.begin();it_arc!=arc_list.end();++it_arc){

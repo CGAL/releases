@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_pair_analysis_2.h $
-// $Id: Curve_pair_analysis_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_pair_analysis_2.h $
+// $Id: Curve_pair_analysis_2.h 70399 2012-07-08 10:47:58Z eric $
 // 
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -796,8 +796,6 @@ private:
         CGAL_precondition(x.is_rational());
         Bound r = x.rational();
 
-        typedef typename CGAL::Fraction_traits<Poly_coer_1> FT;
-        
         int k = degree_of_local_gcd(event_indices(i).fg,x);
         Polynomial_2 sres = subresultants(k);
         
@@ -1957,7 +1955,7 @@ create_slice_from_slice_info(size_type id,
         switch(it->first) {
         case(CGAL::internal::FIRST_CURVE): {
             if(event_flag) {
-                arc_container.push_back(std::make_pair(0,it->second));
+                arc_container.push_back(Arc_pair(0,it->second));
             } else {
                 int_container.push_back(0);
             }
@@ -1965,7 +1963,7 @@ create_slice_from_slice_info(size_type id,
         }
         case(CGAL::internal::SECOND_CURVE): {
             if(event_flag) {
-                arc_container.push_back(std::make_pair(1,it->second));
+                arc_container.push_back(Arc_pair(1,it->second));
             } else {
                 int_container.push_back(1);
             }
@@ -1973,7 +1971,7 @@ create_slice_from_slice_info(size_type id,
         }
         case(CGAL::internal::INTERSECTION): {
             CGAL_assertion(event_flag);
-            arc_container.push_back(std::make_pair(2,it->second));
+            arc_container.push_back(Arc_pair(2,it->second));
             break;
         }
         case(CGAL::internal::CANDIDATE): {

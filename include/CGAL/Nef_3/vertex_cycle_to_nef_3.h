@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/vertex_cycle_to_nef_3.h $ 
-// $Id: vertex_cycle_to_nef_3.h 67117 2012-01-13 18:14:48Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_3/include/CGAL/Nef_3/vertex_cycle_to_nef_3.h $ 
+// $Id: vertex_cycle_to_nef_3.h 71169 2012-08-10 13:34:02Z lrineau $ 
 // 
 //
 // Author(s)     : Ralf Osbild <osbild@mpi-sb.mpg.de>
@@ -106,7 +106,7 @@ template<typename Items,
  public:
   Index_matcher() {}
   template<typename Handle> 
-    void set_index(Handle h, Edge e) {}
+  void set_index(Handle /*h*/, Edge /*e*/) {}
 };
 
 template<typename Edge, typename CompareEdges> 
@@ -158,16 +158,10 @@ bool projected_vertex_cycle_to_nef_3 (typename Nef_3::SNC_structure &snc,
    typedef typename SNC_structure::SHalfedge_handle   SHalfedge_handle;
    typedef typename SNC_structure::SFace_handle       SFace_handle;
 
-   typedef typename SNC_structure::Kernel Kernel;
-   typedef typename SNC_structure::Point_3 Point_3;
    typedef typename std::pair<CTP_vertex*, CTP_vertex*> Point_pair;
    typedef Compare_cpte<CTP_vertex> Compare_edge;
 
-   typedef CGAL::SNC_point_locator_by_spatial_subdivision
-           <CGAL::SNC_decorator<SNC_structure> >    Point_locator;
-
    typedef typename SNC_structure::Items               Items;
-   typedef CGAL::SNC_constructor<Items, SNC_structure> SNC_constructor;
 
    // declarations and defaults
    II v_it, v_pred_it;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Reflex_vertex_searcher.h $
-// $Id: Reflex_vertex_searcher.h 67117 2012-01-13 18:14:48Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Reflex_vertex_searcher.h $
+// $Id: Reflex_vertex_searcher.h 71169 2012-08-10 13:34:02Z lrineau $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -72,11 +72,11 @@ class Reflex_vertex_searcher : public Modifier_base<typename Nef_::SNC_structure
 			  Reflex_vertex_map& vm) 
       : dir(dir_in), vertex_map(vm) {}
     
-    void visit(Vertex_handle v) const {}
-    void visit(Halfedge_handle e) const {}
-    void visit(Halffacet_handle f) const {}
-    void visit(SHalfloop_handle sl) const {}
-    void visit(SFace_handle sf) const {}
+    void visit(Vertex_handle /*v*/) const {}
+    void visit(Halfedge_handle /*e*/) const {}
+    void visit(Halffacet_handle /*f*/) const {}
+    void visit(SHalfloop_handle /*sl*/) const {}
+    void visit(SFace_handle /*sf*/) const {}
     void visit(SHalfedge_handle se) const {
       //      if(vertex_map[se->source()->source()]==3) return;
       int isrse = is_reflex_sedge<SNC_structure>(se, dir);

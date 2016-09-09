@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
-// $Id: Snap_rounding_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -527,7 +527,6 @@ find_hot_pixels_and_create_kd_trees(NT pixel_size,
   typedef std::pair<Point_2, Hot_pixel *>               Point_hot_pixel_pair;
   typedef typename std::list<Segment_data>::iterator    Segment_data_iter;
   typedef std::list<Segment_2>                          Segment_list;
-  typedef typename Segment_list::iterator               Segment_iter;
   typedef typename std::list<Point_2>::const_iterator   Point_const_iter;
     
   typedef typename Traits::Construct_segment_2  Construct_segment_2;

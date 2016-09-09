@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Ray_2.h $
-// $Id: Ray_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Ray_2.h $
+// $Id: Ray_2.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -86,13 +86,13 @@ public:
     : RRay_2(typename R::Construct_ray_2()(Return_base_tag(), sp, l)) {}
 
 
-  typename Qualified_result_of<typename R_::Construct_source_2, Ray_2>::type
+  typename boost::result_of<typename R_::Construct_source_2( Ray_2)>::type
   source() const
   {
     return R().construct_source_2_object()(*this);
   }
 
-  typename Qualified_result_of<typename R_::Construct_second_point_2, Ray_2>::type
+  typename boost::result_of<typename R_::Construct_second_point_2( Ray_2)>::type
   second_point() const
   {
     return R().construct_second_point_2_object()(*this);
@@ -116,7 +116,7 @@ public:
   }
 
 
-  typename Qualified_result_of<typename R_::Construct_source_2, Ray_2, int >::type
+  typename boost::result_of<typename R_::Construct_source_2( Ray_2 )>::type
   start() const
   {
     return source();

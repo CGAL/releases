@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/BGL/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
-// $Id: graph_traits_Polyhedron_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/BGL/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
+// $Id: graph_traits_Polyhedron_3.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -24,12 +24,7 @@
 
 #include <CGAL/Polyhedron_3.h>
 
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-#  define CGAL_HDS_PARAM_ template < class Traits, class Items, class Alloc> class HDS
-#else
-#  define CGAL_HDS_PARAM_ class HDS
-#endif
-
+#define CGAL_HDS_PARAM_ template < class Traits, class Items, class Alloc> class HDS
 
 //
 // NOTE: The BGL algorithms are NOT const-correct: i.e., they take a "G const&" 

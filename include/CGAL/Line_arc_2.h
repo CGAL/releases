@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_2/include/CGAL/Line_arc_2.h $
-// $Id: Line_arc_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Line_arc_2.h $
+// $Id: Line_arc_2.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck, Pedro Machado
 
@@ -93,33 +93,25 @@ public:
      : RLine_arc_2(a)
    {}
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_source_vertex_2,Line_arc_2>::type
-    //const Circular_arc_point_2 & 
+  typename boost::result_of< typename R::Construct_circular_source_vertex_2(Line_arc_2)>::type
     source() const
   {
         return typename R::Construct_circular_source_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_target_vertex_2,Line_arc_2>::type
-  //const Circular_arc_point_2 & 
+  typename boost::result_of< typename R::Construct_circular_target_vertex_2(Line_arc_2)>::type
     target() const
   {
         return typename R::Construct_circular_target_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_min_vertex_2,Line_arc_2>::type
-  //const Circular_arc_point_2 & left() const
+  typename boost::result_of< typename R::Construct_circular_min_vertex_2(Line_arc_2)>::type
   left() const
   {
         return typename R::Construct_circular_min_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_max_vertex_2,Line_arc_2>::type
-  //const Circular_arc_point_2 & right() const
+  typename boost::result_of< typename R::Construct_circular_max_vertex_2(Line_arc_2)>::type
   right() const
   {
         return typename R::Construct_circular_max_vertex_2()(*this);

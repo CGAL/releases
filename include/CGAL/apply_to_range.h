@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_2/include/CGAL/apply_to_range.h $
-// $Id: apply_to_range.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/apply_to_range.h $
+// $Id: apply_to_range.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -35,8 +35,6 @@ void apply_to_range(const Tr &t,
 {
   if (t.dimension()<2) return;
   typedef typename Tr::Point         POINT;
-  typedef typename Tr::Segment       SEGMENT;
-  typedef typename Tr::Triangle      TRIANGLE;
   typedef typename Tr::Face_handle   hFACE;
   typedef typename Tr::Vertex_handle hVERTEX;
   typedef typename Tr::Line_face_circulator      LFC;

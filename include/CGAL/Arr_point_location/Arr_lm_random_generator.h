@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_random_generator.h $
-// $Id: Arr_lm_random_generator.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_random_generator.h $
+// $Id: Arr_lm_random_generator.h 70071 2012-06-26 12:52:02Z efif $
 // 
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -128,18 +128,14 @@ protected:
 
     // Create N random landmarks. If N was not given to the constructor,
     // set it to be the number of vertices in the arrangement.
-    CGAL::Random     random;
-    double           px, py;
-    unsigned int     i;
-
     if (num_landmarks == 0)
       num_landmarks = arr->number_of_vertices();
 
-    for (i = 0; i < num_landmarks; i++) 
-    {
-      px = random.get_double(x_min, x_max);
-      py = random.get_double(y_min, y_max);
-      points.push_back (Point_2 (px, py)); 
+    CGAL::Random random;
+    for (unsigned int i = 0; i < num_landmarks; ++i) {
+      double px = (x_min == x_max) ? x_min : random.get_double(x_min, x_max);
+      double py = (y_min == y_max) ? y_min : random.get_double(y_min, y_max);
+      points.push_back(Point_2 (px, py)); 
     }
   }
 

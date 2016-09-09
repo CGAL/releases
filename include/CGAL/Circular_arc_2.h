@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_2/include/CGAL/Circular_arc_2.h $
-// $Id: Circular_arc_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Circular_arc_2.h $
+// $Id: Circular_arc_2.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -110,33 +110,25 @@ public:
   {}
 
 
-  typename Qualified_result_of    
-  <typename R::Construct_circular_source_vertex_2,Circular_arc_2>::type
-  //const Circular_arc_point_2 &
+  typename boost::result_of<typename R::Construct_circular_source_vertex_2(Circular_arc_2)>::type
   source() const
   {
     return typename R::Construct_circular_source_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_target_vertex_2,Circular_arc_2>::type
-  //const Circular_arc_point_2 &
+  typename boost::result_of<typename R::Construct_circular_target_vertex_2(Circular_arc_2)>::type
   target() const
   {
     return typename R::Construct_circular_target_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_min_vertex_2,Circular_arc_2>::type
-  //const Circular_arc_point_2 & 
+  typename boost::result_of<typename R::Construct_circular_min_vertex_2(Circular_arc_2)>::type
   left() const
   {
     return typename R::Construct_circular_min_vertex_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Construct_circular_max_vertex_2,Circular_arc_2>::type
-  //const Circular_arc_point_2 & 
+  typename boost::result_of<typename R::Construct_circular_max_vertex_2(Circular_arc_2)>::type
   right() const
   {
     return typename R::Construct_circular_max_vertex_2()(*this);
@@ -152,25 +144,19 @@ public:
     return typename R::Is_y_monotone_2()(*this);
   }
 
-	typename Qualified_result_of
-  <typename R::Construct_circle_2,Circular_arc_2>::type
-  // const Circle_2 & 
+  typename boost::result_of<typename R::Construct_circle_2(Circular_arc_2)>::type
   supporting_circle() const
   {
     return typename R::Construct_circle_2()(*this);
   }
 
-	typename Qualified_result_of
-  <typename R::Construct_center_2,Circular_arc_2>::type
-  // const Point_2 & 
+  typename boost::result_of<typename R::Construct_center_2(Circular_arc_2)>::type
   center() const
   {
     return typename R::Construct_center_2()(*this);
   }
 
-  typename Qualified_result_of
-  <typename R::Compute_squared_radius_2, Circular_arc_2>::type
-  // const FT & 
+  typename boost::result_of<typename R::Compute_squared_radius_2( Circular_arc_2)>::type
   squared_radius() const
   {
     return typename R::Compute_squared_radius_2()(*this);

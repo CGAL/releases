@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
-// $Id: sorted_matrix_search.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
+// $Id: sorted_matrix_search.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -161,9 +161,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   typedef Matrix_cell< PaddedMatrix >               Cell;
   typedef std::vector< Cell >                       Cell_container;
   typedef typename Cell_container::iterator         Cell_iterator;
-  typedef typename Cell_container::reverse_iterator Cell_reverse_iterator;
-  
-  typedef typename Cell_container::size_type size_type ;
+  // typedef typename Cell_container::reverse_iterator Cell_reverse_iterator;
   
   Cell_container active_cells;
   

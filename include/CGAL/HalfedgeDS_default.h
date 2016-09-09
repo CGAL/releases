@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
-// $Id: HalfedgeDS_default.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
+// $Id: HalfedgeDS_default.h 69044 2012-05-10 10:18:01Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -30,8 +30,6 @@
 #include <CGAL/memory.h>
 
 namespace CGAL {
-
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
 
 template <class Traits_, class HalfedgeDSItems = HalfedgeDS_items_2, 
           class Alloc = CGAL_ALLOCATOR(int)>
@@ -46,26 +44,6 @@ public:
         : HalfedgeDS_list< Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}
 };
 #define CGAL_HALFEDGEDS_DEFAULT  ::CGAL::HalfedgeDS_default
-
-#else //  CGAL_CFG_NO_TMPL_IN_TMPL_PARAM //
-
-struct HalfedgeDS_default {
-  template <class Traits_, class HalfedgeDSItems = HalfedgeDS_items_2, 
-            class Alloc = CGAL_ALLOCATOR(int)>
-  class HDS : public HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> {
-  public:
-      typedef Traits_                                               Traits;
-      typedef HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> D_S;
-      typedef typename D_S::size_type                                size_type;
-      HDS() {}
-      HDS( size_type v, size_type h, size_type f)
-          : HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}
-  };
-};
-
-#define CGAL_HALFEDGEDS_DEFAULT  ::CGAL::HalfedgeDS_default::HDS
-
-#endif // CGAL_CFG_NO_TMPL_IN_TMPL_PARAM //
 
 } //namespace CGAL
 #endif // CGAL_HALFEDGEDS_DEFAULT_H //

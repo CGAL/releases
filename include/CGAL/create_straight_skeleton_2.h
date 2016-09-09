@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
-// $Id: create_straight_skeleton_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
+// $Id: create_straight_skeleton_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -62,7 +62,6 @@ create_interior_straight_skeleton_2 ( PointIterator aOuterContour_VerticesBegin
                                     )
 {
   typedef Straight_skeleton_2<K> Ss ;
-  typedef boost::shared_ptr<Ss>  SsPtr ;
 
   typedef Straight_skeleton_builder_traits_2<K> SsBuilderTraits;
   
@@ -135,6 +134,7 @@ boost::shared_ptr< Straight_skeleton_2<K> >
 inline
 create_interior_straight_skeleton_2 ( Polygon const& aOutContour, K const& k )
 {
+  CGAL_precondition(aOutContour.is_simple() || !"The input polygon is not simple.");
   return create_interior_straight_skeleton_2(CGAL_SS_i::vertices_begin(aOutContour)
                                             ,CGAL_SS_i::vertices_end(aOutContour)
                                             ,k 
@@ -221,6 +221,7 @@ boost::shared_ptr< Straight_skeleton_2<K> >
 inline
 create_exterior_straight_skeleton_2 ( FT const& aMaxOffset, Polygon const& aPoly, K const& k )
 {
+  CGAL_precondition(aPoly.is_simple() || !"The input polygon is not simple.");
   return create_exterior_straight_skeleton_2(aMaxOffset
                                             ,CGAL_SS_i::vertices_begin(aPoly)
                                             ,CGAL_SS_i::vertices_end  (aPoly)

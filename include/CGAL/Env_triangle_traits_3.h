@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
-// $Id: Env_triangle_traits_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
+// $Id: Env_triangle_traits_3.h 70391 2012-07-07 07:45:01Z ophirset $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -46,12 +46,12 @@ public:
   typedef Arr_segment_traits_2<Kernel_>             Traits_2;
   typedef typename Traits_2::Point_2                Point_2;
   typedef typename Traits_2::X_monotone_curve_2     X_monotone_curve_2;
+  typedef typename Traits_2::Multiplicity           Multiplicity;
 
   typedef Kernel_                                   Kernel;
   typedef Env_triangle_traits_3<Kernel>             Self;
 
   typedef typename Kernel::Point_3                  Point_3;
-  typedef unsigned int                              Multiplicity;
 
   /*!
    * \class Representation of a 3d triangle with cached data.

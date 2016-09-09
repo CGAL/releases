@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_3/include/CGAL/constructions/constructions_on_weighted_points_cartesian_3.h $
-// $Id: constructions_on_weighted_points_cartesian_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_3/include/CGAL/constructions/constructions_on_weighted_points_cartesian_3.h $
+// $Id: constructions_on_weighted_points_cartesian_3.h 69983 2012-06-22 14:22:16Z pmoeller $
 //
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -375,9 +375,9 @@ power_productC3(
 
 template < class RT , class We>
 void
-radical_axisC3(const RT &px, const RT &py, const RT &pz, const We &pw,
-	       const RT &qx, const RT &qy, const RT &qz, const We &qw,
-	       const RT &rx, const RT &ry, const RT &rz, const We &rw,
+radical_axisC3(const RT &px, const RT &py, const RT &pz, const We & /* pw */,
+	       const RT &qx, const RT &qy, const RT &qz, const We & /* qw */,
+	       const RT &rx, const RT &ry, const RT &rz, const We & /* rw */,
 	       RT &a, RT &b, RT& c )
 {
   RT dqx=qx-px, dqy=qy-py, dqz=qz-pz, drx=rx-px, dry=ry-py, drz=rz-pz;

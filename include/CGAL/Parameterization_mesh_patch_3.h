@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
-// $Id: Parameterization_mesh_patch_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
+// $Id: Parameterization_mesh_patch_3.h 70794 2012-07-27 12:05:53Z glisse $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -22,6 +22,7 @@
 #ifndef CGAL_PARAMETERIZATION_MESH_PATCH_3_H
 #define CGAL_PARAMETERIZATION_MESH_PATCH_3_H
 
+#include <cstdio>
 #include <CGAL/iterator.h>
 #include <CGAL/circulator.h>
 #include <CGAL/Convertible_iterator_project.h>

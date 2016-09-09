@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron/include/CGAL/Polyhedron_copy_3.h $
-// $Id: Polyhedron_copy_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron/include/CGAL/Polyhedron_copy_3.h $
+// $Id: Polyhedron_copy_3.h 68162 2012-03-23 16:29:54Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -49,7 +49,7 @@ Polyhedron_copy_3<Poly,HDS>:: operator()( HDS& target) {
     typedef typename Poly::Vertex_const_iterator  Vertex_const_iterator;
     typedef typename Poly::Facet_const_iterator   Facet_const_iterator;
     typedef Inverse_index< Vertex_const_iterator> Index;
-    typedef typename HDS::Point                   Point;
+    typedef typename HDS::Vertex::Point                   Point;
 
     target.clear();
     Polyhedron_incremental_builder_3<HDS> B( target);

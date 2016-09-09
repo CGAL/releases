@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
-// $Id: generic_print_polyhedron.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
+// $Id: generic_print_polyhedron.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -33,7 +33,6 @@ generic_print_polyhedron( std::ostream&     out,
                           const Polyhedron& P,
                           Writer&           writer) {
     // writes P to `out' in the format provided by `writer'.
-    typedef typename Polyhedron::Vertex                                 Vertex;
     typedef typename Polyhedron::Vertex_const_iterator                  VCI;
     typedef typename Polyhedron::Facet_const_iterator                   FCI;
     typedef typename Polyhedron::Halfedge_around_facet_const_circulator HFCC;

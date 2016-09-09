@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h $
-// $Id: Ray_2_Ray_2_intersection.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h $
+// $Id: Ray_2_Ray_2_intersection.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -99,7 +99,7 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
         return _result;
     case Line_2_Line_2_pair<K>::LINE:
         {
-        typedef typename K::RT RT;
+        //typedef typename K::RT RT;
         const typename K::Vector_2 &dir1 = _ray1->direction().to_vector();
         const typename K::Vector_2 &dir2 = _ray2->direction().to_vector();
         if (CGAL_NTS abs(dir1.x()) > CGAL_NTS abs(dir1.y())) {

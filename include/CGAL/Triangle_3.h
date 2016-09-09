@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Triangle_3.h $
-// $Id: Triangle_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Triangle_3.h $
+// $Id: Triangle_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -90,13 +90,13 @@ public:
   }
 
 
-  typename Qualified_result_of<typename R::Construct_vertex_3, Triangle_3 >::type
+  typename boost::result_of<typename R::Construct_vertex_3( Triangle_3, int )>::type
   vertex(int i) const
   {
     return R().construct_vertex_3_object()(*this, i);
   }
 
-  typename Qualified_result_of<typename R::Construct_vertex_3, Triangle_3 >::type
+  typename boost::result_of<typename R::Construct_vertex_3( Triangle_3, int )>::type
   operator[](int i) const
   {
     return vertex(i);

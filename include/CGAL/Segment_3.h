@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Segment_3.h $
-// $Id: Segment_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Segment_3.h $
+// $Id: Segment_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -74,54 +74,44 @@ public:
   Segment_3(const Point_3& sp, const Point_3& ep)
     : Rep(typename R::Construct_segment_3()(Return_base_tag(), sp, ep)) {}
 
-// FIXME TODO : Use Qrt here !
-  //typename Qualified_result_of<typename R::Construct_source_3, Segment_3>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_source_3(Segment_3)>::type
   source() const
   { 
     return R_().construct_source_3_object()(*this);
   }
 
-  //typename Qualified_result_of<typename R::Construct_target_3, Segment_3>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_target_3(Segment_3)>::type
   target() const
   {
     return R_().construct_target_3_object()(*this);
   }
 
-  //typename Qualified_result_of<typename R::Construct_source_3, Segment_3>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_source_3(Segment_3)>::type
   start() const
   {
     return source();
   }
 
-  //typename Qualified_result_of<typename R::Construct_target_3, Segment_3>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_target_3(Segment_3)>::type
   end() const
   {
     return target();
   }
  
-  //typename Qualified_result_of<typename R::Construct_min_vertex_2, Segment_2>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_min_vertex_3(Segment_3)>::type
   min BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
-  //typename Qualified_result_of<typename R::Construct_max_vertex_2, Segment_2>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_max_vertex_3(Segment_3)>::type
   max BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
-  //typename Qualified_result_of<typename R::Construct_vertex_2, Segment_2, int>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_vertex_3(Segment_3, int)>::type
   vertex(int i) const;
 
-  //typename Qualified_result_of<typename R::Construct_vertex_2, Segment_2, int>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_vertex_3(Segment_3, int)>::type
   point(int i) const
   { return vertex(i); }
 
-  //typename Qualified_result_of<typename R::Construct_vertex_2, Segment_2, int>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_vertex_3(Segment_3, int)>::type
   operator[](int i) const
   { return vertex(i); }
 
@@ -179,8 +169,7 @@ public:
 
 template < class R_ >
 CGAL_KERNEL_INLINE
-//typename Qualified_result_of<typename R_::Construct_min_vertex_2, Segment_2<R_> >::type
-typename R_::Point_3
+typename boost::result_of<typename R_::Construct_min_vertex_3( Segment_3<R_> ) >::type
 Segment_3<R_>::min BOOST_PREVENT_MACRO_SUBSTITUTION () const
 {
   typename R_::Less_xyz_3 less_xyz; 
@@ -189,8 +178,7 @@ Segment_3<R_>::min BOOST_PREVENT_MACRO_SUBSTITUTION () const
 
 template < class R_ >
 CGAL_KERNEL_INLINE
-//typename Qualified_result_of<typename R_::Construct_max_vertex_2, Segment_2<R_> >::type
-typename R_::Point_3
+typename boost::result_of<typename R_::Construct_max_vertex_3( Segment_3<R_> ) >::type
 Segment_3<R_>::max BOOST_PREVENT_MACRO_SUBSTITUTION () const
 {
   typename R_::Less_xyz_3 less_xyz; 
@@ -199,8 +187,7 @@ Segment_3<R_>::max BOOST_PREVENT_MACRO_SUBSTITUTION () const
 
 template < class R_ >
 CGAL_KERNEL_INLINE
-//typename Qualified_result_of<typename R_::Construct_vertex_2, Segment_2<R_>, int >::type
-typename R_::Point_3
+typename boost::result_of<typename R_::Construct_vertex_3( Segment_3<R_>, int ) >::type
 Segment_3<R_>::vertex(int i) const
 {
   return (i%2 == 0) ? source() : target();

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
-// $Id: Default_site_removers.h 68301 2012-03-30 16:05:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
+// $Id: Default_site_removers.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -105,7 +105,7 @@ class Default_caching_site_remover<AT,Null_functor>
 {
 public:
   Default_caching_site_remover() {}
-  template<typename T> Default_caching_site_remover(T t) {}
+  template<typename T> Default_caching_site_remover(T /*t*/) {}
 };
 
 //===========================================================================

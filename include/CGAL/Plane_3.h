@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Plane_3.h $
-// $Id: Plane_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Plane_3.h $
+// $Id: Plane_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -113,25 +113,25 @@ public:
     return Direction_3(a(), b(), c());
   }
 
-  typename Qualified_result_of<typename R::Compute_a_3, Plane_3>::type
+  typename boost::result_of<typename R::Compute_a_3( Plane_3)>::type
   a() const
   {
     return R().compute_a_3_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_b_3, Plane_3>::type
+  typename boost::result_of<typename R::Compute_b_3( Plane_3)>::type
   b() const
   {
     return R().compute_b_3_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_c_3, Plane_3>::type
+  typename boost::result_of<typename R::Compute_c_3( Plane_3)>::type
   c() const
   {
     return R().compute_c_3_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_d_3, Plane_3>::type
+  typename boost::result_of<typename R::Compute_d_3( Plane_3)>::type
   d() const
   {
     return R().compute_d_3_object()(*this);

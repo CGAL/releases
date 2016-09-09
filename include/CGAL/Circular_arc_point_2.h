@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_2/include/CGAL/Circular_arc_point_2.h $
-// $Id: Circular_arc_point_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Circular_arc_point_2.h $
+// $Id: Circular_arc_point_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -73,17 +73,15 @@ public:
     : RCircular_arc_point_2(typename R::Construct_circular_arc_point_2()(p))
   {}
       
-  typename Qualified_result_of
-  <typename R::Compute_circular_x_2,Circular_arc_point_2>::type
-  //const Root_of_2 &
+  typename
+  boost::result_of<typename R::Compute_circular_x_2(Circular_arc_point_2)>::type
   x() const
   { 
     return typename R::Compute_circular_x_2()(*this); 
   }
 
-  typename Qualified_result_of
-  <typename R::Compute_circular_y_2,Circular_arc_point_2>::type
-  //const Root_of_2 &
+  typename
+  boost::result_of<typename R::Compute_circular_y_2(Circular_arc_point_2)>::type
   y() const
   { 
     return typename R::Compute_circular_y_2()(*this); 
@@ -156,7 +154,6 @@ public:
   std::istream &
   operator>>(std::istream & is, Circular_arc_point_2<CK> &p)
   {
-    typedef typename CK::Root_of_2               Root_of_2;
     typedef typename CK::Root_for_circles_2_2 Root_for_circles_2_2;
     
     Root_for_circles_2_2 r;

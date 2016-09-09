@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
-// $Id: compute_average_spacing.h 67225 2012-01-17 17:13:01Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $Id: compute_average_spacing.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -56,8 +56,6 @@ compute_average_spacing(const typename Kernel::Point_3& query, ///< 3D point who
   // basic geometric types
   typedef typename Kernel::FT FT;
   typedef typename Kernel::Point_3 Point;
-  typedef typename Kernel::Plane_3 Plane;
-  typedef typename Kernel::Vector_3 Vector;
 
   // types for K nearest neighbors search
   typedef Search_traits_3<Kernel> Tree_traits;

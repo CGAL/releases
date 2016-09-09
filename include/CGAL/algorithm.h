@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/STL_Extension/include/CGAL/algorithm.h $
-// $Id: algorithm.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/algorithm.h $
+// $Id: algorithm.h 69586 2012-06-14 09:19:47Z pmoeller $
 //
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -38,7 +38,7 @@
 
 namespace CGAL {
 
-namespace cpp0x {
+namespace cpp11 {
 #ifndef CGAL_CFG_NO_CPP0X_NEXT_PREV
   using std::next;
   using std::prev;
@@ -54,7 +54,9 @@ namespace cpp0x {
     return boost::prior(x, n);
   }
 #endif
-}
+} // namespace cpp11
+
+namespace cpp0x = cpp11;
 
 // copy_n is usually in the STL as well, but not in the official
 // standard. We provide our own copy_n.  It is planned for C++0x. 
@@ -91,13 +93,16 @@ OutputIterator copy_n( InputIterator first, Size n, OutputIterator result )
 }
 #endif // CGAL_CFG_NO_CPP0X_COPY_N
 
-namespace cpp0x {
+namespace cpp11 {
 #ifndef CGAL_CFG_NO_CPP0X_COPY_N
   using std::copy_n;
 #else
   using CGAL::copy_n;
 #endif
-} // cpp0x
+} // cpp11
+
+namespace cpp0x = cpp11;
+
 
 // Not documented
 template <class T> inline

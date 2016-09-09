@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Linear_cell_complex/demo/Linear_cell_complex/Viewer.h $
-// $Id: Viewer.h 66982 2012-01-04 11:56:02Z gdamiand $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Linear_cell_complex/demo/Linear_cell_complex/Viewer.h $
+// $Id: Viewer.h 69081 2012-05-11 11:55:15Z gdamiand $
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //                 Kumar Snehasish <kumar.snehasish@gmail.com>
@@ -24,7 +24,6 @@
 #include "typedefs.h"
 #include <QGLViewer/qglviewer.h>
 #include <QKeyEvent>
-#include <QTableWidget>
 
 class Viewer : public QGLViewer 
 {
@@ -36,37 +35,20 @@ class Viewer : public QGLViewer
   bool flatShading;
   bool edges;
   bool vertices;
-  unsigned int modeFilledFacet;
-  int selectedVolumeIndex;
 
   typedef LCC::Dart_handle Dart_handle;
   typedef LCC::Dart_const_handle Dart_const_handle;
-
-  std::vector<std::pair<int,Dart_handle> >* pVolumeDartIndex;
-  std::vector<char>* pVolumeProperties;
 
 
 public:
   Viewer(QWidget* parent)
     : QGLViewer(parent), wireframe(false), flatShading(true),
-      edges(true), vertices(true), modeFilledFacet(0), selectedVolumeIndex(-1)
+      edges(true), vertices(true)
   {}
 
   void setScene(Scene* scene_)
   {
     scene = scene_;
-  }
-
-  void setVectorPointers(std::vector<std::pair<int,Dart_handle> >* v1,
-                         std::vector<char>* v2)
-  {
-    pVolumeDartIndex = v1;
-    pVolumeProperties = v2;
-  }
-
-  void setSelectedVolumeIndex(int index)
-  {
-    selectedVolumeIndex = index;
   }
 
 public:

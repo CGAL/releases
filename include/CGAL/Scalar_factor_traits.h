@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
-// $Id: Scalar_factor_traits.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
+// $Id: Scalar_factor_traits.h 69976 2012-06-22 10:05:26Z pmoeller $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -60,8 +60,8 @@ public:
         static Scalar scalar_factor(const NT& a, Field_tag) {
             return (a == NT(0)) ? NT(0) : NT(1);
         }
-        static Scalar scalar_factor(const NT& a, 
-                                    const Scalar& d,
+        static Scalar scalar_factor(const NT& /* a */, 
+                                    const Scalar& /* d */,
                                     Integral_domain_tag) {
             return Scalar(1);
         }

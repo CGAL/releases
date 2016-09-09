@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
-// $Id: Env_plane_traits_3_functions.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
+// $Id: Env_plane_traits_3_functions.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -31,9 +31,6 @@ Object plane_half_plane_proj_intersection(const typename K::Plane_3 &h1,
                                           const typename K::Line_2  &l,
                                           const K& k)
 {
-  typedef typename K::Vector_2   Vector_2;
-  typedef typename K::Point_2    Point_2;
-  typedef typename K::Ray_2      Ray_2;
   typedef typename K::Line_3     Line_3;
   typedef typename K::Line_2     Line_2;
   typedef typename K::Plane_3    Plane_3;
@@ -92,7 +89,6 @@ typename K::Line_2 project_xy(const typename K::Line_3& l,
   typedef typename K::Vector_2   Vector_2;
   typedef typename K::Point_3    Point_3;
   typedef typename K::Point_2    Point_2;
-  typedef typename K::Ray_2      Ray_2;
 
   Vector_3 vec3 = k.construct_vector_3_object()(l);
   Vector_2 vec2(vec3.x(), vec3.y());
@@ -157,10 +153,8 @@ Object ray_under_linear_constraint(const typename K::Ray_2&  ray,
                                    const K& k)
 {
   typedef typename K::Ray_2         Ray_2;
-  typedef typename K::Line_2        Line_2;
   typedef typename K::Vector_2      Vector_2;
   typedef typename K::Point_2       Point_2;
-  typedef typename K::Segment_2     Segment_2;
 
   const Point_2& s = k.construct_point_on_2_object()(ray, 0);
   Oriented_side side = k.oriented_side_2_object()(l, s);

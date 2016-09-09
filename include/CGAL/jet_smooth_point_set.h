@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Point_set_processing_3/include/CGAL/jet_smooth_point_set.h $
-// $Id: jet_smooth_point_set.h 67225 2012-01-17 17:13:01Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Point_set_processing_3/include/CGAL/jet_smooth_point_set.h $
+// $Id: jet_smooth_point_set.h 70352 2012-07-06 09:21:13Z sloriot $
 //
 // Author(s) : Pierre Alliez, Marc Pouget and Laurent Saboret
 
@@ -131,7 +131,7 @@ jet_smooth_point_set(
   InputIterator beyond, ///< past-the-end iterator over the input points.
   PointPMap point_pmap, ///< property map InputIterator -> Point_3.
   unsigned int k, ///< number of neighbors.
-  const Kernel& kernel, ///< geometric traits.
+  const Kernel& /*kernel*/, ///< geometric traits.
   unsigned int degree_fitting = 2,
   unsigned int degree_monge = 2)
 {

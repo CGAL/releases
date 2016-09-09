@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Union_of_curve_cycles_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Union_of_curve_cycles_2.h $
 // $Id: Union_of_curve_cycles_2.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
-// $Id: Residue_type.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
+// $Id: Residue_type.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
 
@@ -228,7 +228,7 @@ public:
 
     //! constructor of Residue, from long 
     Residue(long n){
-        x_= RES_reduce(n);
+        x_= RES_reduce((double)n);
     }
    
     //! Access operator for x, \c const 
@@ -306,14 +306,13 @@ inline std::ostream& operator << (std::ostream& os, const Residue& p) {
 }
 
 inline std::istream& operator >> (std::istream& is, Residue& p) {
-    typedef Residue RES;
     char ch;
     int prime;
 
     is >> p.x();
     is >> ch;    // read the %
     is >> prime; // read the prime
-    CGAL_precondition(prime==RES::get_current_prime());
+    CGAL_precondition(prime==Residue::get_current_prime());
     return is;
 }
 

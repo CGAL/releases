@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial/subresultants.h $
-// $Id: subresultants.h 67358 2012-01-23 08:41:10Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/subresultants.h $
+// $Id: subresultants.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
 //
@@ -39,7 +39,6 @@ namespace CGAL {
          typename Polynomial_traits_d::Polynomial_d B,
          typename Polynomial_traits_d::Polynomial_d& C) {
 
-      typedef typename Polynomial_traits_d::Polynomial_d Polynomial;
       typedef typename Polynomial_traits_d::Coefficient_type NT;
       typename CGAL::Algebraic_structure_traits<NT>::Integral_division idiv;
 
@@ -777,11 +776,11 @@ namespace CGAL {
       typename OutputIterator2,
       typename OutputIterator3>
       OutputIterator1 polynomial_subresultants_with_cofactors_
-      (typename Polynomial_traits_d::Polynomial_d P,
-       typename Polynomial_traits_d::Polynomial_d Q,
+      (typename Polynomial_traits_d::Polynomial_d /* P */,
+       typename Polynomial_traits_d::Polynomial_d /* Q */,
        OutputIterator1 sres_out,
-       OutputIterator2 coP_out,
-       OutputIterator3 coQ_out,
+       OutputIterator2 /* coP_out */,
+       OutputIterator3 /* coQ_out */,
        CGAL::Integral_domain_without_division_tag) {
         // polynomial_subresultants_with_cofactors requires 
         // a model of IntegralDomain as coefficient type;

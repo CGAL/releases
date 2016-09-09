@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
-// $Id: Fuzzy_iso_box.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
+// $Id: Fuzzy_iso_box.h 69073 2012-05-11 09:20:13Z pmoeller $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -58,7 +58,9 @@ namespace CGAL {
 
     private:
 
-    typename Construct_min_vertex_d::result_type min, max;
+    typename boost::remove_cv< 
+      typename boost::remove_reference< typename Construct_min_vertex_d::result_type >::type 
+      >::type min, max;
     Cartesian_const_iterator_d min_begin, max_begin;
     FT eps;
     unsigned int dim;

@@ -8,7 +8,7 @@
  *
  * Zilin Du, 2003
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Core/src/CGALCore/GmpIO.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Core/src/CGALCore/GmpIO.cpp $
  * $Id: GmpIO.cpp 67314 2012-01-19 16:49:52Z lrineau $
  ***************************************************************************/
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h 68828 2012-04-24 16:06:55Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -432,8 +432,6 @@ check_integrity_and_topological_planarity(bool faces) const
     EI(halfedges_begin(),halfedges_end(),'e');
   Object_index<Face_const_iterator> 
     FI(faces_begin(),faces_end(),'f');
-  typedef Halfedge_around_vertex_const_circulator hvc_circulator;
-  typedef Halfedge_around_face_const_circulator   hfc_circulator;
   Vertex_const_handle vit, vend = phds->vertices_end();
   int iso_vert_num=0;
   /* check the source links of out edges and count isolated vertices */

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
 // $Id: Bbox_3_Triangle_3_do_intersect.h 67238 2012-01-18 09:52:23Z afabri $
 //
 //

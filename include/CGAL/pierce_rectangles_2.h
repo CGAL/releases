@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
-// $Id: pierce_rectangles_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
+// $Id: pierce_rectangles_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -492,7 +492,6 @@ two_cover_points(
   using std::less;
 
   typedef typename Traits::FT           FT;
-  typedef typename Traits::Point_2      Point_2;
   typename Traits::Infinity_distance_2 dist =
     d.traits.infinity_distance_2_object();
   typename Traits::Signed_infinity_distance_2 sdist =

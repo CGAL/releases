@@ -1,4 +1,65 @@
 
+-------------------------------- Release 4.1 --------------------------------
+
+Release date:
+
+
+* Installation
+
+  - Additional supported platforms:
+
+      - The Apple Clang compiler versions 3.1 and 3.2 are now supported on
+        Mac OS X.
+
+
+  - Improved configuration for essential and optional external third party
+    software
+
+  - Added more general script to create CMakeLists.txt files:
+    cgal_create_CMakeLists
+
+  - Availability tests for C++11 features are now performed with the help of
+    Boost.Config. A Boost version of 1.40.0 or higher is needed to use C++11
+    features.
+
+
+* 2D Arrangement
+
+  - Improved the implementation of the incremental randomized trapezoidal
+    decomposition point-location strategy. The new implementation enables point
+    location in unbounded arrangements. It constructs a search structure of
+    guaranteed linear size with guaranteed logarithmic query time.
+
+
+* 2D Convex Hulls and Extreme Points
+
+  - Speed up the preprocessing stage of the Akl-Toussaint implementation (used
+    by the free function convex_hull_2 when forward iterators are provided as
+    input).
+
+
+* Combinatorial Maps
+
+  - Minor bugfix; replace some functors by methods.
+
+
+* Linear Cell Complex
+
+  - Improve the demo: add a widget showing all the volumes and an operation to
+    create a Menger sponge.
+
+
+* Kernels
+
+  - All Kernel functors now support the result_of protocol.
+
+
+* STL_Extensions for CGAL
+
+  - The namespace cpp0x has been renamed cpp11. The old name is still available
+    for backward compatibility.
+
+
 -------------------------------- Release 4.0.2 --------------------------------
 
 Release date: Jul 2012

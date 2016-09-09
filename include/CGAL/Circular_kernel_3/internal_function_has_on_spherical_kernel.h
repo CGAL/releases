@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
-// $Id: internal_function_has_on_spherical_kernel.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
+// $Id: internal_function_has_on_spherical_kernel.h 70837 2012-07-28 06:21:06Z glisse $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot
@@ -58,7 +58,6 @@ namespace CGAL {
     has_on(const typename SK::Line_3 &a, 
            const typename SK::Circular_arc_point_3 &p)
     { 
-      typedef typename SK::Algebraic_kernel Algebraic_kernel;
       typedef typename SK::Polynomials_for_line_3 Equation;
       Equation equation = get_equation<SK>(a);
       return p.rep().coordinates().is_on_line(equation);

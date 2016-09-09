@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h 69044 2012-05-10 10:18:01Z pmoeller $
 //
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -461,9 +461,7 @@ public:
 
 template < class PolyhedronTraits_3,
            class PolyhedronItems_3 = Polyhedron_items_3,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
-#endif
            class T_HDS = HalfedgeDS_default,
            class Alloc = CGAL_ALLOCATOR(int)>
 class Polyhedron_3 {
@@ -491,11 +489,7 @@ public:
     typedef PolyhedronTraits_3                    Traits;
     typedef PolyhedronItems_3                     Items;
     typedef I_Polyhedron_derived_items_3<Items>   Derived_items;
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
     typedef T_HDS< Traits, Derived_items, Alloc>  HDS;
-#else
-    typedef typename T_HDS::template HDS< Traits, Derived_items, Alloc>  HDS;
-#endif
     typedef HDS                                   HalfedgeDS;
 
     // portability with older CGAL release

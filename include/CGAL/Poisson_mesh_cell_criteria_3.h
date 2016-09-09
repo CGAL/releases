@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
-// $Id: Poisson_mesh_cell_criteria_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
+// $Id: Poisson_mesh_cell_criteria_3.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -113,7 +113,6 @@ public:
       typedef typename Tr::Geom_traits Geom_traits;
       typedef typename Geom_traits::Compute_squared_radius_3 Radius;
       typedef typename Geom_traits::Compute_squared_distance_3 Distance;
-      typedef typename Geom_traits::FT FT;
 
       Radius radius = Geom_traits().compute_squared_radius_3_object();
       Distance distance = Geom_traits().compute_squared_distance_3_object();

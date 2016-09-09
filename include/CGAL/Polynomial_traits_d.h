@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 67292 2012-01-19 08:09:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $Id: Polynomial_traits_d.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -1660,7 +1660,6 @@ struct Construct_innermost_coefficient_const_iterator_range
       typedef std::iterator_traits<Input_iterator> ITT;
       typedef typename ITT::value_type value_type;
       typedef Coercion_traits<value_type, Innermost_coefficient_type> CT; 
-      typedef typename CT::Type Type; 
       
       typename PTC::Substitute_homogeneous subsh; 
       

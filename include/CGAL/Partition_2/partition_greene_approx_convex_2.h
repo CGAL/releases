@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Partition_2/include/CGAL/Partition_2/partition_greene_approx_convex_2.h $
-// $Id: partition_greene_approx_convex_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Partition_2/include/CGAL/Partition_2/partition_greene_approx_convex_2.h $
+// $Id: partition_greene_approx_convex_2.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -361,7 +361,6 @@ void change_top_chain(Polygon& polygon,
          {
             std::copy(new_point_ref, stack.before_front(), 
                       std::back_inserter(new_polygon));
-            typedef typename Polygon::iterator iterator;
             erase_vertices(top_chain.front(), stack.front(), polygon,
                            update_required);
             top_chain.push_front(stack.front());
@@ -801,7 +800,6 @@ OutputIterator partition_greene_approx_convex_2(InputIterator first,
 {
    if (first == beyond) return result;
 
-   typedef typename Traits::Point_2                          Point_2;
    typedef typename Traits::Polygon_2                        Polygon_2;
 
 #if defined(CGAL_PARTITION_NO_POSTCONDITIONS) || \

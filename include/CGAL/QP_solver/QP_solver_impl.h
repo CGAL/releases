@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
 // $Id: QP_solver_impl.h 67582 2012-02-02 22:43:24Z ybrise $
 // 
 //

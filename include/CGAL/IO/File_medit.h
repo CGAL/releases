@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_3/include/CGAL/IO/File_medit.h $
-// $Id: File_medit.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_3/include/CGAL/IO/File_medit.h $
+// $Id: File_medit.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -343,7 +343,7 @@ class No_rebind_facet_pmap
   typedef unsigned int size_type;
   
 public:
-  No_rebind_facet_pmap(const C3T3& c3t3, const Cell_pmap& cell_pmap)
+  No_rebind_facet_pmap(const C3T3& c3t3, const Cell_pmap& /*cell_pmap*/)
     : r_c3t3_(c3t3) {}
 
   int surface_index(const Facet& f) const
@@ -376,7 +376,7 @@ class No_rebind_facet_pmap_first
   typedef unsigned int size_type;
   
 public:
-  No_rebind_facet_pmap_first(const C3T3& c3t3, const Cell_pmap& cell_pmap)
+  No_rebind_facet_pmap_first(const C3T3& c3t3, const Cell_pmap& /*cell_pmap*/)
     : r_c3t3_(c3t3) {}
   
   int surface_index(const Facet& f) const
@@ -410,7 +410,7 @@ class No_rebind_facet_pmap_second
   typedef unsigned int size_type;
   
 public:
-  No_rebind_facet_pmap_second(const C3T3& c3t3, const Cell_pmap& cell_pmap)
+  No_rebind_facet_pmap_second(const C3T3& c3t3, const Cell_pmap& /*cell_pmap*/)
   : r_c3t3_(c3t3) {}
   
   int surface_index(const Facet& f) const

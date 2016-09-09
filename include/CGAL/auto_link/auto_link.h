@@ -10,8 +10,8 @@
 //-------------------------------------------------------------------------------------- 
 // Copyright (C) 2007 GeometryFactory (France)
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 67315 2012-01-19 16:50:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: auto_link.h 68096 2012-03-19 14:26:17Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactory.com)
 /*************************************************************************
@@ -155,10 +155,15 @@ CGAL_VERSION:        Defined in <CGAL/version.h>
    // vc90:
 #  define CGAL_LIB_TOOLSET "vc90"
 
-#elif defined(BOOST_MSVC) && (BOOST_MSVC >= 1600)
+#elif defined(BOOST_MSVC) && (BOOST_MSVC == 1600)
 
    // vc10:
 #  define CGAL_LIB_TOOLSET "vc100"
+
+#elif defined(BOOST_MSVC) && (BOOST_MSVC >= 1700)
+
+   // vc11:
+#  define CGAL_LIB_TOOLSET "vc110"
 
 #elif defined(__BORLANDC__)
 

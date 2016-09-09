@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h $
-// $Id: Line_2_Iso_rectangle_2_intersection.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h $
+// $Id: Line_2_Iso_rectangle_2_intersection.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -87,7 +87,7 @@ template <class K>
 typename Line_2_Iso_rectangle_2_pair<K>::Intersection_results
 Line_2_Iso_rectangle_2_pair<K>::intersection_type() const
 {
-    typedef typename K::Line_2 line_t;
+    //typedef typename K::Line_2 line_t;
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.

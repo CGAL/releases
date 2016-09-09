@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/iostream/include/CGAL/IO/io.h $
-// $Id: io.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/iostream/include/CGAL/IO/io.h $
+// $Id: io.h 71169 2012-08-10 13:34:02Z lrineau $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -259,7 +259,7 @@ std::ostream& operator<<( std::ostream& out, const Color& col)
 inline
 std::istream &operator>>(std::istream &is, Color& col)
 {
-    int r, g, b;
+    int r = 0, g = 0, b = 0;
     switch(is.iword(IO::mode)) {
     case IO::ASCII :
         is >> r >> g >> b;
@@ -274,7 +274,7 @@ std::istream &operator>>(std::istream &is, Color& col)
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
     }
-    col = Color(r,g,b);
+    col = Color((unsigned char)r,(unsigned char)g,(unsigned char)b);
     return is;
 }
 

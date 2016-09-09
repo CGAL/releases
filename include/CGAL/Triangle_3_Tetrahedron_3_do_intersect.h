@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_3/include/CGAL/Triangle_3_Tetrahedron_3_do_intersect.h $
-// $Id: Triangle_3_Tetrahedron_3_do_intersect.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_3/include/CGAL/Triangle_3_Tetrahedron_3_do_intersect.h $
+// $Id: Triangle_3_Tetrahedron_3_do_intersect.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Nico Kruithof
@@ -39,7 +39,6 @@ do_intersect(const typename K::Triangle_3 &tr,
              const K & k)
 {
     typedef typename K::Triangle_3 Triangle;
-    typedef typename K::Point_3    Point;
 
     CGAL_kernel_precondition( ! k.is_degenerate_3_object() (tr) );
     CGAL_kernel_precondition( ! k.is_degenerate_3_object() (tet) );

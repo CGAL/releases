@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/AABB_tree/include/CGAL/internal/AABB_tree/nearest_point_triangle_3.h $
-// $Id: nearest_point_triangle_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/AABB_tree/include/CGAL/internal/AABB_tree/nearest_point_triangle_3.h $
+// $Id: nearest_point_triangle_3.h 70837 2012-07-28 06:21:06Z glisse $
 //
 //
 // Author(s)     : Camille Wormser, Stephane Tayeb
@@ -187,7 +187,6 @@ nearest_point_3(const typename K::Point_3& origin,
                 const K& k)
 {
   typedef typename K::Point_3 Point_3;
-  typedef typename K::Vector_3 Vector_3;
   typedef typename K::FT FT;
 
   typename K::Compute_squared_distance_3 sq_distance =

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Mesh_2/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Mesh_2/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
 // $Id: Triangulation_mesher_level_traits_3.h 67117 2012-01-13 18:14:48Z lrineau $ $Date: 2012-01-13 19:14:48 +0100 (Fri, 13 Jan 2012) $
 // 
 //

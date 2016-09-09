@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Shear_transformation.h $
-// $Id: Shear_transformation.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Shear_transformation.h $
+// $Id: Shear_transformation.h 70338 2012-07-06 07:05:27Z eric $
 // 
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -290,7 +290,7 @@ private:
     
     // X-coordinate of the shear of p
     Bound x_sheared(Point p,Integer sh) {
-        return p.first-s*p.second;
+        return p.first-sh*p.second;
     }
     Bound x_sheared(Bound x,Bound y,Integer sh) {
         return x-sh*y;

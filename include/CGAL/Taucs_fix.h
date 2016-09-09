@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Surface_mesh_parameterization/include/CGAL/Taucs_fix.h $
-// $Id: Taucs_fix.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Surface_mesh_parameterization/include/CGAL/Taucs_fix.h $
+// $Id: Taucs_fix.h 70839 2012-07-28 10:47:13Z glisse $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -32,6 +32,7 @@
 #if defined(__GNUC__)
     #undef __DEPRECATED
     #include <complex.h>
+    #undef complex
 #endif
 
 // taucs.h will define min/max macros if it's not already done (e.g. by Windows.h).

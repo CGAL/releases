@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Number_types/include/CGAL/int.h $
-// $Id: int.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/int.h $
+// $Id: int.h 69161 2012-05-17 07:11:35Z glisse $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -250,6 +250,16 @@ template<> class Algebraic_structure_traits< short int >
 
 template <> class Real_embeddable_traits< short int >
   : public INTERN_RET::Real_embeddable_traits_base< short int , CGAL::Tag_true > {};
+
+// unsigned int
+
+template <> class Real_embeddable_traits< unsigned int >
+   : public INTERN_RET::Real_embeddable_traits_base< unsigned int , CGAL::Tag_true > {};
+
+// unsigned long
+
+template <> class Real_embeddable_traits< unsigned long >
+   : public INTERN_RET::Real_embeddable_traits_base< unsigned long , CGAL::Tag_true > {};
 
 // Note : "long long" support is in <CGAL/long_long.h>
 

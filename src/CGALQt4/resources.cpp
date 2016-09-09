@@ -12,13 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/GraphicsView/src/CGALQt4/resources.cpp $
-// $Id: resources.cpp 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/GraphicsView/src/CGALQt4/resources.cpp $
+// $Id: resources.cpp 69889 2012-06-20 10:20:27Z pmoeller $
 // 
 //
 // Author(s)     : Laurent Rineau <Laurent.Rineau@geometryfactory.com>
 
 #include <QDir>
+#include <CGAL/Qt/resources.h>
 
 // cannot use namespaces because of the Q_INIT_RESOURCE macro
 void CGAL_Qt4_init_resources() {

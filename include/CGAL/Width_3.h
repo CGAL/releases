@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Width_3/include/CGAL/Width_3.h $
-// $Id: Width_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Width_3/include/CGAL/Width_3.h $
+// $Id: Width_3.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -1385,18 +1385,10 @@ class Width_3 {
   void width_3_convex(InputPolyhedron &P) {
     DEBUGMSG(WIDTH_3_CONVEX,"\nBegin WIDTH_3_CONVEX");
     typedef CGAL::Width_3_internal::Data_access<InputPolyhedron,Traits> DA;
-    typedef typename DA::Polyhedron Polyhedron;
-    typedef typename DA::Vertex Vertex;
-    typedef typename DA::Facet Facet;
-    typedef typename DA::Halfedge Halfedge;
     typedef typename DA::Facet_handle Facet_handle;
     typedef typename DA::Vertex_handle Vertex_handle;
     typedef typename DA::Halfedge_handle Halfedge_handle;
-    typedef typename DA::PolyPoint PolyPoint;
-    typedef typename DA::Plane Plane;
-    typedef typename DA::Halfedge_iterator Halfedge_iterator;
     typedef typename DA::Vertex_iterator Vertex_iterator;
-    typedef typename DA::Facet_iterator Facet_iterator;
     //Ensure that Polyhedron has at least one vertex
     CGAL_assertion_msg(P.size_of_vertices()>2,
          "Can not compute width of a 0, 1 or 2-vertex polyhedron");

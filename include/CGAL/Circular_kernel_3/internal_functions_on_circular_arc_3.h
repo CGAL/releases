@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circular_arc_3.h $
-// $Id: internal_functions_on_circular_arc_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circular_arc_3.h $
+// $Id: internal_functions_on_circular_arc_3.h 70837 2012-07-28 06:21:06Z glisse $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -185,7 +185,6 @@ namespace CGAL {
                 const typename SK::Circular_arc_3 & ca, 
 	        OutputIterator res)
     {
-      typedef typename SK::Point_3 Point_3;
       typedef typename SK::Circular_arc_point_3 Circular_arc_point_3;
       typedef std::vector<CGAL::Object> solutions_container;
       typedef std::pair<Circular_arc_point_3, unsigned> Solution;

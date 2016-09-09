@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
-// $Id: PolyhedralSurf_neighbors.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $Id: PolyhedralSurf_neighbors.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_POLYHEDRALSURF_NEIGHBORS_H_
@@ -149,7 +149,6 @@ compute_one_ring(const Vertex_const_handle v,
 		 std::list<Halfedge_const_handle> &contour,
 		 FT &OneRingSize)
 {
-  typedef typename std::list<Halfedge_const_handle>::const_iterator list_it;
   vertex_neigh.push_back(v);
   Halfedge_around_vertex_const_circulator he_circ = v->vertex_begin(), 
                                     he_end = he_circ;

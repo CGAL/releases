@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h $
-// $Id: Point_2_Triangle_2_intersection.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h $
+// $Id: Point_2_Triangle_2_intersection.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -81,7 +81,6 @@ template <class K>
 typename Point_2_Triangle_2_pair<K>::Intersection_results
 Point_2_Triangle_2_pair<K>::intersection_type() const
 {
-    typedef typename K::Line_2 line_t;
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
@@ -93,6 +92,7 @@ Point_2_Triangle_2_pair<K>::intersection_type() const
     }
     return _result;
 /*
+    typedef typename K::Line_2 line_t;
     line_t l(_trian->vertex(0), _trian->vertex(1));
     if (l.has_on_positive_side(_trian->vertex(2))) {
         for (int i=0; i<3; i++) {

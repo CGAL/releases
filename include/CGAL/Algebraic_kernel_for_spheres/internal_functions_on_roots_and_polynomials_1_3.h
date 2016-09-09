@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_1_3.h $
-// $Id: internal_functions_on_roots_and_polynomials_1_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_1_3.h $
+// $Id: internal_functions_on_roots_and_polynomials_1_3.h 70837 2012-07-28 06:21:06Z glisse $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -39,7 +39,6 @@ namespace CGAL {
 	   const typename AK::Polynomial_1_3 & e3,
 	 OutputIterator res )
   {
-    typedef typename AK::RT RT;
     typedef typename AK::FT FT;
     typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3;
     CGAL_kernel_precondition(!(same_solutions<FT>(e1,e2) || same_solutions<FT>(e1,e3) ||

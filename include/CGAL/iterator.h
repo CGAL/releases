@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -29,6 +29,7 @@
 
 #include <CGAL/circulator.h>
 #include <CGAL/assertions.h>
+#include <CGAL/use.h>
 #include <vector>
 #include <map>
 #include <boost/type_traits.hpp>
@@ -318,6 +319,7 @@ public:
 
   Iterator  current_iterator() const { return nt;}
   bool operator==( Nullptr_t p) const {
+    CGAL_USE(p);
     CGAL_assertion( p == 0);
     return empty;
   }
@@ -1237,7 +1239,7 @@ class Dispatch_output_iterator < cpp0x::tuple<V...>, cpp0x::tuple<O...> >
   static const int size = sizeof...(V);
 
   template <typename D, typename V_, typename O_>
-  friend class internal::Derivator;
+  friend struct internal::Derivator;
 
 public:
 
@@ -1296,7 +1298,7 @@ class Dispatch_or_drop_output_iterator < cpp0x::tuple<V...>, cpp0x::tuple<O...> 
   typedef Dispatch_output_iterator< cpp0x::tuple<V...>, cpp0x::tuple<O...> > Base;
 
   template <typename D, typename V_, typename O_>
-  friend class internal::Derivator;
+  friend struct internal::Derivator;
 
 public:
 

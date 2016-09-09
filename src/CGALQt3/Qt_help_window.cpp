@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Qt_widget/src/CGALQt3/Qt_help_window.cpp $
-// $Id: Qt_help_window.cpp 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Qt_widget/src/CGALQt3/Qt_help_window.cpp $
+// $Id: Qt_help_window.cpp 69974 2012-06-22 09:52:10Z pmoeller $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -223,8 +223,6 @@ void Qt_help_window::print()
 void Qt_help_window::pathSelected( const QString &_path )
 {
     browser->setSource( _path );
-    //    if ( mHistory.values().contains(_path) )
-    //	mHistory[ hist->insertItem( _path ) ] = _path;
 }
 void Qt_help_window::histChosen( int i )
 {

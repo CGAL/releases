@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
-// $Id: Segment_Delaunay_graph_simple_site_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
+// $Id: Segment_Delaunay_graph_simple_site_2.h 71169 2012-08-10 13:34:02Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -77,8 +77,8 @@ public:
  public:
   // these "constructors" are defined in order to conform with the
   // specs; they will produce a run-time error if used
-  static Self construct_site_2(const Point_2& p1, const Point_2& p2,
-			       const Point_2& q1, const Point_2& q2) {
+  static Self construct_site_2(const Point_2& /*p1*/, const Point_2& /*p2*/,
+			       const Point_2& /*q1*/, const Point_2& /*q2*/) {
     no_constructor_support();
     return Self();
   }
@@ -125,12 +125,12 @@ public:
   // the following four methods do not really make any sense but have
   // been added in order for this class to be a model of the
   // SegmentDelaunayGraphSite_2 concept.
-  const Point_2& source_of_supporting_site(unsigned int i) const {
+  const Point_2& source_of_supporting_site(unsigned int /*i*/) const {
     CGAL_precondition( is_point() && !is_input() );
     return p_[0];
   }
 
-  const Point_2& target_of_supporting_site(unsigned int i) const {
+  const Point_2& target_of_supporting_site(unsigned int /*i*/) const {
     CGAL_precondition( is_point() && !is_input() );
     return p_[0];
   }

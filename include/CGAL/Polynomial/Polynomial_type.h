@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h 67240 2012-01-18 09:57:46Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
+// $Id: Polynomial_type.h 70794 2012-07-27 12:05:53Z glisse $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -41,6 +41,7 @@ typename CGAL::internal::Innermost_coefficient_type<T>::Type , 2>::Type
 
 
 #include <CGAL/ipower.h>
+#include <cstdio>
 #include <sstream>
 #include <CGAL/Polynomial/misc.h>
 
@@ -1330,7 +1331,7 @@ void Polynomial<NT>::output_maple(std::ostream& os) const {
     static const char *varnames[] = { "x", "y", "z" };
     varname = varnames[Polynomial_traits_d<NT>::d];
   } else {
-    sprintf(vnbuf, "w%d", Polynomial_traits_d<NT>::d - 2);
+    std::sprintf(vnbuf, "w%d", Polynomial_traits_d<NT>::d - 2);
     varname = vnbuf;
   }
     

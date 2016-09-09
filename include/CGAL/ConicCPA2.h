@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Conic_2/include/CGAL/ConicCPA2.h $
-// $Id: ConicCPA2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Conic_2/include/CGAL/ConicCPA2.h $
+// $Id: ConicCPA2.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -615,7 +615,6 @@ std::ostream& operator << ( std::ostream& os, const ConicCPA2<_PT,_DA>& c)
 template< class _PT, class _DA>
 std::istream& operator >> ( std::istream& is, ConicCPA2<_PT,_DA>& c)
 {
-    typedef           ConicCPA2<_PT,_DA>  Conic;
     typedef  typename _DA::FT                  FT;
 
     FT  r, s, t, u, v, w;

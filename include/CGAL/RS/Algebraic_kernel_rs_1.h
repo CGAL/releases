@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/RS/Algebraic_kernel_rs_1.h $
-// $Id: Algebraic_kernel_rs_1.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/Algebraic_kernel_rs_1.h $
+// $Id: Algebraic_kernel_rs_1.h 70626 2012-07-19 15:46:15Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -24,7 +24,14 @@
 #include <CGAL/Polynomial_type_generator.h>
 #include <CGAL/RS/functors_1.h>
 
-template <class _C,class _G=CGAL::Rsgcd_1>
+template <class _C,
+          class _G=
+#ifdef CGAL_RS_USE_UGCD
+                   CGAL::Modgcd_1
+#else
+                   CGAL::Rsgcd_1
+#endif
+>
 struct Algebraic_kernel_rs_1{
 
         typedef _C                                      Coefficient;

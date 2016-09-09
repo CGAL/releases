@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
-// $Id: Bitstream_descartes_rndl_tree.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
+// $Id: Bitstream_descartes_rndl_tree.h 70339 2012-07-06 07:06:28Z eric $
 // 
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -1405,7 +1405,7 @@ public:
         if (!is_certainly_zero) ub_log2 = Ceil_log2_abs()(x);
         return true; // reported bound is tight
     }
-    bool improve_upper_bound(NT x, long&, bool&) { return true; }
+    bool improve_upper_bound(NT, long&, bool&) { return true; }
 };
 
 /*! \ingroup NiX_Bitstream_descartes_tree

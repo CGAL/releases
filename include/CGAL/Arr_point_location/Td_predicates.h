@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
-// $Id: Td_predicates.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
+// $Id: Td_predicates.h 70071 2012-06-26 12:52:02Z efif $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -29,45 +29,45 @@ namespace CGAL {
 
 template < class Td_traits> class Trapezoidal_decomposition_2;
 
-template <class X_trapezoid>
-struct Td_active_trapezoid : public std::unary_function<X_trapezoid,bool>
-{
-  bool operator()(const X_trapezoid& tr) const
-  {
-    return tr.is_active();
-  }
-};
+////MICHAL: not in use
+//template <class map_item>
+//struct Td_active_map_item : public std::unary_function<map_item,bool>
+//{
+//  bool operator()(const map_item& item) const
+//  {
+//    return item.is_active();
+//  }
+//};
 
-template <class X_trapezoid,class Traits>
-struct Td_active_non_degenerate_trapezoid : 
-public std::unary_function<X_trapezoid,bool>
-{
-  Td_active_non_degenerate_trapezoid(Traits& t) : traits(t) {}
-  bool operator()(const X_trapezoid& tr) const
-  {
-    return tr.is_active() && !traits.is_degenerate(tr);
-  }
-protected:
-  const Traits& traits;
-};
+////MICHAL: not in use
+//template <class X_trapezoid,class Traits>
+//struct Td_active_non_degenerate_trapezoid : 
+//public std::unary_function<X_trapezoid,bool>
+//{
+//  Td_active_non_degenerate_trapezoid(Traits& t) : traits(t) {}
+//  bool operator()(const X_trapezoid& tr) const
+//  {
+//    return tr.is_active() && !traits.is_degenerate(tr);
+//  }
+//protected:
+//  const Traits& traits;
+//};
 
-template <class X_trapezoid,class Traits>
-struct Td_active_right_degenerate_curve_trapezoid:
-  public std::unary_function<X_trapezoid,bool>
+template <class map_item,class Traits>
+struct Td_active_edge_item:
+  public std::unary_function<map_item,bool>
 {
-  typedef const Traits& const_Traits_ref;
-  Td_active_right_degenerate_curve_trapezoid(const_Traits_ref t) : traits(t) {}
-  bool operator()(const X_trapezoid& tr) const
+  Td_active_edge_item(const Traits& t) : traits(t) {}
+  bool operator()(const map_item& item) const
   {
-    return tr.is_active() && traits.is_degenerate_curve(tr) && 
-      !tr.right_bottom_neighbour();
+    return traits.is_active(item) && traits.is_td_edge(item);
   }
   protected:
   const Traits& traits;
 };
 
 template <class _Tp>
-struct Trapezoid_handle_less : public std::binary_function<_Tp, _Tp, bool>
+struct Td_map_item_handle_less : public std::binary_function<_Tp, _Tp, bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { 
     return __x->id() < __y->id(); }

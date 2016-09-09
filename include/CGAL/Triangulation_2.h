@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 67414 2012-01-24 16:46:19Z odevil $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 70837 2012-07-28 06:21:06Z glisse $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -594,7 +594,6 @@ std::ptrdiff_t insert(InputIterator first, InputIterator last)
 
 bool well_oriented(Vertex_handle v) const
 {
-  typedef typename Geom_traits::Orientation_2   Orientation_2; 
   Face_circulator fc = incident_faces(v), done(fc);
   do {
     if(!is_infinite(fc)) {
@@ -634,8 +633,6 @@ public:
 			   EdgeIt edge_end,
 			   FaceIt face_begin,
 			   FaceIt face_end) {
-    typedef typename Triangulation_data_structure::Edge  Tds_Edge;
-    typedef typename Triangulation_data_structure::Face  Tds_Face;
     Vertex_handle v = _tds.star_hole( edge_begin, edge_end,
 				      face_begin, face_end);
     v->set_point(p);
@@ -2149,7 +2146,6 @@ move_if_no_collision_and_give_new_faces(Vertex_handle v,
 {
   CGAL_triangulation_precondition(!is_infinite(v));		
   if(v->point() == p) return v;	
-  typedef std::list<Face_handle>                        Faces_list;	
   const int dim = this->dimension();
 
   Locate_type lt;

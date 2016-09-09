@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
-// $Id: Env_plane_traits_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
+// $Id: Env_plane_traits_3.h 70391 2012-07-07 07:45:01Z ophirset $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -40,8 +40,8 @@ public:
   typedef typename Kernel::FT                  FT;
   typedef Arr_linear_traits_2<Kernel>          Base;
   typedef Env_plane_traits_3<Kernel>           Self;
-  typedef unsigned int                         Multiplicity;
 
+  typedef typename Base::Multiplicity          Multiplicity;
   typedef typename Base::Point_2               Point_2;
   typedef typename Base::Curve_2               Curve_2;
   typedef typename Base::X_monotone_curve_2    X_monotone_curve_2;

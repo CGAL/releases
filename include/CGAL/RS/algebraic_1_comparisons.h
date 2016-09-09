@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_comparisons.h $
-// $Id: algebraic_1_comparisons.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_comparisons.h $
+// $Id: algebraic_1_comparisons.h 68268 2012-03-29 13:44:24Z eric $
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
@@ -25,11 +25,19 @@
 
 namespace CGAL{
 
+#if CGAL_USE_RS3
 inline
 bool operator<(const Algebraic_1 &n1,const Algebraic_1 &n2){
         typedef CGAL::Rsgcd_1  Gcd;
         return(CGAL::RS_COMPARE::compare_1<Gcd>(n1,n2)==SMALLER);
 }
+#else
+inline
+bool operator<(const Algebraic_1 &n1,const Algebraic_1 &n2){
+        typedef CGAL::Cgalgcd_1  Gcd;
+        return(CGAL::RS_COMPARE::compare_1<Gcd>(n1,n2)==SMALLER);
+}
+#endif
 
 inline
 bool operator==(const Algebraic_1 &n1,const Algebraic_1 &n2){

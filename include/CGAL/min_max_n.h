@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/STL_Extension/include/CGAL/min_max_n.h $
-// $Id: min_max_n.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/min_max_n.h $
+// $Id: min_max_n.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -70,6 +70,10 @@ min_n(const T& t0, const T& t1, const T& t2, const T& t3, const T& t4,
       const T& t5, const T& t6, const T& t7)
 { return (std::min)(t0, min_n(t1, t2, t3, t4, t5, t6, t7)); }
 
+
+template<typename T> inline
+const T&
+max_n(const T& t) { return t; }
 
 template < typename T > inline
 const T&

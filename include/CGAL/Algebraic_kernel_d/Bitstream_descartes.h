@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes.h $
-// $Id: Bitstream_descartes.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes.h $
+// $Id: Bitstream_descartes.h 70339 2012-07-06 07:06:28Z eric $
 // 
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -1051,7 +1051,7 @@ public:
    * of the isolated polynomial
    *
    */
-  virtual bool is_certainly_simple_root(int i) const {
+  virtual bool is_certainly_simple_root(int /* i */) const {
     return false;
   }
         
@@ -1060,7 +1060,7 @@ public:
    * of the isolated polynomial
    *
    */
-  virtual bool is_certainly_multiple_root(int i) const {
+  virtual bool is_certainly_multiple_root(int /* i */) const {
     return false;
   }
 
@@ -1230,7 +1230,7 @@ public:
    * has at most one multiple root over the complex numbers, the roots are
    * certainly isolated with success.
    */
-  Bitstream_descartes(M_k_descartes_tag ,
+  Bitstream_descartes(M_k_descartes_tag /* t */,
                       Polynomial f,int m,int k,
                       Bitstream_descartes_rndl_tree_traits traits
                       = Bitstream_descartes_rndl_tree_traits(),
@@ -1244,7 +1244,7 @@ public:
   }
 
 
-  Bitstream_descartes(M_k_descartes_tag t,
+  Bitstream_descartes(M_k_descartes_tag /* t */,
                       Polynomial f,int m,int k,
                       Bitstream_tree tree,
                       Bitstream_descartes_rndl_tree_traits traits
@@ -1299,7 +1299,7 @@ public:
    *
    */
   template<typename InputIterator>
-  Bitstream_descartes(Vert_line_adapter_descartes_tag t,
+  Bitstream_descartes(Vert_line_adapter_descartes_tag /* t */,
                       InputIterator begin,
                       InputIterator end,
                       Bitstream_descartes_rndl_tree_traits traits)

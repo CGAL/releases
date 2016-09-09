@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: Segment_Delaunay_graph_2_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
+// $Id: Segment_Delaunay_graph_2_impl.h 70787 2012-07-27 10:38:58Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -763,7 +763,8 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
 	Storage_site_2 ssvp = vp->storage_site();
 	Storage_site_2 sss = split_storage_site(ss, ssvp, true);
 
-	Storage_site_2 sss1 = split_storage_site(ss, ssvp, false);
+	/*Storage_site_2 sss1 =*/
+  split_storage_site(ss, ssvp, false);
 	// merge the info of the second (common) subsegment
 	//	merge_info(vv, sss);
 	// merge the info of the (common) splitting endpoint

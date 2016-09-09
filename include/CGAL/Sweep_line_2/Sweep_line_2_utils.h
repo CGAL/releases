@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
-// $Id: Sweep_line_2_utils.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
+// $Id: Sweep_line_2_utils.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -132,9 +132,6 @@ void prepare_for_sweep (Arrangement& arr,
                         PointOutIter iso_points,
                         const ExTraits * /* ex_tr */)
 {
-  typedef typename Arrangement::X_monotone_curve_2    X_monotone_curve_2;
-  typedef typename Arrangement::Point_2               Point_2;
-
   typedef typename Arrangement::Vertex_iterator       Vertex_iterator;
   typedef typename Arrangement::Edge_iterator         Edge_iterator;
   typedef typename Arrangement::Vertex_handle         Vertex_handle;

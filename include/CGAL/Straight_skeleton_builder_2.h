@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
-// $Id: Straight_skeleton_builder_2.h 67355 2012-01-23 08:03:33Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
+// $Id: Straight_skeleton_builder_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -889,7 +889,6 @@ public:
       typedef typename std::iterator_traits<InputPointIterator>::value_type Input_point;
       
       typedef std::vector<Input_point> Input_point_vector ;
-      typedef typename Input_point_vector::iterator Input_point_iterator ;
      
       // Remove coincident consecutive vertices
       Input_point_vector lList;

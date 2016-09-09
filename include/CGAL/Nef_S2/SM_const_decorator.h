@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
-// $Id: SM_const_decorator.h 68828 2012-04-24 16:06:55Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
+// $Id: SM_const_decorator.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -294,8 +294,6 @@ check_integrity_and_topological_planarity(bool faces) const
     EI(shalfedges_begin(),shalfedges_end(),'e');
   Object_index<SFace_const_iterator> 
     FI(sfaces_begin(),sfaces_end(),'f');
-  typedef SHalfedge_around_svertex_const_circulator hvc_circulator;
-  typedef SHalfedge_around_sface_const_circulator   hfc_circulator;
   SVertex_const_handle v;
   int iso_vert_num=0;
   /* check the source links of out edges and count isolated vertices */

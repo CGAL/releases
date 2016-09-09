@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
-// $Id: internal_functions_on_circle_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
+// $Id: internal_functions_on_circle_2.h 70936 2012-08-01 13:29:16Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -68,8 +68,6 @@ namespace CircularFunctors {
   typename CK::Polynomial_for_circles_2_2
   get_equation( const typename CK::Circle_2 & c )
   {
-    typedef typename CK::RT RT;
- 
     typedef typename CK::Algebraic_kernel   AK;
     
     return AK().construct_polynomial_for_circles_2_2_object()

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
-// $Id: Turkowski_numeric_solver.cpp 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
+// $Id: Turkowski_numeric_solver.cpp 70759 2012-07-26 12:46:30Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -393,7 +393,7 @@ void Turkowski_polynomial_compute_roots(const double *begin, const double *end,
 					std::vector<double> &roots)
 {
 
-  std::size_t degree= end-begin-1;
+  std::ptrdiff_t degree= end-begin-1;
   switch( degree) {
   case -1:
   case 0:
@@ -426,7 +426,7 @@ void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const doubl
 						double lb, double ub,
 						std::vector<double> &roots)
 {
-  std::size_t degree= end-begin-1;
+  std::ptrdiff_t degree= end-begin-1;
   switch( degree) {
   case -1:
   case 0:

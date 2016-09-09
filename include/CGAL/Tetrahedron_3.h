@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Kernel_23/include/CGAL/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 67093 2012-01-13 11:22:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Kernel_23/include/CGAL/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -78,16 +78,13 @@ public:
                          t.transform(this->vertex(3)));
   }
 
-  // FIXME TODO : Why doesn't Qrt work here ???
-  //typename Qualified_result_of<typename R::Construct_vertex_3, Tetrahedron_3, int>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_vertex_3( Tetrahedron_3, int)>::type
   vertex(int i) const
   {
     return R().construct_vertex_3_object()(*this,i);
   }
 
-  //typename Qualified_result_of<typename R::Construct_vertex_3, Tetrahedron_3, int>::type
-  Point_3
+  typename boost::result_of<typename R::Construct_vertex_3( Tetrahedron_3, int)>::type
   operator[](int i) const
   {
     return vertex(i);
@@ -139,7 +136,7 @@ public:
     return R().has_on_unbounded_side_3_object()(*this, p);
   }
 
-  typename Qualified_result_of<typename R::Compute_volume_3, Tetrahedron_3>::type
+  typename boost::result_of<typename R::Compute_volume_3( Tetrahedron_3)>::type
   volume() const
   {
     return R().compute_volume_3_object()(*this);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Convex_hull_2/include/CGAL/Convex_hull_2/convexity_check_2_impl.h $
-// $Id: convexity_check_2_impl.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Convex_hull_2/include/CGAL/Convex_hull_2/convexity_check_2_impl.h $
+// $Id: convexity_check_2_impl.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -90,7 +90,6 @@ is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                          const Traits& ch_traits)
 {
   typedef  typename Traits::Less_xy_2      Less_xy;
-  typedef  typename Traits::Left_turn_2    Left_turn;
   typedef  typename Traits::Equal_2        Equal_2;  
 
   Less_xy  smaller_xy    = ch_traits.less_xy_2_object();

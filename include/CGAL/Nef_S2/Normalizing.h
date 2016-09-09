@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
-// $Id: Normalizing.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
+// $Id: Normalizing.h 70936 2012-08-01 13:29:16Z lrineau $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -291,8 +291,7 @@ class Normalizing<Cartesian_tag> {
     typedef typename R::FT FT;
     typedef Fraction_traits<FT> FracTraits;
     typedef std::vector<typename FracTraits::Numerator_type> NV;
-    typedef typename NV::iterator NV_iter;
-    
+
     typename FracTraits::Numerator_type num;
     typename FracTraits::Denominator_type denom;
     typename FracTraits::Decompose decomposer; 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Circular_kernel_3/include/CGAL/Line_arc_3.h $
-// $Id: Line_arc_3.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Circular_kernel_3/include/CGAL/Line_arc_3.h $
+// $Id: Line_arc_3.h 69073 2012-05-11 09:20:13Z pmoeller $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Julien Hazebrouck, Damien Leroy
@@ -122,37 +122,32 @@ namespace CGAL {
     Line_arc_3(const RLine_arc_3 &a)
      : RLine_arc_3(a)
       {}
-
-    typename Qualified_result_of
-    <typename R::Construct_circular_source_vertex_3,Line_arc_3>::type
+    
+    typename boost::result_of<typename R::Construct_circular_source_vertex_3(Line_arc_3)>::type
     source() const
     {
       return typename R::Construct_circular_source_vertex_3()(*this);
     }
 
-    typename Qualified_result_of
-    <typename R::Construct_circular_target_vertex_3,Line_arc_3>::type
+    typename boost::result_of<typename R::Construct_circular_target_vertex_3(Line_arc_3)>::type
     target() const
     {
       return typename R::Construct_circular_target_vertex_3()(*this);
     }
 
-    typename Qualified_result_of
-    <typename R::Construct_circular_min_vertex_3,Line_arc_3>::type
+    typename boost::result_of<typename R::Construct_circular_min_vertex_3(Line_arc_3)>::type
     lower_xyz_extremity() const
     {
       return typename R::Construct_circular_min_vertex_3()(*this);
     }
 
-    typename Qualified_result_of
-    <typename R::Construct_circular_max_vertex_3,Line_arc_3>::type
+    typename boost::result_of<typename R::Construct_circular_max_vertex_3(Line_arc_3)>::type
     higher_xyz_extremity() const
     {
       return typename R::Construct_circular_max_vertex_3()(*this);
     }
 
-    typename Qualified_result_of
-    <typename R::Construct_line_3,Line_arc_3>::type
+    typename boost::result_of<typename R::Construct_line_3(Line_arc_3)>::type
     supporting_line() const
     {
       return typename R::Construct_line_3()(*this);
