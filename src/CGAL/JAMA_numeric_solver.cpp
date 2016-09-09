@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGAL/JAMA_numeric_solver.cpp $
-// $Id: JAMA_numeric_solver.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/src/CGAL/JAMA_numeric_solver.cpp $
+// $Id: JAMA_numeric_solver.cpp 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -93,7 +93,7 @@ std::vector<double> &roots)
 #ifdef CGAL_HAVE_TNT
 	  jama_compute_roots<false>(begin, end, lb, ub, roots);
 #else
-	  CGAL_assertion(0);
+	  CGAL_error();
 #endif
 	  //jama_compute_roots<false>(begin, end, lb, ub, roots);
     }
@@ -119,7 +119,7 @@ std::vector<double> &roots)
 #ifdef CGAL_HAVE_TNT
 	  jama_compute_roots<true>(begin, end, lb, ub, roots);
 #else
-	  CGAL_assertion(0);
+	  CGAL_error();
 #endif
     }
 }

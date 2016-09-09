@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/constructions_on_weighted_points_cartesian_2.h $
-// $Id: constructions_on_weighted_points_cartesian_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/constructions_on_weighted_points_cartesian_2.h $
+// $Id: constructions_on_weighted_points_cartesian_2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Julia Flototto, Mariette Yvinec
@@ -39,7 +39,7 @@ weighted_circumcenter_translateC2(const RT &dqx, const RT &dqy, const RT &dqw,
   RT r2 = CGAL_NTS square(drx) + CGAL_NTS square(dry) - drw;
   RT q2 = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) - dqw;
 
-  RT den = RT(2) * det2x2_by_formula(dqx, dqy, drx, dry);
+  RT den = RT(2) * determinant(dqx, dqy, drx, dry);
 
   // The 3 points aren't collinear.
   // Hopefully, this is already checked at the upper level.
@@ -47,8 +47,8 @@ weighted_circumcenter_translateC2(const RT &dqx, const RT &dqy, const RT &dqw,
 
   // One possible optimization here is to precompute 1/den, to avoid one
   // division.  However, we loose precision, and it's maybe not worth it (?).
-  dcx =   det2x2_by_formula (dry, dqy, r2, q2) / den;
-  dcy = - det2x2_by_formula (drx, dqx, r2, q2) / den;
+  dcx =   determinant (dry, dqy, r2, q2) / den;
+  dcy = - determinant (drx, dqx, r2, q2) / den;
 }
 
 //template < class RT >

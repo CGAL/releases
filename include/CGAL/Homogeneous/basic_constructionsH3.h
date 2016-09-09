@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/basic_constructionsH3.h $
-// $Id: basic_constructionsH3.h 29102 2006-03-06 23:51:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/basic_constructionsH3.h $
+// $Id: basic_constructionsH3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -60,16 +60,16 @@ gp_linear_intersection(const PlaneH3<R> &f,
 {
   typedef typename R::RT RT;
   return typename R::Point_3(
-                  det3x3_by_formula<RT>(-f.d(), f.b(), f.c(),
+                  determinant<RT>(-f.d(), f.b(), f.c(),
                                         -g.d(), g.b(), g.c(),
                                         -h.d(), h.b(), h.c()),
-                  det3x3_by_formula<RT>( f.a(),-f.d(), f.c(),
+                  determinant<RT>( f.a(),-f.d(), f.c(),
                                          g.a(),-g.d(), g.c(),
                                          h.a(),-h.d(), h.c()),
-                  det3x3_by_formula<RT>( f.a(), f.b(),-f.d(),
+                  determinant<RT>( f.a(), f.b(),-f.d(),
                                          g.a(), g.b(),-g.d(),
                                          h.a(), h.b(),-h.d()),
-                  det3x3_by_formula<RT>( f.a(), f.b(), f.c(),
+                  determinant<RT>( f.a(), f.b(), f.c(),
                                          g.a(), g.b(), g.c(),
                                          h.a(), h.b(), h.c()));
 }

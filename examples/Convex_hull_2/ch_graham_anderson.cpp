@@ -1,26 +1,29 @@
-#include <CGAL/Cartesian.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/ch_graham_andrew.h>
-#include <CGAL/functional.h>
 #include <vector>
 #include <algorithm>
+#include <boost/bind.hpp>
 
-typedef   CGAL::Point_2<CGAL::Cartesian<double> >        Point_2;
+
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
+typedef K::Point_2      Point_2;
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
 ch_graham_anderson( InputIterator  first, InputIterator  beyond,
                     OutputIterator result, const Traits&  ch_traits)
 {
-  typedef typename Traits::Less_xy_2          Less_xy_2;
+  using namespace boost;
+
   typedef typename Traits::Point_2            Point_2;
+  typedef typename Traits::Less_xy_2          Less_xy_2;
   typedef typename Traits::Less_rotate_ccw_2  Less_rotate_ccw_2;
 
   if (first == beyond) return result;
-  std::vector< Point_2 >  V;
-  std::copy( first, beyond, std::back_inserter(V) );
+  std::vector< Point_2 >  V (first, beyond);
   typename std::vector< Point_2 >::iterator it =
                std::min_element(V.begin(), V.end(), Less_xy_2());
-  std::sort( V.begin(), V.end(), CGAL::bind_1(Less_rotate_ccw_2(), *it) );
+  std::sort( V.begin(), V.end(), bind(Less_rotate_ccw_2(), *it, _1, _2) );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -36,6 +39,6 @@ int main()
   std::istream_iterator< Point_2 >  in_start( std::cin );
   std::istream_iterator< Point_2 >  in_end;
   std::ostream_iterator< Point_2 >  out( std::cout, "\n" );
-  ch_graham_anderson(in_start, in_end, out, CGAL::Cartesian<double>());
+  ch_graham_anderson(in_start, in_end, out, K());
   return 0;
 }

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/intersection_2_3.h $
-// $Id: intersection_2_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/intersection_2_3.h $
+// $Id: intersection_2_3.h 46250 2008-10-13 20:35:32Z pmachado $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -27,5 +27,6 @@
 #define CGAL_INTERSECTION_2_3_H
 
 #include <CGAL/Circle_2_Circle_2_intersection.h>
+#include <CGAL/Circle_2_Line_2_intersection.h>
 
 #endif

@@ -11,13 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_utils_2.h $
-// $Id: Triangulation_utils_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_utils_2.h $
+// $Id: Triangulation_utils_2.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
-//                 Sylvain Pion    <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 //                 Andreas Fabri   <Andreas.Fabri@geometryfactory.com>
+
 #ifndef CGAL_TRIANGULATION_UTILS_2_H
 #define CGAL_TRIANGULATION_UTILS_2_H
 

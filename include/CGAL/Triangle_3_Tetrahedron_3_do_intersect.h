@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_3/include/CGAL/Triangle_3_Tetrahedron_3_do_intersect.h $
-// $Id: Triangle_3_Tetrahedron_3_do_intersect.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/Triangle_3_Tetrahedron_3_do_intersect.h $
+// $Id: Triangle_3_Tetrahedron_3_do_intersect.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Nico Kruithof
@@ -32,9 +32,10 @@ namespace CGALi {
 
 // This code is not optimized:
 template <class K>
-bool do_intersect(const typename CGAL_WRAP(K)::Triangle_3 &tr,
-                  const typename CGAL_WRAP(K)::Tetrahedron_3 &tet,
-                  const K & k)
+typename K::Boolean
+do_intersect(const typename K::Triangle_3 &tr,
+             const typename K::Tetrahedron_3 &tet,
+             const K & k)
 {
     typedef typename K::Triangle_3 Triangle;
     typedef typename K::Point_3    Point;
@@ -58,9 +59,10 @@ bool do_intersect(const typename CGAL_WRAP(K)::Triangle_3 &tr,
 
 template <class K>
 inline
-bool do_intersect(const typename CGAL_WRAP(K)::Tetrahedron_3 &tet,
-		  const typename CGAL_WRAP(K)::Triangle_3 &tr,
-		  const K & k)
+typename K::Boolean
+do_intersect(const typename K::Tetrahedron_3 &tet,
+	     const typename K::Triangle_3 &tr,
+	     const K & k)
 {
   return do_intersect(tr, tet, k);
 }

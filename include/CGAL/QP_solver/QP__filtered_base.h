@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
 // $Id: QP__filtered_base.h 38478 2007-04-30 10:16:02Z gaertner $
 // 
 //

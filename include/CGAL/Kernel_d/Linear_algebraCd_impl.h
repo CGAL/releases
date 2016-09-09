@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Linear_algebraCd_impl.h $
-// $Id: Linear_algebraCd_impl.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Linear_algebraCd_impl.h $
+// $Id: Linear_algebraCd_impl.h 41339 2007-12-27 16:15:21Z spion $
 // 
 //
 // Author(s)     : Herve.Bronnimann@sophia.inria.fr
@@ -79,7 +79,7 @@ Gaussian_elimination(const Matrix &M,
     // Total pivoting, without looking for the maximum entry
     for (i=k,j=k;
          j<cdim && U[i][j] == FT(0);
-         (++i==dim)? ++j,i=k : 0 ) ;
+         (++i==dim)? ++j,i=k : 0 ) {}
       CGAL_KD_TRACEN("before swap [k="<<k<<"] :");
       CGAL_KD_TRACEN(" found i="<<i<<" and j="<<j);
       CGAL_KD_TRACEV(U);

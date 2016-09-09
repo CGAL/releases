@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Discrete_authalic_parameterizer_3.h $
-// $Id: Discrete_authalic_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Discrete_authalic_parameterizer_3.h $
+// $Id: Discrete_authalic_parameterizer_3.h 42276 2008-02-22 13:03:40Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -44,10 +44,10 @@ CGAL_BEGIN_NAMESPACE
 /// - implements compute_w_ij() to compute w_ij = (i, j) coefficient of matrix A
 ///   for j neighbor vertex of i based on Discrete Authalic Parameterization algorithm.
 ///
-/// Concept: Model of the ParameterizerTraits_3 concept.
+/// @heading Is Model for the Concepts: Model of the ParameterizerTraits_3 concept.
 ///
-/// Design Pattern:
-/// Discrete_authalic_parameterizer_3<ParameterizationMesh_3, ...> class is a
+/// @heading Design Pattern:
+/// Discrete_authalic_parameterizer_3 class is a
 /// Strategy [GHJV95]: it implements a strategy of surface parameterization
 /// for models of ParameterizationMesh_3.
 

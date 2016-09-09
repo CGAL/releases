@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/Convex_hull_projective_xy_traits_2.h $
-// $Id: Convex_hull_projective_xy_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/include/CGAL/Convex_hull_projective_xy_traits_2.h $
+// $Id: Convex_hull_projective_xy_traits_2.h 44371 2008-07-23 15:31:38Z hoffmann $
 // 
 //
 // Author(s)     : Susan Hert
@@ -21,7 +21,6 @@
 #define CGAL_CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
 
 #include <CGAL/predicates/kernel_ftC2.h>
-#include <CGAL/functional_base.h>
 
 namespace CGAL {
 
@@ -30,7 +29,6 @@ class Less_xy_plane_xy_2
 {
 public:
    typedef bool          result_type;
-   typedef Arity_tag<2>  Arity;
 
    bool 
    operator()(const Point_3& p, const Point_3& q) const
@@ -45,7 +43,6 @@ class Equal_xy_plane_xy_2
 {
 public:
    typedef bool          result_type;
-   typedef Arity_tag<2>  Arity;
 
    bool 
    operator()(const Point_3& p, const Point_3& q) const
@@ -60,7 +57,6 @@ class Less_yx_plane_xy_2
 {
 public:
    typedef bool          result_type;
-   typedef Arity_tag<2>  Arity;
 
    bool 
    operator()(const Point_3& p, const Point_3& q) const
@@ -75,7 +71,6 @@ class Left_turn_plane_xy_2
 {
 public:
    typedef bool          result_type;
-   typedef Arity_tag<3>  Arity;
 
    bool 
    operator()(const Point_3& p, const Point_3& q, const Point_3& r) const
@@ -90,7 +85,6 @@ class Less_dist_to_line_plane_xy_2
 {
 public:
    typedef bool          result_type;
-   typedef Arity_tag<4>  Arity;
 
    bool
    operator()(const Point_3& p, const Point_3& q,
@@ -114,7 +108,6 @@ class Less_rotate_ccw_plane_xy_2
 {
 public:
    typedef bool           result_type;
-   typedef Arity_tag< 3 > Arity;
 
    bool
    operator()(const Point_3& r, const Point_3& p, const Point_3& q) const

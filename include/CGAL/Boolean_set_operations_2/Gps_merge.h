@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_merge.h $
-// $Id: Gps_merge.h 37253 2007-03-19 11:56:44Z afabri $ $Date: 2007-03-19 12:56:44 +0100 (Mon, 19 Mar 2007) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_merge.h $
+// $Id: Gps_merge.h 40222 2007-09-05 20:43:16Z efif $ $Date: 2007-09-05 22:43:16 +0200 (Wed, 05 Sep 2007) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -46,7 +46,7 @@ public:
     if(i==j)
       return;
 
-    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->get_traits();
+    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->traits();
     Arrangement_2              *res = new Arrangement_2(tr);
     std::vector<Vertex_handle> *verts = new std::vector<Vertex_handle>;
 
@@ -84,7 +84,7 @@ public:
     if(i==j)
       return;
 
-    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->get_traits();
+    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->traits();
     Arrangement_2              *res = new Arrangement_2 (tr);
     std::vector<Vertex_handle> *verts = new std::vector<Vertex_handle>;
 
@@ -125,7 +125,7 @@ public:
     if(i==j)
       return;
 
-    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->get_traits();
+    typename Arrangement_2::Traits_2*  tr = arr_vec[i].first->traits();
     Arrangement_2              *res = new Arrangement_2(tr);
     std::vector<Vertex_handle> *verts = new std::vector<Vertex_handle>;
 

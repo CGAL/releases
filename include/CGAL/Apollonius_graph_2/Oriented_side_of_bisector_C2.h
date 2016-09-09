@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Oriented_side_of_bisector_C2.h $
-// $Id: Oriented_side_of_bisector_C2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Oriented_side_of_bisector_C2.h $
+// $Id: Oriented_side_of_bisector_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -104,7 +104,6 @@ private:
 
 public:
   typedef Oriented_side                   result_type;
-  typedef Arity_tag<3>                    Arity;
   struct argument_type {};
 
   inline

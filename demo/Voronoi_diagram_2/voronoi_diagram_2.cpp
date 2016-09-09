@@ -11,15 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/voronoi_diagram_2.cpp $
-// $Id: voronoi_diagram_2.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/demo/Voronoi_diagram_2/voronoi_diagram_2.cpp $
+// $Id: voronoi_diagram_2.cpp 45459 2008-09-09 22:29:51Z lrineau $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
 #include <CGAL/basic.h>
-
-#ifdef CGAL_USE_QT
 
 #include <iostream>
 #include <fstream>
@@ -70,20 +68,3 @@ main(int argc, char* argv[])
 
   return app.exec();
 }
-
-
-#else
-
-#include <iostream>
-
-int
-main(int argc, char* argv[])
-{
-  std::cerr << "This demo needs CGAL's Qt_widget installed "
-            << "in order to run..."
-            << std::endl << std::endl;
-  return 0;
-}
-
-
-#endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
-// $Id: Arr_with_history_accessor.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
+// $Id: Arr_with_history_accessor.h 35665 2007-01-05 07:55:34Z wein $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -28,7 +28,7 @@ CGAL_BEGIN_NAMESPACE
 
 /*! \class
  * A class that provides access to some of the internal methods of the
- * Arrangement_with_history_2 class.
+ * Arrangement_on_surface_with_history_2 class.
  * Used mostly by the global functions that operate on arrangments with
  * history objects.
  */
@@ -40,7 +40,10 @@ public:
   typedef ArrWithHistory_                        Arrangement_with_history_2;
   typedef Arr_with_history_accessor<Arrangement_with_history_2> Self;
 
-  typedef typename Arrangement_with_history_2::Traits_2      Traits_2;
+  typedef typename Arrangement_with_history_2::Geometry_traits_2
+                                                             Geometry_traits_2;
+  typedef typename Arrangement_with_history_2::Topology_traits
+                                                             Topology_traits;
   typedef typename Arrangement_with_history_2::Size          Size;
   typedef typename Arrangement_with_history_2::Point_2       Point_2;
   typedef typename Arrangement_with_history_2::Curve_2       Curve_2;

@@ -15,17 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/DirectionCd.h $
-// $Id: DirectionCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/DirectionCd.h $
+// $Id: DirectionCd.h 42940 2008-04-17 13:32:52Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_DIRECTIONCD_H
 #define CGAL_DIRECTIONCD_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
-#endif
 #include <CGAL/Kernel_d/Tuple_d.h> 
 
 CGAL_BEGIN_NAMESPACE

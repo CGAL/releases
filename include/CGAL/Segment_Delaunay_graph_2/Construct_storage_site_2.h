@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Construct_storage_site_2.h $
-// $Id: Construct_storage_site_2.h 37157 2007-03-16 10:49:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Construct_storage_site_2.h $
+// $Id: Construct_storage_site_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -37,7 +37,6 @@ public:
   typedef typename Storage_traits::Geom_traits       Geom_traits;
 
   typedef Storage_site_2                             result_type;
-  //  struct Arity {};
 
 protected:
   typedef typename Geom_traits::Intersections_tag    ITag;
@@ -74,7 +73,7 @@ protected:
 			const Point_handle&,
 			const Point_handle&,
 			const Point_handle&, const Tag_false&) const {
-    CGAL_assertion( false );
+    CGAL_error();
     return Storage_site_2();
   }
 
@@ -85,7 +84,7 @@ protected:
 			const Point_handle&,
 			const Point_handle&,
 			const Point_handle&, const Tag_false&) const {
-    CGAL_assertion( false );
+    CGAL_error();
     return Storage_site_2();
   }
 
@@ -95,7 +94,7 @@ protected:
 			const Point_handle&,
 			const Point_handle&,
 			bool /* is_first_exact */, const Tag_false&) const {
-    CGAL_assertion( false );
+    CGAL_error();
     return Storage_site_2();
   }
 
@@ -317,7 +316,7 @@ public:
 			     const Storage_site_2&,
 			     const Tag_false&) const
   {
-    CGAL_assertion( false );
+    CGAL_error();
     return Storage_site_2();
   }
 
@@ -326,7 +325,7 @@ public:
 			      const Storage_site_2&,
 			      const Tag_false&) const
   {
-    CGAL_assertion( false );
+    CGAL_error();
     return Storage_site_2();
   }
 

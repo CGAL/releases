@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
-// $Id: Direction_2.h 33050 2006-08-05 22:55:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
+// $Id: Direction_2.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_DIRECTION_2_H
 #define CGAL_CARTESIAN_DIRECTION_2_H
 
-#include <CGAL/Twotuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -42,18 +42,19 @@ class DirectionC2
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Direction_2          Direction_2;
 
-  typedef Twotuple<FT>	                           Rep;
+  typedef CGAL::array<FT, 2>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
+
   typedef R_                                     R;
 
   DirectionC2() {}
  
   DirectionC2(const FT &x, const FT &y)
-    : base(x, y) {}
+    : base(CGAL::make_array(x, y)) {}
 
   bool operator==(const DirectionC2 &d) const;
   bool operator!=(const DirectionC2 &d) const;
@@ -62,11 +63,11 @@ public:
 
   const RT & dx() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const RT & dy() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
 };
 

@@ -11,18 +11,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_default_overlay_traits.h $
-// $Id: Arr_default_overlay_traits.h 28835 2006-02-27 14:34:53Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_default_overlay_traits.h $
+// $Id: Arr_default_overlay_traits.h 44257 2008-07-17 09:53:22Z eric $
 // 
 //
-// Author(s)     : Ron Wein <baruchzu@post.tau.ac.il>
+// Author(s)     : Ron Wein <wein@post.tau.ac.il>
+//                 Baruch Zukerman <baruchzu@post.tau.ac.il>
 
 #ifndef CGAL_ARR_DEFAULT_OVERLAY_TRAITS_H
 #define CGAL_ARR_DEFAULT_OVERLAY_TRAITS_H
 
+/*! \file
+ * Definition of default overlay-traits classes.
+ */
+
 #include <CGAL/Arr_default_dcel.h>
 #include <CGAL/Arr_extended_dcel.h>
-#include <CGAL/Arr_overlay_2/Arr_overlay_traits.h>
+#include <CGAL/Sweep_line_2/Arr_default_overlay_traits_base.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -35,7 +40,9 @@ CGAL_BEGIN_NAMESPACE
  */
 template <class Arrangement_>
 class Arr_default_overlay_traits :
-  public _Arr_default_overlay_traits<Arrangement_, Arrangement_, Arrangement_>
+  public _Arr_default_overlay_traits_base<Arrangement_,
+                                          Arrangement_,
+                                          Arrangement_>
 {};
 
 /*!
@@ -52,7 +59,9 @@ class Arr_default_overlay_traits :
 template <class ArrangementA, class ArrangementB, class ArrangementR,
 	  class OverlayFaceData_>
 class Arr_face_overlay_traits :
-  public _Arr_default_overlay_traits<ArrangementA, ArrangementB, ArrangementR> 
+  public _Arr_default_overlay_traits_base<ArrangementA,
+                                          ArrangementB,
+                                          ArrangementR> 
 {
 public:
 

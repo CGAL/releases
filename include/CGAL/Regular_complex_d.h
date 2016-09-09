@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
-// $Id: Regular_complex_d.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/include/CGAL/Regular_complex_d.h $
+// $Id: Regular_complex_d.h 41666 2008-01-17 21:59:23Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -35,8 +35,6 @@
 #include <list>
 #include <cstddef>
 
-#undef CGAL_KD_DEBUG
-#define CGAL_KD_DEBUG 93
 #include <CGAL/Kernel_d/debug.h>
 
 #ifdef CGAL_USE_LEDA
@@ -641,22 +639,19 @@ void Regular_complex_d<R>::check_topology() const
   int i,j,k; 
   if (dcur == -1) {
     if (!vertices_.empty() || !simplices_.empty() ) 
-      CGAL_assertion_msg(0,
-      "check_topology: dcur is -1 but there are vertices or simplices");
+      CGAL_error_msg(      "check_topology: dcur is -1 but there are vertices or simplices");
   }
 
   forall_rc_vertices(v,*this) {
     if ( v != vertex(simplex(v),index(v)) )
-      CGAL_assertion_msg(0,
-      "check_topology: vertex-simplex relationship corrupted");
+      CGAL_error_msg(      "check_topology: vertex-simplex relationship corrupted");
   }
 
   forall_rc_simplices(s,*this) {
     for(i = 0; i <= dcur; i++) {
       for (j = i + 1; j <= dcur; j++) {
         if (vertex(s,i) == vertex(s,j))
-          CGAL_assertion_msg(0,
-          "check_topology: a simplex with two equal vertices"); 
+          CGAL_error_msg(          "check_topology: a simplex with two equal vertices"); 
       }
     }
   }
@@ -667,18 +662,15 @@ void Regular_complex_d<R>::check_topology() const
         int l = index_of_opposite_vertex(s,i); 
         if (s != opposite_simplex(t,l) || 
             i != index_of_opposite_vertex(t,l))
-          CGAL_assertion_msg(0,
-          "check_topology: neighbor relation is not symmetric"); 
+          CGAL_error_msg(          "check_topology: neighbor relation is not symmetric"); 
 
         for (j = 0; j <= dcur; j++) {
           if (j != i) {
             // j must also occur as a vertex of t
             for (k = 0; k <= dcur && 
-                   ( vertex(s,j) != vertex(t,k) || k == l); k++); 
-            // forloop has no body
+                   ( vertex(s,j) != vertex(t,k) || k == l); k++) {}
             if (k > dcur) 
-              CGAL_assertion_msg(0,
-              "check_topology: too few shared vertices."); 
+              CGAL_error_msg(              "check_topology: too few shared vertices."); 
           }
         }
       }
@@ -694,7 +686,7 @@ void Regular_complex_d<R>::check_topology_and_geometry() const
   forall_rc_vertices(v,*this) {
     if ( v == Vertex_const_handle() || 
          associated_point(v).identical(Regular_complex_d<R>::nil_point) )
-      CGAL_assertion_msg(0,"check_topology_and_geometry: \
+      CGAL_error_msg("check_topology_and_geometry: \
       vertex with nil_point or no associated point.");
   }
 
@@ -706,7 +698,7 @@ void Regular_complex_d<R>::check_topology_and_geometry() const
     for (int i = 0; i <= dcur; i++) 
       A[i] = associated_point(s,i);
     if ( !affinely_independent(A.begin(),A.end()) )
-      CGAL_assertion_msg(0,"check_topology_and_geometry: \
+      CGAL_error_msg("check_topology_and_geometry: \
       corners of some simplex are not affinely independent");
   }
 }

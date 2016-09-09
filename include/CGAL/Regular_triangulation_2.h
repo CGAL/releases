@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 39297 2007-07-04 12:13:24Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
+// $Id: Regular_triangulation_2.h 44487 2008-07-27 11:32:19Z spion $
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -23,6 +23,7 @@
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Regular_triangulation_face_base_2.h>
 #include <CGAL/Regular_triangulation_vertex_base_2.h>
+#include <CGAL/utility.h>
 
 CGAL_BEGIN_NAMESPACE 
 
@@ -74,7 +75,6 @@ public:
   using Base::dimension;
   using Base::geom_traits;
   using Base::infinite_vertex;
-  using Base::finite_vertex;
   using Base::create_face;
   using Base::number_of_faces;
   using Base::all_faces_begin;
@@ -279,6 +279,7 @@ public:
 
   Finite_vertices_iterator finite_vertices_begin () const;
   Finite_vertices_iterator finite_vertices_end () const;
+  Vertex_handle finite_vertex() const;
 
   Hidden_vertices_iterator hidden_vertices_begin () const;
   Hidden_vertices_iterator hidden_vertices_end () const;
@@ -330,14 +331,14 @@ public:
   {
       int n = number_of_vertices();
 
-      std::vector<Weighted_point> points CGAL_make_vector(first, last);
-
+      std::vector<Weighted_point> points (first, last);
       std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
 
       Face_handle hint;
-      for (typename std::vector<Weighted_point>::const_iterator p = points.begin();
-              p != points.end(); ++p)
+      for (typename std::vector<Weighted_point>::const_iterator p = points.begin(),
+		      end = points.end();
+              p != end; ++p)
           hint = insert (*p, hint)->face();
 
       return number_of_vertices() - n;
@@ -636,7 +637,7 @@ power_test(const Face_handle &f, const Weighted_point &p) const
     return power_test(f->vertex(ccw(i))->point(),
 		      f->vertex( cw(i))->point(),p);
 
-  return Oriented_side(o);
+  return o;
 }
 
 template < class Gt, class Tds >
@@ -1992,6 +1993,17 @@ finite_vertices_begin () const
 			 Hidden_tester(),
 			 Base::finite_vertices_begin());
 }
+
+template < class Gt, class Tds >
+typename Regular_triangulation_2<Gt,Tds>::Vertex_handle 
+Regular_triangulation_2<Gt,Tds>::
+finite_vertex () const
+{
+  CGAL_triangulation_precondition (number_of_vertices() >= 1);
+  return (finite_vertices_begin());
+}
+
+
 
 template < class Gt, class Tds >
 typename Regular_triangulation_2<Gt,Tds>::Finite_vertices_iterator 

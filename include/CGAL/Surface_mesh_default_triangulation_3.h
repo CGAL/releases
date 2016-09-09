@@ -1,4 +1,4 @@
-// Copyright (c) 2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2006-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesh_default_triangulation_3.h $
-// $Id: Surface_mesh_default_triangulation_3.h 34201 2006-09-13 14:35:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesh_default_triangulation_3.h $
+// $Id: Surface_mesh_default_triangulation_3.h 41818 2008-01-25 09:18:30Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -30,6 +30,7 @@
 // vertex and cell bases
 #include <CGAL/Surface_mesh_vertex_base_3.h>
 #include <CGAL/Surface_mesh_cell_base_3.h>
+#include <CGAL/Triangulation_cell_base_with_circumcenter_3.h>
 
 namespace CGAL {
   namespace Surface_mesher {
@@ -43,9 +44,10 @@ namespace CGAL {
       // vertex and cell types
       typedef Surface_mesh_vertex_base_3<K> Vb;
       typedef Surface_mesh_cell_base_3<K> Cb;
+      typedef Triangulation_cell_base_with_circumcenter_3<K, Cb> Cb_with_circumcenter;
 
       // triangulation
-      typedef Triangulation_data_structure_3<Vb, Cb> Tds;
+      typedef Triangulation_data_structure_3<Vb, Cb_with_circumcenter> Tds;
       typedef Delaunay_triangulation_3<K, Tds> Tr;
 
     public:

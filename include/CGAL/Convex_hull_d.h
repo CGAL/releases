@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Convex_hull_d.h $
-// $Id: Convex_hull_d.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/include/CGAL/Convex_hull_d.h $
+// $Id: Convex_hull_d.h 41666 2008-01-17 21:59:23Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -75,8 +75,6 @@ Let |j = C.index_of_vertex_in_opposite_facet(f,i)|. Then
 #include <list>
 #include <vector>
 
-#undef CGAL_KD_DEBUG
-#define CGAL_KD_DEBUG 93
 #include <CGAL/Kernel_d/debug.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -1328,7 +1326,7 @@ Bounded_side Convex_hull_d<R>::bounded_side(const Point_d& x)
     case  0: return ON_BOUNDARY;
     case  1: return ON_UNBOUNDED_SIDE;
   }
-  CGAL_assertion(0); return ON_BOUNDARY; // never come here
+  CGAL_error(); return ON_BOUNDARY; // never come here
 }
 
 

@@ -1,5 +1,5 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal.
-// All rights reserved.
+// Copyright (c) 2005-2008 Fernando Luis Cacciola Carballal.
+// All rights reserved. 
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Unfiltered_predicate_adaptor.h $
-// $Id: Unfiltered_predicate_adaptor.h 36876 2007-03-07 11:43:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Unfiltered_predicate_adaptor.h $
+// $Id: Unfiltered_predicate_adaptor.h 41533 2008-01-11 15:46:07Z fcacciola $
 // 
 // Author(s)     : Sylvain Pion, Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -130,7 +130,34 @@ public:
   }
 #endif
 
-  // Idem for more than 7 arguments.  Do it on demand.
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8>
+  result_type
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8) const
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+  ;
+#else
+  {
+    return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6, a7, a8));
+  }
+#endif
+
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8, class A9>
+  result_type
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
+             const A9 &a9 ) const
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+  ;
+#else
+  {
+    return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6, a7, a8, a9));
+  }
+#endif
+
+  // Idem for more than 9 arguments.  Do it on demand.
 };
 
 #ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
@@ -188,6 +215,37 @@ Unfiltered_predicate_adaptor<CAP>::
 	     const A5 &a5, const A6 &a6) const
 {
   return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6));
+}
+
+template <class CAP>
+  template <class A1, class A2, class A3, class A4, class A5, class A6, class A7>
+typename Unfiltered_predicate_adaptor<CAP>::result_type
+Unfiltered_predicate_adaptor<CAP>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7 ) const
+{
+  return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6, a7));
+}
+
+template <class CAP>
+  template <class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
+typename Unfiltered_predicate_adaptor<CAP>::result_type
+Unfiltered_predicate_adaptor<CAP>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8 ) const
+{
+  return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6, a7, a8));
+}
+
+template <class CAP>
+  template <class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
+typename Unfiltered_predicate_adaptor<CAP>::result_type
+Unfiltered_predicate_adaptor<CAP>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8, 
+             const A9 &a9 ) const
+{
+  return static_cast<result_type>(Certified_approx_predicate(a1, a2, a3, a4, a5, a6, a7, a8, a9));
 }
 #endif
 

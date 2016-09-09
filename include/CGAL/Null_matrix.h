@@ -10,7 +10,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_simplification/include/CGAL/Null_matrix.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_simplification/include/CGAL/Null_matrix.h $
 // $Id: Null_matrix.h 35165 2006-11-14 15:24:51Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Is_degenerate_edge_C2.h $
-// $Id: Is_degenerate_edge_C2.h 33210 2006-08-10 09:03:31Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Is_degenerate_edge_C2.h $
+// $Id: Is_degenerate_edge_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -60,7 +60,6 @@ public:
 public:
   typedef Site_2             argument_type;
   typedef bool               result_type;
-  typedef Arity_tag<4>       Arity;
 
   bool operator()(const Site_2& p1, const Site_2& p2,
 		  const Site_2& p3, const Site_2& p4) const

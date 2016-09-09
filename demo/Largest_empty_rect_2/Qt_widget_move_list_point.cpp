@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_move_list_point.cpp $
-// $Id: Qt_widget_move_list_point.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_move_list_point.cpp $
+// $Id: Qt_widget_move_list_point.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
@@ -20,7 +20,6 @@
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include "Qt_widget_move_list_point.h"
 
@@ -35,4 +34,3 @@ void Qt_widget_movepoint_helper::stateChanged(int i){
 
 #include "Qt_widget_move_list_point.moc"
 
-#endif

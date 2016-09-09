@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/demo/Convex_hull_d/delaunay_dd-runtime.cpp $
-// $Id: delaunay_dd-runtime.cpp 37057 2007-03-13 13:47:55Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/demo/Convex_hull_d/delaunay_dd-runtime.cpp $
+// $Id: delaunay_dd-runtime.cpp 42443 2008-03-11 11:23:57Z lrineau $
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -29,6 +29,9 @@
 #include <iostream>
 #include <string>
 
+#include <cstdlib>
+
+using std::atoi;
 
 typedef CGAL::Gmpz RT;
 typedef CGAL::Homogeneous_d<RT> Kernel;

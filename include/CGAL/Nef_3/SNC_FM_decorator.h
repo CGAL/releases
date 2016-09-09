@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
-// $Id: SNC_FM_decorator.h 39746 2007-08-07 20:10:09Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
+// $Id: SNC_FM_decorator.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -482,7 +482,7 @@ create_facet_objects(const Plane_3& plane_supporting_facet,
     } else if ( CGAL::assign(l,*start) ) {
       SHalfloops.push_back(l); 
     } else 
-      CGAL_assertion_msg(0,"Damn wrong handle.");
+      CGAL_error_msg("Damn wrong handle.");
   }
 
   /* We iterate all shalfedges and assign a number for each facet

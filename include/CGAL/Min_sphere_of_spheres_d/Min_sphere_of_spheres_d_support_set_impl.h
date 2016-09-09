@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set_impl.h $
-// $Id: Min_sphere_of_spheres_d_support_set_impl.h 37980 2007-04-06 09:08:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set_impl.h $
+// $Id: Min_sphere_of_spheres_d_support_set_impl.h 47423 2008-12-14 12:35:21Z ophirset $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -31,7 +31,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     inline bool reject(const FT& alpha,const FT& prev,
                        const Tag_false /* is_exact */) {
       using namespace Min_sphere_of_spheres_d_impl;
-      return alpha < SqrOfEps*sqr(prev);
+      return alpha < SqrOfEps<FT>::result() * sqr(prev);
     }
 
     template<typename FT,typename Pair>

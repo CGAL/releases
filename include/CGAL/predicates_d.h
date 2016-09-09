@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/predicates_d.h $
-// $Id: predicates_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/predicates_d.h $
+// $Id: predicates_d.h 42940 2008-04-17 13:32:52Z spion $
 // 
 //
 // Author(s)     : Michael Seel
@@ -24,10 +24,8 @@
 #ifndef CGAL_PREDICATES_D_H
 #define CGAL_PREDICATES_D_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/enum.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

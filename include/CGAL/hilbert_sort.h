@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_sorting/include/CGAL/hilbert_sort.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_sorting/include/CGAL/hilbert_sort.h $
 // $Id: hilbert_sort.h 36875 2007-03-07 11:37:05Z spion $
 //
 // Author(s)     : Christophe Delage

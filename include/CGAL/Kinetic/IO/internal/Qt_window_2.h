@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/Qt_window_2.h $
-// $Id: Qt_window_2.h 28601 2006-02-17 16:03:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/Qt_window_2.h $
+// $Id: Qt_window_2.h 39095 2007-06-14 21:50:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -35,55 +35,55 @@
 // I think I need these here explicitly for MOC to work
 namespace CGAL
 {
-    namespace Kinetic
-    {
-        namespace internal
-        {
-/*
-Usage
-Qt_simulator_window win(-10,10, -10,10);
-QApplication app(argc, argv);
-app.setMainWidget( &_win );
-win.show();
-win.setCaption("KDS");
-app.exec();
-*/
-            class Qt_window_2 : public ::QMainWindow
-            {
-                Q_OBJECT
-                    public:
-
-                    ~Qt_window_2(){}
-
-                    Qt_window_2(int xmin, int xmax, int ymin, int ymax);
-
-                    typedef Qt_core Button_handler;
-
-                    Button_handler* button_handler() {
-                        return &core_;
-                    }
-
-                    Qt_widget_2_core *widget() {
-                        return widget_;
-                    }
-
-                    const Qt_widget_2_core *widget() const
-                    {
-                        return widget_;
-                    }
-
-/*void redraw() // not redraw_win
+  namespace Kinetic
   {
-  //std::cout << "External redraw.\n";
-  _widget->redraw();
-  }*/
+    namespace internal
+    {
+      /*
+	Usage
+	Qt_simulator_window win(-10,10, -10,10);
+	QApplication app(argc, argv);
+	app.setMainWidget( &_win );
+	win.show();
+	win.setCaption("KDS");
+	app.exec();
+      */
+      class Qt_window_2 : public ::QMainWindow
+      {
+	Q_OBJECT
+      public:
 
-                private:                          //members
-                    CGAL::Qt_widget_standard_toolbar *_std_toolbar;
-                    Qt_widget_2_core *widget_;
-                    Qt_core core_;
-            };
-        };
+	~Qt_window_2(){}
+
+	Qt_window_2(int xmin, int xmax, int ymin, int ymax);
+
+	typedef Qt_core Button_handler;
+
+	Button_handler* button_handler() {
+	  return &core_;
+	}
+
+	Qt_widget_2_core *widget() {
+	  return widget_;
+	}
+
+	Qt_widget_2_core *widget() const
+	{
+	  return widget_;
+	}
+
+	/*void redraw() // not redraw_win
+	  {
+	  //std::cout << "External redraw.\n";
+	  _widget->redraw();
+	  }*/
+
+      private:                          //members
+	CGAL::Qt_widget_standard_toolbar *_std_toolbar;
+	Qt_widget_2_core *widget_;
+	Qt_core core_;
+      };
     };
+  };
 };
 #endif

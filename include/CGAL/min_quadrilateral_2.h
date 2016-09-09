@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
-// $Id: min_quadrilateral_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
+// $Id: min_quadrilateral_2.h 43677 2008-06-19 11:47:40Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -23,15 +23,13 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>
-#include <CGAL/functional.h>
-#include <CGAL/function_objects.h>
 #include <iterator>
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 
 #ifdef CGAL_OPTIMISATION_EXPENSIVE_PRECONDITION_TAG
 #include <CGAL/Polygon_2_algorithms.h>
 #endif
-
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -73,18 +71,19 @@ convex_bounding_box_2(
   ForwardIterator miny;
   ForwardIterator maxy;
 
-  typedef typename Traits::Less_xy_2        Less_xy_2;
-  typedef typename Traits::Less_yx_2        Less_yx_2;
-  typedef typename Swap<Less_xy_2,1>::Type  Greater_xy_2;
-  typedef typename Swap<Less_yx_2,1>::Type  Greater_yx_2;
+  typedef typename Traits::Point_2                Point_2;
+  typedef typename Traits::Less_xy_2              Less_xy_2;
+  typedef typename Traits::Less_yx_2              Less_yx_2;
+  typedef boost::function2<bool,Point_2,Point_2>  Greater_xy_2;
+  typedef boost::function2<bool,Point_2,Point_2>  Greater_yx_2;
 
   Less_xy_2    less_xy_2    = t.less_xy_2_object();
   Less_yx_2    less_yx_2    = t.less_yx_2_object();
-  Greater_xy_2 greater_xy_2 = swap_1(less_xy_2);
-  Greater_yx_2 greater_yx_2 = swap_1(less_yx_2);
+  Greater_xy_2 greater_xy_2 = boost::bind(less_xy_2, _2, _1);
+  Greater_yx_2 greater_yx_2 = boost::bind(less_yx_2, _2, _1);
 
   if (less_xy_2(*minx, *f) ||
-      less_yx_2(*minx, *f) && !less_xy_2(*f, *minx))
+      (less_yx_2(*minx, *f) && !less_xy_2(*f, *minx)))
     if (less_yx_2(*minx, *f))
       // first quadrant
       for (;;) {
@@ -273,22 +272,21 @@ namespace Optimisation {
     // ---------------------------------------------------------------
     // Right_of_implicit_line_2
     // ---------------------------------------------------------------
-    typedef typename Swap<HONS,1>::Type SWHONS;
-    typedef Identity<Point_2>           IDP;
-    typedef typename Compose<SWHONS,IDP,Construct_line_2>::Type
+    typedef boost::function3<bool,Point_2,Point_2,Direction_2> 
       Right_of_implicit_line_2;
     
     Right_of_implicit_line_2 right_of_implicit_line_2_object() const {
-      return compose(swap_1(has_on_negative_side_2_object()),
-                     IDP(),
-                     construct_line_2_object());
+      return boost::bind(has_on_negative_side_2_object(),
+			 boost::bind(construct_line_2_object(), _2, _3),
+			 _1);
     }
     
-    typedef typename Compose<CD2,CV2>::Type Construct_direction_2;
+    typedef boost::function2<Direction_2,Point_2,Point_2> 
+      Construct_direction_2;
     
     Construct_direction_2 construct_direction_2_object() const {
-      return compose(Base::construct_direction_2_object(),
-                     construct_vector_2_object());
+      return boost::bind(Base::construct_direction_2_object(),
+			 boost::bind(construct_vector_2_object(), _1, _2));
     }
     
     template < class Kernel >
@@ -330,13 +328,13 @@ namespace Optimisation {
     rotate_direction_by_multiple_of_pi_2_object() const
     { return Rotate_direction_by_multiple_of_pi_2(*this); }
     
-    typedef std::equal_to<Comparison_result>      EQCR;
-    typedef Bind<EQCR,Comparison_result,2>::Type  BEQCR;
-    typedef typename Compose<BEQCR,CAWXA>::Type   Less_angle_with_x_axis_2;
-    
+    typedef boost::function2<bool,Direction_2,Direction_2>
+      Less_angle_with_x_axis_2;
     Less_angle_with_x_axis_2 less_angle_with_x_axis_2_object() const {
-      return compose(bind_2(EQCR(), SMALLER),
-                     compare_angle_with_x_axis_2_object());
+      using boost::bind;
+      return bind(std::equal_to<Comparison_result>(), 
+		  bind(compare_angle_with_x_axis_2_object(), _1, _2),
+		  SMALLER);
     }
 
   };
@@ -720,8 +718,6 @@ min_strip_2(ForwardIterator f,
 } // min_strip_2(f, l, o, t)
 
 
-#ifdef CGAL_REP_CLASS_DEFINED
-
 CGAL_END_NAMESPACE
 #include <CGAL/Min_quadrilateral_traits_2.h>
 CGAL_BEGIN_NAMESPACE
@@ -796,13 +792,6 @@ minimum_enclosing_strip_2(ForwardIterator f,
 { return min_strip_2(f, l, o); }
 #endif // CGAL_NO_DEPRECATED_CODE
 
-#endif // CGAL_REP_CLASS_DEFINED
-
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_MIN_QUADRILATERAL_2_H)
-
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_sorting/include/CGAL/Hilbert_sort_2.h $
-// $Id: Hilbert_sort_2.h 36875 2007-03-07 11:37:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_sorting/include/CGAL/Hilbert_sort_2.h $
+// $Id: Hilbert_sort_2.h 47102 2008-11-28 09:07:23Z spion $
 //
 // Author(s)     : Christophe Delage
 
@@ -21,9 +21,8 @@
 #define CGAL_HILBERT_SORT_2_H
 
 #include <CGAL/basic.h>
-
 #include <functional>
-
+#include <cstddef>
 #include <CGAL/Hilbert_sort_base.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -83,13 +82,13 @@ public:
     
 private:
     Kernel _k;
-    int _limit;
+    std::ptrdiff_t _limit;
 
     template <int x, bool up> struct Cmp : public CGALi::Hilbert_cmp_2<Kernel,x,up>
     { Cmp (const Kernel &k) : CGALi::Hilbert_cmp_2<Kernel,x,up> (k) {} };
 
 public:
-    Hilbert_sort_2 (const Kernel &k = Kernel(), int limit = 1)
+    Hilbert_sort_2 (const Kernel &k = Kernel(), std::ptrdiff_t limit = 1)
         : _k(k), _limit (limit)
     {}
 

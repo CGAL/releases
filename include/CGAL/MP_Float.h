@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/MP_Float.h $
-// $Id: MP_Float.h 38408 2007-04-21 08:36:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/MP_Float.h $
+// $Id: MP_Float.h 47022 2008-11-25 12:48:01Z afabri $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -156,7 +156,7 @@ public:
   static
   void split(limb2 l, limb & high, limb & low)
   {
-    to_signed l2 = {l};
+    to_signed l2 = {static_cast<limb>(l)};
     low = l2.s;
     high = (l - low) >> (8*sizeof(limb));
   }
@@ -206,6 +206,18 @@ public:
 
   MP_Float(long double d);
 
+#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+  MP_Float(MP_Float && m)
+    : v(std::move(m.v)), exp(m.exp) {}
+
+  MP_Float& operator=(MP_Float && m)
+  {
+    clear();
+    swap(m);
+    return *this;
+  }
+#endif
+
   MP_Float operator+() const {
     return *this;
   }
@@ -252,6 +264,12 @@ public:
     return NEGATIVE;
   }
 
+  void clear()
+  {
+    v.clear();
+    exp = 0;
+  }
+
   void swap(MP_Float &m)
   {
     std::swap(v, m.v);
@@ -273,7 +291,7 @@ public:
 
     for (i = v.begin(); i != v.end(); ++i)
     {
-      res += CGAL_CLIB_STD::ldexp(static_cast<double>(*i),
+      res += std::ldexp(static_cast<double>(*i),
                                   static_cast<int>(exp2));
       exp2 += log_limb;
     }
@@ -301,9 +319,10 @@ public:
   }
 
   // Accessory function that finds the least significant bit set (its position).
-  static std::size_t lsb(limb l)
+  static unsigned short 
+  lsb(limb l)
   {
-    std::size_t nb = 0;
+    unsigned short nb = 0;
     for (; (l&1)==0; ++nb, l>>=1)
       ;
     return nb;
@@ -317,7 +336,7 @@ public:
     if (is_zero())
       return;
     // First find how many least significant bits are 0 in the last digit.
-    std::size_t nb = lsb(v[0]);
+    unsigned short nb = lsb(v[0]);
     if (nb != 0)
       *this = *this * (1<<(log_limb-nb));
     CGAL_assertion((v[0]&1) != 0);
@@ -332,7 +351,7 @@ public:
       return 1;
     MP_Float r = (sign() > 0) ? *this : - *this;
     CGAL_assertion(r.v.begin() != r.v.end());
-    std::size_t nb = lsb(r.v[0]);
+    unsigned short nb = lsb(r.v[0]);
     r.v.clear();
     r.v.push_back(1<<nb);
     return (sign() > 0) ? r : -r;
@@ -398,7 +417,7 @@ template <> class Algebraic_structure_traits< MP_Float >
     typedef Tag_true            Is_numerical_sensitive;
 
     struct Unit_part
-      : public Unary_function< Type , Type >
+      : public std::unary_function< Type , Type >
     {
       Type operator()(const Type &x) const {
         return x.unit_part();
@@ -406,7 +425,7 @@ template <> class Algebraic_structure_traits< MP_Float >
     };
 
     struct Integral_division
-        : public Binary_function< Type,
+        : public std::binary_function< Type,
                                  Type,
                                  Type > {
     public:
@@ -415,14 +434,14 @@ template <> class Algebraic_structure_traits< MP_Float >
                 const Type& y ) const {
             std::pair<MP_Float, MP_Float> res = CGALi::division(x, y);
             CGAL_assertion_msg(res.second == 0,
-                    "exact_division() called with operands which do not divide");
+                "exact_division() called with operands which do not divide");
             return res.first;
         }
     };
 
 
     class Square
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return INTERN_MP_FLOAT::square(x);
@@ -430,7 +449,7 @@ template <> class Algebraic_structure_traits< MP_Float >
     };
 
     class Gcd
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Type > {
       public:
         Type operator()( const Type& x,
@@ -440,7 +459,7 @@ template <> class Algebraic_structure_traits< MP_Float >
     };
 
     class Div
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Type > {
       public:
         Type operator()( const Type& x,
@@ -449,18 +468,35 @@ template <> class Algebraic_structure_traits< MP_Float >
         }
     };
 
-    typedef INTERN_AST::Mod_per_operator< Type > Mod;
+  typedef INTERN_AST::Mod_per_operator< Type > Mod;
+// Default implementation of Divides functor for unique factorization domains
+  // x divides y if gcd(y,x) equals x up to inverses 
+  class Divides 
+    : public std::binary_function<Type,Type,bool>{ 
+  public:
+    bool operator()( const Type& x,  const Type& y) const {  
+      return CGALi::division(y,x).second == 0 ;
+    }
+    // second operator computing q = x/y 
+    bool operator()( const Type& x,  const Type& y, Type& q) const {    
+      std::pair<Type,Type> qr = CGALi::division(y,x);
+      q=qr.first;
+      return qr.second == 0;
+      
+    }
+    CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( Type , bool)
+  };
 };
 
 
 
 // Real embeddable traits
 template <> class Real_embeddable_traits< MP_Float >
-  : public Real_embeddable_traits_base< MP_Float > {
+  : public INTERN_RET::Real_embeddable_traits_base< MP_Float , CGAL::Tag_true > {
   public:
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return x.sign();
@@ -468,7 +504,7 @@ template <> class Real_embeddable_traits< MP_Float >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
@@ -478,7 +514,7 @@ template <> class Real_embeddable_traits< MP_Float >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           return INTERN_MP_FLOAT::to_double( x );
@@ -486,7 +522,7 @@ template <> class Real_embeddable_traits< MP_Float >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
           return INTERN_MP_FLOAT::to_interval( x );
@@ -527,10 +563,10 @@ compare_bitlength(const MP_Float &a, const MP_Float &b)
   if (aa.size() > bb.size()) return LARGER;
   if (aa.size() < bb.size()) return SMALLER;
 
-  for (int i = aa.size()-1; i >= 0; --i)
+  for (std::size_t i = aa.size(); i > 0; --i)
   {
-    if (aa.v[i] > bb.v[i]) return LARGER;
-    if (aa.v[i] < bb.v[i]) return SMALLER;
+    if (aa.v[i-1] > bb.v[i-1]) return LARGER;
+    if (aa.v[i-1] < bb.v[i-1]) return SMALLER;
   }
   return EQUAL;
 }
@@ -626,6 +662,13 @@ division(const MP_Float & n, const MP_Float & d)
   return std::make_pair(res, MP_Float(0));
 }
 
+inline // Move it to libCGAL once it's stable.
+bool
+divides(const MP_Float & d, const MP_Float & n)
+{
+  return CGALi::division(n, d).second == 0;
+}
+
 } // namespace CGALi
 
 inline
@@ -635,12 +678,7 @@ is_integer(const MP_Float &m)
   return m.is_integer();
 }
 
-inline // Move it to libCGAL once it's stable.
-bool
-divides(const MP_Float & n, const MP_Float & d)
-{
-  return CGALi::division(n, d).second == 0;
-}
+
 
 inline
 MP_Float
@@ -688,7 +726,7 @@ namespace INTERN_MP_FLOAT {
     while (true) {
       x = x % y;
       if (x == 0) {
-        CGAL_postcondition(divides(a, y) && divides(b, y));
+        CGAL_postcondition(CGALi::divides(y, a) & CGALi::divides(y, b));
         y.gcd_normalize();
         return y;
       }
@@ -769,14 +807,14 @@ class Real_embeddable_traits< Quotient<MP_Float> >
     : public INTERN_QUOTIENT::Real_embeddable_traits_quotient_base<
 Quotient<MP_Float> >{
 public:
-    struct To_double: public Unary_function<Quotient<MP_Float>, double>{
+    struct To_double: public std::unary_function<Quotient<MP_Float>, double>{
          inline
          double operator()(const Quotient<MP_Float>& q) const {
             return INTERN_MP_FLOAT::to_double(q);
         }
     };
     struct To_interval
-        : public Unary_function<Quotient<MP_Float>, std::pair<double,double> > {
+        : public std::unary_function<Quotient<MP_Float>, std::pair<double,double> > {
         inline
         std::pair<double,double> operator()(const Quotient<MP_Float>& q) const {
             return INTERN_MP_FLOAT::to_interval(q);
@@ -791,14 +829,14 @@ public:
 //     : public INTERN_ROOT_OF_2::Real_embeddable_traits_quotient_root_of_2_base<
 // Root_of_2<MP_Float> >{
 // public:
-//     struct To_double: public Unary_function<Root_of_2<MP_Float>, double>{
+//     struct To_double: public std::unary_function<Root_of_2<MP_Float>, double>{
 //          inline
 //          double operator()(const Root_of_2<MP_Float>& q) const {
 //             return INTERN_MP_FLOAT::to_double(q);
 //         }
 //     };
 //     struct To_interval
-//         : public Unary_function<Root_of_2<MP_Float>, std::pair<double,double> > {
+//         : public std::unary_function<Root_of_2<MP_Float>, std::pair<double,double> > {
 //         inline
 //         std::pair<double,double> operator()(const Root_of_2<MP_Float>& q) const {
 //             return INTERN_MP_FLOAT::to_interval(q);
@@ -807,8 +845,8 @@ public:
 // };
 
 // Coercion_traits
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(MP_Float);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int, MP_Float);
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(MP_Float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int, MP_Float)
 
 
 CGAL_END_NAMESPACE

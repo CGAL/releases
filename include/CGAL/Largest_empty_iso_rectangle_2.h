@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
-// $Id: Largest_empty_iso_rectangle_2.h 36797 2007-03-04 13:30:32Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
+// $Id: Largest_empty_iso_rectangle_2.h 41722 2008-01-20 21:28:50Z spion $
 // 
 //
 // Author(s)     : Eli Packer (algorithm), Andreas Fabri (cgal conformance)
@@ -149,16 +149,6 @@ public:
   enum Point_type{REG, BOT_RIGHT, BOT_LEFT, TOP_LEFT, TOP_RIGHT};
 
   const Traits & traits() const {return _gt;};
-
-  // These friends are required by SUNPRO CC.
-  //! Internal data held under each point that the algorithm requires
-  friend class Point_data;
-  //! A functor used to sort points lexicographically by their x and y
-  //! coordinates
-  friend class Less_xy;
-  //! A functor used to sort points lexicographically by their y and x
-  //! coordinates
-  friend class Less_yx;
 
   //! A constructor given two points parameters. The parameters are two
   //! opposite corners of the bounding box.
@@ -1391,7 +1381,7 @@ typename Largest_empty_iso_rectangle_2<T>::const_iterator
 Largest_empty_iso_rectangle_2<T>::end() const
 {
    typename Point_data_set_of_x::const_iterator i = x_sorted.end();
-   while(--i != x_sorted.begin() && (*i)->type != REG);
+   while(--i != x_sorted.begin() && (*i)->type != REG) {}
    if((*i)->type != REG)
      // The points list is actually empty. Point to end() to make
      // begin() == end()

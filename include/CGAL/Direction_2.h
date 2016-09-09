@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Direction_2.h $
-// $Id: Direction_2.h 35775 2007-01-23 15:43:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Direction_2.h $
+// $Id: Direction_2.h 45156 2008-08-26 13:40:26Z spion $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -28,6 +28,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/representation_tags.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,6 +47,9 @@ class Direction_2 : public R_::Kernel_base::Direction_2
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Direction_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<0>  Feature_dimension;
 
   typedef RDirection_2 Rep;
 
@@ -81,7 +85,7 @@ public:
   Direction_2(const RT &x, const RT &y)
     :  RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), x,y)) {}
 
-  bool
+  typename R::Boolean
   counterclockwise_in_between(const Direction_2 &d1,
 			      const Direction_2 &d2) const
   {
@@ -112,28 +116,28 @@ public:
     return (i==0) ? dx() : dy();
   }
 
-  bool
+  typename R::Boolean
   operator<(const Direction_2 &d) const
   {
     return R().compare_angle_with_x_axis_2_object()(*this, d) == SMALLER;
   }
 
 
-  bool
+  typename R::Boolean
   operator>(const Direction_2 &d) const
   {
     return d < *this;
   }
 
 
-  bool
+  typename R::Boolean
   operator>=(const Direction_2 &d) const
   {
     return R().compare_angle_with_x_axis_2_object()(*this, d) != SMALLER;
   }
 
 
-  bool
+  typename R::Boolean
   operator<=(const Direction_2 &d) const
   {
     return R().compare_angle_with_x_axis_2_object()(*this, d) != LARGER;
@@ -155,13 +159,13 @@ public:
     return this->vector();
   }
 
-  bool
+  typename R::Boolean
   operator==(const Direction_2& d) const
   {
     return R().equal_2_object()(*this, d);
   }
 
-  bool
+  typename R::Boolean
   operator!=(const Direction_2& d) const
   {
     return !(*this == d);

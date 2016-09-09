@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
-// $Id: Polygon_2_impl.h 31310 2006-05-29 07:28:42Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: Polygon_2_impl.h 41437 2008-01-03 19:13:08Z spion $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -87,7 +87,8 @@ bool operator==( const Polygon_2<Traits_P,Container1_P> &x,
 //-----------------------------------------------------------------------//
 
 template <class Traits_P, class Container_P>
-std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
+std::istream &
+operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
 {
   int n; // number of vertices
   is >> n;
@@ -109,8 +110,8 @@ std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
 //-----------------------------------------------------------------------//
 
 template <class Traits_P, class Container_P>
-std::ostream
-&operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p)
+std::ostream&
+operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p)
 {
   typename Polygon_2<Traits_P,Container_P>::Vertex_const_iterator i;
 
@@ -139,15 +140,9 @@ std::ostream
   }
 }
 
-CGAL_END_NAMESPACE
-
 //-----------------------------------------------------------------------//
 //                          transform
 //-----------------------------------------------------------------------//
-
-#ifdef CGAL_REP_CLASS_DEFINED
-
-CGAL_BEGIN_NAMESPACE
 
 template <class Transformation, class Traits_P, class Container_P>
 Polygon_2<Traits_P,Container_P>
@@ -161,6 +156,3 @@ transform(const Transformation& t, const Polygon_2<Traits_P,Container_P>& p)
 }
 
 CGAL_END_NAMESPACE
-
-#endif // CGAL_REP_CLASS_DEFINED
-

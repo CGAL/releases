@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Robustness/demo/Robustness/cgal_types.h $
-// $Id: cgal_types.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Robustness/demo/Robustness/cgal_types.h $
+// $Id: cgal_types.h 44910 2008-08-12 12:58:18Z spion $
 //
 //
 // Author(s)     : Rada Ursu
@@ -32,7 +32,7 @@
 
 #include <CGAL/segment_intersection_points_2.h>
 #include <CGAL/Join_input_iterator.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/Cartesian_converter.h>

@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/number_type_basic.h $
-// $Id: number_type_basic.h 38025 2007-04-10 13:54:59Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/number_type_basic.h $
+// $Id: number_type_basic.h 44867 2008-08-11 12:31:35Z spion $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
 
 
-#ifndef CGAL_NUMBER_Type_BASIC_H
-#define CGAL_NUMBER_Type_BASIC_H
+#ifndef CGAL_NUMBER_TYPE_BASIC_H
+#define CGAL_NUMBER_TYPE_BASIC_H
 
 #define CGAL_PI 3.14159265358979323846
 
@@ -46,8 +46,8 @@
 
 // basic tools needed in several files
 #include <boost/type_traits/is_same.hpp>
+#include <functional>
 
-#include <CGAL/functional_base.h> // Unary_function, Binary_function
 #include <CGAL/Kernel/mpl.h>      // First_if_different
 #include <CGAL/known_bit_size_integers.h>
 #include <CGAL/enum.h>            // CGAL::Sign etc.
@@ -60,8 +60,8 @@
 #include <CGAL/Fraction_traits.h>
 #include <CGAL/Rational_traits.h>
 
-//#include <CGAL/Scalar_factor_traits.h>       // not part of CGAL 3.3
-//#include <CGAL/Algebraic_extension_traits.h> // not part of CGAL 3.3 
+#include <CGAL/Scalar_factor_traits.h>       // not part of CGAL 3.3
+#include <CGAL/Algebraic_extension_traits.h> // not part of CGAL 3.3 
 
 #include <CGAL/Needs_parens_as_product.h>
 
@@ -69,7 +69,6 @@
 #include <CGAL/utils.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/number_utils_classes.h>
-
 
 #include <CGAL/FPU.h>
 
@@ -92,4 +91,4 @@
 #endif // CGAL_USE_GMPXX
 #endif // CGAL_USE_GMP
 
-#endif // CGAL_NUMBER_Type_BASIC_H
+#endif // CGAL_NUMBER_TYPE_BASIC_H

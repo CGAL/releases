@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Distance_2/include/CGAL/squared_distance_utils.h $
-// $Id: squared_distance_utils.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Distance_2/include/CGAL/squared_distance_utils.h $
+// $Id: squared_distance_utils.h 42823 2008-04-09 20:57:58Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -110,7 +110,7 @@ wcross_tag(const typename K::Point_2 &p,
 	   const K&,
 	   const Homogeneous_tag&)
 {
-    return det3x3_by_formula(
+    return CGAL::determinant(
         p.hx(), q.hx(), r.hx(),
         p.hy(), q.hy(), r.hy(),
         p.hw(), q.hw(), r.hw());

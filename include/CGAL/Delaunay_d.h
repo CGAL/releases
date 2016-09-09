@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
-// $Id: Delaunay_d.h 36911 2007-03-08 09:36:50Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/include/CGAL/Delaunay_d.h $
+// $Id: Delaunay_d.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -714,8 +714,7 @@ bool Delaunay_d<R,Lifted_R>::is_S_cocircular()
     ts = ( affinely_independent(A.begin(),A.end()) ? 
            cocircular : non_cocircular );
     if ( d == -1 && ts != cocircular )
-      CGAL_assertion_msg(0,
-        "affinely independent works incorrectly for empty set");
+      CGAL_error_msg(        "affinely independent works incorrectly for empty set");
   }
   return (ts == cocircular);
 }
@@ -736,8 +735,7 @@ incident_simplex_search(Vertex_handle v, Simplex_handle s) const
         return true;
       }
     }
-    CGAL_assertion_msg(0,
-      "Delaunay_d::incident_simplex_search: unreachable point.");
+    CGAL_error_msg(      "Delaunay_d::incident_simplex_search: unreachable point.");
   }
 
   /* s does not have the desired kind; we visit all neighbors except
@@ -748,7 +746,7 @@ incident_simplex_search(Vertex_handle v, Simplex_handle s) const
   for (j = 0; j <= dcur; j++)
     if ( Base::vertex_of_simplex(s,j) == v ) incident = true;
   if ( !incident ) 
-    CGAL_assertion_msg(0,"reached a simplex that is not incident to v");
+    CGAL_error_msg("reached a simplex that is not incident to v");
 
   for (j = 0; j <= Base::current_dimension(); j++) {
     Simplex_handle t = Base::opposite_simplex(s,j);
@@ -765,7 +763,7 @@ Delaunay_d<R,Lifted_R>::simplex(Vertex_handle v) const
 { 
   Simplex_handle s = Base::simplex(v);
   if ( Base::vertex_of_simplex(s,Base::index(v)) != v )
-    CGAL_assertion_msg(0,"Delaunay_d::simplex: s is not incident to v.");
+    CGAL_error_msg("Delaunay_d::simplex: s is not incident to v.");
   incident_simplex_search(v,s);
   clear_visited_marks(s);
   return Base::simplex(v);
@@ -863,14 +861,14 @@ nearest_neighbor(const Point_d& x) const
         if ( point_of_facet(f,i) == lp )  
           return vertex_of_facet(f,i);
       }
-      CGAL_assertion_msg(0,"Delaunay_d::nearest_neighbor: \
+      CGAL_error_msg("Delaunay_d::nearest_neighbor: \
       if loc = 1 then lp must be corner of f");
     }
   }
 
   /* search through the vertices of the candidate simplices */
   if ( candidates.empty() ) 
-    CGAL_assertion_msg(0,"Delaunay_d::nearest_neighbor: candidates is empty");
+    CGAL_error_msg("Delaunay_d::nearest_neighbor: candidates is empty");
   Vertex_handle nearest_v = 
     vertex_of_simplex(*candidates.begin(),0);
   typename R::Squared_distance_d sqr_dist =

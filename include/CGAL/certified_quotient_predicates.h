@@ -1,4 +1,4 @@
-// Copyright (c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/certified_quotient_predicates.h $
-// $Id: certified_quotient_predicates.h 32602 2006-07-18 15:58:01Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/certified_quotient_predicates.h $
+// $Id: certified_quotient_predicates.h 44901 2008-08-12 09:04:37Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -30,7 +30,7 @@ inline Uncertain<bool> certified_quotient_is_positive(const Quotient<NT>& x)
   Uncertain<Sign> signum = CGAL_NTS certified_sign(x.num) ;
   Uncertain<Sign> sigden = CGAL_NTS certified_sign(x.den) ;
   Uncertain<Sign> zero(ZERO);
-  return signum != zero & signum == sigden ;
+  return ( signum != zero ) & ( signum == sigden );
 }
 
 template <class NT> 
@@ -40,7 +40,7 @@ inline Uncertain<bool> certified_quotient_is_negative(const Quotient<NT>& x)
   Uncertain<Sign> sigden = CGAL_NTS certified_sign(x.den) ;
   Uncertain<Sign> zero(ZERO);
 
-  return signum != zero & signum != sigden ;
+  return ( signum != zero ) & ( signum != sigden );
 }
 
 template <class NT>
@@ -53,23 +53,9 @@ template <class NT>
 CGAL_MEDIUM_INLINE
 Uncertain<Sign> certified_quotient_sign(const Quotient<NT>& x)
 {
-  Uncertain<Sign> r = Uncertain<Sign>::indeterminate();
-
-  Uncertain<Sign> signum = CGAL_NTS certified_sign(x.num) ;
-  Uncertain<Sign> sigden = CGAL_NTS certified_sign(x.den) ;
-
   // No assumptions on the sign of  den  are made
-  
-  // code assumes this
-  CGAL_precondition(  NEGATIVE == static_cast<Sign>(-1) 
-                   && ZERO     == static_cast<Sign>(0) 
-                   && POSITIVE == static_cast<Sign>(1) 
-                   );
 
-  if ( !is_indeterminate(signum) && !is_indeterminate(sigden) )
-    r = make_uncertain( static_cast<Sign>(signum * sigden) ) ;
-
-  return r ;
+  return CGAL_NTS certified_sign(x.num) * CGAL_NTS certified_sign(x.den);
 }
 
 template <class NT1, class NT2>
@@ -88,16 +74,16 @@ Uncertain<Comparison_result> certified_quotient_compare(const Quotient<NT1>& x, 
   Uncertain<Sign> ynumsign = CGAL_NTS certified_sign(y.num) ;
   Uncertain<Sign> ydensign = CGAL_NTS certified_sign(y.den) ;
 
-  if (  !is_indeterminate(xnumsign)
-     && !is_indeterminate(xdensign)
-     && !is_indeterminate(ynumsign)
-     && !is_indeterminate(ydensign)
+  if (  is_certain(xnumsign)
+     && is_certain(xdensign)
+     && is_certain(ynumsign)
+     && is_certain(ydensign)
      )
   {
     int xsign = xnumsign * xdensign ;
     int ysign = ynumsign * ydensign ;
-    if (xsign == 0) return make_uncertain(static_cast<Comparison_result>(-ysign));
-    if (ysign == 0) return make_uncertain(static_cast<Comparison_result>(xsign));
+    if (xsign == 0) return static_cast<Comparison_result>(-ysign);
+    if (ysign == 0) return static_cast<Comparison_result>(xsign);
     // now (x != 0) && (y != 0)
     int diff = xsign - ysign;
     if (diff == 0)
@@ -109,7 +95,7 @@ Uncertain<Comparison_result> certified_quotient_compare(const Quotient<NT1>& x, 
     }
     else
     {
-      r = make_uncertain((xsign < ysign) ? SMALLER : LARGER);
+      r = (xsign < ysign) ? SMALLER : LARGER;
     }
   }
 

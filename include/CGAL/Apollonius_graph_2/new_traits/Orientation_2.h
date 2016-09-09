@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Orientation_2.h $
-// $Id: Orientation_2.h 32729 2006-07-25 18:32:41Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Orientation_2.h $
+// $Id: Orientation_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
@@ -43,7 +43,6 @@ public:
 
   typedef typename Base::Orientation   Orientation;
   typedef Orientation                  result_type;
-  typedef Arity_tag<3>                 Arity;
   typedef Site_2                       argument_type;
 
     Orientation operator() (const Site_2 &s0, const Site_2 &s1,

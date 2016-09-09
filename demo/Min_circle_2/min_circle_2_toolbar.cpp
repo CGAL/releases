@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_circle_2/demo/Min_circle_2/min_circle_2_toolbar.cpp $
-// $Id: min_circle_2_toolbar.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_circle_2/demo/Min_circle_2/min_circle_2_toolbar.cpp $
+// $Id: min_circle_2_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 #include "min_circle_2_toolbar.h"
@@ -76,4 +75,3 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
 
 #include "min_circle_2_toolbar.moc"
 
-#endif

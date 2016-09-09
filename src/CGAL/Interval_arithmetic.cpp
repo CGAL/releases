@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/src/CGAL/Interval_arithmetic.cpp $
-// $Id: Interval_arithmetic.cpp 32440 2006-07-12 11:58:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/src/CGAL/Interval_arithmetic.cpp $
+// $Id: Interval_arithmetic.cpp 41714 2008-01-20 20:24:20Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -25,17 +25,6 @@
 #include <CGAL/FPU.h>
 
 CGAL_BEGIN_NAMESPACE
-
-#ifdef __BORLANDC__
-// Borland doesn't initialize the FPU exception mask correctly
-// => FP exceptions.
-struct Borland_workaround
-{
-    Borland_workaround() { FPU_set_cw(CGAL_FE_TONEAREST); }
-};
-
-static Borland_workaround Borland_workaround_object;
-#endif // __BORLANDC__
 
 #ifdef CGAL_CFG_DENORMALS_COMPILE_BUG
 // For compilers which bug on denormalized values at compile time.
@@ -58,8 +47,10 @@ double minimin = init_min_double();
 }
 #endif
 
-namespace CGALi {
+#ifdef _MSC_VER
+namespace {
 int dummy_symbol_for_stopping_VC_linker_warning;
-} // namespace CGALi
+} // namespace
+#endif
 
 CGAL_END_NAMESPACE

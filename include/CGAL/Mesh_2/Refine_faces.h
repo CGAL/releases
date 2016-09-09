@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
-// $Id: Refine_faces.h 37089 2007-03-14 18:53:37Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
+// $Id: Refine_faces.h 46618 2008-11-02 20:43:30Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -120,6 +120,8 @@ public:
 
     zone.fh = triangulation_ref_impl().locate(p, zone.locate_type, zone.i, fh);
 
+    zone.parent_face = fh;
+
     triangulation_ref_impl().
       get_conflicts_and_boundary(p,
                                  std::back_inserter(zone.faces),
@@ -176,7 +178,7 @@ public:
   }
 
   /** Remove the conflicting faces from the bad faces map. */
-  void before_insertion_impl(const Face_handle& fh, const Point&,
+  void before_insertion_impl(const Face_handle&, const Point&,
 			     Zone& zone)
   {
     /** @todo Perhaps this function is useless. */
@@ -184,7 +186,7 @@ public:
         fh_it != zone.faces.end();
         ++fh_it)
       {
-        if(*fh_it != fh && (*fh_it)->is_in_domain() )
+        if((*fh_it)->is_in_domain() )
           remove_bad_face(*fh_it);
         (*fh_it)->set_in_domain(false);
       }
@@ -293,7 +295,7 @@ template <typename Tr, typename Criteria, typename Previous>
 void Refine_faces_base<Tr, Criteria, Previous>::
 compute_new_bad_faces(Vertex_handle v)
 {
-  typename Tr::Face_circulator fc = v->incident_faces(), fcbegin(fc);
+  typename Tr::Face_circulator fc = triangulation_ref_impl().incident_faces(v), fcbegin(fc);
   do {
     if(!triangulation_ref_impl().is_infinite(fc))
       if( fc->is_in_domain() )

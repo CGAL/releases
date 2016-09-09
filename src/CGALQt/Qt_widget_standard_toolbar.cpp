@@ -12,15 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/Qt_widget_standard_toolbar.cpp $
-// $Id: Qt_widget_standard_toolbar.cpp 32795 2006-07-30 16:38:54Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/src/CGALQt/Qt_widget_standard_toolbar.cpp $
+// $Id: Qt_widget_standard_toolbar.cpp 45380 2008-09-08 13:15:39Z lrineau $
 // 
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_standard_toolbar.h>
@@ -257,5 +256,3 @@ namespace CGAL {
 
 }//end namespace
 #include "Qt_widget_standard_toolbar.moc"
-
-#endif

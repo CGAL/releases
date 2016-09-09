@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/SearchStructures/include/CGAL/Range_tree_k.h $
-// $Id: Range_tree_k.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/SearchStructures/include/CGAL/Range_tree_k.h $
+// $Id: Range_tree_k.h 41371 2007-12-30 16:55:25Z spion $
 // 
 //
 // Author(s)     : Gabriele Neyer
 
-#ifndef __CGAL_Range_tree_k__
-#define __CGAL_Range_tree_k__
+#ifndef CGAL_RANGE_TREE_K_H
+#define CGAL_RANGE_TREE_K_H
 
 // Predefined k-dimensional Range Trees (k=1..4) 
 // The trees can either be templated with d arbitrary types
@@ -417,7 +417,5 @@ public:
 };
 
 CGAL_END_NAMESPACE
+
 #endif
-
-
-

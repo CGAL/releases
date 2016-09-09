@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
-// $Id: Parameterization_mesh_patch_3.h 38428 2007-04-24 13:34:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
+// $Id: Parameterization_mesh_patch_3.h 45070 2008-08-21 11:57:02Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -43,14 +43,17 @@ CGAL_BEGIN_NAMESPACE
 /// describes the border of a topological disc. This border may be an actual
 /// border of the mesh or a virtual border.
 ///
-/// Concept:
+/// @heading Is Model for the Concepts:
 /// Model of ParameterizationMesh_3 concept, whose purpose is to allow
 /// the Surface_mesh_parameterization package to access meshes in a uniform manner.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// Parameterization_mesh_patch_3 is a Decorator [GHJV95]: it changes the behavior
 /// of a ParameterizationPatchableMesh_3 3D surface while keeping its
 /// ParameterizationMesh_3 interface.
+///
+/// @heading Parameters:
+/// @param ParameterizationPatchableMesh_3       3D surface mesh.
 
 template<class ParameterizationPatchableMesh_3>
 class Parameterization_mesh_patch_3
@@ -66,20 +69,14 @@ private:
 
 public:
 
-    //*******************************************************************
-    /// @name INTERFACE SPECIFIC TO Parameterization_mesh_patch_3
-    //*******************************************************************
-    //@{
-
     /// Export template parameter.
     typedef ParameterizationPatchableMesh_3 Adaptor;
 
-    //@} // end of INTERFACE SPECIFIC TO Parameterization_mesh_patch_3
 
-    //*******************************************************************
-    /// @name ParameterizationMesh_3 INTERFACE
-    //*******************************************************************
-    //@{
+    ////////////////////////////////////////////////////////////////////
+    /// @subheading Types implementing the ParameterizationMesh_3 interface
+    ////////////////////////////////////////////////////////////////////
+    /// @{
 
     /// Number type to represent coordinates.
     typedef typename Adaptor::NT            NT;
@@ -150,15 +147,10 @@ public:
                                                 typename Adaptor::Vertex_const_handle>
                                             Vertex_around_vertex_const_circulator;
 
-    //@} // end of ParameterizationMesh_3 INTERFACE
+    /// @} // end of Types implementing the ParameterizationMesh_3 interface
 
 // Public operations
 public:
-
-    ///******************************************************************
-    /// @name INTERFACE SPECIFIC TO Parameterization_mesh_patch_3
-    ///******************************************************************
-    //@{
 
     /// Create a Decorator for an existing ParameterizationPatchableMesh_3 mesh.
     /// The input mesh can be of any genus, but it has to come with a "seam" that
@@ -191,10 +183,7 @@ public:
         set_mesh_seaming(first_seam_vertex, end_seam_vertex);
 
         // Check that the cut mesh is 2-manifold
-        m_is_valid = true;
-        CGAL_surface_mesh_parameterization_expensive_precondition_code( \
-            m_is_valid = mesh.is_valid() && check_seam(first_seam_vertex, end_seam_vertex); \
-        );
+        m_is_valid = mesh.is_valid() && check_seam(first_seam_vertex, end_seam_vertex); 
 
         // Construct the list of all exported vertices, i.e. INNER and BORDER vertices
         //
@@ -245,7 +234,7 @@ public:
             }
         }
 
-#ifndef NDEBUG
+#ifndef CGAL_NDEBUG
         // Index vertices right away to ease debugging
         index_mesh_vertices();
 
@@ -263,16 +252,14 @@ public:
 #endif
     }
 
-    /// Get the decorated mesh.
+    /// @return the decorated mesh.
     Adaptor&       get_decorated_mesh()       { return *m_mesh_adaptor; }
     const Adaptor& get_decorated_mesh() const { return *m_mesh_adaptor; }
 
-    //@} // end of INTERFACE SPECIFIC TO Parameterization_mesh_patch_3
-
-    //*******************************************************************
-    /// @name ParameterizationMesh_3 INTERFACE
-    //*******************************************************************
-    //@{
+    ////////////////////////////////////////////////////////////////////
+    /// @subheading Methods implementing the ParameterizationMesh_3 interface
+    ////////////////////////////////////////////////////////////////////
+    /// @{
 
     // MESH INTERFACE
 
@@ -344,8 +331,8 @@ public:
         return mesh_vertices_end();
     }
 
-    /// Return the border containing seed_vertex.
-    /// Return an empty list if not found.
+    /// @return the border containing seed_vertex (or an empty list if not found).
+    /// @param seed_vertex a border vertex.
     std::list<Vertex_handle> get_border(Vertex_handle seed_vertex)
     {
         std::list<Vertex_handle> border;    // returned list
@@ -357,7 +344,7 @@ public:
                  it != mesh_main_border_vertices_end();
                  it++)
             {
-                assert(is_vertex_on_main_border(it));
+                CGAL_surface_mesh_parameterization_assertion(is_vertex_on_main_border(it));
                 border.push_back(it);
             }
         }
@@ -372,7 +359,7 @@ public:
                  it != adaptor_border.end();
                  it++)
             {
-                assert(is_vertex_on_border( Vertex_handle(*it) ));
+                CGAL_surface_mesh_parameterization_assertion(is_vertex_on_border( Vertex_handle(*it) ));
                 border.push_back( Vertex_handle(*it) );
             }
         }
@@ -599,7 +586,7 @@ public:
         return Vertex_around_vertex_const_circulator(*this, vertex, start_position);
     }
 
-    //@} // end of ParameterizationMesh_3 INTERFACE
+    /// @} // end of Methods implementing the ParameterizationMesh_3 interface
 
 
 // Private operations
@@ -862,7 +849,8 @@ private:
                 typename Adaptor::Vertex_const_handle adaptor_neighbor) const
     {
         // We need at least an inner neighbor as input
-        assert(m_mesh_adaptor.get_halfedge_seaming(adaptor_vertex,
+        CGAL_surface_mesh_parameterization_assertion(
+               m_mesh_adaptor.get_halfedge_seaming(adaptor_vertex,
                                                    adaptor_neighbor) != BORDER
             || m_mesh_adaptor.get_halfedge_seaming(adaptor_neighbor,
                                                    adaptor_vertex) != BORDER);
@@ -925,15 +913,18 @@ private:
                 typename Adaptor::Vertex_const_handle last_cw_neighbor,
                 typename Adaptor::Vertex_const_handle first_cw_neighbor) const
     {
-        assert(adaptor_vertex != NULL);
-        assert(last_cw_neighbor != NULL || first_cw_neighbor != NULL);
+        CGAL_surface_mesh_parameterization_assertion(adaptor_vertex != NULL);
+        CGAL_surface_mesh_parameterization_assertion(
+                      last_cw_neighbor != NULL || first_cw_neighbor != NULL);
 
-        assert(last_cw_neighbor == NULL
+        CGAL_surface_mesh_parameterization_assertion(
+               last_cw_neighbor == NULL
             || m_mesh_adaptor.get_halfedge_seaming(adaptor_vertex,
                                                    last_cw_neighbor) == BORDER
             || m_mesh_adaptor.get_halfedge_seaming(last_cw_neighbor,
                                                    adaptor_vertex) == BORDER);
-        assert(first_cw_neighbor == NULL
+        CGAL_surface_mesh_parameterization_assertion(
+               first_cw_neighbor == NULL
             || m_mesh_adaptor.get_halfedge_seaming(adaptor_vertex,
                                                    first_cw_neighbor) == BORDER
             || m_mesh_adaptor.get_halfedge_seaming(first_cw_neighbor,
@@ -963,7 +954,7 @@ private:
             }
 
             // we should not get here
-            assert(false);
+            CGAL_error();
             return NULL;
         }
     }
@@ -1018,16 +1009,19 @@ private:
             return std::string("-");
         } else {
             char index_as_string[64];
-            CGAL_CLIB_STD::sprintf(index_as_string, "%d", (int)m_mesh_adaptor.get_vertex_index(vertex));
+            std::sprintf(index_as_string, "%d", (int)m_mesh_adaptor.get_vertex_index(vertex));
             return std::string(index_as_string);
         }
     }
 
-// Fields
-private:
+// Public fields
+public:
 
     /// The decorated mesh.
     Adaptor& m_mesh_adaptor;
+
+// Private fields
+private:
 
     /// List of all exported vertices.
     /// Order is: inner vertices, then seam/main border ones.

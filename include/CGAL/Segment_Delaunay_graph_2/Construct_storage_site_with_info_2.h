@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Construct_storage_site_with_info_2.h $
-// $Id: Construct_storage_site_with_info_2.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Construct_storage_site_with_info_2.h $
+// $Id: Construct_storage_site_with_info_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -38,7 +38,6 @@ public:
   typedef typename Storage_traits::Point_handle      Point_handle;
 
   typedef Storage_site_2                             result_type;
-  //  struct Arity {};
 
 protected:
   typedef Construct_storage_site_2<Storage_traits>   Base;

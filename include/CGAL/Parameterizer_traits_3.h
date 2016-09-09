@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
-// $Id: Parameterizer_traits_3.h 38620 2007-05-11 09:25:44Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
+// $Id: Parameterizer_traits_3.h 45050 2008-08-20 14:47:53Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -36,10 +36,10 @@ CGAL_BEGIN_NAMESPACE
 /// - Parameterizer_traits_3 defines the Error_code list of errors detected by this package
 /// - Parameterizer_traits_3 declares a pure virtual method parameterize()
 ///
-/// Concept:
+/// @heading Is Model for the Concepts:
 /// Model of the ParameterizerTraits_3 concept (although you cannot instantiate this class).
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// ParameterizerTraits_3 models are Strategies [GHJV95]: they implement
 /// a strategy of surface parameterization for models of ParameterizationMesh_3.
 
@@ -51,14 +51,15 @@ public:
     /// List of errors detected by this package
     enum Error_code {
     OK,                             ///< Success
-    ERROR_EMPTY_MESH,               ///< input mesh is empty
-    ERROR_NON_TRIANGULAR_MESH,      ///< input mesh is not triangular
-    ERROR_NO_SURFACE_MESH,          ///< input mesh is not a surface
-    ERROR_INVALID_BORDER,           ///< parameterization requires a convex border
-    ERROR_CANNOT_SOLVE_LINEAR_SYSTEM,///< cannot solve linear system
-    ERROR_NO_1_TO_1_MAPPING,        ///< parameterization does not ensure a one-to-one mapping
-    ERROR_OUT_OF_MEMORY,            ///< not enough memory
-    ERROR_WRONG_PARAMETER           ///< a method received an unexpected parameter
+    ERROR_EMPTY_MESH,               ///< Input mesh is empty
+    ERROR_NON_TRIANGULAR_MESH,      ///< Input mesh is not triangular
+    ERROR_NO_TOPOLOGICAL_DISC,      ///< Input mesh is not a topological disc
+    ERROR_BORDER_TOO_SHORT,         ///< This border parameterization requires a longer border
+    ERROR_NON_CONVEX_BORDER,        ///< This parameterization method requires a convex border
+    ERROR_CANNOT_SOLVE_LINEAR_SYSTEM,///< Cannot solve linear system
+    ERROR_NO_1_TO_1_MAPPING,        ///< Parameterization failed: no one-to-one mapping
+    ERROR_OUT_OF_MEMORY,            ///< Not enough memory
+    ERROR_WRONG_PARAMETER           ///< A method received an unexpected parameter
     };
 
     /// Export ParameterizationMesh_3 template parameter
@@ -121,23 +122,24 @@ public:
     /// \return           The string describing the error code
     static const char* get_error_message(int error_code)
     {
-        // Messages corresponding to Error_code list above. Must be kept in sync!
-        static const char* error_message[9] = {
+      // Messages corresponding to Error_code list above. Must be kept in sync!
+      static const char* error_message[ERROR_WRONG_PARAMETER+1] = {
         "Success",
         "Input mesh is empty",
         "Input mesh is not triangular",
-        "Input mesh is not a surface",
-        "Parameterization requires a convex border",
+        "Input mesh is not a topological disc",
+        "This border parameterization requires a longer border",
+        "This parameterization method requires a convex border",
         "Cannot solve linear system",
-        "Parameterization does not ensure a one-to-one mapping",
+        "Parameterization failed: no one-to-one mapping",
         "Not enough memory",
         "A method received an unexpected parameter"
-        };
+      };
 
-        if(error_code > 9 || error_code < 0)
-	    return "Unknown error";
-        else
-	    return error_message[error_code];
+      if(error_code > ERROR_WRONG_PARAMETER || error_code < 0)
+        return "Unknown error";
+      else
+        return error_message[error_code];
     };
 
 // Protected operations

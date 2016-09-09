@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_curve_data_traits_2.h $
-// $Id: Arr_curve_data_traits_2.h 35514 2006-12-11 15:34:13Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -24,7 +24,7 @@
  * Definition of the Arr_curve_data_traits_2<> class template.
  */
 
-#include<CGAL/Arr_traits_2/Curve_data_aux.h>
+#include<CGAL/Arr_geometry_traits/Curve_data_aux.h>
 #include<list>
 
 CGAL_BEGIN_NAMESPACE
@@ -60,18 +60,20 @@ public:
   typedef typename Base_traits_2::X_monotone_curve_2  Base_x_monotone_curve_2;
   typedef typename Base_traits_2::Point_2             Point_2;
 
-  typedef typename Base_traits_2::Has_left_category      Has_left_category;
-  typedef typename Base_traits_2::Has_boundary_category  Has_boundary_category;
+  typedef typename Base_traits_2::Has_left_category   Has_left_category;
+  typedef typename Base_traits_2::Boundary_category   Boundary_category;
 
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
 
   // Representation of a curve with an addtional data field:
-  typedef _Curve_data_ex<Base_curve_2, Curve_data>  Curve_2;
+  typedef _Curve_data_ex<Base_curve_2, Curve_data>    Curve_2;
   
   // Representation of an x-monotone curve with an addtional data field:
   typedef _Curve_data_ex<Base_x_monotone_curve_2,
-                         X_monotone_curve_data>     X_monotone_curve_2;
+                         X_monotone_curve_data>       X_monotone_curve_2;
+
+  typedef typename Base_traits_2::Multiplicity        Multiplicity;
   
 public:
   
@@ -286,8 +288,7 @@ public:
     bool operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2) const
     {
-      return (_are_mergeable_base_imp (cv1, cv2,
-                                       Base_has_merge_category()));
+      return (_are_mergeable_base_imp (cv1, cv2, Base_has_merge_category()));
     }
 
   private:
@@ -386,8 +387,7 @@ public:
                      Tag_false) const
     {
       // This function should never be called!
-      CGAL_assertion_msg (false,
-                          "Merging curves is not supported.");
+      CGAL_error_msg("Merging curves is not supported.");
     }
   };
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007 Max-Planck-Institute Saarbruecken (Germany),
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany),
 // INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Gmpz.h $
-// $Id: Gmpz.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Gmpz.h $
+// $Id: Gmpz.h 47264 2008-12-08 06:25:14Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -34,13 +34,10 @@
 #include <CGAL/Quotient.h> // spec of AST for Quotient<Gmpz>
 
 #include <string>
-#ifndef CGAL_CFG_NO_LOCALE
-#  include <locale>
-#else
-#  include <cctype>
-#endif
+#include <locale>
 
 #include <CGAL/Root_of_traits.h>
+#include <CGAL/Modular_traits.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -65,7 +62,7 @@ public:
     typedef INTERN_AST::Is_square_per_sqrt< Type >
     Is_square;
     class Integral_division
-        : public Binary_function< Type, Type,
+        : public std::binary_function< Type, Type,
                                 Type > {
     public:
         Type operator()( const Type& x,
@@ -78,7 +75,7 @@ public:
     };
 
     class Gcd
-        : public Binary_function< Type, Type,
+        : public std::binary_function< Type, Type,
                                 Type > {
     public:
         Type operator()( const Type& x,
@@ -110,7 +107,7 @@ public:
     typedef INTERN_AST::Mod_per_operator< Type > Mod;
 
     class Sqrt
-        : public Unary_function< Type, Type > {
+        : public std::unary_function< Type, Type > {
     public:
         Type operator()( const Type& x ) const {
             Gmpz result;
@@ -121,11 +118,11 @@ public:
 };
 
 template <> class Real_embeddable_traits< Gmpz >
-    : public Real_embeddable_traits_base< Gmpz > {
+    : public INTERN_RET::Real_embeddable_traits_base< Gmpz , CGAL::Tag_true > {
 public:
-
-    class Sign
-        : public Unary_function< Type, ::CGAL::Sign > {
+  
+    class Sgn
+        : public std::unary_function< Type, ::CGAL::Sign > {
     public:
         ::CGAL::Sign operator()( const Type& x ) const {
             return x.sign();
@@ -133,7 +130,7 @@ public:
     };
 
     class To_double
-        : public Unary_function< Type, double > {
+        : public std::unary_function< Type, double > {
     public:
         double operator()( const Type& x ) const {
             return x.to_double();
@@ -141,7 +138,7 @@ public:
     };
 
     class To_interval
-        : public Unary_function< Type, std::pair< double, double > > {
+        : public std::unary_function< Type, std::pair< double, double > > {
     public:
         std::pair<double, double> operator()( const Type& x ) const {
 
@@ -163,7 +160,7 @@ template<> class Algebraic_structure_traits< Quotient<Gmpz> >
 public:
     typedef Quotient<Gmpz> Type;
 
-    struct To_double: public Unary_function<Quotient<Gmpz>, double>{
+    struct To_double: public std::unary_function<Quotient<Gmpz>, double>{
         double operator()(const Quotient<Gmpz>& quot){
             mpq_t  mpQ;
             mpq_init(mpQ);
@@ -189,6 +186,32 @@ struct Needs_parens_as_product<Gmpz> {
   bool operator()(const Gmpz& x) {
     return CGAL_NTS is_negative(x);
   }
+};
+
+
+/*! \ingroup NiX_Modular_traits_spec
+ *  \brief a model of concept ModularTraits, 
+ *  specialization of NiX::Modular_traits. 
+ */
+template<>
+class Modular_traits< Gmpz > {
+  typedef Residue RES;
+ public:
+    typedef Gmpz NT;
+    typedef CGAL::Tag_true Is_modularizable;
+    typedef Residue Residue_type;
+
+    struct Modular_image{
+        Residue_type operator()(const NT& a){
+          NT tmp_1(a % NT(RES::get_current_prime()));
+          return CGAL::Residue(int(mpz_get_si(tmp_1.mpz())));
+        }
+    };
+    struct Modular_image_representative{
+        NT operator()(const Residue_type& x){
+          return NT(x.get_value());
+        }
+    };    
 };
 
 CGAL_END_NAMESPACE

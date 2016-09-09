@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
-// $Id: Segment_2_Segment_2_intersection.h 38116 2007-04-13 12:33:00Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
+// $Id: Segment_2_Segment_2_intersection.h 45075 2008-08-21 12:50:41Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -29,48 +29,19 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
-
-#include <cassert>
 #include <CGAL/predicates_on_points_2.h>
-
-
-
 #include <CGAL/Line_2.h>
 #include <CGAL/Line_2_Line_2_intersection.h>
-
 #include <CGAL/Object.h>
+#include <CGAL/Uncertain.h>
 
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
 
 template <class K>
-class Segment_2_Segment_2_pair {
-public:
-    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT};
-    Segment_2_Segment_2_pair() ;
-    Segment_2_Segment_2_pair(typename K::Segment_2 const *seg1,
-                            typename K::Segment_2 const *seg2);
-    ~Segment_2_Segment_2_pair() {}
-
-    Intersection_results intersection_type() const;
-
-    bool                intersection(typename K::Point_2 &result) const;
-    bool                intersection(typename K::Segment_2 &result) const;
-protected:
-    typename K::Segment_2 const*   _seg1;
-    typename K::Segment_2 const *  _seg2;
-    mutable bool                       _known;
-    mutable Intersection_results       _result;
-    mutable typename K::Point_2            _intersection_point, _other_point;
-};
-
-template <class K>
 inline bool
 do_intersect(const typename K::Segment_2 &seg1, const typename K::Segment_2 &seg2);
-
-
-
 
 
 
@@ -81,7 +52,7 @@ bool seg_seg_do_intersect_crossing(
 	const typename K::Point_2 &p3, const typename K::Point_2 &p4,
 	const K& k)
 {
-    switch (k.orientation_2_object()(p1,p2,p3)) {
+    switch (make_certain(k.orientation_2_object()(p1,p2,p3))) {
     case LEFT_TURN:
       return ! (k.orientation_2_object()(p3,p4,p2) == RIGHT_TURN); //   right_turn(p3,p4,p2);
     case RIGHT_TURN:
@@ -100,7 +71,7 @@ bool seg_seg_do_intersect_contained(
 	const typename K::Point_2 &p3, const typename K::Point_2 &p4,
 	const K& k)
 {
-    switch (k.orientation_2_object()(p1,p2,p3)) {
+    switch (make_certain(k.orientation_2_object()(p1,p2,p3))) {
     case LEFT_TURN:
       return ! (k.orientation_2_object()(p1,p2,p4) == LEFT_TURN); // left_turn(p1,p2,p4);
     case RIGHT_TURN:
@@ -115,8 +86,8 @@ bool seg_seg_do_intersect_contained(
 
 template <class K>
 bool
-do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1, 
-	     const typename CGAL_WRAP(K)::Segment_2 &seg2,
+do_intersect(const typename K::Segment_2 &seg1, 
+	     const typename K::Segment_2 &seg2,
 	     const K& k)
 {
     typename K::Point_2 const & A1 = seg1.source();
@@ -149,15 +120,15 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
     }
     if (less_xy(A1,A2)) {
         if (less_xy(B1,B2)) {
-            switch(compare_xy(A1,B1)) {
+            switch(make_certain(compare_xy(A1,B1))) {
             case SMALLER:
-                switch(compare_xy(A2,B1)) {
+                switch(make_certain(compare_xy(A2,B1))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(A2,B2)) {
+                    switch(make_certain(compare_xy(A2,B2))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(A1,A2,B1,B2, k);
                     case EQUAL:
@@ -169,13 +140,13 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
             case EQUAL:
                 return true;
             case LARGER:
-                switch(compare_xy(B2,A1)) {
+                switch(make_certain(compare_xy(B2,A1))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(B2,A2)) {
+                    switch(make_certain(compare_xy(B2,A2))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(B1,B2,A1,A2, k);
                     case EQUAL:
@@ -186,15 +157,15 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
                 }
             }
         } else {
-            switch(compare_xy(A1,B2)) {
+            switch(make_certain(compare_xy(A1,B2))) {
             case SMALLER:
-                switch(compare_xy(A2,B2)) {
+                switch(make_certain(compare_xy(A2,B2))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(A2,B1)) {
+                    switch(make_certain(compare_xy(A2,B1))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(A1,A2,B2,B1, k);
                     case EQUAL:
@@ -206,13 +177,13 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
             case EQUAL:
                 return true;
             case LARGER:
-                switch(compare_xy(B1,A1)) {
+                switch(make_certain(compare_xy(B1,A1))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(B1,A2)) {
+                    switch(make_certain(compare_xy(B1,A2))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(B2,B1,A1,A2, k);
                     case EQUAL:
@@ -225,15 +196,15 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
         }
     } else {
         if (less_xy(B1,B2)) {
-            switch(compare_xy(A2,B1)) {
+            switch(make_certain(compare_xy(A2,B1))) {
             case SMALLER:
-                switch(compare_xy(A1,B1)) {
+                switch(make_certain(compare_xy(A1,B1))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(A1,B2)) {
+                    switch(make_certain(compare_xy(A1,B2))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(A2,A1,B1,B2, k);
                     case EQUAL:
@@ -245,13 +216,13 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
             case EQUAL:
                 return true;
             case LARGER:
-                switch(compare_xy(B2,A2)) {
+                switch(make_certain(compare_xy(B2,A2))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(B2,A1)) {
+                    switch(make_certain(compare_xy(B2,A1))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(B1,B2,A2,A1, k);
                     case EQUAL:
@@ -262,15 +233,15 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
                 }
             }
         } else {
-            switch(compare_xy(A2,B2)) {
+            switch(make_certain(compare_xy(A2,B2))) {
             case SMALLER:
-                switch(compare_xy(A1,B2)) {
+                switch(make_certain(compare_xy(A1,B2))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(A1,B1)) {
+                    switch(make_certain(compare_xy(A1,B1))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(A2,A1,B2,B1, k);
                     case EQUAL:
@@ -282,13 +253,13 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
             case EQUAL:
                 return true;
             case LARGER:
-                switch(compare_xy(B1,A2)) {
+                switch(make_certain(compare_xy(B1,A2))) {
                 case SMALLER:
                     return false;
                 case EQUAL:
                     return true;
                 case LARGER:
-                    switch(compare_xy(B1,A1)) {
+                    switch(make_certain(compare_xy(B1,A1))) {
                     case SMALLER:
                         return seg_seg_do_intersect_crossing(B2,B1,A2,A1, k);
                     case EQUAL:
@@ -306,21 +277,24 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg1,
 
 
 template <class K>
-Segment_2_Segment_2_pair<K>::Segment_2_Segment_2_pair()
-{
-    _seg1 = 0;
-    _seg2 = 0;
-    _known = false;
-}
+class Segment_2_Segment_2_pair {
+public:
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT};
+    Segment_2_Segment_2_pair(typename K::Segment_2 const *seg1,
+                            typename K::Segment_2 const *seg2)
+	    : _seg1(seg1), _seg2(seg2), _known(false) {}
 
-template <class K>
-Segment_2_Segment_2_pair<K>::Segment_2_Segment_2_pair(
-    typename K::Segment_2 const *seg1, typename K::Segment_2 const *seg2)
-{
-    _seg1 = seg1;
-    _seg2 = seg2;
-    _known = false;
-}
+    Intersection_results intersection_type() const;
+
+    typename K::Point_2    intersection_point() const;
+    typename K::Segment_2  intersection_segment() const;
+protected:
+    typename K::Segment_2 const*   _seg1;
+    typename K::Segment_2 const *  _seg2;
+    mutable bool                       _known;
+    mutable Intersection_results       _result;
+    mutable typename K::Point_2            _intersection_point, _other_point;
+};
 
 template <class K>
 typename Segment_2_Segment_2_pair<K>::Intersection_results
@@ -342,7 +316,7 @@ Segment_2_Segment_2_pair<K>::intersection_type() const
         _result = NO_INTERSECTION;
         break;
     case Line_2_Line_2_pair<K>::POINT:
-        linepair.intersection(_intersection_point);
+        _intersection_point = linepair.intersection_point();
         _result = POINT;
         break;
     case Line_2_Line_2_pair<K>::LINE:
@@ -435,28 +409,24 @@ Segment_2_Segment_2_pair<K>::intersection_type() const
 
 
 template <class K>
-bool
-Segment_2_Segment_2_pair<K>::intersection(typename K::Point_2 &result) const
+typename K::Point_2
+Segment_2_Segment_2_pair<K>::intersection_point() const
 {
     if (!_known)
         intersection_type();
-    if (_result != POINT)
-        return false;
-    result = _intersection_point;
-    return true;
+    CGAL_kernel_assertion(_result == POINT);
+    return _intersection_point;
 }
 
 template <class K>
-bool
-Segment_2_Segment_2_pair<K>::intersection(typename K::Segment_2 &result) const
+typename K::Segment_2
+Segment_2_Segment_2_pair<K>::intersection_segment() const
 {
   typedef typename K::Segment_2 Segment_2;
     if (!_known)
         intersection_type();
-    if (_result != SEGMENT)
-        return false;
-    result = Segment_2(_intersection_point, _other_point);
-    return true;
+    CGAL_kernel_assertion(_result == SEGMENT);
+    return Segment_2(_intersection_point, _other_point);
 }
 
 
@@ -464,8 +434,8 @@ Segment_2_Segment_2_pair<K>::intersection(typename K::Segment_2 &result) const
 
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Segment_2 &seg1, 
-	     const typename CGAL_WRAP(K)::Segment_2 &seg2,
+intersection(const typename K::Segment_2 &seg1, 
+	     const typename K::Segment_2 &seg2,
 	     const K&)
 {
     typedef Segment_2_Segment_2_pair<K> is_t;
@@ -474,16 +444,10 @@ intersection(const typename CGAL_WRAP(K)::Segment_2 &seg1,
     case is_t::NO_INTERSECTION:
     default:
         return Object();
-    case is_t::POINT: {
-        typename K::Point_2 pt;
-        ispair.intersection(pt);
-        return make_object(pt);
-    }
-    case is_t::SEGMENT: {
-        typename K::Segment_2 iseg;
-        ispair.intersection(iseg);
-        return make_object(iseg);
-    }
+    case is_t::POINT:
+        return make_object(ispair.intersection_point());
+    case is_t::SEGMENT:
+        return make_object(ispair.intersection_segment());
     }
 }
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
-// $Id: Qt_widget_Polyline_2.h 28489 2006-02-14 10:08:15Z lsaboret $
-// $Date: 2006-02-14 11:08:15 +0100 (Tue, 14 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
+// $Id: Qt_widget_Polyline_2.h 39957 2007-08-22 12:30:17Z efif $
+// $Date: 2007-08-22 14:30:17 +0200 (Wed, 22 Aug 2007) $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>

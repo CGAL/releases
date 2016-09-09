@@ -11,30 +11,24 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_traits_2.h $
-// $Id: Apollonius_graph_traits_2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_traits_2.h $
+// $Id: Apollonius_graph_traits_2.h 41439 2008-01-03 19:18:52Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
-
-
 #ifndef CGAL_APOLLONIUS_GRAPH_TRAITS_2_H
 #define CGAL_APOLLONIUS_GRAPH_TRAITS_2_H
 
-
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/Apollonius_graph_2/Predicates_C2.h>
+#ifdef CGAL_APOLLONIUS_GRAPH_D8_TRAITS_2
+#include <CGAL/Apollonius_graph_2/Incircle8_C2.h>
+#include <CGAL/Apollonius_graph_2/Orientation8_C2.h>
+#include <CGAL/Apollonius_graph_2/Finite_edge_test8_C2.h>
 #endif
 
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Apollonius_graph_2/Kernel_wrapper_2.h>
-
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -102,20 +96,36 @@ public:
   typedef CGAL_APOLLONIUS_GRAPH_2_NS::Compare_weight_2<Kernel>
   Compare_weight_2;
 
+#ifdef CGAL_APOLLONIUS_GRAPH_D8_TRAITS_2
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Orientation8_C2<Kernel,MTag>
+  Orientation_2;
+#else
   typedef CGAL_APOLLONIUS_GRAPH_2_NS::Orientation_2<Kernel,MTag>
   Orientation_2;
+#endif
 
   typedef CGAL_APOLLONIUS_GRAPH_2_NS::Is_hidden_2<Kernel,MTag>  Is_hidden_2;
 
   typedef CGAL_APOLLONIUS_GRAPH_2_NS::Oriented_side_of_bisector_2<Kernel,MTag> 
   /*                                          */ Oriented_side_of_bisector_2;
 
+#ifdef CGAL_APOLLONIUS_GRAPH_D8_TRAITS_2
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Vertex_conflict8_2<Kernel,MTag>
+  /*                                                    */ Vertex_conflict_2;
+#else
   typedef CGAL_APOLLONIUS_GRAPH_2_NS::Vertex_conflict_2<Kernel,MTag>
   /*                                                    */ Vertex_conflict_2;
+#endif
 
+#ifdef CGAL_APOLLONIUS_GRAPH_D8_TRAITS_2
+  typedef
+  CGAL_APOLLONIUS_GRAPH_2_NS::Finite_edge_interior_conflict8_2<Kernel,MTag>
+  /*                                      */ Finite_edge_interior_conflict_2;
+#else
   typedef
   CGAL_APOLLONIUS_GRAPH_2_NS::Finite_edge_interior_conflict_2<Kernel,MTag>
   /*                                      */ Finite_edge_interior_conflict_2;
+#endif
 
   typedef
   CGAL_APOLLONIUS_GRAPH_2_NS::Infinite_edge_interior_conflict_2<Kernel,MTag>

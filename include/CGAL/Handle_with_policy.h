@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Handle_with_policy.h $
-// $Id: Handle_with_policy.h 38380 2007-04-20 12:16:17Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Handle_with_policy.h $
+// $Id: Handle_with_policy.h 44351 2008-07-23 13:19:15Z hoffmann $
 //
 // Author(s)     : Michael Seel <seel@mpi-inf.mpg.de>
 //                 Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -379,7 +379,7 @@ namespace Intern {
     representation types since they need the pointer in the handle
     for the polymorphy.
 */
-struct Handle_policy_in_place {};
+class Handle_policy_in_place {};
 
 /*!\brief
  * Policy class for \c Handle_with_policy<T> that ignores unifying of
@@ -447,9 +447,10 @@ public:
     struct Rep_bind {
         //! this default constructor contains some compile-time checks.
         Rep_bind() {
-            Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>
-                check;
-            (void)check;
+	  //Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>
+	  //     check;
+          //  (void)check;
+	  (void)Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>();
         }
         //! the representation type including a reference counter. 
         //! The handle allocates objects of this type.
@@ -578,9 +579,10 @@ public:
     struct Rep_bind {
         //! this default constructor contains some compile-time checks.
         Rep_bind() {
-            Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>
-                check;
-            (void)check;
+	  //Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>
+	  //     check;
+	  // (void)check;
+	  (void)Intern::Rep_bind_reference_counted_with_forwarding<T, hierarchy>();
         }
         //! the representation type including a reference counter. 
         //! The handle allocates objects of this type.
@@ -797,8 +799,9 @@ private:
     }
     template <class TT>
     Rep* make_from_single_arg( TT t, ::CGAL::Tag_true ) {
-        Bind bind_; // trigger compile-time check
-        (void)bind_;
+      //Bind bind_; // trigger compile-time check
+      // (void)bind_;
+      (void)Bind(); // shouldn't this be enough to trigger?
         return t; // has to be a pointer convertible to Rep*
     }
 
@@ -853,8 +856,9 @@ protected:
     Handle_with_policy( Rep* p) : ptr_( p) {
         BOOST_STATIC_ASSERT((
            ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T >::value ));
-        Bind bind_; // trigger compile-time check
-        (void)bind_;
+        //Bind bind_; // trigger compile-time check
+        //(void)bind_;
+	(void)Bind();
     }
 
     //! initializes the representation after the constructor from 
@@ -866,8 +870,9 @@ protected:
     void initialize_with( Rep* p) {
         BOOST_STATIC_ASSERT((
            ::CGAL::is_same_or_derived< Reference_counted_hierarchy_base, T >::value ));
-        Bind bind_; // trigger compile-time check
-        (void)bind_;
+        //Bind bind_; // trigger compile-time check
+        //(void)bind_;
+	(void)Bind();
         CGAL_precondition_msg( ptr_ == 0, "Handle_with_policy::initialize_with(): the "
                          "representation has already been initialized.");
         ptr_ = p;
@@ -1052,8 +1057,9 @@ public:
 
     //! destructor, decrements reference count.
     ~Handle_with_policy() {
-        Bind bind_; // trigger compile-time check
-        (void)bind_;
+      //Bind bind_; // trigger compile-time check
+      //(void)bind_;
+      (void)Bind();
         CGAL_precondition_msg( ptr_ != 0, "Handle_with_policy::~Handle_with_policy(): probably used "
                          "special protected constructor and not the "
                          "'initialize_with()' function.");
@@ -1340,6 +1346,35 @@ public:
     LEDA_MEMORY( Self)
 #endif
 };
+
+/*\brief
+ * This class' function call operator test whether one handle's \c id is
+ * less than the \c id of the other handle.
+ *
+ * "Less" is defined in terms of the second template argument,
+ * which defaults to \c std::less<Handle::Id_type>
+ */
+template <class Handle, class Less = std::less<typename Handle::Id_type> >
+class Handle_id_less_than {
+public:
+    //! result_type
+    typedef bool result_type;
+    //! type of first argument
+    typedef Handle first_argument_type;
+    //! type of second argument
+    typedef Handle second_argument_type;
+    //! returns \c true iff \c h1.id() < \c h2.id()
+    bool operator () (Handle h1, Handle h2) {
+        Less is_less;
+        return is_less(h1.id(), h2.id());
+    }
+    //! returns \c true iff \c h1.id() < \c h2.id()
+    bool operator () (Handle h1, Handle h2) const {
+        Less is_less;
+        return is_less(h1.id(), h2.id());
+    }
+};
+
 
 //@}
 

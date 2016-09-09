@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/function_objects_on_roots_and_polynomials_2_2.h $
-// $Id: function_objects_on_roots_and_polynomials_2_2.h 33727 2006-08-25 09:02:22Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/function_objects_on_roots_and_polynomials_2_2.h $
+// $Id: function_objects_on_roots_and_polynomials_2_2.h 44317 2008-07-22 12:29:01Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -41,7 +41,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef void         result_type; 
-    typedef Arity_tag<3> Arity;
 
     template < class OutputIterator >
     OutputIterator
@@ -83,7 +82,6 @@ namespace AlgebraicFunctors {
   public:
     
     typedef Polynomial_for_circles_2_2 result_type;
-    typedef Arity_tag<3>               Arity;
 
     result_type
     operator()(const RT& xc, const RT& yc, const RT& r_sq) const
@@ -100,7 +98,6 @@ namespace AlgebraicFunctors {
   public:
     
     typedef Polynomial_1_2 result_type;
-    typedef Arity_tag<3>   Arity;
 
     result_type
     operator()( const RT& a, const RT& b, const RT& c) const
@@ -117,7 +114,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef CGAL::Sign   result_type;
-    typedef Arity_tag<2> Arity;
 
     result_type
     operator()( const Polynomial_for_circles_2_2 & equation,
@@ -139,7 +135,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef void         result_type;
-    typedef Arity_tag<2> Arity;
 
     Root_for_circles_2_2
     operator()(const Polynomial_for_circles_2_2 & c, 
@@ -162,7 +157,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef void         result_type;
-    typedef Arity_tag<2> Arity;
 
     Root_for_circles_2_2
     operator()(const Polynomial_for_circles_2_2 & c, 
@@ -185,7 +179,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
 
     result_type
     operator()(const Root_for_circles_2_2& r1, 
@@ -202,7 +195,6 @@ namespace AlgebraicFunctors {
     
   public:
     typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
 
     result_type
     operator()(const Root_for_circles_2_2& r1, 
@@ -219,7 +211,6 @@ namespace AlgebraicFunctors {
 
   public:
     typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
 
     result_type
     operator()(const Root_for_circles_2_2& r1, 

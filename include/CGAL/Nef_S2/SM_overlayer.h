@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h 39747 2007-08-07 20:10:54Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: SM_overlayer.h 47370 2008-12-10 23:05:46Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -147,7 +147,11 @@ Halfedge_handle new_halfedge_pair_at_source(Vertex_handle v)
 }
 
 void halfedge_below(Vertex_handle v, Halfedge_handle e) const
-{ G.halfedge_below(v) = e; }
+{ 
+  CGAL_NEF_TRACEN("   edge below " << v->point() << ":");
+  CGAL_NEF_TRACEN(&*e);
+  G.halfedge_below(v) = e; 
+}
 
 void supporting_segment(Halfedge_handle e, IT it) const
 { INFO& si = M[it];
@@ -159,7 +163,7 @@ void supporting_segment(Halfedge_handle e, IT it) const
 
 void trivial_segment(Vertex_handle v, IT it) const
 { INFO& si = M[it];
-  CGAL_assertion( si._o != NULL );
+  CGAL_assertion( ! si._o.empty() );
   typename SM_const_decorator::SHalfedge_const_handle se;
   typename SM_const_decorator::SHalfloop_const_handle sl;
   typename SM_const_decorator::SVertex_const_handle sv;
@@ -169,14 +173,14 @@ void trivial_segment(Vertex_handle v, IT it) const
     if(se->source()->point() != v->point())
       G.supp_object(v,si._from) = si._o;
     else
-      G.supp_object(v,si._from) = Object_handle(se->source());
+      G.supp_object(v,si._from) = make_object(se->source());
   } else if(CGAL::assign(sl, si._o)) {
     G.supp_object(v,si._from) = si._o;
   } else if(CGAL::assign(sv, si._o)) {
     CGAL_assertion(sv->point() == v->point());
     G.supp_object(v,si._from) = si._o;
   } else
-    CGAL_assertion_msg(false, "wrong handle");
+    CGAL_error_msg( "wrong handle");
   
   CGAL_NEF_TRACEN("trivial_segment " << si._from << ":" << v->point()); 
   //  debug();
@@ -195,13 +199,13 @@ void starting_segment(Vertex_handle v, IT it) const
 	return;
       }
     }
-    G.supp_object(v,si._from) = Object_handle(se->source());
+    G.supp_object(v,si._from) = make_object(se->source());
     CGAL_NEF_TRACEN("starting_segment " << si._from << ":"<< 
 		    v->point() << " " << se->source()->point()); 
   } else if(CGAL::assign(sl, si._o)) {
     G.supp_object(v,si._from) = si._o;
   } else
-    CGAL_assertion_msg(false, "wrong object");
+    CGAL_error_msg( "wrong object");
   //  debug();
 }
 
@@ -218,7 +222,7 @@ void ending_segment(Vertex_handle v, IT it) const
 	return;
       }
     }
-    G.supp_object(v,si._from) = Object_handle(se->source());
+    G.supp_object(v,si._from) = make_object(se->source());
     CGAL_NEF_TRACEN("ending_segment " << si._from << ":"<< 
 		    v->point() << ":" << 
 		    se->source()->point() << "->" << 
@@ -226,7 +230,7 @@ void ending_segment(Vertex_handle v, IT it) const
   } else if(CGAL::assign(sl, si._o)) {
     G.supp_object(v,si._from) = si._o;
   } else
-    CGAL_assertion_msg(false, "wrong object");
+    CGAL_error_msg( "wrong object");
   //  debug();
 }
 
@@ -438,11 +442,11 @@ public:
 
     Seg_info() : _o(), _from(-1) {}
     Seg_info(SVertex_const_handle v, int i) 
-    { _o=Object_handle(v); _from=i; }
+    { _o=make_object(v); _from=i; }
     Seg_info(SHalfedge_const_handle e, int i) 
-    { _o=Object_handle(e); _from=i; }
+    { _o=make_object(e); _from=i; }
     Seg_info(SHalfloop_const_handle l, int i) 
-    { _o=Object_handle(l); _from=i; }
+    { _o=make_object(l); _from=i; }
     Seg_info(const Seg_info& si) 
     { _o=si._o; _from=si._from; }
     Seg_info& operator=(const Seg_info& si) 
@@ -708,8 +712,6 @@ create_from_segments(Forward_iterator start, Forward_iterator end)
 			  Sphere_circle(0,0,1), Sphere_circle(1,0,0), true);
   partition_to_halfsphere(L.begin(), L.end(), L_neg, From_input, 
 			  Sphere_circle(0,0,-1), Sphere_circle(1,0,0), true);
-  //CGAL_NEF_TRACEN("L_pos="<<(MSDEBUG::print_elements(L_pos),""));
-  //CGAL_NEF_TRACEN("L_neg="<<(MSDEBUG::print_elements(L_neg),""));
 
   typedef SMO_from_segs<Self,Seg_iterator> SM_output;
   typedef typename Sphere_kernel::Positive_halfsphere_geometry PH_geometry;
@@ -1141,6 +1143,9 @@ subdivide(const Map* M0, const Map* M1,
 	  bool with_trivial_segments) {
   PI[0] = SM_const_decorator(M0); 
   PI[1] = SM_const_decorator(M1);
+  bool compute_halfsphere[3][2];
+  int cs=0;
+
   Seg_list L;
   Seg_map  From;
   for (int i=0; i<2; ++i) {
@@ -1148,28 +1153,34 @@ subdivide(const Map* M0, const Map* M1,
     CGAL_forall_svertices(v,PI[i]) {
       CGAL_NEF_TRACEN(v->point() << " from " << i << " mark " << v->mark());
       if ( !PI[i].is_isolated(v) ) continue;
+      cs = -1;
       L.push_back(trivial_segment(PI[i],v));
       From[--L.end()] = Seg_info(v,i);
     }
     SHalfedge_const_iterator e;
     CGAL_forall_sedges(e,PI[i]) {
       if ( e->source() == e->target() ) {
-       if(with_trivial_segments) {
+       if(with_trivial_segments) {	 
+	  CGAL_NEF_TRACEN("trivial segment " << e->source()->point());
           v = e->source();
           L.push_back(trivial_segment(PI[i],v));
           From[--L.end()] = Seg_info(v,i);
         } else {
+	  CGAL_NEF_TRACEN("once around " << e->source()->point());
           Seg_pair p = two_segments(PI[i],e);
           L.push_back(p.first);
           L.push_back(p.second);
           From[--L.end()] = From[--(--L.end())] = Seg_info(e,i);
         }
       } else {
+	CGAL_NEF_TRACEN("normal segment " << e->source()->point()
+			<< "->" << e->twin()->source()->point());
         L.push_back(segment(PI[i],e));
         From[--L.end()] = Seg_info(e,i);
       }
     }
     if ( PI[i].has_shalfloop() ) {
+      CGAL_NEF_TRACEN("loop ");
       SHalfloop_const_handle shl = PI[i].shalfloop();
       Seg_pair p = two_segments(PI[i],shl);
       L.push_back(p.first); 
@@ -1181,13 +1192,14 @@ subdivide(const Map* M0, const Map* M1,
 
   CGAL_assertion_code(typename Seg_list::iterator it);
   CGAL_assertion_code(CGAL_forall_iterators(it,L) CGAL_NEF_TRACEN("  "<<*it));
-  bool compute_halfsphere[3][2];
+
 #ifdef CGAL_NEF3_SPHERE_SWEEP_OPTIMIZATION_OFF
-  int cs = -1;
+  cs = -1;
   compute_halfsphere[2][0]=true;
   compute_halfsphere[2][1]=true;
 #else
-  int cs = check_sphere(L, compute_halfsphere);
+  if(cs != -1)
+    cs = check_sphere(L, compute_halfsphere);
 #endif
 
   CGAL_NEF_TRACEN("compute_halfsphere\n  cs = " << cs);
@@ -1232,7 +1244,7 @@ subdivide(const Map* M0, const Map* M1,
     partition_to_halfsphere(L.begin(), L.end(), L_neg, From, 
 			    Sphere_circle(0,0,-1), Sphere_circle(1,0,0), true);
     break;
-  default: CGAL_assertion_msg(0, "wrong value");
+  default: CGAL_error_msg( "wrong value");
   }
 
   cs = cs==-1 ? 2 : cs/2;
@@ -1380,6 +1392,10 @@ subdivide(const Map* M0, const Map* M1,
 {
   PI[0] = SM_const_decorator(M0); 
   PI[1] = SM_const_decorator(M1);
+ 
+  bool compute_halfsphere[3][2];
+  int cs=0;
+
   Seg_list L;
   Seg_map  From;
   for (int i=0; i<2; ++i) {
@@ -1387,6 +1403,7 @@ subdivide(const Map* M0, const Map* M1,
     CGAL_forall_svertices(v,PI[i]) {
       CGAL_NEF_TRACEN(v->point() << " from " << i << " mark " << v->mark());
       if ( !PI[i].is_isolated(v) ) continue;
+      cs = -1;
       L.push_back(trivial_segment(PI[i],v));
       From[--L.end()] = Seg_info(v,i);
     }
@@ -1394,21 +1411,26 @@ subdivide(const Map* M0, const Map* M1,
     CGAL_forall_sedges(e,PI[i]) {
       if ( e->source() == e->target() ) {
        if(with_trivial_segments) {
+	 CGAL_NEF_TRACEN("trivial segment " << e->source()->point());
           v = e->source();
           L.push_back(trivial_segment(PI[i],v));
           From[--L.end()] = Seg_info(v,i);
         } else {
+	 CGAL_NEF_TRACEN("once around " << e->source()->point());
           Seg_pair p = two_segments(PI[i],e);
           L.push_back(p.first);
           L.push_back(p.second);
           From[--L.end()] = From[--(--L.end())] = Seg_info(e,i);
         }
       } else {
+	CGAL_NEF_TRACEN("normal segment " << e->source()->point());
         L.push_back(segment(PI[i],e));
         From[--L.end()] = Seg_info(e,i);
       }
     }
     if ( PI[i].has_shalfloop() ) {
+      cs = -1;
+      CGAL_NEF_TRACEN("loop ");
       SHalfloop_const_handle shl = PI[i].shalfloop();
       Seg_pair p = two_segments(PI[i],shl);
       L.push_back(p.first); 
@@ -1421,14 +1443,15 @@ subdivide(const Map* M0, const Map* M1,
   CGAL_assertion_code(typename Seg_list::iterator it);
   CGAL_assertion_code(CGAL_forall_iterators(it,L) CGAL_NEF_TRACEN("  "<<*it));
 
-  bool compute_halfsphere[3][2];
 #ifdef CGAL_NEF3_SPHERE_SWEEP_OPTIMIZATION_OFF
-  int cs = -1;
-  compute_halfsphere[2][0]=true;
-  compute_halfsphere[2][1]=true;
-#else
-  int cs = check_sphere(L, compute_halfsphere);
+  cs = -1;
 #endif
+  if(cs != -1)
+    cs = check_sphere(L, compute_halfsphere);
+  else {
+    compute_halfsphere[2][0]=true;
+    compute_halfsphere[2][1]=true;
+  }
 
   CGAL_NEF_TRACEN("compute_halfsphere\n  cs = " << cs);
   for(int i=0; i<6; ++i)
@@ -1472,7 +1495,7 @@ subdivide(const Map* M0, const Map* M1,
     partition_to_halfsphere(L.begin(), L.end(), L_neg, From, 
 			    Sphere_circle(0,0,-1), Sphere_circle(1,0,0), true);
     break;
-  default: CGAL_assertion_msg(0, "wrong value");
+  default: CGAL_error_msg( "wrong value");
   }
 
   cs = cs==-1 ? 2 : cs/2;
@@ -1666,13 +1689,13 @@ transfer_data(Association& A) {
   CGAL_forall_svertices(sv, *this) {
     //    std::cerr << "svertex " << sv->point() << std::endl;
     Object_handle o0 = supp_object(sv,0), o1 = supp_object(sv,1);
-    if(o0 == NULL) {
+    if(o0.empty()) {
       if(CGAL::assign(sv1, o1))
 	A.handle_support(sv, sv1);
       else
 	continue;
     } else if(CGAL::assign(se0, o0)) {
-      if(o1 == NULL) 
+      if(o1.empty()) 
 	continue;
       else if(assign(se1, o1))
 	A.handle_support(sv, se0, se1);
@@ -1681,9 +1704,9 @@ transfer_data(Association& A) {
       else if(CGAL::assign(sl1, o1))
 	A.handle_support(sv, se0, sl1);
       else
-	CGAL_assertion_msg(false, "wrong handle");
+	CGAL_error_msg( "wrong handle");
     } else if(CGAL::assign(sv0, o0)) {
-      if(o1 == NULL)
+      if(o1.empty())
 	A.handle_support(sv, sv0);
       else if(CGAL::assign(se1, o1))
 	A.handle_support(sv, sv0, se1);
@@ -1692,9 +1715,9 @@ transfer_data(Association& A) {
       else if(CGAL::assign(sl1, o1))
 	A.handle_support(sv, sv0, sl1);
       else
-	CGAL_assertion_msg(false, "wrong handle");
+	CGAL_error_msg( "wrong handle");
     } else if(CGAL::assign(sl0, o0)) {
-      if(o1 == NULL)
+      if(o1.empty())
 	continue;
       else if(CGAL::assign(sv1, o1))
 	A.handle_support(sv, sl0, sv1);
@@ -1703,39 +1726,39 @@ transfer_data(Association& A) {
       else if(CGAL::assign(sl1, o1))
 	A.handle_support(sv, sl0, sl1);
     } else 
-      CGAL_assertion_msg(false, "wrong handle");
+      CGAL_error_msg( "wrong handle");
   }
 
   CGAL_forall_sedges(se, *this) {
     CGAL_assertion(is_forward(se));
     Object_handle o0 = supp_object(se,0), o1 = supp_object(se,1);   
-    if(o0 == NULL) {
+    if(o0.empty()) {
       if(assign(se1, o1))
 	A.handle_support(se, se1);
       else if(assign(sl1, o1))
 	A.handle_support(se, sl1);
       else
-	continue; // CGAL_assertion_msg(false, "wrong handle");
+	continue; // CGAL_error_msg( "wrong handle");
     } else if(assign(se0, o0)) {
-      if(o1 == NULL)
+      if(o1.empty())
 	A.handle_support(se, se0);
       else if(assign(se1, o1))
 	A.handle_support(se, se0, se1);
       else if(assign(sl1, o1))
 	A.handle_support(se, se0, sl1);
       else
-	CGAL_assertion_msg(false, "wrong handle");    
+	CGAL_error_msg( "wrong handle");    
     } else if(assign(sl0, o0)) {
-      if(o1 == NULL)
+      if(o1.empty())
 	A.handle_support(se, sl0);
       else if(assign(se1, o1))
 	A.handle_support(se, sl0, se1);
       else if(assign(sl1, o1))
 	A.handle_support(se, sl0, sl1);
       else
-	CGAL_assertion_msg(false, "wrong handle");
+	CGAL_error_msg( "wrong handle");
     } else
-      CGAL_assertion_msg(false, "wrong handle");	      
+      CGAL_error_msg( "wrong handle");	      
   }
 }
 
@@ -1887,9 +1910,9 @@ create_face_objects(SHalfedge_iterator e_start, SHalfedge_iterator e_end,
       CGAL_For_all(hfc,hend) {
 	SFaceCycle[hfc]=i; // assign face cycle number
 	if (hfc->twin()->source() == e_min->twin()->source()) {
-	  Sphere_point p1 = e->source()->point(), 
-	    p2 = e->twin()->source()->point(), 
-	    p3 = e->snext()->twin()->source()->point();	  
+	  Sphere_point p1 = hfc->source()->point(), 
+	    p2 = hfc->twin()->source()->point(), 
+	    p3 = hfc->snext()->twin()->source()->point();	  
 	  if ( SG.orientation(p1,p2,p3) <= 0 )
 	    e_min = hfc;
 	} else if ( SG.compare_xy(hfc->twin()->source()->point(), e_min->twin()->source()->point()) < 0 )
@@ -1969,7 +1992,7 @@ complete_face_support(SVertex_iterator v_start, SVertex_iterator v_end,
 
     for (int i=0; i<2; ++i) {
       Object_handle o = supp_object(v,i);
-      if ( o == NULL ) { 
+      if ( o.empty() ) { 
 	CGAL_NEF_TRACEN("no vertex support"); 
 	mark(v,i) = m_buffer[i]; continue; 
       }
@@ -1991,7 +2014,7 @@ complete_face_support(SVertex_iterator v_start, SVertex_iterator v_end,
       if ( CGAL::assign(ls,o) ) { 
 	mark(v,i) = ls->mark(); 
 	CGAL_NEF_TRACEN("loop " << ls->circle()); continue; }
-      CGAL_assertion_msg(0,"wrong handle");
+      CGAL_error_msg("wrong handle");
     } CGAL_NEF_TRACEN(" vertex marks "<<mark(v,0)<<" "<<mark(v,1));
 
     if ( is_isolated(v) ) continue;
@@ -2000,7 +2023,7 @@ complete_face_support(SVertex_iterator v_start, SVertex_iterator v_end,
       if ( !is_forward(e) ) break;
       CGAL_NEF_TRACEN("  forward edge "<<PH(e));
       for (int i=0; i<2; ++i) {
-        if ( supp_object(e,i) != NULL ) {
+        if ( ! supp_object(e,i).empty() ) {
           SHalfedge_const_handle ei; 
           if ( CGAL::assign(ei,supp_object(e,i)) ) { 
             if (!equal_not_opposite(ei->circle(),e->circle())) 
@@ -2043,7 +2066,7 @@ void SM_overlayer<Map>::complete_sface_marks() const {
     assoc_info(f);
     SFace_cycle_iterator boundary_object(f->sface_cycles_begin());
     if (!boundary_object.is_shalfedge() ) 
-      CGAL_assertion_msg(0,"Outer face cycle should be first.");
+      CGAL_error_msg("Outer face cycle should be first.");
     SHalfedge_handle e(boundary_object);
     for (int i=0; i<2; ++i) mark(f,i) = incident_mark(e,i);
   }
@@ -2261,9 +2284,6 @@ typedef CGAL::generic_sweep<NHS_traits> Negative_halfsphere_sweep;
   // all other segments in the range are split into their
   // connected components with respect to the xy-plane.
 
-  //CGAL_NEF_TRACEN("Lp="<<(MSDEBUG::print_elements(Lp),""));
-  //CGAL_NEF_TRACEN("Lm="<<(MSDEBUG::print_elements(Lm),""));
-
   SVertex_handle v1,v2;
   SM_output O(*this); 
   typedef typename PHS_traits::INPUT Input_range;
@@ -2285,6 +2305,5 @@ typedef CGAL::generic_sweep<NHS_traits> Negative_halfsphere_sweep;
 
 
 CGAL_END_NAMESPACE
+
 #endif //CGAL_SM_OVERLAYER_H
-
-

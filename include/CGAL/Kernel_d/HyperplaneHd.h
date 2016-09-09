@@ -15,19 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
-// $Id: HyperplaneHd.h 36191 2007-02-11 22:39:45Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
+// $Id: HyperplaneHd.h 42940 2008-04-17 13:32:52Z spion $
 // 
-//
 // Author(s)     : Michael Seel
 
 #ifndef CGAL_HYPERPLANEHD_H
 #define CGAL_HYPERPLANEHD_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/Quotient.h>
-#endif
 #include <CGAL/Kernel_d/PointHd.h> 
 #include <CGAL/Kernel_d/VectorHd.h> 
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
@@ -150,7 +147,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
   int dim = LA::homogeneous_linear_solver(A,spanning_vecs); 
 
   if (dim == 0)
-    CGAL_assertion_msg(0,"HyperplaneHd::constructor: \
+    CGAL_error_msg("HyperplaneHd::constructor: \
     set P is full dimensional."); 
 
   if (side == ON_ORIENTED_BOUNDARY) { 
@@ -167,7 +164,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
   }
 
   if (j == dim)  
-    CGAL_assertion_msg(0,"HyperplaneHd::constructor: \
+    CGAL_error_msg("HyperplaneHd::constructor: \
     cannot use o to determine side.");
 
   ptr()->v = spanning_vecs.column(j);
@@ -180,7 +177,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
 template <class ForwardIterator>
 HyperplaneHd(ForwardIterator first, ForwardIterator last, 
              const PointHd<RT,LA>& o, 
-             Oriented_side side = Oriented_side(0)) 
+             Oriented_side side = ON_ORIENTED_BOUNDARY) 
 /*{\Mcreate constructs some hyperplane that passes through the points
 in |set [first,last)|. If |side| is |ON_POSITIVE_SIDE| or
 |ON_NEGATIVE_SIDE| then |o| is on that side of the constructed
@@ -279,7 +276,7 @@ Oriented_side  oriented_side(const PointHd<RT,LA>& p) const
 { 
   CGAL_assertion_msg((dimension()==p.dimension()), 
   "HyperplaneHd::oriented_side: dimensions do not agree."); 
-  return Oriented_side(CGAL_NTS sign(value_at(p)));
+  return CGAL_NTS sign(value_at(p));
 }
 
 bool has_on(const PointHd<RT,LA>& p) const 

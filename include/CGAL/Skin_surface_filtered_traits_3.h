@@ -11,11 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
-// $Id: Skin_surface_filtered_traits_3.h 33412 2006-08-18 13:35:28Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
+// $Id: Skin_surface_filtered_traits_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
+
+#include <CGAL/Skin_surface_traits_3.h>
 
 #ifndef CGAL_SKIN_SURFACE_FILTERED_TRAITS_3_H
 #define CGAL_SKIN_SURFACE_FILTERED_TRAITS_3_H
@@ -32,10 +34,10 @@ class Skin_surface_filtered_traits_3
   : public Skin_surface_traits_base_3<K>
 {
   // Exact traits is based on the exact kernel.
-  typedef Skin_surface_traits_3<typename K::EK>
+  typedef Skin_surface_traits_3<typename K::Exact_kernel>
                                                    Exact_traits;
   // Filtering traits is based on the filtering kernel.
-  typedef Skin_surface_traits_3<typename K::FK>
+  typedef Skin_surface_traits_3<typename K::Approximate_kernel>
                                                    Filtering_traits;
 
   typedef typename K::C2E C2E;

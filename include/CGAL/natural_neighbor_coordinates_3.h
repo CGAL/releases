@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 39471 2007-07-23 14:56:45Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
+// $Id: natural_neighbor_coordinates_3.h 39470 2007-07-23 14:54:27Z spion $
 //
 //
 // Author(s)     : Raphaelle Chaine

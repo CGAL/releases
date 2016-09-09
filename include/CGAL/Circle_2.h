@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 39993 2007-08-23 08:58:55Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: Circle_2.h 45156 2008-08-26 13:40:26Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -29,6 +29,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_2.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,13 +38,16 @@ class Circle_2 : public R_::Kernel_base::Circle_2
 {
   typedef typename R_::FT                    FT;
   typedef typename R_::Point_2               Point_2;
-  typedef typename R_::Kernel_base::Circle_2  RCircle_2;
+  typedef typename R_::Kernel_base::Circle_2 RCircle_2;
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
 
   typedef Circle_2                           Self;
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Circle_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<1>  Feature_dimension;
 
   typedef RCircle_2 Rep;
 
@@ -104,41 +108,43 @@ public:
 
   Orientation orientation() const
   {
-    return R().orientation_2_object()(*this);
+    // This make_certain(), the uncertain orientation of circles, the orientation
+    // of circles, are all yucky.
+    return make_certain(R().orientation_2_object()(*this));
   }
 
 
-  Bounded_side
+  typename R::Bounded_side
   bounded_side(const Point_2 &p) const
   {
     return R().bounded_side_2_object()(*this, p);
   }
 
-  Oriented_side
+  typename R::Oriented_side
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this, p);
   }
 
-  bool
+  typename R::Boolean
   has_on_boundary(const Point_2 &p) const
   {
     return bounded_side(p) == ON_BOUNDARY;
   }
 
-  bool
+  typename R::Boolean
   has_on_bounded_side(const Point_2 &p) const
   {
     return bounded_side(p) == ON_BOUNDED_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_unbounded_side(const Point_2 &p) const
   {
     return bounded_side(p) == ON_UNBOUNDED_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_negative_side(const Point_2 &p) const
   {
     if (orientation() == COUNTERCLOCKWISE)
@@ -146,7 +152,7 @@ public:
     return has_on_bounded_side(p);
   }
 
-  bool
+  typename R::Boolean
   has_on_positive_side(const Point_2 &p) const
   {
     if (orientation() == COUNTERCLOCKWISE)
@@ -154,7 +160,7 @@ public:
     return has_on_unbounded_side(p);
   }
 
-  bool
+  typename R::Boolean
   is_degenerate() const
   {
     return CGAL_NTS is_zero(squared_radius());
@@ -175,13 +181,13 @@ public:
     return R().construct_bbox_2_object()(*this);
   }
 
-  bool
+  typename R::Boolean
   operator==(const Circle_2 &c) const
   {
     return R().equal_2_object()(*this, c);
   }
 
-  bool
+  typename R::Boolean
   operator!=(const Circle_2 &c) const
   {
     return !(*this == c);

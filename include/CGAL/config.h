@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/config.h $
-// $Id: config.h 38002 2007-04-10 08:26:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/config.h $
+// $Id: config.h 47317 2008-12-09 14:56:51Z spion $
 // 
 //
 // Author(s)     : Wieger Wesselink 
@@ -25,7 +25,6 @@
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
-
 
 
 #ifdef CGAL_INCLUDE_WINDOWS_DOT_H
@@ -65,42 +64,9 @@
 #define CGAL_BEGIN_NAMESPACE namespace CGAL {
 #define CGAL_END_NAMESPACE }
 
-#ifdef CGAL_CFG_NO_STDC_NAMESPACE
-#  define CGAL_CLIB_STD
-#else
-#  define CGAL_CLIB_STD std
-#endif
-
-#ifndef CGAL_CFG_NO_LONG_LONG
+#ifndef CGAL_CFG_NO_CPP0X_LONG_LONG
 #  define CGAL_USE_LONG_LONG
 #endif
-
-#ifdef CGAL_CFG_NO_LONG_DOUBLE_IO
-#include <iostream>
-namespace std {
-  template < typename _CharT, typename _Traits >
-  inline basic_ostream<_CharT, _Traits> &
-  operator<<(basic_ostream<_CharT, _Traits> & os, const long double &ld)
-  {
-      return os << (double) ld;
-  }
-}
-#endif
-
-// FIXME: what is the problem with Sun 5.5? MATCHING_BUG_4 is not
-// triggered, but there are runtime errors, e.g., with Distance_3,
-// that do not appear when using the wrapper...
-#if defined(CGAL_CFG_MATCHING_BUG_4)
- // || (defined(__sun) && defined(__SUNPRO_CC))
-namespace CGAL {
-    template < typename T >
-    struct Self { typedef T Type; };
-}
-#  define CGAL_WRAP(K) CGAL::Self<K>::Type
-#else
-#  define CGAL_WRAP(K) K
-#endif
-
 
 
 #ifndef CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG
@@ -110,15 +76,12 @@ namespace CGAL {
 #endif
 
 
-#ifndef CGAL_CFG_SUNPRO_RWSTD
-#  define CGAL_reverse_iterator(T) std::reverse_iterator< T >
+#ifdef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+#  define CGAL_DELETED
+#  define CGAL_EXPLICITLY_DEFAULTED
 #else
-#  define CGAL_reverse_iterator(T) std::reverse_iterator< T , \
-                                   typename T::iterator_category , \
-                                   typename T::value_type , \
-                                   typename T::reference , \
-                                   typename T::pointer , \
-                                   typename T::difference_type >
+#  define CGAL_DELETED = delete
+#  define CGAL_EXPLICITLY_DEFAULTED = default
 #endif
 
 
@@ -151,10 +114,6 @@ namespace CGAL {
 #endif
 
 
-#ifndef CGAL_USE_LEDA
-#  define CGAL_USE_CGAL_WINDOW
-#endif
-
 // Symbolic constants to tailor inlining. Inlining Policy.
 // =======================================================
 #ifndef CGAL_MEDIUM_INLINE
@@ -169,25 +128,30 @@ namespace CGAL {
 #  define CGAL_HUGE_INLINE
 #endif
 
-//----------------------------------------------------------------------//
-//             include separate workaround files
-//----------------------------------------------------------------------//
 
-#if defined(__BORLANDC__) && __BORLANDC__ > 0x520
-#  include <CGAL/Borland_fixes.h>
-#elif defined(__SUNPRO_CC)
-#  include <CGAL/Sun_fixes.h>
+//----------------------------------------------------------------------//
+// SunPRO specific.
+//----------------------------------------------------------------------//
+#ifdef __SUNPRO_CC
+#  include <iterator>
+#  ifdef _RWSTD_NO_CLASS_PARTIAL_SPEC
+#    error "CGAL does not support SunPRO with the old Rogue Wave STL: use STLPort."
+#  endif
+
+// Sun CC has an issue with templates that means overloading
+// Qualified_result_of does not work so well.
+#  define CGAL_CFG_DONT_OVERLOAD_TOO_MUCH 1
+
 #endif
 
-//--------------------------------------------------------------------//
-// This addresses a bug in VC++ 7.0 that (re)defines min(a, b)
-// and max(a, b) in windows.h and windef.h 
-//-------------------------------------------------------------------//
-
-#ifdef _MSC_VER
-// AF: Temporary thing to mimic users including this file which defines min max macros
-//#  define NOMINMAX 1
+#ifdef __SUNPRO_CC
+// SunPRO 5.9 emits warnings "The variable tag has not yet been assigned a value"
+// even for empty "tag" variables.  No way to write a config/testfile for this.
+#  define CGAL_SUNPRO_INITIALIZE(C) C
+#else
+#  define CGAL_SUNPRO_INITIALIZE(C)
 #endif
+
 
 //-------------------------------------------------------------------//
 // When the global min and max are no longer defined (as macros) 
@@ -211,7 +175,7 @@ using std::max;
 
 //-------------------------------------------------------------------//
 // Is Geomview usable ?
-#if !defined(__BORLANDC__) && !defined(_MSC_VER) && !defined(__MINGW32__)
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
 #  define CGAL_USE_GEOMVIEW
 #endif
 
@@ -228,25 +192,40 @@ using std::max;
 #endif
 
 
-// SunPRO's STL is missing the std::vector constructor from an iterator range.
-#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
-#include <vector>
-#include <iterator>
-#include <algorithm>
-namespace CGAL { namespace CGALi {
-template < typename Iterator >
-inline
-std::vector<typename std::iterator_traits<Iterator>::value_type>
-make_vector(Iterator begin, Iterator end)
-{
-  std::vector<typename std::iterator_traits<Iterator>::value_type> v;
-  std::copy(begin, end, std::back_inserter(v));
-  return v;
-}
-} }
-#  define CGAL_make_vector(begin, end) = CGAL::CGALi::make_vector(begin, end)
+// Macro to trigger deprecation warnings
+#ifdef CGAL_NO_DEPRECATION_WARNINGS
+#  define CGAL_DEPRECATED
+#elif defined (__GNUC__) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#  define CGAL_DEPRECATED __attribute__((__deprecated__))
+#elif defined (_MSC_VER) && (_MSC_VER > 1300)
+#  define CGAL_DEPRECATED __declspec(deprecated)
 #else
-#  define CGAL_make_vector(begin, end) (begin, end)
+#  define CGAL_DEPRECATED
 #endif
+
+
+// Macro to specify a noreturn attribute.
+#ifdef __GNUG__
+#  define CGAL_NORETURN  __attribute__ ((__noreturn__))
+#else
+#  define CGAL_NORETURN
+#endif
+
+
+// If CGAL_HAS_THREADS is not defined, then CGAL code assumes
+// it can do any thread-unsafe things (like using static variables).
+#if !defined CGAL_HAS_THREADS && !defined CGAL_HAS_NO_THREADS
+  #if defined BOOST_HAS_THREADS || defined _OPENMP
+  #  define CGAL_HAS_THREADS
+  #endif
+#endif
+
+
+CGAL_BEGIN_NAMESPACE
+
+// Typedef for the type of NULL.
+typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CONFIG_H

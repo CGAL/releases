@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
-// $Id: Dxf_reader.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
+// $Id: Dxf_reader.h 44373 2008-07-23 17:13:44Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
+
+// Partially supported by the IST Programme of the EU as a Shared-cost
+// RTD (FET Open) Project under Contract No  IST-2000-26473 
+// (ECG - Effective Computational Geometry for Curves and Surfaces) 
+// and a STREP (FET Open) Project under Contract No  IST-006413 
+// (ACS -- Algorithms for Complex Shapes)
 
 // Descriptions of the file format can be found at
 // http://www.autodesk.com/techpubs/autocad/acad2000/dxf/
@@ -37,13 +43,13 @@ public:
   typedef typename K::FT       FT;
   typedef typename K::Point_2  Point_2;
   typedef typename K::Circle_2 Circle_2;
-  
-  
+
+
   typedef std::list<std::pair<Point_2, double> > Polygon;
   typedef std::list<Polygon> Polygons;
   typedef std::list<Circle_2> Circles;
   typedef std::list<std::pair<Point_2, FT> > Centers_and_radii;
-  
+
 private:
 
   void
@@ -53,102 +59,102 @@ private:
     double xmin, ymin;
     double xmax, ymax;
     is >> n;
-    assert(n == 9);
+    CGAL_assertion(n == 9);
     char c;
     is >> c;
-    assert(c == '$');
+    CGAL_assertion(c == '$');
     std::string str;
     is >> str;
     if(str == std::string("EXTMIN")){
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
     is >> xmin;
     is >> n;
-    assert(n == 20);
+    CGAL_assertion(n == 20);
     is >> ymin;
     }
     is >> n;
-    assert(n == 9);
+    CGAL_assertion(n == 9);
     is >> c;
-    assert(c == '$');
+    CGAL_assertion(c == '$');
     is >> str;
     if(str == "EXTMAX"){
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
       is >> xmax;
       is >> n;
-      assert(n == 20);
+      CGAL_assertion(n == 20);
       is >> ymax;
     }
   }
-  
-  
+
+
   void
   skip_header(std::istream& is)
   {
     int n;
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     std::string str;
     is >> str;
-    assert(str == "SECTION");
+    CGAL_assertion(str == "SECTION");
     is >> n;
-    assert(n == 2);
+    CGAL_assertion(n == 2);
     is >> str;
     if(str == "HEADER"){
       header(is);
     }
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     is >> str;
-    assert(str == "ENDSEC");
+    CGAL_assertion(str == "ENDSEC");
   }
-  
-  
-  
-  void 
+
+
+
+  void
   read_circle(std::istream& is, Circle_2& circ)
   {
     int n;
     double cx, cy, r;
     std::string str;
     is >> n;
-    assert(n == 8);
+    CGAL_assertion(n == 8);
     is >> n;
-    assert(n == 0);
-  
+    CGAL_assertion(n == 0);
+
   is >> n;
-  assert(n == 10);
+  CGAL_assertion(n == 10);
   is >> cx;
   is >> n;
-  assert(n == 20);
+  CGAL_assertion(n == 20);
   is >> cy;
   is >> n;
-  assert(n == 40);
+  CGAL_assertion(n == 40);
   is >> r;
   FT rft(r);
   circ = typename K::Construct_circle_2()(Point_2(cx,cy), rft);
 }
 
-  void 
+  void
   read_center_and_radius(std::istream& is, Point_2& center, FT& rft)
   {
     int n;
     double cx, cy, r;
     std::string str;
     is >> n;
-    assert(n == 8);
+    CGAL_assertion(n == 8);
     is >> n;
-    assert(n == 0);
-  
+    CGAL_assertion(n == 0);
+
   is >> n;
-  assert(n == 10);
+  CGAL_assertion(n == 10);
   is >> cx;
   is >> n;
-  assert(n == 20);
+  CGAL_assertion(n == 20);
   is >> cy;
   is >> n;
-  assert(n == 40);
+  CGAL_assertion(n == 40);
   is >> r;
 
   center = typename K::Construct_point_2()(cx,cy);
@@ -167,7 +173,7 @@ read_polygon(std::istream& is, Polygon& poly)
     is >> n;
     if(n != 0){
       int m;
-      is >> m; 
+      is >> m;
     }
   } while(n != 0);
 
@@ -175,30 +181,30 @@ read_polygon(std::istream& is, Polygon& poly)
     is >> str;
     if(str == "VERTEX"){
       is >> n;
-      assert(n == 8);
+      CGAL_assertion(n == 8);
       is >> n;
-      assert(n == 0);
+      CGAL_assertion(n == 0);
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
       is >> x;
       is >> n;
-      assert(n == 20);
+      CGAL_assertion(n == 20);
       is >> y;
       is >> n;
       len = 0;
       if(n == 42){
 	is >> len;
       } else {
-	assert(n == 0);
+	CGAL_assertion(n == 0);
       }
       poly.push_back(std::make_pair(typename K::Construct_point_2()(x,y), len));
     }
-    
+
   } while (str != "SEQEND");
   is >> n;
-  assert(n == 8);
+  CGAL_assertion(n == 8);
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
 
 
 }
@@ -211,15 +217,15 @@ read_entities(std::istream& is, Polygons& polys, Circles& circles)
   //double x, y;
   std::string str;
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "SECTION");
+  CGAL_assertion(str == "SECTION");
   is >> n;
   is >> str;
-  assert(str == "ENTITIES");
+  CGAL_assertion(str == "ENTITIES");
   do {
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     is >> str;
     if(str == "POLYLINE"){
       Polygon p;
@@ -227,19 +233,18 @@ read_entities(std::istream& is, Polygons& polys, Circles& circles)
       read_polygon(is, polys.back());
     } else if(str == "CIRCLE"){
       Circle_2 c;
-      read_circle(is,c);      
+      read_circle(is,c);
       circles.push_back(c);
     } else if(str == "ENDSEC"){
-      
+
     } else {
-      std::cerr << "unknown entity" << std::endl;
-      std::exit(0);
+      CGAL_error_msg( "unknown entity" );
     }
   } while(str != "ENDSEC");
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "EOF");
+  CGAL_assertion(str == "EOF");
 }
 
 void
@@ -249,15 +254,15 @@ read_entities(std::istream& is, Polygons& polys, Centers_and_radii& car)
   //double x, y;
   std::string str;
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "SECTION");
+  CGAL_assertion(str == "SECTION");
   is >> n;
   is >> str;
-  assert(str == "ENTITIES");
+  CGAL_assertion(str == "ENTITIES");
   do {
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     is >> str;
     if(str == "POLYLINE"){
       Polygon p;
@@ -266,19 +271,18 @@ read_entities(std::istream& is, Polygons& polys, Centers_and_radii& car)
     } else if(str == "CIRCLE"){
       Point_2 center;
       FT radius;
-      read_center_and_radius(is,center, radius);      
+      read_center_and_radius(is,center, radius);
       car.push_back(std::make_pair(center, radius));
     } else if(str == "ENDSEC"){
-      
+
     } else {
-      std::cerr << "unknown entity" << std::endl;
-      std::exit(0);
+      CGAL_error_msg( "unknown entity" );
     }
   } while(str != "ENDSEC");
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "EOF");
+  CGAL_assertion(str == "EOF");
 }
 
 public:

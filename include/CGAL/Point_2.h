@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Point_2.h $
-// $Id: Point_2.h 37197 2007-03-17 18:29:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Point_2.h $
+// $Id: Point_2.h 43244 2008-05-21 13:48:05Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -30,6 +30,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/representation_tags.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,6 +47,10 @@ class Point_2 : public R_::Kernel_base::Point_2
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Point_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<0>  Feature_dimension;
+
   typedef RPoint_2 Rep;
   typedef typename R_::Cartesian_const_iterator_2 Cartesian_const_iterator;
 
@@ -72,12 +77,7 @@ public:
   {}
 
   template < typename T1, typename T2 >
-#ifdef __INTEL_COMPILER
-     Self
-#else
-  Point_2
-#endif
-         (const T1 &x, const T2 &y)
+  Point_2(const T1 &x, const T2 &y)
     : Rep(typename R::Construct_point_2()(Return_base_tag(), x, y))
   {}
 

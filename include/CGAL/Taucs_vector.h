@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
-// $Id: Taucs_vector.h 29081 2006-03-06 13:32:35Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
+// $Id: Taucs_vector.h 45070 2008-08-21 11:57:02Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -21,15 +21,13 @@
 #ifndef CGAL_TAUCS_VECTOR
 #define CGAL_TAUCS_VECTOR
 
-#include <cassert>
-
 CGAL_BEGIN_NAMESPACE
 
 
 /// The class Taucs_vector
 /// is a C++ wrapper around TAUCS' vector type, which is a simple array.
 ///
-/// Concept: Model of the SparseLinearAlgebraTraits_d::Vector concept.
+/// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d::Vector concept.
 
 template<class T>       // Tested with T = taucs_single or taucs_double
                         // May also work with T = taucs_dcomplex and taucs_scomplex
@@ -92,11 +90,11 @@ public:
     /// Preconditions:
     /// 0 <= i < dimension().
     T operator[](int i) const {
-        assert(i < m_dimension);
+        CGAL_precondition(i < m_dimension);
         return m_element[i];
     }
     T& operator[](int i) {
-        assert(i < m_dimension);
+        CGAL_precondition(i < m_dimension);
         return m_element[i];
     }
 

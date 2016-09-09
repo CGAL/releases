@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Point_set_2/include/CGAL/compare_vertices.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_2/include/CGAL/compare_vertices.h $
 // $Id: compare_vertices.h 30322 2006-04-14 15:07:17Z lsaboret $
 // 
 //

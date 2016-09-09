@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/gmpxx.h $
-// $Id: gmpxx.h 38995 2007-06-08 14:00:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/gmpxx.h $
+// $Id: gmpxx.h 44360 2008-07-23 14:36:49Z hoffmann $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -46,7 +46,6 @@
 #include <CGAL/mpz_class.h>
 #include <CGAL/mpq_class.h>
 #include <CGAL/gmpxx_coercion_traits.h>
-#include <CGAL/functional_base.h> // Unary_function, Binary_function
 
 CGAL_BEGIN_NAMESPACE
 

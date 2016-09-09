@@ -15,17 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
-// $Id: HyperplaneCd.h 36190 2007-02-11 22:38:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
+// $Id: HyperplaneCd.h 42940 2008-04-17 13:32:52Z spion $
 // 
-//
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_HYPERPLANECD_H
 #define CGAL_HYPERPLANECD_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 #define PointCd PointCd2
@@ -113,7 +111,7 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
 template <class ForwardIterator>
 HyperplaneCd(ForwardIterator first, ForwardIterator last, 
              const PointCd<FT,LA>& o,
-             Oriented_side side = Oriented_side(0))
+             Oriented_side side = ON_ORIENTED_BOUNDARY)
   : Base( Tuple(o.dimension()+1) ) 
 { construct_from_points(first,last,o,side); }
 
@@ -183,7 +181,7 @@ Oriented_side oriented_side(const PointCd<FT,LA>& p) const
 { 
   CGAL_assertion_msg(dimension()==p.dimension(), 
     "HyperplaneCd::oriented_side: dimensions do not agree."); 
-  return Oriented_side(CGAL_NTS sign(value_at(p)));
+  return CGAL_NTS sign(value_at(p));
 }
 
 bool has_on(const PointCd<FT,LA>& p) const 

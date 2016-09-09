@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/NT_converter.h $
-// $Id: NT_converter.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/NT_converter.h $
+// $Id: NT_converter.h 44360 2008-07-23 14:36:49Z hoffmann $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -21,7 +21,7 @@
 #ifndef CGAL_NT_CONVERTER_H
 #define CGAL_NT_CONVERTER_H
 
-#include <CGAL/functional_base.h>
+#include <functional>
 
 template <bool> class Interval_nt;
 

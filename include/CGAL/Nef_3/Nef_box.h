@@ -109,7 +109,7 @@ class Nef_box : public Box_intersection_d::Box_d< double, 3 > {
 	  extend( p, typename Is_extended_kernel<Kernel>::value_type());
 	}
       } else
-	CGAL_assertion_msg(0, "is facet first cycle a SHalfloop?");
+	CGAL_error_msg( "is facet first cycle a SHalfloop?");
 #endif
     }
   }
@@ -130,26 +130,27 @@ class Nef_box : public Box_intersection_d::Box_d< double, 3 > {
 
   Nef_box(Vertex_handle vin) : v(vin), type(VERTEX) {
   
-    if(!Const_decorator::is_standard(v->point()))
+    if(!Const_decorator::is_standard(v))
       init(true);
     else {
       init(false);
-      extend(v->point());
+      extend(v->point(), 
+	     typename Is_extended_kernel<Kernel>::value_type());
     }
   }
 
   Halffacet_handle get_halffacet() {
-    assert( type == FACET );
+    CGAL_assertion( type == FACET );
     return f;
   }
   
   Halfedge_handle get_halfedge() {
-    assert( type == EDGE );
+    CGAL_assertion( type == EDGE );
     return e;
   }
 
   Vertex_handle get_vertex() {
-    assert (type == VERTEX);
+    CGAL_assertion(type == VERTEX);
     return v;
   }
 };

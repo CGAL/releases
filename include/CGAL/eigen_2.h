@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/include/CGAL/eigen_2.h $
-// $Id: eigen_2.h 29570 2006-03-16 22:52:57Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/eigen_2.h $
+// $Id: eigen_2.h 42115 2008-02-11 11:44:08Z palliez $
 // 
 //
 // Author(s) : Pierre Alliez
@@ -48,7 +48,6 @@ namespace CGALi {
     FT b = matrix[1];
     FT c = matrix[2];
     FT p = c*c - 2*a*c + 4*b*b + a*a;
-
     CGAL_assertion(a >= 0.0 && c >= 0.0);
 
     // degenerate or isotropic case
@@ -66,31 +65,32 @@ namespace CGALi {
     {
       if(b == 0.0) 
       {
-        assert(a == 0 || c == 0.0);
-        eigen_values.first  = 1.0;
-        eigen_values.second = 0.0;
-        if(a == 0)
-        {
-          eigen_vectors.first  = Vector((FT)0.0, (FT)1.0);
-          eigen_vectors.second  = Vector((FT)1.0, (FT)0.0);
-        }
-        else
-        {
-          eigen_vectors.first  = Vector((FT)1.0, (FT)0.0);
-          eigen_vectors.second  = Vector((FT)0.0, (FT)1.0);
-        }
+	if(a>=c) 
+	{
+	  eigen_values.first  = a;
+	  eigen_values.second = c;
+	  eigen_vectors.first  = Vector((FT)1.0, (FT)0.0);
+	  eigen_vectors.second  = Vector((FT)0.0, (FT)1.0);
+	}
+	else
+	{
+	  eigen_values.first  = c;
+	  eigen_values.second = a;
+	  eigen_vectors.first  = Vector((FT)0.0, (FT)1.0);
+	  eigen_vectors.second  = Vector((FT)1.0, (FT)0.0);
+	}
       }
       else // generic case
       {
-        FT l1 = (FT)(0.5 * ( -std::sqrt(p) + c + a));
-        FT l2 = (FT)(0.5 * (  std::sqrt(p) + c + a));
+        FT l1 = (FT)(0.5 * ( -1*std::sqrt(p) + c + a));
+        FT l2 = (FT)(0.5 * (    std::sqrt(p) + c + a));
 
         // all eigen values of a symmetric positive
         // definite matrix must be real and positive
         // we saturate the values if this is not the 
         // case for floating point computations.
-        l1 = (l1 < 0.0) ? 0.0 : l1;
-        l2 = (l2 < 0.0) ? 0.0 : l2;
+        l1 = (l1 < (FT)0.0) ? (FT)0.0 : l1;
+        l2 = (l2 < (FT)0.0) ? (FT)0.0 : l2;
 
         // sort eigen values and vectors in descendent order.
         if(l1 >= l2)

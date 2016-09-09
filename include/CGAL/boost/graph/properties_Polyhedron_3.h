@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/BGL/include/CGAL/boost/graph/properties_Polyhedron_3.h $
-// $Id: properties_Polyhedron_3.h 37919 2007-04-04 12:18:20Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/BGL/include/CGAL/boost/graph/properties_Polyhedron_3.h $
+// $Id: properties_Polyhedron_3.h 42705 2008-04-01 16:15:55Z fcacciola $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -107,13 +107,20 @@ public:
   typedef typename boost::graph_traits<Polyhedron const>::edge_descriptor key_type;
 
   Polyhedron_edge_index_map_external( Polyhedron const& p) 
-    : map( p.halfedges_begin(),p.halfedges_end(),0,std::size_t(-1),p.size_of_halfedges() )
+    : map( remove_const(p).halfedges_begin()
+         , remove_const(p).halfedges_end()
+         , 0
+         , std::size_t(-1)
+         , p.size_of_halfedges() 
+         )
   {}
 
   reference operator[](key_type const& e) const { return map[e]; }
   
 private:
 
+  static Polyhedron& remove_const ( Polyhedron const& p ) { return const_cast<Polyhedron&>(p) ; }
+  
   CGAL::Unique_hash_map<key_type,std::size_t> map ;
 };
 
@@ -196,13 +203,20 @@ public:
   typedef typename boost::graph_traits<Polyhedron const>::vertex_descriptor key_type;
 
   Polyhedron_vertex_index_map_external( Polyhedron const& p) 
-    : map( p.vertices_begin(),p.vertices_end(),0,std::size_t(-1),p.size_of_vertices() )
+    : map( remove_const(p).vertices_begin()
+         , remove_const(p).vertices_end()
+         , 0
+         , std::size_t(-1)
+         , p.size_of_vertices() 
+         )
   {}
 
   reference operator[](key_type const& v) const { return map[v]; }
   
 private:
 
+  static Polyhedron& remove_const ( Polyhedron const& p ) { return const_cast<Polyhedron&>(p) ; }
+  
   CGAL::Unique_hash_map<key_type,std::size_t> map ;
 };
 
@@ -362,10 +376,7 @@ template<class Gt, class I, CGAL_HDS_PARAM_, class A, class Tag>
 struct property_map<CGAL::Polyhedron_3<Gt,I,HDS,A>, Tag> 
 {
   typedef typename CGAL::Polyhedron_property_map<Tag>::
-#ifndef CGAL_CFG_DEEP_DEPENDENT_TEMPLATE_BUG
-      template
-#endif
-      bind_<Gt,I,HDS,A> map_gen;
+      template bind_<Gt,I,HDS,A> map_gen;
   typedef typename map_gen::type       type;
   typedef typename map_gen::const_type const_type;
 };

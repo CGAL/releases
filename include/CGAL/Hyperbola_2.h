@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Hyperbola_2.h $
-// $Id: Hyperbola_2.h 29297 2006-03-09 16:36:12Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Hyperbola_2.h $
+// $Id: Hyperbola_2.h 45459 2008-09-09 22:29:51Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -159,7 +159,7 @@ protected:
   bool right(const Point_2& p) const
   {
     return
-      CGAL::is_negative( det3x3_by_formula<FT>(f1.x(), f1.y(), 1,
+      CGAL::is_negative( determinant<FT>(f1.x(), f1.y(), 1,
 					       f2.x(), f2.y(), 1,
 					       p.x(),   p.y(), 1) );
   }
@@ -212,7 +212,6 @@ public:
   }
 
 
-#if defined CGAL_USE_QT
   template<class QTWIDGET>
   void generate_points_qt(const QTWIDGET& W,
 			  std::vector<Point_2>& pleft,
@@ -262,7 +261,6 @@ public:
 	W << Segment_2(pright[i], pright[i+1]);
       }
     }
-#endif
 
   void generate_points(std::vector<Point_2>& pleft,
 		       std::vector<Point_2>& pright) const

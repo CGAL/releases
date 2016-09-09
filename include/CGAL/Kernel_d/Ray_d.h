@@ -15,17 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
-// $Id: Ray_d.h 35126 2006-11-10 13:36:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
+// $Id: Ray_d.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_RAY_D_H
 #define CGAL_RAY_D_H
 
 #include <CGAL/Kernel_d/Pair_d.h>
 #include <CGAL/Kernel_d/Segment_d.h> 
 #include <CGAL/Kernel_d/Line_d.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -51,6 +53,10 @@ Euclidian space. It starts in a point called the source of |\Mvar| and
 it goes to infinity.}*/
 
 public: 
+
+  typedef CGAL::Dynamic_dimension_tag Ambient_dimension;
+  typedef CGAL::Dimension_tag<1>      Feature_dimension;
+
 /*{\Mtypes 4}*/
 typedef p_R R;
 /*{\Mtypemember the representation type.}*/

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
-// $Id: Oriented_side_of_bisector_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
+// $Id: Oriented_side_of_bisector_C2.h 45094 2008-08-22 16:10:06Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -296,15 +296,12 @@ private:
       r = compare_distances_ss(t1, t2, q);
     }
 
-    if ( r == LARGER ) { return ON_NEGATIVE_SIDE; }
-    if ( r == SMALLER ) { return ON_POSITIVE_SIDE; }
-    return ON_ORIENTED_BOUNDARY;
+    return -r;
   }
 
 public:
   typedef Oriented_side              result_type;
   typedef Site_2                     argument_type;
-  typedef Arity_tag<3>               Arity;
 
 
   Oriented_side

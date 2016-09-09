@@ -15,13 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Point_d.h $
-// $Id: Point_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Point_d.h $
+// $Id: Point_d.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_POINT_D_H
 #define CGAL_POINT_D_H
+
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -36,6 +39,9 @@ private:
   typedef typename R::FT FT;
   typedef typename R::LA LA;
 public:
+
+  typedef CGAL::Dynamic_dimension_tag Ambient_dimension;
+  typedef CGAL::Dimension_tag<0>      Feature_dimension;
 
   Point_d(int d=0) : Base(d) {}
   Point_d(int d, const Origin &o) : Base(d,o) {}

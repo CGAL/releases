@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
-// $Id: Bounding_box_2.h 37244 2007-03-19 08:25:43Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
+// $Id: Bounding_box_2.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -37,11 +37,11 @@ class Bounding_box_2 {
  public:
   template<typename Vertex_iterator>
     Bounding_box_2(Vertex_iterator , Vertex_iterator ) {
-    CGAL_assertion_msg(false, "dummy interface");
+    CGAL_error_msg( "dummy interface");
   }
   
   Point intersection_ray_bbox(const SPoint& , const SDirection& ) {
-    CGAL_assertion_msg(false, "dummy interface");
+    CGAL_error_msg( "dummy interface");
     return Point();
   }
 };
@@ -69,10 +69,8 @@ class Bounding_box_2<Tag_false,Kernel>
   
  public:
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Box::min_coord;
   using Box::max_coord;
-#endif
 
   template<typename Vertex_iterator>
     Bounding_box_2(Vertex_iterator begin, Vertex_iterator end) {
@@ -106,7 +104,7 @@ class Bounding_box_2<Tag_false,Kernel>
       Kernel K;
       return K.construct_point(minmax);
     }
-    CGAL_assertion_msg(false, "code not robust - l2 must be constructed to"
+    CGAL_error_msg( "code not robust - l2 must be constructed to"
 		       " be non-collinear with l1");
     return Point();
   }

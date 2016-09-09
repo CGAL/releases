@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Object_index.h $
-// $Id: Object_index.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/Object_index.h $
+// $Id: Object_index.h 41628 2008-01-14 23:08:43Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
-#ifndef OBJECT_INDEX_H
-#define OBJECT_INDEX_H
+#ifndef CGAL_NEF_2_OBJECT_INDEX_H
+#define CGAL_NEF_2_OBJECT_INDEX_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
@@ -54,8 +54,4 @@ public:
 
 CGAL_END_NAMESPACE
 
-#endif //OBJECT_INDEX_H
-
-
-
-
+#endif //CGAL_NEF_2_OBJECT_INDEX_H

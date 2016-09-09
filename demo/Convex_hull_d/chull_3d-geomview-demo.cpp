@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/demo/Convex_hull_d/chull_3d-geomview-demo.cpp $
-// $Id: chull_3d-geomview-demo.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/demo/Convex_hull_d/chull_3d-geomview-demo.cpp $
+// $Id: chull_3d-geomview-demo.cpp 41714 2008-01-20 20:24:20Z spion $
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -31,7 +31,7 @@
 #include <string>
 #include <cstdlib>
 
-#if !defined(__BORLANDC__) && !defined(_MSC_VER)
+#if !defined(_MSC_VER)
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_integer.h>

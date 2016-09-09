@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Kernel_profiler.h $
-// $Id: Kernel_profiler.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Kernel_profiler.h $
+// $Id: Kernel_profiler.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -34,7 +34,6 @@ struct Primitive_profiler
   : public P
 {
     typedef typename P::result_type  result_type;
-    typedef typename P::Arity        Arity;
 
 // #define CGAL_KERNEL_PROFILER CGAL_PROFILER(CGAL_PRETTY_FUNCTION);
 #define CGAL_KERNEL_PROFILER \

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_circular_arc_traits_2.h $
-// $Id: Arr_circular_arc_traits_2.h 38003 2007-04-10 09:57:05Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_circular_arc_traits_2.h $
+// $Id: Arr_circular_arc_traits_2.h 46083 2008-10-03 14:31:44Z ophirset $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -33,8 +33,8 @@
  */
 
 #include <CGAL/basic.h>
-#include <cassert>
-#include <CGAL/global_functions_on_circular_arcs_2.h>
+#include <CGAL/global_functions_circular_kernel_2.h>
+#include <CGAL/Arr_tags.h>
 
 namespace CGAL {
 
@@ -57,8 +57,7 @@ public:
 
   typedef CGAL::Tag_false                        Has_left_category;
   typedef CGAL::Tag_false 			 Has_merge_category;
-  typedef CGAL::Tag_false                        Has_infinite_category;
-  typedef CGAL::Tag_false                        Has_boundary_category;
+  typedef Arr_no_boundary_tag                    Boundary_category;
 
   Arr_circular_arc_traits_2(const CircularKernel &k = CircularKernel())
     : ck(k) {}

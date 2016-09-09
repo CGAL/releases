@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/leda_integer.h $
-// $Id: leda_integer.h 38448 2007-04-26 11:52:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/leda_integer.h $
+// $Id: leda_integer.h 46989 2008-11-23 14:08:51Z afabri $
 //
 //
 // Author(s)     : Andreas Fabri, Michael Hemmer
@@ -25,6 +25,8 @@
 #define CGAL_LEDA_INTEGER_H
 
 #include <CGAL/number_type_basic.h>
+
+#ifdef CGAL_USE_LEDA
 
 #include <utility>
 
@@ -40,6 +42,9 @@
 #include <LEDA/numbers/bigfloat.h>// for To_interval
 #endif
 
+#include <CGAL/Residue.h>
+#include <CGAL/Modular_traits.h>
+
 CGAL_BEGIN_NAMESPACE
 
 template <> class Algebraic_structure_traits< leda_integer >
@@ -53,7 +58,7 @@ template <> class Algebraic_structure_traits< leda_integer >
                                                                  Is_square;
 
     class Gcd
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Type > {
       public:
         Type operator()( const Type& x,
@@ -68,34 +73,68 @@ template <> class Algebraic_structure_traits< leda_integer >
         CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
     };
 
-    typedef INTERN_AST::Div_per_operator< Type > Div;
+    // Unfortunately the behaviour of leda has changed here several times
+    // The following Div_mod is invariant under these changes
+    // However, the Div and Mod defined below might be more efficient 
+    // TODO: recover Div Mod implementation for all leda versions
+    class Div_mod {
+    public: 
+        typedef Type first_argument_type;
+        typedef Type second_argument_type; 
+        typedef Type& third_argument_type; 
+        typedef Type& fourth_argument_type; 
+        typedef void result_type;
+        
+        void operator()(const Type& x, const Type& y, Type& q, Type& r) const {
+            
+            q = x / y;             
+            r = x - q*y;
+            CGAL_postcondition(x == y*q + r);  
+            
+            if (r == 0) return;   
+             
+            // round q towards zero 
+            if ( r.sign() != x.sign() ){
+                q -= x.sign();
+                r -= x.sign()*y;
+            }
 
-    class Mod
-      : public Binary_function< Type, Type,
-                                Type > {
-      public:
-        Type operator()( const Type& x,
-                                        const Type& y ) const {
-          Type m = x % y;
-
-#if CGAL_LEDA_VERSION < 520
-          // Fix wrong leda result
-          if( x < 0 && m != 0 )
-            m -= y;
-#else
-          // Fix another wrong leda result
-          // TODO: be careful for future improvements of LEDA
-          if( x < 0 && y > 0 && m != 0 )
-            m -= y;
-#endif
-          return m;
-        }
-
-        CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
+            CGAL_postcondition(x == y*q + r);            
+            CGAL_postcondition(r.sign() == x.sign());
+        }  
     };
+    // Div defined via base using Div_mod
+    // Mod defined via base using Div_mod
+
+    // This code results in an inconsisten div/mod for some leda versions 
+    // TODO: reactivate this code 
+
+//     typedef INTERN_AST::Div_per_operator< Type > Div;
+//     class Mod
+//       : public std::binary_function< Type, Type,
+//                                 Type > {
+//       public:
+//         Type operator()( const Type& x, const Type& y ) const {
+//           Type m = x % y;
+// #if CGAL_LEDA_VERSION < 520
+//           // Fix wrong leda result
+//           if( x < 0 && m != 0 )
+//             m -= y;
+// #elif CGAL_LEDA_VERSION < 600
+//           // Fix another wrong leda result
+//           if( x < 0 && y > 0 && m != 0 )
+//             m -= y;
+// #else
+//           // Do nothing, it seems to work now!
+//           // TODO: be careful for future improvements of LEDA
+// #endif
+//           return m;
+//         }
+//         CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
+//     };
 
     class Sqrt
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return CGAL_LEDA_SCOPE::sqrt( x );
@@ -104,19 +143,19 @@ template <> class Algebraic_structure_traits< leda_integer >
 };
 
 template <> class Real_embeddable_traits< leda_integer >
-  : public Real_embeddable_traits_base< leda_integer > {
+  : public INTERN_RET::Real_embeddable_traits_base< leda_integer , CGAL::Tag_true > {
   public:
-
+  
     class Abs
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
             return CGAL_LEDA_SCOPE::abs( x );
         }
     };
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
             return (::CGAL::Sign) CGAL_LEDA_SCOPE::sign( x );
@@ -124,7 +163,7 @@ template <> class Real_embeddable_traits< leda_integer >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
@@ -135,7 +174,7 @@ template <> class Real_embeddable_traits< leda_integer >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           return x.to_double();
@@ -143,31 +182,36 @@ template <> class Real_embeddable_traits< leda_integer >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
-        std::pair<double, double> operator()( const Type& x ) const {
+      std::pair<double, double> operator()( const Type& x ) const {
+        leda::bigfloat h(x);
+	double abs_err = 0;
+	double  low =h.to_double(abs_err, leda::TO_N_INF);
+	double high =h.to_double(abs_err, leda::TO_P_INF);
+	return std::make_pair(low,high);
+      }
+    };
+};
 
-          Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
-          double cn = CGAL_NTS to_double(x);
-          leda_integer pn = ( x>0 ? x : -x);
-          if ( pn.iszero() || log(pn) < 53 )
-              return CGAL_NTS to_interval(cn);
-          else {
-            FPU_set_cw(CGAL_FE_UPWARD);
-            Interval_nt_advanced ina(cn);
-            ina += Interval_nt_advanced::smallest();
-            return ina.pair();
-          }
+template<>
+class Modular_traits< ::leda::integer > {
+    typedef Residue MOD;
+ public:
+    typedef ::leda::integer NT;
+    typedef ::CGAL::Tag_true Is_modularizable;
+    typedef MOD Residue_type;
 
-/*        CGAL_LEDA_SCOPE::bigfloat h(x);
-          CGAL_LEDA_SCOPE::bigfloat low =
-                        CGAL_LEDA_SCOPE::round(h,53,CGAL_LEDA_SCOPE::TO_N_INF);
-          CGAL_LEDA_SCOPE::bigfloat high =
-                        CGAL_LEDA_SCOPE::round(h,53,CGAL_LEDA_SCOPE::TO_P_INF);
-          return Double_interval(low.to_double(), high.to_double());
-        }*/
+    struct Modular_image{
+        Residue_type operator()(const NT& a){
+            return Residue_type ((a%NT(MOD::get_current_prime())).to_long());
         }
     };
+    struct Modular_image_representative{
+        NT operator()(const Residue_type& x){
+            return NT(x.get_value());
+        }
+    };    
 };
 
 //
@@ -203,6 +247,25 @@ struct Split_double<leda_integer>
   }
 };
 
+// Benchmark_rep specialization 
+template<>
+class Benchmark_rep< leda_integer > {
+    const leda_integer& t;
+public:
+    //! initialize with a const reference to \a t.
+    Benchmark_rep( const leda_integer& tt) : t(tt) {}
+    //! perform the output, calls \c operator\<\< by default.
+    std::ostream& operator()( std::ostream& out) const { 
+            out << t;
+            return out;
+    }
+    
+    static std::string get_benchmark_name() {
+        return "Integer";
+    }
+};
+
+
 CGAL_END_NAMESPACE
 
 // Unary + is missing for leda::integer
@@ -215,5 +278,7 @@ namespace leda {
 #include <CGAL/leda_rational.h>
 #include <CGAL/leda_bigfloat.h>
 #include <CGAL/leda_real.h>
+
+#endif // CGAL_USE_LEDA
 
 #endif // CGAL_LEDA_INTEGER_H

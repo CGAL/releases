@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/RayH3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/RayH3.h $
 // $Id: RayH3.h 33066 2006-08-06 15:45:55Z spion $
 // 
 //

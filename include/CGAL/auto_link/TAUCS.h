@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/auto_link/TAUCS.h $
-// $Id: TAUCS.h 39879 2007-08-16 14:38:06Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/TAUCS.h $
+// $Id: TAUCS.h 40086 2007-08-28 15:15:06Z lsaboret $
 //
 // Author(s)     : Laurent Saboret
 

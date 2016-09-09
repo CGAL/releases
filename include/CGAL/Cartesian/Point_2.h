@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
-// $Id: Point_2.h 33152 2006-08-08 15:38:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
+// $Id: Point_2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -25,10 +25,6 @@
 #define CGAL_CARTESIAN_POINT_2_H
 
 #include <CGAL/Origin.h>
-#include <CGAL/Bbox_2.h>
-#include <CGAL/Twotuple.h>
-#include <CGAL/Handle_for.h>
-#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -40,76 +36,64 @@ class PointC2
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Point_2              Point_2;
 
-  typedef Twotuple<FT>	                           Rep;
-  typedef typename R_::template Handle<Rep>::type  Base;
-
-  Base base;
+  // We do not use reference counting here as it is done at the Vector_2 level.
+  Vector_2 base;
 
 public:
 
-  typedef const FT* Cartesian_const_iterator;
+  typedef typename Vector_2::Cartesian_const_iterator Cartesian_const_iterator;
   
-  typedef R_                                     R;
+  typedef R_                                R;
 
   PointC2() {}
 
   PointC2(const Origin &)
-    : base(FT(0), FT(0)) {}
+    : base(NULL_VECTOR) {}
 
   PointC2(const FT &x, const FT &y)
     : base(x, y) {}
 
   PointC2(const FT &hx, const FT &hy, const FT &hw)
-  {
-    if (hw != FT(1))
-      base = Rep(hx/hw, hy/hw);
-    else
-      base = Rep(hx, hy);
-  }
+    : base(hx, hy, hw) {}
 
   const FT& x() const
   {
-      return get(base).e0;
+      return base.x();
   }
   
   const FT& y() const
   {
-      return get(base).e1;
+      return base.y();
   }
 
   const FT& hx() const
   {
-      return x();
+      return base.hx();
   }
   const FT& hy() const
   {
-      return y();
+      return base.hy();
   }
   const FT& hw() const
   {
-      return constant<FT, 1>();
+      return base.hw();
   }
-
 
   Cartesian_const_iterator cartesian_begin() const 
   {
-    return & get(base).e0; 
+    return base.cartesian_begin(); 
   }
 
   Cartesian_const_iterator cartesian_end() const 
   {
-    const FT* ptr = & get(base).e1;
-    ptr++;
-    return ptr;
+    return base.cartesian_end(); 
   }
 
-  bool operator==(const PointC2 &p) const
+  typename R_::Boolean   operator==(const PointC2 &p) const
   {
-      if (CGAL::identical(base, p.base))
-	  return true;
-      return equal_xy(*this, p);
+      return base == p.base;
   }
-  bool operator!=(const PointC2 &p) const
+  typename R_::Boolean   operator!=(const PointC2 &p) const
   {
       return !(*this == p);
   }

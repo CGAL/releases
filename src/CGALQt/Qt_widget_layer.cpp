@@ -12,15 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/Qt_widget_layer.cpp $
-// $Id: Qt_widget_layer.cpp 38534 2007-05-04 13:32:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/src/CGALQt/Qt_widget_layer.cpp $
+// $Id: Qt_widget_layer.cpp 45380 2008-09-08 13:15:39Z lrineau $
 // 
 //
 // Author(s)     : Laurent Rineau and Radu Ursu
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget_layer.h>
 
@@ -69,4 +68,3 @@ namespace CGAL {
 
 #include "Qt_widget_layer.moc"
 
-#endif // CGAL_USE_QT

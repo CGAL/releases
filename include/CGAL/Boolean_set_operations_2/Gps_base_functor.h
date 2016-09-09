@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_base_functor.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_base_functor.h $
 // $Id: Gps_base_functor.h 37232 2007-03-19 07:21:47Z afabri $
 // 
 //

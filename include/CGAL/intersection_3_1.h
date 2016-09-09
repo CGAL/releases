@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_3/include/CGAL/intersection_3_1.h $
-// $Id: intersection_3_1.h 31285 2006-05-25 17:44:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/intersection_3_1.h $
+// $Id: intersection_3_1.h 45211 2008-08-29 14:33:12Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -228,6 +228,101 @@ template <class R>
 Object
 intersection(const Iso_cuboid_3<R> &box1,
 	     const Iso_cuboid_3<R> &box2) ;
+
+template <class R>
+Object
+intersection(const Line_3<R> &l1,
+             const Line_3<R> &l2);
+
+template <class R>
+Object
+intersection(const Sphere_3<R> &s1,
+             const Sphere_3<R> &s2);
+
+
+template <class R>
+Object
+intersection(const Plane_3<R> &p,
+             const Sphere_3<R> &s);
+
+template <class R>
+inline Object
+intersection(const Sphere_3<R> &s,
+             const Plane_3<R> &p) {
+  return intersection(p, s);
+}
+
+template <class R>
+bool
+do_intersect(const Line_3<R> &l1,
+             const Line_3<R> &l2);
+
+
+template <class R>
+bool
+do_intersect(const Sphere_3<R> &s1,
+             const Sphere_3<R> &s2);
+
+template <class R>
+bool
+do_intersect(const Plane_3<R> &p,
+             const Sphere_3<R> &s);
+
+template <class R>
+inline bool
+do_intersect(const Sphere_3<R> &s,
+             const Plane_3<R> &p) {
+  return do_intersect(p, s);
+}
+
+template <class R>
+inline bool
+do_intersect(const Iso_cuboid_3<R> &i, const Iso_cuboid_3<R> &j)
+{
+	return ! CGAL::intersection(i, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Line_3<R> &l, const Iso_cuboid_3<R> &j)
+{
+	return ! CGAL::intersection(l, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Iso_cuboid_3<R> &j, const Line_3<R> &l)
+{
+	return ! CGAL::intersection(l, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Ray_3<R> &r, const Iso_cuboid_3<R> &j)
+{
+	return ! CGAL::intersection(r, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Iso_cuboid_3<R> &j, const Ray_3<R> &r)
+{
+	return ! CGAL::intersection(r, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Segment_3<R> &s, const Iso_cuboid_3<R> &j)
+{
+	return ! CGAL::intersection(s, j).empty();
+}
+
+template <class R>
+inline bool
+do_intersect(const Iso_cuboid_3<R> &j, const Segment_3<R> &s)
+{
+	return ! CGAL::intersection(s, j).empty();
+}
 
 CGAL_END_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.h $
-// $Id: boolean_operations_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.h $
+// $Id: boolean_operations_2_toolbar.h 44050 2008-07-09 13:04:14Z guyzucke $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -48,15 +48,14 @@
 #include "typedefs.h"
 #include "Qt_widget_locate_layer.h"
 
-extern bool                                      red_active;
-extern Polygon_set                               red_set;
-extern Polygon_set                               blue_set;
+class MyWindow;
 
 class Tools_toolbar : public QToolBar
 {
   Q_OBJECT
 public:
-	Tools_toolbar(CGAL::Qt_widget *w, QMainWindow *mw);
+	//mw type was QMainWindow 
+	Tools_toolbar(CGAL::Qt_widget *w, MyWindow *mw);
   ~Tools_toolbar(){};
 
   void deactivate()
@@ -68,7 +67,7 @@ public:
 
   void reset()
   {
-    locatebut.reset();
+    locatebut->reset();
   }
 
 private:
@@ -78,7 +77,7 @@ private:
 
   CGAL::Qt_widget_get_circ_polygon<Kernel>     getsimplebut;
   CGAL::Qt_widget_get_circle<Kernel>           getcirclebut;
-  Qt_widget_locate_layer                       locatebut;
+  Qt_widget_locate_layer*                       locatebut;
 
 };//end class
 

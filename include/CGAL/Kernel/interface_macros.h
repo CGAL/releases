@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/interface_macros.h $
-// $Id: interface_macros.h 34893 2006-10-24 05:24:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/interface_macros.h $
+// $Id: interface_macros.h 46359 2008-10-20 14:44:37Z pmachado $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
@@ -62,7 +62,7 @@ CGAL_Kernel_obj(Triangle_3)
 CGAL_Kernel_obj(Tetrahedron_3)
 CGAL_Kernel_obj(Iso_cuboid_3)
 CGAL_Kernel_obj(Sphere_3)
-
+CGAL_Kernel_obj(Circle_3)
 
 
 CGAL_Kernel_pred(Angle_2,
@@ -115,6 +115,8 @@ CGAL_Kernel_pred(Compare_squared_distance_2,
 		 compare_squared_distance_2_object)
 CGAL_Kernel_pred(Compare_squared_distance_3,
 		 compare_squared_distance_3_object)
+CGAL_Kernel_pred(Compare_squared_radius_3,
+		 compare_squared_radius_3_object)
 CGAL_Kernel_pred(Compare_x_at_y_2,
 		 compare_x_at_y_2_object)
 CGAL_Kernel_pred(Compare_xyz_3,
@@ -151,10 +153,16 @@ CGAL_Kernel_cons(Compute_c_3,
 		 compute_c_3_object)
 CGAL_Kernel_cons(Compute_d_3,
 		 compute_d_3_object)
+CGAL_Kernel_cons(Compute_approximate_area_3,
+                 compute_approximate_area_3_object)
+CGAL_Kernel_cons(Compute_approximate_squared_length_3,
+                 compute_approximate_squared_length_3_object)
 CGAL_Kernel_cons(Compute_area_2,
 		 compute_area_2_object)
 CGAL_Kernel_cons(Compute_area_3,
 		 compute_area_3_object)
+CGAL_Kernel_cons(Compute_area_divided_by_pi_3,
+		 compute_area_divided_by_pi_3_object)
 CGAL_Kernel_cons(Compute_determinant_2,
 		 compute_determinant_2_object)
 CGAL_Kernel_cons(Compute_determinant_3,
@@ -173,6 +181,8 @@ CGAL_Kernel_cons(Compute_squared_length_2,
 		 compute_squared_length_2_object)
 CGAL_Kernel_cons(Compute_squared_length_3,
 		 compute_squared_length_3_object)
+CGAL_Kernel_cons(Compute_squared_length_divided_by_pi_square_3,
+                 compute_squared_length_divided_by_pi_square_3_object)
 CGAL_Kernel_cons(Compute_squared_radius_2,
 		 compute_squared_radius_2_object)
 CGAL_Kernel_cons(Compute_squared_radius_3,
@@ -237,6 +247,10 @@ CGAL_Kernel_cons(Compute_zmin_3,
 		 compute_zmin_3_object)
 CGAL_Kernel_cons(Compute_zmax_3,
 		 compute_zmax_3_object)
+CGAL_Kernel_cons(Construct_barycenter_2,
+		 construct_barycenter_2_object)
+CGAL_Kernel_cons(Construct_barycenter_3,
+		 construct_barycenter_3_object)
 CGAL_Kernel_cons(Construct_base_vector_3,
 		 construct_base_vector_3_object)
 CGAL_Kernel_cons(Construct_bisector_2,
@@ -253,6 +267,8 @@ CGAL_Kernel_cons(Construct_centroid_3,
 		 construct_centroid_3_object)
 CGAL_Kernel_cons(Construct_circle_2,
 		 construct_circle_2_object)
+CGAL_Kernel_cons(Construct_circle_3,
+		 construct_circle_3_object)
 CGAL_Kernel_cons(Construct_circumcenter_2,
 		 construct_circumcenter_2_object)
 CGAL_Kernel_cons(Construct_circumcenter_3,
@@ -287,6 +303,8 @@ CGAL_Kernel_cons(Construct_min_vertex_3,
                  construct_min_vertex_3_object)
 CGAL_Kernel_cons(Construct_max_vertex_3,
                  construct_max_vertex_3_object)
+CGAL_Kernel_cons(Construct_normal_3,
+                 construct_normal_3_object)
 CGAL_Kernel_cons(Construct_object_2,
                  construct_object_2_object)
 CGAL_Kernel_cons(Construct_object_3,
@@ -355,6 +373,10 @@ CGAL_Kernel_cons(Construct_projected_point_3,
 		 construct_projected_point_3_object)
 CGAL_Kernel_cons(Construct_projected_xy_point_2,
 		 construct_projected_xy_point_2_object)
+CGAL_Kernel_cons(Construct_radical_line_2,
+     construct_radical_line_2_object)		
+CGAL_Kernel_cons(Construct_radical_plane_3,
+                 construct_radical_plane_3_object)
 CGAL_Kernel_cons(Construct_ray_2,
 		 construct_ray_2_object)
 CGAL_Kernel_cons(Construct_ray_3,
@@ -381,12 +403,6 @@ CGAL_Kernel_cons(Construct_source_3,
 		 construct_source_3_object)
 CGAL_Kernel_cons(Construct_sphere_3,
 		 construct_sphere_3_object)
-#ifndef CGAL_NO_DEPRECATED_CODE
-CGAL_Kernel_cons(Construct_supporting_line_2,
-		 construct_supporting_line_2_object)
-CGAL_Kernel_cons(Construct_supporting_line_3,
-		 construct_supporting_line_3_object)
-#endif // CGAL_NO_DEPRECATED_CODE
 CGAL_Kernel_cons(Construct_supporting_plane_3,
 		 construct_supporting_plane_3_object)
 CGAL_Kernel_cons(Construct_target_2,
@@ -403,6 +419,8 @@ CGAL_Kernel_cons(Construct_triangle_2,
 		 construct_triangle_2_object)
 CGAL_Kernel_cons(Construct_triangle_3,
 		 construct_triangle_3_object)
+CGAL_Kernel_cons(Construct_unit_normal_3,
+                 construct_unit_normal_3_object)
 CGAL_Kernel_cons(Construct_vector_2,
 		 construct_vector_2_object)
 CGAL_Kernel_cons(Construct_vector_3,

@@ -11,27 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Largest_empty_rect_2/demo/Largest_empty_rect_2/largest_empty_rect_2.cpp $
-// $Id: largest_empty_rect_2.cpp 38494 2007-05-02 07:29:24Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Largest_empty_rect_2/demo/Largest_empty_rect_2/largest_empty_rect_2.cpp $
+// $Id: largest_empty_rect_2.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-int main(int, char*)
-{
-
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
-  return 0;
-}
-
-#else
 
 #include "cgal_types.h"
 
@@ -283,4 +270,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
-// $Id: Envelope_overlay_functor.h 37895 2007-04-03 18:32:55Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
+// $Id: Envelope_overlay_functor.h 40822 2007-11-07 16:51:18Z ameyer $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -374,7 +374,7 @@ protected:
     }
     else
       // this cannot happen, since we need to touch an edge
-      CGAL_assertion(false);
+      CGAL_error();
   }
 
   // update halfedge-target flags of new_h that is created inside face in_face

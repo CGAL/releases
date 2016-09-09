@@ -11,44 +11,24 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_base_2.h $
-// $Id: Traits_base_2.h 35201 2006-11-16 12:42:59Z hemmer $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Traits_base_2.h $
+// $Id: Traits_base_2.h 41433 2008-01-03 19:02:00Z spion $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
-
-
 
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_TRAITS_BASE_2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_TRAITS_BASE_2_H
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
-
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/Segment_Delaunay_graph_2/Predicates_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
-#endif
-
-
 #include <CGAL/Segment_Delaunay_graph_2/Kernel_wrapper_2.h>
-
 
 CGAL_BEGIN_NAMESPACE
 
 //-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
 // the Traits class
 //-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-
 
 template<class R, class MTag, class ITag>
 class Segment_Delaunay_graph_traits_base_2
@@ -253,7 +233,6 @@ public:
   }
 
 };
-
 
 CGAL_END_NAMESPACE
 

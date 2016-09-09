@@ -11,11 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_pm_dcel.h $
-// $Id: Envelope_pm_dcel.h 37895 2007-04-03 18:32:55Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Envelope_3/Envelope_pm_dcel.h $
+// $Id: Envelope_pm_dcel.h 44024 2008-07-08 09:03:04Z ophirset $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
+//                 Ron Wein               <wein@post.tau.ac.il>
+//                 Efi Fogel              <efif@post.tau.ac.il>
 
 #ifndef CGAL_ENVELOPE_PM_DCEL_H
 #define CGAL_ENVELOPE_PM_DCEL_H
@@ -49,7 +51,7 @@ protected:
   Dac_decision m_decision;
 public:
   /*! Constructor */
-  Dcel_info() : m_is_set(false), m_decision(NOT_SET)
+  Dcel_info() : m_is_set(false), m_decision(DAC_DECISION_NOT_SET)
   {}
 
   /*! \brief returns true iff data has been set already */
@@ -60,10 +62,10 @@ public:
 
   bool is_decision_set()
   {
-    return (m_decision != NOT_SET);
+    return (m_decision != DAC_DECISION_NOT_SET);
   }
   
-  Dac_decision get_decision()
+  Dac_decision get_decision() const
   {
     return m_decision;
   }                                                   
@@ -293,6 +295,10 @@ template <class Point_2, class Data>
 class Envelope_pm_vertex : public CGAL::Arr_vertex_base<Point_2>,
                            public Dcel_info<Data>
 {
+  typedef CGAL::Arr_vertex_base<Point_2>       Base_vertex;
+  typedef Dcel_info<Data>                      Base_info;
+  typedef Envelope_pm_vertex<Point_2, Data>    Self;
+
 protected:
   // all flags are bits in this variable:
   unsigned short flags;
@@ -376,6 +382,18 @@ public:
     return get_bit(HAS_EQUAL_AUX+id);
   }
 
+  /*! Assign from another vertex.
+   * \param v the other vertex.
+   */
+  virtual void assign(const Base_vertex & v)
+  {
+    Base_vertex::assign(v);
+
+    const Self & ex_v = static_cast<const Self&>(v);
+    this->Base_info::operator=(ex_v);
+    flags = ex_v.flags;
+  }
+  
 protected:
 
   void set_bit(unsigned int ind, bool b)
@@ -402,6 +420,10 @@ class
 Envelope_pm_halfedge : public CGAL::Arr_halfedge_base<X_monotone_curve_2>,
                        public Dcel_info<Data>
 {
+  typedef CGAL::Arr_halfedge_base<X_monotone_curve_2>     Base_halfedge;
+  typedef Dcel_info<Data>                                 Base_info;
+  typedef Envelope_pm_halfedge<X_monotone_curve_2, Data>  Self;
+
 protected:
 
   // all flags are bits in this variable:
@@ -542,6 +564,18 @@ public:
     return get_bit(HAS_EQUAL_AUX_F_T+id);
   }
 
+  /*! Assign from another halfedge.
+   * \param h the other halfedge.
+   */
+  virtual void assign(const Base_halfedge & h)
+  {
+    Base_halfedge::assign(h);
+
+    const Self & ex_h = static_cast<const Self&>(h);
+    this->Base_info::operator=(ex_h);
+    flags = ex_h.flags;
+  }
+
 protected:
   void set_bit(unsigned int ind, bool b)
   {
@@ -568,6 +602,10 @@ template <class Data>
 class Envelope_pm_face : public CGAL::Arr_face_base,
                          public Dcel_info<Data>
 {
+  typedef CGAL::Arr_face_base       Base_face;
+  typedef Dcel_info<Data>           Base_info;
+  typedef Envelope_pm_face<Data>    Self;
+
 public:
   typedef std::list<Data>                         Data_container;
   typedef typename Data_container::iterator       Data_iterator;
@@ -576,13 +614,23 @@ public:
   /*! Constructor */
   Envelope_pm_face() : Dcel_info<Data>()
   {}  
+
+  /*! Assign from another face.
+   * \param f the other face.
+   */
+  virtual void assign (const Base_face & f)
+  {
+    Base_face::assign(f);
+
+    const Self & ex_f = static_cast<const Self&>(f);
+    this->Base_info::operator=(ex_f);
+  }
 };
 
 /*! A new dcel builder with full Envelope features */
 template <class Traits, class Data>
 class Envelope_pm_dcel : public
-CGAL::Arr_dcel_base<Envelope_pm_vertex<typename Traits::Point_2,
-                                       Data>,
+CGAL::Arr_dcel_base<Envelope_pm_vertex<typename Traits::Point_2, Data>,
                     Envelope_pm_halfedge<typename Traits::X_monotone_curve_2,
                                          Data>,
                     Envelope_pm_face<Data> >

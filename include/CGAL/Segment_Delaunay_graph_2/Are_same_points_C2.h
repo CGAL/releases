@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h $
-// $Id: Are_same_points_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h $
+// $Id: Are_same_points_C2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -36,19 +36,20 @@ private:
   typedef typename K::Site_2      Site_2;
   typedef typename K::Compare_x_2 Compare_x_2;
   typedef typename K::Compare_y_2 Compare_y_2;
+  typedef typename K::Boolean     Boolean;
 
   typedef typename K::Intersections_tag  ITag;
 
   Compare_x_2 compare_x_2;
   Compare_y_2 compare_y_2;
 
-  bool are_same(const Point_2& p, const Point_2& q) const
+  Boolean   are_same(const Point_2& p, const Point_2& q) const
   {
     return
       compare_x_2(p, q) == EQUAL && compare_y_2(p, q) == EQUAL;
   }
 
-  bool are_same(const Site_2& s, const Site_2& t) const
+  Boolean   are_same(const Site_2& s, const Site_2& t) const
   {
     return
       ( are_same(s.source(), t.source()) &&
@@ -57,12 +58,12 @@ private:
 	are_same(s.target(), t.source()) );
   }
 
-  bool predicate(const Site_2& p, const Site_2& q, const Tag_false&) const
+  Boolean   predicate(const Site_2& p, const Site_2& q, const Tag_false&) const
   {
     return are_same(p.point(), q.point()); 
   }
 
-  bool predicate(const Site_2& p, const Site_2& q, const Tag_true&) const
+  Boolean   predicate(const Site_2& p, const Site_2& q, const Tag_true&) const
   {
     if ( !p.is_input() && !q.is_input() ) {
       Site_2 s[2] = { p.supporting_site(0), p.supporting_site(1) };
@@ -78,11 +79,10 @@ private:
   }
 
 public:
-  typedef bool           result_type;
+  typedef Boolean        result_type;
   typedef Site_2         argument_type;
-  typedef Arity_tag<2>   Arity;
 
-  bool operator()(const Site_2& p, const Site_2& q) const
+  Boolean   operator()(const Site_2& p, const Site_2& q) const
   {
     CGAL_precondition( p.is_point() && q.is_point() );
 

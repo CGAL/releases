@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_segment_traits_2.h $
-// $Id: Arr_segment_traits_2.h 37513 2007-03-26 17:14:23Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_segment_traits_2.h $
+// $Id: Arr_segment_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,9 +25,9 @@
  */
 
 #include <CGAL/tags.h>
-#include <CGAL/representation_tags.h>
 #include <CGAL/intersections.h>
-#include <CGAL/Arr_traits_2/Segment_assertions.h>
+#include <CGAL/Arr_tags.h>
+#include <CGAL/Arr_geometry_traits/Segment_assertions.h>
 #include <fstream>
 
 CGAL_BEGIN_NAMESPACE
@@ -56,11 +56,11 @@ public:
 
   typedef typename Algebraic_structure_traits<FT>::Is_exact 
                                           Has_exact_division;
-    
+
   // Category tags:
   typedef Tag_true                        Has_left_category;
   typedef Tag_true                        Has_merge_category;
-  typedef Tag_false                       Has_boundary_category;
+  typedef Arr_no_boundary_tag             Boundary_category;
 
   typedef typename Kernel::Line_2         Line_2;
   typedef CGAL::Segment_assertions<Arr_segment_traits_2<Kernel> >
@@ -100,6 +100,7 @@ public:
     /*!
      * Constructor from a segment.
      * \param seg The segment.
+     * \pre The segment is not degenerate.
      */
     _Segment_cached_2 (const Segment_2& seg)
     {
@@ -115,17 +116,18 @@ public:
       is_degen = (res == EQUAL);
       is_pt_max = (res == SMALLER);
 
-      if (! is_degen)
-      {
-        l = kernel.construct_line_2_object()(seg);
-        is_vert = kernel.is_vertical_2_object()(seg);
-      }
+      CGAL_precondition_msg (! is_degen,
+                             "Cannot contruct a degenerate segment.");
+
+      l = kernel.construct_line_2_object()(seg);
+      is_vert = kernel.is_vertical_2_object()(seg);
     }
 
     /*!
      * Construct a segment from two end-points.
      * \param source The source point.
      * \param target The target point.
+     * \param The two points must not be equal.
      */
     _Segment_cached_2 (const Point_2& source, const Point_2& target) :
       ps (source),
@@ -137,11 +139,11 @@ public:
       is_degen = (res == EQUAL);
       is_pt_max = (res == SMALLER);
 
-      if (! is_degen)
-      {
-        l = kernel.construct_line_2_object()(source, target);
-        is_vert = kernel.is_vertical_2_object()(l);
-      }
+      CGAL_precondition_msg (! is_degen,
+                             "Cannot contruct a degenerate segment.");
+
+      l = kernel.construct_line_2_object()(source, target);
+      is_vert = kernel.is_vertical_2_object()(l);
     }
 
     /*!
@@ -169,14 +171,17 @@ public:
       is_vert = kernel.is_vertical_2_object()(l);
 
       Comparison_result  res = kernel.compare_xy_2_object()(ps, pt);
-      CGAL_precondition (res != EQUAL);
-      is_degen = false;
+      is_degen = (res == EQUAL);
       is_pt_max = (res == SMALLER);
+
+      CGAL_precondition_msg (! is_degen,
+                             "Cannot contruct a degenerate segment.");
     }
 
     /*!
      * Assignment operator.
      * \param seg the source segment to copy from
+     * \pre The segment is not degenerate.
      */
     const _Segment_cached_2& operator= (const Segment_2& seg)
     {
@@ -192,11 +197,11 @@ public:
       is_degen = (res == EQUAL);
       is_pt_max = (res == SMALLER);
 
-      if (! is_degen)
-      {
-        l = kernel.construct_line_2_object()(seg);
-        is_vert = kernel.is_vertical_2_object()(seg);
-      }
+      CGAL_precondition_msg (! is_degen,
+                             "Cannot contruct a degenerate segment.");
+
+      l = kernel.construct_line_2_object()(seg);
+      is_vert = kernel.is_vertical_2_object()(seg);
 
       return (*this);
     }
@@ -280,14 +285,6 @@ public:
     }
 
     /*!
-     * Check if the curve is degenerate.
-     */
-    bool is_degenerate () const
-    {
-      return (is_degen);
-    }
-
-    /*!
      * Check if the curve is directed lexicographic from left to right
      */
     bool is_directed_right () const
@@ -295,7 +292,6 @@ public:
       return (is_pt_max);
     }
 
-    
     /*!
      * Check if the given point is in the x-range of the segment.
      * \param p The query point.
@@ -345,6 +341,7 @@ public:
   typedef typename Kernel::Point_2        Point_2;
   typedef Arr_segment_2<Kernel>           X_monotone_curve_2;
   typedef Arr_segment_2<Kernel>           Curve_2;
+  typedef unsigned int                    Multiplicity;
 
 public:
 
@@ -456,7 +453,6 @@ public:
      */
     bool operator() (const X_monotone_curve_2& cv) const
     {
-      CGAL_precondition (! cv.is_degenerate());
       return (cv.is_vertical());
     }
   };
@@ -482,7 +478,6 @@ public:
     Comparison_result operator() (const Point_2& p,
                                   const X_monotone_curve_2& cv) const
     {
-      CGAL_precondition (! cv.is_degenerate());
       CGAL_precondition (cv.is_in_x_range (p));
 
       Kernel    kernel;
@@ -529,12 +524,8 @@ public:
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
                                   const X_monotone_curve_2& cv2,
-                                  const Point_2& CGAL_precondition_code(p) )
-      const
+                                  const Point_2& p) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       Kernel                        kernel;
 
       // Make sure that p lies on both curves, and that both are defined to its
@@ -584,12 +575,8 @@ public:
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
                                   const X_monotone_curve_2& cv2,
-                                  const Point_2& CGAL_precondition_code(p) )
-      const
+                                  const Point_2& p) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       Kernel                        kernel;
 
       // Make sure that p lies on both curves, and that both are defined to its
@@ -633,9 +620,6 @@ public:
     bool operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       Kernel                    kernel;
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
@@ -674,24 +658,14 @@ public:
      * given output iterator. As segments are always x_monotone, only one
      * object will be contained in the iterator.
      * \param cv The curve.
-     * \param oi The output iterator, whose value-type is Object. The output
-     *           object is a wrapper of either an X_monotone_curve_2, or - in
-     *           case the input segment is degenerate - a Point_2 object.
+     * \param oi The output iterator, whose value-type is Object.
      * \return The past-the-end iterator.
      */
     template<class OutputIterator>
     OutputIterator operator() (const Curve_2& cv, OutputIterator oi) const
     {
-      if (! cv.is_degenerate())
-      {
-        // Wrap the segment with an object.
-        *oi = make_object (cv);
-      }
-      else
-      {
-        // The segment is a degenerate point - wrap it with an object.
-        *oi = make_object (cv.right());
-      }
+      // Wrap the segment with an object.
+      *oi = make_object (cv);
       ++oi;
       return (oi);
     }
@@ -717,8 +691,6 @@ public:
     void operator() (const X_monotone_curve_2& cv, const Point_2& p,
                      X_monotone_curve_2& c1, X_monotone_curve_2& c2) const
     {
-      CGAL_precondition (! cv.is_degenerate());
-
       // Make sure that p lies on the interior of the curve.
       CGAL_precondition_code (
         Kernel                        kernel;
@@ -766,9 +738,6 @@ public:
                                const X_monotone_curve_2& cv2,
                                OutputIterator oi) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       // Intersect the two supporting lines.
       Kernel       kernel;
       CGAL::Object obj = kernel.intersect_2_object()(cv1.line(), cv2.line());
@@ -797,7 +766,7 @@ public:
           {
             // Create a pair representing the point with its multiplicity,
             // which is always 1 for line segments.
-            std::pair<Point_2, unsigned int>   ip_mult (*ip, 1);
+            std::pair<Point_2, Multiplicity>   ip_mult (*ip, 1);
             *oi = make_object (ip_mult);
             oi++;
           }
@@ -859,7 +828,7 @@ public:
         // The two segment have the same supporting line, but they just share
         // a common endpoint. Thus we have an intersection point, but we leave
         // the multiplicity of this point undefined.
-        std::pair<Point_2, unsigned int>   ip_mult (p_r, 0);
+        std::pair<Point_2, Multiplicity>   ip_mult (p_r, 0);
         *oi = make_object (ip_mult);
         oi++;
       }
@@ -887,9 +856,6 @@ public:
     bool operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       Kernel                    kernel;
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
@@ -928,9 +894,6 @@ public:
                      const X_monotone_curve_2& cv2,
                      X_monotone_curve_2& c) const
     {
-      CGAL_precondition (! cv1.is_degenerate());
-      CGAL_precondition (! cv2.is_degenerate());
-
       Kernel                    kernel;
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
@@ -1105,6 +1068,7 @@ public:
   /*!
    * Constructor from a "kernel" segment.
    * \param seg The segment.
+   * \pre The segment is not degenerate.
    */
   Arr_segment_2 (const Segment_2& seg) :
     Base(seg)
@@ -1114,6 +1078,7 @@ public:
    * Construct a segment from two end-points.
    * \param source The source point.
    * \param target The target point.
+   * \pre The two points are not the same.
    */
   Arr_segment_2 (const Point_2& source, const Point_2& target) :
     Base(source,target)
@@ -1125,6 +1090,7 @@ public:
    * \param source The source point.
    * \param target The target point.
    * \pre Both source and target must be on the supporting line.
+   * \pre The two points are not the same.
    */
   Arr_segment_2 (const Line_2& line,
                  const Point_2& source, const Point_2& target) :
@@ -1167,7 +1133,7 @@ public:
     return (this->pt);
   }
 
-  /*! Flip the segment (swap it source and target). */
+  /*! Flip the segment (swap its source and target). */
   Arr_segment_2 flip () const
   {
     Arr_segment_2   opp;

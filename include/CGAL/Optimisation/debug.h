@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation/debug.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Optimisation_basic/include/CGAL/Optimisation/debug.h $
 // $Id: debug.h 28567 2006-02-16 14:30:13Z lsaboret $
 // 
 //

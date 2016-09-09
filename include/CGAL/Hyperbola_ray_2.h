@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Hyperbola_ray_2.h $
-// $Id: Hyperbola_ray_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Hyperbola_ray_2.h $
+// $Id: Hyperbola_ray_2.h 45459 2008-09-09 22:29:51Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -89,7 +89,6 @@ public:
   }
 
 
-#ifdef CGAL_USE_QT
   template<class QTWIDGET>
   void draw_qt(QTWIDGET& s)
   {
@@ -116,7 +115,6 @@ public:
     
     Hyperbola_segment_2< Gt >::draw(s);
   }
-#endif
 
   template< class Stream >
   inline

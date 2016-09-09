@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
 // $Id: partition_optimal_convex_2.h 37992 2007-04-07 09:39:45Z efif $
 // 
 //

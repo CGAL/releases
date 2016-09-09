@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Site_accessors.h $
-// $Id: Site_accessors.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Site_accessors.h $
+// $Id: Site_accessors.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -55,7 +55,6 @@ struct Site_accessor
 {
   typedef typename Const_ref_chooser<S,Use_const_ref>::Type  result_type;
   typedef typename DG::Vertex_handle                         Vertex_handle;
-  typedef Arity_tag<1>                                       Arity;
 
   result_type operator()(const Vertex_handle& v) const {
     return v->site();
@@ -69,7 +68,6 @@ struct Point_accessor
 {
   typedef typename Const_ref_chooser<P,Use_const_ref>::Type  result_type;
   typedef typename DG::Vertex_handle                         Vertex_handle;
-  typedef Arity_tag<1>                                       Arity;
 
   result_type operator()(const Vertex_handle& v) const {
     return v->point();

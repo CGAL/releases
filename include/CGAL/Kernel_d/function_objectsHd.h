@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/function_objectsHd.h $
-// $Id: function_objectsHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/function_objectsHd.h $
+// $Id: function_objectsHd.h 42940 2008-04-17 13:32:52Z spion $
 // 
 //
 // Author(s)     : Michael Seel
@@ -30,10 +30,8 @@
 #ifndef CGAL_FUNCTION_OBJECTSHD_H
 #define CGAL_FUNCTION_OBJECTSHD_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/enum.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -239,7 +237,7 @@ Oriented_side operator()(ForwardIterator first, ForwardIterator last,
     Sum += hj*hj; 
   }
   M(d,d) = Sum; 
-  return Oriented_side( - LA::sign_of_determinant(M) );
+  return CGAL::Sign(- LA::sign_of_determinant(M));
 }
 };
 

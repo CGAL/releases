@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
-// $Id: Gps_polygon_validation.h 37148 2007-03-16 09:01:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
+// $Id: Gps_polygon_validation.h 45435 2008-09-09 12:55:51Z guyzucke $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -24,7 +24,7 @@
 #include <CGAL/Sweep_line_2.h>
 #include <CGAL/Sweep_line_2/Sweep_line_event.h>
 #include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
-#include <CGAL/Sweep_line_2_empty_visitor.h>
+#include <CGAL/Sweep_line_empty_visitor.h>
 #include <CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -34,7 +34,9 @@ CGAL_BEGIN_NAMESPACE
  * non-intersecting.
  */
 template <class ArrTraits_>
-class Gps_polygon_validation_visitor : public Empty_visitor<ArrTraits_>
+
+class Gps_polygon_validation_visitor : 
+    public Sweep_line_empty_visitor<ArrTraits_>
 {
 private:
 
@@ -44,10 +46,10 @@ private:
   typedef typename Traits_2::X_monotone_curve_2        X_monotone_curve_2;
   typedef typename Traits_2::Point_2                   Point_2;
 
-  typedef Empty_visitor<Traits_2>                      Base;
+  typedef Sweep_line_empty_visitor<Traits_2>           Base;
   typedef typename Base::Event                         Event;
   typedef typename Base::Subcurve                      Subcurve;
-  typedef typename Base::SL_iterator                   SL_iterator;
+  typedef typename Base::Status_line_iterator          SL_iterator;
 
   typedef Basic_sweep_line_2<Traits_2, Self>           Sweep_line;
 
@@ -76,12 +78,16 @@ public:
       reinterpret_cast<Sweep_line*>(this->m_sweep_line) -> stop_sweep();
     }
     else
-      if(m_is_s_simple && 
-         (event->get_num_right_curves() + event->get_num_left_curves()) != 2)
+    {
+      if (m_is_s_simple && 
+          (event->number_of_right_curves() +
+           event->number_of_left_curves()) != 2)
       {
          m_is_valid = false;
          reinterpret_cast<Sweep_line*>(this->m_sweep_line) -> stop_sweep();
       }
+    }
+
     return (true);
   }
 
@@ -116,6 +122,8 @@ private:
   typedef typename Traits_2::X_monotone_curve_2     X_monotone_curve_2;
   typedef typename Traits_2::Polygon_2              Polygon_2;
   typedef typename Traits_2::Polygon_with_holes_2   Polygon_with_holes_2;
+  typedef typename Polygon_with_holes_2::Hole_const_iterator
+  																	 Hole_const_iterator;
   typedef typename Traits_2::Curve_const_iterator   Curve_const_iterator;
   typedef std::pair<Curve_const_iterator,
                     Curve_const_iterator>           Cci_pair;
@@ -245,14 +253,15 @@ protected:
 
   bool _is_closed (const Polygon_with_holes_2& pgn)
   {
-    Traits_2 tr;
+    Traits_2 traits;
 
-    if(! _is_closed (pgn.outer_boundary()))
+    if(! _is_closed (traits.construct_outer_boundary_object()(pgn)))
       return (false);
 
-    typename Polygon_with_holes_2::Hole_const_iterator    itr;
-
-    for (itr = pgn.holes_begin(); itr != pgn.holes_end(); ++itr)
+    Hole_const_iterator    itr;
+	 std::pair<Hole_const_iterator, Hole_const_iterator> pair = traits.construct_holes_object()(pgn);
+	 for (itr = pair.first; itr!=pair.second; ++itr)	    
+    //for (itr = pgn.holes_begin(); itr != pgn.holes_end(); ++itr)
     {
       if(! _is_closed (*itr))
         return (false);
@@ -275,15 +284,18 @@ protected:
   bool _is_simple (const Polygon_with_holes_2& pgn)
   {
     // Construct a container of all boundary curves.
-    Cci_pair         itr_pair = construct_curves_func (pgn.outer_boundary());
+	 Traits_2     traits;
+	 Polygon_2 pgn2 = traits.construct_outer_boundary_object()(pgn);   
+    Cci_pair     itr_pair = construct_curves_func(pgn2);
     
     std::list<X_monotone_curve_2>  curves;
     std::copy (itr_pair.first, itr_pair.second,
                std::back_inserter(curves));
 
-    typename Polygon_with_holes_2::Hole_const_iterator  hoit;
-
-    for (hoit = pgn.holes_begin(); hoit != pgn.holes_end(); ++hoit)
+	 std::pair<Hole_const_iterator, Hole_const_iterator> pair = traits.construct_holes_object()(pgn);
+	 Hole_const_iterator    hoit;	 
+	 for (hoit = pair.first; hoit!=pair.second; ++hoit)	    
+    //for (hoit = pgn.holes_begin(); hoit != pgn.holes_end(); ++hoit)
     {
       itr_pair = construct_curves_func (*hoit);
       std::copy (itr_pair.first, itr_pair.second,
@@ -291,7 +303,7 @@ protected:
     }
 
     // Perform the sweep and check fir intersections.
-    Traits_2     traits;
+    //Traits_2     traits; moved to top, needed also for boundary.
     Visitor      visitor(false);
     Sweep_line   sweep_line (&traits, &visitor);
 
@@ -313,7 +325,9 @@ protected:
   bool _has_valid_orientation (const Polygon_with_holes_2& pgn)
   {
     // Check the orientation of the outer boundary.
-    Cci_pair         itr_pair = construct_curves_func (pgn.outer_boundary());
+    Traits_2     traits;
+    Polygon_2 pgn2 = traits.construct_outer_boundary_object()(pgn);
+    Cci_pair itr_pair = construct_curves_func (pgn2);
 
     if ((itr_pair.first != itr_pair.second) && 
         check_orientation_func (itr_pair.first,  
@@ -323,9 +337,11 @@ protected:
     }
 
     // Check the orientation of each of the holes.
-    typename Polygon_with_holes_2::Hole_const_iterator    hoit;
-    
-    for (hoit = pgn.holes_begin(); hoit != pgn.holes_end(); ++hoit)
+//    typename Polygon_with_holes_2::
+    Hole_const_iterator    hoit;
+    std::pair<Hole_const_iterator, Hole_const_iterator> pair = traits.construct_holes_object()(pgn);
+	 for (hoit = pair.first; hoit!=pair.second;++hoit)	
+    //for (hoit = pgn.holes_begin(); hoit != pgn.holes_end(); ++hoit)
     {
       itr_pair = construct_curves_func (*hoit);
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Random_numbers/src/CGAL/Random.cpp $
-// $Id: Random.cpp 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Random_numbers/src/CGAL/Random.cpp $
+// $Id: Random.cpp 47078 2008-11-27 15:32:38Z lrineau $
 // 
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
@@ -36,21 +36,42 @@ Random( )
 {
     // get system's time
     std::time_t s;
-    CGAL_CLIB_STD::time( &s);
-    unsigned int  seed = s;
+    std::time( &s);
+    seed = (unsigned int)s;
 
     // initialize random numbers generator
-    CGAL_CLIB_STD::srand( seed);
+    std::srand( seed);
     random_value = get_int(0, 1<<15);
 }
 
 Random::
-Random( unsigned int  seed)
-    : rand_max_plus_1( RAND_MAX+1.0), val(0)
+Random( unsigned int  seed_)
+    : rand_max_plus_1( RAND_MAX+1.0), val(0), seed(seed_)
 {
     // initialize random numbers generator
-    CGAL_CLIB_STD::srand( seed);
+    std::srand( seed);
     random_value = get_int(0, 1<<15);
+}
+
+// seed
+unsigned int
+Random::get_seed () const
+{ 
+  return seed; 
+}
+
+// state
+void 
+Random::save_state( Random::State& state) const
+{
+  state = Random::State(random_value, val);
+}
+
+void 
+Random::restore_state( const Random::State& state)
+{
+  random_value = state.first;
+  val = state.second;
 }
 
 // Global variables

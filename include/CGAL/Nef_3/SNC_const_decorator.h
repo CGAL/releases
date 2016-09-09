@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
-// $Id: SNC_const_decorator.h 36307 2007-02-15 16:01:40Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
+// $Id: SNC_const_decorator.h 43843 2008-06-27 11:39:02Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -143,7 +143,7 @@ public:
       return sface(se->twin());
     } 
     else 
-      CGAL_assertion_msg( 0, "Facet outer cycle entry point"
+      CGAL_error_msg( "Facet outer cycle entry point"
 			     "is not an SHalfedge? ");
     return SFace_const_handle(); // never reached
   }
@@ -225,7 +225,8 @@ public:
       if(!Infi_box::is_standard(hf->plane()))
 	++i;
     }
-    CGAL_assertion(i>=6);
+    CGAL_warning("altered code");
+    //    CGAL_assertion(i>=6);
     return (i == 6);
   }
 
@@ -288,7 +289,7 @@ public:
       SVertex_const_handle sv;
       if(CGAL::assign(sv,o))
 	std::cerr << "on svertex " << sv->point() << std::endl; 
-      CGAL_assertion_msg( 0, "it is not possible to decide which one is a visible facet (if any)");
+      CGAL_error_msg( "it is not possible to decide which one is a visible facet (if any)");
       return Halffacet_const_handle();
     }
 
@@ -327,7 +328,7 @@ public:
 	f_visible = Halffacet_const_handle();
       }
       else
-	CGAL_assertion_msg(0,"Damn wrong handle");
+	CGAL_error_msg("Damn wrong handle");
     }
     return f_visible;
   }
@@ -479,7 +480,7 @@ public:
 	f_visible = Halffacet_const_handle();
       }
       else
-	CGAL_assertion_msg(0,"Damn wrong handle");
+	CGAL_error_msg("Damn wrong handle");
     }
     return f_visible;
   }
@@ -493,7 +494,7 @@ public:
    //   piercing point of the |ray| on the local (virtual) view  of |e|
    //   \precondition |ray| target belongs to |e|. } 
 
-    CGAL_assertion(false);
+    CGAL_error();
 
     SM_const_decorator SD;
     if( SD.is_isolated(e))
@@ -585,7 +586,7 @@ visit_shell_objects(SFace_const_handle f, Visitor& V) const
           if ( DoneSF[ll->incident_sface()] ) continue;
           SFaceCandidates.push_back(ll->incident_sface());
           DoneSF[ll->incident_sface()] = true;
-        } else CGAL_assertion_msg(0,"Damn wrong handle.");
+        } else CGAL_error_msg("Damn wrong handle.");
       }
     }
     if ( !SFaceCandidates.empty() ) {
@@ -644,7 +645,7 @@ visit_shell_objects(SFace_const_handle f, Visitor& V) const
           Halffacet_const_handle f = l->twin()->facet();
           if ( DoneF[f] ) continue;
           FacetCandidates.push_back(f);  DoneF[f] = true;
-        } else CGAL_assertion_msg(0,"Damn wrong handle.");
+        } else CGAL_error_msg("Damn wrong handle.");
       }
     }
   }

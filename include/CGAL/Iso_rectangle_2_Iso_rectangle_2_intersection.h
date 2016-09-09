@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h $
-// $Id: Iso_rectangle_2_Iso_rectangle_2_intersection.h 32922 2006-08-03 03:37:36Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h $
+// $Id: Iso_rectangle_2_Iso_rectangle_2_intersection.h 39776 2007-08-08 15:15:20Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -35,8 +35,8 @@ namespace CGALi {
 template <class K>
 Object
 intersection(
-    const typename CGAL_WRAP(K)::Iso_rectangle_2 &irect1,
-    const typename CGAL_WRAP(K)::Iso_rectangle_2 &irect2,
+    const typename K::Iso_rectangle_2 &irect1,
+    const typename K::Iso_rectangle_2 &irect2,
     const K&)
 {
     typedef typename K::FT  FT;

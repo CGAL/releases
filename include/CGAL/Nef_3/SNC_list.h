@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_list.h $
-// $Id: SNC_list.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_list.h $
+// $Id: SNC_list.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -280,7 +280,7 @@ class SNC_list : public SM_list<CGAL::Sphere_geometry<Kernel_>,Items_> {
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { CGAL_assertion_msg(0,"not impl."); }
+    { CGAL_error_msg("not impl."); }
   };
 
   class Halffacet_cycle_const_iterator : public Object_const_iterator 
@@ -305,7 +305,7 @@ class SNC_list : public SM_list<CGAL::Sphere_geometry<Kernel_>,Items_> {
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { CGAL_assertion_msg(0,"not impl."); }
+    { CGAL_error_msg("not impl."); }
   };
 
   class Shell_entry_iterator : public Object_iterator 
@@ -714,7 +714,7 @@ pointer_update(const SNC_list<Kernel,Items>& D)
       { *ftc = Object_handle(SEM[se]); store_boundary_item(se,ftc); }
       else if ( assign( sl, ftc) ) 
       { *ftc = Object_handle(SLM[sl]); store_boundary_item(sl,ftc); }
-      else CGAL_assertion_msg(0,"damn wrong boundary item in facet.");
+      else CGAL_error_msg("damn wrong boundary item in facet.");
     }
   }
 
@@ -762,7 +762,7 @@ pointer_update(const SNC_list<Kernel,Items>& D)
       { *sfc = Object_handle(SEM[se]); store_sm_boundary_item(se,sfc); }
       else if ( assign(sl,sfc) ) 
       { *sfc = Object_handle(SLM[sl]); store_sm_boundary_item(sl,sfc); }
-      else CGAL_assertion_msg(0,"damn wrong boundary item in sface.");
+      else CGAL_error_msg("damn wrong boundary item in sface.");
     }
   }
 }

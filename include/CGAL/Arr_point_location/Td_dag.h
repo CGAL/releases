@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_dag.h $
-// $Id: Td_dag.h 32925 2006-08-03 03:39:07Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_dag.h $
+// $Id: Td_dag.h 41714 2008-01-20 20:24:20Z spion $
 // 
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -74,12 +74,7 @@ public:
 protected:	
   class node : public Rep
   {
-#ifndef __BORLANDC__
     friend class Td_dag<T>;
-#else
-    typedef Td_dag<T> Td_dag;
-    friend class Td_dag;
-#endif
   public:
     node(const T& e,unsigned long _depth=0) : 
       data(e),leftPtr(),rightPtr(),depth_(_depth){}
@@ -130,14 +125,14 @@ public:
   {
     return get_data();
   }
-  pointer get_data_ptr() const
+  pointer data_ptr() const
   {
     CGAL_precondition(!operator!());
     return &operator*();
   }
   pointer operator->() const
   {
-    return get_data_ptr();
+    return data_ptr();
   }
   bool is_inner_node() const 
   {return !operator!() && ptr()->is_inner_node();}
@@ -299,10 +294,6 @@ public:
         std::cout << operator*() << '\t';
       }
   }
-#endif
-  
-#if _MSC_VER>=1100
-  friend std::ostream& operator<<(std::ostream&  out, const Self& t);
 #endif
   
   template <class Container,class Predicate>

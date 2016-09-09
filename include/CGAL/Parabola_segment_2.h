@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h 30902 2006-05-02 11:28:46Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h 46265 2008-10-14 10:43:45Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,6 +25,10 @@
 #include <CGAL/Parabola_2.h>
 
 CGAL_BEGIN_NAMESPACE
+
+namespace Qt {
+  template <typename K> class PainterOstream;
+}
 
 template < class Gt >
 class Parabola_segment_2 : public Parabola_2< Gt >
@@ -147,6 +151,11 @@ public:
     for (unsigned int i = 0; i < p.size() - 1; i++) {
       W << Segment_2(p[i], p[i+1]);
     }
+  }
+
+  template< class K >
+  void draw(CGAL::Qt::PainterOstream<K>& stream) const {
+    stream.draw_parabola_segment(this->center(), this->line(), p1, p2);
   }
 };
 

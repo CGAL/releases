@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
-// $Id: Sign_Sturm_sequence.h 35772 2007-01-22 18:36:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
+// $Id: Sign_Sturm_sequence.h 42809 2008-04-09 13:09:17Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -62,7 +62,7 @@ class Sign_Sturm_sequence : public Sturm_sequence_t
             if ( this->size_ > 1 ) {
 	      Sign s1 = Sign_at(  )(pder_, x);
 	      Sign s2 = Sign_at( )(q_,  x);
-                signs[1] = Sign(s1 * s2);
+                signs[1] = s1 * s2;
             }
 
             for (unsigned int i = 2; i < this->size_; i++) {

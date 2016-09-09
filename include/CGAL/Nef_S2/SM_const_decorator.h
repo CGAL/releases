@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
-// $Id: SM_const_decorator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
+// $Id: SM_const_decorator.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -335,7 +335,7 @@ check_integrity_and_topological_planarity(bool faces) const
       } else if( fci.is_shalfloop() ) {
         CGAL_assertion( SHalfloop_const_handle(fci)->incident_sface() == f );
 	++fc_num;
-      } else CGAL_assertion_msg(0,"damn generic handle.");
+      } else CGAL_error_msg("damn generic handle.");
     }
   }
 

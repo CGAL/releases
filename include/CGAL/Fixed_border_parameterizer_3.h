@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 38629 2007-05-11 13:33:43Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
+// $Id: Fixed_border_parameterizer_3.h 46216 2008-10-13 08:34:19Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -57,11 +57,11 @@ CGAL_BEGIN_NAMESPACE
 /// from the linear systems in order to have a symmetric positive definite
 /// matrix for Tutte Barycentric Mapping and Discrete Conformal Map algorithms.
 ///
-/// Concept:
+/// @heading Is Model for the Concepts:
 /// Model of the ParameterizerTraits_3 concept (although you cannot instantiate this class).
 ///
-/// Design Pattern:
-/// Fixed_border_parameterizer_3<ParameterizationMesh_3, ...> class is a
+/// @heading Design Pattern:
+/// Fixed_border_parameterizer_3 class is a
 /// Strategy [GHJV95]: it implements (part of) a strategy of surface parameterization
 /// for models of ParameterizationMesh_3.
 
@@ -237,15 +237,15 @@ private:
 // Implementation
 // ------------------------------------------------------------------------------------
 
-/// Compute a one-to-one mapping from a triangular 3D surface 'mesh'
-/// to a piece of the 2D space.
-/// The mapping is linear by pieces (linear in each triangle).
-/// The result is the (u,v) pair image of each vertex of the 3D surface.
-///
-/// Preconditions:
-/// - 'mesh' must be a surface with one connected component.
-/// - 'mesh' must be a triangular mesh.
-/// - the mesh border must be mapped onto a convex polygon.
+// Compute a one-to-one mapping from a triangular 3D surface 'mesh'
+// to a piece of the 2D space.
+// The mapping is linear by pieces (linear in each triangle).
+// The result is the (u,v) pair image of each vertex of the 3D surface.
+//
+// Preconditions:
+// - 'mesh' must be a surface with one connected component.
+// - 'mesh' must be a triangular mesh.
+// - the mesh border must be mapped onto a convex polygon.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -359,7 +359,6 @@ parameterize(Adaptor& mesh)
     timer.reset();
 #endif
 
-
     // Check postconditions
     status = check_parameterize_postconditions(mesh, A, Bu, Bv);
 #ifdef DEBUG_TRACE
@@ -372,10 +371,10 @@ parameterize(Adaptor& mesh)
 }
 
 
-/// Check parameterize() preconditions:
-/// - 'mesh' must be a surface with one connected component.
-/// - 'mesh' must be a triangular mesh.
-/// - the mesh border must be mapped onto a convex polygon.
+// Check parameterize() preconditions:
+// - 'mesh' must be a surface with one connected component.
+// - 'mesh' must be a triangular mesh.
+// - the mesh border must be mapped onto a convex polygon.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -389,53 +388,47 @@ check_parameterize_preconditions(Adaptor& mesh)
                                             Mesh_feature_extractor;
     Mesh_feature_extractor feature_extractor(mesh);
 
-    // Allways check that mesh is not empty
+    // Check that mesh is not empty
     if (mesh.mesh_vertices_begin() == mesh.mesh_vertices_end())
         status = Base::ERROR_EMPTY_MESH;
     if (status != Base::OK)
         return status;
 
     // The whole surface parameterization package is restricted to triangular meshes
-    CGAL_surface_mesh_parameterization_expensive_precondition_code(            \
-        status = mesh.is_mesh_triangular() ? Base::OK                         \
-                                            : Base::ERROR_NON_TRIANGULAR_MESH; \
-    );
+    status = mesh.is_mesh_triangular() ? Base::OK                         
+                                       : Base::ERROR_NON_TRIANGULAR_MESH; 
     if (status != Base::OK)
         return status;
 
     // The whole package is restricted to surfaces: genus = 0,
     // one connected component and at least one border
-    CGAL_surface_mesh_parameterization_expensive_precondition_code(         \
-        int genus = feature_extractor.get_genus();                          \
-        int nb_borders = feature_extractor.get_nb_borders();                \
-        int nb_components = feature_extractor.get_nb_connex_components();   \
-        status = (genus == 0 && nb_borders >= 1 && nb_components == 1)      \
-               ? Base::OK                                                   \
-               : Base::ERROR_NO_SURFACE_MESH;                               \
-    );
+    int genus = feature_extractor.get_genus();                          
+    int nb_borders = feature_extractor.get_nb_borders();                
+    int nb_components = feature_extractor.get_nb_connex_components();   
+    status = (genus == 0 && nb_borders >= 1 && nb_components == 1)      
+           ? Base::OK                                                   
+           : Base::ERROR_NO_TOPOLOGICAL_DISC;                               
     if (status != Base::OK)
         return status;
 
     // One-to-one mapping is guaranteed if all w_ij coefficients are > 0 (for j vertex neighbor of i)
     // and if the surface border is mapped onto a 2D convex polygon
-    CGAL_surface_mesh_parameterization_precondition_code(       \
-        status = get_border_parameterizer().is_border_convex()  \
-               ? Base::OK                                       \
-               : Base::ERROR_INVALID_BORDER;                    \
-    );
+    status = get_border_parameterizer().is_border_convex()  
+           ? Base::OK                                       
+           : Base::ERROR_NON_CONVEX_BORDER;                    
     if (status != Base::OK)
         return status;
 
     return status;
 }
 
-/// Initialize A, Bu and Bv after border parameterization.
-/// Fill the border vertices' lines in both linear systems: "u = constant" and "v = constant".
-///
-/// Preconditions:
-/// - vertices must be indexed.
-/// - A, Bu and Bv must be allocated.
-/// - border vertices must be parameterized.
+// Initialize A, Bu and Bv after border parameterization.
+// Fill the border vertices' lines in both linear systems: "u = constant" and "v = constant".
+//
+// Preconditions:
+// - vertices must be indexed.
+// - A, Bu and Bv must be allocated.
+// - border vertices must be parameterized.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 void Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
@@ -451,8 +444,8 @@ initialize_system_from_mesh_border (Matrix& A, Vector& Bu, Vector& Bv,
         // Get vertex index in sparse linear system
         int index = mesh.get_vertex_index(it);
 
-        // Write a as diagonal coefficient of A
-        A.set_coef(index, index, 1);
+        // Write a diagonal coefficient of A
+        A.set_coef(index, index, 1, true /*new*/);
 
         // Write constant in Bu and Bv
         Point_2 uv = mesh.get_vertex_uv(it);
@@ -461,14 +454,14 @@ initialize_system_from_mesh_border (Matrix& A, Vector& Bu, Vector& Bv,
     }
 }
 
-/// Compute the line i of matrix A for i inner vertex:
-/// - call compute_w_ij() to compute the A coefficient w_ij for each neighbor v_j.
-/// - compute w_ii = - sum of w_ijs.
-///
-/// Preconditions:
-/// - vertices must be indexed.
-/// - vertex i musn't be already parameterized.
-/// - line i of A must contain only zeros.
+// Compute the line i of matrix A for i inner vertex:
+// - call compute_w_ij() to compute the A coefficient w_ij for each neighbor v_j.
+// - compute w_ii = - sum of w_ijs.
+//
+// Preconditions:
+// - vertices must be indexed.
+// - vertex i musn't be already parameterized.
+// - line i of A must contain only zeros.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -501,7 +494,7 @@ setup_inner_vertex_relations(Matrix& A,
         int j = mesh.get_vertex_index(v_j);
 
         // Set w_ij in matrix
-        A.set_coef(i,j, w_ij);
+        A.set_coef(i,j, w_ij, true /*new*/);
 
         vertexIndex++;
     }
@@ -509,12 +502,12 @@ setup_inner_vertex_relations(Matrix& A,
         return Base::ERROR_NON_TRIANGULAR_MESH;
 
     // Set w_ii in matrix
-    A.set_coef(i,i, w_ii);
+    A.set_coef(i,i, w_ii, true /*new*/);
 
     return Base::OK;
 }
 
-/// Copy Xu and Xv coordinates into the (u,v) pair of each surface vertex.
+// Copy Xu and Xv coordinates into the (u,v) pair of each surface vertex.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 void Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
@@ -537,8 +530,8 @@ set_mesh_uv_from_system(Adaptor& mesh,
     }
 }
 
-/// Check parameterize() postconditions:
-/// - 3D -> 2D mapping is one-to-one.
+// Check parameterize() postconditions:
+// - 3D -> 2D mapping is one-to-one.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -551,19 +544,17 @@ check_parameterize_postconditions(const Adaptor& mesh,
     Error_code status = Base::OK;
 
     // Check if 3D -> 2D mapping is one-to-one
-    CGAL_surface_mesh_parameterization_postcondition_code(  \
-        status = is_one_to_one_mapping(mesh, A, Bu, Bv)     \
-               ? Base::OK                                   \
-               : Base::ERROR_NO_1_TO_1_MAPPING;             \
-    );
+    status = is_one_to_one_mapping(mesh, A, Bu, Bv)     
+           ? Base::OK                                   
+           : Base::ERROR_NO_1_TO_1_MAPPING;             
     if (status != Base::OK)
         return status;
 
     return status;
 }
 
-/// Check if 3D -> 2D mapping is one-to-one.
-/// The default implementation checks each normal.
+// Check if 3D -> 2D mapping is one-to-one.
+// The default implementation checks each normal.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 bool Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::

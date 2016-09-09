@@ -11,12 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_vertex_base_3.h $
-// $Id: Triangulation_hierarchy_vertex_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_hierarchy_vertex_base_3.h $
+// $Id: Triangulation_hierarchy_vertex_base_3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_3_H
 #define CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_3_H

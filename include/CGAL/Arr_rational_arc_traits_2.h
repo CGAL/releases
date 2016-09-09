@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_rational_arc_traits_2.h $
-// $Id: Arr_rational_arc_traits_2.h 35514 2006-12-11 15:34:13Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_rational_arc_traits_2.h $
+// $Id: Arr_rational_arc_traits_2.h 41174 2007-12-13 09:03:31Z golubevs $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,7 +25,8 @@
  */
 
 #include <CGAL/tags.h>
-#include <CGAL/Arr_traits_2/Rational_arc_2.h>
+#include <CGAL/Arr_tags.h>
+#include <CGAL/Arr_geometry_traits/Rational_arc_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -45,24 +46,26 @@ class Arr_rational_arc_traits_2
 {
 public:
 
-  typedef Alg_kernel_                     Alg_kernel;
-  typedef Nt_traits_                      Nt_traits;
+  typedef Alg_kernel_                                   Alg_kernel;
+  typedef Nt_traits_                                    Nt_traits;
 
-  typedef typename Alg_kernel::FT         Algebraic;
+  typedef typename Alg_kernel::FT                       Algebraic;
 
-  typedef typename Nt_traits::Integer     Integer;
+  typedef typename Nt_traits::Integer                   Integer;
 
   // Category tags:
-  typedef Tag_true                        Has_left_category;
-  typedef Tag_true                        Has_merge_category;
-  typedef Tag_true                        Has_boundary_category;
+  typedef Tag_true                                      Has_left_category;
+  typedef Tag_true                                      Has_merge_category;
+  typedef Arr_unbounded_boundary_tag                    Boundary_category;
 
   // Traits objects:
-  typedef _Rational_arc_2<Alg_kernel, Nt_traits>     Curve_2;
-  typedef _Rational_arc_2<Alg_kernel, Nt_traits>     X_monotone_curve_2;
-  typedef typename Alg_kernel::Point_2               Point_2;
+  typedef _Rational_arc_2<Alg_kernel, Nt_traits>        Curve_2;
+  typedef _Continuous_rational_arc_2<Alg_kernel, Nt_traits>
+                                                        X_monotone_curve_2;
+  typedef typename Alg_kernel::Point_2                  Point_2;
+  typedef unsigned int                                  Multiplicity;
 
-  typedef typename Curve_2::Rat_vector               Rat_vector;
+  typedef typename Curve_2::Rat_vector                  Rat_vector;
 
 public:
 
@@ -75,6 +78,7 @@ public:
   /// \name Functor definitions.
   //@{
 
+  /*! A functor that compares the x-coordinates of two points */
   class Compare_x_2
   {
   public:
@@ -91,54 +95,15 @@ public:
       Alg_kernel   ker;
       return (ker.compare_x_2_object() (p1, p2));
     }
-
-    /*!
-     * Compare the relative positions of a vertical curve and another given
-     * curves at y = +/- oo.
-     * \param p A reference point; we refer to a vertical line incident to p.
-     * \param cv The compared curve.
-     * \param ind MIN_END if we refer to cv's minimal end,
-     *            MIN_END if we refer to its maximal end.
-     * \pre cv's relevant end is defined at y = +/- oo.
-     * \return SMALLER if p lies to the left of cv;
-     *         LARGER if p lies to the right cv;
-     *         EQUAL in case of an overlap.
-     */
-    Comparison_result operator() (const Point_2& p,
-                                  const X_monotone_curve_2& cv,
-                                  Curve_end ind) const
-    {
-      return (cv.compare_end (p, ind));
-    }
-
-    /*!
-     * Compare the relative positions of two curves at y = +/- oo.
-     * \param cv1 The first curve.
-     * \param ind1 MIN_END if we refer to cv1's minimal end,
-     *             MIN_END if we refer to its maximal end.
-     * \param cv2 The second curve.
-     * \param ind2 MIN_END if we refer to cv2's minimal end,
-     *             MIN_END if we refer to its maximal end.
-     * \pre The curves are defined at y = +/- oo.
-     * \return SMALLER if cv1 lies to the left of cv2;
-     *         LARGER if cv1 lies to the right cv2;
-     *         EQUAL in case of an overlap.
-     */
-    Comparison_result operator() (const X_monotone_curve_2& cv1,
-                                  Curve_end ind1,
-                                  const X_monotone_curve_2& cv2,
-                                  Curve_end ind2) const
-    {
-      return (cv1.compare_ends (ind1, cv2, ind2));
-    }
   };
 
-  /*! Get a Compare_x_2 functor object. */
+  /*! Obtain a Compare_x_2 functor object. */
   Compare_x_2 compare_x_2_object () const
   {
     return Compare_x_2();
   }
 
+  /*! A functor that compares two points lexigoraphically: by x, then by y. */
   class Compare_xy_2
   {
   public:
@@ -157,68 +122,13 @@ public:
     }
   };
 
-  /*! Get a Compare_xy_2 functor object. */
+  /*! Obtain a Compare_xy_2 functor object. */
   Compare_xy_2 compare_xy_2_object () const
   {
     return Compare_xy_2();
   }
 
-  class Boundary_in_x_2
-  {
-  public:
-    /*!
-     * Check if an end of a given x-monotone curve is infinite at x.
-     * \param cv The curve.
-     * \param ind MIN_END if we refer to cv's minimal end,
-     *            MIN_END if we refer to its maximal end.
-     * \return MINUS_INFINITY if the curve end lies at x = -oo;
-     *         NO_BOUNDARY if the curve end has a finite x-coordinate;
-     *         PLUS_INFINITY if the curve end lies at x = +oo.
-     */
-    Boundary_type operator() (const X_monotone_curve_2& cv,
-                              Curve_end ind) const
-    {
-      if (ind == MIN_END)
-        return (cv.left_boundary_in_x());
-      else
-        return (cv.right_boundary_in_x());
-    }
-  };
-
-  /*! Get an Boundary_in_x_2 functor object. */
-  Boundary_in_x_2 boundary_in_x_2_object () const
-  {
-    return Boundary_in_x_2();
-  }
-
-  class Boundary_in_y_2
-  {
-  public:
-    /*!
-     * Check if an end of a given x-monotone curve is infinite at y.
-     * \param cv The curve.
-     * \param ind MIN_END if we refer to cv's minimal end,
-     *            MIN_END if we refer to its maximal end.
-     * \return MINUS_INFINITY if the curve end lies at y = -oo;
-     *         NO_BOUNDARY if the curve end has a finite y-coordinate;
-     *         PLUS_INFINITY if the curve end lies at y = +oo.
-     */
-    Boundary_type operator() (const X_monotone_curve_2& cv,
-                              Curve_end ind) const
-    {
-      if (ind == MIN_END)
-        return (cv.left_boundary_in_y());
-      else
-        return (cv.right_boundary_in_y());
-    }
-  };
-
-  /*! Get an Boundary_in_y_2 functor object. */
-  Boundary_in_y_2 boundary_in_y_2_object () const
-  {
-    return Boundary_in_y_2();
-  }
-
+  /*! A functor that obtains the left endpoint of a curve. */
   class Construct_min_vertex_2
   {
   public:
@@ -233,12 +143,13 @@ public:
     }
   };
 
-  /*! Get a Construct_min_vertex_2 functor object. */
+  /*! Obtain a Construct_min_vertex_2 functor object. */
   Construct_min_vertex_2 construct_min_vertex_2_object () const
   {
     return Construct_min_vertex_2();
   }
 
+  /*! A functor that obtains the right endpoint of a curve. */
   class Construct_max_vertex_2
   {
   public:
@@ -253,12 +164,13 @@ public:
     }
   };
 
-  /*! Get a Construct_max_vertex_2 functor object. */
+  /*! Obtain a Construct_max_vertex_2 functor object. */
   Construct_max_vertex_2 construct_max_vertex_2_object () const
   {
     return Construct_max_vertex_2();
   }
 
+  /*! A functor that checks whether a given curve is vertical. */
   class Is_vertical_2
   {
   public:
@@ -267,19 +179,22 @@ public:
      * \param cv The curve.
      * \return (true) if the curve is a vertical segment; (false) otherwise.
      */
-    bool operator() (const X_monotone_curve_2& cv) const
+    bool operator() (const X_monotone_curve_2&) const
     {
-      // A rational function can never be vertical:
+      // A rational function can never be vertical.
       return (false);
     }
   };
 
-  /*! Get an Is_vertical_2 functor object. */
+  /*! Obtain an Is_vertical_2 functor object. */
   Is_vertical_2 is_vertical_2_object () const
   {
     return Is_vertical_2();
   }
 
+  /*! A functor that compares the y-coordinates of a point and a curve at
+   * the point x-coordinate.
+   */
   class Compare_y_at_x_2
   {
   public:
@@ -297,35 +212,17 @@ public:
     {
       return (cv.point_position (p));
     }
-
-    /*!
-     * Compare the relative y-positions of two curves at x = +/- oo.
-     * \param cv1 The first curve.
-     * \param cv2 The second curve.
-     * \param ind MIN_END if we compare at x = -oo;
-     *            MAX_END if we compare at x = +oo.
-     * \pre The curves are defined at x = +/- oo.
-     * \return SMALLER if cv1 lies below cv2;
-     *         LARGER if cv1 lies above cv2;
-     *         EQUAL in case of an overlap.
-     */
-    Comparison_result operator() (const X_monotone_curve_2& cv1,
-                                  const X_monotone_curve_2& cv2, 
-                                  Curve_end ind) const
-    {
-      if (ind == MIN_END)
-        return (cv1.compare_at_minus_infinity (cv2));
-      else
-        return (cv1.compare_at_plus_infinity (cv2));
-    }
   };
 
-  /*! Get a Compare_y_at_x_2 functor object. */
+  /*! Obtain a Compare_y_at_x_2 functor object. */
   Compare_y_at_x_2 compare_y_at_x_2_object () const
   {
     return Compare_y_at_x_2();
   }
 
+  /*! A functor that compares compares the y-coordinates of two curves
+   * immediately to the left of their intersection point.
+   */
   class Compare_y_at_x_left_2
   {
   public:
@@ -352,12 +249,12 @@ public:
       CGAL_precondition_code (
         Alg_kernel   ker;
       );
-      CGAL_precondition ((cv1.left_boundary_in_x() != NO_BOUNDARY ||
-                          cv1.left_boundary_in_y() != NO_BOUNDARY ||
+      CGAL_precondition ((cv1.left_infinite_in_x() != ARR_INTERIOR ||
+                          cv1.left_infinite_in_y() != ARR_INTERIOR ||
                           ker.compare_xy_2_object() (p, 
                                                      cv1.left()) == LARGER) &&
-                         (cv2.left_boundary_in_x() != NO_BOUNDARY ||
-                          cv2.left_boundary_in_y() != NO_BOUNDARY ||
+                         (cv2.left_infinite_in_x() != ARR_INTERIOR ||
+                          cv2.left_infinite_in_y() != ARR_INTERIOR ||
                           ker.compare_xy_2_object() (p,
                                                      cv2.left()) == LARGER));
 
@@ -381,12 +278,15 @@ public:
     }
   };
 
-  /*! Get a Compare_y_at_x_left_2 functor object. */
+  /*! Obtain a Compare_y_at_x_left_2 functor object. */
   Compare_y_at_x_left_2 compare_y_at_x_left_2_object () const
   {
     return Compare_y_at_x_left_2();
   }
 
+  /*! A functor that compares compares the y-coordinates of two curves
+   * immediately to the right of their intersection point.
+   */
   class Compare_y_at_x_right_2
   {
   public:
@@ -413,12 +313,12 @@ public:
       CGAL_precondition_code (
         Alg_kernel   ker;
       );
-      CGAL_precondition((cv1.right_boundary_in_x() != NO_BOUNDARY ||
-                         cv1.right_boundary_in_y() != NO_BOUNDARY ||
+      CGAL_precondition((cv1.right_infinite_in_x() != ARR_INTERIOR ||
+                         cv1.right_infinite_in_y() != ARR_INTERIOR ||
                          ker.compare_xy_2_object() (p, 
                                                     cv1.right()) == SMALLER) &&
-                        (cv2.right_boundary_in_x() != NO_BOUNDARY ||
-                         cv2.right_boundary_in_y() != NO_BOUNDARY ||
+                        (cv2.right_infinite_in_x() != ARR_INTERIOR ||
+                         cv2.right_infinite_in_y() != ARR_INTERIOR ||
                          ker.compare_xy_2_object() (p,
                                                     cv2.right()) == SMALLER));
 
@@ -430,12 +330,13 @@ public:
     }
   };
 
-  /*! Get a Compare_y_at_x_right_2 functor object. */
+  /*! Obtain a Compare_y_at_x_right_2 functor object. */
   Compare_y_at_x_right_2 compare_y_at_x_right_2_object () const
   {
     return Compare_y_at_x_right_2();
   }
 
+  /*! A functor that checks whether two points and two curves are identical. */
   class Equal_2
   {
   public:
@@ -470,12 +371,13 @@ public:
     }
   };
 
-  /*! Get an Equal_2 functor object. */
+  /*! Obtain an Equal_2 functor object. */
   Equal_2 equal_2_object () const
   {
     return Equal_2();
   }
 
+  /*! A functor that divides a curve into continues (x-monotone) curves. */
   class Make_x_monotone_2
   {
   public:
@@ -509,12 +411,13 @@ public:
     }
   };
 
-  /*! Get a Make_x_monotone_2 functor object. */
+  /*! Obtain a Make_x_monotone_2 functor object. */
   Make_x_monotone_2 make_x_monotone_2_object () const
   {
     return Make_x_monotone_2();
   }
 
+  /*! A functor that splits a curve at a point. */
   class Split_2
   {
   public:
@@ -534,12 +437,13 @@ public:
     }
   };
 
-  /*! Get a Split_2 functor object. */
+  /*! Obtain a Split_2 functor object. */
   Split_2 split_2_object () const
   {
     return Split_2();
   }
 
+  /*! A functor that computes intersections between two curves. */
   class Intersect_2
   {
   public:
@@ -562,12 +466,13 @@ public:
     }
   };
 
-  /*! Get an Intersect_2 functor object. */
+  /*! Obtain an Intersect_2 functor object. */
   Intersect_2 intersect_2_object () const
   {
     return Intersect_2();
   }
 
+  /*! A functor that tests whether two curves can be merged. */
   class Are_mergeable_2
   {
   public:
@@ -585,12 +490,13 @@ public:
     }
   };
 
-  /*! Get an Are_mergeable_2 functor object. */
+  /*! Obtain an Are_mergeable_2 functor object. */
   Are_mergeable_2 are_mergeable_2_object () const
   {
     return Are_mergeable_2();
   }
 
+  /*! A functor that merges two curves into one. */
   class Merge_2
   {
   public:
@@ -613,7 +519,7 @@ public:
     }
   };
 
-  /*! Get a Merge_2 functor object. */
+  /*! Obtain a Merge_2 functor object. */
   Merge_2 merge_2_object () const
   {
     return Merge_2();
@@ -621,6 +527,202 @@ public:
 
   //@}
 
+  /// \name Functor definitions to handle boundaries
+  //@{
+
+  /*! A function object that determines whether a curve end is bounded. */
+  class Is_bounded_2 {
+  public:
+    /*! Is the end of an x-monotone curve bounded?
+     * \param xcv The x-monotone curve.
+     * \param ce The end of xcv identifier.
+     * \return true is the curve end is bounded, and false otherwise
+     */
+    bool operator() (const X_monotone_curve_2 & xcv, Arr_curve_end ce) const
+    {
+      return (ce == ARR_MIN_END) ?
+        ((xcv.left_infinite_in_x() == ARR_INTERIOR) &&
+         (xcv.left_infinite_in_y() == ARR_INTERIOR)) :
+        ((xcv.right_infinite_in_x() == ARR_INTERIOR) &&
+         (xcv.right_infinite_in_y() == ARR_INTERIOR));
+    }
+  };
+
+  /*! Obtain a Is_bounded_2 function object. */
+  Is_bounded_2 is_bounded_2_object() const
+  {
+    return Is_bounded_2();
+  }
+  
+  
+  /*! A function object that obtains the parameter space of a geometric
+   * entity along the x-axis
+   */
+  class Parameter_space_in_x_2 {
+  public:
+    /*! Obtains the parameter space at the end of a line along the x-axis.
+     * \param xcv the line
+     * \param ce the line end indicator:
+     *     ARR_MIN_END - the minimal end of xc or
+     *     ARR_MAX_END - the maximal end of xc
+     * \return the parameter space at the ce end of the line xcv.
+     *   ARR_LEFT_BOUNDARY  - the line approaches the identification arc from
+     *                        the right at the line left end.
+     *   ARR_INTERIOR       - the line does not approache the identification arc.
+     *   ARR_RIGHT_BOUNDARY - the line approaches the identification arc from
+     *                        the left at the line right end.
+     */
+    Arr_parameter_space operator()(const X_monotone_curve_2 & xcv,
+                                   Arr_curve_end ce) const
+    {
+      return (ce == ARR_MIN_END) ?
+        xcv.left_infinite_in_x() : xcv.right_infinite_in_x();
+    }
+
+    /*! Obtains the parameter space at a point along the x-axis.
+     * \param p the point.
+     * \return the parameter space at p.
+     */
+    Arr_parameter_space operator()(const Point_2 ) const
+    {
+      return ARR_INTERIOR;
+    }
+  };
+
+  /*! Obtain a Parameter_space_in_x_2 function object */
+  Parameter_space_in_x_2 parameter_space_in_x_2_object() const
+  { return Parameter_space_in_x_2(); }
+  
+  /*! A function object that obtains the parameter space of a geometric
+   * entity along the y-axis
+   */
+  class Parameter_space_in_y_2 {
+  public:
+    /*! Obtains the parameter space at the end of a line along the y-axis .
+     * Note that if the line end coincides with a pole, then unless the line
+     * coincides with the identification arc, the line end is considered to
+     * be approaching the boundary, but not on the boundary.
+     * If the line coincides with the identification arc, it is assumed to
+     * be smaller than any other object.
+     * \param xcv the line
+     * \param ce the line end indicator:
+     *     ARR_MIN_END - the minimal end of xc or
+     *     ARR_MAX_END - the maximal end of xc
+     * \return the parameter space at the ce end of the line xcv.
+     *   ARR_BOTTOM_BOUNDARY  - the line approaches the south pole at the line
+     *                          left end.
+     *   ARR_INTERIOR         - the line does not approache a contraction point.
+     *   ARR_TOP_BOUNDARY     - the line approaches the north pole at the line
+     *                          right end.
+     */
+    Arr_parameter_space operator()(const X_monotone_curve_2 & xcv,
+                                   Arr_curve_end ce) const
+    {
+      return (ce == ARR_MIN_END) ?
+        xcv.left_infinite_in_y() : xcv.right_infinite_in_y();
+    }
+
+    /*! Obtains the parameter space at a point along the y-axis.
+     * \param p the point.
+     * \return the parameter space at p.
+     */
+    Arr_parameter_space operator()(const Point_2 ) const
+    {
+      return ARR_INTERIOR;
+    }
+  };
+
+  /*! Obtain a Parameter_space_in_y_2 function object */
+  Parameter_space_in_y_2 parameter_space_in_y_2_object() const
+  { return Parameter_space_in_y_2(); }
+
+  /*! A function object that compares the x-coordinates of arc ends near the
+   * boundary of the parameter space
+   */
+  class Compare_x_near_boundary_2 {
+  public:
+    /*! Compare the x-coordinate of a point with the x-coordinate of
+     * a line end near the boundary at y = +/- oo.
+     * \param p the point direction.
+     * \param xcv the line, the endpoint of which is compared.
+     * \param ce the line-end indicator -
+     *            ARR_MIN_END - the minimal end of xc or
+     *            ARR_MAX_END - the maximal end of xc.
+     * \return the comparison result:
+     *         SMALLER - x(p) < x(xc, ce);
+     *         EQUAL   - x(p) = x(xc, ce);
+     *         LARGER  - x(p) > x(xc, ce).     
+     * \pre p lies in the interior of the parameter space.
+     * \pre the ce end of the line xcv lies on a boundary.
+     */
+    Comparison_result operator()(const Point_2 & p,
+                                 const X_monotone_curve_2 & xcv,
+                                 Arr_curve_end ce) const
+    {
+      return (xcv.compare_end (p, ce));
+    }
+
+    /*! Compare the x-coordinates of 2 arcs ends near the boundary of the
+     * parameter space at y = +/- oo.
+     * \param xcv1 the first arc.
+     * \param ce1 the first arc end indicator -
+     *            ARR_MIN_END - the minimal end of xcv1 or
+     *            ARR_MAX_END - the maximal end of xcv1.
+     * \param xcv2 the second arc.
+     * \param ce2 the second arc end indicator -
+     *            ARR_MIN_END - the minimal end of xcv2 or
+     *            ARR_MAX_END - the maximal end of xcv2.
+     * \return the second comparison result:
+     *         SMALLER - x(xcv1, ce1) < x(xcv2, ce2);
+     *         EQUAL   - x(xcv1, ce1) = x(xcv2, ce2);
+     *         LARGER  - x(xcv1, ce1) > x(xcv2, ce2).
+     * \pre the ce1 end of the line xcv1 lies on a boundary.
+     * \pre the ce2 end of the line xcv2 lies on a boundary.
+     */
+    Comparison_result operator()(const X_monotone_curve_2 & xcv1,
+                                 Arr_curve_end ce1,
+                                 const X_monotone_curve_2 & xcv2,
+                                 Arr_curve_end ce2) const
+    {
+      return xcv1.compare_ends (ce1, xcv2, ce2);
+    }
+  };
+
+  /*! Obtain a Compare_x_near_boundary_2 function object */
+  Compare_x_near_boundary_2 compare_x_near_boundary_2_object() const
+  { return Compare_x_near_boundary_2(); }
+    
+
+  /*! A function object that compares the y-coordinates of arc ends near the
+   * boundary of the parameter space.
+   */
+  class Compare_y_near_boundary_2 {
+  public:
+    /*! Compare the y-coordinates of 2 lines at their ends near the boundary
+     * of the parameter space at x = +/- oo.
+     * \param xcv1 the first arc.
+     * \param xcv2 the second arc.
+     * \param ce the line end indicator.
+     * \return the second comparison result.
+     * \pre the ce ends of the lines xcv1 and xcv2 lie either on the left
+     * boundary or on the right boundary of the parameter space.
+     */
+    Comparison_result operator()(const X_monotone_curve_2 & xcv1,
+                                 const X_monotone_curve_2 & xcv2,
+                                 Arr_curve_end ce) const
+    {
+      return (ce == ARR_MIN_END) ?
+        xcv1.compare_at_minus_infinity (xcv2) :
+        xcv1.compare_at_plus_infinity (xcv2);
+    }
+  };
+
+  /*! Obtain a Compare_y_near_boundary_2 function object */
+  Compare_y_near_boundary_2 compare_y_near_boundary_2_object() const
+  { return Compare_y_near_boundary_2(); }
+
+  //@}
+  
   /// \name Functor definitions for the Boolean set-operation traits.
   //@{
  
@@ -644,7 +746,7 @@ public:
     }
   };
 
-  /*! Get a Compare_endpoints_xy_2 functor object. */
+  /*! Obtain a Compare_endpoints_xy_2 functor object. */
   Compare_endpoints_xy_2 compare_endpoints_xy_2_object() const
   {
     return Compare_endpoints_xy_2();
@@ -665,7 +767,7 @@ public:
     }
   };
 
-  /*! Get a Construct_opposite_2 functor object. */
+  /*! Obtain a Construct_opposite_2 functor object. */
   Construct_opposite_2 construct_opposite_2_object() const
   {
     return Construct_opposite_2();

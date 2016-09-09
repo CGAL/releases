@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Isolating_interval.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Isolating_interval.h $
 // $Id: Isolating_interval.h 35781 2007-01-24 05:07:04Z drussel $ $Date: 2007-01-24 06:07:04 +0100 (Wed, 24 Jan 2007) $
 // 
 //

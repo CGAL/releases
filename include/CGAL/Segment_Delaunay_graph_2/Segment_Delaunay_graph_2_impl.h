@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: Segment_Delaunay_graph_2_impl.h 37157 2007-03-16 10:49:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
+// $Id: Segment_Delaunay_graph_2_impl.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -208,7 +208,7 @@ insert_third(const Site_2& t, const Storage_site_2& ss)
 	}
       } else {
 	// this line should never have been reached
-	CGAL_assertion( false );
+	CGAL_error();
       }
     }
   }
@@ -750,7 +750,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
 	// this should never be reached; the only possible values for
 	// at_res are DISJOINT, CROSSING, TOUCH_11_INTERIOR_1
 	// and TOUCH_12_INTERIOR_1
-	CGAL_assertion( false );
+	CGAL_error();
       }
     } else {
       CGAL_assertion( vv->is_point() );
@@ -766,7 +766,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
 	} else {
 	  // this should never be reached; the only possible values for
 	  // at_res are DISJOINT and INTERIOR
-	  CGAL_assertion( false );
+	  CGAL_error();
 	}
       }
     }
@@ -835,7 +835,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
       } else {
 	// this should never be reached; the only possible values for
 	// vcross.third are CROSSING, INTERIOR and DISJOINT
-	CGAL_assertion( false );
+	CGAL_error();
       }
     }
   }
@@ -2755,7 +2755,7 @@ first_endpoint_of_segment(const Vertex_handle& v) const
   } while ( vc != vc_start );
 
   // we should never reach this point
-  CGAL_assertion( false );
+  CGAL_error();
   return Vertex_handle();
 }
 
@@ -2779,7 +2779,7 @@ second_endpoint_of_segment(const Vertex_handle& v) const
   } while ( vc != vc_start );
 
   // we should never reach this point
-  CGAL_assertion( false );
+  CGAL_error();
   return Vertex_handle();
 }
 

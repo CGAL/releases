@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Pair_d.h $
-// $Id: Pair_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Pair_d.h $
+// $Id: Pair_d.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -74,7 +74,7 @@ void read(std::istream& is)
     case CGAL::IO::BINARY :
       CGAL::read(is, _p[0]); CGAL::read(is, _p[1]); break;
     default:
-    CGAL_assertion_msg(0,"\nStream must be in ascii or binary mode\n"); 
+    CGAL_error_msg("\nStream must be in ascii or binary mode\n"); 
   }
 }
 

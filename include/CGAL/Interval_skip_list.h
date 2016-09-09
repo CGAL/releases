@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
-// $Id: Interval_skip_list.h 36784 2007-03-03 09:05:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: Interval_skip_list.h 40788 2007-11-05 13:18:53Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -23,7 +23,6 @@
 
 #include <CGAL/basic.h>
 #include <list>
-#include <cassert>
 #include <iostream>
 #include <CGAL/Random.h>
 
@@ -1171,7 +1170,7 @@ template <class Interval>
 	}     
       }
     }
-    assert(*res == I);
+    CGAL_assertion(*res == I);
     return res;
   }
 

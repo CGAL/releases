@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_kinetic_kernel_base.h $
-// $Id: Cartesian_kinetic_kernel_base.h 36956 2007-03-08 18:15:24Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_kinetic_kernel_base.h $
+// $Id: Cartesian_kinetic_kernel_base.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -154,24 +154,24 @@ public:
     
     template <class AT>
     result_type operator()(const AT &) const {
-      CGAL_assertion(0);
+      CGAL_error();
       return result_type(0);
     }
     template <class AT0, class AT1>
     result_type operator()(const AT0 &, const AT1 &) const {
-      CGAL_assertion(0);
+      CGAL_error();
       return result_type(0);
     }
     template <class AT0, class AT1, class AT2>
     result_type operator()(const AT0 &, const AT1 &,
 			   const AT2 &) const {
-      CGAL_assertion(0);
+      CGAL_error();
       return result_type(0);
     }
     template <class AT0, class AT1, class AT2, class AT3>
     result_type operator()(const AT0 &, const AT1 &,
 			   const AT2 &, const AT3 &) const {
-      CGAL_assertion(0);
+      CGAL_error();
       return result_type(0);
     }
 
@@ -179,6 +179,10 @@ public:
 
   typedef Certificate_generator<This, Null_generator<Point_3> > Compare_xyz_3;
   Compare_xyz_3 compare_xyz_3_object() const {return Compare_xyz_3();}
+
+  typedef Certificate_generator<This, Cartesian_equal_3<This> > Equal_3;
+  Equal_3 equal_3_object() const {return Equal_3();}
+
 
   typedef Certificate_generator<This, Null_generator<Point_3> > Coplanar_orientation_3;
   Coplanar_orientation_3 coplanar_orientation_3_object() const {return Coplanar_orientation_3();}
@@ -218,6 +222,8 @@ public:
   //! Compare the z coordinate of two points
   typedef Certificate_generator<This, Cartesian_less_z_3<This> > Compare_z_3;
   Compare_z_3 compare_z_3_object() const {return Compare_z_3(k_);}
+
+
 
   //! computes the lifted coordinate under the lifting map
   typedef Delaunay_lifting<This> Delaunay_lifting_3;

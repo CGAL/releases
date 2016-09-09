@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/auto_link/PDB.h $
-// $Id: PDB.h 39183 2007-06-21 13:01:06Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/PDB.h $
+// $Id: PDB.h 46207 2008-10-12 10:31:12Z lrineau $
 // 
 //
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactry.com)
@@ -22,7 +22,7 @@
 
 #ifndef CGAL_NO_AUTOLINK_PDB
 
-#define CGAL_LIB_NAME CGALPDB
+#define CGAL_LIB_NAME CGAL_PDB
 #include <CGAL/auto_link/auto_link.h>
 
 #endif // CGAL_NO_AUTOLINK_PDB

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Plane_3.h $
-// $Id: Plane_3.h 33352 2006-08-16 16:38:49Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Plane_3.h $
+// $Id: Plane_3.h 45593 2008-09-16 13:04:08Z pmachado $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -27,6 +27,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -41,12 +42,16 @@ class Plane_3 : public R_::Kernel_base::Plane_3
   typedef typename R_::Segment_3             Segment_3;
   typedef typename R_::Line_3                Line_3;
   typedef typename R_::Ray_3                 Ray_3;
+  typedef typename R_::Circle_3              Circle_3;
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Plane_3                            Self;
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Plane_3>::value));
 
 public:
+
+  typedef Dimension_tag<3>  Ambient_dimension;
+  typedef Dimension_tag<2>  Feature_dimension;
 
   typedef typename R_::Kernel_base::Plane_3  Rep;
 
@@ -87,6 +92,9 @@ public:
 
   Plane_3(const Ray_3& r, const Point_3& p)
     : Rep(typename R::Construct_plane_3()(Return_base_tag(), r, p)) {}
+
+  Plane_3(const Circle_3& c)
+    : Rep(typename R::Construct_plane_3()(c)) {}
 
   Plane_3 transform(const Aff_transformation_3 &t) const
   {

@@ -11,13 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h $
-// $Id: Infinite_edge_interior_conflict_C2.h 32872 2006-08-01 12:38:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h $
+// $Id: Infinite_edge_interior_conflict_C2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
-
-
 
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_INFINITE_EDGE_INTERIOR_CONFLICT_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_INFINITE_EDGE_INTERIOR_CONFLICT_C2_H
@@ -39,20 +37,20 @@ class Infinite_edge_interior_conflict_C2
 public:
   typedef typename K::Site_2           Site_2;
   typedef typename K::RT               RT;
+  typedef typename K::Boolean          Boolean;
   typedef Are_same_points_C2<K>        Are_same_points_2;
   typedef Are_same_segments_C2<K>      Are_same_segments_2;
 
-  typedef bool                         result_type;
+  typedef Boolean                      result_type;
   struct argument_type {};
-  typedef Arity_tag<5>                 Arity;
 
 private:
   Are_same_points_2    same_points;
   Are_same_segments_2  same_segments;
 
 public:
-  bool operator()(const Site_2& q, const Site_2& s, const Site_2& r,
-		  const Site_2& t, Sign sgn) const
+  Boolean   operator()(const Site_2& q, const Site_2& s, const Site_2& r,
+		       const Site_2& t, Sign sgn) const
   {
     if ( t.is_segment() ) {
       return false;
@@ -72,7 +70,7 @@ public:
       RT dtqx = q.point().x() - t.point().x();
       RT minus_dtqy = -q.point().y() + t.point().y();
 
-      Sign sgn1 = sign_of_determinant2x2(dtsx, dtsy, minus_dtqy, dtqx);
+      Sign sgn1 = sign_of_determinant(dtsx, dtsy, minus_dtqy, dtqx);
 
       CGAL_assertion( sgn1 != ZERO );
 
@@ -96,7 +94,7 @@ public:
       RT dtqx = q.point().x() - t.point().x();
       RT minus_dtqy = -q.point().y() + t.point().y();
 
-      Sign sgn1 = sign_of_determinant2x2(dtssx, dtssy, minus_dtqy, dtqx);
+      Sign sgn1 = sign_of_determinant(dtssx, dtssy, minus_dtqy, dtqx);
 
       CGAL_assertion( sgn1 != ZERO );
 

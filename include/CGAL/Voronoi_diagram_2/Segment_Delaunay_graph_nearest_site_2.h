@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_nearest_site_2.h $
-// $Id: Segment_Delaunay_graph_nearest_site_2.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_nearest_site_2.h $
+// $Id: Segment_Delaunay_graph_nearest_site_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -38,7 +38,6 @@ class Segment_Delaunay_graph_nearest_site_2
 public:
   typedef DG                                          Delaunay_graph;
   typedef typename Delaunay_graph::Point_2            Point_2;
-  typedef Arity_tag<2>                                Arity;
 
 private:
   typedef Triangulation_cw_ccw_2                      CW_CCW_2;

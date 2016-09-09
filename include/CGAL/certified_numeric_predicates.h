@@ -1,4 +1,4 @@
-// Copyright (c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
-// $Id: certified_numeric_predicates.h 36742 2007-03-01 18:29:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
+// $Id: certified_numeric_predicates.h 44650 2008-07-30 13:13:26Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -76,27 +76,27 @@ inline Uncertain<Comparison_result> certified_compare(const NT1& n1, const NT2& 
 
 inline Uncertain<bool> certified_is_smaller( Uncertain<Comparison_result> c )
 {
-  return c == make_uncertain(SMALLER);
+  return c == SMALLER;
 }
 
 inline Uncertain<bool> certified_is_equal( Uncertain<Comparison_result> c )
 {
-  return c == make_uncertain(EQUAL);
+  return c == EQUAL;
 }
 
 inline Uncertain<bool> certified_is_larger( Uncertain<Comparison_result> c )
 {
-  return c == make_uncertain(LARGER);
+  return c == LARGER;
 }
 
 inline Uncertain<bool> certified_is_smaller_or_equal( Uncertain<Comparison_result> c )
 {
-  return logical_or( c == make_uncertain(SMALLER) , c == make_uncertain(EQUAL) ) ;
+  return logical_or( c == SMALLER , c == EQUAL ) ;
 }
 
 inline Uncertain<bool> certified_is_larger_or_equal( Uncertain<Comparison_result> c )
 {
-  return logical_or( c == make_uncertain(LARGER) , c == make_uncertain(EQUAL) ) ;
+  return logical_or( c == LARGER , c == EQUAL ) ;
 }
 
 template <class NT1, class NT2>
@@ -136,7 +136,7 @@ inline Uncertain<Sign> certified_sign_of_determinant2x2( const NT& a00
                                                        , const NT& a11
                                                        )
 {
-  return enum_cast<Sign>(certified_compare(a00*a11, a10*a01)) ;
+  return certified_compare(a00*a11, a10*a01) ;
 }
 
 CGAL_END_NAMESPACE

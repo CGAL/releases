@@ -1,4 +1,4 @@
-// Copyright (c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
-// $Id: compute_outer_frame_margin.h 33023 2006-08-04 19:11:49Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
+// $Id: compute_outer_frame_margin.h 41533 2008-01-11 15:46:07Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -36,11 +36,11 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
                                                                   , Traits const&        aTraits
                                                                   )
 {
-  typedef typename Traits::Kernel              Kernel ;
-  typedef typename Traits::FT                  FT ;
-  typedef typename Traits::Point_2             Point_2 ;
-  typedef typename Traits::Segment_2           Segment_2 ;
-  typedef typename Traits::Seeded_trisegment_2 Seeded_trisegment_2 ;
+  typedef typename Traits::Kernel           Kernel ;
+  typedef typename Traits::FT               FT ;
+  typedef typename Traits::Point_2          Point_2 ;
+  typedef typename Traits::Segment_2        Segment_2 ;
+  typedef typename Traits::Trisegment_2_ptr Trisegment_2_ptr ;
   
   Kernel kernel ;
   
@@ -57,8 +57,6 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
   
   bool lOverflow = false ;
 
-  Seeded_trisegment_2 nullst = Construct_ss_seeded_trisegment_2(aTraits)();
-  
   for ( ForwardPointIterator lCurr = aBegin ; lCurr < aEnd ; ++ lCurr )
   {
     ForwardPointIterator lPrev = ( lCurr == aBegin ? lLast  : CGAL::predecessor(lCurr) ) ;
@@ -69,7 +67,7 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
       Segment_2 lLEdge = construct_segment(*lPrev,*lCurr);
       Segment_2 lREdge = construct_segment(*lCurr,*lNext);
       
-      OptionalPoint_2 lP = Construct_offset_point_2(aTraits)(aOffset,lLEdge,lREdge,nullst);
+      OptionalPoint_2 lP = Construct_offset_point_2(aTraits)(aOffset,lLEdge,lREdge, Trisegment_2_ptr() );
      
       if ( !lP )
       {
@@ -79,7 +77,9 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
        
       FT lSDist = CGAL::squared_distance(*lCurr,*lP);
  
-      if ( ! CGAL_NTS is_finite(lSDist) ) 
+      if (    ! CGAL_NTS is_valid ( lSDist )
+           || ! CGAL_NTS is_finite( lSDist )
+         ) 
       {
         lOverflow = true ;
         break ;
@@ -92,7 +92,7 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
   
   if ( ! lOverflow )
   {
-    FT lDist = CGAL_NTS sqrt(lMaxSDist) ;
+    FT lDist = CGAL_SS_i::inexact_sqrt(lMaxSDist) ;
   
     return boost::optional<FT>( lDist + ( aOffset * FT(1.05) ) ) ; // Add a %5 gap
   }

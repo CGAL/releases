@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Fig_stream_Conic_arc_2.h $
-// $Id: Fig_stream_Conic_arc_2.h 36312 2007-02-15 16:08:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream_Conic_arc_2.h $
+// $Id: Fig_stream_Conic_arc_2.h 40209 2007-09-05 14:41:48Z efif $
 // 
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
 
@@ -47,7 +47,7 @@ static void _write_x_monotone_conic_arc
     // In case of a circular arc:
     Algebraic    x_mid = (cv.source().x() + cv.target().x()) / 2;
     Alg_point_2  q = Alg_point_2(x_mid, 0);
-    Alg_point_2  p = cv.get_point_at_x (q);
+    Alg_point_2  p = cv.point_at_x (q);
 
     fs.write_circular_arc (cv.source(), p, cv.target());
   }
@@ -65,7 +65,7 @@ static void _write_x_monotone_conic_arc
       x = (cv.source().x()*(4 - i) + cv.target().x()*i) / 4;
       
       q = Alg_point_2(x, 0);
-      cps[i] = cv.get_point_at_x (q);      
+      cps[i] = cv.point_at_x (q);      
     }
     cps[4] = cv.target();
 

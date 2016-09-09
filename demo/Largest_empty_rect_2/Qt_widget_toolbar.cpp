@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 38494 2007-05-02 07:29:24Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Largest_empty_rect_2/demo/Largest_empty_rect_2/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 #include "Qt_widget_toolbar.h"
@@ -77,4 +76,3 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
 
 #include "Qt_widget_toolbar.moc"
 
-#endif

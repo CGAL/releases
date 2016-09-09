@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 32670 2006-07-21 11:21:56Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -90,7 +90,6 @@ class Primitive_checker
 public:
 
     typedef typename Pair_maker::result_type   result_type;
-    typedef typename P1::Arity                 Arity;
 
     Primitive_checker(const P1 &pp1 = P1(), const P2 &pp2 = P2(),
                       const Cmp &c = Cmp())
@@ -251,6 +250,14 @@ class Kernel_checker
     Cmp cmp;
 
 public:
+
+    typedef bool                      Boolean;
+    typedef CGAL::Sign                Sign;
+    typedef CGAL::Comparison_result   Comparison_result;
+    typedef CGAL::Orientation         Orientation;
+    typedef CGAL::Oriented_side       Oriented_side;
+    typedef CGAL::Bounded_side        Bounded_side;
+    typedef CGAL::Angle               Angle;
 
     typedef K1     Kernel1;
     typedef K2     Kernel2;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
-// $Id: Refine_edges_with_clusters.h 33373 2006-08-17 09:14:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: Refine_edges_with_clusters.h 41764 2008-01-22 14:01:48Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -157,7 +157,8 @@ public:
   {
     Mesher_level_conflict_status status = NO_CONFLICT;
 
-    Tr& tr = triangulation_ref_impl();
+    // p is the circumcener of zone.parent_face.
+    const FT& sq_r_of_p_parent = shortest_edge_squared_length(z.parent_face);
 
     for(typename Zone::Edges_iterator eit = z.boundary_edges.begin();
         eit != z.boundary_edges.end(); ++eit)
@@ -165,10 +166,10 @@ public:
         const Face_handle& fh = eit->first;
         const int& i = eit->second;
 
-        if(fh->is_constrained(i) && !is_locally_conform(tr, fh, i, p))
+        if(fh->is_constrained(i) && !is_locally_conform(this->tr, fh, i, p))
           {
-	    const Vertex_handle& v1 = fh->vertex( tr.cw (i));
-	    const Vertex_handle& v2 = fh->vertex( tr.ccw(i));
+	    const Vertex_handle& v1 = fh->vertex( this->tr.cw (i));
+	    const Vertex_handle& v2 = fh->vertex( this->tr.ccw(i));
 
 	    status = CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED;
 
@@ -196,7 +197,7 @@ public:
 // of T. If rmin >= rg, then split the edge.
 
               if( this->imperatively || !ca.is_reduced() ||
-                  ca.rmin >= shortest_edge_squared_length(fh) )
+                  ca.rmin >=  sq_r_of_p_parent)
 		add_constrained_edge_to_be_conformed(v1,v2);
 	      else
 		status = CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;

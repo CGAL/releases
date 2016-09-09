@@ -11,18 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/demo/Nef_3/visualization_SM.cpp $
-// $Id: visualization_SM.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/demo/Nef_3/visualization_SM.cpp $
+// $Id: visualization_SM.cpp 45458 2008-09-09 22:20:48Z lrineau $
 //
 //
 // Author(s)     : Peter Hachenberger
 
 #include <CGAL/basic.h>
-#ifndef CGAL_USE_QT
-#include <iostream>
-int main(int, char*){
-  std::cout << "Sorry, this demo needs QT..." << std::endl; return 0;}
-#else
 #include <CGAL/Gmpz.h>
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Nef_polyhedron_3.h>
@@ -53,4 +48,3 @@ int main(int argc, char* argv[]) {
   w->show();
   return a.exec();
 }
-#endif

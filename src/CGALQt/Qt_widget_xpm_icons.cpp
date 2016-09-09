@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/Qt_widget_xpm_icons.cpp $
-// $Id: Qt_widget_xpm_icons.cpp 38797 2007-05-22 13:20:58Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/src/CGALQt/Qt_widget_xpm_icons.cpp $
+// $Id: Qt_widget_xpm_icons.cpp 38798 2007-05-22 13:21:45Z lrineau $
 // 
 //
 // Author(s)     : Radu Ursu <rursu@geometryfactory.com>

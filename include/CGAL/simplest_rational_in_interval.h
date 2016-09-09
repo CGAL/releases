@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: simplest_rational_in_interval.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: simplest_rational_in_interval.h 41708 2008-01-20 18:47:19Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
@@ -24,13 +24,10 @@
 #ifndef CGAL_SIMPLEST_RATIONAL_IN_INTERVAL_H
 #define CGAL_SIMPLEST_RATIONAL_IN_INTERVAL_H
 
-
 #include <CGAL/number_type_basic.h>
 #include <CGAL/to_rational.h>
-#include <cassert>
 #include <climits>
 #include <cmath>
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -78,10 +75,10 @@ simplest_rational_in_interval(double x, double y) {
     r_numerator = 0;
     r_denominator = 1;
   } else { // x > 0 && y > 0
-    double xc = CGAL_CLIB_STD::floor(1/x); // First coefficient of cf for x.
-    double xr = CGAL_CLIB_STD::fmod(1/x,1); // Remaining fractional part of x.
-    double yc = CGAL_CLIB_STD::floor(1/y); // First coefficient of cf for y.
-    double yr = CGAL_CLIB_STD::fmod(1/y,1); // Remaining fractional part of y.
+    double xc = std::floor(1/x); // First coefficient of cf for x.
+    double xr = std::fmod(1/x,1); // Remaining fractional part of x.
+    double yc = std::floor(1/y); // First coefficient of cf for y.
+    double yr = std::fmod(1/y,1); // Remaining fractional part of y.
 
     if (xc < yc) {
       // Return 1/(xc+1).

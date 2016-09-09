@@ -15,13 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/copy_n.h $
-// $Id: copy_n.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/copy_n.h $
+// $Id: copy_n.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 
 // This file is obsolete and exists only for backwards-compatibility.
@@ -29,26 +29,7 @@
 
 #ifndef CGAL_COPY_N_H
 #define CGAL_COPY_N_H 1
-#include <cstddef>
 
-// copy_n is usually in the STL as well, but not in the official
-// standard. We provide our own copy_n.
+#include <CGAL/algorithm.h>
 
-CGAL_BEGIN_NAMESPACE
-
-template <class InputIterator, class Size, class OutputIterator>
-OutputIterator copy_n( InputIterator first,
-                       Size n,
-                       OutputIterator result) {
-  // copies the first `n' items from `first' to `result'. Returns
-  // the value of `result' after inserting the `n' items.
-  while( n--) {
-    *result = *first;
-    first++;
-    result++;
-  }
-  return result;
-}
-
-CGAL_END_NAMESPACE
-#endif // CGAL_COPY_N_H //
+#endif // CGAL_COPY_N_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
-// $Id: Oriented_side_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
+// $Id: Oriented_side_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -54,7 +54,6 @@ public:
   typedef typename Base::Oriented_side        Oriented_side;
   typedef Oriented_side                       result_type;
   typedef Site_2                              argument_type;
-  typedef Arity_tag<5>                        Arity;
 
   // computes the oriented side of the point q
   // wrt the line that is passes through the point p and its direction

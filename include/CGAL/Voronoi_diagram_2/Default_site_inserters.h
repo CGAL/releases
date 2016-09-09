@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_inserters.h $
-// $Id: Default_site_inserters.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_inserters.h $
+// $Id: Default_site_inserters.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -37,7 +37,6 @@ struct Default_site_inserter
   typedef DG                                        Delaunay_graph;
   typedef Site_t                                    Site_2;
   typedef typename Delaunay_graph::Vertex_handle    result_type;
-  typedef Arity_tag<2>                              Arity;
 
   Default_site_inserter() {}
 
@@ -69,7 +68,6 @@ public:
   typedef typename Adaptation_traits::Delaunay_graph  Delaunay_graph;
   typedef typename Site_inserter::Site_2              Site_2;
   typedef typename Delaunay_graph::Vertex_handle      result_type;
-  typedef Arity_tag<2>                                Arity;
 
 public:
   Default_caching_site_inserter(const Adaptation_traits* at = NULL) : at_(at) {}
@@ -124,8 +122,9 @@ private:
 //===========================================================================
 
 template<class AT>
-struct Default_caching_site_inserter<AT,Null_functor>
+class Default_caching_site_inserter<AT,Null_functor>
 {
+public:
   Default_caching_site_inserter() {}
   template<typename T> Default_caching_site_inserter(T t) {}
 };
@@ -143,7 +142,6 @@ public:
   typedef typename Adaptation_traits::Delaunay_graph   Delaunay_graph;
   typedef typename Adaptation_traits::Site_2           Site_2;
   typedef int                                          result_type;
-  typedef Arity_tag<3>                                 Arity;
 
 public:
   Default_aggregate_site_inserter() : site_inserter() {}

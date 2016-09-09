@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_visitor.h $
-// $Id: Surface_mesher_visitor.h 28848 2006-02-27 16:04:07Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_visitor.h $
+// $Id: Surface_mesher_visitor.h 42968 2008-04-21 16:07:38Z lrineau $
 //
 //
 // Author(s)     : Laurent RINEAU
@@ -20,6 +20,8 @@
 
 #ifndef CGAL_SURFACE_MESHER_VISITOR_H
 #define CGAL_SURFACE_MESHER_VISITOR_H
+
+#include <CGAL/Meshes/Triangulation_mesher_level_traits_3.h>
 
 namespace CGAL {
 

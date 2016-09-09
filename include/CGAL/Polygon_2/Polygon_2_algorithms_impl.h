@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
-// $Id: Polygon_2_algorithms_impl.h 39250 2007-06-27 14:01:16Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
+// $Id: Polygon_2_algorithms_impl.h 39249 2007-06-27 13:52:53Z cwormser $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>

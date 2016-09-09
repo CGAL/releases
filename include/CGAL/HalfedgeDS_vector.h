@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
 // $Id: HalfedgeDS_vector.h 35751 2007-01-18 13:55:56Z fcacciola $
 // 
 //

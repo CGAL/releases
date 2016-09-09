@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
-// $Id: function_objects_polynomial_circular.h 39828 2007-08-12 16:21:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
+// $Id: function_objects_polynomial_circular.h 46608 2008-10-31 17:08:32Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -25,6 +25,7 @@
 #ifndef CGAL_CIRCULAR_KERNEL_FUNCTION_OBJECTS_POLYNOMIAL_CIRCULAR_H
 #define CGAL_CIRCULAR_KERNEL_FUNCTION_OBJECTS_POLYNOMIAL_CIRCULAR_H
 
+#include <CGAL/Circular_kernel_intersections.h>
 #include <CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h>
 #include <CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h>
 #include <CGAL/Bbox_2.h>
@@ -44,19 +45,45 @@ namespace CircularFunctors {
     typedef typename CK::Point_2 Point_2;
 
   public:
-    typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
 
+    typedef typename CK::Linear_kernel::Compare_x_2::result_type result_type;
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Compare_x_2::operator();
 #else
+    typedef typename CK::Linear_kernel LK;
+    typedef typename LK::Compare_x_2 LK_Compare_x_2;
+    typedef typename CK::Line_2 Line_2;
+
     result_type
     operator() (const Point_2 &p0,
                 const Point_2 &p1) const
     {
-      typedef typename CK::Linear_kernel LK;
-      typedef typename LK::Compare_x_2 LK_Compare_x_2;
       return LK_Compare_x_2()(p0, p1);
+    }
+
+    result_type
+    operator() (const Point_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2) const
+    {
+      return LK_Compare_x_2()(p0, p1,p2);
+    }
+
+    result_type
+    operator() (const Line_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2) const
+    {
+      return LK_Compare_x_2()(p0, p1,p2);
+    }
+
+    result_type
+    operator() (const Line_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2,
+                const Line_2 &p3) const
+    {
+      return LK_Compare_x_2()(p0, p1,p2,p3);
     }
 #endif
 
@@ -78,19 +105,46 @@ namespace CircularFunctors {
     typedef typename CK::Point_2 Point_2;
 
   public:
-    typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
-
+	
+    typedef typename CK::Linear_kernel::Compare_y_2::result_type result_type;
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Compare_y_2::operator();
 #else
-   result_type
+
+    typedef typename CK::Linear_kernel LK;
+    typedef typename LK::Compare_y_2 LK_Compare_y_2;
+    typedef typename CK::Line_2 Line_2;
+
+    result_type
     operator() (const Point_2 &p0,
                 const Point_2 &p1) const
     {
-      typedef typename CK::Linear_kernel LK;
-      typedef typename LK::Compare_y_2 LK_Compare_y_2;
       return LK_Compare_y_2()(p0, p1);
+    }
+
+    result_type
+    operator() (const Point_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2) const
+    {
+      return LK_Compare_y_2()(p0, p1,p2);
+    }
+
+    result_type
+    operator() (const Line_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2) const
+    {
+      return LK_Compare_y_2()(p0, p1,p2);
+    }
+
+    result_type
+    operator() (const Line_2 &p0,
+                const Line_2 &p1,
+                const Line_2 &p2,
+                const Line_2 &p3) const
+    {
+      return LK_Compare_y_2()(p0, p1,p2,p3);
     }
 #endif
 
@@ -111,13 +165,13 @@ namespace CircularFunctors {
     typedef typename CK::Point_2 Point_2;
     
   public:
-    typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
 
+    typedef typename CK::Linear_kernel::Compare_xy_2::result_type result_type;
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Compare_xy_2::operator();
 #else 
-   result_type
+
+    result_type
     operator() (const Point_2 &p0,
                 const Point_2 &p1) const
     {
@@ -143,7 +197,6 @@ namespace CircularFunctors {
 
   public:
     typedef bool         result_type;
-    typedef Arity_tag<2> Arity;
     
     result_type
     operator()(const Circular_arc_2 &a, const Circular_arc_point_2 &p) const
@@ -158,73 +211,37 @@ namespace CircularFunctors {
   
   template < class CK >
   class Has_on_2
-#ifndef CGAL_CFG_MATCHING_BUG_6
     : public CK::Linear_kernel::Has_on_2
-#endif
   {
     typedef typename CK::Circular_arc_2          Circular_arc_2;
     typedef typename CK::Circular_arc_point_2    Circular_arc_point_2;
     typedef typename CK::Line_arc_2              Line_arc_2;
     typedef typename CK::Circle_2                Circle_2;
     typedef typename CK::Line_2                  Line_2;
-    typedef typename CK::Ray_2                   Ray_2;
-    typedef typename CK::Segment_2               Segment_2;
-    typedef typename CK::Point_2                 Point_2;
 
   public:
-    typedef bool         result_type;
-    typedef Arity_tag<2> Arity;
-
-#ifndef CGAL_CFG_MATCHING_BUG_6
+	  typedef typename CK::Linear_kernel::Has_on_2::result_type result_type;
+    
     using CK::Linear_kernel::Has_on_2::operator();
-#else 
-
-    result_type
-    operator()( const Line_2& l, const Point_2& p) const
-    {
-      typedef typename CK::Linear_kernel LK;
-      typedef typename LK::Has_on_2 LK_Has_on_2;
-      return LK_Has_on_2()(l,p); 
-    }
-
-    result_type
-    operator()( const Ray_2& r, const Point_2& p) const
-    {
-      typedef typename CK::Linear_kernel LK;
-      typedef typename LK::Has_on_2 LK_Has_on_2;
-      return LK_Has_on_2()(r,p); 
-}
-
-    result_type
-    operator()( const Segment_2& s, const Point_2& p) const
-    {
-      typedef typename CK::Linear_kernel LK;
-      typedef typename LK::Has_on_2 LK_Has_on_2;
-      return LK_Has_on_2()(s,p); 
-    }
-
-#endif
 
     result_type
     operator()(const Circle_2 &a, const Circular_arc_point_2 &p) const
-    { return has_on<CK>(a, p); }
+    { return CircularFunctors::has_on<CK>(a, p); }
     
     result_type
     operator()(const Line_2 &a, const Circular_arc_point_2 &p) const
-    { return has_on<CK>(a, p); }
+    { return LinearFunctors::has_on<CK>(a, p); }
     
     result_type
     operator()(const Circular_arc_2 &a, const Circular_arc_point_2 &p) const
-    { return has_on<CK>(a, p); }
+    { return CircularFunctors::has_on<CK>(a, p); }
 
     result_type
     operator()(const Line_arc_2 &a, const Circular_arc_point_2 &p) const
-    { return has_on<CK>(a, p); }
+    { return CircularFunctors::has_on<CK>(a, p); }
     
   };
   
-  
-
   template < class CK >
   class Compare_y_to_right_2
   {
@@ -234,78 +251,36 @@ namespace CircularFunctors {
 
   public:
     typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<3>            Arity;
     
     result_type
     operator()(const Circular_arc_2 &a1,
                const Circular_arc_2 &a2,
                const Circular_arc_point_2 &p) const
-    { return compare_y_to_right<CK>(a1, a2, p); }
+    { return CircularFunctors::compare_y_to_right<CK>(a1, a2, p); }
 
     result_type
     operator()(const Line_arc_2 &a1,
                const Line_arc_2 &a2,
                const Circular_arc_point_2 &p) const
-    { return compare_y_to_right<CK>(a1, a2, p); }
+    { return CircularFunctors::compare_y_to_right<CK>(a1, a2, p); }
 
     result_type
     operator()(const Line_arc_2 &a1,
                const Circular_arc_2 &a2,
                const Circular_arc_point_2 &p) const
-    { return compare_y_to_right<CK>(a1, a2, p); }
+    { return CircularFunctors::compare_y_to_right<CK>(a1, a2, p); }
 
     result_type
     operator()(const Circular_arc_2 &a1,
                const Line_arc_2 &a2,
                const Circular_arc_point_2 &p) const
-    { if (compare_y_to_right<CK>(a2, a1, p) == CGAL::LARGER)
+    { if (CircularFunctors::compare_y_to_right<CK>(a2, a1, p) == CGAL::LARGER)
 	return CGAL::SMALLER;
       return CGAL::LARGER;
     }
   
   };
  
-  template < class CK >
-  class Compare_y_to_left_2
-  {
-    typedef typename CK::Circular_arc_2           Circular_arc_2;
-    typedef typename CK::Circular_arc_point_2  Circular_arc_point_2;
-    typedef typename CK::Line_arc_2               Line_arc_2;
-
-  public:
-    typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<3>            Arity;
-    
-    result_type
-    operator()(const Circular_arc_2 &a1,
-               const Circular_arc_2 &a2,
-               const Circular_arc_point_2 &p) const
-    { return compare_y_to_left<CK>(a1, a2, p); }
-
-    result_type
-    operator()(const Line_arc_2 &a1,
-               const Line_arc_2 &a2,
-               const Circular_arc_point_2 &p) const
-    { return compare_y_to_left<CK>(a1, a2, p); }
-
-    result_type
-    operator()(const Line_arc_2 &a1,
-               const Circular_arc_2 &a2,
-               const Circular_arc_point_2 &p) const
-    { return compare_y_to_left<CK>(a1, a2, p); }
-
-    result_type
-    operator()(const Circular_arc_2 &a1,
-               const Line_arc_2 &a2,
-               const Circular_arc_point_2 &p) const
-    { if (compare_y_to_left<CK>(a2, a1, p) == CGAL::LARGER)
-	return CGAL::SMALLER;
-      return CGAL::LARGER;
-    }
-  
-  };
-
-
   template < class CK >
   class Equal_2
  #ifndef CGAL_CFG_MATCHING_BUG_6
@@ -317,9 +292,6 @@ namespace CircularFunctors {
     typedef typename CK::Line_arc_2              Line_arc_2;
 
   public:
-    typedef bool         result_type;
-    typedef Arity_tag<2> Arity;
-
     typedef typename  CK::Linear_kernel LK;
     typedef typename LK::Equal_2 LK_Equal_2;
 
@@ -334,9 +306,11 @@ namespace CircularFunctors {
     typedef typename LK::Circle_2 Circle_2;
 
     
+    typedef typename CK::Linear_kernel::Equal_2::result_type result_type;
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Equal_2::operator();
 #else  
+
     result_type
     operator() (const Point_2 &p0,
                 const Point_2 &p1) const
@@ -344,6 +318,16 @@ namespace CircularFunctors {
       
     result_type
     operator() (const Vector_2 &p0,
+                const Vector_2 &p1) const
+    { return LK_Equal_2()(p0,p1); }
+       
+    result_type
+    operator() (const Vector_2 &p0,
+                const Null_vector &p1) const
+    { return LK_Equal_2()(p0,p1); }
+      
+    result_type
+    operator() (const Null_vector &p0,
                 const Vector_2 &p1) const
     { return LK_Equal_2()(p0,p1); }
       
@@ -362,7 +346,7 @@ namespace CircularFunctors {
     result_type
     operator() (const Ray_2 &p0,
                 const Ray_2 &p1) const
-    { return LK_Equal_2::operator()(p0,p1); }
+    { return LK_Equal_2()(p0,p1); }
     
     result_type
     operator() (const Line_2 &p0,
@@ -392,37 +376,30 @@ namespace CircularFunctors {
     result_type
     operator() (const Circular_arc_point_2 &p0,
                 const Circular_arc_point_2 &p1) const
-    { return equal<CK>(p0, p1); }
+    { return CircularFunctors::equal<CK>(p0, p1); }
     
     result_type
     operator() (const Circular_arc_2 &a0, const Circular_arc_2 &a1) const
-    { return equal<CK>(a0, a1); }
+    { return CircularFunctors::equal<CK>(a0, a1); }
 
     result_type
     operator() (const Line_arc_2 &a0, const Line_arc_2 &a1) const
-    { return equal<CK>(a0, a1); }
-
-    result_type
-      operator() ( const Line_arc_2 &a0, const Circular_arc_2 &a1) const
-    {return false;}
-
-    result_type
-      operator() ( const Circular_arc_2 &a0, const Line_arc_2 &a1) const
-    {return false;}
+    { return CircularFunctors::equal<CK>(a0, a1); }
     
    };
 
   template < class CK >
-  class Compare_y_at_x_2
+  class Compare_y_at_x_2 : public CK::Linear_kernel::Compare_y_at_x_2
   {
     typedef typename CK::Circular_arc_2          Circular_arc_2;
     typedef typename CK::Circular_arc_point_2 Circular_arc_point_2;
     typedef typename CK::Line_arc_2              Line_arc_2;
 
   public:
-    typedef CGAL::Comparison_result result_type;
-    typedef Arity_tag<2>            Arity;
-    
+    typedef typename CK::Linear_kernel::Compare_y_at_x_2::result_type   result_type;
+
+    using CK::Linear_kernel::Compare_y_at_x_2::operator();    
+
     result_type
     operator() (const Circular_arc_point_2 &p,
                 const Circular_arc_2 &A1) const
@@ -443,7 +420,6 @@ namespace CircularFunctors {
 
   public:
     typedef bool         result_type;
-    typedef Arity_tag<2> Arity;
     
     result_type
     operator() (const Circular_arc_2 &A1, const Circular_arc_2 &A2) const
@@ -465,7 +441,6 @@ namespace CircularFunctors {
   public:
     
      typedef void         result_type;   //!!!
-     typedef Arity_tag<2> Arity;   
 
     template < class OutputIterator >
     OutputIterator
@@ -492,7 +467,6 @@ namespace CircularFunctors {
   public:
 
      typedef void         result_type;   //!!!
-     typedef Arity_tag<2> Arity;
 
     template < class OutputIterator >
     OutputIterator
@@ -504,7 +478,7 @@ namespace CircularFunctors {
 
         CircularFunctors::advanced_make_xy_monotone<CK> (A, std::back_inserter(vec));
 
-        for(int i=0;i<vec.size();++i)
+        for(unsigned i=0;i<vec.size();++i)
           *res++=vec.at(i).first;
 
         return res;
@@ -520,69 +494,18 @@ namespace CircularFunctors {
 
   };
 
-
-
- template < class CK >
-  class Advanced_make_x_monotone_2
+  template < class CK >
+  class Do_intersect_2
+    : public CK::Linear_kernel::Do_intersect_2
   {
-    typedef typename CK::Circular_arc_2 Circular_arc_2;
-    typedef typename CK::Line_arc_2 Line_arc_2;
-
   public:
-
-     typedef void         result_type;   //!!!
-     typedef Arity_tag<2> Arity;
-
-    template < class OutputIterator >
-    OutputIterator
-    operator()(const Circular_arc_2 &A, OutputIterator res) const
-      {  return CircularFunctors::advanced_make_x_monotone<CK> (A, res);}
-
-
- // No extra information is meant to be returned for line arcs (should it?)
- // So attention on the fact that the second part of the pair contains dummy 
- // info. Maybe there shouldn't be such an operator for line arcs after all
-
-    template < class OutputIterator >
-    OutputIterator
-    operator()(const Line_arc_2 &A, OutputIterator res) const
-    { *res++ = std::make_pair(make_object(A),false); //
-      return res;
-    }
-
+    typedef typename CK::Linear_kernel::Do_intersect_2::result_type   result_type;
+    template <class T1, class T2>
+    result_type
+    operator()(const T1& t1, const T2& t2) const
+    { return CGALi::do_intersect(t1, t2, CK()); }
+    using CK::Linear_kernel::Do_intersect_2::operator();
   };
-
-
-template < class CK >
-  class Advanced_make_xy_monotone_2
-  {
-    typedef typename CK::Circular_arc_2 Circular_arc_2;
-    typedef typename CK::Line_arc_2 Line_arc_2;
-
-  public:
-
-     typedef void         result_type;   //!!!
-     typedef Arity_tag<2> Arity;
-
-    template < class OutputIterator >
-    OutputIterator
-    operator()(const Circular_arc_2 &A, OutputIterator res) const
-      {  return CircularFunctors::advanced_make_xy_monotone<CK> (A, res);}
-
-
- // No extra information is meant to be returned for line arcs (should it?)
- // So attention on the fact that the second part of the pair contains dummy 
- // info. Maybe there shouldn't be such an operator for line arcs after all
-
-    template < class OutputIterator >
-    OutputIterator
-    operator()(const Line_arc_2 &A, OutputIterator res) const
-    { *res++ = std::make_pair(make_object(A),std::make_pair(false,false));
-      return res;
-    }
-
-  };
-
   
   template < class CK >
   class Intersect_2
@@ -592,18 +515,42 @@ template < class CK >
     typedef typename CK::Circle_2                 Circle;
     typedef typename CK::Circular_arc_2           Circular_arc;
     typedef typename CK::Line_arc_2               Line_arc;
+    typedef typename CK::Line_2                   Line;
     
     public:
 
-    typedef void         result_type; 
-    typedef Arity_tag<3> Arity;
+	  typedef typename CK::Linear_kernel::Intersect_2::result_type result_type; 
     
     using CK::Linear_kernel::Intersect_2::operator();
 
     template < class OutputIterator >
     OutputIterator
+    operator()(const Line & c1, const Circle & c2, 
+	       OutputIterator res) const
+      { return CircularFunctors::intersect_2<CK> (c1,c2,res); }  
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Circle & c1, const Line & c2, 
+	       OutputIterator res) const
+      {	return CircularFunctors::intersect_2<CK> (c2,c1,res); }
+
+    template < class OutputIterator >
+    OutputIterator
     operator()(const Circle & c1, const Circle & c2, OutputIterator res) const
       { return CircularFunctors::intersect_2<CK> (c1,c2,res); }
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Circle & c1, const Circular_arc & c2, 
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (Circular_arc(c1),c2,res); }
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Circular_arc & c1, const Circle & c2, 
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (c1,Circular_arc(c2),res); }
 
     template < class OutputIterator >
     OutputIterator
@@ -641,8 +588,51 @@ template < class CK >
 	       OutputIterator res) const
     { return CircularFunctors::intersect_2<CK> (c2,c1,res); }
 
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Line & l, const Circular_arc & c, 
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (l,c,res); }
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Line & l, const Line_arc & la, 
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (l,la,res); }
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Circular_arc & c, const Line & l, 
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (l,c,res); }
+
+    template < class OutputIterator >
+    OutputIterator
+    operator()(const Line_arc & la, const Line & l,
+	       OutputIterator res) const
+    { return CircularFunctors::intersect_2<CK> (l,la,res); }
+
   };
 
+  template < class CK >
+  class Get_equation
+  {
+    public:
+
+    typedef void result_type;
+
+    typename CK::Polynomial_1_2
+    operator() ( const typename CK::Line_2 & l )
+      {
+	      return LinearFunctors::get_equation<CK>(l);
+      }
+
+    typename CK::Polynomial_for_circles_2_2
+    operator() ( const typename CK::Circle_2 & c )
+      {
+        return CircularFunctors::get_equation<CK>(c);
+		  }		
+  };
 
   template < class CK >
   class Split_2
@@ -654,7 +644,6 @@ template < class CK >
   public:
 
     typedef void         result_type;
-    typedef Arity_tag<4> Arity;
 
     result_type
     operator()(const Circular_arc_2 &A, 
@@ -673,37 +662,16 @@ template < class CK >
 
   template < class CK >
   class Is_vertical_2
-#ifndef CGAL_CFG_MATCHING_BUG_6
     : public CK::Linear_kernel::Is_vertical_2
-#endif
   {
-    typedef typename CK::Linear_kernel           LK;
-    typedef typename LK::Is_vertical_2           LK_Is_vertical_2;
     typedef typename CK::Circular_arc_2          Circular_arc_2;
     typedef typename CK::Line_arc_2              Line_arc_2;
-    typedef typename LK::Line_2                  Line_2;
-    typedef typename LK::Segment_2               Segment_2;
-    typedef typename LK::Ray_2                   Ray_2;
+
   public:
 
-    typedef bool         result_type;
-    typedef Arity_tag<1> Arity;
+	  typedef typename CK::Linear_kernel::Is_vertical_2::result_type result_type; 
     
-#ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Is_vertical_2::operator();
-#else 
-    result_type
-    operator()( const Line_2& l) const
-    { return LK_Is_vertical_2()(l); }
-
-    result_type
-    operator()( const Segment_2& s) const
-    { return LK_Is_vertical_2()(s); }
-
-    result_type
-    operator()( const Ray_2& r) const
-    { return LK_Is_vertical_2()(r); }
-#endif
 
     result_type
     operator()(const Circular_arc_2 &A) const
@@ -731,7 +699,6 @@ template < class CK >
 
   public:
     typedef  Circular_arc_2 result_type;
-    typedef  Arity_tag<3>   Arity;
     
     result_type
     operator()(void) 
@@ -747,12 +714,14 @@ template < class CK >
                const Circular_arc_point_2 &target) const
     { return Rep(support,source,target); }
 
+    // Not Documented
     result_type
     operator()(const Circle_2 &support,
                const Line_2 &l1, bool b1,
                const Line_2 &l2, bool b2) const
     { return Rep(support,l1,b1,l2,b2); }
 
+    // Not Documented
     result_type
     operator()(const Circle_2 &c,
                const Circle_2 &c1, bool b_1,
@@ -760,17 +729,12 @@ template < class CK >
     { return Rep(c,c1,b_1,c2,b_2); }
 
     result_type
-    operator()(const Circular_arc_2 &A,
-               bool b,
-               const Circle_2 &ccut, bool b_cut) const
-    { return Rep(A,b,ccut,b_cut); }
-
-    result_type
     operator()(const Point_2 &begin,
                const Point_2 &middle, 
                const Point_2 &end) const
     { return Rep(begin,middle,end); }
 
+    // Not Documented
     result_type
     operator()(const Point_2 &begin,
                const Point_2 &end,
@@ -794,18 +758,19 @@ template < class CK >
 
   public:
     typedef Line_arc_2   result_type;
-    typedef Arity_tag<3> Arity;
     
     result_type
     operator()(void) 
     { return Rep(); }
 
+    // Not Documented
     result_type
     operator()(const Line_2 &support,
 	       const Circle_2 &c1,const bool b1,
 	       const Circle_2 &c2,const bool b2) const
     { return Rep(support,c1,b1,c2,b2); }
 
+    // Not Documented
     result_type
     operator()(const Line_2 &support,
 	       const Line_2 &l1,
@@ -848,7 +813,6 @@ template < class CK >
 
   public:
     typedef Circular_arc_point_2 result_type;
-    typedef Arity_tag<1>         Arity;
 
     result_type
     operator()(void) 
@@ -866,7 +830,7 @@ template < class CK >
 
 
   template <class CK>
-  class Compute_Circular_x_2: Has_qrt
+  class Compute_circular_x_2: Has_qrt
   {
     typedef typename CK::Circular_arc_point_2   Circular_arc_point_2;
     typedef typename CK::Root_of_2                 Root_of_2;
@@ -875,7 +839,6 @@ template < class CK >
 
     typedef Root_of_2            result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
 
     qualified_result_type operator() (const Circular_arc_point_2 & a) const
     {
@@ -885,8 +848,8 @@ template < class CK >
 
 
   template <class CK>
-  class Compute_Circular_y_2: Has_qrt
-  {
+  class Compute_circular_y_2: Has_qrt
+	{
     typedef typename CK::Circular_arc_point_2   Circular_arc_point_2;
     typedef typename CK::Root_of_2                 Root_of_2;
 
@@ -894,7 +857,6 @@ template < class CK >
 
     typedef Root_of_2            result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
     
     qualified_result_type operator() (const Circular_arc_point_2 & a) const
     {
@@ -914,7 +876,6 @@ template < class CK >
 
     typedef Circular_arc_point_2 result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
 
     qualified_result_type operator() (const Circular_arc_2 & a) const
     {
@@ -943,7 +904,6 @@ template < class CK >
 
     typedef Circular_arc_point_2 result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
     
     qualified_result_type operator() (const Circular_arc_2 & a) const
     {
@@ -972,7 +932,6 @@ template < class CK >
 
     typedef Circular_arc_point_2 result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;    
     
     qualified_result_type operator() (const Circular_arc_2 & a) const
     { return a.rep().source(); }
@@ -994,7 +953,6 @@ template < class CK >
 
     typedef Circular_arc_point_2 result_type;
     typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
    
     qualified_result_type operator() (const Circular_arc_2 & a) const
     { return a.rep().target();}
@@ -1013,7 +971,6 @@ template < class CK >
   public:
 
     typedef bool         result_type;
-    typedef Arity_tag<1> Arity;
     
     result_type operator() (const Circular_arc_2 & a) const
     {
@@ -1036,7 +993,6 @@ template < class CK >
   public:
 
     typedef bool         result_type;
-    typedef Arity_tag<1> Arity;
     
     result_type operator() (const Circular_arc_2 & a) const
     {
@@ -1048,61 +1004,6 @@ template < class CK >
       return (a.rep().is_y_monotone());
     }
 
-  };
-
-
-  template <class CK>
-  class On_upper_part_2
-  {
-    typedef typename CK::Circular_arc_2            Circular_arc_2;
-
-  public:
-
-    typedef bool         result_type;
-    typedef Arity_tag<1> Arity;
-
-    result_type operator() (const Circular_arc_2 & a) const
-    {
-      return (a.rep().on_upper_part());
-    }
-  };
-
-  template <class CK>
-  class Construct_supporting_circle_2: Has_qrt
-  {
-    typedef typename CK::Circular_arc_2            Circular_arc_2;
-    typedef typename CK::Circle_2                  Circle_2;
-
-  public:
-
-    typedef Circle_2             result_type;
-    typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
-    
-    qualified_result_type operator() (const Circular_arc_2 & a) const
-    {
-      return (a.rep().supporting_circle());
-    }
-  };
-  
-  
-  template <class CK>
-  class Construct_supporting_line_2: Has_qrt
-  {
-    typedef typename CK::Line_arc_2            Line_arc_2;
-    typedef typename CK::Line_2                Line_2;
-    typedef typename CK::Circle_2              Circle_2;
-
-  public:
-
-    typedef Line_2               result_type;
-    typedef const result_type &  qualified_result_type;
-    typedef Arity_tag<1>         Arity;
-    
-    qualified_result_type operator() (const Line_arc_2 & a) const
-    {
-      return (a.rep().supporting_line());
-    }
   };
 
   template <class CK>
@@ -1118,18 +1019,16 @@ template < class CK >
 
   public:
 
-    typedef CGAL::Bbox_2 result_type;
-    typedef Arity_tag<1> Arity;    
-
+    typedef typename CK::Linear_kernel::Construct_bbox_2::result_type result_type; 
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Construct_bbox_2::operator();
 #else
-    typedef typename  CK::Linear_kernel LK;
+    typedef typename CK::Linear_kernel LK;
     typedef typename LK::Construct_bbox_2 LK_Construct_bbox_2;
-    typedef typename LK::Point_2    Point_2;
-    typedef typename LK::Segment_2  Segment_2;
-    typedef typename LK::Triangle_2 Triangle_2;
-    typedef typename LK::Iso_rectangle_2 Iso_rectangle_2;
+    typedef typename LK::Point_2 Point_2;
+    typedef typename LK::Segment_2 Segment_2;
+    typedef typename LK::Triangle_2  Triangle_2 ;
+    typedef typename LK::Iso_rectangle_2 Iso_rectangle_2 ;
 
     result_type operator() (const Circle_2 & a) const
     {
@@ -1150,12 +1049,10 @@ template < class CK >
     {
       return LK_Construct_bbox_2()(a);
     }
-
     result_type operator() (const Iso_rectangle_2 & a) const
     {
       return LK_Construct_bbox_2()(a);
     }
-
 #endif
 
     result_type operator() (const Circular_arc_point_2 & a) const
@@ -1185,35 +1082,34 @@ template < class CK >
     typedef typename CK::Circular_arc_point_2  Circular_arc_point_2;
 
   public:
-    typedef typename CK::Linear_kernel::Bounded_side    result_type;
-    typedef Arity_tag< 2 >              Arity;
+    typedef typename CK::Linear_kernel::Bounded_side_2::result_type result_type;
 
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Bounded_side_2::operator();
 #else 
-    typedef typename  CK::Linear_kernel  LK;
-    typedef typename LK::Bounded_side_2  LK_Bounded_side_2;    
-    typedef typename LK::Triangle_2      Triangle_2;
-    typedef typename LK::Iso_rectangle_2 Iso_rectangle_2;
-    typedef typename CK::Circle_2        Circle_2;
-
+    typedef typename CK::Point_2 Point_2;
+    typedef typename CK::Triangle_2 Triangle_2;
+    typedef typename CK::Iso_rectangle_2 Iso_rectangle_2;
+    typedef typename CK::Linear_kernel LK;
+    typedef typename LK::Bounded_side_2 LK_Bounded_side_2;
 
     result_type
-    operator()( const Circle_2& c, const Point_2& p) const
+    operator()(const Circle_2& c, const Point_2& p) const
     { return LK_Bounded_side_2()(c,p); }
 
     result_type
-    operator()( const Triangle_2& t, const Point_2& p) const
-    { return LK_Bounded_side_2()(t,p); }
+    operator()(const Triangle_2& c, const Point_2& p) const
+    { return LK_Bounded_side_2()(c,p); }
 
     result_type
-    operator()( const Iso_rectangle_2& r, const Point_2& p) const
-    { return LK_Bounded_side_2()(r,p); }
+    operator()(const Iso_rectangle_2& c, const Point_2& p) const
+    { return LK_Bounded_side_2()(c,p); }
+
 #endif
 
     result_type
     operator()(const Circle_2& c, const Circular_arc_point_2& p) const
-    { return bounded_side<CK>(c,p); }
+    { return CircularFunctors::bounded_side<CK>(c,p); }
 
   };
 
@@ -1227,30 +1123,28 @@ template < class CK >
     typedef typename CK::Circular_arc_point_2  Circular_arc_point_2;
 
   public:
-    typedef bool result_type;
-    typedef Arity_tag< 2 >               Arity;
+    typedef typename CK::Linear_kernel::Has_on_bounded_side_2::result_type result_type;
 
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Has_on_bounded_side_2::operator();
 #else
-    typedef typename  CK::Linear_kernel  LK;
-    typedef typename LK::Has_on_bounded_side_2  LK_Has_on_bounded_side_2;    
-    typedef typename LK::Triangle_2      Triangle_2;
-    typedef typename LK::Iso_rectangle_2 Iso_rectangle_2;
-    typedef typename CK::Circle_2        Circle_2;
-
+    typedef typename CK::Point_2 Point_2;
+    typedef typename CK::Triangle_2 Triangle_2;
+    typedef typename CK::Iso_rectangle_2 Iso_rectangle_2;
+    typedef typename CK::Linear_kernel LK;
+    typedef typename LK::Has_on_bounded_side_2 LK_Has_on_bounded_side_2;
 
     result_type
-    operator()( const Circle_2& c, const Point_2& p) const
+    operator()(const Circle_2& c, const Point_2& p) const
     { return LK_Has_on_bounded_side_2()(c,p); }
 
     result_type
-    operator()( const Triangle_2& t, const Point_2& p) const
-    { return LK_Has_on_bounded_side_2()(t,p); }
+    operator()(const Triangle_2& c, const Point_2& p) const
+    { return LK_Has_on_bounded_side_2()(c,p); }
 
     result_type
-    operator()( const Iso_rectangle_2& r, const Point_2& p) const
-    { return LK_Has_on_bounded_side_2()(r,p); }
+    operator()(const Iso_rectangle_2& c, const Point_2& p) const
+    { return LK_Has_on_bounded_side_2()(c,p); }
 #endif
 
     result_type
@@ -1269,30 +1163,28 @@ template < class CK >
     typedef typename CK::Circular_arc_point_2  Circular_arc_point_2;
 
   public:
-    typedef bool result_type;
-    typedef Arity_tag< 2 >               Arity;
+    typedef typename CK::Linear_kernel::Has_on_unbounded_side_2::result_type result_type;
 
 #ifndef CGAL_CFG_MATCHING_BUG_6
     using CK::Linear_kernel::Has_on_unbounded_side_2::operator();
-#else
-    typedef typename  CK::Linear_kernel  LK;
-    typedef typename LK::Has_on_unbounded_side_2  LK_Has_on_unbounded_side_2;    
-    typedef typename LK::Triangle_2      Triangle_2;
-    typedef typename LK::Iso_rectangle_2 Iso_rectangle_2;
-    typedef typename CK::Circle_2        Circle_2;
-
+#else 
+    typedef typename CK::Point_2 Point_2;
+    typedef typename CK::Triangle_2 Triangle_2;
+    typedef typename CK::Iso_rectangle_2 Iso_rectangle_2;
+    typedef typename CK::Linear_kernel LK;
+    typedef typename LK::Has_on_unbounded_side_2 LK_Has_on_unbounded_side_2;
 
     result_type
-    operator()( const Circle_2& c, const Point_2& p) const
+    operator()(const Circle_2& c, const Point_2& p) const
     { return LK_Has_on_unbounded_side_2()(c,p); }
 
     result_type
-    operator()( const Triangle_2& t, const Point_2& p) const
-    { return LK_Has_on_unbounded_side_2()(t,p); }
+    operator()(const Triangle_2& c, const Point_2& p) const
+    { return LK_Has_on_unbounded_side_2()(c,p); }
 
     result_type
-    operator()( const Iso_rectangle_2& r, const Point_2& p) const
-    { return LK_Has_on_unbounded_side_2()(r,p); }
+    operator()(const Iso_rectangle_2& c, const Point_2& p) const
+    { return LK_Has_on_unbounded_side_2()(c,p); }
 #endif
 
     result_type
@@ -1301,83 +1193,41 @@ template < class CK >
 
   };
 
+#ifndef CGAL_NO_DEPRECATED_CODE
   template <class CK>
-  class Orientation_2
-#ifndef CGAL_CFG_MATCHING_BUG_6
-    : public CK::Linear_kernel::Orientation_2
-#endif
+  class Construct_supporting_circle_2: Has_qrt
   {
-    typedef typename CK::Circular_arc_point_2       Circular_arc_point_2;
+    typedef typename CK::Circular_arc_2            Circular_arc_2;
+    typedef typename CK::Circle_2                  Circle_2;
 
   public:
-    typedef typename CK::Linear_kernel::Orientation   result_type;
-    typedef Arity_tag< 3 >            Arity;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
-    using CK::Linear_kernel::Orientation_2::operator();
-#else
-    typedef typename  CK::Linear_kernel  LK;
-    typedef typename LK::Orientation_2 LK_Orientation_2;
-    typedef typename LK::Point_2 Point_2;
-    typedef typename LK::Vector_2 Vector_2;
-    typedef typename LK::Circle_2 Circle_2;
-
-    result_type
-    operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
-    { return LK_Orientation_2()(p,q, r); }
-
-
-    result_type
-    operator()(const Vector_2& u, const Vector_2& v) const
-    { return LK_Orientation_2()(u,v); }
-
-    result_type
-    operator()(const Circle_2& c) const
-    { return LK_Orientation_2()(c); }
-#endif
-
-    result_type
-    operator()(const Circular_arc_point_2& p, 
-               const Circular_arc_point_2& q, 
-               const Circular_arc_point_2& r) const
-    { return orientation<CK>(p,q,r); }
+    typedef Circle_2             result_type;
+    
+    CGAL_DEPRECATED result_type operator() (const Circular_arc_2 & a) const
+    {
+      return CK().construct_circle_2_object()(a);
+    }
   };
-
+  
+  
   template <class CK>
-  class Collinear_2
-#ifndef CGAL_CFG_MATCHING_BUG_6
-    : public CK::Linear_kernel::Collinear_2
-#endif
+  class Construct_supporting_line_2: Has_qrt
   {
-    typedef typename CK::Circular_arc_point_2       Circular_arc_point_2;
+    typedef typename CK::Line_arc_2            Line_arc_2;
+    typedef typename CK::Line_2                Line_2;
+    typedef typename CK::Circle_2              Circle_2;
 
   public:
-    typedef typename CK::Linear_kernel::Collinear_2::result_type   result_type;
-    typedef Arity_tag< 3 >            Arity;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
-    using CK::Linear_kernel::Collinear_2::operator();
-#else
-    typedef typename CK::Linear_kernel  LK;
-    typedef typename LK::Collinear_2 LK_Collinear_2;
-    typedef typename LK::Point_2        Point_2;
-
-    result_type
-    operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
-    { return LK_Collinear_2()(p, q, r); }
-#endif
-
-    // PRE CONDITION: 
-    // The coordinates of P, Q, R have to have the same 
-    // delta or (beta == 0 || delta == 0)
-    // We cannot code this pre condition because
-    // if Root_of_2 is interval_nt "beta", "delta" mean nothing
-    result_type
-    operator()(const Circular_arc_point_2& p, 
-               const Circular_arc_point_2& q, 
-               const Circular_arc_point_2& r) const
-    { return orientation<CK>(p,q,r) == COLLINEAR; }
+    typedef Line_2               result_type;
+    
+    CGAL_DEPRECATED result_type operator() (const Line_arc_2 & a) const
+    {
+      return CK().construct_line_2_object()(a);
+    }
   };
+#endif
 
 } // namespace CircularFunctors
 } // namespace CGAL

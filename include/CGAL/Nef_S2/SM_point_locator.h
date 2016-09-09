@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h 38154 2007-04-16 16:56:26Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $Id: SM_point_locator.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -145,16 +145,6 @@ public:
       }
     }
     CGAL_NEF_TRACEN("  finally determined "<<PH(e_res) << e_res->circle());
-    /*
-    Sphere_direction d2 = direction(cyclic_adj_succ(e_res));
-    d2 = normalized(d2);
-    CGAL_NEF_TRACEN(d2 << " =?= " << d);
-    if (d2 == d ) {
-      e_res = cyclic_adj_succ(e_res);
-      collinear=true;
-    }
-    CGAL_NEF_TRACEN("  wedge = "<<PH(e_res)<<" "<<collinear);
-    */
     return e_res;
   }
 
@@ -186,40 +176,44 @@ public:
   enum SOLUTION { is_vertex_, is_edge_, is_loop_ };
   // enumeration for internal use
 
-  Object_handle locate(const Sphere_point& p)
+  Object_handle locate(const Sphere_point& p, bool skipVEL = false)
   /*{\Mop returns a generic handle |h| to an object (vertex, halfedge,
   face) of the underlying plane map |P| which contains the point |p =
   s.source()| in its relative interior. |s.target()| must be a point
   such that |s| intersects the $1$-skeleton of |P|.}*/
-  { CGAL_NEF_TRACEN("locate naivly "<<p);
+  { CGAL_NEF_TRACEN("locate naivly "<< normalized(p));
     SVertex_iterator v;
-    CGAL_forall_svertices(v,*this) {
-      if ( p == v->point() ) {
-	CGAL_NEF_TRACEN( "  on point"); 
-	return Object_handle(v);
-      }
-    }
-
     SHalfedge_iterator e;
-    CGAL_forall_sedges(e,*this) {
-      if ( segment(e).has_on(p) || 
-	   (e->source() == e->twin()->source() && e->circle().has_on(p))) {
-	CGAL_NEF_TRACEN( "  on segment " << segment(e));
-	return Object_handle(e);
+
+    if(!skipVEL) {
+      CGAL_forall_svertices(v,*this) {
+	if ( p == v->point() ) {
+	  CGAL_NEF_TRACEN( "  on point"); 
+	  return make_object(v);
+	}
+      }
+      
+      CGAL_forall_sedges(e,*this) {
+	if ( segment(e).has_on(p) || 
+	     (e->source() == e->twin()->source() && e->circle().has_on(p))) {
+	  CGAL_NEF_TRACEN( "  on segment " << segment(e));
+	  return make_object(e);
+	}
+      }
+      
+      if ( this->has_shalfloop() && this->shalfloop()->circle().has_on(p)) {
+	CGAL_NEF_TRACEN( "  on loop");
+	return make_object(SHalfloop_handle(this->shalfloop()));
       }
     }
-
-    if ( this->has_shalfloop() && this->shalfloop()->circle().has_on(p)) {
-      CGAL_NEF_TRACEN( "  on loop");
-      return Object_handle(SHalfloop_handle(this->shalfloop()));
-    }
+    
 
     // now in face:
 
     if(this->number_of_sfaces() == 1) {
       CGAL_NEF_TRACEN("  on unique face");
       SFace_handle f = this->sfaces_begin();
-      return Object_handle(f);
+      return make_object(f);
     }
 
     SVertex_handle v_res;
@@ -285,7 +279,20 @@ public:
       if ( visited[e] ) continue;
       Sphere_segment se = segment(e);
       Sphere_point p_res;
-      if ( do_intersect_internally(se,s,p_res) ) {
+      if(e->source() == e->twin()->source()) {
+	Sphere_point p_res = intersection(e->circle(), s.sphere_circle());
+	if(!s.has_in_relative_interior(p_res)) {
+	  p_res = p_res.antipode();
+	  if(!s.has_in_relative_interior(p_res))
+	    continue;
+	}
+        s = Sphere_segment(p,p_res,s.sphere_circle()); 
+        e_res = ( e->circle().has_on_positive_side(p) ? e : e->twin() );
+        visited[e] = visited[e->twin()] = true;
+	solution = is_edge_;
+        CGAL_NEF_TRACEN("  determined "<<PH(e_res)<<" "<< e_res->incident_sface()->mark());	
+      }
+      else if ( do_intersect_internally(se,s,p_res) ) {
           CGAL_NEF_TRACEN(" location via halfedge "<<se);
         s = Sphere_segment(p,p_res,s.sphere_circle()); 
         e_res = ( e->circle().has_on_positive_side(p) ? e : e->twin() );
@@ -297,12 +304,12 @@ public:
 
     switch ( solution ) {
       case is_edge_: 
-        return Object_handle(SFace_handle(e_res->incident_sface()));
+        return make_object(SFace_handle(e_res->incident_sface()));
       case is_loop_:
-        return Object_handle(SFace_handle(l_res->incident_sface()));
+        return make_object(SFace_handle(l_res->incident_sface()));
       case is_vertex_:
-        return Object_handle(SFace_handle(v_res->incident_sface()));
-      default: CGAL_assertion_msg(0,"missing solution.");
+        return make_object(SFace_handle(v_res->incident_sface()));
+      default: CGAL_error_msg("missing solution.");
     }
     return Object_handle(); // never reached!
   }
@@ -345,7 +352,7 @@ public:
 	    !s_init && c.has_on(pv)) ) continue;
       CGAL_NEF_TRACEN("candidate "<<pv);
       if ( M(v) ) {
-        h = Object_handle(v);     // store vertex
+        h = make_object(v);     // store vertex
         s = Sphere_segment(p,pv,c); // shorten
         continue;
       }
@@ -354,13 +361,13 @@ public:
       SHalfedge_handle e = out_wedge(v,d,collinear);
       if ( collinear ) { 
         if ( M(e) ) {
-          h = Object_handle(e);
+          h = make_object(e);
           s = Sphere_segment(p,pv,c);
         }
         continue;
       }
       if ( M(e->incident_sface()) ) {
-        h = Object_handle(e->incident_sface());
+        h = make_object(e->incident_sface());
         s = Sphere_segment(p,pv,c);
       }
     } // all vertices
@@ -382,14 +389,14 @@ public:
 				       direction(e),d,direction(e->twin())) )
 	  e_res = e->twin();
         if ( M(e_res) ) {
-          h = Object_handle(e_res); s = s_cand;
+          h = make_object(e_res); s = s_cand;
         } else if ( M(face(twin(e_res))) ) {
-          h = Object_handle(face(twin(e_res))); s = s_cand;
+          h = make_object(face(twin(e_res))); s = s_cand;
         }
       }
     }
 #endif
-    CGAL_assertion_msg(0,"not yet correct");
+    CGAL_error_msg("not yet correct");
     return h;
   }
 
@@ -434,9 +441,10 @@ public:
       if ((s_init && !s.has_on(pv)) ||
 	  (!s_init && !c.has_on(pv))) continue;
       CGAL_NEF_TRACEN("candidate "<<pv);
+      CGAL_NEF_TRACEN("p =?= pv: " << p << ", " << pv); 
       if ((start_inclusive || p != pv) && 
 	  (end_inclusive || !s_init || s.target() != pv)) {
-        h = Object_handle(vi);     // store vertex
+        h = make_object(vi);     // store vertex
         s = Sphere_segment(p,pv,c); // shorten
 	ip = pv;
 	s_init = true;
@@ -462,9 +470,14 @@ public:
 	  if(s.is_long()) {
 	    Sphere_segment first_half(p,p.antipode(),c);
 	    Sphere_segment second_part(p.antipode(), s.target(), c);
-	    if(!do_intersect_internally(ei->circle(), first_half, p_res)) {
-	      do_intersect_internally(ei->circle(), second_part, p_res);
-	    }
+	    if(!do_intersect_internally(ei->circle(), first_half, p_res) &&
+	       !do_intersect_internally(ei->circle(), second_part, p_res)) {
+	      if(se.has_on(p.antipode())) {
+		p_res = p.antipode();
+	      } else {
+		continue;
+              }
+            }
 	  } else {
 	    if(!do_intersect_internally(ei->circle(), s, p_res)) continue;
 	  }
@@ -511,7 +524,7 @@ public:
       
       CGAL_NEF_TRACEN("candidate "<<se); 
       if (start_inclusive || p != p_res) {
-	h = Object_handle(ei); 
+	h = make_object(ei); 
 	s = Sphere_segment(p,p_res,c);
 	ip = p_res;
 	s_init = true;
@@ -525,7 +538,7 @@ public:
       if(!s_init || s.is_long()) {
 	if(cl.has_on(p)) {
 	  ip = p.antipode();
-	  return Object_handle(SHalfloop_handle(this->shalfloop()));
+	  return make_object(SHalfloop_handle(this->shalfloop()));
 	} else 	  
 	  s = Sphere_segment(p,p.antipode(),c);
       }
@@ -542,7 +555,7 @@ public:
       CGAL_assertion(!testseg.is_long());
       if (start_inclusive || p != p_res) {
 	ip = p_res;
-	return Object_handle(SHalfloop_handle(this->shalfloop()));
+	return make_object(SHalfloop_handle(this->shalfloop()));
       }
     }
 
@@ -582,8 +595,8 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
   Object_handle h = locate(y_minus);
   SFace_handle f;
   if ( CGAL::assign(f,h) ) { 
-    CGAL_NEF_TRACEN("on face " << mark(f));
-    lower = upper = mark(f);
+    CGAL_NEF_TRACEN("on face " << mark(make_object(f)));
+    lower = upper = mark(make_object(f));
     return;
   }
 
@@ -625,7 +638,7 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
   if ( CGAL::assign(v,h) ) {
     CGAL_assertion(v->point()==y_minus);
     if(is_isolated(v))
-      upper = lower = mark(v->incident_sface());
+      upper = lower = mark(make_object(v->incident_sface()));
     else {
       e = out_wedge(v,left,collinear); 
       if ( collinear ) upper = e->twin()->incident_sface()->mark();

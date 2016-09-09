@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h $
-// $Id: internal_functions_on_line_arc_2.h 36963 2007-03-09 08:37:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h $
+// $Id: internal_functions_on_line_arc_2.h 46243 2008-10-13 17:58:36Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -377,6 +377,39 @@ namespace CircularFunctors {
 
   template< class CK, class OutputIterator>
   OutputIterator
+  intersect_2( const typename CK::Line_2 & l,
+	       const typename CK::Circle_2 & c,
+	       OutputIterator res )
+  {
+    typedef typename CK::Algebraic_kernel            AK;
+    typedef typename CK::Polynomial_1_2              Equation_line;
+    typedef typename CK::Polynomial_for_circles_2_2  Equation_circle; 
+    typedef typename CK::Root_for_circles_2_2        Root_for_circles_2_2;
+    
+    Equation_line e1 = CK().get_equation_object()(l);
+    Equation_circle e2 = CK().get_equation_object()(c);
+    
+    typedef std::vector< std::pair < Root_for_circles_2_2, unsigned > > 
+      solutions_container;
+    solutions_container solutions;
+
+    AK().solve_object()(e1, e2, std::back_inserter(solutions)); 
+    // to be optimized
+
+    typedef typename CK::Circular_arc_point_2 Circular_arc_point_2;
+
+    for ( typename solutions_container::iterator it = solutions.begin(); 
+	  it != solutions.end(); ++it )
+      {
+	*res++ = make_object
+	  (std::make_pair(Circular_arc_point_2(it->first), it->second ));
+      }
+
+    return res;
+  }
+
+  template< class CK, class OutputIterator>
+  OutputIterator
   intersect_2( const typename CK::Line_arc_2 &a1,
 	       const typename CK::Line_arc_2 &a2,
 	       OutputIterator res )
@@ -470,7 +503,7 @@ namespace CircularFunctors {
     typedef std::vector<CGAL::Object> solutions_container;
     solutions_container solutions;
 
-    CGAL::LinearFunctors::intersect_2<CK>
+    CircularFunctors::intersect_2<CK>
       ( l.supporting_line(), c, std::back_inserter(solutions) );
     
     for (typename solutions_container::iterator it = solutions.begin(); 
@@ -603,7 +636,7 @@ namespace CircularFunctors {
 	return res;
       } else { //Case 4b
 	solutions_container solutions;
-	CGAL::LinearFunctors::intersect_2<CK>( l.supporting_line(), c.supporting_circle(),
+	CGAL::CircularFunctors::intersect_2<CK>( l.supporting_line(), c.supporting_circle(),
 					       std::back_inserter(solutions) );
 	
 	if(CircularFunctors::compare_x<CK>(r,q) == LARGER){
@@ -632,7 +665,7 @@ namespace CircularFunctors {
          (c,l,solutions)) {
 #endif
 
-      CGAL::LinearFunctors::intersect_2<CK>
+      CGAL::CircularFunctors::intersect_2<CK>
       ( l.supporting_line(), c.supporting_circle(),
 	std::back_inserter(solutions) );
     
@@ -712,7 +745,65 @@ namespace CircularFunctors {
     }
     return res;
   }*/
-  
+
+  template< class CK, class OutputIterator>
+  OutputIterator
+  intersect_2( const typename CK::Line_2 &l,
+	       const typename CK::Line_arc_2 &la,
+	       OutputIterator res )
+  {
+    typedef typename CK::Circular_arc_point_2  Circular_arc_point_2;
+    typedef typename CK::Line_arc_2               Line_arc_2;
+    typedef typename CK::Point_2                  Point_2;
+    typedef typename CK::Line_2                   Line_2;
+    typedef typename CK::Root_of_2                Root_of_2;
+    typedef typename CK::Root_for_circles_2_2     Root_for_circles_2_2;
+
+    if(LinearFunctors::non_oriented_equal<CK>(l, la.supporting_line())) {
+      *res++ = make_object(la);
+    }
+    
+    Object obj = intersection(l, la.supporting_line());
+    const Point_2 *pt = CGAL::object_cast<Point_2>(&obj);
+    if(pt == NULL) return res;
+    Circular_arc_point_2 intersect_point = Circular_arc_point_2(*pt);
+
+    if (CircularFunctors::compare_xy<CK>(intersect_point, la.source()) !=
+	 CircularFunctors::compare_xy<CK>(intersect_point, la.target()))
+      *res++ = make_object(std::make_pair(intersect_point, 1u));
+
+    return res;
+  }
+
+  template< class CK, class OutputIterator>
+  OutputIterator
+  intersect_2( const typename CK::Line_2 &l,
+	       const typename CK::Circular_arc_2 &c,
+	       OutputIterator res )
+  {
+    typedef typename CK::Circular_arc_2 Circular_arc_2;
+    typedef typename CK::Circular_arc_point_2 Circular_arc_point_2;
+    typedef typename CK::Line_2 Line_2;
+    typedef std::vector<CGAL::Object > solutions_container;
+
+    solutions_container solutions;
+
+    CGAL::CircularFunctors::intersect_2<CK>
+      ( l, c.supporting_circle(),
+	std::back_inserter(solutions) );
+
+    for (typename solutions_container::iterator it = solutions.begin();
+	 it != solutions.end(); ++it) {
+      const std::pair<typename CK::Circular_arc_point_2, unsigned>
+        *result = CGAL::object_cast
+	  <std::pair<typename CK::Circular_arc_point_2, unsigned> > (&(*it));
+      if (has_on<CK>(c,result->first,true)) {
+	*res++ = *it;
+      }
+    }
+    return res;
+  }  
+
   template< class CK, class OutputIterator>
   OutputIterator
   intersect_2( const typename CK::Circular_arc_2 &c,
@@ -720,8 +811,8 @@ namespace CircularFunctors {
 	       OutputIterator res )
   {
     return intersect_2<CK>(l,c,res);
-  }
-   
+  }   
+
   template < class CK, class OutputIterator >
   OutputIterator
   make_x_monotone( const typename CK::Line_arc_2 &A,

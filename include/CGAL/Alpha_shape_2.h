@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h 38627 2007-05-11 13:24:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 47026 2008-11-25 13:21:09Z afabri $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -63,6 +63,8 @@ public:
   typedef typename Dt::Triangulation_data_structure Tds;
 
   typedef typename Gt::FT Coord_type;
+  typedef typename Gt::FT NT;
+  typedef typename Gt::FT FT;
   typedef typename Gt::Point_2 Point;
   typedef typename Gt::Segment_2 Segment;
   typedef typename Gt::Ray_2 Ray;
@@ -905,14 +907,14 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
 				
 	
 // 	alpha_mid_v = (interval3.first != UNDEFINED) ?
-// 	min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.first): 
-// 	min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.second); 
+// 	CGAL::min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.first): 
+// 	CGAL::min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.second); 
 			
 // 	if (alpha_max_v != Infinity)
       
 // 	{
 // 	alpha_max_v = (interval3.third != Infinity) ?
-// 	max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, interval3.third):
+// 	CGAL::max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, interval3.third):
 // 	Infinity;
 // 	}
 // 	}
@@ -944,10 +946,10 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
 		  alpha_f = find_interval(f);
 		  // if we define singular as not incident to a 2-dimensional
 		  // face
-		  alpha_mid_v = min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, alpha_f);
+		  alpha_mid_v = CGAL::min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, alpha_f);
 		    
 		  if (alpha_max_v != Infinity)
-		    alpha_max_v = max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, alpha_f);
+		    alpha_max_v = CGAL::max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, alpha_f);
 			    
 		}
 	    }
@@ -1417,11 +1419,11 @@ Alpha_shape_2<Dt>::find_alpha_solid() const
 	{
 	  Face_handle f = face_circ;
 	  if (! is_infinite(f))
-	    alpha_min_v = min BOOST_PREVENT_MACRO_SUBSTITUTION(find_interval(f),
+	    alpha_min_v = CGAL::min BOOST_PREVENT_MACRO_SUBSTITUTION(find_interval(f),
 							       alpha_min_v);
 	}
       while (++face_circ != done);
-      alpha_solid = max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_min_v, alpha_solid);
+      alpha_solid = CGAL::max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_min_v, alpha_solid);
 
     }
   return alpha_solid;

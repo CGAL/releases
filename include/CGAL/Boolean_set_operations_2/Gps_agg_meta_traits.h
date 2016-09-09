@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
-// $Id: Gps_agg_meta_traits.h 37148 2007-03-16 09:01:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
+// $Id: Gps_agg_meta_traits.h 41151 2007-12-10 17:00:57Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -129,8 +129,8 @@ class Gps_agg_meta_traits :
   typedef typename Base::X_monotone_curve_2       X_monotone_curve_2;
   typedef typename Base::Point_2                  Point_2;
   typedef typename Traits::Has_left_category      Has_left_category;
-  typedef typename Traits::Has_boundary_category  Has_boundary_category;
   typedef typename Traits::Has_merge_category     Has_merge_category;
+  typedef typename Traits::Boundary_category      Boundary_category;
 
   typedef typename Base::Curve_data               Curve_data;
   typedef typename Base::Point_data               Point_data;
@@ -307,7 +307,7 @@ class Gps_agg_meta_traits :
       if(cv.data().halfedge() == Halfedge_handle())
         return (Point_2 (m_base(cv.base())));
 
-      CGAL_assertion(cv.data().halfedge()->direction() == SMALLER);
+      CGAL_assertion((Arr_halfedge_direction)cv.data().halfedge()->direction() == ARR_LEFT_TO_RIGHT);
       return Point_2 (m_base(cv.base()), cv.data().halfedge()->source());
     }
   };
@@ -340,7 +340,7 @@ class Gps_agg_meta_traits :
       if(cv.data().halfedge() == Halfedge_handle())
         return (Point_2 (m_base(cv.base())));
 
-      CGAL_assertion(cv.data().halfedge()->direction() == SMALLER);
+      CGAL_assertion((Arr_halfedge_direction)cv.data().halfedge()->direction() == ARR_LEFT_TO_RIGHT);
       return Point_2 (m_base(cv.base()), cv.data().halfedge()->target());
     }
   };

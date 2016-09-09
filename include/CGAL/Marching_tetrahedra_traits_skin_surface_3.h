@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Marching_tetrahedra_traits_skin_surface_3.h $
-// $Id: Marching_tetrahedra_traits_skin_surface_3.h 35895 2007-01-28 21:31:37Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Marching_tetrahedra_traits_skin_surface_3.h $
+// $Id: Marching_tetrahedra_traits_skin_surface_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -22,6 +22,7 @@
 
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Modifier_base.h>
+#include <CGAL/Cartesian_converter.h>
 
 CGAL_BEGIN_NAMESPACE 
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
-// $Id: Polynomial_impl.h 36128 2007-02-08 16:31:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
+// $Id: Polynomial_impl.h 41418 2008-01-03 14:50:13Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,11 +26,7 @@
 #include <iostream>
 #include <CGAL/Polynomial/internal/Rational/Evaluate_polynomial.h>
 #include <sstream>
-
-#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
-// need std::copy
 #include <algorithm>
-#endif
 
 #define CGAL_EXCESSIVE(x)
 
@@ -85,16 +81,8 @@ public:
   }
 
   //! Get coefficients from a vector
-        
-#ifndef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
   template <class Iterator>
   Polynomial_impl(Iterator first, Iterator beyond): coefs_(first, beyond) {}
-#else
-  template <class Iterator>
-  Polynomial_impl(Iterator first, Iterator beyond) {
-    std::copy(first, beyond, std::back_inserter(coefs_));
-  }
-#endif
 
   //========================
   // ACCESS TO COEFFICIENTS

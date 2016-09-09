@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h $
-// $Id: Env_divide_and_conquer_2_impl.h 37894 2007-04-03 18:32:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2_impl.h $
+// $Id: Env_divide_and_conquer_2_impl.h 41109 2007-12-06 15:27:05Z efif $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -131,9 +131,9 @@ _construct_singleton_diagram (const X_monotone_curve_2& cv,
   CGAL_assertion (out_d.leftmost()->is_empty());
   
   // Check if the given curve is bounded from the left and from the right.
-  if (traits->boundary_in_x_2_object() (cv, MIN_END) != NO_BOUNDARY)
+  if (traits->parameter_space_in_x_2_object() (cv, ARR_MIN_END) != ARR_INTERIOR)
   {
-    if (traits->boundary_in_x_2_object() (cv, MAX_END) != NO_BOUNDARY)
+    if (traits->parameter_space_in_x_2_object() (cv, ARR_MAX_END) != ARR_INTERIOR)
     {
       // The curve is defined over (-oo, oo), so its diagram contains
       // only a single edge.
@@ -145,7 +145,7 @@ _construct_singleton_diagram (const X_monotone_curve_2& cv,
     // The curve is defined over (-oo, x], where x is finite.
     // Create a vertex and associate it with the right endpoint of cv.
     CGAL_precondition
-      (traits->boundary_in_y_2_object() (cv, MAX_END) == NO_BOUNDARY);
+      (traits->parameter_space_in_y_2_object() (cv, ARR_MAX_END) == ARR_INTERIOR);
     
     Vertex_handle  v = 
       out_d.new_vertex (traits->construct_max_vertex_2_object() (cv));
@@ -165,12 +165,12 @@ _construct_singleton_diagram (const X_monotone_curve_2& cv,
     return;
   }
   
-  if (traits->boundary_in_x_2_object() (cv, MAX_END) != NO_BOUNDARY)
+  if (traits->parameter_space_in_x_2_object() (cv, ARR_MAX_END) != ARR_INTERIOR)
   {
     // The curve is defined over [x, +oo), where x is finite.
     // Create a vertex and associate it with the left endpoint of cv.
     CGAL_precondition
-      (traits->boundary_in_y_2_object() (cv, MIN_END) == NO_BOUNDARY);
+      (traits->parameter_space_in_y_2_object() (cv, ARR_MIN_END) == ARR_INTERIOR);
     
     Vertex_handle  v = 
       out_d.new_vertex (traits->construct_min_vertex_2_object() (cv));
@@ -197,9 +197,9 @@ _construct_singleton_diagram (const X_monotone_curve_2& cv,
   //      -oo -------------(+)============(+)------------ +oo
   //
   CGAL_precondition
-    (traits->boundary_in_y_2_object() (cv, MIN_END) == NO_BOUNDARY);
+    (traits->parameter_space_in_y_2_object() (cv, ARR_MIN_END) == ARR_INTERIOR);
   CGAL_precondition
-    (traits->boundary_in_y_2_object() (cv, MAX_END) == NO_BOUNDARY);
+    (traits->parameter_space_in_y_2_object() (cv, ARR_MAX_END) == ARR_INTERIOR);
   
   Vertex_handle  v1 = 
     out_d.new_vertex (traits->construct_min_vertex_2_object() (cv));
@@ -618,9 +618,9 @@ _merge_two_intervals (Edge_const_handle e1, bool is_leftmost1,
 
       // Get the endpoints of the overlapping curves.
       const bool  has_left = 
-        (traits->boundary_in_x_2_object() (icv, MIN_END) == NO_BOUNDARY);
+        (traits->parameter_space_in_x_2_object() (icv, ARR_MIN_END) == ARR_INTERIOR);
       const bool  has_right = 
-        (traits->boundary_in_x_2_object() (icv, MAX_END) == NO_BOUNDARY);
+        (traits->parameter_space_in_x_2_object() (icv, ARR_MAX_END) == ARR_INTERIOR);
       Point_2     p1, p2;
       
       if (has_left)

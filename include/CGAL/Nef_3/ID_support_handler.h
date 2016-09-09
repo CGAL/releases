@@ -1,4 +1,4 @@
-// Copyright (c) 2002-2007  Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 1997-2002  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -44,7 +44,7 @@ class ID_support_handler {
   ID_support_handler() {}
 
   int& get_hash(int) { return 0; }
-  template<typename Handle> void initialize_hash(Handle ) {}
+  template<typename Handle> void initialize_hash(Handle h) {}
 
   void handle_support(SVertex_handle , 
 		      SHalfedge_const_handle ,
@@ -260,8 +260,6 @@ class ID_support_handler<SNC_indexed_items, Decorator> {
 		      SHalfedge_const_handle se1) {
     if(!equal_not_opposite(se->circle(), se1->circle()))
        se1 = se1->twin();
-    CGAL_assertion(normalized(se->circle()) == 
-		   normalized(se1->circle()));
     se->set_index(se1->get_index());
     se->twin()->set_index(se1->twin()->get_index());
     CGAL_NEF_TRACEN("se " << se->source()->point()

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/uncertain_functions_on_signs.h $
-// $Id: uncertain_functions_on_signs.h 32596 2006-07-18 14:11:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/uncertain_functions_on_signs.h $
+// $Id: uncertain_functions_on_signs.h 44225 2008-07-16 16:10:44Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -26,16 +26,6 @@
 #include <CGAL/Uncertain.h>
 
 CGAL_BEGIN_NAMESPACE
-#if 0
-inline
-Sign
-operator*(const Sign &s1, const Sign &s2)
-{
-  if ( s1 == ZERO || s2 == ZERO )  return ZERO;
-  if ( s1 == s2 )  return POSITIVE;
-  return NEGATIVE;
-}
-#endif
 
 template < class RT >
 Uncertain<Sign>
@@ -69,8 +59,7 @@ uncertain_sign_a_plus_b_x_sqrt_c(const RT &a, const RT &b, const RT &c)
     return Uncertain<Sign>::indeterminate();
   }
 
-  // these casts are ugly; they should go away
-  return Sign(Sign(sa) * Comparison_result(cr));
+  return sa * cr;
 }
 
 #if 0
@@ -92,9 +81,8 @@ sign_a_x_sqrt_c_plus_b_x_sqrt_d(const RT &a, const RT &b,
   if ( sa == sb )  return sa;
   if ( sa == ZERO )  return sb;
 
-  return Sign( sa * CGAL::compare( CGAL::square(a) * c,
-				   CGAL::square(b) * d )
-	       );
+  return sa * CGAL::compare( CGAL::square(a) * c,
+			     CGAL::square(b) * d );
 }
 
 template < class RT >

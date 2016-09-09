@@ -11,40 +11,24 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/demo/Convex_hull_2/convex_hull_2.cpp $
-// $Id: convex_hull_2.cpp 38482 2007-04-30 15:07:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/demo/Convex_hull_2/convex_hull_2.cpp $
+// $Id: convex_hull_2.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-
-
-int main(int, char*)
-{
-
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
-  return 0;
-}
-
-#else
 
 #include <fstream>
-#include <stack>
-#include <set>
-#include <string>
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/Polygon_2_algorithms.h>
 #include <CGAL/point_generators_2.h>
 
+#include <CGAL/Polygon_2.h>
+#include <CGAL/IO/Qt_widget_Polygon_2.h>
 
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_standard_toolbar.h>
@@ -93,38 +77,17 @@ public:
       *widget << (*itp++);
     }
 
-    std::list<Point_2>	out;
-    std::list<Segment>	Sl;
+    CGAL::Polygon_2<Rep>  out;
     CGAL::convex_hull_points_2(list_of_points.begin(),
 			       list_of_points.end(),
 			       std::back_inserter(out));
 
-    if( out.size() > 1 ) {
-      Point_2 pakt,prev,pstart;
+    *widget << CGAL::BLUE << out;
 
-      std::list<Point_2>::const_iterator it;
-      it=out.begin();
-      prev= *it; pstart=prev;
-      it++;
-
-      for(; it != out.end(); ++it) {
-      	pakt= *it;
-	      Sl.push_back(Segment(prev,pakt));
-	      prev=pakt;
-      }
-      Sl.push_back(Segment(pakt,pstart));
-
-      *widget << CGAL::BLUE;
-      std::list<Segment>::iterator its = Sl.begin();
-      while(its!=Sl.end())
-      {
-        *widget << (*its++);
-      }
-    }
     widget->unlock();
   };
 
-};//end class
+};
 
 class MyWindow : public QMainWindow
 {
@@ -296,4 +259,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

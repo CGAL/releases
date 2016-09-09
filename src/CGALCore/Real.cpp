@@ -30,14 +30,11 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/src/CGALCore/Real.cpp $
- * $Id: Real.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/Real.cpp $
+ * $Id: Real.cpp 41714 2008-01-20 20:24:20Z spion $
  ***************************************************************************/
 
 #include <ctype.h>
-#if defined (__BORLANDC__)
-  #include <mem.h>
-#endif
 #include <CGAL/CORE/Real.h>
 
 CORE_BEGIN_NAMESPACE

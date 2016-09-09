@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
-// $Id: Regular_triangulation_rtH3.h 32441 2006-07-12 12:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
+// $Id: Regular_triangulation_rtH3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_REGULAR_TRIANGULATION_RTH3_H
 #define CGAL_REGULAR_TRIANGULATION_RTH3_H
@@ -71,11 +71,11 @@ power_testH3(
     RT dtz = CGAL_NTS square(thx) + CGAL_NTS square(thy) + 
              CGAL_NTS square(thz) - twt*dthw;
 
-    return Oriented_side(- sign_of_determinant5x5(dphx, dphy, dphz, dpz, dphw,
-	                                        dqhx, dqhy, dqhz, dqz, dqhw,
-	                                        drhx, drhy, drhz, drz, drhw,
-	                                        dshx, dshy, dshz, dsz, dshw,
-	                                        dthx, dthy, dthz, dtz, dthw));
+    return - sign_of_determinant(dphx, dphy, dphz, dpz, dphw,
+	                         dqhx, dqhy, dqhz, dqz, dqhw,
+	                         drhx, drhy, drhz, drz, drhw,
+	                         dshx, dshy, dshz, dsz, dshw,
+	                         dthx, dthy, dthz, dtz, dthw);
 }
 
 // The 2 degenerate are not speed critical, and they are quite boring and error

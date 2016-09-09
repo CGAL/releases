@@ -11,18 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/demo/Apollonius_graph_2/apollonius_graph_2.cpp $
-// $Id: apollonius_graph_2.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/demo/Apollonius_graph_2/apollonius_graph_2.cpp $
+// $Id: apollonius_graph_2.cpp 45459 2008-09-09 22:29:51Z lrineau $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
-
 #include <iostream>
 #include <fstream>
+#include <cassert>
 
 #include <qapplication.h>
 #include <qmainwindow.h>
@@ -302,7 +301,7 @@ private slots:
       Apollonius_site_2 wp(p, Weight(0));
       ag.insert(wp);
     }
-    CGAL_CLIB_STD::sprintf(msg, "Insertion time: %f.", timer.time());
+    std::sprintf(msg, "Insertion time: %f.", timer.time());
     qmsg = QString(msg) + " - Validating Apollonius graph...";
     set_msg(qmsg);
     assert( ag.is_valid(false, 1) );
@@ -373,13 +372,13 @@ private slots:
       ag.insert(wp);
       counter++;
       if ( counter % 500 == 0 ) {
-	CGAL_CLIB_STD::sprintf(msg, "%d have been inserted...", counter);
+	std::sprintf(msg, "%d have been inserted...", counter);
 	set_msg(msg);
       }
     }
     timer.stop();
 
-    CGAL_CLIB_STD::sprintf(msg,
+    std::sprintf(msg,
 			   "%d sites inserted. Insertion time: %f "
 			   "- Validating Apollonius graph...",
 			   counter, timer.time());
@@ -454,7 +453,7 @@ private slots:
 
       int n_sites = static_cast<int>(ag.number_of_vertices()) +
 	static_cast<int>(ag.number_of_hidden_sites());
-      CGAL_CLIB_STD::sprintf(msg,
+      std::sprintf(msg,
 			     "%d sites inserted. Insertion time: %f",
 			     n_sites, timer.time());
       qmsg = qmsg + " done! " + msg;
@@ -545,19 +544,3 @@ main(int argc, char* argv[])
 
 
 // moc_source_file: apollonius_graph_2.C
-
-#else
-
-#include <iostream>
-
-int
-main(int argc, char* argv[])
-{
-  std::cerr << "This demo needs CGAL's Qt_widget installed "
-	    << "in order to run..."
-	    << std::endl << std::endl;
-  return 0;
-}
-
-
-#endif

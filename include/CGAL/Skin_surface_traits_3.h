@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Skin_surface_traits_3.h $
-// $Id: Skin_surface_traits_3.h 36823 2007-03-05 16:37:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_traits_3.h $
+// $Id: Skin_surface_traits_3.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -41,7 +41,6 @@ public:
 
   Side_of_mixed_cell_3(const FT &shrink) : s(shrink) {}
   
-  typedef CGAL::Arity_tag< 5 > Arity;
   typedef CGAL::Sign           result_type;
   
   result_type operator()(const Weighted_point &p1,
@@ -90,7 +89,6 @@ public:
 
   Construct_anchor_point_3(const FT &shrink) : s(shrink) {}
   
-  typedef CGAL::Arity_tag< 2 > Arity;
   typedef Bare_point           result_type;
   
   result_type operator()(const Bare_point &p_del,

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_sign_at_rational.h $
-// $Id: Filtered_sign_at_rational.h 35766 2007-01-20 21:39:01Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_sign_at_rational.h $
+// $Id: Filtered_sign_at_rational.h 42809 2008-04-09 13:09:17Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -88,7 +88,7 @@ class Filtered_sign_at_rational
                 return CGAL::ZERO;
             }
             else if ( p.is_constant() == 0 || s_n == CGAL::ZERO ) {
-                return Sign(CGAL::sign( copy[0] ) * s_d);
+                return CGAL::sign( copy[0] ) * s_d;
             }
 
             NT result = copy[copy.degree()];
@@ -100,7 +100,7 @@ class Filtered_sign_at_rational
                 }
             }
 
-            return Sign(CGAL::sign(result) * s_d);
+            return CGAL::sign(result) * s_d;
         }
 #endif
     protected:

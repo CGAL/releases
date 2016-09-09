@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_annulus_d/include/CGAL/Min_annulus_d.h $
-// $Id: Min_annulus_d.h 38477 2007-04-30 10:13:21Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_annulus_d/include/CGAL/Min_annulus_d.h $
+// $Id: Min_annulus_d.h 46189 2008-10-09 09:42:37Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -29,6 +29,8 @@
 #include <CGAL/QP_solver/functors.h>
 #include <CGAL/QP_solver/QP_full_filtered_pricing.h>
 #include <CGAL/QP_solver/QP_full_exact_pricing.h>
+#include <boost/iterator/counting_iterator.hpp>
+#include <boost/iterator/transform_iterator.hpp>
 
 // here is how it works. We have d+2 variables: 
 // R (big radius), r (small radius), c (center). The problem is
@@ -106,8 +108,6 @@ namespace MA_detail {
 	if (i == d_+1) return -h_p * h_p;
 	return nt_0_;
       }
-      CGAL_optimisation_assertion(false); // never get here
-      return nt_0_;
     }
     
   private:
@@ -123,15 +123,15 @@ namespace MA_detail {
   template <class NT, class Access_coordinate_begin_d,
 	    class Point_iterator >
   class A_matrix : public std::unary_function
-  <int, CGAL::Transform_diff_const_iterator
-   <int, A_column
-    <NT, typename Access_coordinate_begin_d::Coordinate_iterator> > >
+  <int, boost::transform_iterator <A_column
+    <NT, typename Access_coordinate_begin_d::Coordinate_iterator>, 
+				   boost::counting_iterator<int> > >
   { 
     typedef typename MA_detail::A_column
     <NT, typename Access_coordinate_begin_d::Coordinate_iterator> A_column;
   public:
-    typedef CGAL::Transform_diff_const_iterator
-    <int, A_column> result_type;
+    typedef boost::transform_iterator
+    <A_column, boost::counting_iterator<int> > result_type;
     
     A_matrix ()
     {}
@@ -219,10 +219,14 @@ private:
   // QP solver iterator types
   typedef MA_detail::A_matrix <NT, Access_coordinates_begin_d,
 			       Point_iterator> A_matrix;
-  typedef CGAL::Transform_diff_const_iterator<int, A_matrix>   A_iterator;
+  typedef boost::transform_iterator
+  <A_matrix,  
+   boost::counting_iterator<int> >   A_iterator;
 
   typedef MA_detail::B_vector <NT> B_vector;
-  typedef CGAL::Transform_diff_const_iterator<int, B_vector>   B_iterator;
+  typedef  boost::transform_iterator
+  <B_vector,
+    boost::counting_iterator<int> >  B_iterator;
 
   typedef CGAL::Const_oneset_iterator<CGAL::Comparison_result> R_iterator;  
  
@@ -633,8 +637,10 @@ private:
     }
         
     LP lp (2*points.size(), d+2, 
-	   A_iterator (0, A_matrix (d, da_coord, points.begin())),
-	   B_iterator (0, B_vector (d)), 
+	   A_iterator ( boost::counting_iterator<int>(0), 
+			A_matrix (d, da_coord, points.begin())),
+	   B_iterator ( boost::counting_iterator<int>(0), 
+			B_vector (d)), 
 	   R_iterator (CGAL::EQUAL), 
 	   c_vector.begin());
     

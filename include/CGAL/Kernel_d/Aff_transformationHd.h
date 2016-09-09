@@ -15,20 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformationHd.h $
-// $Id: Aff_transformationHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Aff_transformationHd.h $
+// $Id: Aff_transformationHd.h 42940 2008-04-17 13:32:52Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_AFF_TRANSFORMATIONHD_H
 #define CGAL_AFF_TRANSFORMATIONHD_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/aff_transformation_tags.h>
 #include <CGAL/rational_rotation.h>
 #include <CGAL/Handle_for.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -202,7 +201,7 @@ Aff_transformationHd<RT,LA> inverse() const
 { Aff_transformationHd<RT,LA> Inv; RT D; 
   Vector dummy;
   if ( !LA::inverse(matrix(),Inv.ptr()->M_,D,dummy) ) 
-  CGAL_assertion_msg(0,"Aff_transformationHd::inverse: not invertible.");
+  CGAL_error_msg("Aff_transformationHd::inverse: not invertible.");
   if ( D < 0 ) Inv.ptr()->M_ = -Inv.ptr()->M_;
   return Inv;
 }

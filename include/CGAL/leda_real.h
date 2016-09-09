@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/leda_real.h $
-// $Id: leda_real.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/leda_real.h $
+// $Id: leda_real.h 45636 2008-09-18 15:35:55Z hemmer $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -25,6 +25,9 @@
 #define CGAL_LEDA_REAL_H
 
 #include <CGAL/number_type_basic.h>
+
+#ifdef CGAL_USE_LEDA
+
 #include <CGAL/leda_coercion_traits.h>
 
 #include <CGAL/utils.h>
@@ -58,7 +61,7 @@ template <> class Algebraic_structure_traits< leda_real >
     typedef Tag_true           Is_numerical_sensitive;
 
     class Sqrt
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return CGAL_LEDA_SCOPE::sqrt( x );
@@ -66,7 +69,7 @@ template <> class Algebraic_structure_traits< leda_real >
     };
 
     class Kth_root
-      : public Binary_function<int, Type, Type> {
+      : public std::binary_function<int, Type, Type> {
       public:
         Type operator()( int k,
                                         const Type& x) const {
@@ -80,7 +83,6 @@ template <> class Algebraic_structure_traits< leda_real >
     class Root_of {
       public:
         typedef Type result_type;
-        typedef Arity_tag< 3 >         Arity;
 
 //        typedef leda_rational Boundary;
       private:
@@ -117,19 +119,18 @@ template <> class Algebraic_structure_traits< leda_real >
 };
 
 template <> class Real_embeddable_traits< leda_real >
-  : public Real_embeddable_traits_base< leda_real > {
+  : public INTERN_RET::Real_embeddable_traits_base< leda_real , CGAL::Tag_true > {
   public:
-
     class Abs
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
             return CGAL_LEDA_SCOPE::abs( x );
         }
     };
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return (::CGAL::Sign) CGAL_LEDA_SCOPE::sign( x );
@@ -137,7 +138,7 @@ template <> class Real_embeddable_traits< leda_real >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
@@ -151,7 +152,7 @@ template <> class Real_embeddable_traits< leda_real >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           // this call is required to get reasonable values for the double
@@ -162,7 +163,7 @@ template <> class Real_embeddable_traits< leda_real >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
 
@@ -254,5 +255,7 @@ namespace leda {
 #include <CGAL/leda_rational.h>
 #include <CGAL/leda_bigfloat.h>
 #include <CGAL/leda_real.h>
+
+#endif // CGAL_USE_LEDA
 
 #endif // CGAL_LEDA_REAL_H

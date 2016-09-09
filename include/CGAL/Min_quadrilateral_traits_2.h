@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
-// $Id: Min_quadrilateral_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
+// $Id: Min_quadrilateral_traits_2.h 43660 2008-06-18 14:25:08Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -28,7 +28,7 @@
 #include <CGAL/Polygon_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/utility.h>
-#include <CGAL/functional.h>
+#include <functional>
 #include <vector>
 
 CGAL_BEGIN_NAMESPACE
@@ -158,12 +158,8 @@ public:
     bool
     operator()(const Rectangle_2& p, const Rectangle_2& q) const
     {
-      typename Kernel::Rep_tag tag;
-      #if defined(__sun) && defined(__SUNPRO_CC)
-          // to avoid a warning "tag has not yet been assigned a value"
-          typedef typename Kernel::Rep_tag Rep_tag;
-          tag = Rep_tag();
-      #endif // SUNPRO
+      typedef typename Kernel::Rep_tag Rep_tag;
+      Rep_tag tag  CGAL_SUNPRO_INITIALIZE(= Rep_tag());
       return area_numerator(p, tag) * area_denominator(q, tag) <
              area_denominator(p, tag) * area_numerator(q, tag);
     }
@@ -207,12 +203,8 @@ public:
     bool
     operator()(const Parallelogram_2& p, const Parallelogram_2& q) const
     {
-      typename Kernel::Rep_tag tag;
-      #if defined(__sun) && defined(__SUNPRO_CC)
-          // to avoid a warning "tag has not yet been assigned a value"
-          typedef typename Kernel::Rep_tag Rep_tag;
-          tag = Rep_tag();
-      #endif // SUNPRO
+      typedef typename Kernel::Rep_tag Rep_tag;
+      Rep_tag tag  CGAL_SUNPRO_INITIALIZE(= Rep_tag());
       return area_numerator(p, tag) * area_denominator(q, tag) <
              area_denominator(p, tag) * area_numerator(q, tag);
     }
@@ -251,12 +243,8 @@ public:
     bool
     operator()(const Strip_2& p, const Strip_2& q) const
     {
-      typename Kernel::Rep_tag tag;
-      #if defined(__sun) && defined(__SUNPRO_CC)
-          // to avoid a warning "tag has not yet been assigned a value"
-          typedef typename Kernel::Rep_tag Rep_tag;
-          tag = Rep_tag();
-      #endif // SUNPRO
+      typedef typename Kernel::Rep_tag Rep_tag;
+      Rep_tag tag  CGAL_SUNPRO_INITIALIZE(= Rep_tag());
       return width_numerator(p, tag) * width_denominator(q, tag) <
              width_denominator(p, tag) * width_numerator(q, tag);
     }

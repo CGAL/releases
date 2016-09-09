@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
-// $Id: OGL_helper.h 37976 2007-04-06 08:53:48Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
+// $Id: OGL_helper.h 44713 2008-08-01 15:38:58Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -41,6 +41,10 @@
 #endif
 
 #ifdef __APPLE__
+#  include <AvailabilityMacros.h>
+#endif
+
+#if defined __APPLE__ && !defined MAC_OS_X_VERSION_10_5
     #define CGAL_GLU_TESS_DOTS ...
 #else
     #define CGAL_GLU_TESS_DOTS
@@ -346,6 +350,10 @@ namespace OGL {
       glColor3ub(c.red(), c.green(), c.blue());
       glBegin(GL_POINTS);
       glVertex3d(v->x(),v->y(),v->z());
+#ifdef CGAL_NEF_EMPHASIZE_VERTEX
+      glColor3ub(255,0,0);
+      glVertex3d(CGAL_NEF_EMPHASIZE_VERTEX);
+#endif
       glEnd();
     }
 

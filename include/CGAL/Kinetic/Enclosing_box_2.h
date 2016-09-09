@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_2.h $
-// $Id: Enclosing_box_2.h 36134 2007-02-09 00:39:39Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_2.h $
+// $Id: Enclosing_box_2.h 39095 2007-06-14 21:50:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,8 +22,7 @@
 #define CGAL_KINETIC_ENCLOSING_BOX_2_H
 #include <CGAL/basic.h>
 #include <CGAL/Kinetic/Ref_counted.h>
-#include <CGAL/Kinetic/Active_objects_listener_helper.h>
-#include <CGAL/Kinetic/Simulator_kds_listener.h>
+#include <CGAL/Kinetic/listeners.h>
 #include <CGAL/Kinetic/Event_base.h>
 
 CGAL_KINETIC_BEGIN_NAMESPACE
@@ -73,10 +72,9 @@ class  Enclosing_box_2: public Ref_counted<Enclosing_box_2<Traits> >
   typedef typename Traits::Kinetic_kernel Kinetic_kernel;
   typedef typename Traits::Active_points_2_table Active_points_2_table;
 
-  typedef typename CGAL::Kinetic::Simulator_kds_listener<typename Simulator::Listener, This> Simulator_listener;
-  friend  class CGAL::Kinetic::Simulator_kds_listener<typename Simulator::Listener, This>;
-  typedef typename CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_2_table::Listener, This> Active_points_2_table_listener;
-  friend class CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_2_table::Listener, This>;
+  CGAL_KINETIC_DECLARE_AOT_LISTENER(typename Active_points_2_table);
+  //typedef typename CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_2_table::Listener, This> Active_points_2_table_listener;
+  //friend class CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_2_table::Listener, This>;
 
   typedef typename Simulator::Event_key Event_key;
   typedef typename Simulator::Time Time;
@@ -92,16 +90,16 @@ public:
 
   typedef typename Function::NT NT;
   //typedef double NT;
-  Enclosing_box_2( Traits tr, NT xmin=-10, NT xmax=10, NT ymin=-10, NT ymax=10):traits_(tr),
-										motl_(tr.active_points_2_table_handle(), this) {
+  Enclosing_box_2( Traits tr, NT xmin=-10, NT xmax=10, NT ymin=-10, NT ymax=10):traits_(tr) {
     CGAL_assertion(xmin<xmax);
     CGAL_assertion(ymin<ymax);
     bounds_[LEFT]=xmin;
     bounds_[RIGHT]=xmax;
     bounds_[TOP]=ymax;
     bounds_[BOTTOM]=ymin;
-    CGAL_KINETIC_LOG(LOG_SOME, "Constructed box with sides [" << bounds_[LEFT] << "..." << bounds_[RIGHT]
+    CGAL_LOG(Log::SOME, "Constructed box with sides [" << bounds_[LEFT] << "..." << bounds_[RIGHT]
 		 << "]x[" << bounds_[BOTTOM] << "..." << bounds_[TOP] << "]" << std::endl);
+    CGAL_KINETIC_INITIALIZE_AOT_LISTENER(tr.active_points_2_table_handle());
   };
 
   ~Enclosing_box_2() {
@@ -178,7 +176,7 @@ protected:
 
   Side try_bound(Side try_side, Point_key k,Side old_side,  double& old_time) const
   {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Trying point " << traits_.active_points_2_table_handle()->at(k) << " on side " << try_side << std::endl);
+    CGAL_LOG(Log::LOTS, "Trying point " << traits_.active_points_2_table_handle()->at(k) << " on side " << try_side << std::endl);
     Function nf;
     NT bound=bounds_[try_side];
     typename Kinetic_kernel::Certificate re;
@@ -202,7 +200,7 @@ protected:
       }
     }
     if (re.will_fail()) {
-      CGAL_KINETIC_LOG(LOG_LOTS, "Side fails at " << re.failure_time() << std::endl);
+      CGAL_LOG(Log::LOTS, "Side fails at " << re.failure_time() << std::endl);
       double dv= CGAL::to_interval(re.failure_time()).first;
       if (dv < old_time) {
 	old_time=dv;
@@ -257,8 +255,7 @@ protected:
   NT bounds_[4];
   Traits traits_;
   std::map<Point_key, Event_key> certs_;
-  Active_points_2_table_listener motl_;
-
+  
 };
 
 CGAL_KINETIC_END_NAMESPACE

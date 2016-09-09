@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Marching_tetrahedra_observer_default_3.h $
-// $Id: Marching_tetrahedra_observer_default_3.h 36593 2007-02-25 13:09:11Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Marching_tetrahedra_observer_default_3.h $
+// $Id: Marching_tetrahedra_observer_default_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
 
 #ifndef CGAL_MARCHING_TETRAHEDRA_OBSERVER_DEFAULT_3_H
 #define CGAL_MARCHING_TETRAHEDRA_OBSERVER_DEFAULT_3_H
+
+#include <CGAL/basic.h>
 
 CGAL_BEGIN_NAMESPACE
 

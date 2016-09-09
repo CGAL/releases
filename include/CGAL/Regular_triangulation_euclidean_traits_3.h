@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
-// $Id: Regular_triangulation_euclidean_traits_3.h 35253 2006-11-21 10:08:03Z fcazals $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
+// $Id: Regular_triangulation_euclidean_traits_3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
@@ -27,6 +27,7 @@
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Weighted_point.h>
 #include <CGAL/representation_tags.h>
+#include <CGAL/Kernel_traits.h>
 
 #include <CGAL/predicates/Regular_triangulation_ftC3.h>
 #include <CGAL/predicates/Regular_triangulation_rtH3.h>
@@ -43,8 +44,8 @@ class Power_test_3
 {
 public:
   typedef typename K::Weighted_point_3                  Weighted_point_3;
+  typedef typename K::Oriented_side                     Oriented_side;
 
-  typedef Arity_tag< 5 >   Arity;
   typedef Oriented_side    result_type;
 
   Oriented_side operator() ( const Weighted_point_3 & p,
@@ -85,8 +86,8 @@ class Compare_power_distance_3
 public:
   typedef typename K::Weighted_point_3                  Weighted_point_3;
   typedef typename K::Bare_point                        Point_3;
+  typedef typename K::Comparison_result                 Comparison_result;
 
-  typedef Arity_tag< 3 >     Arity;
   typedef Comparison_result  result_type;
 
   Comparison_result operator() ( const Point_3 & p,
@@ -106,8 +107,8 @@ class In_smallest_orthogonal_sphere_3
 {
 public:
   typedef typename K::Weighted_point_3               Weighted_point_3;
+  typedef typename K::Sign                           Sign;
 
-  typedef Arity_tag< 5 >   Arity;
   typedef Sign             result_type;
 
   Sign operator() ( const Weighted_point_3 & p,
@@ -118,12 +119,12 @@ public:
   {
     K traits;
     typename K::Orientation_3  orientation = traits.orientation_3_object();
-    Orientation o = orientation(p,q,r,s);
-    Oriented_side os = power_test_3(p,q,r,s,t);
+    typename K::Orientation o = orientation(p,q,r,s);
+    typename K::Oriented_side os = power_test_3(p,q,r,s,t);
     CGAL_triangulation_assertion( o != COPLANAR);
     // the minus sign below is due to the fact that power_test_3
     // return in fact minus the 5x5 determinant of lifted (p,q,r,s.t)
-    return Sign( (-1) * o * os);
+    return - o * os;
   }
   
   Sign operator() ( const Weighted_point_3 & p,
@@ -165,8 +166,8 @@ class Side_of_bounded_orthogonal_sphere_3
 public :
   typedef typename K::Weighted_point_3                 Weighted_point_3;
   typedef typename K::In_smallest_orthogonal_sphere_3  In_sphere;
+  typedef typename K::Bounded_side                     Bounded_side;
 
-  typedef Arity_tag< 5 >   Arity;
   typedef Bounded_side     result_type;
 
   Bounded_side operator() ( const Weighted_point_3 & p,
@@ -175,7 +176,7 @@ public :
 			    const Weighted_point_3 & s,
 			    const Weighted_point_3 & t) const
   {
-    return Bounded_side( (-1) * In_sphere()(p,q,r,s,t));
+    return enum_cast<CGAL::Bounded_side>( - In_sphere()(p,q,r,s,t));
   }
   
   Bounded_side operator() ( const Weighted_point_3 & p,
@@ -183,14 +184,14 @@ public :
 			    const Weighted_point_3 & r,
 			    const Weighted_point_3 & s) const
   {
-    return Bounded_side ( (-1) * In_sphere()(p,q,r,s) );
+    return enum_cast<CGAL::Bounded_side>( - In_sphere()(p,q,r,s) );
   }
 
   Bounded_side operator() ( const Weighted_point_3 & p,
 			    const Weighted_point_3 & q,
 			    const Weighted_point_3 & r) const
   {
-    return Bounded_side ( (-1) * In_sphere()(p,q,r) );
+    return enum_cast<CGAL::Bounded_side>( - In_sphere()(p,q,r) );
   }
 
 };
@@ -204,8 +205,8 @@ class Does_simplex_intersect_weighted_dual_support_3
 {
 public:
   typedef typename K::Weighted_point_3               Weighted_point_3;
+  typedef typename K::Bounded_side                   Bounded_side;
 
-  typedef Arity_tag< 4 >   Arity;
   typedef Bounded_side     result_type;
 
   Bounded_side operator()(const Weighted_point_3 & p,
@@ -247,7 +248,6 @@ public:
   typedef typename K::Bare_point                     Bare_point;
   typedef typename K::FT                             FT;
 
-  typedef Arity_tag< 4 >   Arity;
   typedef Bare_point       result_type;
 
   Bare_point operator() ( const Weighted_point_3 & p,
@@ -295,7 +295,6 @@ public:
   typedef typename K::Weighted_point_3               Weighted_point_3;
   typedef typename K::FT                             FT;
 
-  typedef Arity_tag< 2 >   Arity;
   typedef FT               result_type;
 
   FT operator() (const Weighted_point_3 & p,
@@ -314,7 +313,6 @@ public:
   typedef typename K::Weighted_point_3               Weighted_point_3;
   typedef typename K::FT                             FT;
 
-  typedef Arity_tag< 4 >   Arity;
   typedef FT               result_type;
 
   FT operator() ( const Weighted_point_3 & p,
@@ -358,7 +356,6 @@ class Compute_critical_squared_radius_3
   typedef typename K::Weighted_point_3                  Weighted_point_3; 
   typedef typename K::FT                                FT;
  
-  typedef Arity_tag< 5 >   Arity;
   typedef FT               result_type;
 
   result_type operator() (const Weighted_point_3 & p,
@@ -462,17 +459,17 @@ class Regular_triangulation_euclidean_traits_3
 {};
 
 // Cartesian versions.
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &r,
-           const Weighted_point<pt, Weight> &s,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &r,
+           const Weighted_point<Point, Weight> &s,
+           const Weighted_point<Point, Weight> &t,
 	   Cartesian_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
@@ -480,58 +477,58 @@ power_test_3(const Weighted_point<pt, Weight> &p,
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &r,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &r,
+           const Weighted_point<Point, Weight> &t,
 	   Cartesian_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &t,
 	   Cartesian_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
 	   Cartesian_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(FT(p.weight()),
                         FT(q.weight()));
 }
 
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Comparison_result
-compare_power_distance_3 (const pt &p,
-			  const Weighted_point<pt, Weight> &q,
-			  const Weighted_point<pt, Weight> &r,
+typename Kernel_traits<Point>::Kernel::Comparison_result
+compare_power_distance_3 (const Point &p,
+			  const Weighted_point<Point, Weight> &q,
+			  const Weighted_point<Point, Weight> &r,
 			  Cartesian_tag)
 {
-   typedef typename pt::R::FT FT;
+   typedef typename Kernel_traits<Point>::Kernel::FT FT;
    return compare_power_distanceC3(p.x(), p.y(), p.z(),
 				   q.x(), q.y(), q.z(), FT(q.weight()),
 				   r.x(), r.y(), r.z(), FT(r.weight()));
@@ -540,17 +537,17 @@ compare_power_distance_3 (const pt &p,
 
 
 // Homogeneous versions.
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &r,
-           const Weighted_point<pt, Weight> &s,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &r,
+           const Weighted_point<Point, Weight> &s,
+           const Weighted_point<Point, Weight> &t,
 	   Homogeneous_tag)
 {
-    typedef typename pt::R::RT RT;
+    typedef typename Kernel_traits<Point>::Kernel::RT RT;
     return power_testH3(p.hx(), p.hy(), p.hz(), p.hw(), RT(p.weight()),
                         q.hx(), q.hy(), q.hz(), q.hw(), RT(q.weight()),
                         r.hx(), r.hy(), r.hz(), r.hw(), RT(r.weight()),
@@ -561,57 +558,57 @@ power_test_3(const Weighted_point<pt, Weight> &p,
 // The followings call the cartesian version over FT, because an homogeneous
 // special version would be boring to write.
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &r,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &r,
+           const Weighted_point<Point, Weight> &t,
 	   Homogeneous_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         r.x(), r.y(), r.z(), FT(r.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
-           const Weighted_point<pt, Weight> &t,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
+           const Weighted_point<Point, Weight> &t,
 	   Homogeneous_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(p.x(), p.y(), p.z(), FT(p.weight()),
                         q.x(), q.y(), q.z(), FT(q.weight()),
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt, Weight> &p,
-           const Weighted_point<pt, Weight> &q,
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point, Weight> &p,
+           const Weighted_point<Point, Weight> &q,
 	   Homogeneous_tag)
 {
-    typedef typename pt::R::FT FT;
+    typedef typename Kernel_traits<Point>::Kernel::FT FT;
     return power_testC3(FT(p.weight()),
                         FT(q.weight()));
 }
 
 template < class Point, class Weight >
 inline
-Comparison_result
+typename Kernel_traits<Point>::Kernel::Comparison_result
 compare_power_distance_3 (const Point &p,
 			  const Weighted_point<Point, Weight> &q,
 			  const Weighted_point<Point, Weight> &t,
 			  Homogeneous_tag)
 {
-  typedef typename Point::R::FT FT;
+  typedef typename Kernel_traits<Point>::Kernel::FT FT;
   return compare_power_distanceC3(p.x(), p.y(), p.z(), FT(p.weight()),
 				  q.x(), q.y(), q.z(), FT(q.weight()),
 				  t.x(), t.y(), t.z(), FT(t.weight()));
@@ -619,60 +616,60 @@ compare_power_distance_3 (const Point &p,
 
 // Kludges for M$.
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt,Weight> &p,
-	   const Weighted_point<pt,Weight> &q,
-	   const Weighted_point<pt,Weight> &r,
-	   const Weighted_point<pt,Weight> &s,
-	   const Weighted_point<pt,Weight> &t)
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point,Weight> &p,
+	   const Weighted_point<Point,Weight> &q,
+	   const Weighted_point<Point,Weight> &r,
+	   const Weighted_point<Point,Weight> &s,
+	   const Weighted_point<Point,Weight> &t)
 {
-  typedef typename pt::R::Rep_tag Tag;
+  typedef typename Kernel_traits<Point>::Kernel::Rep_tag Tag;
   return power_test_3(p,q,r,s,t, Tag());
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt,Weight> &p,
-	   const Weighted_point<pt,Weight> &q,
-	   const Weighted_point<pt,Weight> &r,
-	   const Weighted_point<pt,Weight> &t)
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point,Weight> &p,
+	   const Weighted_point<Point,Weight> &q,
+	   const Weighted_point<Point,Weight> &r,
+	   const Weighted_point<Point,Weight> &t)
 {
-  typedef typename pt::R::Rep_tag Tag;
+  typedef typename Kernel_traits<Point>::Kernel::Rep_tag Tag;
   return power_test_3(p,q,r,t, Tag());
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt,Weight> &p,
-	   const Weighted_point<pt,Weight> &q,
-	   const Weighted_point<pt,Weight> &t)
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point,Weight> &p,
+	   const Weighted_point<Point,Weight> &q,
+	   const Weighted_point<Point,Weight> &t)
 {
-  typedef typename pt::R::Rep_tag Tag;
+  typedef typename Kernel_traits<Point>::Kernel::Rep_tag Tag;
   return power_test_3(p,q,t, Tag());
 }
 
-template < class pt, class Weight >
+template < class Point, class Weight >
 inline
-Oriented_side
-power_test_3(const Weighted_point<pt,Weight> &p,
-	   const Weighted_point<pt,Weight> &q)
+typename Kernel_traits<Point>::Kernel::Oriented_side
+power_test_3(const Weighted_point<Point,Weight> &p,
+	   const Weighted_point<Point,Weight> &q)
 {
-  typedef typename pt::R::Rep_tag Tag;
+  typedef typename Kernel_traits<Point>::Kernel::Rep_tag Tag;
   return power_test_3(p,q, Tag());
 }
 
 template < class Point, class Weight >
 inline
-Comparison_result
+typename Kernel_traits<Point>::Kernel::Comparison_result
 compare_power_distance_3 (const Point &p,
 			  const Weighted_point<Point, Weight> &q,
 			  const Weighted_point<Point, Weight> &r)
 {
-  typedef typename Point::R::Rep_tag Tag;
+  typedef typename Kernel_traits<Point>::Kernel::Rep_tag Tag;
   return compare_power_distance_3(p,q,r, Tag());
 }
 
@@ -684,6 +681,11 @@ CGAL_END_NAMESPACE
 #include <CGAL/Filtered_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
+
+// This declaration is needed to break the cyclic dependency.
+template < typename K >
+class Regular_triangulation_filtered_traits_3;
+
 
 template < typename CK, typename T >
 class Regular_triangulation_euclidean_traits_3 < Filtered_kernel<CK>, T>

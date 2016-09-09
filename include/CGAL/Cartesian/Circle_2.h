@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
-// $Id: Circle_2.h 32866 2006-08-01 09:08:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
+// $Id: Circle_2.h 46968 2008-11-21 08:01:45Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -24,8 +24,8 @@
 #ifndef CGAL_CARTESIAN_CIRCLE_2_H
 #define CGAL_CARTESIAN_CIRCLE_2_H
 
-#include <CGAL/utility.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
+#include <boost/tuple/tuple.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,7 +37,7 @@ class CircleC2
   typedef typename R_::Circle_2             Circle_2;
   typedef typename R_::Point_2              Point_2;
 
-  typedef Triple<Point_2, FT, Orientation>         Rep;
+  typedef boost::tuple<Point_2, FT, Orientation>   Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -50,7 +50,7 @@ public:
   CircleC2(const Point_2 &center, const FT &squared_radius = FT(0),
            const Orientation &orient = COUNTERCLOCKWISE) // Is this new?
   {
-    CGAL_kernel_precondition( ( squared_radius >= FT(0) ) &&
+    CGAL_kernel_precondition( ( squared_radius >= FT(0) ) &
                               ( orient    != COLLINEAR) );
 
     base = Rep(center, squared_radius, orient);
@@ -61,17 +61,17 @@ public:
 
   const Point_2 & center() const
   {
-    return get(base).first;
+    return get(base).template get<0>();
   }
 
   const FT & squared_radius() const
   {
-    return get(base).second;
+    return get(base).template get<1>();
   }
 
   Orientation orientation() const
   {
-    return get(base).third;
+    return get(base).template get<2>();
   }
 
 };

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
-// $Id: Env_surface_data_traits_3.h 34650 2006-10-03 11:47:40Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
+// $Id: Env_surface_data_traits_3.h 40353 2007-09-16 20:52:34Z golubevs $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -23,8 +23,8 @@
  * Definition of the env_surface_data_traits_3<> class template.
  */
 
-#include<CGAL/Arr_traits_2/Curve_data_aux.h>
-#include<list>
+#include <CGAL/Arr_geometry_traits/Curve_data_aux.h>
+#include <list>
 
 CGAL_BEGIN_NAMESPACE
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/random_selection.h $
-// $Id: random_selection.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/random_selection.h $
+// $Id: random_selection.h 42624 2008-03-27 22:59:00Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -38,10 +38,10 @@ OutputIterator random_selection( RandomAccessIterator first,
                                  OutputIterator result,
                                  Random& rnd)
     // choose a random item from the range [`first',`last') and write it
-    // to `first2', each item from the range with equal probability.
-    // Repeat this n times, thus writing n items to `first2'. A single
+    // to `result', each item from the range with equal probability.
+    // Repeat this n times, thus writing n items to `result'. A single
     // random number is needed from `rnd' for each item. Returns the
-    // value of `first2' after inserting the n items.
+    // value of `result' after inserting the n items.
 {
     int m = int(last - first);
     for ( Size i = 0; i < n; i++) {

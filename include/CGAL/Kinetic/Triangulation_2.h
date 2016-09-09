@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Triangulation_2.h $
-// $Id: Triangulation_2.h 36128 2007-02-08 16:31:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Triangulation_2.h $
+// $Id: Triangulation_2.h 42807 2008-04-09 12:46:22Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -189,8 +189,8 @@ public:
     del_(del) {
     vhs_.resize(del_.number_of_vertices());
     for (typename Triangulation::Vertex_iterator vit = del_.vertices_begin(); vit != del_.vertices_end(); ++vit) {
-      CGAL_assertion(vit->point().to_index() < del_.number_of_vertices());
-      vhs_[vit->point().to_index()]=vit;
+      CGAL_assertion(vit->point().index() < del_.number_of_vertices());
+      vhs_[vit->point().index()]=vit;
     }
     init_data(false);
   
@@ -281,7 +281,7 @@ public:
       }
       
       batched_certs_.clear();
-      /*CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, 
+      /*CGAL_LOG(CGAL::Kinetic::Log::SOME, 
        *traits_.simulator_handle() << std::endl;);*/
       //int dnum= num_certificates_-num_certs;
       //std::cout << "Edit had " << dnum << " certificate computations" << std::endl;
@@ -309,7 +309,7 @@ public:
 
     } else {
       if (tf==true && del_.dimension()==2) {
-        CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, "DELAUNAY2: Creating certificates."<< std::endl);
+        CGAL_LOG(CGAL::Kinetic::Log::SOME, "DELAUNAY2: Creating certificates."<< std::endl);
         if (no_failures) {
           for (Face_iterator f = del_.all_faces_begin(); f != del_.all_faces_end(); ++f) {
             f->set_event(traits_.simulator_handle()->null_event());
@@ -337,7 +337,7 @@ public:
           delete_certificate(f);
         }
       } 
-      CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, 
+      CGAL_LOG(CGAL::Kinetic::Log::SOME, 
 		       *traits_.simulator_handle() << std::endl;);
       has_certificates_=tf;
     }
@@ -347,12 +347,12 @@ public:
   }
 
   void erase(Point_key k) {
-    CGAL_assertion(0);
+    CGAL_error();
 #if 0    
     // erase all incident certificates
     Vertex_handle vh= vertex_handle(k);
     if (vh == Vertex_handle()) {
-      CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, "Point " << k << " is not in triangulation on removal."<< std::endl);
+      CGAL_LOG(CGAL::Kinetic::Log::SOME, "Point " << k << " is not in triangulation on removal."<< std::endl);
       return;
     }
     watcher_.remove_vertex(vh);
@@ -400,13 +400,13 @@ public:
     //new_edges_.clear();
     traits_.point_changed(k);
     if (del_.dimension() != 2) {
-      CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME,"Triangulation is still 1D.\n");
+      CGAL_LOG(CGAL::Kinetic::Log::SOME,"Triangulation is still 1D.\n");
       return;
     }
 
     Vertex_handle vh=vertex_handle(k);
     if (vh == Vertex_handle()) {
-      CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, "Point " << k << " is not in triangulation on set."<< std::endl);
+      CGAL_LOG(CGAL::Kinetic::Log::SOME, "Point " << k << " is not in triangulation on set."<< std::endl);
       return;
     }
 
@@ -451,7 +451,7 @@ public:
 
   void insert(Point_key k) {
     // evil hack
-    CGAL_precondition(k.to_index() >= vhs_.size() || vertex_handle(k) == Vertex_handle());
+    CGAL_precondition(k.index() >= vhs_.size() || vertex_handle(k) == Vertex_handle());
     CGAL_TRIANGULATION_2_DEBUG(std::cout << "Inserting " << k << std::endl);
     bool was_2d= (del_.dimension()==2);
 
@@ -513,7 +513,7 @@ public:
 	flip(Edge(f, 1));
       } else {
 	CGAL::Comparison_result cx02= traits_.compare(f->vertex(0)->point(), f->vertex(2)->point(), 0);
-	if (cx02 == CGAL::Comparison_result(-cx12)) {
+	if (cx02 == -cx12) {
 	  flip(Edge(f,2));
 	} else {
 	  flip(Edge(f,0));
@@ -526,13 +526,13 @@ public:
   void flip(const Edge &e) {
     ++num_events_;
     CGAL_precondition(!batching_);
-    CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, "\n\n\n\n\n\nFlipping edge "
+    CGAL_LOG(CGAL::Kinetic::Log::SOME, "\n\n\n\n\n\nFlipping edge "
 		     << TDS_helper::origin(e)->point()
 		     << TDS_helper::destination(e)->point() 
 		     << " to get " << TDS_helper::third_vertex(e)->point()
 		     << ", " << TDS_helper::mirror_vertex(e)->point()<< std::endl);
-    //CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_NONE, TDS_helper::destination(e)->point() << std::endl);
-    //CGAL_KINETIC_LOG(CGAL::Kinetic::LOG_SOME, " at "  << traits_.simulator()->current_time() << std::endl);
+    //CGAL_LOG(CGAL::Kinetic::Log::NONE, TDS_helper::destination(e)->point() << std::endl);
+    //CGAL_LOG(CGAL::Kinetic::Log::SOME, " at "  << traits_.simulator()->current_time() << std::endl);
 
     Face_handle face= e.first;
     int index= e.second;
@@ -641,15 +641,15 @@ protected:
 
 
   Vertex_handle vertex_handle(Point_key k) const {
-    //if (k.to_index() >= vhs_.size()) return Vertex_handle();
-    CGAL_precondition(k.to_index() < vhs_.size());
-    return vhs_[k.to_index()];
+    //if (k.index() >= vhs_.size()) return Vertex_handle();
+    CGAL_precondition(k.index() < vhs_.size());
+    return vhs_[k.index()];
   }
 
 
   void set_vertex_handle(Point_key k, Vertex_handle vh) {
-    vhs_.resize(std::max BOOST_PREVENT_MACRO_SUBSTITUTION(k.to_index()+1, vhs_.size()));
-    vhs_[k.to_index()]=vh;
+    vhs_.resize(std::max BOOST_PREVENT_MACRO_SUBSTITUTION(k.index()+1, vhs_.size()));
+    vhs_[k.index()]=vh;
   }
 
 
@@ -663,7 +663,7 @@ protected:
     if (e->event() != Event_key()) {
       CGAL_TRIANGULATION_2_DEBUG(std::cout << "Already has event " << std::endl);
       // can't do this since I create all edges around vertex of degree 4 at once
-      // CGAL_assertion(0);
+      // CGAL_error();
     } else {
       //CGAL_TRIANGULATION_2_DEBUG(std::cout << "New certificate" << std::endl);
       new_certificate(e);

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/short_names_2.h $
-// $Id: short_names_2.h 31283 2006-05-25 11:28:23Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/short_names_2.h $
+// $Id: short_names_2.h 44175 2008-07-16 07:21:40Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -22,6 +22,7 @@
 #ifndef CGAL_APOLLONIUS_GRAPH_2_SHORT_NAMES_2_H
 #define CGAL_APOLLONIUS_GRAPH_2_SHORT_NAMES_2_H
 
+#if 0 // Disabled to see if it's still really needed.
 
 #define Apollonius_site_2                          As2
 #define Apollonius_graph_2                         Ag2
@@ -34,5 +35,6 @@
 #define Apollonius_graph_traits_wrapper_2          Agtw2
 #define Apollonius_graph_kernel_wrapper_2          Agkw2
 
+#endif // 0
 
 #endif //CGAL_APOLLONIUS_GRAPH_2_SHORT_NAMES_2_H

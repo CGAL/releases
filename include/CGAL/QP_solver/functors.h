@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/functors.h $
-// $Id: functors.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/functors.h $
+// $Id: functors.h 46451 2008-10-23 14:31:10Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr 
@@ -49,6 +49,8 @@ class QP_matrix_pairwise_accessor;
 template < class RndAccIt >
 class Value_by_basic_index;
 
+template<typename Map>
+class Map_with_default;
 
 // =====================
 // class implementations
@@ -95,7 +97,6 @@ template < class MatrixIt, bool check_1st_lower, bool check_1st_upper,
 class QP_matrix_accessor {
 
   public:    
-    typedef CGAL::Arity_tag<2> Arity;
     typedef int argument1_type;
     typedef int argument2_type;
     typedef typename std::iterator_traits<MatrixIt>::value_type VectorIt;
@@ -144,7 +145,7 @@ public:
   // (more precisely: once Join_input_iterator_1 should not use an internal
   // mutable variable 'val' anymore, you can remove the following default
   // constructor).
-  QP_matrix_pairwise_accessor() {}
+  //QP_matrix_pairwise_accessor() {}
   
   QP_matrix_pairwise_accessor( MatrixIt it, int row)
     : m (it), v (*(it + row)), r (row)                                  
@@ -229,6 +230,42 @@ private:
   RndAccIt     a;
 };
 
+
+// -------------------
+// Map_with_default
+// -------------------
+template<typename Map>
+class Map_with_default {
+  // public types
+public:
+  typedef typename Map::mapped_type       mapped_type;
+  typedef typename Map::difference_type   difference_type;
+  typedef mapped_type                     result_type;
+  // data members
+private:
+  const Map* map; // pointer to map
+  mapped_type d;  // default value
+  
+public:
+  // construction
+  Map_with_default ()
+    : map(0), d()
+  {}
+
+  Map_with_default (const Map* m, const mapped_type& v = mapped_type())
+    : map(m), d(v)
+  {}
+  
+  // operator()
+  const mapped_type& operator() (difference_type n) const {
+    CGAL_qpe_precondition (map != 0);
+    typename Map::const_iterator i = map->find (n);
+    if (i != map->end())
+      return i->second;
+    else
+      return d;
+  }
+};
 
 CGAL_END_NAMESPACE
 

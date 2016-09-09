@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/surface_neighbor_coordinates_3.h $
-// $Id: surface_neighbor_coordinates_3.h 37386 2007-03-23 07:29:55Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/surface_neighbor_coordinates_3.h $
+// $Id: surface_neighbor_coordinates_3.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -201,7 +201,6 @@ struct Project_vertex_iterator_to_point
   typedef typename std::iterator_traits<NodeIterator>::value_type Node;
   typedef typename Node::Point  Point;
   typedef Point                 result_type;
-  typedef Arity_tag<1> Arity;
   Point&       operator()( NodeIterator& x) const { return x->point(); }
   const Point& operator()( const NodeIterator& x) const { return x->point(); }
 };

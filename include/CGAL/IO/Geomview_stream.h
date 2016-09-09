@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Geomview/include/CGAL/IO/Geomview_stream.h $
-// $Id: Geomview_stream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Geomview/include/CGAL/IO/Geomview_stream.h $
+// $Id: Geomview_stream.h 39778 2007-08-08 15:59:25Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -464,7 +464,7 @@ operator<<(Geomview_stream &gv, const Sphere_3<R> &S)
        << " {appearance {+edge material {edgecolor "
        << gv.ecr()  << gv.ecg()  << gv.ecb() <<  "} shading constant}{ "
        << "SPHERE\n"
-       << CGAL_CLIB_STD::sqrt(CGAL::to_double(S.squared_radius())) << "\n";
+       << std::sqrt(CGAL::to_double(S.squared_radius())) << "\n";
 
     bool raw_bak = gv.set_raw(true);
     gv << Point_3<R>(S.center()) << "}})";

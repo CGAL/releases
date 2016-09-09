@@ -1,5 +1,5 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
-// All rights reserved.
+// Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2008       GeometryFactory, Sophia Antipolis (France)
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
-// $Id: Surface_mesher_regular_edges.h 36704 2007-02-28 18:22:28Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
+// $Id: Surface_mesher_regular_edges.h 43498 2008-06-06 12:22:22Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -24,6 +24,7 @@
 #include <CGAL/utility.h>
 #include <CGAL/circulator.h>
 #include <set>
+#include <vector>
 
 namespace CGAL {
 
@@ -54,9 +55,9 @@ namespace CGAL {
       typedef typename Tr::Vertex_handle Vertex_handle;
       typedef std::pair<Vertex_handle, Vertex_handle> EdgeVV;
       typedef typename Triangulation_mesher_level_traits_3<Tr>::Zone Zone;
-      typedef std::list<Edge> Edges;
-      typedef std::list<Facet> Facets;
-      typedef Const_circulator_from_container<Facets> Facet_circulator;
+      typedef std::vector<Edge> Edges;
+      typedef std::vector<Facet> Facets;
+      typedef typename C2T3::Facet_circulator Facet_circulator;
       typedef typename Tr::Finite_edges_iterator Finite_edges_iterator;
 
   protected:
@@ -159,7 +160,8 @@ namespace CGAL {
       // For before_insertion
 
       // Actions to perform on a facet inside the conflict zone
-      void handle_facet_inside_conflict_zone (const Facet& f) {
+      void 
+      before_insertion_handle_facet_inside_conflict_zone (const Facet& f) {
 	Facet cote = f;
 	Facet autre_cote = SMB::mirror_facet(cote);
 
@@ -177,9 +179,11 @@ namespace CGAL {
       }
 
       // Action to perform on a facet on the boundary of the conflict zone
-      void handle_facet_on_boundary_of_conflict_zone (const Facet& f) {
+      void 
+      before_insertion_handle_facet_on_boundary_of_conflict_zone(const Facet& f)
+      {
 	// perform the same operations as for an internal facet
-	handle_facet_inside_conflict_zone (f);
+	before_insertion_handle_facet_inside_conflict_zone (f);
       }
 
     public:
@@ -256,7 +260,7 @@ namespace CGAL {
       }
     }
 
-    void before_insertion_impl(const Facet&, const Point& s,
+    void before_insertion_impl(const Facet& f, const Point& s,
 			       Zone& zone) {
       if( bad_edges_initialized )
       {
@@ -264,14 +268,14 @@ namespace CGAL {
                zone.internal_facets.begin();
              fit != zone.internal_facets.end();
              ++fit)
-          handle_facet_inside_conflict_zone (*fit);
+          before_insertion_handle_facet_inside_conflict_zone (*fit);
 
         for (typename Zone::Facets_iterator fit =
                zone.boundary_facets.begin(); fit !=
                zone.boundary_facets.end(); ++fit)
-          handle_facet_on_boundary_of_conflict_zone (*fit);
+          before_insertion_handle_facet_on_boundary_of_conflict_zone (*fit);
       }
-      SMB::before_insertion_impl(Facet(), s, zone);
+      SMB::before_insertion_impl(f, s, zone);
     }
 
     void after_insertion_impl(const Vertex_handle v) {
@@ -323,13 +327,19 @@ namespace CGAL {
     std::string debug_info() const
     {
       std::stringstream s;
-      s << SMB::debug_info() << "," << bad_edges.size();
+      s << SMB::debug_info() << ",";
+      if(bad_edges_initialized)
+	s << bad_edges.size();
+      else
+	s << "non manifold edges not initialized";
       return s.str();
     }
 
-    static std::string debug_info_header()
+    std::string debug_info_header() const
     {
-      return SMB::debug_info_header() + "," + "number of bad edges";
+      std::stringstream s;
+      s << SMB::debug_info_header() << "," << "#bad edges";
+      return s.str();
     }
   };  // end Surface_mesher_regular_edges_base
 

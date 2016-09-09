@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base_impl.h $
-// $Id: QP__filtered_base_impl.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP__filtered_base_impl.h $
+// $Id: QP__filtered_base_impl.h 46188 2008-10-09 09:42:02Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -183,7 +183,7 @@ update_maxima( )
 
 	    // scan row and update maxima
 	    for ( col = 0; col < n; ++col) {
-		z = CGAL::abs( (*(a_it + col))[ row]);
+		z = CGAL::abs( *((*(a_it + col))+row));
 		if ( z > row_max      ) row_max       = z;
 		if ( z > col_max[ col]) col_max[ col] = z;
 	    }

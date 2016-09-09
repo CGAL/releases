@@ -3,16 +3,6 @@
 #include <CGAL/basic.h>
 #include <iostream>
 
-#ifndef CGAL_USE_QT
-
-int main(int, char*)
-{
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-  return 0;
-}
-
-#else
 #include <qapplication.h>
 #include <qfont.h>
 #include <qpushbutton.h>
@@ -127,18 +117,19 @@ class Placement : public QObject
     void clear()
     {
       if (Stream_lines != NULL)
-	{
-	  delete Stream_lines;
-	  Stream_lines = NULL;
-	  delete runge_kutta_integrator;
-	  runge_kutta_integrator = NULL;
-	  delete regular_grid;
-	  regular_grid = NULL;
-	  d_stl = true;
-	  d_pq = false;
-	  d_tr = false;
-	  d_bc = false;
-	}
+      {
+        delete Stream_lines;
+        Stream_lines = NULL;
+        delete runge_kutta_integrator;
+        runge_kutta_integrator = NULL;
+        delete regular_grid;
+        regular_grid = NULL;
+        d_stl = true;
+        d_pq = false;
+        d_tr = false;
+        d_bc = false;
+        completed = false;
+      }
     }
     void load( const QString & s )
     {
@@ -173,7 +164,6 @@ class Placement : public QObject
     }
     void generate()
     {
-      std::cout << "processing...\n";
       Stream_lines = new Strl(*regular_grid, *runge_kutta_integrator, density_, ratio_, sampling_);
       number_of_lines_ = Stream_lines->number_of_lines();
       std::cout << "success\n";
@@ -197,13 +187,13 @@ class Placement : public QObject
       d_pq = false;
       d_tr = false;
       d_bc = false;
-      draw();
       placement->setItemEnabled(generate_id, false);
       placement->setItemEnabled(generatefirst_id, false);
       placement->setItemEnabled(generatenext_id, !completed);
       placement->setItemEnabled(generateten_id,  !completed);
       placement->setItemEnabled(generateresume_id,  !completed);
       placement->setItemEnabled(clear_id,  !completed);
+      draw();
     }
     void generateNext(bool b = true)
     {
@@ -221,7 +211,6 @@ class Placement : public QObject
         placement->setItemEnabled(generateten_id, !completed);
         placement->setItemEnabled(generateresume_id, !completed);
         placement->setItemEnabled(clear_id,  !completed);
-
     }
     void generateTen()
     {
@@ -241,7 +230,7 @@ class Placement : public QObject
         delete Stream_lines;
       Stream_lines = NULL;
 
-		// desable all generator menu items
+    // desable all generator menu items
       placement->setItemEnabled(generate_id, true);
       placement->setItemEnabled(generatefirst_id, true);
       placement->setItemEnabled(generatenext_id, false);
@@ -580,7 +569,7 @@ MyWidget::MyWidget(QGLWidget *parent)
   view_id = menu->insertItem( "&View ", view );
   file->insertItem( "&Quit", qApp, SLOT(quit()), ALT+Key_F4 );
 
-	// desable all generator menu items
+  // desable all generator menu items
   placement->setItemEnabled(generate_id, false);
   placement->setItemEnabled(generatefirst_id, false);
   placement->setItemEnabled(generatenext_id, false);
@@ -612,4 +601,3 @@ int main(int argc, char *argv[])
   return app.exec();
 }
 
-#endif

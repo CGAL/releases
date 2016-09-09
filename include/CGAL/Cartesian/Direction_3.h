@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
-// $Id: Direction_3.h 33063 2006-08-06 15:29:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
+// $Id: Direction_3.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_DIRECTION_3_H
 #define CGAL_CARTESIAN_DIRECTION_3_H
 
-#include <CGAL/Threetuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -39,18 +39,19 @@ class DirectionC3
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Direction_3          Direction_3;
 
-  typedef Threetuple<FT>                           Rep;
+  typedef CGAL::array<FT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
+
   typedef R_                                R;
 
   DirectionC3() {}
 
   DirectionC3(const Vector_3 &v)
-    : base(v.x(), v.y(), v.z()) {}
+    : base(CGAL::make_array(v.x(), v.y(), v.z())) {}
   // { *this = v.direction(); }
 
   DirectionC3(const Line_3 &l)
@@ -63,25 +64,25 @@ public:
   { *this = s.direction(); }
 
   DirectionC3(const FT &x, const FT &y, const FT &z)
-    : base(x, y, z) {}
+    : base(CGAL::make_array(x, y, z)) {}
 
-  bool           operator==(const DirectionC3 &d) const;
-  bool           operator!=(const DirectionC3 &d) const;
+  typename R::Boolean   operator==(const DirectionC3 &d) const;
+  typename R::Boolean   operator!=(const DirectionC3 &d) const;
 
   Vector_3       to_vector() const;
   Vector_3       vector() const { return to_vector(); }
 
   const FT & dx() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const FT & dy() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
   const FT & dz() const
   {
-      return get(base).e2;
+      return get(base)[2];
   }
 
   const FT & hdx() const
@@ -104,7 +105,7 @@ public:
 
 template < class R >
 inline
-bool
+typename R::Boolean
 DirectionC3<R>::operator==(const DirectionC3<R> &d) const
 {
   if (CGAL::identical(base, d.base))
@@ -114,7 +115,7 @@ DirectionC3<R>::operator==(const DirectionC3<R> &d) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 DirectionC3<R>::operator!=(const DirectionC3<R> &d) const
 {
   return !(*this == d);

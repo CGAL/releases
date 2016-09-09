@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_multiplicity.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_multiplicity.h $
 // $Id: Filtered_rational_multiplicity.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //

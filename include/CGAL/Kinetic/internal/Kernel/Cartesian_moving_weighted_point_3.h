@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_weighted_point_3.h $
-// $Id: Cartesian_moving_weighted_point_3.h 38559 2007-05-04 21:23:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_weighted_point_3.h $
+// $Id: Cartesian_moving_weighted_point_3.h 39777 2007-08-08 15:30:58Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -135,11 +135,7 @@ std::istream &operator>>(std::istream &in,
   do {
     in >> c;
   }
-#ifndef CGAL_CFG_NO_LOCALE
    while (std::isspace(c,std::locale::classic() ));
-#else
-  while (std::isspace(c));
-#endif
 
   if (c != ',') {
     in.setstate(std::ios_base::failbit);

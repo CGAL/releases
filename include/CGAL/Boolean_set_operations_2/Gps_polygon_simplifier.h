@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
-// $Id: Gps_polygon_simplifier.h 36785 2007-03-03 09:09:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
+// $Id: Gps_polygon_simplifier.h 39595 2007-07-30 14:26:04Z golubevs $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h>
 #include <CGAL/Sweep_line_2.h>
-#include <CGAL/Sweep_line_2/Arr_construction_curve.h>
+#include <CGAL/Sweep_line_2/Arr_construction_subcurve.h>
 #include <CGAL/Sweep_line_2/Arr_construction_event.h>
 
 #include <CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h>
@@ -57,10 +57,10 @@ class Gps_polygon_simplifier
                                                       Ccb_halfedge_const_circulator;
   typedef typename Arrangement_2::Ccb_halfedge_circulator 
                                                       Ccb_halfedge_circulator;
-  typedef Arr_construction_curve<Meta_traits>         Subcurve; 
+  typedef Arr_construction_subcurve<Meta_traits>      Subcurve; 
   typedef Arr_construction_event<Meta_traits,
                                  Subcurve,
-                                 Halfedge_handle>     Event;
+                                 Arrangement_2>       Event;
 
   typedef Gps_agg_op_base_visitor<Meta_traits,
                                   Arrangement_2,

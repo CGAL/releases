@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
-// $Id: Circular_arc_point_2.h 33659 2006-08-24 14:20:34Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
+// $Id: Circular_arc_point_2.h 45889 2008-09-30 13:36:33Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -26,12 +26,9 @@
 #define CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_POINT_2_H
 
 #include <iostream>
-#include <cassert>
-
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Interval_nt.h>
 #include <boost/type_traits/is_same.hpp>
-#include <CGAL/global_functions_on_circle_2.h>
 
 namespace CGAL {
 namespace CGALi {

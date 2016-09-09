@@ -12,16 +12,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h 37103 2007-03-15 09:05:20Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $Id: Coercion_traits.h 47295 2008-12-09 10:05:42Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
 //
 // =============================================================================
-
-// TODO: The comments are all original EXACUS comments and aren't adapted. So
-//         they may be wrong now.
 
 /*! \file NiX/Coercion_traits.h
  *  \brief Defines class NiX::Coercion_traits. 
@@ -43,15 +40,15 @@
 // Makro to define an additional operator for binary functors which takes
 // two number types as parameters that are interoperable with the
 // number type
-#define CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( NT, Result_type  )    \
-  template < class NT1, class NT2 >                                        \
-  Result_type operator()( const NT1& x, const NT2& y ) const {             \
-    BOOST_STATIC_ASSERT((::boost::is_same<                                 \
-          typename Coercion_traits< NT1, NT2 >::Type, NT          \
-                                         >::value));                       \
-                                                                           \
-    typename Coercion_traits< NT1, NT2 >::Cast cast;                       \
-    return operator()( cast(x), cast(y) );                                 \
+#define CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( NT, Result_type  ) \
+  template < class CT_Type_1, class CT_Type_2 >                         \
+  Result_type operator()( const CT_Type_1& x, const CT_Type_2& y ) const { \
+    BOOST_STATIC_ASSERT((::boost::is_same<                              \
+            typename Coercion_traits< CT_Type_1, CT_Type_2 >::Type, NT  \
+            >::value));                                                 \
+                                                                        \
+    typename Coercion_traits< CT_Type_1, CT_Type_2 >::Cast cast;        \
+    return operator()( cast(x), cast(y) );                              \
   }
 
 #define CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( NT ) \
@@ -157,38 +154,46 @@ template<class A , class B, int > struct Coercion_traits_for_level;
     
 
 
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,int);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long long);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,float);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,double);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long double);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,int)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long)
+#ifdef CGAL_USE_LONG_LONG
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long long)
+#endif
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,double)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short,long double)
         
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long long);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,float);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,double);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long double);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long)
+#ifdef CGAL_USE_LONG_LONG
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long long)
+#endif
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,double)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int,long double)
 
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,long long);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,float);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,double);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,long double);
+#ifdef CGAL_USE_LONG_LONG
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,long long)
+#endif
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,double)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long,long double)
 
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,float);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,double);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,long double);
+#ifdef CGAL_USE_LONG_LONG
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,float)
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,double)
+  CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long long,long double)
+#endif
 
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float,double);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float,long double);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float,double)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float,long double)
       
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double,long double);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double,long double)
 
 //! Specialization for equal types.
 template <class A>    
 struct Coercion_traits<A,A>{ 
-    typedef Tag_true  Are_explicit_interoperable;
-    typedef Tag_false Are_implicit_interoperable;
+    typedef Tag_true Are_explicit_interoperable;
+    typedef Tag_true Are_implicit_interoperable;
     typedef A Type; 
     struct Cast{                                        
         typedef Type result_type;                             
@@ -198,13 +203,15 @@ struct Coercion_traits<A,A>{
     };
 };
     
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(short);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(int);   
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long long);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(float);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(double);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long double);
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(short)
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(int)  
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long)
+#ifdef CGAL_USE_LONG_LONG
+  CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long long)
+#endif
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(float)
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(double)
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(long double)
 
 enum COERCION_TRAITS_LEVEL {
     CTL_TOP          = 4,

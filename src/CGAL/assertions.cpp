@@ -15,40 +15,32 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/src/CGAL/assertions.cpp $
-// $Id: assertions.cpp 35750 2007-01-18 13:46:53Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/src/CGAL/assertions.cpp $
+// $Id: assertions.cpp 46983 2008-11-21 16:42:02Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schönherr
 
-
 #include <CGAL/config.h>
 #include <CGAL/assertions.h>
+#include <CGAL/assertions_behaviour.h>
 #include <CGAL/exceptions.h>
 
 #include <cstdlib>
 #include <iostream>
-#include <cassert>
 
 CGAL_BEGIN_NAMESPACE
 
-// not_implemented function
-// ------------------------
-void
-not_implemented()
-{
-    assert( false);
-}
+namespace {
 
-// static behaviour variables
-// --------------------------
+// behaviour variables
+// -------------------
 
-static Failure_behaviour _error_behaviour   = THROW_EXCEPTION;
-static Failure_behaviour _warning_behaviour = CONTINUE;
+Failure_behaviour _error_behaviour   = THROW_EXCEPTION;
+Failure_behaviour _warning_behaviour = CONTINUE;
 
 // standard error handlers
 // -----------------------
-static
 void
 _standard_error_handler(
         const char* what,
@@ -57,18 +49,23 @@ _standard_error_handler(
         int         line,
         const char* msg )
 {
+#ifdef __GNUG__
+    // After g++ 3.4, std::terminate defaults to printing to std::cerr itself.
+    if (_error_behaviour == THROW_EXCEPTION)
+        return;
+#endif
     std::cerr << "CGAL error: " << what << " violation!" << std::endl
-         << "Expr: " << expr << std::endl
-         << "File: " << file << std::endl
-         << "Line: " << line << std::endl;
-    if ( msg != 0)
-        std::cerr << "Explanation:" << msg << std::endl;
+         << "Expression : " << expr << std::endl
+         << "File       : " << file << std::endl
+         << "Line       : " << line << std::endl
+         << "Explanation: " << msg << std::endl
+         << "Refer to the bug-reporting instructions at http://www.cgal.org/bug_report.html"
+	 << std::endl;
 }
 
 
 // standard warning handler
 // ------------------------
-static
 void
 _standard_warning_handler( const char *,
                           const char* expr,
@@ -76,98 +73,90 @@ _standard_warning_handler( const char *,
                           int         line,
                           const char* msg )
 {
+#ifdef __GNUG__
+    // After g++ 3.4, std::terminate defaults to printing to std::cerr itself.
+    if (_warning_behaviour == THROW_EXCEPTION)
+        return;
+#endif
     std::cerr << "CGAL warning: check violation!" << std::endl
-         << "Expr: " << expr << std::endl
-         << "File: " << file << std::endl
-         << "Line: " << line << std::endl;
-    if ( msg != 0)
-        std::cerr << "Explanation:" << msg << std::endl;
-
+         << "Expression : " << expr << std::endl
+         << "File       : " << file << std::endl
+         << "Line       : " << line << std::endl
+         << "Explanation: " << msg << std::endl
+         << "Refer to the bug-reporting instructions at http://www.cgal.org/bug_report.html"
+	 << std::endl;
 }
 
 // default handler settings
 // ------------------------
-static Failure_function
-_error_handler = _standard_error_handler;
+Failure_function _error_handler   = _standard_error_handler;
+Failure_function _warning_handler = _standard_warning_handler;
 
-static Failure_function
-_warning_handler = _standard_warning_handler;
+} // anonymous namespace
 
 // failure functions
 // -----------------
 void
 assertion_fail( const char* expr,
-                     const char* file,
-                     int         line,
-                     const char* msg )
+                const char* file,
+                int         line,
+                const char* msg)
 {
-    (*_error_handler)("assertion", expr, file, line, msg);
+    _error_handler("assertion", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        CGAL_CLIB_STD::abort();
+        std::abort();
     case EXIT:
-        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
+        std::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+        std::exit(0);  // EXIT_SUCCESS
+    case CONTINUE: // The CONTINUE case should not be used anymore.
     case THROW_EXCEPTION:
+    default:
         throw Assertion_exception("CGAL", expr, file, line, msg);
-    case CONTINUE:
-        ;
     }
-}
-void assertion_fail( const char* expr, const char* file, int line )
-{
-  assertion_fail(expr,file,line,"");
 }
 
 void
 precondition_fail( const char* expr,
-                        const char* file,
-                        int         line,
-                        const char* msg )
+                   const char* file,
+                   int         line,
+                   const char* msg)
 {
-    (*_error_handler)("precondition", expr, file, line, msg);
+    _error_handler("precondition", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        CGAL_CLIB_STD::abort();
+        std::abort();
     case EXIT:
-        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
+        std::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
-    case THROW_EXCEPTION:
-        throw Precondition_exception("CGAL", expr, file, line, msg);
+        std::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
-        ;
+    case THROW_EXCEPTION:
+    default:
+        throw Precondition_exception("CGAL", expr, file, line, msg);
     }
-}
-void precondition_fail( const char* expr, const char* file, int line )
-{
-  precondition_fail(expr,file,line,"");
 }
 
 void
 postcondition_fail(const char* expr,
-                         const char* file,
-                         int         line,
-                         const char* msg )
+                   const char* file,
+                   int         line,
+                   const char* msg)
 {
-    (*_error_handler)("postcondition", expr, file, line, msg);
+    _error_handler("postcondition", expr, file, line, msg);
     switch (_error_behaviour) {
     case ABORT:
-        CGAL_CLIB_STD::abort();
+        std::abort();
     case EXIT:
-        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
+        std::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
-    case THROW_EXCEPTION:
-        throw Postcondition_exception("CGAL", expr, file, line, msg);
+        std::exit(0);  // EXIT_SUCCESS
     case CONTINUE:
-        ;
+    case THROW_EXCEPTION:
+    default:
+        throw Postcondition_exception("CGAL", expr, file, line, msg);
     }
-}
-void postcondition_fail( const char* expr, const char* file, int line )
-{
-  postcondition_fail(expr,file,line,"");
 }
 
 
@@ -175,27 +164,23 @@ void postcondition_fail( const char* expr, const char* file, int line )
 // ----------------
 void
 warning_fail( const char* expr,
-                   const char* file,
-                   int         line,
-                   const char* msg )
+              const char* file,
+              int         line,
+              const char* msg)
 {
-    (*_warning_handler)("warning", expr, file, line, msg);
+    _warning_handler("warning", expr, file, line, msg);
     switch (_warning_behaviour) {
     case ABORT:
-        CGAL_CLIB_STD::abort();
+        std::abort();
     case EXIT:
-        CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
+        std::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
-        CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+        std::exit(0);  // EXIT_SUCCESS
     case THROW_EXCEPTION:
         throw Warning_exception("CGAL", expr, file, line, msg);
     case CONTINUE:
         ;
     }
-}
-void warning_fail( const char* expr, const char* file, int line )
-{
-  warning_fail(expr,file,line,"");
 }
 
 
@@ -206,7 +191,7 @@ set_error_handler( Failure_function handler)
 {
     Failure_function result = _error_handler;
     _error_handler = handler;
-    return( result);
+    return result;
 }
 
 Failure_function
@@ -214,7 +199,7 @@ set_warning_handler( Failure_function handler)
 {
     Failure_function result = _warning_handler;
     _warning_handler = handler;
-    return( result);
+    return result;
 }
 
 Failure_behaviour

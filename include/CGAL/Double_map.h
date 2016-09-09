@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Double_map.h $
-// $Id: Double_map.h 37703 2007-03-30 08:35:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Double_map.h $
+// $Id: Double_map.h 45717 2008-09-24 09:13:57Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -26,8 +26,13 @@
 #include <CGAL/assertions.h>
 #include <CGAL/function_objects.h> // for CGAL::Identity
 
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 103500
+#  define CGAL_USE_BOOST_BIMAP
+#endif
+
 #ifdef CGAL_USE_BOOST_BIMAP
-#include <boost/bimap/bimap.hpp>
+#include <boost/bimap.hpp>
 #include <boost/bimap/multiset_of.hpp>
 #endif
 
@@ -46,17 +51,25 @@ public:
   typedef Double_map<Key, Data, Direct_compare, Reverse_compare> Self;
   
 #ifdef CGAL_USE_BOOST_BIMAP
-  typedef ::boost::bimap::bimap< ::boost::bimap::set_of<Key, Direct_compare>,
-				 ::boost::bimap::multiset_of<Data, Reverse_compare> > Boost_bimap;
+  typedef ::boost::bimap< ::boost::bimaps::set_of<Key, Direct_compare>,
+				 ::boost::bimaps::multiset_of<Data, Reverse_compare> > Boost_bimap;
 
-  typedef typename Boost_bimap::left_map_type Direct_func;
-  typedef typename Boost_bimap::right_map_type Reverse_func;
+  typedef typename Boost_bimap::left_map Direct_func;
+  typedef typename Boost_bimap::right_map Reverse_func;
   typedef typename Reverse_func::iterator reverse_iterator;
   typedef typename Boost_bimap::relation relation;
+  typedef typename Boost_bimap::left_key_type left_key_type;
+  typedef typename Boost_bimap::left_value_type left_value_type;
+  typedef typename Boost_bimap::right_key_type right_key_type;
+  typedef typename Boost_bimap::right_value_type right_value_type;
 #else
   typedef std::multimap <Data, Key, Reverse_compare> Reverse_func;
   typedef typename Reverse_func::iterator reverse_iterator;
   typedef std::map <Key, reverse_iterator, Direct_compare> Direct_func;
+  typedef typename Self::Direct_func::key_type left_key_type;
+  typedef typename Self::Direct_func::value_type left_value_type;
+  typedef typename Self::Reverse_func::key_type right_key_type;
+  typedef typename Self::Reverse_func::value_type right_value_type;
 #endif
   typedef typename Direct_func::value_type Direct_entry;
                // std::pair<Key, reverse_iterator> 

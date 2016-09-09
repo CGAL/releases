@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/demo/Convex_hull_d/chull_dd-runtime.cpp $
-// $Id: chull_dd-runtime.cpp 37057 2007-03-13 13:47:55Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/demo/Convex_hull_d/chull_dd-runtime.cpp $
+// $Id: chull_dd-runtime.cpp 47018 2008-11-25 10:43:44Z afabri $
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -27,7 +27,6 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
-
 
 
 #ifdef CGAL_USE_GMP
@@ -95,7 +94,7 @@ void print_to_file(pp_int V, int n, int d, std::string s)
 void read_from_file(pp_int& V, int& n, int& d, std::string s)
 {
   std::ifstream In(s.c_str());
-  CGAL_assertion(In);
+  CGAL_assertion(In.good());
   In >> d >> n;
   create(V,n,d);int i=0,c;
   while ( In >> c ) { V[i/d][i%d]=c; ++i;}
@@ -229,9 +228,10 @@ if ( which & 16 )  {
 
 #ifdef CGAL_USE_LEDA
 #if defined(LEDA_NAMESPACE)
-  leda::print_statistics();
+ std::cout << "leda::print_statistics() is missing in the free edition" << std::endl;
+//  leda::print_statistics();
 #else
-  print_statistics();
+//  print_statistics();
 #endif
 #endif
   destroy(V,n);

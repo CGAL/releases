@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation/Construct_point_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Optimisation_basic/include/CGAL/Optimisation/Construct_point_3.h $
 // $Id: Construct_point_3.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //

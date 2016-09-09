@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Point_set_2/include/CGAL/Point_set_2.h $
-// $Id: Point_set_2.h 29694 2006-03-22 16:11:11Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_2/include/CGAL/Point_set_2.h $
+// $Id: Point_set_2.h 40729 2007-10-27 08:36:01Z spion $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -30,12 +30,9 @@
 #include <map>
 #include <stack>
 #include <cmath>
-
-
+#include <climits>
 
 CGAL_BEGIN_NAMESPACE
-
-
 
 template<class Gt, class Tds = Triangulation_data_structure_2 <Triangulation_vertex_base_2<Gt> > >
 class  Point_set_2 : public  Delaunay_triangulation_2<Gt,Tds>
@@ -76,14 +73,12 @@ public:
   typedef Unique_hash_map<Vertex_handle, Numb_type>         MAP_TYPE;  
   typedef Delaunay_triangulation_2<Gt,Tds>                  Base;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::finite_vertices_begin;
   using Base::finite_vertices_end;
   using Base::number_of_vertices;
   using Base::VERTEX;
   using Base::insert;
   using Base::remove;
-#endif
 
    Comparedist                   tr_comparedist;
    Orientation_2                 tr_orientation;  

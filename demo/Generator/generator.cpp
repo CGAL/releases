@@ -12,29 +12,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/demo/Generator/generator.cpp $
-// $Id: generator.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/demo/Generator/generator.cpp $
+// $Id: generator.cpp 45457 2008-09-09 22:17:19Z lrineau $
 //
 //
 // Author(s)     :Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-int main(int, char*){
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl; return 0;
-}
-#else
-
 #include <CGAL/Cartesian.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/Join_input_iterator.h>
 #include <CGAL/Counting_iterator.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_standard_toolbar.h>
@@ -378,6 +369,3 @@ main(int argc, char **argv)
   current_state = -1;
   return app.exec();
 }
-
-
-#endif

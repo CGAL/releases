@@ -11,15 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Taucs_fix.h $
-// $Id: Taucs_fix.h 39408 2007-07-18 15:07:12Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Taucs_fix.h $
+// $Id: Taucs_fix.h 46746 2008-11-07 15:30:00Z lrineau $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
-#ifndef CGAL_TAUCS_FIX
-#define CGAL_TAUCS_FIX
+#ifndef CGAL_TAUCS_FIX_H
+#define CGAL_TAUCS_FIX_H
 
+#include <CGAL/basic.h> // include basic.h before testing #defines
 
 //
 // Include TAUCS main header taucs.h
@@ -54,5 +55,4 @@ extern "C" {
     #undef max
 #endif
 
-
-#endif // CGAL_TAUCS_FIX
+#endif // CGAL_TAUCS_FIX_H

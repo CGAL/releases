@@ -50,6 +50,10 @@ class SHalfedge_base  {
   typedef typename Refs::SFace_const_handle SFace_const_handle;
   typedef typename Refs::Halffacet_handle Halffacet_handle;
   typedef typename Refs::Halffacet_const_handle Halffacet_const_handle;
+  typedef typename Refs::SHalfedge_around_facet_circulator
+    SHalfedge_around_facet_circulator;
+  typedef typename Refs::SHalfedge_around_sface_circulator
+    SHalfedge_around_sface_circulator;
 
   // Role within local graph:
   SVertex_handle     source_;
@@ -152,7 +156,44 @@ class SHalfedge_base  {
     GenPtr& info() { return info_; }
     const GenPtr& info() const { return info_; }
 
- public:
+    bool in_outer_facet_cycle() const {
+      if(++facet()->facet_cycles_begin() ==
+	 facet()->facet_cycles_end()) return true;
+      const Refs* sncp = source()->source()->sncp();
+      SHalfedge_around_facet_circulator sfc(this), send(sfc);
+      do {
+	if(sncp()->is_boundary_item(sfc))
+	  break;
+      } while(++sfc != send);
+      CGAL_assertion(sncp()->is_boundary_item(sfc));
+      if(sfc == facet()->facet_cycles_begin())
+	return true;
+      return false;
+    }
+    
+    bool in_inner_facet_cycle() const {
+      return !in_outer_facet_cycle();
+    }
+
+    bool in_outer_sface_cycle() const {
+      if(++incident_sface()->sface_cycles_begin() ==
+	 incident_sface()->sface_cycles_end()) return true;
+      const Refs* sncp = source()->source()->sncp();
+      SHalfedge_around_sface_circulator sfc(this), send(sfc);
+      do {
+	if(sncp()->is_sm_boundary_item(sfc))
+	  break;
+      } while(++sfc != send);
+      CGAL_assertion(sncp()->is_sm_boundary_item(sfc));
+      if(sfc == incident_sface()->sface_cycles_begin())
+	return true;
+      return false;
+    }
+    
+   bool in_inner_sface_cycle() const {
+      return !in_outer_sface_cycle();
+    }
+
     std::string debug() const
       { std::stringstream os; 
 	set_pretty_mode(os); 

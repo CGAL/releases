@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h 38349 2007-04-19 17:32:41Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -100,7 +100,7 @@ public:
     case 0: return CGAL::compare_x(v1->point(), v2->point()) == SMALLER;
     case 1: return CGAL::compare_y(v1->point(), v2->point()) == SMALLER;
     case 2: return CGAL::compare_z(v1->point(), v2->point()) == SMALLER;
-    default: CGAL_assertion(false);
+    default: CGAL_error();
     }
     return false;
   }
@@ -113,7 +113,7 @@ public:
     case 0: return CGAL::compare_x(v1->point(), v2->point()) == SMALLER;
     case 1: return CGAL::compare_y(v1->point(), v2->point()) == SMALLER;
     case 2: return CGAL::compare_z(v1->point(), v2->point()) == SMALLER;
-    default: CGAL_assertion(false);
+    default: CGAL_error();
     }
     return false;
   }
@@ -138,7 +138,7 @@ public:
 			   CGAL::to_interval(v2->point().y()).first;
     case 2: return CGAL::to_interval(v1->point().z()).second <
 			   CGAL::to_interval(v2->point().z()).first;
-    default: CGAL_assertion(false);
+    default: CGAL_error();
     }
     return false;
   }
@@ -154,7 +154,7 @@ public:
 			   CGAL::to_interval(v2->point().y()).first;
     case 2: return CGAL::to_interval(v1->point().z()).second <
 			   CGAL::to_interval(v2->point().z()).first;
-    default: CGAL_assertion(false);
+    default: CGAL_error();
     }
     return false;
   }
@@ -249,6 +249,7 @@ private:
 public:
   friend class Objects_along_ray;
   friend class Objects_around_segment;
+  friend class Objects_around_box;
 
 public:
   
@@ -326,7 +327,7 @@ public:
       for(o = object_list.begin(); o != object_list.end(); ++o)
         if(assign(tri,*o)) {
           tri.transform(t);
-	  *o = Object_handle(tri);
+	  *o = make_object(tri);
         }
 #endif // CGAL_NEF3_TRIANGULATE_FACETS 
     }
@@ -366,7 +367,7 @@ public:
 	    int length = 0;	
 	    typename Traits::SHalfedge_around_facet_circulator safc(f->facet_cycles_begin()), 
 	      send(safc);
-	    while(++length < lower_limit && ++safc != send);
+	    while(++length < lower_limit && ++safc != send) ; 
 	    if(length >= lower_limit)
 	      ++s;	
 	  }
@@ -384,7 +385,7 @@ public:
   template<typename Depth>
   void add_facet(Halffacet_handle f, Depth depth) {
     if(left_node == 0) {
-      object_list.push_back(Object_handle(f));
+      object_list.push_back(make_object(f));
       return;
     }
 
@@ -399,7 +400,7 @@ public:
   template<typename Depth>
   void add_edge(Halfedge_handle e, Depth depth) {
     if(left_node == 0) {
-      object_list.push_back(Object_handle(e));
+      object_list.push_back(make_object(e));
       return;
     }
 
@@ -414,7 +415,7 @@ public:
   template<typename Depth>
   void add_vertex(Vertex_handle v, Depth depth) {
     if(left_node == 0) {
-      object_list.push_back(Object_handle(v));
+      object_list.push_back(make_object(v));
       return;
     }
 
@@ -647,6 +648,120 @@ void divide_segment_by_plane( Segment_3 s, Plane_3 pl,
     }
   };
 
+class Objects_around_box {
+
+ public:
+  class Iterator;
+ protected:
+  Node *root_node;
+  Bounding_box_3 box;
+  bool initialized;
+
+ public:
+  Objects_around_box() : initialized(false) {}
+  Objects_around_box(const K3_tree& k, const Bounding_box_3& b) : 
+    root_node(k.root), box(b), initialized(true) {}
+      
+  void initialize( const K3_tree& k, const Bounding_box_3& b) {
+    root_node = k.root;
+    box = b;
+    initialized = true;
+  }
+  
+ public:
+  Iterator begin() const {
+    CGAL_assertion( initialized == true);
+    return Iterator( root_node, box);
+  }
+
+  Iterator end() const {
+    return Iterator();
+  }
+
+  class Iterator {
+
+    friend class K3_tree;
+    typedef Iterator Self;
+    typedef std::pair< const Node*, Bounding_box_3> Candidate;
+
+  protected:
+    std::list<Candidate> S;
+    const Node* node;
+
+  public:
+    Iterator() : node(0) {}
+
+    Iterator( const Node* root, const Bounding_box_3& s) {
+      S.push_front( Candidate( root, s));
+      ++(*this); // place the interator in the first intersected cell
+    }
+
+    Iterator( const Self& i) : S(i.S), node(i.node) {}
+
+    const Object_list& operator*() const { 
+      CGAL_assertion( node != 0);
+      return node->objects();
+    }
+    
+    Self& operator++() {
+        
+      if(S.empty())
+	node = 0; // end of the iterator
+      else {
+	while( !S.empty()) {
+	  const Node* n = S.front().first;
+	  Bounding_box_3 b = S.front().second;
+	  S.pop_front();
+	  if( n->is_leaf()) {
+	    node = n;
+	    break;
+	  } else {
+	    Point_3 pmin(b.min_coord(0), b.min_coord(1), b.min_coord(2));
+	    Point_3 pmax(b.max_coord(0), b.max_coord(1), b.max_coord(2));
+	    Oriented_side src_side = 
+	      n->plane().oriented_side(pmax);
+	    Oriented_side tgt_side = 
+	      n->plane().oriented_side(pmin);
+	    if( src_side == tgt_side &&
+		src_side != ON_ORIENTED_BOUNDARY)
+	      S.push_front( Candidate( get_child_by_side( n, src_side), b));
+	    else {
+	      S.push_front( Candidate( get_child_by_side( n, tgt_side), b));
+	      S.push_front( Candidate( get_child_by_side( n, src_side), b));
+	    }
+	  }
+	}
+      }
+      return *this;
+    }
+
+    bool operator==(const Self& i) const { 
+      return (node == i.node); 
+    }
+
+    bool operator!=(const Self& i) const { 
+      return !(*this == i); 
+    }
+
+  private:
+    const Node* get_node() const { 
+      CGAL_assertion( node != 0);
+      return node;
+    }
+      
+    inline 
+    const Node* get_child_by_side( const Node* node, Oriented_side side) {
+      CGAL_assertion( node != NULL);
+      CGAL_assertion( side != ON_ORIENTED_BOUNDARY);
+      if( side == ON_NEGATIVE_SIDE) {
+	return node->left();
+      }
+      CGAL_assertion( side == ON_POSITIVE_SIDE);
+      return node->right();
+    }
+  };
+};
+
 private:
 #ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
   bool reference_counted;
@@ -677,10 +792,10 @@ public:
     Halfedge_iterator e;
     Halffacet_iterator f;
     CGAL_forall_vertices( v, *W)
-      objects.push_back(Object_handle(Vertex_handle(v)));
+      objects.push_back(make_object(Vertex_handle(v)));
     typename Object_list::difference_type v_end = objects.size();
     CGAL_forall_edges( e, *W)
-      objects.push_back(Object_handle(Halfedge_handle(e)));
+      objects.push_back(make_object(Halfedge_handle(e)));
     CGAL_forall_facets( f, *W) {
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
    
@@ -704,28 +819,28 @@ public:
         while(th.get_next_triangle(tr)) {
 	  triangles.push_front(tr);
           Halffacet_triangle_handle th( f, *triangles.begin());
-          objects.push_back(Object_handle(th));
+          objects.push_back(make_object(th));
         }
       } else if(c == 1) {
         Triangulation_handler<SNC_structure, XZ> th(f);
         while(th.get_next_triangle(tr)) {
 	  triangles.push_front(tr);
           Halffacet_triangle_handle th( f, *triangles.begin());
-          objects.push_back(Object_handle(th));
+          objects.push_back(make_object(th));
         }
       } else if(c == 2) {
         Triangulation_handler<SNC_structure, XY> th(f);
         while(th.get_next_triangle(tr)) {
 	  triangles.push_front(tr);
           Halffacet_triangle_handle th( f, *triangles.begin());
-          objects.push_back(Object_handle(th));
+          objects.push_back(make_object(th));
         }
       } else 
-      	CGAL_assertion_msg(false, "wrong value");
+      	CGAL_error_msg( "wrong value");
       } else
-        objects.push_back(Object_handle(Halffacet_handle(f)));
+        objects.push_back(make_object(Halffacet_handle(f)));
 #else
-      objects.push_back(Object_handle(Halffacet_handle(f)));
+      objects.push_back(make_object(Halffacet_handle(f)));
 #endif // CGAL_NEF3_TRIANGULATE_FACETS
     }
     Object_iterator oli=objects.begin()+v_end;
@@ -806,11 +921,11 @@ typename Object_list::difference_type n_vertices = std::distance(objects.begin()
 #endif
 #ifdef CGAL_NEF3_FACET_WITH_BOX
 	else if(CGAL::assign(pf, *o)) {
-	  CGAL_assertion_msg(false, "wrong type");
+	  CGAL_error_msg( "wrong type");
 	}
 #endif
 	else
-	  CGAL_assertion_msg( 0, "wrong handle");
+	  CGAL_error_msg( "wrong handle");
       }
     }
     return O;
@@ -929,7 +1044,7 @@ std::string dump_object_list( const Object_list& O, int level = 0) {
     }
 #endif
     else 
-      CGAL_assertion_msg( 0, "wrong handle");
+      CGAL_error_msg( "wrong handle");
   }
   os << v_count << "v " << e_count << "e " << f_count << "f ";
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
@@ -980,7 +1095,7 @@ bool update( Node* node,
           updated = true;
         }
       }
-      else CGAL_assertion_msg( 0, "wrong handle");
+      else CGAL_error_msg( "wrong handle");
       o = onext;
     }
     return updated;
@@ -1096,9 +1211,9 @@ bool classify_objects(Object_iterator start, Object_iterator end,
     if(CGAL::assign(pf, *o)) {
       Partial_facet pfn,pfp;
       if(pf.divide(partition_plane, pfn, pfp)) {
-	*o1 = Object_handle(pfn);
+	*o1 = make_object(pfn);
 	++o1;
-	*o2 = Object_handle(pfp);
+	*o2 = make_object(pfp);
 	++o2;
 	continue;
       }
@@ -1139,7 +1254,7 @@ Plane_3 construct_splitting_plane(Object_iterator start, Object_iterator end,
   case 2: return Plane_3( v->point(), Vector_3( 0, 0, 1)); break;
   }
 
-  CGAL_assertion_msg( 0, "never reached");
+  CGAL_error_msg( "never reached");
   return Plane_3();
 }
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Heap_pointer_event_queue.h $
-// $Id: Heap_pointer_event_queue.h 36638 2007-02-27 22:45:58Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Heap_pointer_event_queue.h $
+// $Id: Heap_pointer_event_queue.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,6 +33,9 @@
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
 
+template <class Priority>
+class Heap_pointer_event_queue_item_handle;
+
 // The interface for an item stored in the ::Heap_pointer_event_queue
 template <class Priority>
 class Heap_pointer_event_queue_item: public Ref_counted<Heap_pointer_event_queue_item<Priority> >
@@ -47,12 +50,12 @@ public:
       return this->get() != NULL;
     }
     };*/
-  typedef typename P::Handle Key;
+  typedef Heap_pointer_event_queue_item_handle<Priority>  Key;
 
   Heap_pointer_event_queue_item():bin_(-1), time_(infinity_or_max<Priority>(Priority(0))){}
   Heap_pointer_event_queue_item(int bin, const Priority &t): bin_(bin), time_(t){}
 
-  virtual void write(std::ostream &out) const =0;
+  virtual std::ostream& write(std::ostream &out) const =0;
   const Priority& time() const {return time_;};
   virtual void process() =0;
   virtual void audit(Key) const=0;
@@ -67,13 +70,24 @@ private:
   Priority time_;
 };
 
-template <class Priority>
-inline std::ostream& operator<<(std::ostream &out, const Heap_pointer_event_queue_item<Priority> &i)
-{
-  i.write(out);
-  return i;
-}
+CGAL_OUTPUT1(Heap_pointer_event_queue_item);
 
+
+template <class Priority>
+class Heap_pointer_event_queue_item_handle: public Ref_counted<Heap_pointer_event_queue_item<Priority> >::Handle
+{
+  typedef typename Ref_counted<Heap_pointer_event_queue_item<Priority> >::Handle P;
+public:
+  std::ostream &write(std::ostream &out) const {
+    return P::operator*().write(out);
+  }
+  template <class T>
+  Heap_pointer_event_queue_item_handle(T* t): P(t){}
+  Heap_pointer_event_queue_item_handle(){}
+  Heap_pointer_event_queue_item_handle(const P&p): P(p){}
+};
+
+CGAL_OUTPUT1(Heap_pointer_event_queue_item_handle);
 
 // The how a dummy item is stored in the ::Heap_pointer_event_queue
 /*
@@ -95,9 +109,10 @@ public:
     else return CGAL::EQUAL;
     //return CGAL::compare(a,b);
   }
-  virtual void write(std::ostream &out) const
+  virtual std::ostream& write(std::ostream &out) const
   {
     out << "Never.";
+    return out;
   }
   virtual void audit(typename P::Key) const {
     std::cout << "Auditing a dummy event" << std::endl;
@@ -134,11 +149,12 @@ public:
   virtual void audit(typename P::Key k) const {
     event_.audit(k);
   }
-  virtual void write(std::ostream &out) const
+  virtual std::ostream& write(std::ostream &out) const
   {
     out << "(";
     event_.write(out);
     out << ")";
+    return out;
   }
   // Access the actual event
   /*
@@ -208,7 +224,7 @@ public:
 	  if (cr == CGAL::SMALLER) return true;
 	  else if (cr == CGAL::LARGER) return false;
 	  else {
-	    //CGAL_assertion(0);
+	    //CGAL_error();
 	    return false;
 	  }
 	}
@@ -411,12 +427,12 @@ public:
     CGAL_precondition(!empty());
     //if (queue_.front()->time() < end_priority()) {
     //CGAL_precondition_code(Item_handle k= queue_.front());
-    CGAL_KINETIC_LOG(LOG_SOME, "Processing " << queue_.front() << std::endl);
+    CGAL_LOG(Log::SOME, "Processing " << queue_.front() << std::endl);
     Item_handle ih= queue_.front();
     pop_front();
     //std::pop_heap(queue_.begin(), queue_.end());
     ih->process();
-    CGAL_expensive_postcondition(is_valid());
+    //CGAL_expensive_postcondition(is_valid());
     /*}
       else {
       clear();
@@ -498,6 +514,12 @@ public:
   bool contains(Key k) const {
     return is_in_heap(k);
   }
+
+
+  Key front() const {
+    return Key(queue_.front());
+  }
+
 
 protected:
   //! Stores the priorities and data and a refersence back to the _queue

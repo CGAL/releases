@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h $
-// $Id: Segment_Delaunay_graph_degeneracy_testers.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h $
+// $Id: Segment_Delaunay_graph_degeneracy_testers.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -48,7 +48,6 @@ class Segment_Delaunay_graph_edge_tester_2
   Finite_edges_iterator;
 
   typedef bool           result_type;
-  typedef Arity_tag<2>   Arity;
 
  private:
   typedef typename Delaunay_graph::Geom_traits         Geom_traits;
@@ -161,7 +160,6 @@ class Segment_Delaunay_graph_face_tester_2
   typedef typename Delaunay_graph::Vertex_handle   Vertex_handle;
 
   typedef bool           result_type;
-  typedef Arity_tag<2>   Arity;
 
  private:
   typedef Segment_Delaunay_graph_edge_tester_2<Delaunay_graph>  Edge_tester;

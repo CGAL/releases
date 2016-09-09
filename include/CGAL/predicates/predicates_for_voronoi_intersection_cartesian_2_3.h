@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
-// $Id: predicates_for_voronoi_intersection_cartesian_2_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
+// $Id: predicates_for_voronoi_intersection_cartesian_2_3.h 42806 2008-04-09 12:35:10Z spion $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -37,18 +37,18 @@ side_of_plane_centered_sphere_translateC3(
   RT na =nx*ax + ny*ay + nz*az;
   na *= RT(2.0);
 
-  Sign num = sign_of_determinant4x4(rx, ry, rz, r2,
+  Sign num = sign_of_determinant(rx, ry, rz, r2,
 				    qx, qy, qz, q2,
 				    nx, ny, nz, na,
 				    tx, ty, tz, t2);
 
   //denumerator:
-  Sign  den = sign_of_determinant3x3(nx,ny,nz,
+  Sign  den = sign_of_determinant(nx,ny,nz,
 				     qx,qy,qz,
 				     rx,ry,rz);
   CGAL_assertion(den != ZERO);
 
-  return Oriented_side(den * num);
+  return den * num;
 }
 
 template < class RT>
@@ -93,28 +93,28 @@ side_of_plane_centered_sphere_translateC3(
   RT na =nx*ax + ny*ay + nz*az;
   na *= RT(2.0);
 
-  Sign num = sign_of_determinant4x4(qx, qy, qz, q2,
+  Sign num = sign_of_determinant(qx, qy, qz, q2,
 				    ny, -nx, RT(0), RT(0),
 				    nx, ny, nz, na,
 				    rx, ry, rz, r2);
   //denumerator:
-  Sign  den = sign_of_determinant3x3(nx,ny,nz,
+  Sign  den = sign_of_determinant(nx,ny,nz,
 				     ny,-nx, RT(0),
 				     qx,qy,qz);
   if (den==ZERO) {
     // bad choice: (ny,-nx,0) is coplanar with n,q.
     // by precondition: q and n may not be collinear
     // => the cross product q*n is orthogonal to q, n and not coplanar
-    num = sign_of_determinant4x4(qx, qy, qz, q2,
+    num = sign_of_determinant(qx, qy, qz, q2,
 				 ny*qz-nz*qy, nz*qx-nx*qz,nx*qy-ny*qx, RT(0),
 				 nx, ny, nz, na,
 				 rx, ry, rz, r2);
-    den = sign_of_determinant3x3(nx,ny,nz,
+    den = sign_of_determinant(nx,ny,nz,
 				 ny*qz-nz*qy, nz*qx - nx*qz,nx*qy-ny*qx,
 				 qx,qy,qz);
   }
   CGAL_assertion(den != ZERO);
-  return Oriented_side(den * num);
+  return den * num;
 }
 
 template < class RT>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/short_names_2.h $
-// $Id: short_names_2.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/short_names_2.h $
+// $Id: short_names_2.h 44175 2008-07-16 07:21:40Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -20,6 +20,7 @@
 #ifndef CGAL_VORONOI_DIAGRAM_2_SHORT_NAMES_2_H
 #define CGAL_VORONOI_DIAGRAM_2_SHORT_NAMES_2_H 1
 
+#if 0 // Disabled to see if it's still really needed.
 
 #define Voronoi_diagram_2                             Vd2
 #define Delaunay_triangulation_adaptation_traits_2    Dtat2
@@ -27,5 +28,6 @@
 #define Apollonius_graph_adaptation_traits_2          Agat2
 #define Segment_Delaunay_graph_adaptation_traits_2    Sdgat2
 
+#endif // 0
 
 #endif // CGAL_VORONOI_DIAGRAM_2_SHORT_NAMES_2_H

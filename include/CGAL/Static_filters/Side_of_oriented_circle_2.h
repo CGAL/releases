@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_circle_2.h $
-// $Id: Side_of_oriented_circle_2.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_circle_2.h $
+// $Id: Side_of_oriented_circle_2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -39,7 +39,7 @@ public:
   Oriented_side operator()(const Point_2 &p, const Point_2 &q,
 	                   const Point_2 &r, const Point_2 &t) const
   {
-      CGAL_PROFILER("In_circle_2 calls");
+      CGAL_PROFILER("Side_of_oriented_circle_2 calls");
 
       using std::fabs;
 
@@ -50,7 +50,7 @@ public:
           fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry) &&
           fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty))
       {
-          CGAL_PROFILER("In_circle_2 semi-static attempts");
+          CGAL_PROFILER("Side_of_oriented_circle_2 semi-static attempts");
 
           double qpx = qx-px;
           double qpy = qy-py;
@@ -64,7 +64,7 @@ public:
 	  double rqx = rx-qx;
 	  double rqy = ry-qy;
 
-          double det = det2x2_by_formula(qpx*tpy - qpy*tpx, tpx*tqx + tpy*tqy,
+          double det = determinant(qpx*tpy - qpy*tpx, tpx*tqx + tpy*tqy,
                                          qpx*rpy - qpy*rpx, rpx*rqx + rpy*rqy);
 
           // We compute the semi-static bound.
@@ -93,24 +93,24 @@ public:
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
 
-          CGAL_PROFILER("In_circle_2 semi-static failures");
+          CGAL_PROFILER("Side_of_oriented_circle_2 semi-static failures");
       }
 
       return Base::operator()(p, q, r, t);
   }
 
-  // Computes the epsilon for In_circle_2.
+  // Computes the epsilon for Side_of_oriented_circle_2.
   static double compute_epsilon()
   {
     typedef CGAL::Static_filter_error F;
     F t1 = F(1, F::ulp()/2);         // First translation
     F a = t1*t1 - t1*t1;
     F b = t1*t1 + t1*t1;
-    F det = det2x2_by_formula(a, b, a, b);
+    F det = determinant(a, b, a, b);
     double err = det.error();
     err += err * 3 * F::ulp(); // Correction due to "eps * maxx * maxy...".
 
-    std::cerr << "*** epsilon for In_circle_2 = " << err << std::endl;
+    std::cerr << "*** epsilon for Side_of_oriented_circle_2 = " << err << std::endl;
     return err;
   }
 };

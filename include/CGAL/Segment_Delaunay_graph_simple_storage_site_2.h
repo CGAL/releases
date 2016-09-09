@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_storage_site_2.h $
-// $Id: Segment_Delaunay_graph_simple_storage_site_2.h 37157 2007-03-16 10:49:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_storage_site_2.h $
+// $Id: Segment_Delaunay_graph_simple_storage_site_2.h 46222 2008-10-13 09:56:02Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -96,7 +96,7 @@ public:
 public:
   // PREDICATES
   //-----------
-  bool is_defined() const { return type_; }
+  bool is_defined() const { return type_ != 0; }
   bool is_point() const { return type_ == 1; }
   bool is_segment() const { return type_ == 2; }
   bool is_input() const { return true; }

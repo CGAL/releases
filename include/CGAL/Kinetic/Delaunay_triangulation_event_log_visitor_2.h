@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_2.h $
-// $Id: Delaunay_triangulation_event_log_visitor_2.h 36012 2007-02-02 02:13:42Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_2.h $
+// $Id: Delaunay_triangulation_event_log_visitor_2.h 39016 2007-06-11 00:08:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -39,7 +39,7 @@ struct Delaunay_triangulation_event_log_visitor_2: public Delaunay_triangulation
         Point b= e.first->vertex((e.second+2)%3)->point();
         out << "Flipping away edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Edge>
@@ -50,7 +50,7 @@ struct Delaunay_triangulation_event_log_visitor_2: public Delaunay_triangulation
         Point b= e.first->vertex((e.second+2)%3)->point();
         out << "Flipping in edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl;);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
     typedef std::vector<std::string>::const_iterator Event_iterator;

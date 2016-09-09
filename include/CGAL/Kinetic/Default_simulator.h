@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
-// $Id: Default_simulator.h 36638 2007-02-27 22:45:58Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
+// $Id: Default_simulator.h 45855 2008-09-29 16:59:08Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -85,12 +85,7 @@ protected:
   typedef Default_simulator<Polynomial_kernel_t, Queue> This;
   //typedef typename Polynomial_kernel_t::Function Poly;
 
-  struct Listener_core
-  {
-    typedef typename This::Handle Notifier_handle;
-    typedef enum {HAS_AUDIT_TIME, DIRECTION_OF_TIME}
-      Notification_type;
-  };
+  
 
   typedef typename Queue::Priority Queue_time;
 
@@ -102,16 +97,6 @@ public:
     maybe it should not be exposed.
   */
   typedef Polynomial_kernel_t Function_kernel;
-
-  //! The base class to extend if you want to recieve notifications of events
-  /*!
-    See CGAL::Listener for a description of the
-    notification framework and
-    CGAL/Kinetic/notification_helpers.h for some classes to
-    aid in using notifications.
-  */
-  typedef Multi_listener<Listener_core> Listener;
-  friend class  Multi_listener<Listener_core>;
 
   //! The solver.
   //typedef typename Function_kernel::Root_stack Root_stack;
@@ -182,10 +167,7 @@ public:
     failure time of that event. Otherwise it is between the last event
     which was processed and the next event to be processed.
   */
-  const Time& current_time() const
-  {
-    return cur_time_;
-  }
+  CGAL_GET(Time, current_time, return cur_time_);
 
   //! Set the current time to t
   /*!
@@ -194,7 +176,9 @@ public:
     order.
   */
   void set_current_time(const Time &t) {
-    CGAL_precondition(CGAL::compare(t, cur_time_) != CGAL::SMALLER);
+    CGAL_precondition_code(CGAL::Comparison_result debug_cr
+			   =CGAL::compare(t, cur_time_));
+    CGAL_precondition(debug_cr != CGAL::SMALLER);
     /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
       if (current_time() < audit_time_ && t >= audit_time_) {
       audit_all_kdss();
@@ -254,7 +238,7 @@ public:
 	} else {
 	  std::cerr << "You cannot currently call this function at the end of time if the end time is not"
 	    "exactly representable as a double. Sorry. This is fixable, so complain to me--Daniel" << std::endl;
-	  CGAL_assertion(0);
+	  CGAL_error();
 	  return NT(ti.first);
 	}
       } else {
@@ -294,31 +278,20 @@ public:
   /*!
     Or end_time() if the queue is empty.
   */
-  Time next_event_time() const
-  {
-    if (queue_.empty()) return end_time();
-    else return Time(queue_.front_priority());
-  }
+  CGAL_GETNR(Time, next_event_time, return queue_.empty()?
+		  end_time(): Time(queue_.front_priority()));
 
-  Event_key next_event() const
-  {
-    if (queue_.empty()) return Event_key();
-    else return queue_.front();
-  }
+  CGAL_GETNR(Event_key, next_event, return queue_.empty()?
+		  Event_key(): queue_.front());
 
   //! The last time of interest
   /*!
     If time is running backwards, then this returns Time::infinity()
   */
-  Time end_time() const
-  {
-    if (is_forward_) {
-      return queue_.end_priority();
-    }
-    else {
-      return std::numeric_limits<Time>::infinity();
-    }
-  }
+  CGAL_GETNR(Time, end_time, return  is_forward_?
+		  queue_.end_priority():
+		  std::numeric_limits<Time>::infinity()
+		  );
 
   //! Set the last time to track events for
   /*!
@@ -347,14 +320,17 @@ public:
     //if (0) cert.process();
     //std::cout << "Requested to schedule "; cert->write(std::cout);
     //std::cout<< " at time " << t << std::endl;
+    CGAL_exactness_precondition(CGAL::compare(t, current_time()) != CGAL::SMALLER);
+    CGAL_precondition(!std::numeric_limits<Time>::has_infinity 
+                      || CGAL::compare(t, std::numeric_limits<Time>::infinity())
+                      == CGAL::SMALLER);
     Event_key key= queue_.insert(t, cert);
     //write_eventqueue(log().stream(Log::DEBUG));
     //log()->stream(Log::SOME) << key;
     //log()->stream(Log::SOME)
-    CGAL_exactness_precondition(CGAL::compare(t, current_time()) != CGAL::SMALLER);
 
-    CGAL_KINETIC_LOG(LOG_SOME, "Created event " << key << std::endl);
-    CGAL_KINETIC_LOG(LOG_SOME, *this << std::endl);
+    CGAL_LOG(Log::SOME, "Created event " << key << std::endl);
+    //CGAL_LOG(Log::SOME, *this << std::endl);
     //if (log()->is_output(Log::LOTS)) write(log()->stream(Log::LOTS));
 
 #ifdef CGAL_KINETIC_ENABLE_AUDITING
@@ -373,10 +349,8 @@ public:
   /*!  Events can never occur if their time is past the end time or
     their certificate function has no roots.
   */
-  Event_key null_event() const
-  {
-    return queue_.end_key();
-  }
+  CGAL_GETNR(Event_key, null_event, return queue_.end_key());
+
   /*const Event_key& final_event() const {
     return queue_.final_event();
     }*/
@@ -402,9 +376,9 @@ public:
       return;
     }
     //#endif
-    CGAL_KINETIC_LOG(LOG_SOME, "Deleting event " << k << std::endl);
+    CGAL_LOG(Log::SOME, "Deleting event " << k << std::endl);
     queue_.erase(k);
-    //CGAL_KINETIC_LOG(LOG_LOTS , *this);
+    //CGAL_LOG(Log::LOTS , *this);
   }
 
   //! The type for a handle to an event.
@@ -435,7 +409,7 @@ public:
   */
   /*template <class Ev>
     typename Queue::template Event_pointer<Ev>::Pointer event(const Event_key &k, const Ev& e) const {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    CGAL_LOG(Log::LOTS, "Accessing event for key " << k << std::endl);
     return queue_.event(k,e);
     }*/
 
@@ -444,7 +418,7 @@ public:
   {
     CGAL_precondition(k != Event_key());
     CGAL_precondition(k != null_event());
-    //CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    //CGAL_LOG(Log::LOTS, "Accessing event for key " << k << std::endl);
     return queue_.template get<Event_type>(k);
   }
 
@@ -453,13 +427,13 @@ public:
   Event_type& event(const Event_key &k){
     CGAL_precondition(k != Event_key());
     CGAL_precondition(k != null_event());
-    //CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    //CGAL_LOG(Log::LOTS, "Accessing event for key " << k << std::endl);
     return queue_.template get<Event_type>(k);
   }
 
   /*template <class Event_type>
     const Event_type& event(const Event_key &k, const Event_type&) const {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    CGAL_LOG(Log::LOTS, "Accessing event for key " << k << std::endl);
     return queue_.template get<Event_type>(k);
     }*/
 
@@ -475,10 +449,10 @@ public:
    */
   template <class Ev>
   Event_key set_event(const Event_key &k, const Ev& ev) {
-    CGAL_KINETIC_LOG(LOG_SOME, "Changed event " << k << std::flush);
+    CGAL_LOG(Log::SOME, "Changed event " << k << std::flush);
     Event_key rk= queue_.set(k, ev);
-    CGAL_KINETIC_LOG(LOG_SOME, " to event " << rk << std::endl);
-    CGAL_KINETIC_LOG(LOG_LOTS, *this);
+    CGAL_LOG(Log::SOME, " to event " << rk << std::endl);
+    CGAL_LOG(Log::LOTS, *this);
     return rk;
   }
 
@@ -489,18 +463,13 @@ public:
   void set_direction_of_time(Sign sn);
 
   //! Return the direction of time.
-  CGAL::Sign direction_of_time() const
-  {
-    if (is_forward_) return CGAL::POSITIVE;
-    else return CGAL::NEGATIVE;
-  }
+  CGAL_GETNR(CGAL::Sign, direction_of_time, return is_forward_?
+		  CGAL::POSITIVE: CGAL::NEGATIVE);
 
   //! Return the number of events which has been processed.
-  unsigned int current_event_number() const
-  {
-    return number_of_events_;
-  }
+  CGAL_GETNR(unsigned int, current_event_number, return number_of_events_);
 
+  
   bool empty() const {
     return queue_.empty();
   }
@@ -509,22 +478,23 @@ public:
   /*!
     i must be greater than current_event_number().
   */
-  void set_current_event_number(unsigned int i) {
-    while (!queue_.empty() && number_of_events_ < i) {
-      /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
-	if (current_time() < audit_time_ && next_event_time() >= audit_time_) {
-	audit_all_kdss();
-	}
-	#endif*/
-      process_next_event();
-    }
-  }
+  CGAL_SET(unsigned int, current_event_number,
+           while (!queue_.empty() && number_of_events_ < k) {
+             /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
+               if (current_time() < audit_time_ && next_event_time() >= audit_time_) {
+               audit_all_kdss();
+               }
+               #endif*/
+             process_next_event();
+           }
+	   );
 
-  void write(std::ostream &out) const
+  std::ostream& write(std::ostream &out) const
   {
     out << "Simulator: (" << to_double(current_time())
 	<< "..." << to_double(end_time()) << ")\n";
     out << queue_ << std::endl;
+    return out;
   }
 
   void print() const
@@ -545,7 +515,7 @@ public:
       CGAL_assertion(k != Event_key());
 #ifndef NDEBUG
       if (!queue_.contains(k)) {
-	CGAL_KINETIC_ERROR("Event " << k << " is not in queue.");
+	CGAL_ERROR("Event " << k << " is not in queue.");
       }
 #endif
       CGAL_assertion(queue_.contains(k));
@@ -553,17 +523,31 @@ public:
     }
   }
 
+  Event_key current_event() const {
+    return cur_event_;
+  }
+
 protected:
 
   template <class Root>
   bool compute_audit_time(const Root &) {
 #ifdef CGAL_KINETIC_ENABLE_AUDITING
+    
+    if (current_time() == end_time() 
+        && end_time() == std::numeric_limits<Time>::infinity()) {
+      return false;
+    }
     if (queue_.empty()) {
       if (cur_time_ != end_time()) {
 	std::pair<double,double> ei= CGAL::to_interval(end_time());
-	CGAL_precondition(ei.first==ei.second); // I should figure out how to deal in the other case
-	audit_time_ = ei.first;
-	return true;
+	if (cur_time_ > Time(ei.first)) {
+	  return false;
+	}
+	else {
+	  audit_time_=ei.first;
+	  return true;
+	}
+
       } else {
 	// bad form to just return like that
 	audit_time_= NT(CGAL::to_interval(current_time()).first-10.0);
@@ -611,7 +595,7 @@ protected:
 
   //! Process the next event
   void process_next_event() {
-    CGAL_KINETIC_LOG(LOG_LOTS, *this);
+    CGAL_LOG(Log::LOTS, *this);
     /*#ifndef NDEBUG
       if (cur_time_ < audit_time_){
       audit_all_kdss();
@@ -620,30 +604,31 @@ protected:
     /*#ifdef CGAL_KINETIC_ENABLE_AUDITING
       if (CGAL::compare(next_event_time(), current_time()) != CGAL::EQUAL) {
       //typename Function_kernel::Rational_between_roots bet= kernel_.rational_between_roots_object();
-      CGAL_KINETIC_LOG(LOG_SOME, "Audit is at time " << audit_time_ << std::endl);
+      CGAL_LOG(Log::SOME, "Audit is at time " << audit_time_ << std::endl);
       //if (current_time() < audit_time_ && t >= audit_time_) {
       audit_all_kdss();
       //}
       } else {
-      CGAL_KINETIC_LOG(LOG_SOME, "Can't audit between events.\n");
+      CGAL_LOG(Log::SOME, "Can't audit between events.\n");
       }
       #endif*/
 
-
+    CGAL_precondition(!queue_.empty());
     CGAL_exactness_precondition(CGAL::compare(next_event_time(),current_time())
 				!= CGAL::SMALLER);
     //if (CGAL::compare(next_event_time(),cur_time_) == CGAL::LARGER) {
     cur_time_= next_event_time();
-      
-  
+    cur_event_= queue_.front();
+    CGAL_LOG(Log::LOTS, "Processing event at time " << cur_time_ << std::endl);
     queue_.process_front();
     ++number_of_events_;
+    cur_event_= Event_key();
       
-    CGAL_KINETIC_LOG(LOG_LOTS, *this);
+    CGAL_LOG(Log::LOTS, *this);
 
 #ifdef CGAL_KINETIC_ENABLE_AUDITING
-    if (compute_audit_time(current_time())) {
-      CGAL_KINETIC_LOG(LOG_SOME, "Audit is at time " << audit_time_ << std::endl);
+    if (compute_audit_time(Time())) {
+      CGAL_LOG(Log::SOME, "Audit is at time " << audit_time_ << std::endl);
       //if (current_time() < audit_time_ && t >= audit_time_) {
       audit_all_kdss();
     }
@@ -652,48 +637,25 @@ protected:
 
   void audit_all_kdss() ;
 
-  /*const Time &last_event_time() const
-    {
-    return last_event_time_;
-    }*/
+ 
 
-private:
-  //! add a kds to the simulator
-  /*!
-    Note, these use Prof. Cheritons naming convention (sort of).
-  */
-  void new_listener(Listener *sk) {
-    //std::cout << "new sim listener.\n";
-#ifndef NDEBUG
-    for (unsigned int i=0; i< kdss_.size(); ++i){
-      CGAL_precondition(kdss_[i] != sk);
-    }
-#endif
-    kdss_.push_back(sk);
-  }
-
-  //! Remove a kds
-  void delete_listener(Listener *kds) {
-    //std::cout << "delete sim listener.\n";
-    //kdss_.erase(kds);
-    for (unsigned int i=0; i< kdss_.size(); ++i){
-      if (kdss_[i] == kds) {
-	std::swap(kdss_[i], kdss_.back());
-	kdss_.pop_back();
-	return;
-      }
-    }
-  }
+  /*struct Listener_core
+  {
+    typedef typename This::Handle Notifier_handle;
+    typedef enum {}
+      Notification_type;
+      };*/
+  CGAL_KINETIC_MULTILISTENER2(HAS_AUDIT_TIME, DIRECTION_OF_TIME);
 
 protected:
   Queue queue_;
-  std::vector<Listener*> kdss_;
   Time cur_time_; //,  last_event_time_;
   unsigned int number_of_events_;
   typename Function_kernel::Rational_between_roots mp_;
   //  typename Function_kernel::Is_rational ir_;
   //  typename Function_kernel::To_rational tr_;
   bool is_forward_;
+  Event_key cur_event_;
 #ifdef CGAL_KINETIC_ENABLE_AUDITING
   NT audit_time_;
 #endif
@@ -745,15 +707,12 @@ void Default_simulator<S, PQ>::set_direction_of_time(CGAL::Sign dir)
     is_forward_= !is_forward_;
     //end_time_=-end_time_;
     //last_event_time_= -std::numeric_limits<Time>::infinity();
-    CGAL_KINETIC_LOG(LOG_SOME, "Current time is " << cur_time_ << " and was " << oct
+    CGAL_LOG(Log::SOME, "Current time is " << cur_time_ << " and was " << oct
 		     << ", end_time() is " << end_time() << std::endl);
-    for (typename std::vector<Listener*>::iterator it= kdss_.begin(); it != kdss_.end(); ++it) {
-      (*it)->new_notification(Listener::DIRECTION_OF_TIME);
-      //std::cout << "called on something.\n";
-    }
+    CGAL_KINETIC_MULTINOTIFY(DIRECTION_OF_TIME);
   }
   else {
-    CGAL_KINETIC_LOG(LOG_SOME, dir << " " << end_time() << " " << cur_time_ << std::endl);
+    CGAL_LOG(Log::SOME, dir << " " << end_time() << " " << cur_time_ << std::endl);
   }
 }
 
@@ -763,22 +722,15 @@ void Default_simulator<S, PQ>::audit_all_kdss()
 {
 #ifdef CGAL_KINETIC_ENABLE_AUDITING
   cur_time_= Time(audit_time_);
-  CGAL_KINETIC_LOG(LOG_SOME, "Auditing KDSs at time " << audit_time() << std::endl);
-  for (typename std::vector<Listener*>::iterator it= kdss_.begin(); it != kdss_.end(); ++it) {
-    //CGAL_exactness_postcondition_code((*it)->new_notification(Listener::HAS_VERIFICATION_TIME));
-    CGAL_postcondition_code((*it)->new_notification(Listener::HAS_AUDIT_TIME));
-  }
+  CGAL_LOG(Log::SOME, "Auditing KDSs at time " << audit_time() << std::endl);
+  CGAL_KINETIC_MULTINOTIFY(HAS_AUDIT_TIME);
   queue_.audit_events();
 #endif
 }
 
 
-template <class S, class PQ>
-std::ostream &operator<<(std::ostream &out, const Default_simulator<S, PQ> &s)
-{
-  s.write(out);
-  return out;
-}
+
+CGAL_OUTPUT2(Default_simulator);
 
 
 CGAL_KINETIC_END_NAMESPACE;

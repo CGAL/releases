@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_constrained_triang_traits.h $
-// $Id: SM_constrained_triang_traits.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_constrained_triang_traits.h $
+// $Id: SM_constrained_triang_traits.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -93,12 +93,12 @@ public:
       s =   orientation(e2,p);
     else if ( p == e2->source()->point() ) 
       s = - orientation(e1,p);
-    else CGAL_assertion_msg(0,"compare error in sweep.");
+    else CGAL_error_msg("compare error in sweep.");
     if ( s || e1->source() == e1->twin()->source() || 
 	 e2->source() == e2->twin()->source()) 
       return ( s < 0 );
     s = orientation(e2,e1->twin()->source()->point());
-    if (s==0) CGAL_assertion_msg(0,"parallel edges not allowed.");
+    if (s==0) CGAL_error_msg("parallel edges not allowed.");
     return ( s < 0 );
   }
 
@@ -229,7 +229,7 @@ public:
   {
     // we triangulate the interior of the whole chain between
     // target(e_upper) and target(e_lower)
-    assert(e_upper->source()==e_lower->source());
+    CGAL_assertion(e_upper->source()==e_lower->source());
     CGAL_NEF_TRACE("triangulate_between\n   "<<segment(e_upper));
     CGAL_NEF_TRACEN("\n   "<<segment(e_lower));
     SHalfedge_handle e_end = e_lower->twin();

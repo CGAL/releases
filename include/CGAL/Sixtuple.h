@@ -15,14 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Sixtuple.h $
-// $Id: Sixtuple.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Sixtuple.h $
+// $Id: Sixtuple.h 44546 2008-07-28 16:49:46Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_SIXTUPLE_H
 #define CGAL_SIXTUPLE_H
+
+#ifndef CGAL_NO_DEPRECATED_CODE
 
 CGAL_BEGIN_NAMESPACE
 
@@ -33,15 +35,17 @@ struct Sixtuple
 
   T  e0, e1, e2, e3, e4, e5;
 
-  Sixtuple()
+  Sixtuple() CGAL_DEPRECATED
   {}
 
   Sixtuple(const T & a0, const T & a1, const T & a2,
-           const T & a3, const T & a4, const T & a5)
+           const T & a3, const T & a4, const T & a5) CGAL_DEPRECATED
     : e0(a0), e1(a1), e2(a2), e3(a3), e4(a4), e5(a5)
   {}
 };
 
 CGAL_END_NAMESPACE
+
+#endif // CGAL_NO_DEPRECATED_CODE
 
 #endif // CGAL_SIXTUPLE_H

@@ -11,16 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
-// $Id: ch_function_objects_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
+// $Id: ch_function_objects_2.h 44371 2008-07-23 15:31:38Z hoffmann $
 // 
 //
 // Author(s)     : Susan Hert
 
 #ifndef CGAL_CH_FUNCTION_OBJECTS_2_H
 #define CGAL_CH_FUNCTION_OBJECTS_2_H
-
-#include <CGAL/functional_base.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -31,7 +29,6 @@ class r_Less_dist_to_line
 {
 public:
   typedef bool    result_type;
-  typedef  Arity_tag< 4 >   Arity;
 
   typedef typename R::Point_2  Point;
   typedef typename R::Line_2   Line;

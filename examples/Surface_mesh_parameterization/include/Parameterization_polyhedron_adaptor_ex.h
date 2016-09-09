@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
-// $Id: Parameterization_polyhedron_adaptor_ex.h 38428 2007-04-24 13:34:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
+// $Id: Parameterization_polyhedron_adaptor_ex.h 45070 2008-08-21 11:57:02Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -43,7 +43,7 @@
 // It can have have any number of borders. Its "main border"
 // will be the mesh's longest border (if there is at least one border).
 //
-// Design Pattern:
+// @heading Design Pattern:
 // Parameterization_polyhedron_adaptor_ex is an Adaptor [GHJV95]: it changes the
 // Polyhedron_ex interface to match the ParameterizationPatchableMesh_3 concept
 
@@ -195,7 +195,8 @@ public:
             if (cir->opposite()->vertex() == source)
                 return cir;
 
-        assert(false);              // error if we reach this point
+        // we should not get here
+        assert(false);
         return NULL;
     }
     Halfedge_handle get_halfedge(Vertex_handle source, Vertex_handle target)
@@ -850,7 +851,6 @@ private:
         typedef Parameterization_polyhedron_adaptor_ex::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         // Get the target vertex of a halfedge
         Vertex&       operator()(Halfedge& h)       const {
@@ -868,7 +868,6 @@ private:
         typedef Parameterization_polyhedron_adaptor_ex::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         // Convert Vertex_handle to Vertex
         Vertex&       operator()(Vertex_handle& vh)       const { return *vh; }
@@ -882,7 +881,6 @@ private:
         typedef Parameterization_polyhedron_adaptor_ex::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         // Get the source vertex of a halfedge
         Vertex&       operator()(Halfedge& h)       const {

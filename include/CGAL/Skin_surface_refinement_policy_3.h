@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Skin_surface_refinement_policy_3.h $
-// $Id: Skin_surface_refinement_policy_3.h 37748 2007-04-02 07:55:15Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_refinement_policy_3.h $
+// $Id: Skin_surface_refinement_policy_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -20,7 +20,11 @@
 #ifndef CGAL_SKIN_SURFACE_REFINEMENT_POLICY_3_H
 #define CGAL_SKIN_SURFACE_REFINEMENT_POLICY_3_H
 
+#include <CGAL/Cartesian.h>
+#include <CGAL/Cartesian_converter.h>
+
 #include <CGAL/Polyhedron_3.h>
+#include <CGAL/Skin_surface_polyhedral_items_3.h>
 
 #include <CGAL/intersection_3_1.h>
 CGAL_BEGIN_NAMESPACE

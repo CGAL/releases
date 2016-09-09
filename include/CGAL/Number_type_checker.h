@@ -15,14 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Number_type_checker.h $
-// $Id: Number_type_checker.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Number_type_checker.h $
+// $Id: Number_type_checker.h 46557 2008-10-30 10:10:21Z hemmer $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
 
-#ifndef CGAL_NUMBER_Type_CHECKER_H
-#define CGAL_NUMBER_Type_CHECKER_H
+#ifndef CGAL_NUMBER_TYPE_CHECKER_H
+#define CGAL_NUMBER_TYPE_CHECKER_H
 
 #include <CGAL/number_type_basic.h>
 
@@ -232,8 +232,7 @@ operator==(const Number_type_checker<NT1, NT2, Cmp> &a,
            const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() == b.n1();
-   bool b2 = a.n2() == b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() == b.n2() ) );
    return b1;
 }
 
@@ -243,8 +242,7 @@ operator!=(const Number_type_checker<NT1, NT2, Cmp> &a,
            const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() != b.n1();
-   bool b2 = a.n2() != b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() != b.n2() ) );
    return b1;
 }
 
@@ -254,8 +252,7 @@ operator<(const Number_type_checker<NT1, NT2, Cmp> &a,
           const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() < b.n1();
-   bool b2 = a.n2() < b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() < b.n2() ) );
    return b1;
 }
 
@@ -265,8 +262,7 @@ operator>(const Number_type_checker<NT1, NT2, Cmp> &a,
           const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() > b.n1();
-   bool b2 = a.n2() > b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() > b.n2() ) );
    return b1;
 }
 
@@ -276,8 +272,7 @@ operator<=(const Number_type_checker<NT1, NT2, Cmp> &a,
            const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() <= b.n1();
-   bool b2 = a.n2() <= b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() <= b.n2() ) );
    return b1;
 }
 
@@ -287,8 +282,7 @@ operator>=(const Number_type_checker<NT1, NT2, Cmp> &a,
            const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = a.n1() >= b.n1();
-   bool b2 = a.n2() >= b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() >= b.n2() ) );
    return b1;
 }
 
@@ -297,8 +291,7 @@ bool
 operator==(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() == i;
-   bool b2 = a.n2() == i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() == i ) );
    return b1;
 }
 
@@ -307,8 +300,7 @@ bool
 operator!=(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() != i;
-   bool b2 = a.n2() != i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() != i ) );
    return b1;
 }
 
@@ -317,8 +309,7 @@ bool
 operator<(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() < i;
-   bool b2 = a.n2() < i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() < i ) );
    return b1;
 }
 
@@ -327,8 +318,7 @@ bool
 operator>(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() > i;
-   bool b2 = a.n2() > i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() > i ) );
    return b1;
 }
 
@@ -337,8 +327,7 @@ bool
 operator<=(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() <= i;
-   bool b2 = a.n2() <= i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() <= i ) );
    return b1;
 }
 
@@ -347,8 +336,7 @@ bool
 operator>=(const Number_type_checker<NT1, NT2, Cmp> &a, int i)
 {
    bool b1 = a.n1() >= i;
-   bool b2 = a.n2() >= i;
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( a.n2() >= i ) );
    return b1;
 }
 
@@ -357,8 +345,7 @@ bool
 operator==(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i == b.n1();
-   bool b2 = i == b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i == b.n2() ) );
    return b1;
 }
 
@@ -367,8 +354,7 @@ bool
 operator!=(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i != b.n1();
-   bool b2 = i != b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i != b.n2() ) );
    return b1;
 }
 
@@ -377,8 +363,7 @@ bool
 operator<(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i < b.n1();
-   bool b2 = i < b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i < b.n2() ) );
    return b1;
 }
 
@@ -387,8 +372,7 @@ bool
 operator>(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i > b.n1();
-   bool b2 = i > b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i > b.n2() ) );
    return b1;
 }
 
@@ -397,8 +381,7 @@ bool
 operator<=(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i <= b.n1();
-   bool b2 = i <= b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i <= b.n2() ) );
    return b1;
 }
 
@@ -407,8 +390,7 @@ bool
 operator>=(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 {
    bool b1 = i >= b.n1();
-   bool b2 = i >= b.n2();
-   CGAL_assertion(b1 == b2);
+   CGAL_assertion(b1 == ( i >= b.n2() ) );
    return b1;
 }
 
@@ -417,12 +399,11 @@ operator>=(int i, const Number_type_checker<NT1, NT2, Cmp> &b)
 
 template < typename NT1, typename NT2, typename Cmp >
 class Is_valid< Number_type_checker<NT1, NT2, Cmp> >
-    : public Unary_function< Number_type_checker<NT1, NT2, Cmp> , bool > {
+    : public std::unary_function< Number_type_checker<NT1, NT2, Cmp> , bool > {
 public :
     bool operator()(const  Number_type_checker<NT1, NT2, Cmp>& a ) const {
         bool b1 = is_valid(a.n1());
-        bool b2 = is_valid(a.n2());
-        CGAL_assertion(b1 == b2);
+        CGAL_assertion(b1 == is_valid(a.n2()) );
         // Should we also call a.is_valid() ?
         return b1;
     }
@@ -440,7 +421,8 @@ class NTC_AST_base
 template < typename NT1, typename NT2, typename Cmp >
 class NTC_AST_base
 < Number_type_checker<NT1, NT2, Cmp> , Integral_domain_without_division_tag>
-:public Algebraic_structure_traits_base<Number_type_checker<NT1, NT2, Cmp>, Null_tag>
+:public Algebraic_structure_traits_base<Number_type_checker<NT1, NT2, Cmp>, 
+Integral_domain_without_division_tag>
 {
 private:
     typedef Algebraic_structure_traits<NT1> AST1;
@@ -450,7 +432,7 @@ private:
 public:
     //CGAL::Algebraic_structure_traits<>::Simplify
     class Simplify
-        : public Unary_function< Type& , void > {
+        : public std::unary_function< Type& , void > {
     public:
         void operator()( Type& a) const {
             typename AST1::Simplify()(a.n1());
@@ -461,12 +443,11 @@ public:
 
     //CGAL::Algebraic_structure_traits< >::Is_zero
     class Is_zero
-        : public Unary_function< Type, bool > {
+        : public std::unary_function< Type, bool > {
     public:
         bool operator()(const  Type& a ) const {
             bool b1 = typename AST1::Is_zero()(a.n1());
-            bool b2 = typename AST2::Is_zero()(a.n2());
-            CGAL_assertion(b1 == b2 );
+            CGAL_assertion(b1 == typename AST2::Is_zero()(a.n2()) );
             CGAL_assertion(a.is_valid());
             return b1;
         }
@@ -474,19 +455,18 @@ public:
 
     // CGAL::Algebraic_structure_traits< >::Is_one
     class Is_one
-        : public Unary_function< Type, bool > {
+        : public std::unary_function< Type, bool > {
     public:
         bool operator()(const Type& a) const {
             bool b1 = typename AST1::Is_one()(a.n1());
-            bool b2 = typename AST2::Is_one()(a.n2());
-            CGAL_assertion(b1 == b2 );
+            CGAL_assertion(b1 == typename AST2::Is_one()(a.n2()) );
             CGAL_assertion(a.is_valid());
             return b1;
         }
     };
     // CGAL::Algebraic_structure_traits<  >::Square
     class Square
-        : public Unary_function< Type , Type > {
+        : public std::unary_function< Type , Type > {
     public:
         Type operator()(const Type& a) const {
             return Type(
@@ -498,7 +478,7 @@ public:
 
     // CGAL::Algebraic_structure_traits<  >::Unit_part
     class Unit_part
-        : public Unary_function< Type , Type > {
+        : public std::unary_function< Type , Type > {
     public:
         Type operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("AST::Unit_part");
@@ -524,19 +504,38 @@ public:
 
 // CGAL::Algebraic_structure_traits< >::Integral_division
     class Integral_division
-        : public Binary_function< Type,
-                                  Type,
-                                  Type > {
+        : public std::binary_function< Type, Type, Type > {
     public:
-        Type operator()(
-                const Type& a,
-                const Type& b) const {
+        Type operator()( const Type& a, const Type& b) const {
             CGAL_NT_CHECK_DEBUG("AST::Integral_division");
             return Type(
                     typename AST1::Integral_division()(a.n1(),b.n1()),
                     typename AST2::Integral_division()(a.n2(),b.n2()));
         }
-    };
+    }; 
+  
+  class Divides
+    : public std::binary_function< Type, Type, bool > {
+  public:
+    bool operator()( const Type& a, const Type& b) const {
+      CGAL_NT_CHECK_DEBUG("AST::Divides");
+      bool result =  typename AST1::Divides()(a.n1(),b.n1());
+      CGAL_assertion(result == typename AST2::Divides()(a.n2(),b.n2()));
+      return result;
+    }
+    bool operator()( const Type& a, const Type& b, Type& q) const {
+      CGAL_NT_CHECK_DEBUG("AST::Divides");
+      NT1 q1; 
+      bool result1 =  typename AST1::Divides()(a.n1(),b.n1(),q1);
+      NT2 q2; 
+      CGAL_assertion_code( bool result2 = ) // needed for CGAL_assert only
+        typename AST2::Divides()(a.n2(),b.n2(),q2);
+      q = Type(q1,q2);
+      CGAL_assertion(result1 == result2);
+      return result1;
+    }
+    CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT(Type,bool)
+  };
 };
 
 
@@ -553,7 +552,7 @@ private:
 public:
     // CGAL::Algebraic_structure_traits< >::Gcd
     class Gcd
-        : public Binary_function< Type,
+        : public std::binary_function< Type,
                                   Type,
                                   Type > {
     public:
@@ -581,7 +580,7 @@ private:
 public:
     // CGAL::Algebraic_structure_traits< >::Div
     class Div
-        : public Binary_function< Type,
+        : public std::binary_function< Type,
                                   Type,
                                   Type > {
     public:
@@ -596,7 +595,7 @@ public:
     };
     // CGAL::Algebraic_structure_traits< >::Mod
     class Mod
-        : public Binary_function< Type,
+        : public std::binary_function< Type,
                                   Type,
                                   Type > {
     public:
@@ -617,7 +616,6 @@ public:
         typedef Type    second_argument_type;
         typedef Type&   third_argument_type;
         typedef Type&   fourth_argument_type;
-        typedef Arity_tag< 4 >         Arity;
         typedef void  result_type;
 
         void operator()(
@@ -659,7 +657,7 @@ public:
 
     // CGAL::Algebraic_structure_traits<  >::Sqrt
     class Sqrt
-        : public Unary_function< Type , Type > {
+        : public std::unary_function< Type , Type > {
     public:
         Type operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("AST::Sqrt");
@@ -675,9 +673,8 @@ public:
 
 template < typename NT1, typename NT2, typename Cmp >
 class Algebraic_structure_traits <Number_type_checker<NT1, NT2, Cmp> >
-    :public NTC_INTERN::NTC_AST_base
-      < Number_type_checker< NT1, NT2, Cmp> ,
-        typename Algebraic_structure_traits<NT1>::Algebraic_category >
+  :public NTC_INTERN::NTC_AST_base< Number_type_checker< NT1, NT2, Cmp> ,
+                                 typename Algebraic_structure_traits<NT1>::Algebraic_category >
 {
     typedef Algebraic_structure_traits<NT1> AST1;
 public:
@@ -693,14 +690,13 @@ template < typename Number_type_checker, typename Is_real_embeddable >
 class NTC_RET_base;
 
 template < typename NT >
-class NTC_RET_base<NT,Tag_false>
-    :public Real_embeddable_traits<NT,Tag_false>
+class NTC_RET_base<NT,Tag_false> : public Real_embeddable_traits<NT>
 {};
 
 template < typename NT1, typename NT2, typename Cmp >
 class NTC_RET_base
 < Number_type_checker<NT1, NT2, Cmp> , Tag_true>
-        :public Real_embeddable_traits_base< Number_type_checker< NT1, NT2, Cmp > >
+  :public INTERN_RET::Real_embeddable_traits_base< Number_type_checker< NT1, NT2, Cmp > , CGAL::Tag_true >
 {
 private:
     typedef Real_embeddable_traits<NT1> RET1;
@@ -710,7 +706,7 @@ public:
 
     // CGAL::Real_embeddable_traits<  >::Abs
     class Abs
-        : public Unary_function< Type , Type > {
+        : public std::unary_function< Type , Type > {
     public:
         Type operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Abs");
@@ -721,105 +717,97 @@ public:
     };
 
     // CGAL::Real_embeddable_traits<  >::Sign
-    class Sign
-        : public Unary_function< Type , ::CGAL::Sign > {
+    class Sgn
+        : public std::unary_function< Type , ::CGAL::Sign > {
     public:
         ::CGAL::Sign operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Sign");
-            ::CGAL::Sign r1 =  typename RET1::Sign()(a.n1());
-            ::CGAL::Sign r2 =  typename RET2::Sign()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            ::CGAL::Sign r1 =  typename RET1::Sgn()(a.n1());
+            CGAL_assertion( r1 == typename RET2::Sgn()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::Is_finite
     class Is_finite
-        : public Unary_function< Type , bool > {
+        : public std::unary_function< Type , bool > {
     public:
         bool operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Is_finite");
             bool r1 =  typename RET1::Is_finite()(a.n1());
-            bool r2 =  typename RET2::Is_finite()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::Is_finite()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::Is_positive
     class Is_positive
-        : public Unary_function< Type , bool > {
+        : public std::unary_function< Type , bool > {
     public:
         bool operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Is_positive");
             bool r1 =  typename RET1::Is_positive()(a.n1());
-            bool r2 =  typename RET2::Is_positive()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::Is_positive()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::Is_negative
     class Is_negative
-        : public Unary_function< Type , bool > {
+        : public std::unary_function< Type , bool > {
     public:
         bool operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Is_negative");
             bool r1 =  typename RET1::Is_negative()(a.n1());
-            bool r2 =  typename RET2::Is_negative()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::Is_negative()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::Is_zero
     class Is_zero
-        : public Unary_function< Type , bool > {
+        : public std::unary_function< Type , bool > {
     public:
         bool operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::Is_zero");
             bool r1 =  typename RET1::Is_zero()(a.n1());
-            bool r2 =  typename RET2::Is_zero()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::Is_zero()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::Compare
     class Compare
-        : public Binary_function< Type , Type, Comparison_result > {
+        : public std::binary_function< Type , Type, Comparison_result > {
     public:
         Comparison_result operator()(const Type& a, const Type& b) const {
             CGAL_NT_CHECK_DEBUG("RET::Compare");
             Comparison_result r1 =  typename RET1::Compare()(a.n1(),b.n1());
-            Comparison_result r2 =  typename RET2::Compare()(a.n2(),b.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::Compare()(a.n2(),b.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::To_double
     class To_double
-        : public Unary_function< Type , double > {
+        : public std::unary_function< Type , double > {
     public:
         double operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::To_double");
             double r1 =  typename RET1::To_double()(a.n1());
-            double r2 =  typename RET2::To_double()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::To_double()(a.n2()) );
             return r1;
         }
     };
 
     // CGAL::Real_embeddable_traits<  >::To_interval
     class To_interval
-        : public Unary_function< Type , std::pair<double, double> > {
+        : public std::unary_function< Type , std::pair<double, double> > {
     public:
         std::pair<double, double> operator()(const Type& a) const {
             CGAL_NT_CHECK_DEBUG("RET::To_interval");
             std::pair<double, double> r1 =  typename RET1::To_interval()(a.n1());
-            std::pair<double, double> r2 =  typename RET2::To_interval()(a.n2());
-            CGAL_assertion( r1 == r2 );
+            CGAL_assertion( r1 == typename RET2::To_interval()(a.n2()) );
             return r1;
         }
     };
@@ -926,4 +914,4 @@ operator>> (std::istream & is, Number_type_checker<NT1, NT2, Cmp> &b)
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_NUMBER_Type_CHECKER_H
+#endif // CGAL_NUMBER_TYPE_CHECKER_H

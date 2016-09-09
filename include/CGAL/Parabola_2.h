@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Parabola_2.h $
-// $Id: Parabola_2.h 37034 2007-03-12 17:34:47Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Parabola_2.h $
+// $Id: Parabola_2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -136,7 +136,7 @@ protected:
 
   std::vector< Point_2 > compute_points(const FT &d) const
   {
-    assert(d >= 0);
+    CGAL_assertion(d >= 0);
     FT d1 = distance(o, c) + d;
     FT d2 = distance(o, l) + d;
     d2 = d1;
@@ -191,7 +191,7 @@ protected:
   bool right(const Point_2& p) const
   {
     return
-      CGAL::is_positive( det3x3_by_formula<FT>(c.x(), c.y(), FT(1),
+      CGAL::is_positive( determinant<FT>(c.x(), c.y(), FT(1),
 					       o.x(), o.y(), FT(1),
 					       p.x(), p.y(), FT(1)) );
   }

@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/SearchStructures/include/CGAL/Tree_traits.h $
-// $Id: Tree_traits.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/SearchStructures/include/CGAL/Tree_traits.h $
+// $Id: Tree_traits.h 41371 2007-12-30 16:55:25Z spion $
 // 
 //
 // Author(s)     : Gabriele Neyer
 
-
-#ifndef __CGAL_tree_traits__
-#define __CGAL_tree_traits__
+#ifndef CGAL_TREE_TRAITS_H
+#define CGAL_TREE_TRAITS_H
 
 // Implementation of a minimal tree traits for CGAL trees, derived 
 // from Tree_base.h
@@ -82,7 +81,5 @@ class tree_interval_traits{
 };
 
 CGAL_END_NAMESPACE
+
 #endif
-
-
-

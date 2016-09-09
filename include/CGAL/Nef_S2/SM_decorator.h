@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
-// $Id: SM_decorator.h 29399 2006-03-11 18:34:06Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
+// $Id: SM_decorator.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -309,7 +309,7 @@ bool is_sm_boundary_object(H h) const
 template <typename H>
 void store_sm_boundary_object(H h, SFace_handle f) {
   CGAL_assertion(!map()->is_sm_boundary_object(h));
-  f->boundary_entry_objects().push_back(Object_handle(h));
+  f->boundary_entry_objects().push_back(make_object(h));
   map()->store_sm_boundary_item(h, --(f->sface_cycles_end()));
 }
 
@@ -445,6 +445,44 @@ void delete_edge_pair(SHalfedge_handle e)
 { remove_from_adj_list_at_source(e);
   remove_from_adj_list_at_source(e->twin());
   delete_edge_pair_only(e);
+}
+
+SHalfedge_handle split_at(SHalfedge_handle e, Sphere_point sp)
+{
+  CGAL_assertion(sp != e->source()->point());
+  CGAL_assertion(sp != e->twin()->source()->point());
+  CGAL_assertion(Sphere_segment(e->source()->point(),
+  				e->twin()->source()->point(),
+  				e->circle()).has_on(sp));
+  SVertex_handle v_new = new_svertex(sp);
+  v_new->mark() = e->mark();
+  return split_at(e, v_new);
+}  
+
+SHalfedge_handle split_at(SHalfedge_handle e, SVertex_handle v)
+{
+  CGAL_assertion(v->point() != e->source()->point());
+  CGAL_assertion(v->point() != e->twin()->source()->point());
+  CGAL_assertion(Sphere_segment(e->source()->point(),
+  				e->twin()->source()->point(),
+  				e->circle()).has_on(v->point()));
+
+  SHalfedge_handle e_new = new_shalfedge_pair(v, e->twin());
+  e_new->mark() = e_new->twin()->mark() = e->mark();
+  e_new->circle() = e->circle();
+  e_new->twin()->circle() = e->twin()->circle();
+  if(e->twin()->source()->out_sedge() == e->twin())
+    e->twin()->source()->out_sedge() = e_new->twin();
+  e->twin()->source() = v;
+  e->snext()->sprev() = e_new;
+  e_new->snext() = e->snext();
+  e_new->sprev() = e;
+  e->snext() = e_new;
+  e_new->twin()->snext() = e->twin();
+  e->twin()->sprev() = e_new->twin();
+  e_new->incident_sface() = e->incident_sface();
+  e_new->twin()->incident_sface() = e->twin()->incident_sface();
+  return e_new;
 }
 
 void delete_vertex(SVertex_handle v)
@@ -689,8 +727,6 @@ GenPtr& info(SVertex_handle v) const
 { return v->info(); }
 GenPtr& info(SHalfedge_handle e) const
 { return e->info(); }
-GenPtr& info(SHalfloop_handle l) const
-{ return l->info(); }
 GenPtr& info(SFace_handle f) const
 { return f->info(); }
 
@@ -698,8 +734,6 @@ const GenPtr& info(SVertex_const_handle v) const
 { return v->info(); }
 const GenPtr& info(SHalfedge_const_handle e) const
 { return e->info(); }
-const GenPtr& info(SHalfloop_const_handle l) const
-{ return l->info(); }
 const GenPtr& info(SFace_const_handle f) const
 { return f->info(); }
 

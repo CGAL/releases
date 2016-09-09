@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Qt_widget_Conic_arc_2.h $
-// $Id: Qt_widget_Conic_arc_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Conic_arc_2.h $
+// $Id: Qt_widget_Conic_arc_2.h 39957 2007-08-22 12:30:17Z efif $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>

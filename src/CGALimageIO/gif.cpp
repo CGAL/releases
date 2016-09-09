@@ -1,3 +1,25 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/gif.cpp $
+// $Id: gif.cpp 45591 2008-09-16 12:45:40Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 #include <string.h>
 
 #include "gif.h"
@@ -13,7 +35,6 @@
 
 
 
-typedef int boolean;
 typedef unsigned char byte;
 #define TRUE 1
 #define FALSE 0
@@ -100,7 +121,7 @@ int readGifImage(const char *name,_image *im) {
     FinChar=0,			/* Decompressor variable */
     BitMask,			/* AND mask for data size */
     Misc;                       /* miscellaneous bits (interlace, local cmap)*/
-  boolean Interlace, HasColormap;
+  int Interlace, HasColormap;
   /* not used
    */
   /* char header[10]; */

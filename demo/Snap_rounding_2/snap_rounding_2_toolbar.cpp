@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.cpp $
-// $Id: snap_rounding_2_toolbar.cpp 38484 2007-04-30 15:33:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_toolbar.cpp $
+// $Id: snap_rounding_2_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/pixmaps/movepoint.xpm>
@@ -70,4 +69,3 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget * w,
 
 #include "snap_rounding_2_toolbar.moc"
 
-#endif

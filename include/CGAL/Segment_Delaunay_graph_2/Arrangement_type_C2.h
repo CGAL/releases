@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_C2.h $
-// $Id: Arrangement_type_C2.h 33206 2006-08-09 16:44:12Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_C2.h $
+// $Id: Arrangement_type_C2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -60,6 +60,7 @@ private:
   typedef typename Base::Comparison_result   Comparison_result;
   typedef typename Base::Oriented_side       Oriented_side;
   typedef typename Base::Sign                Sign;
+  typedef typename Base::Boolean             Boolean;
 
   typedef typename K::Orientation_2          Orientation_2;
 
@@ -79,7 +80,7 @@ private:
 			      const RT& x3, const RT& y3,
 			      const RT& x4, const RT& y4) const
   {
-    RT delta = -det2x2_by_formula(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
+    RT delta = -determinant(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
 
     Sign s = CGAL::sign( delta );
     if ( s != CGAL::ZERO ) {
@@ -94,8 +95,8 @@ private:
 		  const RT& x3, const RT& y3, const RT& x4, const RT& y4,
 		  const RT& D) const
   {
-    RT Dt = -det2x2_by_formula(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
-    RT Ds = det2x2_by_formula(x2 - x1, x3 - x1, y2 - y1, y3 - y1);
+    RT Dt = -determinant(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
+    RT Ds = determinant(x2 - x1, x3 - x1, y2 - y1, y3 - y1);
 
     Sign s_D = CGAL::sign( D );
     Sign s_Dt = CGAL::sign( Dt );
@@ -104,19 +105,11 @@ private:
     Sign s_tdiff = CGAL::sign(Dt - D);
     Sign s_sdiff = CGAL::sign(Ds - D);
 
-#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
-    Sign s_t = CGAL::Sign(s_Dt * s_D);
-    Sign s_s = CGAL::Sign(s_Ds * s_D);
-
-    Sign s_t_minus_1 = CGAL::Sign(s_tdiff * s_D);
-    Sign s_s_minus_1 = CGAL::Sign(s_sdiff * s_D);
-#else
     Sign s_t = s_Dt * s_D;
     Sign s_s = s_Ds * s_D;
 
     Sign s_t_minus_1 = s_tdiff * s_D;
     Sign s_s_minus_1 = s_sdiff * s_D;
-#endif
 
     if ( s_t == CGAL::NEGATIVE || s_t_minus_1 == CGAL::POSITIVE ||
 	 s_s == CGAL::NEGATIVE || s_s_minus_1 == CGAL::POSITIVE ) {
@@ -172,7 +165,7 @@ private:
   parallel_C2(const RT& x1, const RT& y1, const RT& x2, const RT& y2,
 	      const RT& x3, const RT& y3, const RT& x4, const RT& y4) const
   {
-    RT D1 = det2x2_by_formula(x2 - x1, x3 - x1,	y2 - y1, y3 - y1);
+    RT D1 = determinant(x2 - x1, x3 - x1,	y2 - y1, y3 - y1);
 
     if ( CGAL::sign( D1 ) != CGAL::ZERO ) {
       return Enum::DISJOINT;
@@ -193,24 +186,14 @@ private:
     Sign s_Dt3 = CGAL::sign( Dt3 );
     Sign s_Dt4 = CGAL::sign( Dt4 );
 
-#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
-    Sign s_t3 = CGAL::Sign(s_Dt3 * s_Dt);
-    Sign s_t4 = CGAL::Sign(s_Dt4 * s_Dt);
-#else
     Sign s_t3 = s_Dt3 * s_Dt;
     Sign s_t4 = s_Dt4 * s_Dt;
-#endif
 
     Sign s_t3diff = CGAL::sign( Dt3 - Dt );
     Sign s_t4diff = CGAL::sign( Dt4 - Dt );
 
-#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
-    Sign s_t3_minus_1 = CGAL::Sign(s_t3diff * s_Dt);
-    Sign s_t4_minus_1 = CGAL::Sign(s_t4diff * s_Dt);
-#else
     Sign s_t3_minus_1 = s_t3diff * s_Dt;
     Sign s_t4_minus_1 = s_t4diff * s_Dt;
-#endif
 
     int it3(0), it4(0);
     if ( s_t3 == CGAL::ZERO ) { // t3 == 0
@@ -302,7 +285,7 @@ private:
   }
 
 
-  bool inside_segment(const Site_2& s, const Site_2& p) const
+  Boolean   inside_segment(const Site_2& s, const Site_2& p) const
   {
     CGAL_precondition( s.is_segment() && p.is_point() );
 
@@ -313,10 +296,11 @@ private:
 
     Oriented_side os =  oriented_side_of_line(l, pp );
 
-    if ( os != ON_ORIENTED_BOUNDARY ) {
+    if (certainly( os != ON_ORIENTED_BOUNDARY ) )
       // the point does not belong to the same line as the segment
       return false;
-    }
+    if (! is_certain( os != ON_ORIENTED_BOUNDARY ) )
+      return indeterminate<Boolean>();
 
     Line_2 lp1 = compute_perpendicular(l, s.segment().source());
 
@@ -474,7 +458,6 @@ private:
 
 public:
   typedef Site_2                   argument_type;
-  typedef Arity_tag<2>             Arity;
 
 
   result_type

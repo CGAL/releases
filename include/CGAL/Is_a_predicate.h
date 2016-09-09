@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Is_a_predicate.h $
-// $Id: Is_a_predicate.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Is_a_predicate.h $
+// $Id: Is_a_predicate.h 41543 2008-01-11 22:56:35Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -51,22 +51,7 @@ struct Return_type_of_predicate<CGAL::Sign> {
 };
 
 template <>
-struct Return_type_of_predicate<CGAL::Orientation> {
-    typedef CGAL::Tag_true type;
-};
-
-template <>
-struct Return_type_of_predicate<CGAL::Oriented_side> {
-    typedef CGAL::Tag_true type;
-};
-
-template <>
 struct Return_type_of_predicate<CGAL::Bounded_side> {
-    typedef CGAL::Tag_true type;
-};
-
-template <>
-struct Return_type_of_predicate<CGAL::Comparison_result> {
     typedef CGAL::Tag_true type;
 };
 

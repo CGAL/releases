@@ -11,25 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2.cpp $
-// $Id: snap_rounding_2.cpp 38484 2007-04-30 15:33:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2.cpp $
+// $Id: snap_rounding_2.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
 
 #include <CGAL/basic.h>
 
-#ifndef CGAL_USE_QT
-
-#include <iostream>
-
-int main(int, char*)
-{
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-  return 0;
-}
-#else
 
 #include <cstdlib>
 #include "cgal_types.h"
@@ -389,4 +378,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

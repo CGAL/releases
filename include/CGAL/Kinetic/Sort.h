@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Sort.h $
-// $Id: Sort.h 37692 2007-03-29 19:36:13Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Sort.h $
+// $Id: Sort.h 45830 2008-09-26 19:57:57Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,10 +21,9 @@
 #ifndef CGAL_KINETIC_TESTING_SORT_H
 #define CGAL_KINETIC_TESTING_SORT_H
 #include <CGAL/Kinetic/basic.h>
-#include <CGAL/Kinetic/Active_objects_listener_helper.h>
+#include <CGAL/Kinetic/listeners.h>
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/internal/debug_counters.h>
-#include <CGAL/Kinetic/Simulator_kds_listener.h>
 #include <CGAL/Kinetic/Sort_visitor_base.h>
 #include <CGAL/Kinetic/Event_base.h>
 #include <algorithm>
@@ -118,13 +117,8 @@ template <class Traits, class Visitor=Sort_visitor_base> class Sort:
   typedef Swap_event<This,iterator, typename KLess::result_type> Event;
   friend class Swap_event<This,iterator, typename KLess::result_type>;
   // Redirects the Simulator notifications to function calls
-  typedef typename CGAL::Kinetic::
-  Simulator_kds_listener<typename Traits::Simulator::Listener,
-			 This> Sim_listener;
-  // Redirects the MovingObjectTable notifications to function calls
-  typedef typename CGAL::Kinetic::
-  Active_objects_listener_helper<typename Active_objects_table::Listener,
-				 This> MOT_listener;
+  CGAL_KINETIC_DECLARE_LISTENERS(typename Traits::Simulator,
+				 typename Active_objects_table);
 public:
   
   // Register this KDS with the MovingObjectTable and the Simulator
@@ -136,8 +130,7 @@ public:
 				    iless_(ik_.compare_x_1_object()), v_(v),
 				    aot_(tr.active_points_1_table_handle()),
 				    simulator_(tr.simulator_handle()){
-    sim_listener_= Sim_listener(simulator_, this);
-    mot_listener_= MOT_listener(aot_, this);
+    CGAL_KINETIC_INITIALIZE_LISTENERS(simulator_, aot_);
     wrote_objects_= false;
   }
 
@@ -166,11 +159,11 @@ public:
     ik_.set_time(nt);
     iterator it = std::upper_bound(sorted_.begin(), sorted_.end(),
 				   k, iless_);
-    CGAL_KINETIC_LOG(LOG_LOTS, "\nInserting " << k);
+    CGAL_LOG(Log::LOTS, "\nInserting " << k);
     if (it != sorted_.end()) {
-      CGAL_KINETIC_LOG(LOG_LOTS, " before " << it->object() <<std::endl;); 
+      CGAL_LOG(Log::LOTS, " before " << it->object() <<std::endl); 
     } else {
-      CGAL_KINETIC_LOG(LOG_LOTS, " before end" <<std::endl;); 
+      CGAL_LOG(Log::LOTS, " before end" <<std::endl); 
     }
     /*if (it != sorted_.end()) {
       v_.remove_edge(prior(it), it);
@@ -187,8 +180,8 @@ public:
     }
 
     v_.post_insert_vertex(prior(it));
-    CGAL_KINETIC_LOG_WRITE(LOG_LOTS, write(LOG_STREAM));
-    CGAL_KINETIC_LOG(LOG_LOTS, std::endl);
+    CGAL_LOG_WRITE(Log::LOTS, write(LOG_STREAM));
+    CGAL_LOG(Log::LOTS, std::endl);
     return it;
     //write(std::cout);
   }
@@ -196,7 +189,7 @@ public:
   /* Rebuild the certificate for the pair of points *it and *(++it).
      If there is a previous certificate there, deschedule it.*/
   void rebuild_certificate(const iterator it) {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Building certifiate for " << it->object() << " and " << next(it)->object()<< std::endl);
+    CGAL_LOG(Log::LOTS, "Building certifiate for " << it->object() << " and " << next(it)->object()<< std::endl);
     CGAL_precondition(it != sorted_.end());
     if (it->event() != Event_key()) {
       simulator_->delete_event(it->event());
@@ -225,8 +218,8 @@ public:
      solver is used to compute the next root between the two points
      being swapped. This method is called by an Event object.*/
   void swap(iterator it, typename KLess::result_type &s) {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Swapping " << it->object() << " and " << next(it)->object() << std::endl);
-    CGAL_KINETIC_LOG_WRITE(LOG_LOTS, write(LOG_STREAM));
+    CGAL_LOG(Log::LOTS, "Swapping " << it->object() << " and " << next(it)->object() << std::endl);
+    CGAL_LOG_WRITE(Log::LOTS, write(LOG_STREAM));
     v_.pre_swap(it, next(it));
     it->set_event(Event_key());
     iterator n= next(it);
@@ -237,11 +230,11 @@ public:
     
     it->swap(*n);
     
-    CGAL_KINETIC_LOG(LOG_LOTS, "Updating next certificate " << std::endl);
+    CGAL_LOG(Log::LOTS, "Updating next certificate " << std::endl);
     if (n != sorted_.end()) {
       rebuild_certificate(n);
     }
-    CGAL_KINETIC_LOG(LOG_LOTS, "Updating middle certificate " << std::endl);
+    CGAL_LOG(Log::LOTS, "Updating middle certificate " << std::endl);
     if (s.will_fail()) {
       Time t= s.failure_time(); s.pop_failure_time();
       it->set_event(simulator_->new_event(t, Event(it, this,s)));
@@ -250,13 +243,13 @@ public:
     }
     
    
-    CGAL_KINETIC_LOG(LOG_LOTS, "Updating prev certificate " << std::endl);
+    CGAL_LOG(Log::LOTS, "Updating prev certificate " << std::endl);
     if (it != sorted_.begin()) {
       rebuild_certificate(prior(it));
     }
     v_.post_swap(it, n);
     
-    CGAL_KINETIC_LOG_WRITE(LOG_LOTS, write(LOG_STREAM));
+    CGAL_LOG_WRITE(Log::LOTS, write(LOG_STREAM));
   }
 
   void audit_order() const {
@@ -289,13 +282,15 @@ public:
 	if (!wrote_objects_) {
 	  wrote_objects_=true;
 	  std::cerr << "Objects are: ";
-	  for (typename Active_objects_table::Key_iterator kit= mot_listener_.notifier()->keys_begin();
-	       kit != mot_listener_.notifier()->keys_end(); ++kit){
-	    std::cerr <<  mot_listener_.notifier()->at(*kit) << std::endl;
+	  for (typename Active_objects_table::Key_iterator kit= aot_->keys_begin();
+	       kit != aot_->keys_end(); ++kit){
+	    std::cerr <<  aot_->at(*kit) << std::endl;
 	  }
 	}
       }
-      if (compare_(  aot_->at(it->object()), aot_->at(next(it)->object()), simulator_->current_time()) == CGAL::LARGER) {
+      if (compare_.sign_at(  aot_->at(it->object()), 
+                             aot_->at(next(it)->object()),
+                             simulator_->current_time()) == CGAL::LARGER) {
 #ifdef CGAL_KINETIC_CHECK_EXACTNESS
 	std::cerr << "ERROR: kinetic objects " << it->object() << " and "
 		  << next(it)->object() << " are out of order.\n";
@@ -321,9 +316,9 @@ public:
 	if (!wrote_objects_) {
 	  wrote_objects_=true;
 	  std::cerr << "Objects are: ";
-	  for (typename Active_objects_table::Key_iterator kit= mot_listener_.notifier()->keys_begin();
-	       kit != mot_listener_.notifier()->keys_end(); ++kit){
-	    std::cerr <<  mot_listener_.notifier()->at(*kit) << std::endl;
+	  for (typename Active_objects_table::Key_iterator kit= aot_->keys_begin();
+	       kit != aot_->keys_end(); ++kit){
+	    std::cerr << aot_->at(*kit) << std::endl;
 	  }
 	}
       }
@@ -338,8 +333,8 @@ public:
     if (sorted_.size() <2) return;
 
     ik_.set_time(simulator_->audit_time());
-    CGAL_KINETIC_LOG_WRITE(LOG_LOTS, write(LOG_STREAM));
-    CGAL_KINETIC_LOG(LOG_LOTS, std::endl);
+    CGAL_LOG_WRITE(Log::LOTS, write(LOG_STREAM));
+    CGAL_LOG(Log::LOTS, std::endl);
 
     
     //typename Instantaneous_kernel::Less_x_1 less= ik_.less_x_1_object();
@@ -398,7 +393,13 @@ public:
     out << "Sort:\n";
     for (typename std::list<OD>::const_iterator it
 	   = sorted_.begin(); it != sorted_.end(); ++it) {
-      out << it->object() << " with event (" << it->event() << ")\n";
+      out << it->object() << " with event (";
+      if (it->event() != Event_key()) {
+        out << it->event();
+      } else {
+        out << "NULL";
+      }
+      out << ")\n";
     }
     out << std::endl << std::endl;;
   }
@@ -413,8 +414,6 @@ public:
     return sorted_.end();
   }
 
-  Sim_listener sim_listener_;
-  MOT_listener mot_listener_;
   // The points in sorted order
   std::list<OD > sorted_;
   // events_[k] is the certificates between k and the object after it

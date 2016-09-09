@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_enum.h $
-// $Id: Arrangement_enum.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_enum.h $
+// $Id: Arrangement_enum.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -185,7 +185,7 @@ namespace Internal {
     } else if ( at == AT::TOUCH_INTERIOR_22 ) {
       os << "TOUCH_INTERIOR_22";
     } else {
-      CGAL_assertion( false );
+      CGAL_error();
     }
 
     return os;

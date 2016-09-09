@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/auto_link/CGAL.h $
-// $Id: CGAL.h 37263 2007-03-19 14:37:41Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/CGAL.h $
+// $Id: CGAL.h 42169 2008-02-12 20:36:56Z fcacciola $
 // 
 //
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactry.com)

@@ -15,20 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h $
-// $Id: intersection_objectsCd.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h $
+// $Id: intersection_objectsCd.h 41666 2008-01-17 21:59:23Z spion $
 // 
 //
 // Author(s)     : ?
+
 #ifndef CGAL_INTERSECTION_OBJECTSCD_H
 #define CGAL_INTERSECTION_OBJECTSCD_H
 
 #include <CGAL/basic.h>
-
-#undef CGAL_KD_DEBUG
-#define CGAL_KD_DEBUG 11
 #include <CGAL/Kernel_d/debug.h>
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -139,13 +136,8 @@ not degenerate.}*/
 
 };
 
-
-
 CGAL_END_NAMESPACE
 
 #include <CGAL/Kernel_d/intersection_objects_d.h>
 
 #endif //CGAL_INTERSECTION_OBJECTSCD_H
-
-
-

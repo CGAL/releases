@@ -9,6 +9,7 @@
 #include <vector>
 #include <list>
 #include <fstream>
+#include <cassert>
 
 
 // CGAL kernel
@@ -298,7 +299,7 @@ public:
     // compute bounding interval
     double minimum (int coord)
     {
-        CGAL_assertion(size_of_vertices() > 0);
+        assert(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         double minimum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
@@ -307,7 +308,7 @@ public:
     }
     double maximum (int coord)
     {
-        CGAL_assertion(size_of_vertices() > 0);
+        assert(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         double maximum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
@@ -317,7 +318,7 @@ public:
     Vertex_handle vertex_min(int coord,
                              double &minimum)
     {
-        CGAL_assertion(size_of_vertices() > 0);
+        assert(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         Vertex_handle pBest = pVertex;
         minimum = pVertex->point()[coord];
@@ -335,7 +336,7 @@ public:
     Vertex_handle vertex_max(int coord,
                              double &maximum)
     {
-        CGAL_assertion(size_of_vertices() > 0);
+        assert(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         Vertex_handle pBest = pVertex;
         maximum = pVertex->point()[coord];
@@ -380,7 +381,7 @@ public:
 #else
     #define FORMAT_EPS_COORD(x) (x)
 #endif
-            
+
     // Dump parameterized mesh to an eps file
     bool write_file_eps(const char *pFilename,
                         double scale = 500.0)
@@ -449,12 +450,12 @@ public:
             double y1 = scale * pHalfedge->prev()->v();
             double x2 = scale * pHalfedge->u();
             double y2 = scale * pHalfedge->v();
-            out << FORMAT_EPS_COORD(x1) << " " 
-                << FORMAT_EPS_COORD(y1) << " " 
-                << FORMAT_EPS_COORD(x2) << " " 
+            out << FORMAT_EPS_COORD(x1) << " "
+                << FORMAT_EPS_COORD(y1) << " "
+                << FORMAT_EPS_COORD(x2) << " "
                 << FORMAT_EPS_COORD(y2) << " E" << std::endl;
         }
-            
+
         /* Emit EPS trailer. */
         out << "grestore" << std::endl;
         out << std::endl;
@@ -469,7 +470,7 @@ public:
 #else
     #define FORMAT_UV(x) (x)
 #endif
-            
+
     // Dump parameterized mesh to a Wavefront OBJ file
     // v x y z
     // f 1 2 3 4 (1-based)
@@ -510,7 +511,7 @@ public:
             else
                 out << "vt " << 0.0 << " " << 0.0 << std::endl;
         }
-            
+
         // Write facets using the unique material # 1
         out << "# facets" << std::endl;
         out << "usemtl Mat_1" << std::endl;

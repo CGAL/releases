@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/support/test_GMPXX.cpp $
-// $Id: test_GMPXX.cpp 38995 2007-06-08 14:00:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/test_GMPXX.cpp $
+// $Id: test_GMPXX.cpp 38994 2007-06-08 13:49:17Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_polynomial.h $
-// $Id: Nef_polynomial.h 35573 2006-12-17 13:18:12Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_polynomial.h $
+// $Id: Nef_polynomial.h 45641 2008-09-18 16:32:35Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -146,8 +146,20 @@ public:
     typedef Nef_polynomial<NT> Type;
     typedef typename AST_NT::Is_exact            Is_exact;
     typedef Tag_false                            Is_numerical_sensitive;                                                           
+    class Integral_division
+        : public std::binary_function< Type, Type,
+                                Type > {
+    public:
+        Type operator()( const Type& x,
+                const Type& y ) const {
+	  Type result = x / y;
+	  CGAL_postcondition_msg(result * y == x, "exact_division failed\n");
+	  return result;
+        }
+    };
+
     class Gcd 
-      : public Binary_function< Type, Type, Type > {
+      : public std::binary_function< Type, Type, Type > {
     public:
         Type operator()( const Type& x, const Type& y ) const {
             // By definition gcd(0,0) == 0
@@ -161,19 +173,19 @@ public:
 };
 
 template <class NT> class Real_embeddable_traits< Nef_polynomial<NT> > 
-  : public Real_embeddable_traits_base< Nef_polynomial<NT> > {
+  : public INTERN_RET::Real_embeddable_traits_base< Nef_polynomial<NT> , CGAL::Tag_true > {
   public:
     typedef Nef_polynomial<NT> Type;
     class Abs 
-        : public Unary_function< Type, Type> {
+        : public std::unary_function< Type, Type> {
     public:
         Type inline operator()( const Type& x ) const {
             return (CGAL::Nef::sign( x ) == CGAL::NEGATIVE)? -x : x;
         }        
     };
 
-    class Sign 
-      : public Unary_function< Type, CGAL::Sign > {
+    class Sgn 
+      : public std::unary_function< Type, CGAL::Sign > {
       public:
         CGAL::Sign inline operator()( const Type& x ) const {
             return CGAL::Nef::sign( x );
@@ -181,7 +193,7 @@ template <class NT> class Real_embeddable_traits< Nef_polynomial<NT> >
     };
     
     class Compare 
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 CGAL::Comparison_result > {
       public:
         CGAL::Comparison_result inline operator()( 
@@ -192,7 +204,7 @@ template <class NT> class Real_embeddable_traits< Nef_polynomial<NT> >
     };
     
     class To_double 
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double inline operator()( const Type& p ) const {
             return CGAL::to_double(
@@ -201,13 +213,66 @@ template <class NT> class Real_embeddable_traits< Nef_polynomial<NT> >
     };
     
     class To_interval 
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& p ) const {
             return CGAL::to_interval(p.eval_at(Nef_polynomial<NT>::infi_maximal_value()));
         }
     };
 };
+
+template <typename NT>
+class Fraction_traits<Nef_polynomial<NT> > {
+public:
+    typedef Nef_polynomial<NT> Type;
+    typedef Fraction_traits<NT> Base_traits;
+    typedef typename Base_traits::Is_fraction Is_fraction;
+    typedef CGAL::Nef_polynomial<typename Base_traits::Numerator_type>
+      Numerator_type;
+    typedef typename Base_traits::Denominator_type Denominator_type;
+    //TODO:    typedef Base_traits::Common_factor Common_factor;
+    class Decompose {
+    public:
+        typedef Type first_argument_type;
+        typedef Numerator_type second_argument_type;
+        typedef Denominator_type third_argument_type;
+        void operator () (const first_argument_type& rat, 
+			  second_argument_type& num,
+			  third_argument_type& den) {
+	  typename Base_traits::Decompose decompose;
+	  third_argument_type num0;
+	  third_argument_type num1;
+	  third_argument_type den1;
+	  third_argument_type den0;
+	  decompose(rat[0], num0, den0);
+	  if(rat.degree() > 0) {
+	    decompose(rat[1], num1, den1);
+	    // TODO	    den = den1/gcd(den0, den1)*den0;
+	    den = den1*den0;
+	    num = Numerator_type(num0*den1, num1*den0);
+	  } else {
+	    den = den0;
+	    num = Numerator_type(num0);
+	  }
+        }
+    };
+    class Compose {
+    public:
+        typedef Numerator_type first_argument_type;
+        typedef Denominator_type second_argument_type;
+        typedef Type result_type;
+        result_type operator () (const first_argument_type& num,
+				 const second_argument_type& den) {
+	  typename Base_traits::Compose compose;
+	  if(num.degree() == 0)
+	    return result_type(compose(num[0],den));
+	  else
+	    return result_type(compose(num[0],den),
+			       compose(num[1],den));
+        }
+    };
+};
+
 
 CGAL_END_NAMESPACE
 

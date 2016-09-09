@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
-// $Id: rectangular_p_center_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Matrix_search/include/CGAL/rectangular_p_center_2.h $
+// $Id: rectangular_p_center_2.h 43649 2008-06-17 15:26:21Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -21,18 +21,11 @@
 #define CGAL_RECTANGULAR_P_CENTER_2_H 1
 
 #include <CGAL/pierce_rectangles_2.h>
-#include <CGAL/functional.h>
 #include <CGAL/sorted_matrix_search.h>
 #include <CGAL/rectangular_3_center_2.h>
 #include <algorithm>
 #include <CGAL/number_utils_classes.h>
-#ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/Rectangular_p_center_traits_2.h>
-#endif // CGAL_REP_CLASS_DEFINED
-
-CGAL_BEGIN_NAMESPACE
-CGAL_END_NAMESPACE
-
 #include <CGAL/Cartesian_matrix.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -328,6 +321,7 @@ rectangular_p_center_2_matrix_search(
 {
   typedef typename Traits::FT FT;
   using std::minus;
+  using boost::bind;
 
   return rectangular_p_center_2_matrix_search(
     f,
@@ -336,7 +330,7 @@ rectangular_p_center_2_matrix_search(
     r,
     pf,
     t,
-    compose(bind_1(Max< FT >(), 0), minus< FT >()));
+    bind(Max<FT>(), 0, bind(minus<FT>(), _1, _2)));
 
 } // Pcenter_matrix_search( ... )
 
@@ -399,11 +393,6 @@ rectangular_p_center_2(ForwardIterator f,
   return rectangular_p_center_2(f, l, o, r, p, t);
 } // rectangular_p_center_2( ... )
 
-
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_RECTANGULAR_P_CENTER_2_H)
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

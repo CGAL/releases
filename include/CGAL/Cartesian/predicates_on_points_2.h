@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
-// $Id: predicates_on_points_2.h 32839 2006-07-31 16:22:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
+// $Id: predicates_on_points_2.h 44906 2008-08-12 11:55:24Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -34,7 +34,7 @@ inline
 bool
 equal_xy(const PointC2<K> &p, const PointC2<K> &q)
 {
-  return p.x() == q.x() && p.y() == q.y();
+  return CGAL_AND( p.x() == q.x() , p.y() == q.y() );
 }
 
 #if 0

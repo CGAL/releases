@@ -1,3 +1,25 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/bmpread.h $
+// $Id: bmpread.h 45591 2008-09-16 12:45:40Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*
  * from bmp.zip, see the url http://www.ddj.com/ftp/1995/1995.03/
  * author Dr. Dobb's
@@ -14,7 +36,7 @@
 /*
  * Mid-level functions
  */
-int readBitmapFileHeader(FILE *fp, BITMAPFILEHEADER *bfh);
+int readBitmapFileHeader(FILE *fp, Bitmapfileheader *bfh);
 int readBitmapArrayHeader(FILE *fp, BITMAPARRAYHEADER *bah);
 int readBitmapHeader(FILE *fp, BITMAPHEADER *bh);
 int readRgb(FILE *fp, RGB *rgb, int numBytes);
@@ -30,13 +52,13 @@ void reflectYchar(char *image, int width, int height);
 /*
  * High level functions.
  */
-int readSingleImageBMP(FILE *fp, RGB **argb, UINT32 *width, UINT32 *height);
+int readSingleImageBMP(FILE *fp, RGB **argb, CGAL_UINT32 *width, CGAL_UINT32 *height);
 int readSingleImageICOPTR(FILE *fp, char **xorMask, char **andMask,
-		          UINT32 *width, UINT32 *height);
+		          CGAL_UINT32 *width, CGAL_UINT32 *height);
 int readSingleImageColorICOPTR(FILE *fp, RGB **argb, char **xorMask,
-			       char **andMask, UINT32 *width, UINT32 *height);
+			       char **andMask, CGAL_UINT32 *width, CGAL_UINT32 *height);
 int readMultipleImage(FILE *fp, RGB ***argbs, char ***xorMasks,
-		      char ***andMasks, UINT32 **widths, UINT32 **heights,
+		      char ***andMasks, CGAL_UINT32 **widths, CGAL_UINT32 **heights,
 		      int *imageCount);
 
 #endif

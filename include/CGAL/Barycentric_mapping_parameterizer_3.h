@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Barycentric_mapping_parameterizer_3.h $
-// $Id: Barycentric_mapping_parameterizer_3.h 37024 2007-03-12 12:15:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Barycentric_mapping_parameterizer_3.h $
+// $Id: Barycentric_mapping_parameterizer_3.h 45050 2008-08-20 14:47:53Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -41,14 +41,14 @@ CGAL_BEGIN_NAMESPACE
 ///   for j neighbor vertex of i based on Tutte Barycentric Mapping method.
 /// - implements an optimized version of is_one_to_one_mapping().
 ///
-/// Concept: Model of the ParameterizerTraits_3 concept.
+/// @heading Is Model for the Concepts: Model of the ParameterizerTraits_3 concept.
 ///
-/// Design Pattern:
-/// Barycentric_mapping_parameterizer_3<ParameterizationMesh_3, ...> class is a
+/// @heading Design Pattern:
+/// Barycentric_mapping_parameterizer_3 class is a
 /// Strategy [GHJV95]: it implements a strategy of surface parameterization
 /// for models of ParameterizationMesh_3.
 ///
-/// Template parameters:
+/// @heading Parameters:
 /// @param ParameterizationMesh_3       3D surface mesh.
 /// @param BorderParameterizer_3        Strategy to parameterize the surface border.
 /// @param SparseLinearAlgebraTraits_d  Traits class to solve a sparse linear system.
@@ -142,7 +142,7 @@ public:
 // Protected operations
 protected:
     /// Compute w_ij = (i,j) coefficient of matrix A for j neighbor vertex of i.
-  virtual NT compute_w_ij(const Adaptor& /* mesh */,
+    virtual NT compute_w_ij(const Adaptor& /* mesh */,
 			  Vertex_const_handle /* main_vertex_v_i */,
 			  Vertex_around_vertex_const_circulator /* neighbor_vertex_v_j */ )
     {
@@ -152,7 +152,7 @@ protected:
     }
 
     /// Check if 3D -> 2D mapping is one-to-one.
-  virtual bool  is_one_to_one_mapping (const Adaptor& /* mesh */,
+    virtual bool  is_one_to_one_mapping (const Adaptor& /* mesh */,
 				       const Matrix& /* A */,
 				       const Vector& /* Bu */,
 				       const Vector& /* Bv */)

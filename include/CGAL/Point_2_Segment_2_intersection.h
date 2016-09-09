@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Point_2_Segment_2_intersection.h $
-// $Id: Point_2_Segment_2_intersection.h 36294 2007-02-15 14:22:22Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Point_2_Segment_2_intersection.h $
+// $Id: Point_2_Segment_2_intersection.h 39776 2007-08-08 15:15:20Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -36,8 +36,8 @@ namespace CGALi {
 template <class K>
 inline 
 bool
-do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt, 
-	     const typename CGAL_WRAP(K)::Segment_2 &seg,
+do_intersect(const typename K::Point_2 &pt, 
+	     const typename K::Segment_2 &seg,
 	     const K&)
 {
     return seg.has_on(pt);
@@ -46,8 +46,8 @@ do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt,
 template <class K>
 inline 
 bool
-do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg,
-	     const typename CGAL_WRAP(K)::Point_2 &pt, 
+do_intersect(const typename K::Segment_2 &seg,
+	     const typename K::Point_2 &pt, 
 	     const K&)
 {
     return seg.has_on(pt);
@@ -57,8 +57,8 @@ do_intersect(const typename CGAL_WRAP(K)::Segment_2 &seg,
 template <class K>
 inline
 Object
-intersection(const typename CGAL_WRAP(K)::Point_2 &pt, 
-	     const typename CGAL_WRAP(K)::Segment_2 &seg, 
+intersection(const typename K::Point_2 &pt, 
+	     const typename K::Segment_2 &seg, 
 	     const K&)
 {
     if (do_intersect(pt,seg)) {
@@ -70,8 +70,8 @@ intersection(const typename CGAL_WRAP(K)::Point_2 &pt,
 template <class K>
 inline
 Object
-intersection( const typename CGAL_WRAP(K)::Segment_2 &seg, 
-	      const typename CGAL_WRAP(K)::Point_2 &pt, 
+intersection( const typename K::Segment_2 &seg, 
+	      const typename K::Point_2 &pt, 
 	      const K&)
 {
     if (do_intersect(pt,seg)) {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/LSCM_parameterizer_3.h $
-// $Id: LSCM_parameterizer_3.h 38629 2007-05-11 13:33:43Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/LSCM_parameterizer_3.h $
+// $Id: LSCM_parameterizer_3.h 45050 2008-08-20 14:47:53Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -47,10 +47,10 @@ CGAL_BEGIN_NAMESPACE
 /// onto a convex polygon (only two pinned vertices are needed to ensure a
 /// unique solution), but one-to-one mapping is NOT guaranteed.
 ///
-/// Concept: Model of the ParameterizerTraits_3 concept.
+/// @heading Is Model for the Concepts: Model of the ParameterizerTraits_3 concept.
 ///
-/// Design Pattern:
-/// LSCM_parameterizer_3<ParameterizationMesh_3, ...> class is a
+/// @heading Design Pattern:
+/// LSCM_parameterizer_3 class is a
 /// Strategy [GHJV95]: it implements a strategy of surface parameterization
 /// for models of ParameterizationMesh_3.
 
@@ -153,8 +153,8 @@ public:
     /// - 'mesh' must be a triangular mesh.
     virtual Error_code  parameterize(Adaptor& mesh);
 
-// Protected operations
-protected:
+// Private operations
+private:
     /// Check parameterize() preconditions:
     /// - 'mesh' must be a surface with one connected component.
     /// - 'mesh' must be a triangular mesh.
@@ -197,8 +197,8 @@ protected:
     bool  is_one_to_one_mapping(const Adaptor& mesh,
                                  const LeastSquaresSolver& solver);
 
-// Protected accessors
-protected:
+// Private accessors
+private:
     /// Get the object that maps the surface's border onto a 2D space.
     Border_param&   get_border_parameterizer()    { return m_borderParameterizer; }
 
@@ -219,22 +219,22 @@ private:
 // Implementation
 // ------------------------------------------------------------------------------------
 
-/// Compute a one-to-one mapping from a triangular 3D surface 'mesh'
-/// to a piece of the 2D space.
-/// The mapping is linear by pieces (linear in each triangle).
-/// The result is the (u,v) pair image of each vertex of the 3D surface.
-///
-/// Preconditions:
-/// - 'mesh' must be a surface with one connected component.
-/// - 'mesh' must be a triangular mesh.
-///
-/// Implementation note: Outline of the algorithm:
-/// 1) Find an initial solution by projecting on a plane.
-/// 2) Lock two vertices of the mesh.
-/// 3) Copy the initial u,v coordinates to OpenNL.
-/// 3) Construct the LSCM equation with OpenNL.
-/// 4) Solve the equation with OpenNL.
-/// 5) Copy OpenNL solution to the u,v coordinates.
+// Compute a one-to-one mapping from a triangular 3D surface 'mesh'
+// to a piece of the 2D space.
+// The mapping is linear by pieces (linear in each triangle).
+// The result is the (u,v) pair image of each vertex of the 3D surface.
+//
+// Preconditions:
+// - 'mesh' must be a surface with one connected component.
+// - 'mesh' must be a triangular mesh.
+//
+// Implementation note: Outline of the algorithm:
+// 1) Find an initial solution by projecting on a plane.
+// 2) Lock two vertices of the mesh.
+// 3) Copy the initial u,v coordinates to OpenNL.
+// 3) Construct the LSCM equation with OpenNL.
+// 4) Solve the equation with OpenNL.
+// 5) Copy OpenNL solution to the u,v coordinates.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -339,9 +339,9 @@ parameterize(Adaptor& mesh)
 }
 
 
-/// Check parameterize() preconditions:
-/// - 'mesh' must be a surface with one connected component
-/// - 'mesh' must be a triangular mesh
+// Check parameterize() preconditions:
+// - 'mesh' must be a surface with one connected component
+// - 'mesh' must be a triangular mesh
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -355,43 +355,39 @@ check_parameterize_preconditions(Adaptor& mesh)
                                             Mesh_feature_extractor;
     Mesh_feature_extractor feature_extractor(mesh);
 
-    // Allways check that mesh is not empty
+    // Check that mesh is not empty
     if (mesh.mesh_vertices_begin() == mesh.mesh_vertices_end())
         status = Base::ERROR_EMPTY_MESH;
     if (status != Base::OK)
         return status;
 
     // The whole surface parameterization package is restricted to triangular meshes
-    CGAL_surface_mesh_parameterization_expensive_precondition_code(             \
-        status = mesh.is_mesh_triangular() ? Base::OK                         \
-                                            : Base::ERROR_NON_TRIANGULAR_MESH; \
-    );
+    status = mesh.is_mesh_triangular() ? Base::OK                         
+                                       : Base::ERROR_NON_TRIANGULAR_MESH; 
     if (status != Base::OK)
         return status;
 
     // The whole package is restricted to surfaces: genus = 0,
     // one connected component and at least one border
-    CGAL_surface_mesh_parameterization_expensive_precondition_code(         \
-        int genus = feature_extractor.get_genus();                          \
-        int nb_borders = feature_extractor.get_nb_borders();                \
-        int nb_components = feature_extractor.get_nb_connex_components();   \
-        status = (genus == 0 && nb_borders >= 1 && nb_components == 1)      \
-               ? Base::OK                                                   \
-               : Base::ERROR_NO_SURFACE_MESH;                               \
-    );
+    int genus = feature_extractor.get_genus();                          
+    int nb_borders = feature_extractor.get_nb_borders();                
+    int nb_components = feature_extractor.get_nb_connex_components();   
+    status = (genus == 0 && nb_borders >= 1 && nb_components == 1)      
+           ? Base::OK                                                   
+           : Base::ERROR_NO_TOPOLOGICAL_DISC;                               
     if (status != Base::OK)
         return status;
 
     return status;
 }
 
-/// Initialize "A*X = B" linear system after
-/// (at least two) border vertices are parameterized
-///
-/// Preconditions:
-/// - vertices must be indexed
-/// - X and B must be allocated and empty
-/// - (at least two) border vertices must be parameterized
+// Initialize "A*X = B" linear system after
+// (at least two) border vertices are parameterized
+//
+// Preconditions:
+// - vertices must be indexed
+// - X and B must be allocated and empty
+// - (at least two) border vertices must be parameterized
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 void LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
@@ -422,9 +418,9 @@ initialize_system_from_mesh_border(LeastSquaresSolver& solver,
     }
 }
 
-/// Utility for setup_triangle_relations():
-/// Computes the coordinates of the vertices of a triangle
-/// in a local 2D orthonormal basis of the triangle's plane.
+// Utility for setup_triangle_relations():
+// Computes the coordinates of the vertices of a triangle
+// in a local 2D orthonormal basis of the triangle's plane.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 void
@@ -459,17 +455,17 @@ project_triangle(const Point_3& p0, const Point_3& p1, const Point_3& p2,   // i
 }
 
 
-/// Create two lines in the linear system per triangle (one for u, one for v)
-///
-/// Preconditions:
-/// - vertices must be indexed
-///
-/// Implementation note: LSCM equation is:
-///       (Z1 - Z0)(U2 - U0) = (Z2 - Z0)(U1 - U0)
-/// where Uk = uk + i.v_k is the complex number corresponding to (u,v) coords
-///       Zk = xk + i.yk is the complex number corresponding to local (x,y) coords
-/// cool: no divide with this expression; makes it more numerically stable
-/// in presence of degenerate triangles
+// Create two lines in the linear system per triangle (one for u, one for v)
+//
+// Preconditions:
+// - vertices must be indexed
+//
+// Implementation note: LSCM equation is:
+//       (Z1 - Z0)(U2 - U0) = (Z2 - Z0)(U1 - U0)
+// where Uk = uk + i.v_k is the complex number corresponding to (u,v) coords
+//       Zk = xk + i.yk is the complex number corresponding to local (x,y) coords
+// cool: no divide with this expression; makes it more numerically stable
+// in presence of degenerate triangles
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -558,7 +554,7 @@ setup_triangle_relations(LeastSquaresSolver& solver,
     return Base::OK;
 }
 
-/// Copy X coordinates into the (u,v) pair of each vertex
+// Copy X coordinates into the (u,v) pair of each vertex
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 void LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
@@ -583,8 +579,8 @@ set_mesh_uv_from_system(Adaptor& mesh,
     }
 }
 
-/// Check parameterize() postconditions:
-/// - 3D -> 2D mapping is one-to-one.
+// Check parameterize() postconditions:
+// - 3D -> 2D mapping is one-to-one.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
@@ -595,18 +591,16 @@ check_parameterize_postconditions(const Adaptor& mesh,
     Error_code status = Base::OK;
 
     // Check if 3D -> 2D mapping is one-to-one
-    CGAL_surface_mesh_parameterization_postcondition_code(  \
-        status = is_one_to_one_mapping(mesh, solver) 	    \
-               ? Base::OK                                   \
-               : Base::ERROR_NO_1_TO_1_MAPPING;             \
-    );
+    status = is_one_to_one_mapping(mesh, solver) 	    
+           ? Base::OK                                   
+           : Base::ERROR_NO_1_TO_1_MAPPING;             
     if (status != Base::OK)
         return status;
 
     return status;
 }
 
-/// Check if 3D -> 2D mapping is one-to-one.
+// Check if 3D -> 2D mapping is one-to-one.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 bool LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::

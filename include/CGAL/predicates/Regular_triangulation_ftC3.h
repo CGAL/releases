@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
-// $Id: Regular_triangulation_ftC3.h 32441 2006-07-12 12:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
+// $Id: Regular_triangulation_ftC3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_REGULAR_TRIANGULATION_FTC3_H
 #define CGAL_REGULAR_TRIANGULATION_FTC3_H
@@ -57,10 +57,10 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     FT dst = CGAL_NTS square(dsx) + CGAL_NTS square(dsy) + 
              CGAL_NTS square(dsz) - swt + twt;
 
-    return Oriented_side( - sign_of_determinant4x4(dpx, dpy, dpz, dpt,
-						   dqx, dqy, dqz, dqt,
-						   drx, dry, drz, drt,
-						   dsx, dsy, dsz, dst));
+    return - sign_of_determinant(dpx, dpy, dpz, dpt,
+				 dqx, dqy, dqz, dqt,
+				 drx, dry, drz, drt,
+				 dsx, dsy, dsz, dst);
 }
 
 
@@ -90,27 +90,27 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     Sign cmp;
 
     // Projection on the (xy) plane.
-    cmp = sign_of_determinant3x3(dpx, dpy, dpt,
+    cmp = sign_of_determinant(dpx, dpy, dpt,
 		                 dqx, dqy, dqt,
 				 drx, dry, drt);
     if (cmp != ZERO)
-	return Oriented_side(cmp * sign_of_determinant2x2(px-rx, py-ry,
-		                                          qx-rx, qy-ry));
+	return cmp * sign_of_determinant(px-rx, py-ry,
+		                         qx-rx, qy-ry);
 
     // Projection on the (xz) plane.
-    cmp = sign_of_determinant3x3(dpx, dpz, dpt,
+    cmp = sign_of_determinant(dpx, dpz, dpt,
 		                 dqx, dqz, dqt,
 				 drx, drz, drt);
     if (cmp != ZERO)
-	return Oriented_side(cmp * sign_of_determinant2x2(px-rx, pz-rz,
-		                                          qx-rx, qz-rz));
+	return cmp * sign_of_determinant(px-rx, pz-rz,
+		                         qx-rx, qz-rz);
 
     // Projection on the (yz) plane.
-    cmp = sign_of_determinant3x3(dpy, dpz, dpt,
+    cmp = sign_of_determinant(dpy, dpz, dpt,
 		                 dqy, dqz, dqt,
 				 dry, drz, drt);
-    return Oriented_side(cmp * sign_of_determinant2x2(py-ry, pz-rz,
-		                                      qy-ry, qz-rz));
+    return cmp * sign_of_determinant(py-ry, pz-rz,
+		                     qy-ry, qz-rz);
 }
 
 
@@ -136,25 +136,24 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     // We do an orthogonal projection on the (x) axis, if possible.
     cmp = CGAL_NTS compare(px, qx);
     if (cmp != EQUAL)
-        return Oriented_side(cmp * sign_of_determinant2x2(dpx, dpt, dqx, dqt));
+        return cmp * sign_of_determinant(dpx, dpt, dqx, dqt);
 
     // We do an orthogonal projection on the (y) axis, if possible.
     cmp = CGAL_NTS compare(py, qy);
     if (cmp != EQUAL)
-        return Oriented_side(cmp * sign_of_determinant2x2(dpy, dpt, dqy, dqt));
+        return cmp * sign_of_determinant(dpy, dpt, dqy, dqt);
 
     // We do an orthogonal projection on the (z) axis.
     cmp = CGAL_NTS compare(pz, qz);
-    return Oriented_side(cmp * sign_of_determinant2x2(dpz, dpt, dqz, dqt));
+    return cmp * sign_of_determinant(dpz, dpt, dqz, dqt);
 }
 
 template <class FT>
 Oriented_side
 power_testC3(const FT &pwt, const FT &qwt)
 {
-    return Oriented_side((Comparison_result) CGAL_NTS compare(qwt, pwt));
+    return CGAL_NTS compare(qwt, pwt);
 }
-
 
 CGAL_END_NAMESPACE
 

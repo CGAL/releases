@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
-// $Id: Triangulation_simplex_3.h 33201 2006-08-09 15:25:13Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
+// $Id: Triangulation_simplex_3.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -183,7 +183,7 @@ operator==(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
   case (3):
     return (&(*s0.ch) == &(*s1.ch));
   }
-  CGAL_assertion(false);
+  CGAL_error();
   return false;
 }
 
@@ -238,7 +238,7 @@ operator<(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
   case (3): // Cell
     return (&(*s0.ch) < &(*s1.ch));
   }
-  CGAL_assertion(0);
+  CGAL_error();
   return false;
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_2.h $
-// $Id: internal_functions_on_line_2.h 33659 2006-08-24 14:20:34Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_2.h $
+// $Id: internal_functions_on_line_2.h 46243 2008-10-13 17:58:36Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -70,39 +70,6 @@ namespace LinearFunctors {
     return (a1c*b2c == a2c*b1c) &&
            (a1c*c2c == a2c*c1c) &&
            (b1c*c2c == b2c*c1c);
-  }
-
-  template< class CK, class OutputIterator>
-  OutputIterator
-  intersect_2( const typename CK::Line_2 & l,
-	       const typename CK::Circle_2 & c,
-	       OutputIterator res )
-  {
-    typedef typename CK::Algebraic_kernel            AK;
-    typedef typename CK::Polynomial_1_2              Equation_line;
-    typedef typename CK::Polynomial_for_circles_2_2  Equation_circle; 
-    typedef typename CK::Root_for_circles_2_2        Root_for_circles_2_2;
-    
-    Equation_line e1 = CGAL::get_equation<CK>(l);
-    Equation_circle e2 = CGAL::get_equation<CK>(c);
-    
-    typedef std::vector< std::pair < Root_for_circles_2_2, unsigned > > 
-      solutions_container;
-    solutions_container solutions;
-
-    AK().solve_object()(e1, e2, std::back_inserter(solutions)); 
-    // to be optimized
-
-    typedef typename CK::Circular_arc_point_2 Circular_arc_point_2;
-
-    for ( typename solutions_container::iterator it = solutions.begin(); 
-	  it != solutions.end(); ++it )
-      {
-	*res++ = make_object
-	  (std::make_pair(Circular_arc_point_2(it->first), it->second ));
-      }
-
-    return res;
   }
 
 } // namespace LinearFunctors

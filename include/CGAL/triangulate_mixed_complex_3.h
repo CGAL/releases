@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
-// $Id: triangulate_mixed_complex_3.h 39734 2007-08-07 12:07:22Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $Id: triangulate_mixed_complex_3.h 46446 2008-10-23 13:10:00Z afabri $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -26,6 +26,10 @@
 #include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Triangulated_mixed_complex_observer_3.h>
 #include <CGAL/Triangulation_incremental_builder_3.h>
+
+#include <CGAL/Skin_surface_base_3.h>
+#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+
 // NGHK: move this one to SkinSurfaceTraits
 #include <CGAL/Compute_anchor_3.h>
 
@@ -535,7 +539,7 @@ construct_vertices() {
 	if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
 	  vh = add_vertex(Symb_anchor(sDel,sVor));
 	  anchors[Symb_anchor(sDel,sVor)] = vh;
-	  assert(vh == get_vertex(sDel, sVor));
+	  CGAL_assertion(vh == get_vertex(sDel, sVor));
 	}
       }
     }
@@ -554,7 +558,7 @@ construct_vertices() {
       if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
 	vh = add_vertex(Symb_anchor(sDel,sVor));
 	anchors[Symb_anchor(sDel,sVor)] = vh;
-	assert(vh == get_vertex(sDel, sVor));
+	CGAL_assertion(vh == get_vertex(sDel, sVor));
       }
     }
     if (!regular.is_infinite(c2)) {
@@ -562,7 +566,7 @@ construct_vertices() {
       if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
 	vh = add_vertex(Symb_anchor(sDel,sVor));
 	anchors[Symb_anchor(sDel,sVor)] = vh;
-	assert(vh == get_vertex(sDel, sVor));
+	CGAL_assertion(vh == get_vertex(sDel, sVor));
       }
     }
     // anchor dimDel=0, dimVor=2
@@ -572,7 +576,7 @@ construct_vertices() {
       if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
 	vh = add_vertex(Symb_anchor(sDel,sVor));
 	anchors[Symb_anchor(sDel,sVor)] = vh;
-	assert(vh == get_vertex(sDel, sVor));
+	CGAL_assertion(vh == get_vertex(sDel, sVor));
       } else {
         vh = get_vertex(sDel, sVor);
       }
@@ -590,14 +594,14 @@ construct_vertices() {
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
 			
     sDel = get_anchor_del(v2);
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
   }
 	
@@ -609,7 +613,7 @@ construct_vertices() {
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
   }
 
@@ -622,7 +626,7 @@ construct_vertices() {
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
   }
 	
@@ -642,7 +646,7 @@ construct_vertices() {
 	if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
 	  vh = add_vertex(Symb_anchor(sDel,sVor));
 	  anchors[Symb_anchor(sDel,sVor)] = vh;
-	  assert(vh == get_vertex(sDel, sVor));
+	  CGAL_assertion(vh == get_vertex(sDel, sVor));
 	}
       }
     }
@@ -659,7 +663,7 @@ construct_vertices() {
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
   }
 	
@@ -675,7 +679,7 @@ construct_vertices() {
     if (anchors.find(Symb_anchor(sDel,sVor)) == anchors.end()) {
       vh = add_vertex(Symb_anchor(sDel,sVor));
       anchors[Symb_anchor(sDel,sVor)] = vh;
-      assert(vh == get_vertex(sDel, sVor));
+      CGAL_assertion(vh == get_vertex(sDel, sVor));
     }
   }
 }
@@ -1078,7 +1082,7 @@ get_weighted_circumcenter(Rt_Simplex const &s) {
            r2t_converter_object(ch->vertex(3)->point()));
     break;
   default:
-    CGAL_assertion(false);
+    CGAL_error();
   }
   return result;
 }
@@ -1251,17 +1255,18 @@ Mixed_complex_triangulator_3<
   TriangulatedMixedComplex_3,
   TriangulatedMixedComplexObserver_3>::
 orientation(Tmc_Cell_handle ch) {
-  Orientation o;
-  try {
+    Orientation o;
+    // Protection is outside the try block as VC8 has the CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG
+    Protect_FPU_rounding<true> P;
+    try {
     Tmc_Point pts[4];
     for (int i=0; i<4; i++) pts[i] = ch->vertex(i)->point();
 
-    Protect_FPU_rounding<true> P;
     
     // filtered kernel
     o = _tmc.geom_traits().orientation_3_object()(pts[0], pts[1], 
                                                   pts[2], pts[3]);
-  } catch (Interval_nt_advanced::unsafe_comparison) {
+  } catch (Uncertain_conversion_exception) {
     Protect_FPU_rounding<false> P(CGAL_FE_TONEAREST);
     typedef Exact_predicates_exact_constructions_kernel EK;
     typedef Cartesian_converter<EK, Tmc_traits>         Exact_converter;
@@ -1282,13 +1287,6 @@ orientation(Tmc_Cell_handle ch) {
                                             e_pts[2], e_pts[3]);
   }
   return o;
-//   return CGAL::orientation(ch->vertex(0)->point(), 
-//                            ch->vertex(1)->point(),
-//                            ch->vertex(2)->point(),
-//                            ch->vertex(3)->point());
-
-  // NGHK: Hack, how to use filtered points?
-  return POSITIVE;
 }
 
 template < 

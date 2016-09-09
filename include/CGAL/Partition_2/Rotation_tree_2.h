@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h 31311 2006-05-29 08:30:22Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
+// $Id: Rotation_tree_2.h 44343 2008-07-23 07:17:34Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -34,33 +34,19 @@
 #ifndef  CGAL_ROTATION_TREE_H
 #define  CGAL_ROTATION_TREE_H
 
-//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
-//  (from stlport?)
-#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
-#include <vector>
-#else
 #include <CGAL/vector.h>
-#endif // MSVC6
 #include <CGAL/Partition_2/Rotation_tree_node_2.h>
-#include <CGAL/functional.h>
+#include <boost/bind.hpp>
 
 namespace CGAL {
 
 template <class Traits_>
-#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
-class Rotation_tree_2 : public std::vector< Rotation_tree_node_2<Traits_> >
-#else
 class Rotation_tree_2 : public CGALi::vector< Rotation_tree_node_2<Traits_> >
-#endif // MSVC 6
 {
 public:
    typedef Traits_                                 Traits;
    typedef Rotation_tree_node_2<Traits>            Node;
-#if (defined( _MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
-   typedef typename std::vector<Node>::iterator    Self_iterator;
-#else
    typedef typename CGALi::vector<Node>::iterator  Self_iterator;
-#endif // MSVC6
    typedef typename Traits::Point_2                Point_2;
 
 
@@ -71,7 +57,7 @@ public:
       for (ForwardIterator it = first; it != beyond; it++)
          push_back(*it);
    
-      std::sort(this->begin(), this->end(), swap_1(Traits().less_xy_2_object()));
+      std::sort(this->begin(), this->end(), bind(Traits().less_xy_2_object(), _2, _1));
       std::unique(this->begin(), this->end());
    
       // front() is the point with the largest x coordinate

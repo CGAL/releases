@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Combining_oracle.h $
-// $Id: Combining_oracle.h 34182 2006-09-13 13:31:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Combining_oracle.h $
+// $Id: Combining_oracle.h 40923 2007-11-18 14:19:48Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -25,6 +25,9 @@
 #include <algorithm>
 
 #include <CGAL/Multi_surface_3.h>
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
 
 namespace CGAL {
 
@@ -47,6 +50,13 @@ namespace CGAL {
     typedef typename Oracle_a::Segment_3 Segment_3;
     typedef typename Oracle_a::Ray_3 Ray_3;
     typedef typename Oracle_a::Line_3 Line_3;
+
+    typedef typename Oracle_a::Intersection_point Intersection_point;
+
+    BOOST_STATIC_ASSERT((::boost::is_same<
+                         Intersection_point,
+                         typename Oracle_b::Intersection_point>::value));
+                        
 
     typedef ::CGAL::Multi_surface_3<typename Oracle_a::Surface_3,
       typename Oracle_b::Surface_3> Surface_3;

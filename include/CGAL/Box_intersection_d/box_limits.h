@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
-// $Id: box_limits.h 33367 2006-08-17 08:53:12Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
+// $Id: box_limits.h 46630 2008-11-03 18:39:52Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -22,7 +22,6 @@
 #define CGAL_BOX_INTERSECTION_D_BOX_LIMITS_H
 
 #include <CGAL/basic.h>
-#include <CGAL/FPU.h> // for CGALi::infinity
 #include <limits>
 
 CGAL_BEGIN_NAMESPACE
@@ -48,13 +47,13 @@ struct box_limits<unsigned int> {
 template<>
 struct box_limits<float> {
     static float inf() { return -sup(); }
-    static float sup() { return CGALi::infinity; }
+    static float sup() { return (std::numeric_limits<float>::max)(); }
 };
 
 template<>
 struct box_limits<double> {
     static double inf() { return -sup(); }
-    static double sup() { return CGALi::infinity; }
+    static double sup() { return (std::numeric_limits<double>::max)(); }
 };
 
 } // end namespace Box_intersection_d

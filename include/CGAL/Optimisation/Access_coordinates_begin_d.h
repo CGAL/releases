@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_d.h $
-// $Id: Access_coordinates_begin_d.h 36740 2007-03-01 16:52:45Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_d.h $
+// $Id: Access_coordinates_begin_d.h 46260 2008-10-14 08:04:25Z afabri $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -27,8 +27,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
-struct Cartesian_tag;
-struct Homogeneous_tag;
+class Cartesian_tag;
+class Homogeneous_tag;
 
 // Class declaration
 // =================

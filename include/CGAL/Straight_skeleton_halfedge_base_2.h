@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2005-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
-// $Id: Straight_skeleton_halfedge_base_2.h 29744 2006-03-23 21:46:21Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
+// $Id: Straight_skeleton_halfedge_base_2.h 43050 2008-04-28 17:03:23Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -46,9 +46,11 @@ public:
   
 protected:
 
-  Straight_skeleton_halfedge_base_base_2() : mF(Face_handle()), mID(-1) {}
+  Straight_skeleton_halfedge_base_base_2() : mF(Face_handle()), mID(-1), mSlope(ZERO) {}
   
-  Straight_skeleton_halfedge_base_base_2( int aID ) : mF(Face_handle()), mID(aID) {}
+  Straight_skeleton_halfedge_base_base_2( int aID ) : mF(Face_handle()), mID(aID), mSlope(ZERO) {}
+  
+  Straight_skeleton_halfedge_base_base_2( int aID, Sign aSlope ) : mF(Face_handle()), mID(aID), mSlope(aSlope) {}
 
 public:
 
@@ -64,6 +66,10 @@ public:
     return !this->vertex()->is_contour() && !this->opposite()->vertex()->is_contour();
   }
 
+  bool has_null_segment() const { return this->vertex()->has_null_point() ; }
+  
+  bool has_infinite_time() const { return this->vertex()->has_infinite_time() ; }
+  
   Halfedge_const_handle defining_contour_edge() const { return this->face()->halfedge() ; }
   Halfedge_handle       defining_contour_edge()       { return this->face()->halfedge() ; }
 
@@ -78,6 +84,8 @@ public:
   Face_handle           face    ()       { return mF; }
   Face_const_handle     face    () const { return mF; }
   
+  Sign slope() const { return mSlope ; }
+
   bool is_border() const { return mF == Face_handle();}
 
   void set_opposite( Halfedge_handle h) { mOpp = h; }
@@ -85,7 +93,11 @@ public:
   void set_prev    ( Halfedge_handle h) { mPrv = h; }
   void set_vertex  ( Vertex_handle   w) { mV   = w; }
   void set_face    ( Face_handle     g) { mF   = g; }
-  
+ 
+  void set_slope( Sign aSlope ) { mSlope = aSlope ; }
+
+  void reset_id ( int aID ) { mID = aID ; }
+
 private:
 
   Halfedge_handle  mOpp;
@@ -93,8 +105,8 @@ private:
   Halfedge_handle  mPrv;
   Vertex_handle    mV;
   Face_handle      mF;
-  
-  int mID ;
+  int              mID ;
+  Sign             mSlope ;
 };
 
 template < class Refs, class S >
@@ -113,6 +125,8 @@ public:
   
   Straight_skeleton_halfedge_base_2( int aID ) : Base_base(aID) {}
 
+  Straight_skeleton_halfedge_base_2( int aID, Sign aSlope ) : Base_base(aID,aSlope) {}
+  
 private:
 
   void set_opposite( Halfedge_handle h )  { Base_base::opposite(h)  ; }
@@ -120,6 +134,8 @@ private:
   void set_prev    ( Halfedge_handle h )  { Base_base::set_prev(h)  ; }
   void set_vertex  ( Vertex_handle   w )  { Base_base::set_vertex(w); }
   void set_face    ( Face_handle     g )  { Base_base::set_face(g)  ; }
+  void set_slope   ( Sign            s )  { Base_base::set_slope(s) ; }
+  void reset_id    ( int             i )  { Base_base::reset_id(i) ; }
 
 } ;
 

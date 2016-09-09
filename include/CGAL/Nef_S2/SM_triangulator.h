@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
-// $Id: SM_triangulator.h 38160 2007-04-17 07:29:00Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
+// $Id: SM_triangulator.h 46617 2008-11-02 20:34:48Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -80,7 +80,7 @@ void halfedge_below(Vertex_handle v, Halfedge_handle e) const
 
 void supporting_segment(Halfedge_handle e, IT it) const
 { T.is_forward(e) = true; 
-  if ( M[it] != NULL ) T.support(e) = M[it]; }
+  if ( ! M[it].empty() ) T.support(e) = M[it]; }
 
 /* the following operation associate segment support with
    vertices, we only update if non-NULL; this prevents 
@@ -88,16 +88,16 @@ void supporting_segment(Halfedge_handle e, IT it) const
    non-NULL support */
 
 void trivial_segment(Vertex_handle v, IT it) const
-{ if ( M[it] != NULL ) T.support(v) = M[it]; }
+{ if ( ! M[it].empty() ) T.support(v) = M[it]; }
 
 void starting_segment(Vertex_handle v, IT it) const
-{ if ( M[it] != NULL ) T.support(v) = M[it]; }
+{ if ( ! M[it].empty() ) T.support(v) = M[it]; }
 
 void ending_segment(Vertex_handle v, IT it) const
-{ if ( M[it] != NULL ) T.support(v) = M[it]; }
+{ if ( ! M[it].empty() ) T.support(v) = M[it]; }
 
 void passing_segment(Vertex_handle v, IT it) const
-{ if ( M[it] != NULL ) T.support(v) = M[it]; }
+{ if ( ! M[it].empty() ) T.support(v) = M[it]; }
 
 
 }; // SM_subdivision
@@ -337,23 +337,23 @@ void SM_triangulator<Decorator_>::triangulate()
   CGAL_forall_svertices(v,*E_) {
     if ( !E_->is_isolated(v) ) continue;
     L.push_back(trivial_segment(E_,v));
-    From[--L.end()] = Object_handle(v);
+    From[--L.end()] = make_object(v);
   }
   SHalfedge_const_iterator e;
   CGAL_forall_sedges(e,*E_) {
     if ( e->source() == e->twin()->source() ) {
       Seg_pair p = two_segments(E_,e);
       L.push_back(p.first); L.push_back(p.second);
-      From[--L.end()] = From[--(--L.end())] = Object_handle(e);
+      From[--L.end()] = From[--(--L.end())] = make_object(e);
     } else {
       L.push_back(segment(E_,e));
-      From[--L.end()] = Object_handle(e);
+      From[--L.end()] = make_object(e);
     }
   }
   if ( E_->has_shalfloop() ) {
     Seg_pair p = two_segments(E_,E_->shalfloop());
     L.push_back(p.first); L.push_back(p.second);
-    From[--L.end()] = From[--(--L.end())] = Object_handle(E_->shalfloop());
+    From[--L.end()] = From[--(--L.end())] = make_object(E_->shalfloop());
   }
 
   // partition segments from L to positive and negative hemisphere
@@ -616,7 +616,7 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
     SVertex_const_handle vs;
     SHalfedge_const_handle es;
     SHalfloop_const_handle ls;
-    if ( o == NULL ) { v->mark() = m_buffer; }
+    if ( o.empty() ) { v->mark() = m_buffer; }
     else if ( CGAL::assign(vs,o) ) { v->mark() = vs->mark(); }
     else if ( CGAL::assign(es,o) ) {
       if ( es->source()->point() == v->point() ) 
@@ -626,7 +626,7 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
       else { v->mark() = es->mark(); }
     }
     else if ( CGAL::assign(ls,o) ) { v->mark() = ls->mark(); }
-    else CGAL_assertion_msg(0,"damn wrong support.");
+    else CGAL_error_msg("damn wrong support.");
     CGAL_NEF_TRACEN(" face mark at "<<v->mark());
 
     if ( is_isolated(v) ) continue;
@@ -635,7 +635,7 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
     CGAL_For_all(e,hend) {
       CGAL_NEF_TRACEN("  edge "<<PH(e));
       if ( !is_forward(e) ) break;
-      if ( support(e) != NULL ) {
+      if ( ! support(e).empty() ) {
         SHalfedge_const_handle ei;
         if ( CGAL::assign(ei,support(e)) ) { 
           if ( ei->circle() != e->circle() ) { ei = ei->twin(); }

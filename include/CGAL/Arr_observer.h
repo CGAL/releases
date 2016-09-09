@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_observer.h $
-// $Id: Arr_observer.h 37177 2007-03-17 08:48:10Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_observer.h $
+// $Id: Arr_observer.h 41108 2007-12-06 15:26:30Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
+
 #ifndef CGAL_ARR_OBSERVER_H
 #define CGAL_ARR_OBSERVER_H
 
@@ -158,7 +159,7 @@ public:
    * arrangement.
    * \param arr The arrangement to be copied.
    */
-  virtual void before_assign (const Arrangement_2& )
+  virtual void before_assign (const Arrangement_2& /* arr */)
   {}
 
   /*!
@@ -174,9 +175,8 @@ public:
 
   /*!
    * Notification after the arrangement is cleared.
-   * \param u A handle to the unbounded face.
    */
-  virtual void after_clear (Face_handle /* u */)
+  virtual void after_clear ()
   {}
 
   /*! Notification before a global operation modifies the arrangement. */
@@ -224,6 +224,7 @@ public:
   /*!
    * Notification before the creation of a new vertex.
    * \param p The point to be associated with the vertex.
+   *          This point cannot lies on the surface boundaries.
    */
   virtual void before_create_vertex (const Point_2& /* p */)
   {}
@@ -236,23 +237,23 @@ public:
   {}
 
   /*!
-   * Notification before the creation of a new vertex at infinity.
-   * \param inf_x MINUS_INFINITY if this vertex lies at x = -oo;
-   *              PLUS_INFINITY if this vertex lies at x = +oo;
-   *              NO_BOUNDARY if the vertex has a finite x-coordinate.
-   * \param inf_y MINUS_INFINITY if this vertex lies at y = -oo;
-   *              PLUS_INFINITY if this vertex lies at y = +oo;
-   *              NO_BOUNDARY if the vertex has a finite y-coordinate.
+   * Notification before the creation of a new boundary vertex.
+   * \param cv The curve incident to the surface boundary.
+   * \param ind The relevant curve-end.
+   * \param ps_x The boundary condition of the vertex in x.
+   * \param ps_y The boundary condition of the vertex in y.
    */
-  virtual void before_create_vertex_at_infinity (Boundary_type /* inf_x */,
-                                                 Boundary_type /* inf_y */)
+  virtual void before_create_boundary_vertex (const X_monotone_curve_2& /*cv*/,
+                                              Arr_curve_end /* ind */,
+                                              Arr_parameter_space /* ps_x */,
+                                              Arr_parameter_space /* ps_y */)
   {}
 
   /*!
    * Notification after the creation of a new vertex at infinity.
    * \param v A handle to the created vertex.
    */
-  virtual void after_create_vertex_at_infinity (Vertex_handle /* v */)
+  virtual void after_create_boundary_vertex (Vertex_handle /* v */)
   {}
 
   /*!
@@ -366,41 +367,79 @@ public:
   {}
 
   /*!
-   * Notification before the splitting of a hole into two.
-   * \param f A handle to the face containing the hole.
-   * \param h A circulator representing the boundary of the hole.
-   * \param e The new edge whose removal causes the hole to split.
+   * Notification before the splitting of an outer CCB into two.
+   * \param f A handle to the face that owns the outer CCB.
+   * \param h A circulator representing the component boundary.
+   * \param e The new edge whose removal causes the outer CCB to split.
    */
-  virtual void before_split_hole (Face_handle /* f */,
-                                  Ccb_halfedge_circulator /* h */,
-                                  Halfedge_handle /* e */)
+  virtual void before_split_outer_ccb (Face_handle /* f */,
+                                       Ccb_halfedge_circulator /* h */,
+                                       Halfedge_handle /* e */)
   {}
 
   /*!
-   * Notification after a hole was split.
-   * \param f A handle to the face containing the holes.
-   * \param h1 A circulator representing the boundary of the first hole.
-   * \param h2 A circulator representing the boundary of the second hole.
+   * Notification after an outer CCB was split.
+   * \param f A handle to the face that owns the outer CCBs.
+   * \param h1 A circulator representing the boundary of the first component.
+   * \param h2 A circulator representing the boundary of the second component.
    */
-  virtual void after_split_hole (Face_handle /* f */,
-                                 Ccb_halfedge_circulator /* h1 */,
-                                 Ccb_halfedge_circulator /* h2 */)
+  virtual void after_split_outer_ccb (Face_handle /* f */,
+                                      Ccb_halfedge_circulator /* h1 */,
+                                      Ccb_halfedge_circulator /* h2 */)
   {}
 
   /*!
-   * Notification before the creation of a new hole inside a face.
-   * \param f A handle to the face containing the hole.
-   * \param e The new halfedge that forms the new hole.
+   * Notification before the splitting of an inner CCB into two.
+   * \param f A handle to the face containing the inner CCB.
+   * \param h A circulator representing the component boundary.
+   * \param e The new edge whose removal causes the inner CCB to split.
    */
-  virtual void before_add_hole (Face_handle /* f */,
-                                Halfedge_handle /* e */)
+  virtual void before_split_inner_ccb (Face_handle /* f */,
+                                       Ccb_halfedge_circulator /* h */,
+                                       Halfedge_handle /* e */)
   {}
 
   /*!
-   * Notification after a hole was created inside a face.
-   * \param h A circulator representing the boundary of the new hole.
+   * Notification after an inner CCB was split.
+   * \param f A handle to the face containing the inner CCBs.
+   * \param h1 A circulator representing the boundary of the first component.
+   * \param h2 A circulator representing the boundary of the second component.
    */
-  virtual void after_add_hole (Ccb_halfedge_circulator /* h */)
+  virtual void after_split_inner_ccb (Face_handle /* f */,
+                                      Ccb_halfedge_circulator /* h1 */,
+                                      Ccb_halfedge_circulator /* h2 */)
+  {}
+
+  /*!
+   * Notification before the creation of a new outer CCB of a face.
+   * \param f A handle to the face that owns the outer CCB.
+   * \param e A halfedge along the new outer CCB.
+   */
+  virtual void before_add_outer_ccb (Face_handle /* f */,
+                                     Halfedge_handle /* e */)
+  {}
+
+  /*!
+   * Notification after an outer CCB was added to a face.
+   * \param h A circulator representing the boundary of the new outer CCB.
+   */
+  virtual void after_add_outer_ccb (Ccb_halfedge_circulator /* h */)
+  {}
+
+  /*!
+   * Notification before the creation of a new inner CCB inside a face.
+   * \param f A handle to the face containing the inner CCB.
+   * \param e The new halfedge that forms the new inner CCB.
+   */
+  virtual void before_add_inner_ccb (Face_handle /* f */,
+                                     Halfedge_handle /* e */)
+  {}
+
+  /*!
+   * Notification after an inner CCB was created inside a face.
+   * \param h A circulator representing the boundary of the new inner CCB.
+   */
+  virtual void after_add_inner_ccb (Ccb_halfedge_circulator /* h */)
   {}
 
   /*!
@@ -472,43 +511,84 @@ public:
   {}
 
   /*!
-   * Notification before the merging of two holes (conncected components).
-   * \param f A handle to the face that contains the holes.
-   * \param h1 A circulator representing the boundary of the first hole.
-   * \param h2 A circulator representing the boundary of the second hole.
-   * \param e The edge whose insertion causes the holes to merge.
+   * Notification before the merging of two outer CCBs.
+   * \param f A handle to the face that owns the outer CCBs.
+   * \param h1 A circulator representing the boundary of the first component.
+   * \param h2 A circulator representing the boundary of the second component.
+   * \param e The edge whose insertion or removal causes the CCBs to merge.
    */
-  virtual void before_merge_hole (Face_handle /* f */,
-                                  Ccb_halfedge_circulator /* h1 */,
-                                  Ccb_halfedge_circulator /* h2 */,
-                                  Halfedge_handle /* e */)
+  virtual void before_merge_outer_ccb (Face_handle /* f */,
+                                       Ccb_halfedge_circulator /* h1 */,
+                                       Ccb_halfedge_circulator /* h2 */,
+                                       Halfedge_handle /* e */)
   {}
 
   /*!
-   * Notification after a hole was merged.
-   * \param f A handle to the face that contains the holes.
-   * \param h A circulator representing the boundary of the merged hole.
+   * Notification after an outer CCB was merged.
+   * \param f A handle to the face that owns the outer CCBs.
+   * \param h A circulator representing the boundary of the merged component.
    */
-  virtual void after_merge_hole (Face_handle /* f */,
-                                 Ccb_halfedge_circulator /* h */)
+  virtual void after_merge_outer_ccb (Face_handle /* f */,
+                                      Ccb_halfedge_circulator /* h */)
   {}
 
   /*!
-   * Notification before a hole is moved from one face to another.
-   * \param from_f A handle to the face currently containing the hole.
-   * \param to_f A handle to the face that should contain the hole.
-   * \param h A circulator representing the boundary of the hole.
+   * Notification before the merging of two inner CCBs (holes).
+   * \param f A handle to the face that contains the inner CCBs.
+   * \param h1 A circulator representing the boundary of the first component.
+   * \param h2 A circulator representing the boundary of the second component.
+   * \param e The edge whose insertion causes the inner CCBs to merge.
    */
-  virtual void before_move_hole (Face_handle /* from_f */,
-                                 Face_handle /* to_f */,
-                                 Ccb_halfedge_circulator /* h */)
+  virtual void before_merge_inner_ccb (Face_handle /* f */,
+                                       Ccb_halfedge_circulator /* h1 */,
+                                       Ccb_halfedge_circulator /* h2 */,
+                                       Halfedge_handle /* e */)
   {}
 
   /*!
-   * Notification after a hole is moved from one face to another.
-   * \param h A circulator representing the boundary of the hole.
+   * Notification after an inner CCB was merged.
+   * \param f A handle to the face that contains the inner CCBs.
+   * \param h A circulator representing the boundary of the merged component.
    */
-  virtual void after_move_hole (Ccb_halfedge_circulator /* h */)
+  virtual void after_merge_inner_ccb (Face_handle /* f */,
+                                      Ccb_halfedge_circulator /* h */)
+  {}
+
+  /*!
+   * Notification before an outer CCB is moved from one face to another.
+   * \param from_f A handle to the face that currently owns the outer CCB.
+   * \param to_f A handle to the face that should own the outer CCB.
+   * \param h A circulator representing the boundary of the component.
+   */
+  virtual void before_move_outer_ccb (Face_handle /* from_f */,
+                                      Face_handle /* to_f */,
+                                      Ccb_halfedge_circulator /* h */)
+  {}
+
+  /*!
+   * Notification after an outer CCB is moved from one face to another.
+   * \param h A circulator representing the boundary of the component.
+   */
+  virtual void after_move_outer_ccb (Ccb_halfedge_circulator /* h */)
+  {}
+
+
+  /*!
+   * Notification before an inner CCB is moved from one face to another.
+   * \param from_f A handle to the face currently containing the inner CCB.
+   * \param to_f A handle to the face that should contain the inner CCB.
+   * \param h A circulator representing the boundary of the component.
+   */
+  virtual void before_move_inner_ccb (Face_handle /* from_f */,
+                                      Face_handle /* to_f */,
+                                      Ccb_halfedge_circulator /* h */)
+  {}
+
+  /*!
+   * Notification after an inner CCB is moved from one face to another.
+   * \param h A circulator representing the boundary of the component.
+   */
+  virtual void after_move_inner_ccb (Ccb_halfedge_circulator /* h */)
   {}
 
   /*!
@@ -543,19 +623,6 @@ public:
   {}
 
   /*!
-   * Notificaion before the removal of a vertex at infinity.
-   * \param v A handle to the vertex to be deleted.
-   */
-  virtual void before_remove_vertex_at_infinity (Vertex_handle /* v */)
-  {}
-
-  /*!
-   * Notificaion after the removal of a vertex at infinity.
-   */
-  virtual void after_remove_vertex_at_infinity ()
-  {}
-
-  /*!
    * Notification before the removal of an edge.
    * \param e A handle to one of the twin halfedges to be deleted.
    */
@@ -569,19 +636,35 @@ public:
   {}
 
   /*!
-   * Notification before the removal of a hole.
-   * \param f The face containing the hole.
-   * \param h A circulator representing the boundary of the hole.
+   * Notification before the removal of an outer CCB.
+   * \param f The face that owns the outer CCB.
+   * \param h A circulator representing the boundary of the component.
    */
-  virtual void before_remove_hole (Face_handle /* f */,
-                                   Ccb_halfedge_circulator /* h */)
+  virtual void before_remove_outer_ccb (Face_handle /* f */,
+                                        Ccb_halfedge_circulator /* h */)
   {}
 
   /*!
-   * Notificaion after the removal of a hole.
-    * \param f The face that used to contain the hole.
-  */
-  virtual void after_remove_hole (Face_handle /* f */)
+   * Notificaion after the removal of an outer CCB.
+   * \param f The face that used to own the outer CCB.
+   */
+  virtual void after_remove_outer_ccb (Face_handle /* f */)
+  {}
+
+  /*!
+   * Notification before the removal of an inner CCB.
+   * \param f The face containing the inner CCB.
+   * \param h A circulator representing the boundary of the component.
+   */
+  virtual void before_remove_inner_ccb (Face_handle /* f */,
+                                        Ccb_halfedge_circulator /* h */)
+  {}
+
+  /*!
+   * Notificaion after the removal of an inner CCB.
+   * \param f The face that used to contain the inner CCB.
+   */
+  virtual void after_remove_inner_ccb (Face_handle /* f */)
   {}
 
   //@}

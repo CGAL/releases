@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.cpp $
-// $Id: quickhull_3_demo.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.cpp $
+// $Id: quickhull_3_demo.cpp 44910 2008-08-12 12:58:18Z spion $
 //
 //
 // Author(s)     : Susan Hert
@@ -21,7 +21,7 @@
 
 #include <CGAL/Homogeneous.h>
 #include <CGAL/point_generators_3.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/Convex_hull_traits_3.h>
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/predicates_on_points_3.h>

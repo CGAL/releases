@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_converter.h $
-// $Id: Circular_kernel_converter.h 34828 2006-10-18 08:45:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_converter.h $
+// $Id: Circular_kernel_converter.h 44373 2008-07-23 17:13:44Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion, Constantinos Tsirogiannis
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -190,7 +190,7 @@ public:
                  object_cast<typename C1::Line_arc_2>(&obj)) {
         return make_object(operator()(*ptr));
       }
-      CGAL_assertion_msg(false,"CircularK_converter is unable to determine what is wrapped in the Object");
+      CGAL_error_msg("CircularK_converter is unable to determine what is wrapped in the Object");
       return Object();
 	
     }

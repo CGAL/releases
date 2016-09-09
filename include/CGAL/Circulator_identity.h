@@ -15,16 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Circulator_identity.h $
-// $Id: Circulator_identity.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Circulator_identity.h $
+// $Id: Circulator_identity.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_CIRCULATOR_IDENTITY_H
 #define CGAL_CIRCULATOR_IDENTITY_H 1
+
 #include <CGAL/circulator.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -57,11 +58,11 @@ public:
 
   Circulator  current_circulator() const { return nt;}
 
-  bool operator==( CGAL_NULL_TYPE p) const {
+  bool operator==( Nullptr_t p) const {
     CGAL_assertion( p == 0);
     return ( nt == 0);                                    //###//
   }
-  bool operator!=( CGAL_NULL_TYPE p) const {
+  bool operator!=( Nullptr_t p) const {
     return !(*this == p);
   }
   bool operator==( const Self& i) const {

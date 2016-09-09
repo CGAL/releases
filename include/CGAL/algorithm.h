@@ -15,24 +15,118 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/algorithm.h $
-// $Id: algorithm.h 37883 2007-04-03 16:07:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/algorithm.h $
+// $Id: algorithm.h 46206 2008-10-11 20:21:08Z spion $
 //
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_ALGORITHM_H
-#define CGAL_ALGORITHM_H 1
+#define CGAL_ALGORITHM_H
 
 #include <CGAL/basic.h>
-#include <CGAL/copy_n.h>
 #include <algorithm>
-
 #include <iosfwd>
 
 CGAL_BEGIN_NAMESPACE
+
+// copy_n is usually in the STL as well, but not in the official
+// standard. We provide our own copy_n.  It is planned for C++0x.
+
+template <class InputIterator, class Size, class OutputIterator>
+OutputIterator copy_n( InputIterator first,
+                       Size n,
+                       OutputIterator result)
+{
+  // copies the first `n' items from `first' to `result'. Returns
+  // the value of `result' after inserting the `n' items.
+  while( n--) {
+    *result = *first;
+    first++;
+    result++;
+  }
+  return result;
+}
+
+
+// Not documented
+template <class T> inline
+bool
+are_sorted(const T & a, const T & b, const T & c)
+{
+  return a <= b && b <= c;
+}
+
+// Not documented
+template <class T, class Compare> inline
+bool
+are_sorted(const T & a, const T & b, const T & c, Compare cmp)
+{
+  return !cmp(b, a) && !cmp(c, b);
+}
+
+// Not documented
+template <class T> inline
+bool
+are_strictly_sorted(const T & a, const T & b, const T & c)
+{
+  return a < b && b < c;
+}
+
+// Not documented
+template <class T, class Compare> inline
+bool
+are_strictly_sorted(const T & a, const T & b, const T & c, Compare cmp)
+{
+  return cmp(a, b) && cmp(b, c);
+}
+
+// Not documented
+// Checks that b is in the interval [min(a, c) , max(a, c)].
+template <class T> inline
+bool
+are_ordered(const T & a, const T & b, const T & c)
+{
+  const T& min = (CGAL::min)(a, c);
+  const T& max = (CGAL::max)(a, c);
+  return min <= b && b <= max;
+}
+
+// Not documented
+// Checks that b is in the interval [min(a, c) , max(a, c)].
+template <class T, class Compare> inline
+bool
+are_ordered(const T & a, const T & b, const T & c, Compare cmp)
+{
+  const T& min = (std::min)(a, c, cmp);
+  const T& max = (std::max)(a, c, cmp);
+  return !cmp(b, min) && !cmp(max, b);
+}
+
+// Not documented
+// Checks that b is in the interval ]min(a, c) , max(a, c)[.
+template <class T> inline
+bool
+are_strictly_ordered(const T & a, const T & b, const T & c)
+{
+  const T& min = (CGAL::min)(a, c);
+  const T& max = (CGAL::max)(a, c);
+  return min < b && b < max;
+}
+
+// Not documented
+// Checks that b is in the interval ]min(a, c) , max(a, c)[.
+template <class T, class Compare> inline
+bool
+are_strictly_ordered(const T & a, const T & b, const T & c, Compare cmp)
+{
+  const T& min = (std::min)(a, c, cmp);
+  const T& max = (std::max)(a, c, cmp);
+  return cmp(min, b) && cmp(b, max);
+}
+
 
 template <class ForwardIterator>
 inline
@@ -211,9 +305,6 @@ output_range(std::ostream& os,
     return os;
 }
 
-
-
 CGAL_END_NAMESPACE
 
-#endif // CGAL_ALGORITHM_H //
-// EOF //
+#endif // CGAL_ALGORITHM_H

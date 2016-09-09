@@ -10,7 +10,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/demo/Straight_skeleton_2/ss_types.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/demo/Straight_skeleton_2/ss_types.h $
 // $Id: ss_types.h 37184 2007-03-17 09:23:55Z afabri $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

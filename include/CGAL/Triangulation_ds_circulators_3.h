@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h $
-// $Id: Triangulation_ds_circulators_3.h 40006 2007-08-23 13:00:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h $
+// $Id: Triangulation_ds_circulators_3.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -43,30 +43,6 @@ class Triangulation_ds_cell_circulator_3
   typedef Triangulation_ds_cell_circulator_3<Tds> Cell_circulator;
 
 public:
-#ifdef CGAL_T3_USE_ITERATOR_AS_HANDLE
-  bool operator==(Cell_handle ch) const
-  {
-    return ch == pos;
-  }
-
-  bool operator!=(Cell_handle ch) const
-  {
-    return ch != pos;
-  }
-
-
-  bool operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
-  {
-    CGAL_triangulation_assertion( n == NULL);
-    return pos == Cell_handle();
-  }
-
-  bool operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
-  {
-    CGAL_triangulation_assertion( n == NULL);
-    return pos != Cell_handle();
-  }
-#endif
 
   Triangulation_ds_cell_circulator_3()
     : _s(), _t(), pos()
@@ -160,11 +136,31 @@ public:
     return ! (*this == ccir);
   }
 
+  bool operator==(Cell_handle ch) const
+  {
+    return ch == pos;
+  }
+
+  bool operator!=(Cell_handle ch) const
+  {
+    return ch != pos;
+  }
+
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
+  {
+    CGAL_triangulation_assertion( n == NULL);
+    return pos == Cell_handle();
+  }
+
+  bool operator!=(Nullptr_t n) const
+  {
+    return ! (*this == n);
+  }
+
   // For TDS's private use only.
   Cell_handle base() const { return pos; }
-#ifdef CGAL_T3_USE_ITERATOR_AS_HANDLE
   operator Cell_handle() const { return pos; }
-#endif
+
 private:
   Vertex_handle _s;    // source vertex of the edge
   Vertex_handle _t;    // target vertex of the edge
@@ -176,8 +172,8 @@ private:
   } 
 };
 
-#ifdef CGAL_T3_USE_ITERATOR_AS_HANDLE
 template < class Tds_ >
+inline
 bool
 operator==(typename Tds_::Cell_handle ch, Triangulation_ds_cell_circulator_3<Tds_> cc)
 {
@@ -185,12 +181,12 @@ operator==(typename Tds_::Cell_handle ch, Triangulation_ds_cell_circulator_3<Tds
 }
 
 template < class Tds_ >
+inline
 bool
 operator!=(typename Tds_::Cell_handle ch, Triangulation_ds_cell_circulator_3<Tds_> cc)
 {
   return !(cc==ch);
 }
-#endif
 
 template < class Tds_ >
 class Triangulation_ds_facet_circulator_3
@@ -369,13 +365,13 @@ public:
     return ! (*this == ccir);
   }
 
-  bool operator==(CGAL_NULL_TYPE c) const
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(c)) const
   {
-    CGAL_triangulation_assertion(c == CGAL_CIRC_NULL);
+    CGAL_triangulation_assertion(c == NULL);
     return pos == Cell_handle();
   }
 
-  bool operator!=(CGAL_NULL_TYPE c) const
+  bool operator!=(Nullptr_t c) const
   {
     return ! (*this == c);
   }
@@ -469,11 +465,20 @@ public:
     return ! (*this == ccir);
   }
 
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(c)) const
+  {
+    CGAL_triangulation_assertion(c == NULL);
+    return pos == Cell_handle();
+  }
+
+  bool operator!=(Nullptr_t c) const
+  {
+    return ! (*this == c);
+  }
+
   // For TDS's private use only.
   Cell_handle base() const { return pos; }
-#ifdef CGAL_T3_USE_ITERATOR_AS_HANDLE
-  operator Cell_handle()const { return pos; }
-#endif
+  operator Cell_handle() const { return pos; }
 
 private:
   Vertex_handle _s;    // source vertex

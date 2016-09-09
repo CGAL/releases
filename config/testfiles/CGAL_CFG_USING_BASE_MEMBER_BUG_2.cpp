@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/testfiles/CGAL_CFG_USING_BASE_MEMBER_BUG_2.cpp $
-// $Id: CGAL_CFG_USING_BASE_MEMBER_BUG_2.cpp 37704 2007-03-30 08:39:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_USING_BASE_MEMBER_BUG_2.cpp $
+// $Id: CGAL_CFG_USING_BASE_MEMBER_BUG_2.cpp 39110 2007-06-17 16:21:35Z glisse $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -33,18 +33,24 @@
 //| "Error: The function B<int>::g() has not had a body defined."
 //| Note that the subtlely is that the error message does not mention
 //| "Member"...
+//| This test is updated (hijacked) to detect an issue with sunpro 5.9
+//| that instantiates a function twice.
 
+template < class T >
 struct A
 {
   A() {}
 
-  void f() {}
+  void f();
 };
 
+template < class T >
+void A<T>::f(){}
+
 template < class GT >
-struct B : A
+struct B : A<GT>
 {
-  using A::f;
+  using A<GT>::f;
 
   B() {}
 
@@ -54,7 +60,11 @@ struct B : A
 template < class GT >
 void
 B<GT>::g()
-{}
+{
+  f();
+}
+
+template struct B<int>;
 
 int main()
 {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Root_of_traits.h $
-// $Id: Root_of_traits.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Root_of_traits.h $
+// $Id: Root_of_traits.h 44898 2008-08-12 08:35:42Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias, Michael Hemmer
@@ -158,7 +158,7 @@ struct Root_of_traits<Interval_nt<B> >{
         if (CGAL::possibly(a==0))
           return Interval_nt<B>::largest();
         Interval_nt<B> discriminant = CGAL_NTS square(b) - a*c*4;
-        CGAL_assertion(!CGAL::certainly(discriminant <0));
+        CGAL_assertion(discriminant >= 0);
         Interval_nt<B> d = CGAL_NTS sqrt(discriminant);
         if ((smaller && a>0) || (!smaller && a<0))
             d = -d;

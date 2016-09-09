@@ -15,11 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
-// $Id: Homogeneous_converter.h 33347 2006-08-16 14:43:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
+// $Id: Homogeneous_converter.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 #ifndef CGAL_HOMOGENEOUS_CONVERTER_H
@@ -52,26 +52,7 @@ public:
     typedef RT_Converter  Ring_number_type_converter;
     typedef FT_Converter  Field_number_type_converter;
 
-#ifdef CGAL_CFG_USING_BASE_MEMBER_BUG
-    bool operator()(bool b) const { return Base::operator()(b); }
-    Sign operator()(Sign s) const { return Base::operator()(s); }
-
-    Oriented_side operator()(Oriented_side os) const {
-      return Base::operator()(os);
-    }
-
-    Bounded_side operator()(Bounded_side bs) const {
-      return Base::operator()(bs);
-    }
-
-    Comparison_result operator()(Comparison_result cr) const {
-      return Base::operator()(cr);
-    }
-
-    Angle operator()(Angle a) const { return Base::operator()(a); }
-#else
     using Base::operator();
-#endif
 
     Bbox_2
     operator()(const Bbox_2& b)
@@ -209,6 +190,14 @@ public:
 	return k.construct_sphere_3_object()(operator()(a.center()),
 		                             fc(a.squared_radius()),
 					     a.orientation());
+    }
+
+    typename K2::Circle_3
+    operator()(const typename K1::Circle_3 &a) const
+    {
+        return k.construct_circle_3_object()(operator()(a.center()),
+                                             fc(a.squared_radius()),
+                                             operator()(a.supporting_plane()));
     }
 
     typename K2::Triangle_3

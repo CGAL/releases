@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Width_3/include/CGAL/Width_3.h $
-// $Id: Width_3.h 28685 2006-02-22 15:22:27Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Width_3/include/CGAL/Width_3.h $
+// $Id: Width_3.h 41561 2008-01-12 21:24:26Z spion $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -531,7 +531,7 @@ class Width_3 {
 		<<std::endl
 		<<d<<std::endl<<k); 
       CGAL_assertion(a!=0);
-      std::abort();
+      CGAL_error();
     } else {
 #ifdef GCD_COMPUTATION
       DEBUGENDL(SOLVE_4X4,"Unique Solution of 4x4 (before GCD computation):\n",
@@ -1140,7 +1140,7 @@ class Width_3 {
     }
     //There must be a new EE-pair. If not, an error occurs
     std::cerr<<"No new EE-pair found!"<<std::endl;
-    std::abort();
+    CGAL_error();
   }  
   
   
@@ -1383,7 +1383,7 @@ class Width_3 {
   template<class InputPolyhedron>
   void width_3_convex(InputPolyhedron &P) {
     DEBUGMSG(WIDTH_3_CONVEX,"\nBegin WIDTH_3_CONVEX");
-    typedef CGAL::Data_access<InputPolyhedron,Traits> DA;
+    typedef CGAL::Width_3_internal::Data_access<InputPolyhedron,Traits> DA;
     typedef typename DA::Polyhedron Polyhedron;
     typedef typename DA::Vertex Vertex;
     typedef typename DA::Facet Facet;

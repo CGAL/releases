@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/known_bit_size_integers.h $
-// $Id: known_bit_size_integers.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/known_bit_size_integers.h $
+// $Id: known_bit_size_integers.h 41714 2008-01-20 20:24:20Z spion $
 //
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
@@ -77,7 +77,7 @@ typedef CGALi::USizeofSelect<4>::Type  UInteger32;
 #   define CGAL_HAS_INTEGER64
 #endif
 
-#if defined __BORLANDC__ || defined _MSC_VER
+#if defined _MSC_VER
     typedef __int64                  Integer64;
     typedef unsigned __int64         UInteger64;
 #   define CGAL_HAS_INTEGER64

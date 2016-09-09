@@ -11,15 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interval_skip_list/include/CGAL/Interval_skip_list_interval.h $
-// $Id: Interval_skip_list_interval.h 28685 2006-02-22 15:22:27Z glisse $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interval_skip_list/include/CGAL/Interval_skip_list_interval.h $
+// $Id: Interval_skip_list_interval.h 40822 2007-11-07 16:51:18Z ameyer $
+//
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_INTERVAL_SKIP_LIST_INTERVAL_H
 #define CGAL_INTERVAL_SKIP_LIST_INTERVAL_H
 
+#include <CGAL/basic.h>
 #include <cstdlib>
 #include <iostream>
 
@@ -40,8 +41,8 @@ namespace CGAL {
   public:
 
     Interval_skip_list_interval(){}
-    Interval_skip_list_interval(const Value& inf_, 
-				const Value& sup_, 
+    Interval_skip_list_interval(const Value& inf_,
+				const Value& sup_,
 				bool lb = true,
 				bool rb = true);
 
@@ -56,15 +57,15 @@ namespace CGAL {
     bool contains(const Value& V) const;
 
     // true iff this contains (l,r)
-    bool contains_interval(const Value& l, const Value& r) const;  
+    bool contains_interval(const Value& l, const Value& r) const;
 
-    bool operator==(const Interval_skip_list_interval& I) const 
+    bool operator==(const Interval_skip_list_interval& I) const
     {
-      return ( (inf() == I.inf()) && (sup() == I.sup()) && 
+      return ( (inf() == I.inf()) && (sup() == I.sup()) &&
 	       (inf_closed() == I.inf_closed()) && (sup_closed() == I.sup_closed()) );
     }
 
-    bool operator!=(const Interval_skip_list_interval& I) const 
+    bool operator!=(const Interval_skip_list_interval& I) const
     {
       return ! (*this == I);
     }
@@ -73,7 +74,7 @@ namespace CGAL {
 
 
   template <class V>
-  std::ostream& operator<<(std::ostream& os, 
+  std::ostream& operator<<(std::ostream& os,
 			   const Interval_skip_list_interval<V>& i)
   {
     os << (i.inf_closed()?"[":"(") << i.inf() << ", " << i.sup() << (i.sup_closed()?"]":")");
@@ -83,22 +84,18 @@ namespace CGAL {
 
   template <class V>
   Interval_skip_list_interval<V>::Interval_skip_list_interval(
-							      const Value& i, 
-							      const Value& s, 
+							      const Value& i,
+							      const Value& s,
 							      bool lb, bool rb)
     : lbound_(lb), rbound_(rb), inf_(i), sup_(s)
   {
-    if ( inf_ > sup_ )
-      {
-	std::cerr << "Error: " << *this << std::endl;
-	std::exit(1);
-      }
+    CGAL_precondition( !(inf_ > sup_) );
   }
 
 
   template <class V>
   bool
-  Interval_skip_list_interval<V>::contains_interval(const Value& i, 
+  Interval_skip_list_interval<V>::contains_interval(const Value& i,
 						    const Value& s) const
     // true iff this contains (l,r)
   {

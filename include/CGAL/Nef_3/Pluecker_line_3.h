@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h $
-// $Id: Pluecker_line_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h $
+// $Id: Pluecker_line_3.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -126,7 +126,7 @@ int sign() const
 within the ordered tuple of coefficients.}*/
 { for (unsigned i=0; i<6; ++i) 
     if (c_[i]!=RT(0)) return CGAL_NTS sign(c_[i]); 
- CGAL_assertion_msg(0,"Pluecker line 0 0 0 0 0 0 shouldn't appear!!!"); 
+ CGAL_error_msg("Pluecker line 0 0 0 0 0 0 shouldn't appear!!!"); 
   return CGAL_NTS sign(c_[5]); 
 }
 
@@ -265,7 +265,7 @@ int sign() const
 within the ordered tuple of coefficients.}*/
 { for (unsigned i=0; i<6; ++i) 
     if (c_[i]!=FT(0)) return CGAL_NTS sign(c_[i]); 
- CGAL_assertion_msg(0,"Pluecker line 0 0 0 0 0 0 shouldn't appear!!!"); 
+ CGAL_error_msg("Pluecker line 0 0 0 0 0 0 shouldn't appear!!!"); 
   return CGAL_NTS sign(c_[5]); 
 }
 

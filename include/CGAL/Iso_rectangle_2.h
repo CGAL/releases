@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 39993 2007-08-23 08:58:55Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Iso_rectangle_2.h $
+// $Id: Iso_rectangle_2.h 42932 2008-04-17 10:13:31Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -28,6 +28,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_2.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -43,6 +44,9 @@ class Iso_rectangle_2 : public R_::Kernel_base::Iso_rectangle_2
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Iso_rectangle_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<2>  Feature_dimension;
 
   typedef typename R_::Kernel_base::Iso_rectangle_2  Rep;
 

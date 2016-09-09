@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/testfiles/CGAL_CFG_NO_LIMITS.cpp $
-// $Id: CGAL_CFG_NO_LIMITS.cpp 37704 2007-03-30 08:39:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_LIMITS.cpp $
+// $Id: CGAL_CFG_NO_LIMITS.cpp 41407 2008-01-03 12:12:18Z spion $
 // 
 //
 // Author(s)     : various
@@ -27,8 +27,8 @@
 // The following documentation will be pasted in the generated configfile.
 // ---------------------------------------------------------------------
 
-//| If a compiler doesn't know <limits> (g++-2.95)
-//| or has a bug in the implementation (Sun CC 5.4, MipsPro CC)
+//| If a compiler has a bug in the implementation of
+//| std::numeric_limits<>::denorm_min(), such as PGCC 7.1-2,
 //| CGAL_CFG_NO_LIMITS is set. 
 
 #include <limits>

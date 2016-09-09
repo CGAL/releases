@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_iterators.h $
-// $Id: Param_mesh_patch_iterators.h 31278 2006-05-24 09:29:28Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_iterators.h $
+// $Id: Param_mesh_patch_iterators.h 44130 2008-07-12 21:58:52Z spion $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -87,11 +87,11 @@ public:
     bool operator!=(const Self& it) const { return ! (*this == it); }
 
     /// Comparison to NULL pointer
-    bool operator==(CGAL_NULL_TYPE ptr) const {
+    bool operator==(Nullptr_t ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
         return (const Base&)*this == Base();
     }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
+    bool operator!=(Nullptr_t ptr) const { return ! (*this == ptr); }
 
     /// Conversion to handle
     operator Param_mesh_patch_vertex_handle<Adaptor>() const {
@@ -146,11 +146,11 @@ public:
     bool operator!=(const Self& it) const { return ! (*this == it); }
 
     /// Comparison to NULL pointer
-    bool operator==(CGAL_NULL_TYPE ptr) const {
+    bool operator==(Nullptr_t ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
         return (const Base&)*this == Base();
     }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
+    bool operator!=(Nullptr_t ptr) const { return ! (*this == ptr); }
 
     /// Conversion to handle
     operator Param_mesh_patch_vertex_const_handle<Adaptor>() const {

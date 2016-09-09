@@ -15,19 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/iostream/src/CGAL/io.cpp $
-// $Id: io.cpp 35290 2006-11-24 09:38:31Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/iostream/src/CGAL/io.cpp $
+// $Id: io.cpp 40831 2007-11-07 23:11:19Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
 
-
-#ifndef CGAL_IO_C
-#define CGAL_IO_C
-
 #include <CGAL/basic.h>
 #include <CGAL/IO/io.h>
 #include <CGAL/assertions.h>
+
+#include <sstream>
+#include <string>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -93,13 +92,33 @@ is_binary(std::ios& i)
     return i.iword(IO::mode) == IO::BINARY;
 }
 
-const char* mode_name( IO::Mode m) {
+const char* 
+mode_name( IO::Mode m) {
     static const char* const names[] = {"ASCII", "PRETTY", "BINARY" };
     CGAL_assertion( IO::ASCII <= m && m <= IO::BINARY );
     return names[m];
 }
 
+void 
+swallow(std::istream &is, char d) {
+    char c;
+    do is.get(c); while (isspace(c));
+    if (c != d) {
+      std::stringstream msg;
+      msg << "input error: expected '" << d << "' but got '" << c << "'";
+      CGAL_error_msg( msg.str().c_str() );
+    }
+}
+
+void 
+swallow(std::istream &is, const std::string& s ) {
+    std::string t;
+    is >> t;
+    if (s != t) {
+      std::stringstream msg;
+      msg << "input error: expected '" << s << "' but got '" << t << "'";
+      CGAL_error_msg( msg.str().c_str() );
+    }
+}
 
 CGAL_END_NAMESPACE
-
-#endif // CGAL_IO_C

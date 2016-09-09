@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse_impl.h $
-// $Id: Edge_collapse_impl.h 37267 2007-03-19 14:40:37Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse_impl.h $
+// $Id: Edge_collapse_impl.h 46303 2008-10-15 17:11:16Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -210,9 +210,6 @@ void EdgeCollapse<M,SP,VIM,EIM,EBM,CF,PF,V>::Loop()
       CGAL_ECMS_TRACE(1,edge_to_string(*lEdge) << " uncomputable cost."  );
     }
   }
-
-  CGAL_SURF_SIMPL_TEST_assertion ( mCurrentEdgeCount = mSurface.size_of_halfedges() * 2 ) ;
-
 }
 
 template<class M,class SP, class VIM,class EIM,class EBM, class CF,class PF,class V>

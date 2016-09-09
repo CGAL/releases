@@ -15,21 +15,27 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/support/test_OPENGL.cpp $
-// $Id: test_OPENGL.cpp 36141 2007-02-09 11:11:40Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/test_OPENGL.cpp $
+// $Id: test_OPENGL.cpp 45375 2008-09-08 11:40:39Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
 
 // Tests if OPEN GL and GLU are available.
 
-#if defined(_MSC_VER)
-#include <wtypes.h>
-#include <wingdi.h>
+#ifdef _MSC_VER
+#  include <wtypes.h>
+#  include <wingdi.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef __APPLE__
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glu.h>
+#else
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#endif
+
 #include <iostream>
 
 // The following global variable is needed otherwise GCC removes the body of 

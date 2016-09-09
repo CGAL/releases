@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
-// $Id: Matrix__.h 36979 2007-03-10 10:42:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
+// $Id: Matrix__.h 41674 2008-01-18 10:20:44Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -28,7 +28,8 @@
 #include <new>
 #include <cstddef>                 // for std::size_t, std::ptrdiff_t
 
-namespace CGALLA {
+namespace CGAL {
+namespace Linear_Algebra {
 
 template <typename ROW_, typename V_, typename R_, typename P_> 
 class column_iterator_ {
@@ -730,7 +731,7 @@ compare(const Matrix_<NT_,AL_>& M1, const Matrix_<NT_,AL_>& M2)
 { int i; int res;
   M1.check_dimensions(M2);
   for(i=0; i < M1.row_dimension() && 
-      (res = compare(M1.row(i),M2.row(i))) != 0; i++);
+      (res = compare(M1.row(i),M2.row(i))) != 0; i++) {}
   return res;
 }
 
@@ -821,6 +822,7 @@ and all other operations take time $O(nm)$.  The space requirement is
 $O(nm)$.}*/
 
 
-} // CGALLA
-#endif // CGAL_MATRIX___H
+} // Linear_Algebra
+} // CGAL
 
+#endif // CGAL_MATRIX___H

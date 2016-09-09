@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/geninfo.h $
-// $Id: geninfo.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/geninfo.h $
+// $Id: geninfo.h 41714 2008-01-20 20:24:20Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
-#ifndef GENINFO_H
-#define GENINFO_H
+#ifndef CGAL_NEF_2_GENINFO_H
+#define CGAL_NEF_2_GENINFO_H
 
 #include <memory>
 
@@ -40,10 +40,6 @@ the order of its usage: |create|-|access/const_access|-|clear|. On
 misuse memory problems occur.}*/
 
 /*{\Moperations 2 1}*/
-
-#ifdef __BORLANDC__
-#pragma option -w-rch -w-eff -w-ccc
-#endif
 
   static void create(GenPtr& p) 
   /*{\Mstatic create a slot for an object of type |T| referenced 
@@ -103,5 +99,3 @@ which is used to compile the code and thus the scheme enables platform
 independent programming.}*/
 
 #endif //GENINFO_H
-
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_ds_iterators_3.h $
-// $Id: Triangulation_ds_iterators_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_ds_iterators_3.h $
+// $Id: Triangulation_ds_iterators_3.h 42744 2008-04-03 12:14:58Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -236,11 +236,7 @@ public:
 	    Cell_circulator ccir = _tds->incident_cells(edge);
 	    do {
 	      ++ccir;
-#ifdef CGAL_T3_USE_ITERATOR_AS_HANDLE
 	    } while ( pos < ccir );
-#else
-      } while ( Cell_handle(pos) < Cell_handle(ccir) );
-#endif
 	    // loop terminates since it stops at least when ccir = pos
 	    if ( Cell_handle(ccir) == Cell_handle(pos) )
 		// pos is the cell with minimal pointer

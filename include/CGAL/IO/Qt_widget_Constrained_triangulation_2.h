@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/include/CGAL/IO/Qt_widget_Constrained_triangulation_2.h $
-// $Id: Qt_widget_Constrained_triangulation_2.h 32795 2006-07-30 16:38:54Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/include/CGAL/IO/Qt_widget_Constrained_triangulation_2.h $
+// $Id: Qt_widget_Constrained_triangulation_2.h 41797 2008-01-24 12:09:29Z spion $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -27,9 +27,9 @@
 
 namespace CGAL{
 
-template < class Gt, class Tds>
+template < class Gt, class Tds, class Itag>
 Qt_widget&
-operator<<(Qt_widget& w,  const Constrained_triangulation_2<Gt,Tds> &t)
+operator<<(Qt_widget& w,  const Constrained_triangulation_2<Gt,Tds,Itag> &t)
 {
   w.lock();
   t.draw_triangulation(w);

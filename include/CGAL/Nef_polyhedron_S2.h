@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
-// $Id: Nef_polyhedron_S2.h 38152 2007-04-16 16:38:25Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 44152 2008-07-14 18:57:14Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -698,14 +698,19 @@ std::istream& operator>>
   (std::istream& is, Nef_polyhedron_S2<Kernel,Items,Mark,Sphere_map>& NP)
 {
   typedef typename Nef_polyhedron_S2<Kernel,Items,Mark,Sphere_map>::Decorator Decorator;
-  CGAL::SM_io_parser<Decorator> I(is, Decorator(NP.sphere_map())); 
-  if ( I.check_sep("Nef_polyhedron_S2") ) I.read();
+  CGAL::SM_io_parser<Decorator> I(is, Decorator(&NP.sphere_map())); 
+  //  if ( I.check_sep("Nef_polyhedron_S2") ) 
+  I.read();
+  /*
   else {
     std::cerr << "Nef_polyhedron_S2 input corrupted." << std::endl;
     NP = Nef_polyhedron_S2<Kernel,Items,Mark,Sphere_map>();
   }
+  */
+  /*
   typename Nef_polyhedron_S2<Kernel,Items,Mark,Sphere_map>::Topological_explorer D(NP.explorer());
   D.check_integrity_and_topological_planarity();
+  */
   return is;
 }
 

@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_base.h $
-// $Id: Envelope_base.h 37895 2007-04-03 18:32:55Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Envelope_3/Envelope_base.h $
+// $Id: Envelope_base.h 41547 2008-01-12 16:02:36Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
+//                 Efi Fogel              <efif@post.tau.ac.il>
 
 #ifndef CGAL_ENVELOPE_BASE_H
 #define CGAL_ENVELOPE_BASE_H
@@ -23,25 +24,25 @@
 CGAL_BEGIN_NAMESPACE
 
 // Envelope types:
-typedef unsigned int   Envelope_type;
-
-const Envelope_type      LOWER = 1;
-const Envelope_type      UPPER = 2;
+enum Envelope_type {
+  ENVELOPE_LOWER = 1,
+  ENVELOPE_UPPER = 2,
+};
 
 // Types of intersection curve between 2 xy-monotone surfaces:
-typedef unsigned int   Intersection_type;
-
-const Intersection_type  UNKNOWN = 0;
-const Intersection_type  TRANSVERSAL = 1;
-const Intersection_type  TANGENT = 2;
+enum Intersection_type {
+  INTERSECTION_UNKNOWN = 0,
+  INTERSECTION_TRANSVERSAL = 1,
+  INTERSECTION_TANGENT = 2
+};
 
 // Decision mark for DCEL features:
 enum Dac_decision
 {
-  FIRST = -1,
-  BOTH,
-  SECOND,
-  NOT_SET
+  DAC_DECISION_FIRST = -1,
+  DAC_DECISION_BOTH,
+  DAC_DECISION_SECOND,
+  DAC_DECISION_NOT_SET
 };
 
 CGAL_END_NAMESPACE

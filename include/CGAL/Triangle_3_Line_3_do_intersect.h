@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
-// $Id: Triangle_3_Line_3_do_intersect.h 32796 2006-07-30 16:50:53Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
+// $Id: Triangle_3_Line_3_do_intersect.h 39776 2007-08-08 15:15:20Z spion $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -26,8 +26,8 @@ CGAL_BEGIN_NAMESPACE
 namespace CGALi {
 
 template <class K>
-bool do_intersect(const typename CGAL_WRAP(K)::Triangle_3 &t, 
-		  const typename CGAL_WRAP(K)::Line_3     &l,
+bool do_intersect(const typename K::Triangle_3 &t, 
+		  const typename K::Line_3     &l,
 		  const K & k )
 {
   
@@ -98,8 +98,8 @@ bool do_intersect(const typename CGAL_WRAP(K)::Triangle_3 &t,
 
 template <class K>
 inline
-bool do_intersect(const typename CGAL_WRAP(K)::Line_3     &l,
-		  const typename CGAL_WRAP(K)::Triangle_3 &t, 
+bool do_intersect(const typename K::Line_3     &l,
+		  const typename K::Triangle_3 &t, 
 		  const K & k )
 {
   return do_intersect(t, l, k);

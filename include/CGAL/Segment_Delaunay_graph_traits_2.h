@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_traits_2.h $
-// $Id: Segment_Delaunay_graph_traits_2.h 35201 2006-11-16 12:42:59Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_traits_2.h $
+// $Id: Segment_Delaunay_graph_traits_2.h 40259 2007-09-07 09:52:51Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -73,9 +73,9 @@ template<class R>
 struct Segment_Delaunay_graph_traits_2<Filtered_kernel<R>,Field_tag>
   : public
   Segment_Delaunay_graph_filtered_traits_2<R,Field_tag,
-					   typename Filtered_kernel<R>::EK,
+					   typename Filtered_kernel<R>::Exact_kernel,
 					   Field_tag,
-					   typename Filtered_kernel<R>::FK,
+					   typename Filtered_kernel<R>::Approximate_kernel,
 					   Field_with_sqrt_tag>
 {};
 
@@ -83,9 +83,9 @@ template<class R>
 struct Segment_Delaunay_graph_traits_2<Filtered_kernel<R>,Field_with_sqrt_tag>
   : public
   Segment_Delaunay_graph_filtered_traits_2<R,Field_with_sqrt_tag,
-					   typename Filtered_kernel<R>::EK,
+					   typename Filtered_kernel<R>::Exact_kernel,
 					   Field_tag,
-					   typename Filtered_kernel<R>::FK,
+					   typename Filtered_kernel<R>::Approximate_kernel,
 					   Field_with_sqrt_tag>
 {};
 
@@ -125,9 +125,9 @@ Segment_Delaunay_graph_traits_without_intersections_2<Filtered_kernel<R>,
 						      Integral_domain_without_division_tag>
   : public
   Segment_Delaunay_graph_filtered_traits_without_intersections_2<R,Integral_domain_without_division_tag,
-					    typename Filtered_kernel<R>::EK,
+					    typename Filtered_kernel<R>::Exact_kernel,
 					    Integral_domain_without_division_tag,
-					    typename Filtered_kernel<R>::FK,
+					    typename Filtered_kernel<R>::Approximate_kernel,
 					    Field_with_sqrt_tag>
 {};
 
@@ -138,9 +138,9 @@ Segment_Delaunay_graph_traits_without_intersections_2<Filtered_kernel<R>,
   : public
   Segment_Delaunay_graph_filtered_traits_without_intersections_2<R,
 					    Field_with_sqrt_tag,
-					    typename Filtered_kernel<R>::EK,
+					    typename Filtered_kernel<R>::Exact_kernel,
 					    Integral_domain_without_division_tag,
-					    typename Filtered_kernel<R>::FK,
+					    typename Filtered_kernel<R>::Approximate_kernel,
 					    Field_with_sqrt_tag>
 {};
 

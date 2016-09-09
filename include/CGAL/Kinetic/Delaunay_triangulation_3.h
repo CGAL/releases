@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 40020 2007-08-23 17:05:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 40530 2007-10-04 11:14:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -37,8 +37,7 @@
 
 // Local helpers
 #include <CGAL/Kinetic/Delaunay_triangulation_cell_base_3.h>
-#include <CGAL/Kinetic/Simulator_kds_listener.h>
-#include <CGAL/Kinetic/Active_objects_listener_helper.h>
+#include <CGAL/Kinetic/listeners.h>
 #include <CGAL/Kinetic/Delaunay_triangulation_visitor_base_3.h>
 
 #if defined(BOOST_MSVC)
@@ -71,8 +70,8 @@ CGAL_KINETIC_BEGIN_NAMESPACE
 
 //! A 3D kinetic Delaunay triangulation.
 template <class TraitsT,
-          class Visitor= Delaunay_triangulation_visitor_base_3,
-          class TriangulationT=typename internal::Delaunay_triangulation_3_types<TraitsT>::Default_triangulation>
+	  class Visitor= Delaunay_triangulation_visitor_base_3,
+	  class TriangulationT=typename internal::Delaunay_triangulation_3_types<TraitsT>::Default_triangulation>
 class Delaunay_triangulation_3: public Ref_counted<Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> > {
 private:
   typedef Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> This_DT3;
@@ -125,25 +124,14 @@ private:
 
   typedef internal::Delaunay_triangulation_base_3<Base_traits, Visitor> KDel;
 
-
-  struct Listener_core
-  {
-    typedef typename This::Handle Notifier_handle;
-    typedef enum {TRIANGULATION}
-      Notification_type;
-  };
-
-  typedef typename CGAL::Kinetic::Simulator_kds_listener<typename TraitsT::Simulator::Listener, This> Simulator_listener;
-  friend  class CGAL::Kinetic::Simulator_kds_listener<typename TraitsT::Simulator::Listener, This>;
-  typedef typename CGAL::Kinetic::Active_objects_listener_helper<typename TraitsT::Active_points_3_table::Listener, This> Moving_point_table_listener;
-  friend class CGAL::Kinetic::Active_objects_listener_helper<typename TraitsT::Active_points_3_table::Listener, This>;
+  CGAL_KINETIC_DECLARE_LISTENERS(typename TraitsT::Simulator,
+				 typename TraitsT::Active_points_3_table);
 
 public:
   //! Initialize it.
-  Delaunay_triangulation_3(TraitsT tr, Visitor v= Visitor()): kdel_(Base_traits(this, tr), v),
-                                                              listener_(NULL) {
-    siml_= Simulator_listener(tr.simulator_handle(), this);
-    motl_= Moving_point_table_listener(tr.active_points_3_table_handle(), this);
+  Delaunay_triangulation_3(TraitsT tr, Visitor v= Visitor()): kdel_(Base_traits(this, tr), v) {
+    CGAL_KINETIC_INITIALIZE_LISTENERS(tr.simulator_handle(),
+				      tr.active_points_3_table_handle());
   }
 
   //! The type of the underlying triangulation
@@ -163,29 +151,19 @@ public:
     return kdel_.visitor();
   }
 
-  friend class Listener<Listener_core>;
-  //! This listener allows a class to know when the triangulation changes.
-  /*!
-    There is one notifaction type, TRIANGULATION.
-  */
-  typedef CGAL::Kinetic::Listener<Listener_core> Listener;
+
 
   void write(std::ostream &out) const
   {
     kdel_.write(out);
   }
 
-  void set_listener(Listener *l) {
-    listener_= l;
-  }
+
   //! make the structure have or not have certificates
   void set_has_certificates(bool tf) {
     kdel_.set_has_certificates(tf);
   }
-  Listener* listener() const
-  {
-    return listener_;
-  }
+  
   void audit() const
   {
     kdel_.audit();
@@ -225,16 +203,15 @@ public:
     on_geometry_changed();
   }
 
+ 
+
+  CGAL_KINETIC_LISTENER1(TRIANGULATION);
+
  void on_geometry_changed() {
-    if (listener_!= NULL) {
-      listener_->new_notification(Listener::TRIANGULATION);
-    }
+    CGAL_KINETIC_NOTIFY(TRIANGULATION);
   }
 
   KDel kdel_;
-  Simulator_listener siml_;
-  Moving_point_table_listener motl_;
-  Listener *listener_;
 };
 
 CGAL_KINETIC_END_NAMESPACE

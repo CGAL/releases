@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Line_to_epoint.h $
-// $Id: Line_to_epoint.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/Line_to_epoint.h $
+// $Id: Line_to_epoint.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -60,7 +60,7 @@ struct Line_to_epoint {
                ordinate_distance(l) > FT(0))) {
       return TOPFRAME;
     }
-    CGAL_assertion_msg(false," determine_type: degenerate line.");
+    CGAL_error_msg(" determine_type: degenerate line.");
     return (Point_type)-1; // never come here
   }
 

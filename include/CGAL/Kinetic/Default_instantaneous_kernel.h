@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_instantaneous_kernel.h $
-// $Id: Default_instantaneous_kernel.h 40020 2007-08-23 17:05:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Default_instantaneous_kernel.h $
+// $Id: Default_instantaneous_kernel.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -70,11 +70,11 @@ public:
       time_=t;
     } else {
       if ((!time_is_nt_ && time_ != t) || time_is_nt_) {
-        time_is_nt_=false;
-        time_=t;
-        cache_1_.clear();
-        cache_2_.clear();
-        cache_3_.clear();
+	time_is_nt_=false;
+	time_=t;
+	cache_1_.clear();
+	cache_2_.clear();
+	cache_3_.clear();
       }
     }
     initialized_=true;
@@ -134,7 +134,7 @@ public:
     if (!time_is_nt()) {
         std::cerr << "You can only compute static objects when the IK current\n";
         std::cerr << "time is an FT, rather than a root.\n";
-	CGAL_assertion(0);
+	CGAL_error();
     }
   }
 
@@ -245,6 +245,11 @@ public:
   typedef typename Static_kernel::FT NT;
   typedef typename Traits::Simulator::Time Time;
 
+  BOOST_STATIC_ASSERT((boost::is_convertible<NT, Time>::value));
+  BOOST_STATIC_ASSERT((boost::is_convertible<Time, typename Kinetic_kernel::Certificate::Time>::value));
+  BOOST_STATIC_ASSERT((boost::is_convertible<typename Kinetic_kernel::Certificate::Time,
+  Time>::value));
+
   Default_instantaneous_kernel(const Traits &tr):
     rep_(new Rep(tr)) {
   }
@@ -328,7 +333,6 @@ public:
     typedef CGAL::Comparison_result result_type;
     typedef T first_argument_type;
     typedef T second_argument_type;
-    typedef typename Arity_traits<typename Static_kernel::Compare_x_2>::Arity Arity;
     result_type operator()(const T &a, const T&b) const {
       return CGAL::compare(a,b);
     }

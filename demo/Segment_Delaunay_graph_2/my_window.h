@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/my_window.h $
-// $Id: my_window.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/my_window.h $
+// $Id: my_window.h 41712 2008-01-20 19:13:05Z spion $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 #ifndef MY_WINDOW_H
 #define MY_WINDOW_H
+
+#include <cassert>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -266,7 +268,7 @@ private:
 	timer.start();
 	bool success = sdg.remove(v);
 	timer.stop();
-	CGAL_CLIB_STD::sprintf(msg, "Removal time: %f", timer.time());
+	std::sprintf(msg, "Removal time: %f", timer.time());
 	if ( success ) {
 	  set_msg(QString("Removal was successful") + " - " + msg);
 	} else {
@@ -395,7 +397,7 @@ private slots:
 	insert_point(sdg, p);
 	timer.stop();
 
-	CGAL_CLIB_STD::sprintf(msg, "Insertion time: %f", timer.time());
+	std::sprintf(msg, "Insertion time: %f", timer.time());
 	set_msg(msg);
       }
     } else if ( input_mode == SDG_SEGMENT ) {
@@ -412,7 +414,7 @@ private slots:
 	    insert_segment(sdg, v1->site().point(), v2->site().point() );
 	    timer.stop();
 
-	    CGAL_CLIB_STD::sprintf(msg,	"Insertion time: %f", timer.time());
+	    std::sprintf(msg,	"Insertion time: %f", timer.time());
 	    set_msg(msg);
 	  }
 	}
@@ -422,7 +424,7 @@ private slots:
 	  insert_segment(sdg, s.source(), s.target());
 	  timer.stop();
 
-	  CGAL_CLIB_STD::sprintf(msg, "Insertion time: %f", timer.time());
+	  std::sprintf(msg, "Insertion time: %f", timer.time());
 	  set_msg(msg);
 	}
       }
@@ -434,7 +436,7 @@ private slots:
 	insert_polygon(sdg, pgn);
 	timer.stop();
 
-	CGAL_CLIB_STD::sprintf(msg, "Insertion time: %f", timer.time());
+	std::sprintf(msg, "Insertion time: %f", timer.time());
 	set_msg(msg);
       }
     }
@@ -546,7 +548,7 @@ private slots:
       }
 
       if ( counter % 500 == 0 ) {
-	CGAL_CLIB_STD::sprintf(msg, "%d sites have been inserted...",
+	std::sprintf(msg, "%d sites have been inserted...",
 			       counter);
 	set_msg(msg);
       }
@@ -554,7 +556,7 @@ private slots:
 
     timer.stop();
 
-    CGAL_CLIB_STD::sprintf(msg, "%d sites inserted. Insertion time: %f",
+    std::sprintf(msg, "%d sites inserted. Insertion time: %f",
 			   counter, timer.time());
     qmsg = QString(msg) + " - Validating diagram...";
     set_msg(qmsg);
@@ -640,7 +642,7 @@ private slots:
       timer.stop();
 
       int n_sites = static_cast<int>(sdg.number_of_input_sites());
-      CGAL_CLIB_STD::sprintf(msg,
+      std::sprintf(msg,
 			     "%d sites inserted. Insertion time: %f",
 			     n_sites, timer.time());
       qmsg = qmsg + " done! " + msg;

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/long_double.h $
-// $Id: long_double.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/long_double.h $
+// $Id: long_double.h 44911 2008-08-12 13:09:51Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -31,9 +31,6 @@
 #ifdef CGAL_CFG_IEEE_754_BUG
 #  include <CGAL/IEEE_754_unions.h>
 #endif
-#ifdef __sgi
-#  include <fp_class.h>
-#endif
 
 // #include <CGAL/FPU.h>
 #include <CGAL/Interval_nt.h>
@@ -41,32 +38,7 @@
 CGAL_BEGIN_NAMESPACE
 
 // Is_valid moved to top, since used by is_finite
-#ifdef __sgi
-
-template<>
-class Is_valid< long double >
-  : public Unary_function< long double, bool > {
-  public :
-    bool operator()( const long double& x ) const {
-      switch (fp_class_d(x)) {
-      case FP_POS_NORM:
-      case FP_NEG_NORM:
-      case FP_POS_ZERO:
-      case FP_NEG_ZERO:
-      case FP_POS_INF:
-      case FP_NEG_INF:
-      case FP_POS_DENORM:
-      case FP_NEG_DENORM:
-          return true;
-      case FP_SNAN:
-      case FP_QNAN:
-          return false;
-      }
-      return false; // NOT REACHED
-    }
-};
-
-#elif defined CGAL_CFG_IEEE_754_BUG
+#ifdef CGAL_CFG_IEEE_754_BUG
 
 #define CGAL_EXPONENT_DOUBLE_MASK   0x7ff00000
 #define CGAL_MANTISSA_DOUBLE_MASK   0x000fffff
@@ -90,7 +62,7 @@ is_nan_by_mask_long_double(unsigned int h, unsigned int l)
 
 template<>
 class Is_valid< long double >
-  : public Unary_function< long double, bool > {
+  : public std::unary_function< long double, bool > {
   public :
     bool operator()( const long double& x ) const {
       double d = x;
@@ -103,7 +75,7 @@ class Is_valid< long double >
 
 template<>
 class Is_valid< long double >
-  : public Unary_function< long double, bool > {
+  : public std::unary_function< long double, bool > {
   public :
     bool operator()( const long double& x ) const {
       return (x == x);
@@ -123,34 +95,32 @@ template <> class Algebraic_structure_traits< long double >
     typedef Tag_true             Is_numerical_sensitive;
 
     class Sqrt
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
-          return CGAL_CLIB_STD::sqrt( x );
+          return std::sqrt( x );
         }
     };
 
     class Kth_root
-      :public Binary_function<int, Type, Type > {
+      :public std::binary_function<int, Type, Type > {
       public:
         Type operator()( int k,
                                         const Type& x) const {
           CGAL_precondition_msg( k > 0,
                                     "'k' must be positive for k-th roots");
-          return CGAL_CLIB_STD::pow(x, (long double)1.0 / (long double)(k));
+          return std::pow(x, (long double)1.0 / (long double)(k));
         };
     };
 
 };
 
 template <> class Real_embeddable_traits< long double >
-  : public Real_embeddable_traits_base< long double > {
+  : public INTERN_RET::Real_embeddable_traits_base< long double , CGAL::Tag_true > {
   public:
 
-    typedef INTERN_RET::To_double_by_conversion< Type >
-                                                                  To_double;
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
           // The conversion long double to double does not always follow the
@@ -174,47 +144,19 @@ template <> class Real_embeddable_traits< long double >
     };
 
 // Is_finite depends on platform
-#ifdef __sgi
     class Is_finite
-      : public Unary_function< Type, bool > {
+      : public std::unary_function< Type, bool > {
       public:
         bool operator()( const Type& x ) const {
-          switch (fp_class_d(x)) {
-          case FP_POS_NORM:
-          case FP_NEG_NORM:
-          case FP_POS_ZERO:
-          case FP_NEG_ZERO:
-          case FP_POS_DENORM:
-          case FP_NEG_DENORM:
-              return true;
-          case FP_SNAN:
-          case FP_QNAN:
-          case FP_POS_INF:
-          case FP_NEG_INF:
-              return false;
-          }
-          return false; // NOT REACHED
-        }
-    };
-#elif defined CGAL_CFG_IEEE_754_BUG
-    class Is_finite
-      : public Unary_function< Type, bool > {
-      public:
-        bool operator()( const Type& x ) const {
+#ifdef CGAL_CFG_IEEE_754_BUG
           Type d = x;
           IEEE_754_double* p = reinterpret_cast<IEEE_754_double*>(&d);
           return is_finite_by_mask_long_double( p->c.H );
-        }
-    };
 #else
-    class Is_finite
-      : public Unary_function< Type, bool > {
-      public:
-        bool operator()( const Type& x ) const {
-         return (x == x) && (is_valid(x-x));
+          return (x == x) && (is_valid(x-x));
+#endif
         }
     };
-#endif
 
 };
 

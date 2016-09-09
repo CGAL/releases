@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_3.h $
-// $Id: Aff_transformation_rep_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_3.h $
+// $Id: Aff_transformation_rep_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -145,7 +145,7 @@ public:
      
   virtual bool is_even() const
   {
-    return sign_of_determinant3x3(t11, t12, t13,
+    return sign_of_determinant(t11, t12, t13,
                                   t21, t22, t23,
                                   t31, t32, t33) == POSITIVE;
   }
@@ -206,22 +206,22 @@ typename Aff_transformation_repC3<R>::Aff_transformation_3
 Aff_transformation_repC3<R>::inverse() const // FIXME : construction
 {
   return Aff_transformation_3(
-      det2x2_by_formula( t22, t23, t32, t33),         // i 11
-     -det2x2_by_formula( t12, t13, t32, t33),         // i 12
-      det2x2_by_formula( t12, t13, t22, t23),         // i 13
-     -det3x3_by_formula( t12, t13, t14, t22, t23, t24, t32, t33, t34 ),
+      determinant( t22, t23, t32, t33),         // i 11
+     -determinant( t12, t13, t32, t33),         // i 12
+      determinant( t12, t13, t22, t23),         // i 13
+     -determinant( t12, t13, t14, t22, t23, t24, t32, t33, t34 ),
 
-     -det2x2_by_formula( t21, t23, t31, t33),         // i 21 
-      det2x2_by_formula( t11, t13, t31, t33),         // i 22
-     -det2x2_by_formula( t11, t13, t21, t23),         // i 23
-      det3x3_by_formula( t11, t13, t14, t21, t23, t24, t31, t33, t34 ),
+     -determinant( t21, t23, t31, t33),         // i 21 
+      determinant( t11, t13, t31, t33),         // i 22
+     -determinant( t11, t13, t21, t23),         // i 23
+      determinant( t11, t13, t14, t21, t23, t24, t31, t33, t34 ),
 
-      det2x2_by_formula( t21, t22, t31, t32),         // i 31
-     -det2x2_by_formula( t11, t12, t31, t32),         // i 32
-      det2x2_by_formula( t11, t12, t21, t22),         // i 33
-     -det3x3_by_formula( t11, t12, t14, t21, t22, t24, t31, t32, t34 ),
+      determinant( t21, t22, t31, t32),         // i 31
+     -determinant( t11, t12, t31, t32),         // i 32
+      determinant( t11, t12, t21, t22),         // i 33
+     -determinant( t11, t12, t14, t21, t22, t24, t31, t32, t34 ),
 
-      det3x3_by_formula( t11, t12, t13, t21, t22, t23, t31, t32, t33 ));
+      determinant( t11, t12, t13, t21, t22, t23, t31, t32, t33 ));
 }
 
 template < class R >

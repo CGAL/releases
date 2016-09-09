@@ -15,19 +15,27 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Hyperplane_d.h $
-// $Id: Hyperplane_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Hyperplane_d.h $
+// $Id: Hyperplane_d.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_HYPERPLANE_D_H
 #define CGAL_HYPERPLANE_D_H
+
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class pR>
 class Hyperplane_d : public pR::Hyperplane_d_base
-{ public:
+{
+public:
+
+  typedef CGAL::Dynamic_dimension_tag Ambient_dimension;
+  typedef CGAL::Dynamic_dimension_tag Feature_dimension;
+
   typedef typename pR::Hyperplane_d_base Base;
   typedef Hyperplane_d<pR>               Self;
   typedef pR R;
@@ -60,8 +68,8 @@ class Hyperplane_d : public pR::Hyperplane_d_base
 
   template <class ForwardIterator>
   Hyperplane_d(ForwardIterator first, ForwardIterator last, 
-               const Point_d<R>& o, Oriented_side side = Oriented_side(0)) :
-    Base(first,last,o,side) {}
+               const Point_d<R>& o, Oriented_side side = ON_ORIENTED_BOUNDARY)
+    : Base(first,last,o,side) {}
 
   Vector_d<R> orthogonal_vector() const 
   { return Base::orthogonal_vector(); }
@@ -75,4 +83,5 @@ class Hyperplane_d : public pR::Hyperplane_d_base
 };
 
 CGAL_END_NAMESPACE
+
 #endif //CGAL_HYPERPLANE_D_H

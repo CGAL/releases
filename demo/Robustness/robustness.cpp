@@ -15,24 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Robustness/demo/Robustness/robustness.cpp $
-// $Id: robustness.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Robustness/demo/Robustness/robustness.cpp $
+// $Id: robustness.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-  #include <iostream>
-  int main(int, char*)
-  {
-    std::cout << "Sorry, this demo needs QT...";
-    std::cout << std::endl;
-    return 0;
-  }
-#else
 #include "cgal_types.h"
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_standard_toolbar.h>
@@ -561,4 +551,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

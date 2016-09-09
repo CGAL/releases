@@ -15,11 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
-// $Id: Cartesian_converter.h 33346 2006-08-16 14:24:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
+// $Id: Cartesian_converter.h 46841 2008-11-12 11:51:47Z pmachado $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 #ifndef CGAL_CARTESIAN_CONVERTER_H
@@ -62,29 +62,7 @@ public:
     typedef K2         Target_kernel;
     typedef Converter  Number_type_converter;
 
-#ifdef CGAL_CFG_USING_BASE_MEMBER_BUG
-    bool operator()(bool b) const { return Base::operator()(b); }
-    Sign operator()(Sign s) const { return Base::operator()(s); }
-
-    Oriented_side operator()(Oriented_side os) const {
-      return Base::operator()(os);
-    }
-
-    Bounded_side operator()(Bounded_side bs) const {
-      return Base::operator()(bs);
-    }
-
-    Comparison_result operator()(Comparison_result cr) const {
-      return Base::operator()(cr);
-    }
-
-    Angle operator()(Angle a) const { return Base::operator()(a); }
-#else
     using Base::operator();
-#endif
-
-    Cartesian_converter() // To shut up a warning with SunPRO.
-	: c(), k() {}
 
     Origin
     operator()(const Origin& o) const
@@ -133,7 +111,7 @@ public:
 	}
 	return make_object(res);
       }
-      CGAL_assertion_msg(false,"Cartesian_converter is unable to determine what is wrapped in the Object");
+      CGAL_error_msg("Cartesian_converter is unable to determine what is wrapped in the Object");
       return Object();
 	
     }
@@ -267,6 +245,14 @@ public:
 	return Sphere_3(operator()(a.center()),
 		        c(a.squared_radius()),
 			a.rep().orientation());
+    }
+
+    typename K2::Circle_3
+    operator()(const typename K1::Circle_3 &a) const
+    {
+        typedef typename K2::Circle_3  Circle_3;
+	return Circle_3(operator()(a.diametral_sphere()),
+			operator()(a.supporting_plane()),1);
     }
 
     typename K2::Triangle_3

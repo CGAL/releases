@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_configure.h $
-// $Id: Min_sphere_of_spheres_d_configure.h 36331 2007-02-15 21:10:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_configure.h $
+// $Id: Min_sphere_of_spheres_d_configure.h 41335 2007-12-26 22:24:01Z spion $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -66,7 +66,8 @@
 
 // Define some assertion macros used in the code.
 #ifdef CGAL_MINIBALL_DEBUG
-  #define CGAL_MINIBALL_ASSERT(expr) assert(expr)
+  #include <CGAL/assertions.h>
+  #define CGAL_MINIBALL_ASSERT(expr) CGAL_assertion(expr)
   #define CGAL_MINIBALL_DO_DEBUG(expr) expr
 #else
   #define CGAL_MINIBALL_ASSERT(expr) ;

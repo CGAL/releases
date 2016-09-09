@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_short_names_2.h $
-// $Id: Triangulation_short_names_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_short_names_2.h $
+// $Id: Triangulation_short_names_2.h 41378 2007-12-30 23:54:19Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -20,9 +20,9 @@
 #ifndef CGAL_TRIANGULATION_SHORT_NAMES_2_H
 #define CGAL_TRIANGULATION_SHORT_NAMES_2_H
 
+#if 0 // Disabled to see if it's still really needed.
 
-//Define shorter names to please linker (g++/egcs)
-
+//Define shorter names to please some linkers
 
 #define Triangulation_data_structure_2 Tds2
 #define Triangulation_vertex_base_2  Tvb
@@ -57,5 +57,7 @@
 #define Regular_triangulation_euclidean_traits_2 Rtet2
 #define Regular_triangulation_face_base_2        Rtfb
 #define Regular_triangulation_vertex_base_2      Rtvb
+
+#endif // 0
 
 #endif //CGAL_TRIANGULATION_SHORT_NAMES_2_H

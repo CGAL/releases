@@ -11,24 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/demo/Nef_2/nef_2.cpp $
-// $Id: nef_2.cpp 38248 2007-04-17 21:58:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/demo/Nef_2/nef_2.cpp $
+// $Id: nef_2.cpp 45455 2008-09-09 21:46:21Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#if !defined CGAL_USE_QT
-#include <iostream>
-int main(int, char*)
-{
-  std::cout << "Sorry, this demo needs QT..."; std::cout << std::endl;
-  return 0;
-}
-
-#elif !defined CGAL_USE_GMP
+#if !defined CGAL_USE_GMP
 #include <iostream>
 int main(int, char*)
 {
@@ -750,7 +741,7 @@ private:
         return (*it).N;
       ++it;
     }
-    CGAL_assertion(false);
+    CGAL_error();
     return Nef_polyhedron(); // kill warning.
   }
 
@@ -795,4 +786,4 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT
+#endif // CGAL_USE_GMP

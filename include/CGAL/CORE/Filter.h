@@ -30,17 +30,20 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/include/CGAL/CORE/Filter.h $
- * $Id: Filter.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/Filter.h $
+ * $Id: Filter.h 45042 2008-08-20 11:14:00Z spion $
  ***************************************************************************/
 
 #ifndef _CORE_FILTER_H_
 #define _CORE_FILTER_H_
 
+#include <CGAL/config.h>
 #include <CGAL/CORE/Real.h>
-#include <math.h>
+#include <cmath>
 
-#if defined (_MSC_VER) || defined (__MINGW32__) // add support for MinGW
+#if !defined CGAL_CFG_NO_CPP0X_ISFINITE
+  #define finite(x)	std::isfinite(x)
+#elif defined (_MSC_VER) || defined (__MINGW32__) // add support for MinGW
   #define finite(x)	_finite(x)
   #define ilogb(x)	(int)_logb(x)
 #endif

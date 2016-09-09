@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_lines_2/include/CGAL/Stream_lines_2.h $
-// $Id: Stream_lines_2.h 38262 2007-04-18 08:54:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_lines_2/include/CGAL/Stream_lines_2.h $
+// $Id: Stream_lines_2.h 44492 2008-07-27 12:01:51Z spion $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -26,14 +26,15 @@
 #include <CGAL/Delaunay_triangulation_2.h>
 
 #include <queue>
-#include <math.h>
-
+#include <cmath>
 #include <fstream>
 #include <iostream>
 
 #include <CGAL/squared_distance_2.h>
 
 #include <CGAL/streamlines_assertions.h>
+
+#include <boost/tuple/tuple.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -57,8 +58,7 @@ protected:
   typedef typename DT::Face_circulator                                                    Face_circulator;
   typedef typename DT::Edge_iterator                                                      Edge_iterator;
   typedef std::pair<Point_2,FT>                                                           Circle;
-  typedef
-  CGAL::Quadruple<Vertex_handle,Vertex_handle,Vertex_handle,Circle>                       Pq_element;
+  typedef boost::tuple<Vertex_handle,Vertex_handle,Vertex_handle,Circle>                  Pq_element;
   Pq_element                                                                              Biggest_circle;
   FT distance(const Point_2 & p, const Point_2 & q)
     {
@@ -87,7 +87,7 @@ protected:
     bool operator()(const Pq_element &a1, const Pq_element
         &a2)
       {
-  return a1.fourth.second < a2.fourth.second ;
+        return a1.get<3>().second < a2.get<3>().second ;
       }
   };
   std::priority_queue<Pq_element, std::vector<Pq_element>, C>    pq;
@@ -180,7 +180,7 @@ public:
   std::pair<Point_2, FT> get_biggest_circle()
     {
       Pq_element m_Pq = Biggest_circle;
-      std::pair<Point_2, FT> circle(m_Pq.fourth.first, m_Pq.fourth.second);
+      std::pair<Point_2, FT> circle(m_Pq.get<3>().first, m_Pq.get<3>().second);
       return circle;
     }
 protected:
@@ -386,7 +386,7 @@ Stream_lines_2<VectorField_2, Integrator_2>::integrate_forward(const Vector_fiel
       if(number_of_points > 30)
   bEnd = bEnd || ((distance(stl.front(), stl.back()))<vector_field_2.get_integration_step());
       FT dist_ = distance(ex_old_point,new_point);
-      bEnd = bEnd || dist_ <= vector_field_2.get_integration_step();
+      bEnd = bEnd || dist_ < 0.9*vector_field_2.get_integration_step();
       if (!bEnd)
   {
     if(sampling != sampling_step)
@@ -512,7 +512,7 @@ void Stream_lines_2<VectorField_2, Integrator_2>::integrate_backward(const Vecto
       new_point = integrator(old_point,vector_field_2,false);
       bEnd = !vector_field_2.is_in_domain(new_point);
       FT dist_ = distance(ex_old_point,new_point);
-      bEnd = bEnd || dist_ <= vector_field_2.get_integration_step() || (new_point == old_point);/* to review */ 
+      bEnd = bEnd || dist_ < 0.9*vector_field_2.get_integration_step() || (new_point == old_point);/* to review */ 
       if(number_of_points > 30)
   bEnd = bEnd || ((distance(stl.front(), stl.back()))<vector_field_2.get_integration_step());
       //    bEnd = bEnd || (number_of_points > 3000);
@@ -676,10 +676,10 @@ pq_elements(const Vector_field_2 & vector_field_2, Vertex_container_2 stl_vertic
       else
         {
     Pq_next_r = m_Pq_element;
-    if (Pq_element_max_r.fourth.second <= Pq_next_r.fourth.second)
+    if (Pq_element_max_r.get<3>().second <= Pq_next_r.get<3>().second)
       Pq_element_max_r = Pq_next_r;
-    if ((Pq_current_r.fourth.second>=Pq_previous_r.fourth.second)
-        &&(Pq_current_r.fourth.second>=Pq_next_r.fourth.second))
+    if ((Pq_current_r.get<3>().second>=Pq_previous_r.get<3>().second)
+        &&(Pq_current_r.get<3>().second>=Pq_next_r.get<3>().second))
       {
         pq.push(Pq_current_r);
       }
@@ -714,10 +714,10 @@ pq_elements(const Vector_field_2 & vector_field_2, Vertex_container_2 stl_vertic
       else
         {
     Pq_next_l = m_Pq_element;
-    if (Pq_element_max_l.fourth.second <= Pq_next_l.fourth.second) 
+    if (Pq_element_max_l.get<3>().second <= Pq_next_l.get<3>().second) 
       Pq_element_max_l = Pq_next_l;
-    if ((Pq_current_l.fourth.second>=Pq_previous_l.fourth.second)
-        &&(Pq_current_l.fourth.second>=Pq_next_l.fourth.second))
+    if ((Pq_current_l.get<3>().second>=Pq_previous_l.get<3>().second)
+        &&(Pq_current_l.get<3>().second>=Pq_next_l.get<3>().second))
       {
         pq.push(Pq_current_l);
       }
@@ -771,16 +771,16 @@ Stream_lines_2<VectorField_2, Integrator_2>::get_next_seed_point(FT &
   bool b0,b;
   Pq_element m_Pq_element;
   do{
-    assert(!pq.empty());
+    CGAL_assertion(!pq.empty());
     m_Pq_element = pq.top();
-    v0 = m_Pq_element.first;
-    v1 = m_Pq_element.second;
-    v2 = m_Pq_element.third;
-    distance = m_Pq_element.fourth.second;
+    v0 = m_Pq_element.get<0>();
+    v1 = m_Pq_element.get<1>();
+    v2 = m_Pq_element.get<2>();
+    distance = m_Pq_element.get<3>().second;
     pq.pop();
     b0 = m_DT.is_face(v0,v1,v2,fr);
     if (b0){
-      seed_point_ = m_Pq_element.fourth.first;}
+      seed_point_ = m_Pq_element.get<3>().first;}
     b = (!pq.empty());
   }while ((b)&&(!b0));
   Biggest_circle = m_Pq_element;
@@ -893,13 +893,13 @@ Stream_lines_2<VectorField_2, Integrator_2>::get_pq()
   while (!pq_temp.empty())
     {
       Pq_element m_Pq_element = pq_temp.top();
-      Vertex_handle v0 = m_Pq_element.first;
-      Vertex_handle v1 = m_Pq_element.second;
-      Vertex_handle v2 = m_Pq_element.third;
+      Vertex_handle v0 = m_Pq_element.get<0>();
+      Vertex_handle v1 = m_Pq_element.get<1>();
+      Vertex_handle v2 = m_Pq_element.get<2>();
       pq_temp.pop();
       Face_handle fr;
       bool b0 = m_DT.is_face(v0,v1,v2,fr);
-      Point_2 sdPoint = m_Pq_element.fourth.first;
+      Point_2 sdPoint = m_Pq_element.get<3>().first;
       if (b0)
   _list.push_front(sdPoint);
     }

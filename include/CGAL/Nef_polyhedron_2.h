@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_polyhedron_2.h $
-// $Id: Nef_polyhedron_2.h 37244 2007-03-19 08:25:43Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_polyhedron_2.h $
+// $Id: Nef_polyhedron_2.h 41662 2008-01-17 17:53:00Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -184,10 +184,8 @@ protected:
   typedef typename Nef_rep::Slocator        Slocator;
   typedef typename Nef_rep::Locator         Locator;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::ptr;
   using Base::is_shared;
-#endif
 
   Plane_map& pm() { return ptr()->pm_; } 
   const Plane_map& pm() const { return ptr()->pm_; } 
@@ -621,10 +619,17 @@ public:
   /*{\Mop returns true if |\Mvar| is the whole plane, false otherwise.}*/
   { Const_decorator D(pm());
     Face_const_iterator f = D.faces_begin();
-    return (D.number_of_vertices()==4 &&
-            D.number_of_edges()==4 &&
-            D.number_of_faces()==2 &&
-            D.mark(++f) == true);
+    if(check_tag(typename Is_extended_kernel<Extended_kernel>::
+         value_type()))
+      return (D.number_of_vertices()==4 &&
+              D.number_of_edges()==4 &&
+              D.number_of_faces()==2 &&
+              D.mark(++f) == true);
+    else
+      return (D.number_of_vertices()==0 &&
+          D.number_of_edges()==0 &&
+          D.number_of_faces()==1 &&
+          D.mark(f) == true);
   }
 
   void extract_complement()
@@ -871,7 +876,7 @@ public:
   void init_locator() const 
   { const_cast<Self*>(this)->ptr()->init_locator(); }
   const Locator& locator() const 
-  { assert(ptr()->pl_); return *(ptr()->pl_); }
+  { CGAL_assertion(ptr()->pl_); return *(ptr()->pl_); }
 
 
   bool contains(Object_handle h) const
@@ -904,7 +909,7 @@ public:
 			 PL.point(PL.vertices_begin()));
       return PL.locate(s); 
     }
-    CGAL_assertion_msg(0,"location mode not implemented.");
+    CGAL_error_msg("location mode not implemented.");
     return Object_handle();
   }
 
@@ -948,7 +953,7 @@ public:
       Slocator PL(pm(),EK);
       return PL.ray_shoot(EK.construct_segment(ep,eq),INSET(PL));
     }
-    CGAL_assertion_msg(0,"location mode not implemented.");
+    CGAL_error_msg("location mode not implemented.");
     return Object_handle();
   }
 
@@ -988,7 +993,7 @@ public:
       Slocator PL(pm(),EK);
       return PL.ray_shoot(EK.construct_segment(ep,eq),INSKEL());
     }
-    CGAL_assertion_msg(0,"location mode not implemented.");
+    CGAL_error_msg("location mode not implemented.");
     return Object_handle();
   }
 
@@ -998,12 +1003,6 @@ public:
   the underlying plane map. See the manual page |Explorer| for its 
   usage.}*/
 
-
-  /*{\Mtext\headerline{Input and Output}
-  A Nef polyhedron |\Mvar| can be visualized in a |Window_stream W|. The 
-  output operator is defined in the file 
-  |CGAL/IO/Nef_\-poly\-hedron_2_\-Win\-dow_\-stream.h|.
-  }*/
 
   /*{\Mimplementation Nef polyhedra are implemented on top of a halfedge
   data structure and use linear space in the number of vertices, edges

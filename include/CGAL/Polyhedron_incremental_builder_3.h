@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
-// $Id: Polyhedron_incremental_builder_3.h 36779 2007-03-03 08:57:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
+// $Id: Polyhedron_incremental_builder_3.h 43752 2008-06-24 19:00:46Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -303,7 +303,7 @@ public:
 
     template <class InputIterator>
     Halfedge_handle add_facet( InputIterator first, InputIterator beyond) {
-        // synonym for begin_facet(), a call to add_facet() for each iterator
+        // synonym for begin_facet(), a call to add_vertex_to_facet() for each iterator
         // value type, and end_facet().
         begin_facet();
         for ( ; ! m_error && first != beyond; ++first)

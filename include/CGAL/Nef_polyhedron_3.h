@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 39801 2007-08-09 15:25:28Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 46489 2008-10-27 14:45:52Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -26,15 +26,18 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/Nef_3/SNC_items.h>
-#include <CGAL/Nef_S2/SM_items.h>
+#include <CGAL/Nef_3/Default_items.h>
 #include <CGAL/Nef_3/SNC_structure.h>
 #include <CGAL/Nef_3/SNC_decorator.h>
 #include <CGAL/Nef_3/SNC_const_decorator.h>
 #include <CGAL/Nef_3/SNC_constructor.h>
 #include <CGAL/Nef_3/SNC_external_structure.h>
-//#include <CGAL/Nef_3/Combine_with_halfspace.h>
-//#include <CGAL/Nef_3/SNC_binop.h>
+#include <CGAL/Nef_3/Combine_with_halfspace.h>
+#ifdef CGAL_NEF_VISUAL_HULL
+#include <CGAL/Nef_3/Binary_operation_vs.h>
+#else
+#include <CGAL/Nef_3/Binary_operation.h>
+#endif
 #include <CGAL/Nef_S2/SM_decorator.h>
 #include <CGAL/Nef_S2/SM_const_decorator.h>
 #include <CGAL/Nef_3/SNC_SM_overlayer.h>
@@ -43,6 +46,10 @@
 #include <CGAL/Nef_polyhedron_S2.h>
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Nef_3/Mark_bounded_volumes.h>
+
+#ifdef CGAL_NEF3_POINT_LOCATOR_NAIVE
+#include <CGAL/Nef_3/SNC_ray_shooter.h>
+#endif
 
 #ifdef CGAL_NEF3_CGAL_NEF3_SM_VISUALIZOR
 #include <CGAL/Nef_3/SNC_SM_visualizor.h>
@@ -54,6 +61,7 @@
 
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/Nef_3/polyhedron_3_to_nef_3.h>
+#include <CGAL/Nef_3/shell_to_nef_3.h>
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_3/SNC_point_locator.h>
@@ -65,13 +73,16 @@
 #include <CGAL/Triangulation_euclidean_traits_yz_3.h>
 #include <CGAL/Triangulation_euclidean_traits_xz_3.h>
 #include <CGAL/Constrained_triangulation_face_base_2.h>
-
-#include <list> // || (circulator_size(c) != 2 && !result));
+#include <list>
 
 // RO: includes for "vertex cycle to Nef" constructor
 #include <CGAL/Nef_3/vertex_cycle_to_nef_3.h>
 #include <CGAL/Vector_3.h>
 #include <CGAL/normal_vector_newell_3.h>
+
+#ifdef CGAL_NEF_VISUAL_HULL
+#include <CGAL/Nef_3/Modifying_binary_operation_vs.h>
+#endif
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 11
@@ -98,7 +109,7 @@ class Nef_polyhedron_3_rep
   typedef CGAL::SNC_structure<K,I,M>                      SNC_structure;
   typedef CGAL::SNC_decorator<SNC_structure>              SNC_decorator;
   typedef CGAL::SNC_const_decorator<SNC_structure>        SNC_const_decorator;
-  //  typedef CGAL::SNC_binop<SNC_structure>               SNC_binop;
+  typedef CGAL::Binary_operation<SNC_structure>           Binary_operation;
   typedef CGAL::SNC_constructor<I, SNC_structure>         SNC_constructor;
   typedef CGAL::SNC_external_structure<I, SNC_structure>  SNC_external_structure;
   typedef CGAL::SNC_point_locator<SNC_decorator> SNC_point_locator;
@@ -142,7 +153,7 @@ halfspaces. |\Mtype| is closed under all binary set opertions |intersection|,
 |union|, |difference|, |complement| and under the topological operations
 |boundary|, |closure|, and |interior|.}*/
 
-template <typename Kernel_, typename Items_ = SNC_items, typename Mark_ = bool>
+template <typename Kernel_, typename Items_ = typename CGAL::Default_items<Kernel_>::Items, typename Mark_ = bool>
 class Nef_polyhedron_3 : public CGAL::Handle_for< Nef_polyhedron_3_rep<Kernel_, Items_, Mark_> >, 
 			 public SNC_const_decorator<SNC_structure<Kernel_,Items_,Mark_> >
 { 
@@ -161,7 +172,9 @@ class Nef_polyhedron_3 : public CGAL::Handle_for< Nef_polyhedron_3_rep<Kernel_, 
   typedef typename Kernel::Vector_3                   Vector_3;
   typedef typename Kernel::Segment_3                  Segment_3;
   typedef typename Kernel::Aff_transformation_3       Aff_transformation_3;
- 
+
+  struct Polylines_tag {};
+
   enum Boundary { EXCLUDED=0, INCLUDED=1 };
   /*{\Menum construction selection.}*/
 
@@ -182,20 +195,21 @@ protected:
  public:
   typedef Nef_polyhedron_3_rep<Kernel,Items, Mark>    Nef_rep;
   typedef typename Nef_rep::SNC_structure       SNC_structure;
+  typedef typename Nef_rep::SM_decorator        SM_decorator;
+  typedef typename Nef_rep::SM_const_decorator  SM_const_decorator;
  protected:
   typedef typename Nef_rep::SNC_decorator       SNC_decorator;
   typedef typename Nef_rep::SNC_const_decorator SNC_const_decorator;
   typedef typename Nef_rep::SNC_constructor     SNC_constructor;
   typedef typename Nef_rep::SNC_external_structure SNC_external_structure;
- //  typedef typename Nef_rep::SNC_binop           SNC_binop;
+  typedef typename Nef_rep::Binary_operation    Binary_operation;
   typedef typename Nef_rep::SNC_point_locator   SNC_point_locator;
   typedef typename Nef_rep::SNC_point_locator_default
     SNC_point_locator_default;
- //  typedef CGAL::Combine_with_halfspace<SNC_structure, SNC_point_locator> 
- //          Combine_with_halfspace;
-
-  typedef typename Nef_rep::SM_decorator        SM_decorator;
-  typedef typename Nef_rep::SM_const_decorator  SM_const_decorator;
+  typedef CGAL::Combine_with_halfspace<SNC_structure, SNC_point_locator> 
+          Combine_with_halfspace;
+ typedef typename Combine_with_halfspace::Intersection_mode Intersection_mode;
+ 
   typedef typename Nef_rep::SM_overlayer        SM_overlayer;
   typedef typename Nef_rep::SM_point_locator    SM_point_locator;
   typedef typename Nef_rep::SNC_simplify        SNC_simplify;
@@ -293,6 +307,8 @@ protected:
   typedef typename SM_decorator::SVertex_iterator  SVertex_iterator;
   typedef typename SM_decorator::SHalfedge_iterator
                                                    SHalfedge_iterator;
+  typedef typename SM_decorator::SHalfloop_iterator
+                                                   SHalfloop_iterator;
   typedef typename SM_decorator::SFace_iterator    SFace_iterator;
   typedef typename SM_decorator::SVertex_const_iterator
                                                    SVertex_const_iterator;
@@ -334,7 +350,7 @@ protected:
   and initializes it to the empty set if |space == EMPTY|
   and to the whole space if |space == COMPLETE|.}*/
 
-  Nef_polyhedron_3(const Plane_3& p, Boundary b = INCLUDED);
+  explicit Nef_polyhedron_3(const Plane_3& p, Boundary b = INCLUDED);
   /*{\Mcreate creates a Nef polyhedron |\Mvar| containing the
   halfspace on the negative side of |p| including |p| if |b==INCLUDED|,
   excluding |p| if |b==EXCLUDED|.}*/
@@ -401,9 +417,125 @@ protected:
       *this = Nef_polyhedron_3 (v_first, v_last, normal, verb);
       set_snc (snc());
    }
-
-  typedef Polyhedron_3< Kernel> Polyhedron;
   
+ template<typename Items, typename SNC_structure>
+ class Sphere_map_creator {
+   typedef typename SNC_structure::SM_decorator     SM_decorator;
+   typedef typename SNC_structure::Vertex_handle    Vertex_handle;
+   typedef typename SNC_structure::SVertex_handle   SVertex_handle;
+   typedef typename SNC_structure::SFace_handle     SFace_handle;
+   typedef typename SNC_structure::Sphere_point     Sphere_point;
+   
+   public:
+   Sphere_map_creator() {}
+   
+   template<typename point_iterator>
+   void create_end_sphere_map(SNC_structure& snc,
+			      point_iterator cur,
+			      point_iterator prev) {
+     Vertex_handle v(snc.new_vertex(*cur, true));
+     SM_decorator SM(&*v);
+     SVertex_handle sv(v->new_svertex(Sphere_point(ORIGIN+(*prev-*cur)),
+				      true));
+     SFace_handle sf(v->new_sface());
+     SM.link_as_isolated_vertex(sv,sf);
+   }
+   
+   template<typename point_iterator>
+   void create_sphere_map(SNC_structure& snc,
+			  point_iterator cur,
+			  point_iterator prev,
+			  point_iterator next) {
+     Vertex_handle v(snc.new_vertex(*cur, true));
+     SM_decorator SM(&*v);
+     SVertex_handle sv1(v->new_svertex(Sphere_point(ORIGIN+(*prev-*cur)),
+				       true));
+     SVertex_handle sv2(v->new_svertex(Sphere_point(ORIGIN+(*next-*cur)),
+				       true));      
+     SFace_handle sf(v->new_sface());
+     SM.link_as_isolated_vertex(sv1,sf);
+     SM.link_as_isolated_vertex(sv2,sf);
+   }
+ };
+ 
+ template<typename SNC_structure>
+ class Sphere_map_creator<CGAL::SNC_indexed_items, SNC_structure> {
+   typedef typename SNC_structure::SM_decorator     SM_decorator;
+   typedef typename SNC_structure::Vertex_handle    Vertex_handle;
+   typedef typename SNC_structure::SVertex_handle   SVertex_handle;
+   typedef typename SNC_structure::SFace_handle     SFace_handle;
+   typedef typename SNC_structure::Sphere_point     Sphere_point;
+   
+   bool first;
+   int index;
+ public:
+   Sphere_map_creator() : first(true), index(0) {}
+     
+     template<typename point_iterator>
+       void create_end_sphere_map(SNC_structure& snc,
+				  point_iterator cur,
+				  point_iterator prev) {
+       Vertex_handle v(snc.new_vertex(*cur, true));
+       SM_decorator SM(&*v);
+       SVertex_handle sv(v->new_svertex(Sphere_point(ORIGIN+(*prev-*cur)),
+					true));
+       SFace_handle sf(v->new_sface());
+       SM.link_as_isolated_vertex(sv,sf);
+       if(first) {
+	 sv->set_index();
+	 index = sv->get_index();
+	 first = false;
+       } else
+	 sv->set_index(index);
+     }
+     
+     template<typename point_iterator>
+       void create_sphere_map(SNC_structure& snc,
+			      point_iterator cur,
+			      point_iterator prev,
+			      point_iterator next) {
+       Vertex_handle v(snc.new_vertex(*cur, true));
+       SM_decorator SM(&*v);
+       SVertex_handle sv1(v->new_svertex(Sphere_point(ORIGIN+(*prev-*cur)),
+					 true));
+       SVertex_handle sv2(v->new_svertex(Sphere_point(ORIGIN+(*next-*cur)),
+					 true));      
+       SFace_handle sf(v->new_sface());
+       SM.link_as_isolated_vertex(sv1,sf);
+       SM.link_as_isolated_vertex(sv2,sf);
+       sv1->set_index(index);
+       sv2->set_index();
+       index = sv2->get_index();
+     }
+ };
+ 
+ template <typename InputIterator>
+ Nef_polyhedron_3(InputIterator begin, InputIterator end, Polylines_tag) {
+   typedef typename std::iterator_traits<InputIterator>::value_type
+     point_iterator_pair;
+   typedef typename point_iterator_pair::first_type
+     point_iterator;
+
+   empty_rep();
+   set_snc(snc());
+   initialize_infibox_vertices(EMPTY);
+
+   point_iterator pbegin, pend, pnext, pprev;
+   Sphere_map_creator<Items, SNC_structure> smc;
+   for(;begin != end; ++begin) {
+     pend = begin->second;
+     pprev = pnext = pbegin = begin->first;
+     ++pnext;
+     CGAL_assertion(pnext != pend);
+     smc.create_end_sphere_map(snc(),pbegin,pnext);
+     for(++pbegin,++pnext; pnext!=pend; ++pbegin,++pprev,++pnext)
+       smc.create_sphere_map(snc(),pbegin,pprev,pnext);
+     smc.create_end_sphere_map(snc(),pbegin,pprev);
+   }
+   build_external_structure();
+   simplify();
+ }
+
  template <class T1, class T2,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template <class T31, class T32, class T33>
@@ -421,9 +553,23 @@ protected:
     CGAL::Mark_bounded_volumes<Nef_polyhedron_3> mbv(true);
     delegate(mbv);
     set_snc(snc());
-    //    CGAL_assertion(orientation() == 1);
   }
   
+ Nef_polyhedron_3(const Nef_polyhedron& N, 
+		  SFace_const_iterator sf) 
+ {
+   SNC_structure rsnc;
+   *this = Nef_polyhedron_3(rsnc, new SNC_point_locator_default, false);
+   initialize_infibox_vertices(EMPTY);
+   shell_to_nef_3(N, sf, snc());
+   build_external_structure();
+   simplify();
+   CGAL::Mark_bounded_volumes<Nef_polyhedron_3> mbv(true);
+   delegate(mbv);
+   set_snc(snc());
+ }
+
+
  protected: 
 
   template<typename Kernel>
@@ -595,7 +741,7 @@ protected:
 	    Triangulation_handler2<XY> th(f);
 	    th.handle_triangles(B, VI);
 	  } else
-	    CGAL_assertion_msg(false, "wrong value");
+	    CGAL_error_msg( "wrong value");
 
 	} else {
 
@@ -694,7 +840,7 @@ protected:
 	    omit_vertex[sl->incident_sface()->center_vertex()];
 	    --nov;
 	  } else
-	    CGAL_assertion_msg(false, "wrong handle type");
+	    CGAL_error_msg( "wrong handle type");
 	}
       }
 
@@ -865,72 +1011,21 @@ protected:
    CGAL_expensive_postcondition( is_valid());
  }
  
- protected:
-   int orientation() {
-    // Function does not work correctly with every Nef_polyhedron. 
-    // It works correctly if v_max is 2-manifold
-    CGAL_NEF_TRACEN("orientation");
-    
-    typedef typename SM_decorator::SHalfedge_around_sface_circulator
-      SHalfedge_around_sface_circulator;
-
-    if ( this->number_of_vertices() == 0)
-      return 0;
-    
-    // Find top-most vertex v_max (top-most also works fine for terrains)
-    SNC_decorator D(snc());
-    bool first = true;
-    Vertex_handle v_max;
-    Vertex_handle vh;
-    CGAL_forall_vertices(vh, D) {
-      CGAL_NEF_TRACEN("  is_standard " << vh->point() << " " << Infi_box::is_standard(vh->point()));
-      if (Infi_box::is_standard(vh->point()) && 
-	  (first || vh->point().z() > v_max->point().z())) {
-	first = false;
-	v_max = vh;
-      }
-    }
-    CGAL_NEF_TRACEN("  vmax " << v_max->point());
-    CGAL_assertion_msg(!first, "off file is empty");
-    SM_decorator SD(&*v_max);
-
-    // Add up z-coord. of all normalized normal vectors of the incident facets
-    
-    double z=1.0;
-    first = true;
-    SFace_handle sf;
-    CGAL_forall_sfaces(sf, SD) {
-      if(Volume_const_handle(sf->volume()) != Infi_box::getNirvana(snc())) continue;
-      CGAL_assertion_msg(first, "function shall not be used on this polyhedron");
-      SHalfedge_around_sface_circulator estart(sf->sface_cycles_begin()), 
-	                                eend(estart);
-      CGAL_For_all(estart,eend) {
-	Sphere_circle c(estart->circle());
-	CGAL_NEF_TRACEN("  circle " << c); 
-	double delta_z = CGAL::to_double(c.orthogonal_vector().hz());
-	CGAL_NEF_TRACEN("  delta_z " << delta_z);
-	Point_3 target = ORIGIN + c.orthogonal_vector();
-	Segment_3 s(Point_3(0,0,0), target);
-	delta_z /= CGAL::sqrt(CGAL::to_double(s.squared_length()));
-	z += delta_z;	
-	CGAL_NEF_TRACEN("  z " << z);
-      }
-      first = false;
-    }
-    return sign(z);
-  }
-
  public:
 
-  typedef typename Polyhedron::HalfedgeDS HalfedgeDS;
-  void convert_to_Polyhedron(Polyhedron& P) {
-    CGAL_precondition(is_simple());
-    P.clear();
-    Build_polyhedron<HalfedgeDS> bp(*this);    
-    P.delegate(bp);
-  }
+ template<typename Polyhedron>
+ void convert_to_Polyhedron(Polyhedron& P) {
+   typedef typename Polyhedron::HalfedgeDS HalfedgeDS;
+   CGAL_precondition(is_simple());
+   P.clear();
+   Build_polyhedron<HalfedgeDS> bp(*this);    
+   P.delegate(bp);
+ }
 
+ template<typename Polyhedron>
  void convert_inner_shell_to_polyhedron(SFace_const_iterator sf, Polyhedron& P) {
+   typedef typename Polyhedron::HalfedgeDS HalfedgeDS;
+   P.clear();
    Build_polyhedron2<HalfedgeDS> bp(sf, *this);
    P.delegate(bp);
  }
@@ -963,16 +1058,14 @@ protected:
 	return false;
 
     CGAL_NEF_TRACEN("there is no vertex with non-manifold situation");
-
-    /*
+/*
     Halffacet_iterator f;
     CGAL_forall_halffacets(f,snc())
       if(!is_facet_simple(f))
 	return false;
 
     CGAL_NEF_TRACEN("there are no holes");
-    */
-
+*/
     return true;
   }
  
@@ -1229,25 +1322,23 @@ protected:
     /*{\Mop returns |\Mvar| $\cap$ |N1|. }*/ {
     CGAL_NEF_TRACEN(" intersection between nef3 "<<&*this<<" and "<<&N1);
     AND _and;
-    //CGAL::binop_intersection_tests_allpairs<SNC_decorator, AND> tests_impl;
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
-    SNC_decorator D( res.snc());
-    D.binary_operation(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _and);
+    Binary_operation bo( res.snc());
+    bo(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _and);
     return res;
   }
 
- /*
   Nef_polyhedron_3<Kernel,Items, Mark>
-  intersection(const Plane_3& plane) {
+   intersection(const Plane_3& plane, 
+		Intersection_mode im) const {
     AND _and;
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
     Combine_with_halfspace cwh(res.snc(), res.pl());
-    cwh.combine_with_halfspace(snc(), plane, _and);
+    cwh.combine_with_halfspace(snc(), plane, _and, im);
     return res;
   }
- */
 
   Nef_polyhedron_3<Kernel,Items, Mark> 
   join(const Nef_polyhedron_3<Kernel,Items, Mark>& N1) const
@@ -1257,8 +1348,8 @@ protected:
     //CGAL::binop_intersection_tests_allpairs<SNC_decorator, OR> tests_impl;
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
-    SNC_decorator D( res.snc());
-    D.binary_operation(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _or);
+    Binary_operation bo(res.snc());
+    bo(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _or);
     return res;
   }
 
@@ -1270,8 +1361,8 @@ protected:
     //CGAL::binop_intersection_tests_allpairs<SNC_decorator, DIFF> tests_impl;
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
-    SNC_decorator D( res.snc());
-    D.binary_operation(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _diff);
+    Binary_operation bo(res.snc());
+    bo(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _diff);
     return res;
   }    
 
@@ -1284,8 +1375,8 @@ protected:
     //CGAL::binop_intersection_tests_allpairs<SNC_decorator, XOR> tests_impl;
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
-    SNC_decorator D( res.snc());
-    D.binary_operation(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _xor);
+    Binary_operation bo(res.snc());
+    bo(res.pl(), snc(), pl(), N1.snc(), N1.pl(), _xor);
     return res;
   }
 
@@ -1312,7 +1403,21 @@ protected:
   { return complement(); }
    
   Nef_polyhedron_3<Kernel,Items, Mark>& operator*=(const Nef_polyhedron_3<Kernel,Items, Mark>& N1)
-  { *this = intersection(N1); return *this; }
+  { 
+#ifdef CGAL_NEF_VISUAL_HULL
+    CGAL_NEF_SETDTHREAD(19*43*71);
+    std::cerr << "visual hull code " << std::endl;
+    std::cerr << *this << std::endl;
+    std::cerr << const_cast<Nef_polyhedron&>(N1) << std::endl;
+    AND _and;
+    typename CGAL::Modifying_binary_operation<SNC_structure> 
+      mbo(this->snc());
+    mbo(const_cast<SNC_structure&>(N1.snc()), N1.pl(), pl(), _and);
+    return *this;
+#else
+    *this = intersection(N1); return *this; 
+#endif
+  }
 
   Nef_polyhedron_3<Kernel,Items, Mark>& operator+=(const Nef_polyhedron_3<Kernel,Items, Mark>& N1)
   { *this = join(N1); return *this; }
@@ -1445,7 +1550,7 @@ protected:
 	   CGAL_assertion(fct.is_shalfedge());
 	   setemp = fc;
 	   *fc = *fct;
-	   *fct = setemp;
+	   *fct = make_object(setemp);
 	 }
 	 ++fc;
 	 ++fct;
@@ -1464,7 +1569,7 @@ protected:
 						      setemp->source()->source()->point()))
 	       setemp = hfc;
 	   }
-	   *fc = setemp;
+	   *fc = make_object(setemp);
 	 }
        }
      }
@@ -1579,7 +1684,7 @@ protected:
 	    if(li2 != corner_list.end())
 	      delete_list.push_back(*li2);
 	    break;
-	  default: CGAL_assertion_msg(false, "wrong value");
+	  default: CGAL_error_msg( "wrong value");
 	  }
 	  Vertex_handle v = snc().new_vertex(v1->point(), (*li)->mark());
 	  SM_overlayer O(&*v);
@@ -1612,7 +1717,7 @@ protected:
       if(!aff.is_even())
 	change_orientation();
 
-      while(cstr.erase_redundant_vertices());
+      while(cstr.erase_redundant_vertices()) ;
       cstr.correct_infibox_sedge_marks();
 
       build_external_structure();
@@ -1650,7 +1755,7 @@ protected:
 		fi->b.extend(q);
 	    }
 	  } else
-	    CGAL_assertion_msg(0, "is facet first cycle a SHalfloop?"); 
+	    CGAL_error_msg( "is facet first cycle a SHalfloop?"); 
 #endif
 	}
       }    
@@ -1715,7 +1820,7 @@ protected:
   /*{\Mop  returns true iff the object |h| is contained in the set
   represented by |\Mvar|.}*/
     // { SNC_point_locator PL(snc()); return PL.mark(h);} 
-    { CGAL_assertion_msg( 0, "not implemented."); return false;}
+    { CGAL_error_msg( "not implemented."); return false;}
 
   bool contained_in_boundary(Object_handle h) const
   /*{\Mop  returns true iff the object |h| is contained in the $2$-skeleton
@@ -1740,10 +1845,10 @@ protected:
     Halfedge_handle e;
     Halffacet_handle f;
     Volume_handle c;
-    if(assign(v,o)) return Vertex_const_handle(v);
-    if(assign(e,o)) return Halfedge_const_handle(e);
-    if(assign(f,o)) return Halffacet_const_handle(f);
-    if(assign(c,o)) return Volume_const_handle(c);
+    if(assign(v,o)) return make_object(Vertex_const_handle(v));
+    if(assign(e,o)) return make_object(Halfedge_const_handle(e));
+    if(assign(f,o)) return make_object(Halffacet_const_handle(f));
+    if(assign(c,o)) return make_object(Volume_const_handle(c));
 
     return Object_handle();
   }
@@ -1826,6 +1931,35 @@ Nef_polyhedron_3(const Plane_3& h, Boundary b) {
   SNC_constructor C(snc());
   Infi_box::create_vertices_of_box_with_plane(C,h,(b==INCLUDED));
   build_external_structure();
+  /*
+  if(Infi_box::extended_kernel()) {
+    SNC_structure snc1, snc2;
+    SNC_point_locator* pl1 = new SNC_point_locator_default; 
+    SNC_point_locator* pl2 = new SNC_point_locator_default; 
+
+    SNC_constructor c1(snc1); 
+    Infi_box::initialize_infibox_vertices(c1, true);
+    SNC_external_structure es1(snc1, pl1);
+    es1.build_external_structure();
+
+    SNC_constructor c2(snc2);
+    c2.create_vertices_for_halfspace(h, b);
+    SNC_external_structure es2(snc2, pl2);
+    es2.pair_up_halfedges();
+    es2.link_shalfedges_to_facet_cycles();
+    c2.create_facets_and_volumes_of_halfspace(h);
+    pl2->initialize(&snc2);
+
+    AND _and;
+    Binary_operation bo(snc());
+    bo(pl(), snc1, pl1, snc2, pl2, _and);
+    
+    delete pl1;
+    delete pl2;
+  } else
+    CGAL_error_msg
+      ("Constructor is only available with extended kernels");
+  */
 }
  
 template <typename Kernel, typename Items, typename Mark>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
-// $Id: SM_checker.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
+// $Id: SM_checker.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -129,7 +129,7 @@ check_order_preserving_embedding(Vertex_const_handle v) const
            !K.strictly_ordered_ccw(direction(e),direction(en),
                                    direction(ef)) ) {
         error_status << "ccw order violate!" << endl << '\0';
-        CGAL_assertion_msg(0,error_status.str());
+        CGAL_error_msg(error_status.str());
       }
       e = en;
     }

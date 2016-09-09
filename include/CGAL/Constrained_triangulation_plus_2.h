@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 37832 2007-04-02 20:40:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 43862 2008-06-27 15:51:48Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -38,6 +38,7 @@ public:
   typedef Tr                                   Triangulation;
   typedef typename Tr::Intersection_tag        Intersection_tag;
   typedef Constrained_triangulation_plus_2<Tr> Self;
+  typedef Tr                                   Base;
 
   typedef typename Triangulation::Edge             Edge;
   typedef typename Triangulation::Vertex           Vertex;
@@ -71,13 +72,11 @@ public:
   //for backward compatibility
  typedef Vertices_in_constraint_iterator     Vertices_in_constraint;
   
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Triangulation::geom_traits;
   using Triangulation::cw;
   using Triangulation::ccw;
   using Triangulation::number_of_vertices;
   using Triangulation::vertices_begin;
-#endif
 
 protected:
   Constraint_hierarchy hierarchy;
@@ -87,7 +86,7 @@ public:
     : Triangulation(gt) { }
 
   Constrained_triangulation_plus_2(const Self& ctp)
-    : Triangulation()    { copy(ctp);}
+    : Triangulation()    { copy_triangulation(ctp);}
 
   virtual ~Constrained_triangulation_plus_2() {}
 
@@ -118,8 +117,8 @@ public:
   }
 
     //Helping
-  void clear() { Tr::clear(); hierarchy.clear();}
-  void copy(const Constrained_triangulation_plus_2 &ctp);
+  void clear() { Base::clear(); hierarchy.clear();}
+  void copy_triangulation(const Constrained_triangulation_plus_2 &ctp);
   void swap(Constrained_triangulation_plus_2 &ctp);
 
   // INSERTION
@@ -196,7 +195,7 @@ public:
   //template member functions
 public:
   template < class InputIterator >
-#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+#if defined(_MSC_VER)
     int insert(InputIterator first, InputIterator last, int i = 0)
 #else
     int insert(InputIterator first, InputIterator last) 
@@ -204,14 +203,14 @@ public:
   {
     int n = number_of_vertices();
 
-    std::vector<Point> points CGAL_make_vector(first, last);
+    std::vector<Point> points (first, last);
 
     std::random_shuffle (points.begin(), points.end());
     spatial_sort (points.begin(), points.end(), geom_traits());
 
     Face_handle hint;
-    for (typename std::vector<Point>::const_iterator p = points.begin();
-            p != points.end(); ++p)
+    for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+            p != end; ++p)
         hint = insert (*p, hint)->face();
 
     return number_of_vertices() - n;
@@ -245,9 +244,9 @@ public:
 template <class Tr>
 void
 Constrained_triangulation_plus_2<Tr>::
-copy(const Constrained_triangulation_plus_2 &ctp)
+copy_triangulation(const Constrained_triangulation_plus_2 &ctp)
 {
-  copy_triangulation(ctp);
+  Base::copy_triangulation(ctp);
   //the following assume that the triangulation and its copy
   // iterates on their vertices on the same order 
   std::map<Vertex_handle,Vertex_handle> vmap;
@@ -265,7 +264,7 @@ void
 Constrained_triangulation_plus_2<Tr>::
 swap(Constrained_triangulation_plus_2 &ctp)
 {
-  Tr::swap(ctp);
+  Base::swap(ctp);
   hierarchy.swap(ctp.hierarchy);
 }
 
@@ -274,7 +273,7 @@ Constrained_triangulation_plus_2<Tr>&
 Constrained_triangulation_plus_2<Tr>::
 operator=(const Constrained_triangulation_plus_2 &ctp)
 {
-  copy(ctp);
+  copy_triangulation(ctp);
   return *this;
 }
 

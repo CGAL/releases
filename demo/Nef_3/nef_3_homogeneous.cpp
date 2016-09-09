@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/demo/Nef_3/nef_3_homogeneous.cpp $
-// $Id: nef_3_homogeneous.cpp 38299 2007-04-18 14:31:06Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/demo/Nef_3/nef_3_homogeneous.cpp $
+// $Id: nef_3_homogeneous.cpp 44870 2008-08-11 13:43:58Z hachenb $
 // 
 //
 // Author(s)     : Lutz Kettner
@@ -32,6 +32,7 @@
 #endif
 
 #include <CGAL/Homogeneous.h>
+
 typedef CGAL::Homogeneous<NT> Kernel;
 
 #include <CGAL/Nef_3/demo_stack.h>

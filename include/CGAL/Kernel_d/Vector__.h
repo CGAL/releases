@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: Vector__.h 41674 2008-01-18 10:20:44Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -26,9 +26,6 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
-
-#undef CGAL_KD_DEBUG
-#define CGAL_KD_DEBUG 51
 #include <CGAL/Kernel_d/debug.h>
 
 #include <cmath>
@@ -38,7 +35,8 @@
 #include <vector>
 #include <iterator>
 
-namespace CGALLA {
+namespace CGAL {
+namespace Linear_Algebra {
 
 template <class NT_, class AL_> class Vector_;
 template <class NT_, class AL_> class Matrix_;
@@ -394,7 +392,7 @@ int Vector_<NT_,AL_>::
 compare(const Vector_<NT_,AL_>& v1, const Vector_<NT_,AL_>& v2)
 { int i;
   v1.check_dimensions(v2);
-  for(i=0; i < v1.dimension() && v1[i]==v2[i]; i++);
+  for(i=0; i < v1.dimension() && v1[i]==v2[i]; i++) {}
   if (i == v1.dimension()) return 0;
   return (v1[i] < v2[i]) ?  -1 : 1;
 }
@@ -459,6 +457,7 @@ except for |dimension()| and $[\ ]$ which take constant time. The space
 requirement is $O(|v.dimension()|)$. }*/
 
 
-} // CGALLA
-#endif // CGAL__VECTOR___H
+} // Linear_Algebra
+} // CGAL
 
+#endif // CGAL__VECTOR___H

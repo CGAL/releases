@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/cartesian_predicates_3.h $
-// $Id: cartesian_predicates_3.h 37180 2007-03-17 09:00:08Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/cartesian_predicates_3.h $
+// $Id: cartesian_predicates_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -64,7 +64,7 @@ struct Cartesian_side_of_oriented_sphere_3
     FT dsy = (d.y()) - (e.y());
     FT dsz = (d.z()) - (e.z());
     FT dst = dsx*dsx + dsy*dsy + dsz*dsz;
-    FT ret= CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+    FT ret= CGAL::determinant(dpx, dpy, dpz, dpt,
 				    dqx, dqy, dqz, dqt,
 				    drx, dry, drz, drt,
 				    dsx, dsy, dsz, dst);
@@ -127,7 +127,7 @@ struct Cartesian_power_test_3
     FT dst = dsx*dsx + dsy*dsy
       + dsz*dsz - (d.weight()) + (e.weight());
 
-    return ::CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+    return ::CGAL::determinant(dpx, dpy, dpz, dpt,
 				     dqx, dqy, dqz, dqt,
 				     drx, dry, drz, drt,
 				     dsx, dsy, dsz, dst);
@@ -138,20 +138,20 @@ struct Cartesian_power_test_3
 			const third_argument_type &,
 			const fourth_argument_type &)const
   {
-    CGAL_assertion(0);
+    CGAL_error();
     return result_type();
   }
   result_type operator()(const first_argument_type &,
 			 const second_argument_type &,
 			 const third_argument_type &)const
   {
-    CGAL_assertion(0);
+    CGAL_error();
     return result_type();
   }
   result_type operator()(const first_argument_type &,
 			 const second_argument_type &)const
   {
-    CGAL_assertion(0);
+    CGAL_error();
     return result_type();
   }
 };
@@ -192,7 +192,7 @@ struct Cartesian_lifted_power_test_3
     FT dsz = (d.point().z()) - (e.point().z());
     FT dst = (d.lifted()) - (e.lifted());
 
-    return CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+    return CGAL::determinant(dpx, dpy, dpz, dpt,
 				   dqx, dqy, dqz, dqt,
 				   drx, dry, drz, drt,
 				   dsx, dsy, dsz, dst);
@@ -244,7 +244,7 @@ struct Cartesian_linear_lifted_power_test_3
       FT dsz = (d.point().z()) - (e.point().z());
       FT dst = (d.lifted()) - (e.lifted());
 
-      safe_ret = CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+      safe_ret = CGAL::determinant(dpx, dpy, dpz, dpt,
 					 dqx, dqy, dqz, dqt,
 					 drx, dry, drz, drt,
 					 dsx, dsy, dsz, dst);
@@ -354,19 +354,19 @@ typename Pt::Coordinate co3(const Pt &a, const Pt &b, const Pt &c, const Pt &d)
   RT a20= qz-pz;
   RT a21= rz-pz;
   RT a22= sz-pz;
-  RT ret= CGAL::det3x3_by_formula(a00, a01, a02,
+  RT ret= CGAL::determinant(a00, a01, a02,
 				  a10, a11, a12,
 				  a20, a21, a22);
-  /*CGAL_KINETIC_LOG_MAPLE(std::endl << std::endl);
-    CGAL_KINETIC_LOG_MAPLE( "co3\n");
-    CGAL_KINETIC_LOG_MAPLE( "m:= matrix(4,4, [[1," << a.x()<<","<<a.y() <<","<<a.z() << "], [1," << b.x()<<","<<b.y()<<","<<b.z());
-    CGAL_KINETIC_LOG_MAPLE( "], [1," << c.x() <<","<<c.y()<<","<<c.z() << "], [1,");
-    CGAL_KINETIC_LOG_MAPLE( d.x() << ","<<d.y()<<","<<d.z() << "]]);"<< std::endl);
-    CGAL_KINETIC_LOG_MAPLE( "det(m)- (" << ret << ");" << std::endl);
-    CGAL_KINETIC_LOG_MAPLE( "m2:= matrix(3,3,[[,");
-    CGAL_KINETIC_LOG_MAPLE( a00 << "," << a01 << "," << a02 << "], [");
-    CGAL_KINETIC_LOG_MAPLE( a10 << "," << a11 << "," << a12 << "], [");
-    CGAL_KINETIC_LOG_MAPLE( a20 << "," << a21 << "," << a22 << "]]);");*/
+  /*CGAL_LOG_MAPLE(std::endl << std::endl);
+    CGAL_LOG_MAPLE( "co3\n");
+    CGAL_LOG_MAPLE( "m:= matrix(4,4, [[1," << a.x()<<","<<a.y() <<","<<a.z() << "], [1," << b.x()<<","<<b.y()<<","<<b.z());
+    CGAL_LOG_MAPLE( "], [1," << c.x() <<","<<c.y()<<","<<c.z() << "], [1,");
+    CGAL_LOG_MAPLE( d.x() << ","<<d.y()<<","<<d.z() << "]]);"<< std::endl);
+    CGAL_LOG_MAPLE( "det(m)- (" << ret << ");" << std::endl);
+    CGAL_LOG_MAPLE( "m2:= matrix(3,3,[[,");
+    CGAL_LOG_MAPLE( a00 << "," << a01 << "," << a02 << "], [");
+    CGAL_LOG_MAPLE( a10 << "," << a11 << "," << a12 << "], [");
+    CGAL_LOG_MAPLE( a20 << "," << a21 << "," << a22 << "]]);");*/
 
   //std::cout << "returning " << ret << std::endl;
   return ret;
@@ -491,6 +491,27 @@ struct Cartesian_less_z_3
 
 };
 
+
+template <class KK>
+struct Cartesian_equal_3
+{
+  Cartesian_equal_3(){}
+  typedef typename KK::Certificate_function result_type;
+
+  typedef typename KK::Point_3 first_argument_type;
+  typedef typename KK::Point_3 second_argument_type;
+  template <class AT>
+  result_type operator()(const AT &a,
+			 const AT &b) const
+  {
+    if (a==b) return result_type(1);
+    else return result_type(-1);
+  }
+ 
+
+ 
+};
+
 /*PREDICATE_2_BEGIN(Point_sphere_orientation_3){
   return ;
   }
@@ -533,7 +554,7 @@ typename CC::result_type co3(const Pt &a, const Pt &b, const Pt &c, const Pt &d,
   RT a20= qz-pz;
   RT a21= rz-pz;
   RT a22= sz-pz;
-  RT ret= CGAL::det3x3_by_formula(a00, a01, a02,
+  RT ret= CGAL::determinant(a00, a01, a02,
 				  a10, a11, a12,
 				  a20, a21, a22);
   CGAL::Kinetic::log()->stream(CGAL::KDS::Log::MAPLE) << std::endl << std::endl;
@@ -579,7 +600,7 @@ typename CC::result_type pt3(const Pt &a, const Pt &b, const Pt &c, const Pt &d,
   FT dst = dsx*dsx + dsy*dsy
     + dsz*dsz - cc(d.weight()) + cc(e.weight());
 
-  return CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+  return CGAL::determinant(dpx, dpy, dpz, dpt,
 				 dqx, dqy, dqz, dqt,
 				 drx, dry, drz, drt,
 				 dsx, dsy, dsz, dst);
@@ -612,7 +633,7 @@ typename CC::result_type pt3(const Cartesian_moving_point_3<C>  &a,
   FT dsy = cc(d.y()) - cc(e.y());
   FT dsz = cc(d.z()) - cc(e.z());
   FT dst = dsx*dsx + dsy*dsy + dsz*dsz;
-  FT ret= CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+  FT ret= CGAL::determinant(dpx, dpy, dpz, dpt,
 				  dqx, dqy, dqz, dqt,
 				  drx, dry, drz, drt,
 				  dsx, dsy, dsz, dst);
@@ -707,7 +728,7 @@ typename CC::result_type pt3(Cartesian_moving_lifted_point_3<CGAL::Polynomial::L
     ret= m0123;
   }
   if (flip) ret=-ret;
-  /*FT ret = CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+  /*FT ret = CGAL::determinant(dpx, dpy, dpz, dpt,
     dqx, dqy, dqz, dqt,
     drx, dry, drz, drt,
     dsx, dsy, dsz, dst);*/
@@ -767,7 +788,7 @@ typename CC::result_type pt3(Cartesian_moving_lifted_point_3<C> a,
   FT dsz = cc(d.point().z()) - cc(e.point().z());
   FT dst = cc(d.lifted()) - cc(e.lifted());
 
-  FT ret = CGAL::det4x4_by_formula(dpx, dpy, dpz, dpt,
+  FT ret = CGAL::determinant(dpx, dpy, dpz, dpt,
 				   dqx, dqy, dqz, dqt,
 				   drx, dry, drz, drt,
 				   dsx, dsy, dsz, dst);

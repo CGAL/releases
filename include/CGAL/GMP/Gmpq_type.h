@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpq_type.h $
+// $Id: Gmpq_type.h 46240 2008-10-13 13:46:35Z afabri $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
 
 
-#ifndef CGAL_GMPQ_Type_H
-#define CGAL_GMPQ_Type_H
+#ifndef CGAL_GMPQ_TYPE_H
+#define CGAL_GMPQ_TYPE_H
 
 #include <CGAL/basic.h>
 #include <CGAL/GMP/Gmpz_type.h>
@@ -121,7 +121,10 @@ public:
   }
 
   Gmpq(double d)
-  { mpq_set_d(mpq(), d); }
+  {
+    CGAL_assertion(is_finite(d));
+    mpq_set_d(mpq(), d);
+  }
 
   Gmpq(const std::string& str, int base = 10)
   {
@@ -178,7 +181,7 @@ public:
 inline
 bool
 operator==(const Gmpq &a, const Gmpq &b)
-{ return mpq_equal(a.mpq(), b.mpq()); }
+{ return mpq_equal(a.mpq(), b.mpq()) != 0; }
 
 inline
 bool
@@ -304,14 +307,8 @@ namespace Gmpq_detail {
   bool is_space (const std::istream& /*is*/, std::istream::int_type c)
   {
     std::istream::char_type cc= c;
-    return
-      (c == std::istream::traits_type::eof()) ||
-#ifndef CGAL_CFG_NO_LOCALE
-      std::isspace(cc, std::locale::classic() )
-#else
-      std::isspace(cc)
-#endif
-      ;
+    return (c == std::istream::traits_type::eof()) ||
+           std::isspace(cc, std::locale::classic() );
   }
 
   inline
@@ -324,13 +321,7 @@ namespace Gmpq_detail {
   bool is_digit (const std::istream& /*is*/, std::istream::int_type c)
   {
     std::istream::char_type cc= c;
-    return
-#ifndef CGAL_CFG_NO_LOCALE
-      std::isdigit(cc, std::locale::classic() )
-#else
-      std::isdigit(cc)
-#endif
-      ;
+    return std::isdigit(cc, std::locale::classic() );
   }
 }
 
@@ -433,4 +424,4 @@ operator>>(std::istream& is, Gmpq &z)
 CGAL_END_NAMESPACE
 
 
-#endif // CGAL_GMPQ_Type_H
+#endif // CGAL_GMPQ_TYPE_H

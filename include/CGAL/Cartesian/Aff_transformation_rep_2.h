@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_2.h $
-// $Id: Aff_transformation_rep_2.h 32863 2006-08-01 08:18:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_2.h $
+// $Id: Aff_transformation_rep_2.h 42805 2008-04-09 12:20:25Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Lutz Kettner
@@ -130,7 +130,7 @@ friend class Scaling_repC2<R>;
 
   bool is_even() const
   {
-    return sign_of_determinant2x2(t11, t12, t21, t22) == POSITIVE;
+    return sign_of_determinant(t11, t12, t21, t22) == POSITIVE;
   }
 
   FT cartesian(int i, int j) const

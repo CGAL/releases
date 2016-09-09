@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
-// $Id: PM_io_parser.h 35755 2007-01-18 14:07:04Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
+// $Id: PM_io_parser.h 41714 2008-01-20 20:24:20Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -51,7 +51,6 @@ class PM_io_parser : public PMDEC
   typedef typename PMDEC::Halfedge_handle   Halfedge_handle;
   typedef typename PMDEC::Face_handle       Face_handle;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::clear;
   using Base::vertices_begin;
   using Base::vertices_end;
@@ -65,7 +64,6 @@ class PM_io_parser : public PMDEC
   using Base::new_vertex;
   using Base::new_face;
   using Base::new_halfedge_pair_without_vertices;
-#endif
 
   std::istream& in;
   std::ostream& out;
@@ -152,17 +150,12 @@ static void dump(const PMDEC& D, std::ostream& os = std::cerr);
 //-----------------------------------------------------------------------------
 // OUTPUT AND INPUT:
 //-----------------------------------------------------------------------------
-#ifdef __BORLANDC__
-#define ISSPACENS std::
-#else
-#define ISSPACENS 
-#endif
 
 template <typename PMDEC>
 bool PM_io_parser<PMDEC>::check_sep(const char* sep)
 {
   char c; 
-  do in.get(c); while (ISSPACENS isspace(c));
+  do in.get(c); while (isspace(c));
   while (*sep != '\0') { 
     if (*sep != c) {
       in.putback(c);
@@ -313,13 +306,13 @@ template <typename PMDEC>
 void PM_io_parser<PMDEC>::read() 
 {
   if ( !check_sep("Plane_map_2") )  
-    CGAL_assertion_msg(0,"PM_io_parser::read: no embedded_PM header.");
+    CGAL_error_msg("PM_io_parser::read: no embedded_PM header.");
   if ( !(check_sep("vertices") && (in >> vn)) ) 
-    CGAL_assertion_msg(0,"PM_io_parser::read: wrong node line.");
+    CGAL_error_msg("PM_io_parser::read: wrong node line.");
   if ( !(check_sep("halfedges") && (in >> en) && (en%2==0)) )
-    CGAL_assertion_msg(0,"PM_io_parser::read: wrong edge line.");
+    CGAL_error_msg("PM_io_parser::read: wrong edge line.");
   if ( !(check_sep("faces") && (in >> fn)) )
-    CGAL_assertion_msg(0,"PM_io_parser::read: wrong face line.");
+    CGAL_error_msg("PM_io_parser::read: wrong face line.");
 
   Vertex_of.resize(vn);
   Halfedge_of.resize(en);
@@ -333,16 +326,16 @@ void PM_io_parser<PMDEC>::read()
 
   for(i=0; i<vn; i++) {
     if (!read_vertex(Vertex_of[i]))
-      CGAL_assertion_msg(0,"PM_io_parser::read: error in node line");
+      CGAL_error_msg("PM_io_parser::read: error in node line");
   }
   for(i=0; i<en; i++) {
     if (!read_hedge(Halfedge_of[i]))
-      CGAL_assertion_msg(0,"PM_io_parser::read: error in halfedge\
+      CGAL_error_msg("PM_io_parser::read: error in halfedge\
       line");
   }
   for(i=0; i<fn; i++) {
     if (!read_face(Face_of[i]))
-      CGAL_assertion_msg(0,"PM_io_parser::read: error in face line");
+      CGAL_error_msg("PM_io_parser::read: error in face line");
   }
 }
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Extended_cartesian.h $
-// $Id: Extended_cartesian.h 34974 2006-10-28 13:33:59Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Extended_cartesian.h $
+// $Id: Extended_cartesian.h 43815 2008-06-27 10:00:36Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -48,6 +48,7 @@ class Extended_cartesian : public
 public:
 typedef CGAL::Simple_cartesian< CGAL::Nef_polynomial<pFT> > Base;
 typedef Extended_cartesian<pFT> Self;
+typedef Cartesian_tag Kernel_tag;
 
 /*{\Xdefinition |\Mname| is a kernel model realizing the concept
   extended geometry. }*/
@@ -141,7 +142,7 @@ class of all the rays underlying the oriented line |l|.
       res = epoint( l.b()/l.a(), -l.c()/l.a(), -1, 0); break; 
     case TOPFRAME: 
       res = epoint(-l.b()/l.a(), -l.c()/l.a(),  1, 0); break; 
-    default: CGAL_assertion_msg(0,"EPoint type not correct!");
+    default: CGAL_error_msg("EPoint type not correct!");
   }
   return res;
 }
@@ -369,7 +370,7 @@ and |s2|.}*/
   CGAL::Object result =
     _intersect(l1, l2);
   if ( !CGAL::assign(p, result) )
-  CGAL_assertion_msg(false,"intersection: no intersection.");
+  CGAL_error_msg("intersection: no intersection.");
   return p;
 }
 

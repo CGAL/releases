@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/macros.h $
-// $Id: macros.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/macros.h $
+// $Id: macros.h 40828 2007-11-07 21:35:42Z ameyer $
+//
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
@@ -68,7 +68,7 @@ namespace Polynomial \
 
 #define POLYNOMIAL_NS Polynomial
 
-#include <assert.h>
+#include <cassert>
 
 #define CGAL_Polynomial_assertion(x) assert(x)
 // This does not work

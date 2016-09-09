@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Offset_decomp_2.h $
-// $Id: Offset_decomp_2.h 37897 2007-04-03 18:34:02Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Offset_decomp_2.h $
+// $Id: Offset_decomp_2.h 43030 2008-04-26 21:37:02Z efif $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -100,7 +100,9 @@ public:
 
     for (iter = sub_pgns.begin(); iter != sub_pgns.end(); ++iter)
     {
-      _offset_polygon (*iter, r,
+      _offset_polygon (*iter,
+                       CGAL::COUNTERCLOCKWISE,
+                       r,
                        pgn_id,
                        std::back_inserter(boundary_curves));
       pgn_id++;
@@ -116,7 +118,6 @@ public:
   }
 
 };
-
 
 CGAL_END_NAMESPACE
 

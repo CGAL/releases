@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 35144 2006-11-13 10:30:29Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h 45177 2008-08-27 15:37:06Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -28,12 +28,14 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Interval_nt.h>
 #include <CGAL/Kernel/Type_equality_wrapper.h>
+#include <CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h>
+#include <CGAL/Filtered_kernel/Cartesian_coordinate_iterator_3.h>
 #include <CGAL/Lazy.h>
 #include <boost/mpl/if.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
-// EK = exact kernel that will be made lazy
+// Exact_kernel = exact kernel that will be made lazy
 // Kernel = lazy kernel
 
 // the Generic base simplies applies the generic magic functor stupidly.
@@ -44,35 +46,60 @@ class Lazy_kernel_generic_base
     // TODO : Static_filters_base too ?  Check performance
 {
 public:
-  typedef AK_   AK;
-  typedef EK_   EK;
+  typedef AK_   Approximate_kernel;
+  typedef EK_   Exact_kernel;
   typedef E2A_  E2A;
 
   // 3 synonyms identical to Filtered_kernel (TODO : cleanup !)
   typedef AK_   FK;
   //typedef E2A_  C2F;
-  typedef Approx_converter<Kernel, AK>   C2F;
-  typedef Exact_converter<Kernel, EK>    C2E;
+  typedef Approx_converter<Kernel, Approximate_kernel>   C2F;
+  typedef Exact_converter<Kernel, Exact_kernel>    C2E;
 
   template < typename Kernel2 >
-  struct Base { typedef Lazy_kernel_generic_base<EK, AK, E2A, Kernel2>  Type; };
+  struct Base { typedef Lazy_kernel_generic_base<Exact_kernel, Approximate_kernel, E2A, Kernel2>  Type; };
+
+  template < typename T >
+  struct Ambient_dimension {
+    typedef typename T::Ambient_dimension type;
+  };
+
+  template < typename T >
+  struct Feature_dimension {
+    typedef typename T::Feature_dimension type;
+  };
 
   // What to do with the tag ?
   // Probably this should not exist, should it ?
   // struct filter_tag{};
   // typedef filter_tag                                     Kernel_tag;
-  typedef typename EK::Kernel_tag                       Kernel_tag;
-  typedef typename EK::Rep_tag                          Rep_tag;
+  typedef typename Exact_kernel::Kernel_tag                       Kernel_tag;
+  typedef typename Exact_kernel::Rep_tag                          Rep_tag;
 
   // Types
-  typedef CGAL::Lazy_exact_nt<typename EK::FT>  FT;
+  typedef CGAL::Lazy_exact_nt<typename Exact_kernel::FT>  FT;
   typedef FT RT;
+
+  typedef typename Same_uncertainty_nt<bool, FT>::type
+	                                                              Boolean;
+  typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type
+	                                                              Sign;
+  typedef typename Same_uncertainty_nt<CGAL::Comparison_result, FT>::type
+	                                                              Comparison_result;
+  typedef typename Same_uncertainty_nt<CGAL::Orientation, FT>::type
+		                                                      Orientation;
+  typedef typename Same_uncertainty_nt<CGAL::Oriented_side, FT>::type
+	                                                              Oriented_side;
+  typedef typename Same_uncertainty_nt<CGAL::Bounded_side, FT>::type
+	                                                              Bounded_side;
+  typedef typename Same_uncertainty_nt<CGAL::Angle, FT>::type
+	                                                              Angle;
 
   typedef CGAL::Object Object_2;
   typedef CGAL::Object Object_3;
 
 #define CGAL_Kernel_obj(X) \
-  typedef Lazy<typename AK::X, typename EK::X, typename EK::FT, E2A>  X;
+  typedef Lazy<typename Approximate_kernel::X, typename Exact_kernel::X, typename Exact_kernel::FT, E2A>  X;
 
   CGAL_Kernel_obj(Data_accessor_2)
   CGAL_Kernel_obj(Conic_2)
@@ -92,33 +119,33 @@ public:
   // FIXME TODO : better use a layer of Filtered_kernel on top of everything,
   //              so that semi-static filters are used as well (?).
 #define CGAL_Kernel_pred(P, Pf)  \
-    typedef Filtered_predicate<typename EK::P, typename AK::P, C2E, C2F> P; \
+    typedef Filtered_predicate<typename Exact_kernel::P, typename Approximate_kernel::P, C2E, C2F> P; \
     P Pf() const { return P(); }
 
 
     // We change the constructions.
 #ifdef CGAL_INTERSECT_WITH_ITERATORS_2
 #define CGAL_Kernel_cons(C, Cf) \
-    typedef typename boost::mpl::if_<boost::is_same<typename AK::C, typename AK::Intersect_with_iterators_2>, \
-                                     Lazy_intersect_with_iterators<Kernel,typename AK::C, typename EK::C>, \
-                                     typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Bbox_2>, \
-                                                              Lazy_construction_bbox<Kernel,typename AK::C, typename EK::C>, \
-                                                              typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, typename AK::FT>,\
-                                                                                       Lazy_construction_nt<Kernel,typename AK::C, typename EK::C>,\
-                                                                                       typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Object >,\
-                                                                                                                Lazy_construction_object<Kernel,typename AK::C, typename EK::C>,\
-                                                                                                                Lazy_construction<Kernel,typename AK::C, typename EK::C> >::type >::type > ::type > ::type C; \
+    typedef typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C, typename Approximate_kernel::Intersect_with_iterators_2>, \
+                                     Lazy_intersect_with_iterators<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                     typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Bbox_2>, \
+                                                              Lazy_construction_bbox<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                                              typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, typename Approximate_kernel::FT>,\
+                                                                                       Lazy_construction_nt<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                       typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Object >,\
+                                                                                                                Lazy_construction_object<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                                                Lazy_construction<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C> >::type >::type > ::type > ::type C; \
     C Cf() const { return C(); }
 
   CGAL_Kernel_cons(Intersect_with_iterators_2,
 		   intersect_with_iterators_2_object)
 #else
 #define CGAL_Kernel_cons(C, Cf) \
-    typedef typename boost::mpl::if_< boost::is_same<typename AK::C::result_type, typename AK::FT>,\
-                                      Lazy_construction_nt<Kernel,typename AK::C, typename EK::C>,\
-                                      typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Object >,\
-                                                               Lazy_construction_object<Kernel,typename AK::C, typename EK::C>,\
-                                                               Lazy_construction<Kernel,typename AK::C, typename EK::C> >::type >::type  C; \
+    typedef typename boost::mpl::if_< boost::is_same<typename Approximate_kernel::C::result_type, typename Approximate_kernel::FT>,\
+                                      Lazy_construction_nt<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                      typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Object >,\
+                                                               Lazy_construction_object<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                               Lazy_construction<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C> >::type >::type  C; \
     C Cf() const { return C(); }
 
 #endif //CGAL_INTERSECT_WITH_ITERATORS_2
@@ -133,45 +160,45 @@ class Lazy_kernel_base
   : public Lazy_kernel_generic_base<EK_, AK_, E2A_, Kernel>
 {
 public:
-  typedef AK_   AK;
-  typedef EK_   EK;
+  typedef AK_   Approximate_kernel;
+  typedef EK_   Exact_kernel;
   typedef E2A_  E2A;
 
   template < typename Kernel2 >
-  struct Base { typedef Lazy_kernel_base<EK, AK, E2A, Kernel2>  Type; };
+  struct Base { typedef Lazy_kernel_base<Exact_kernel, Approximate_kernel, E2A, Kernel2>  Type; };
 
 #if 0
     // We change the constructions.
 #ifdef CGAL_INTERSECT_WITH_ITERATORS_2
 #define CGAL_Kernel_cons(C, Cf) \
-    typedef typename boost::mpl::if_<boost::is_same<typename AK::C, typename AK::Intersect_with_iterators_2>, \
-                                     Lazy_intersect_with_iterators<Kernel,typename AK::C, typename EK::C>, \
-                                     typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Bbox_2>, \
-                                                              Lazy_construction_bbox<Kernel,typename AK::C, typename EK::C>, \
-                                                              typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, typename AK::FT>,\
-                                                                                       Lazy_construction_nt<Kernel,typename AK::C, typename EK::C>,\
-                                                                                       typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Object >,\
-                                                                                                                Lazy_construction_object<Kernel,typename AK::C, typename EK::C>,\
-                                                                                                                Lazy_construction<Kernel,typename AK::C, typename EK::C> >::type >::type > ::type > ::type C; \
+    typedef typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C, typename Approximate_kernel::Intersect_with_iterators_2>, \
+                                     Lazy_intersect_with_iterators<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                     typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Bbox_2>, \
+                                                              Lazy_construction_bbox<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                                              typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, typename Approximate_kernel::FT>,\
+                                                                                       Lazy_construction_nt<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                       typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Object >,\
+                                                                                                                Lazy_construction_object<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                                                Lazy_construction<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C> >::type >::type > ::type > ::type C; \
     C Cf() const { return C(); }
 
   CGAL_Kernel_cons(Intersect_with_iterators_2,
 		   intersect_with_iterators_2_object)
 #else
 #define CGAL_Kernel_cons(C, Cf) \
-    typedef typename boost::mpl::if_<boost::is_same<typename AK::C, typename AK::Construct_cartesian_const_iterator_2>, \
-                                     Lazy_cartesian_const_iterator_2<Kernel,typename AK::C, typename EK::C>, \
-                                     typename boost::mpl::if_<boost::is_same<typename AK::C, typename AK::Construct_cartesian_const_iterator_3>, \
-                                                              Lazy_cartesian_const_iterator_3<Kernel,typename AK::C, typename EK::C>, \
-                                                              typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Bbox_2>, \
-                                                                                       Lazy_construction_bbox<Kernel,typename AK::C, typename EK::C>, \
-                                                                                       typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Bbox_3>, \
-                                                                                                                Lazy_construction_bbox<Kernel,typename AK::C, typename EK::C>, \
-                                                                                                                typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, typename AK::FT>,\
-                                                                                                                                         Lazy_construction_nt<Kernel,typename AK::C, typename EK::C>,\
-                                                                                                                                         typename boost::mpl::if_<boost::is_same<typename AK::C::result_type, Object >,\
-                                                                                                                                                                  Lazy_construction_object<Kernel,typename AK::C, typename EK::C>,\
-                                                                                                                                                                  Lazy_construction<Kernel,typename AK::C, typename EK::C> >::type >::type >::type > ::type > ::type > ::type C; \
+    typedef typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C, typename Approximate_kernel::Construct_cartesian_const_iterator_2>, \
+                                     Lazy_cartesian_const_iterator_2<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                     typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C, typename Approximate_kernel::Construct_cartesian_const_iterator_3>, \
+                                                              Lazy_cartesian_const_iterator_3<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                                              typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Bbox_2>, \
+                                                                                       Lazy_construction_bbox<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                                                                       typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Bbox_3>, \
+                                                                                                                Lazy_construction_bbox<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>, \
+                                                                                                                typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, typename Approximate_kernel::FT>,\
+                                                                                                                                         Lazy_construction_nt<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                                                                         typename boost::mpl::if_<boost::is_same<typename Approximate_kernel::C::result_type, Object >,\
+                                                                                                                                                                  Lazy_construction_object<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C>,\
+                                                                                                                                                                  Lazy_construction<Kernel,typename Approximate_kernel::C, typename Exact_kernel::C> >::type >::type >::type > ::type > ::type > ::type C; \
     C Cf() const { return C(); }
 
 #endif //CGAL_INTERSECT_WITH_ITERATORS_2
@@ -180,10 +207,13 @@ public:
 
   typedef CommonKernelFunctors::Assign_2<Kernel>        Assign_2;
   typedef CommonKernelFunctors::Assign_3<Kernel>        Assign_3;
-  typedef Lazy_construction_bbox<Kernel, typename AK::Construct_bbox_2, typename EK::Construct_bbox_2>             Construct_bbox_2;
-  typedef Lazy_construction_bbox<Kernel, typename AK::Construct_bbox_3, typename EK::Construct_bbox_3>             Construct_bbox_3;
-  typedef Lazy_cartesian_const_iterator_2<Kernel, typename AK::Construct_cartesian_const_iterator_2, typename EK::Construct_cartesian_const_iterator_2>   Construct_cartesian_const_iterator_2;
-  typedef Lazy_cartesian_const_iterator_3<Kernel, typename AK::Construct_cartesian_const_iterator_3, typename EK::Construct_cartesian_const_iterator_3>   Construct_cartesian_const_iterator_3;
+  typedef Lazy_construction_bbox<Kernel, typename Approximate_kernel::Construct_bbox_2, typename Exact_kernel::Construct_bbox_2>             Construct_bbox_2;
+  typedef Lazy_construction_bbox<Kernel, typename Approximate_kernel::Construct_bbox_3, typename Exact_kernel::Construct_bbox_3>             Construct_bbox_3;
+  typedef Lazy_cartesian_const_iterator_2<Kernel, typename Approximate_kernel::Construct_cartesian_const_iterator_2, typename Exact_kernel::Construct_cartesian_const_iterator_2>   Construct_cartesian_const_iterator_2;
+  typedef Lazy_cartesian_const_iterator_3<Kernel, typename Approximate_kernel::Construct_cartesian_const_iterator_3, typename Exact_kernel::Construct_cartesian_const_iterator_3>   Construct_cartesian_const_iterator_3;
+
+  typedef CGAL::CartesianKernelFunctors::Compute_approximate_squared_length_3<Kernel>  Compute_approximate_squared_length_3;
+  typedef CGAL::CartesianKernelFunctors::Compute_approximate_area_3<Kernel>  Compute_approximate_area_3;
 
   // typedef void Compute_z_3; // to detect where .z() is called
   // typedef void Construct_point_3; // to detect where the ctor is called
@@ -212,27 +242,33 @@ public:
   construct_cartesian_const_iterator_3_object() const
   { return Construct_cartesian_const_iterator_3(); }
 
+  Compute_approximate_squared_length_3
+  compute_approximate_squared_length_3_object() const
+  { return Compute_approximate_squared_length_3(); }
+
+  Compute_approximate_area_3
+  compute_approximate_area_3_object() const
+  { return Compute_approximate_area_3(); }
 };
 
 
-template <class EK, class AK, class E2A>
+template <class Exact_kernel, class Approximate_kernel, class E2A>
 struct Lazy_kernel_adaptor
-  : public Lazy_kernel_base< EK, AK, E2A, Lazy_kernel_adaptor<EK,AK, E2A> >
+  : public Lazy_kernel_base< Exact_kernel, Approximate_kernel, E2A, Lazy_kernel_adaptor<Exact_kernel,Approximate_kernel, E2A> >
 {};
 
-template <class EK, class AK, class E2A>
+template <class Exact_kernel, class Approximate_kernel, class E2A>
 struct Lazy_kernel_without_type_equality
-  : public Lazy_kernel_base< EK, AK, E2A, Lazy_kernel_without_type_equality<EK,AK, E2A> >
+  : public Lazy_kernel_base< Exact_kernel, Approximate_kernel, E2A, Lazy_kernel_without_type_equality<Exact_kernel,Approximate_kernel, E2A> >
 {};
 
-template <class EK, class AK = Simple_cartesian<Interval_nt_advanced>,
-                    class E2A = Cartesian_converter<EK, AK,
-                                To_interval<typename EK::RT> >
-                                /*Approx_converter<EK, AK>*/ >
+template <class Exact_kernel,
+	  class Approximate_kernel = Simple_cartesian<Interval_nt_advanced>,
+          class E2A = Cartesian_converter<Exact_kernel, Approximate_kernel> >
 struct Lazy_kernel
   : public Type_equality_wrapper<
-             Lazy_kernel_base< EK, AK, E2A, Lazy_kernel<EK, AK, E2A> >,
-             Lazy_kernel<EK, AK, E2A> >
+             Lazy_kernel_base< Exact_kernel, Approximate_kernel, E2A, Lazy_kernel<Exact_kernel, Approximate_kernel, E2A> >,
+             Lazy_kernel<Exact_kernel, Approximate_kernel, E2A> >
 {};
 
 CGAL_END_NAMESPACE

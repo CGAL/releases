@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_ftC2.h $
-// $Id: Regular_triangulation_ftC2.h 32441 2006-07-12 12:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/predicates/Regular_triangulation_ftC2.h $
+// $Id: Regular_triangulation_ftC2.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
 #ifndef CGAL_REGULAR_TRIANGULATION_FTC2_H
@@ -59,9 +59,9 @@ power_testC2( const FT &px, const FT &py, const FT &pwt,
     FT dry = ry - ty;
     FT drz = CGAL_NTS square(drx) + CGAL_NTS square(dry) - rwt + twt;
 
-    return enum_cast<Oriented_side>(sign_of_determinant3x3(dpx, dpy, dpz,
-                                                           dqx, dqy, dqz,
-                                                           drx, dry, drz));
+    return sign_of_determinant(dpx, dpy, dpz,
+                                  dqx, dqy, dqz,
+                                  drx, dry, drz);
 }
 
 
@@ -82,11 +82,11 @@ power_testC2( const FT &px, const FT &py, const FT &pwt,
     // We do an orthogonal projection on the (x) axis, if possible.
     Comparison_result cmpx = CGAL_NTS compare(px, qx);
     if (cmpx != EQUAL)
-	return Oriented_side(cmpx * sign_of_determinant2x2(dpx, dpz, dqx, dqz));
+	return cmpx * sign_of_determinant(dpx, dpz, dqx, dqz);
 
     // If not possible, then on the (y) axis.
     Comparison_result cmpy = CGAL_NTS compare(py, qy);
-    return Oriented_side(cmpy * sign_of_determinant2x2(dpy, dpz, dqy, dqz));
+    return cmpy * sign_of_determinant(dpy, dpz, dqy, dqz);
 }
 
 CGAL_END_NAMESPACE

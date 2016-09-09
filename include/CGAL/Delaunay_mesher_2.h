@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
-// $Id: Delaunay_mesher_2.h 29627 2006-03-20 14:38:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
+// $Id: Delaunay_mesher_2.h 45712 2008-09-24 08:58:02Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -78,7 +78,7 @@ public:
       clusters_(tr),
       edges_level(tr, clusters_, null_level),
       faces_level(tr, criteria, edges_level),
-      visitor(faces_level, null_visitor),
+      visitor(faces_level, edges_level, null_visitor),
       initialized(false)
   {
   }
@@ -139,9 +139,14 @@ public:
     seeds_mark = false;
   }
 
-  void mark_facets()
+  void mark_facets(bool domain_specified = false)
   {
-    mark_facets(tr, seeds.begin(), seeds.end(), seeds_mark);
+    if(!domain_specified) {
+      mark_facets(tr, seeds.begin(), seeds.end(), seeds_mark);
+    }
+    else {
+      propagate_marks(tr.infinite_face(), false);
+    }
   }
 
   /** Procedure that marks facets according to a list of seeds. */
@@ -165,10 +170,10 @@ public:
             if(fh!=NULL)
               propagate_marks(fh, mark);
           }
+	propagate_marks(tr.infinite_face(), false);
       }
     else
       mark_convex_hull(tr);
-    propagate_marks(tr.infinite_face(), false);
   }
 
   /**
@@ -243,9 +248,9 @@ public:
      (The call of this function is REQUIRED before any step by step
      operation).
   */
-  void init()
+  void init(bool domain_specified = false)
   {
-    mark_facets();
+    mark_facets(domain_specified);
     clusters_.create_clusters();
     edges_level.scan_triangulation();
     faces_level.scan_triangulation();
@@ -339,13 +344,15 @@ public:
 template <typename Tr, typename Criteria>
 void
 refine_Delaunay_mesh_2(Tr& t,
-                       const Criteria& criteria = Criteria())
+                       const Criteria& criteria = Criteria(), bool domain_specified=false)
 {
   typedef Delaunay_mesher_2<Tr, Criteria> Mesher;
 
   Mesher mesher(t, criteria);
+  mesher.init(domain_specified);
   mesher.refine_mesh();
 }
+
 
 template <typename Tr, typename Criteria, typename InputIterator>
 void

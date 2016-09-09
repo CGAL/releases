@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h $
-// $Id: Segment_Delaunay_graph_hierarchy_2_impl.h 37297 2007-03-20 08:23:06Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h $
+// $Id: Segment_Delaunay_graph_hierarchy_2_impl.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -425,7 +425,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
 	// this should never be reached; the only possible values for
 	// at_res are DISJOINT, CROSSING, TOUCH_11_INTERIOR_1
 	// and TOUCH_12_INTERIOR_1
-	CGAL_assertion( false );
+	CGAL_error();
       }
     } else {
       CGAL_assertion( vv->is_point() );
@@ -435,7 +435,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
 	  return insert_segment_on_point(ss, vv, level, 2);
 	} else {
 	  // MK::ERROR:: not ready yet
-	  CGAL_assertion( false );
+	  CGAL_error();
 	}
       }
     }
@@ -496,7 +496,7 @@ insert_segment_interior(const Site_2& t, const Storage_site_2& ss,
       } else {
 	// this should never be reached; the only possible values for
 	// vcross.third are CROSSING, INTERIOR and DISJOINT
-	CGAL_assertion( false );
+	CGAL_error();
       }
     }
   }

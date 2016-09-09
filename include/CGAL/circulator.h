@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circulator/include/CGAL/circulator.h $
-// $Id: circulator.h 37166 2007-03-16 17:36:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circulator/include/CGAL/circulator.h $
+// $Id: circulator.h 46436 2008-10-23 10:29:50Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -29,17 +29,6 @@
 #include <functional>
 #include <iterator>
 #include <CGAL/circulator_bases.h>
-
-#ifndef CGAL_NULL_TYPE
-#if defined( __GNUG__ )
-    // (__GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 91))
-#define CGAL_NULL_TYPE const void*
-#define CGAL_CIRC_NULL 0
-#else // __GNUG__ //
-#define CGAL_NULL_TYPE int
-#define CGAL_CIRC_NULL NULL
-#endif // __GNUG__ //
-#endif // CGAL_NULL_TYPE //
 
 // These are name redefinitions for backwards compatibility
 // with the pre iterator-traits style adaptors.
@@ -318,7 +307,7 @@ void Assert_is_at_least_random_access_category( const IC& /*ic*/) {
 
 template< class C> inline
 bool I_is_empty_range( const C& c1, const C&, Circulator_tag){
-    return c1 == CGAL_CIRC_NULL;
+    return c1 == NULL;
 }
 
 template< class I> inline
@@ -375,7 +364,7 @@ I_min_circulator_size( const C& c) {
     Assert_random_access_category(c);
     typedef typename C::size_type  size_type;
     size_type n = 0;
-    if ( c != CGAL_CIRC_NULL) {
+    if ( c != NULL) {
         n = (c-1) - c + 1;
         CGAL_assertion(n > 0);
     }
@@ -386,7 +375,7 @@ template <class C>
 typename C::size_type
 I_circulator_size( const C& c, Forward_circulator_tag) {
     // Simply count.
-    if ( c == CGAL_CIRC_NULL)
+    if ( c == NULL)
         return 0;
     typedef typename C::size_type  size_type;
     size_type n = 0;
@@ -419,7 +408,7 @@ template <class C>
 typename C::difference_type
 I_circulator_distance( C c, const C& d, Forward_circulator_tag) {
     // Simply count.
-    if ( c == CGAL_CIRC_NULL)
+    if ( c == NULL)
         return 0;
     typedef typename C::difference_type  difference_type;
     difference_type n = 0;
@@ -454,31 +443,19 @@ circulator_distance( const C& c, const C& d) {
                                 category());
 }
 template <class C> inline
-#ifdef __SUNPRO_CC
-ptrdiff_t
-#else
 typename std::iterator_traits<C>::difference_type
-#endif // __SUNPRO_CC
 I_iterator_distance(const C& c1, const C& c2, Circulator_tag) {
     return circulator_distance( c1, c2);
 }
 
 template <class I> inline
-#ifdef __SUNPRO_CC
-ptrdiff_t
-#else
 typename std::iterator_traits<I>::difference_type
-#endif // __SUNPRO_CC
 I_iterator_distance(const I& i1, const I& i2, Iterator_tag) {
     return std::distance( i1, i2);
 }
 
 template <class IC> inline
-#ifdef __SUNPRO_CC
-ptrdiff_t
-#else
 typename std::iterator_traits<IC>::difference_type
-#endif // __SUNPRO_CC
 iterator_distance(const IC& ic1, const IC& ic2) {
     typedef typename Circulator_traits<IC>::category category;
     return I_iterator_distance( ic1, ic2, category());
@@ -508,7 +485,7 @@ I non_negative_mod(I n, U m) {
         n = n % m;
     #else
     if (n < 0)
-        n = - (( - n - 1) % m) + m - 1;
+        n = m - 1 - (( - n - 1) % m) ;
     else
         n = n % m;
     #endif
@@ -570,18 +547,18 @@ public:
         return !(*this == i);
     }
     Ref  operator*() const {
-        CGAL_assertion( m_anchor != CGAL_CIRC_NULL);
-        CGAL_assertion( current  != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor != NULL);
+        CGAL_assertion( current  != NULL);
         return Ref(*current);
     }
     Ptr  operator->() const {
-        CGAL_assertion( m_anchor != CGAL_CIRC_NULL);
-        CGAL_assertion( current  != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor != NULL);
+        CGAL_assertion( current  != NULL);
         return Ptr(current.operator->());
     }
     Self& operator++() {
-        CGAL_assertion( m_anchor != CGAL_CIRC_NULL);
-        CGAL_assertion( current  != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor != NULL);
+        CGAL_assertion( current  != NULL);
         ++current;
         if ( current == *m_anchor)
             ++m_winding;
@@ -593,8 +570,8 @@ public:
         return tmp;
     }
     Self& operator--() {
-        CGAL_assertion( m_anchor != CGAL_CIRC_NULL);
-        CGAL_assertion( current != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor != NULL);
+        CGAL_assertion( current != NULL);
         if ( current == *m_anchor)
             --m_winding;
         --current;
@@ -606,8 +583,8 @@ public:
         return tmp;
     }
     Self& operator+=( difference_type n) {
-        CGAL_assertion( m_anchor != CGAL_CIRC_NULL);
-        CGAL_assertion( current != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor != NULL);
+        CGAL_assertion( current != NULL);
         if ( n < 0 && current == *m_anchor)  // We are leaving the anchor.
             --m_winding;
         current += n;
@@ -627,8 +604,8 @@ public:
         return tmp += -n;
     }
     difference_type  operator-( const Self& i) const {
-        CGAL_assertion( m_anchor  != CGAL_CIRC_NULL);
-        CGAL_assertion( current   != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor  != NULL);
+        CGAL_assertion( current   != NULL);
         CGAL_assertion( m_anchor  == i.m_anchor);
         if ( m_winding != i.m_winding) {
             difference_type s = I_min_circulator_size( *m_anchor);
@@ -644,8 +621,8 @@ public:
         return tmp.operator*();
     }
     bool operator<( const Self& i) const {
-        CGAL_assertion( m_anchor  != CGAL_CIRC_NULL);
-        CGAL_assertion( current != CGAL_CIRC_NULL);
+        CGAL_assertion( m_anchor  != NULL);
+        CGAL_assertion( current != NULL);
         CGAL_assertion( m_anchor  == i.m_anchor);
         return (     (m_winding < i.m_winding)
                  || (    (m_winding == i.m_winding)
@@ -716,12 +693,12 @@ typedef Iterator_from_circulator< C, const_reference, const_pointer>
     }
     iterator end() {
         // the past-the-end iterator.
-        return anchor == CGAL_CIRC_NULL ?  iterator( &anchor, 0)
+        return anchor == NULL ?  iterator( &anchor, 0)
                                         :  iterator( &anchor, 1);
     }
     const_iterator end() const {
         // the past-the-end const iterator.
-        return anchor == CGAL_CIRC_NULL ?  const_iterator( &anchor, 0)
+        return anchor == NULL ?  const_iterator( &anchor, 0)
                                         :  const_iterator( &anchor, 1);
     }
 };
@@ -764,11 +741,11 @@ public:
 
 // OPERATIONS
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return (ctnr == NULL) || (ctnr->begin() == ctnr->end());
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& c) const { return i == c.i; }
     bool operator!=( const Self& c) const { return !(*this == c); }
     reference  operator*() const {
@@ -897,11 +874,11 @@ public:
 
 // OPERATIONS
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return (ctnr == NULL) || (ctnr->begin() == ctnr->end());
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& c) const { return i == c.i; }
     bool operator!=( const Self& c) const { return !(*this == c); }
     reference  operator*() const {
@@ -987,14 +964,14 @@ operator+( typename Const_circulator_from_container<Ctnr>::difference_type n,
 }
 
 
-// Note: TT, SS, and DD are here for backwards compatibility, they are
+// Note: Tt, Ss, and Dd are here for backwards compatibility, they are
 // not used.
-template < class  I, class TT = int, class SS = int, class DD = int>
+template < class  I, class Tt = int, class Ss = int, class Dd = int>
 class Circulator_from_iterator {
 public:
 // TYPES
 
-    typedef Circulator_from_iterator<I,TT,SS,DD>     Self;
+    typedef Circulator_from_iterator<I,Tt,Ss,Dd>     Self;
     typedef I                                        iterator;
     typedef std::iterator_traits<iterator>           Traits;
 
@@ -1049,11 +1026,11 @@ public:
 //
 // OPERATIONS
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return empty;
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& c) const { return  current == c.current;}
     bool operator!=( const Self& c) const { return !(*this == c); }
     reference  operator*() const {
@@ -1139,4 +1116,3 @@ operator+( D n, const
 CGAL_END_NAMESPACE
 
 #endif // CGAL_CIRCULATOR_H //
-// EOF //

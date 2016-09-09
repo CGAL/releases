@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h $
-// $Id: Triangulation_line_face_circulator_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h $
+// $Id: Triangulation_line_face_circulator_2.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -36,8 +36,8 @@ class Triangulation_2;
 template < class Gt, class Tds >
 class Triangulation_line_face_circulator_2
   :   public Bidirectional_circulator_base< typename Tds::Face,
-	                                    CGAL_CLIB_STD::ptrdiff_t,
-                                            CGAL_CLIB_STD::size_t>,
+	                                    std::ptrdiff_t,
+                                            std::size_t>,
       public Triangulation_cw_ccw_2
 {
 public:
@@ -95,12 +95,12 @@ public:
   operator const Face_handle() const {return pos;}
   bool  operator==(const Line_face_circulator& lfc) const;
   bool  operator!=(const Line_face_circulator& lfc) const;
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
+
   bool  operator==(const Face_handle& fh) const { return fh == pos; }
   bool  operator!=(const Face_handle& fh) const { return fh != pos; }
-#endif
-  bool  operator==(CGAL_NULL_TYPE  CGAL_triangulation_assertion_code(n)) const;
-  bool  operator!=(CGAL_NULL_TYPE n) const;
+
+  bool  operator==(Nullptr_t  CGAL_triangulation_assertion_code(n)) const;
+  bool  operator!=(Nullptr_t n) const;
   bool  is_empty() const;
   bool  collinear_outside() const;
   bool locate(const Point& t, Locate_type &lt,  int &li);
@@ -117,7 +117,6 @@ private:
   void decrement();
 };
 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
 template < class Gt, class Tds >
 inline
 bool
@@ -135,7 +134,6 @@ operator!=(typename Tds::Face_handle fh,
 {
   return (fc!=fh);
 }
-#endif
 
 template < class Gt, class Tds >
 Triangulation_line_face_circulator_2<Gt,Tds>::
@@ -666,7 +664,7 @@ is_empty() const
 template < class Gt, class Tds >
 inline bool
 Triangulation_line_face_circulator_2<Gt,Tds>::            
-operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return pos == Face_handle();
@@ -675,7 +673,7 @@ operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 template < class Gt, class Tds >
 inline bool
 Triangulation_line_face_circulator_2<Gt,Tds>::            
-operator!=(CGAL_NULL_TYPE n) const
+operator!=(Nullptr_t n) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return !(*this == n);

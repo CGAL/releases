@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
-// $Id: Sphere_map.h 37248 2007-03-19 09:13:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
+// $Id: Sphere_map.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -162,7 +162,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { CGAL_assertion_msg(0,"not impl."); return Object_handle(); }
+    { CGAL_error_msg("not impl."); return Object_handle(); }
   };
 
   class SFace_cycle_const_iterator : public Object_const_iterator 
@@ -193,7 +193,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     const Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { CGAL_assertion_msg(0,"not impl."); return Object_handle(); }
+    { CGAL_error_msg("not impl."); return Object_handle(); }
   };
 
   /*{\Mtext Local types are handles, iterators and circulators of the
@@ -558,14 +558,14 @@ pointer_update(const Sphere_map<K, I, M>& D)
 	fci != f->boundary_entry_objects().end(); ++fci) {
       if ( fci.is_svertex() ) 
       { v = SVertex_handle(fci);
-	*fci = Object_handle(VM[v]); store_sm_boundary_item(v,fci); }
+	*fci = make_object(VM[v]); store_sm_boundary_item(v,fci); }
       else if ( fci.is_shalfedge() ) 
       { e = SHalfedge_handle(fci);
-	*fci = Object_handle(EM[e]); store_sm_boundary_item(e,fci); }
+	*fci = make_object(EM[e]); store_sm_boundary_item(e,fci); }
       else if ( fci.is_shalfloop() ) 
       { l = SHalfloop_handle(fci);
-	*fci = Object_handle(LM[l]); store_sm_boundary_item(l,fci); }
-      else CGAL_assertion_msg(0,"damn wrong boundary item in face.");
+	*fci = make_object(LM[l]); store_sm_boundary_item(l,fci); }
+      else CGAL_error_msg("damn wrong boundary item in face.");
     }
   }
 }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
-// $Id: Derivitive_filter_function_kernel.h 35772 2007-01-22 18:36:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
+// $Id: Derivitive_filter_function_kernel.h 39015 2007-06-10 23:46:47Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -41,11 +41,11 @@ struct Derivitive_filter_function_kernel: public Traits
     Root_stack(const typename Traits::Function &f,
     Root lb, Root ub,
     const Traits&k): Parent(f, lb, ub, k){
-    CGAL_KINETIC_LOG(LOG_LOTS, "Solved " << f << " from " << lb << " to " << ub << " to get ");
+    CGAL_LOG(Log::LOTS, "Solved " << f << " from " << lb << " to " << ub << " to get ");
     for (unsigned int i=0; i< Parent::roots_.size(); ++i){
-    CGAL_KINETIC_LOG(LOG_LOTS, Parent::roots_[i] << " ");
+    CGAL_LOG(Log::LOTS, Parent::roots_[i] << " ");
     }
-    CGAL_KINETIC_LOG(LOG_LOTS, std::endl);
+    CGAL_LOG(Log::LOTS, std::endl);
     }
 
     Root_stack(){};

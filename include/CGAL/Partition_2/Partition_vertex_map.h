@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/Partition_vertex_map.h $
-// $Id: Partition_vertex_map.h 37861 2007-04-03 10:28:28Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/Partition_vertex_map.h $
+// $Id: Partition_vertex_map.h 41708 2008-01-20 18:47:19Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -23,7 +23,7 @@
 #include <map>
 #include <iostream>
 #include <CGAL/circulator.h>
-#include <cassert>
+#include <CGAL/assertions.h>
 
 #include <sstream>
 
@@ -167,15 +167,6 @@ public:
 
   typedef Circulator_from_iterator<Self_const_iterator> Self_const_circulator;
 
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-  static CW_indirect_edge_info_compare<Traits> cw_indirect_edge_info_compare;
-
-  static bool compare(const Edge_info& e1, const Edge_info& e2)
-  {
-    return cw_indirect_edge_info_compare(e1,e2);
-  }
-#endif
-
   Self_const_iterator begin() const { return m_list.begin() ; }
   Self_iterator       begin()       { return m_list.begin() ; }
   Self_const_iterator end  () const { return m_list.end  () ; }
@@ -246,14 +237,7 @@ public:
     // polygon.
     if (m_list.size() > 2)
     {
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-      cw_indirect_edge_info_compare = 
-        CW_indirect_edge_info_compare<Traits>(vertex_it);
-      m_list.sort(&Self::compare);
-#else
-      m_list.sort
-        (CW_indirect_edge_info_compare<Traits>(vertex_it));
-#endif
+      m_list.sort(CW_indirect_edge_info_compare<Traits>(vertex_it));
     }
 
 #ifdef CGAL_PARTITION_CHECK_DEBUG
@@ -316,12 +300,6 @@ private :
   List m_list ;
 };
 
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-template <class Traits>
-CW_indirect_edge_info_compare< Traits >
-Edge_list<Traits>::cw_indirect_edge_info_compare;
-#endif
-
 
 template <class Traits>
 std::ostream& operator<<(std::ostream& os, const Edge_list<Traits>& edges) 
@@ -363,14 +341,6 @@ public:
    typedef typename Polygon_2::Vertex_iterator Vertex_iterator;
 
    Partition_vertex_map() {}
-
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-  static CW_indirect_edge_info_compare<Traits> cw_indirect_edge_info_compare;
-  static bool compare(const Edge_info & e1, const Edge_info& e2)
-  {
-    return cw_indirect_edge_info_compare(e1, e2);
-  }
-#endif
 
    template <class InputIterator>
    Partition_vertex_map(InputIterator first_poly, InputIterator last_poly)
@@ -443,15 +413,8 @@ public:
     // of the union polygon.
           if ((*m_it).second.size() > 2)
           {
-
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-            cw_indirect_edge_info_compare = 
-              CW_indirect_edge_info_compare<Traits>((*m_it).first.vertex_it());
-           (*m_it).second.sort(&Self::compare);
-#else
             (*m_it).second.sort(
               CW_indirect_edge_info_compare<Traits>((*m_it).first.vertex_it()));
-#endif
        	  }
 
           // find the previous vertex in this vertex's list
@@ -545,13 +508,6 @@ private :
   Map m_map ;
 };
 
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-template <class Traits>
-CW_indirect_edge_info_compare<Traits>
-Partition_vertex_map<Traits>::cw_indirect_edge_info_compare;
-#endif
-
 }
-
 
 #endif // CGAL_PARTITION_VERTEX_MAP_H

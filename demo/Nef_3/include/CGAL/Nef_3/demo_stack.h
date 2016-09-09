@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/demo/Nef_3/include/CGAL/Nef_3/demo_stack.h $
-// $Id: demo_stack.h 38299 2007-04-18 14:31:06Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/demo/Nef_3/include/CGAL/Nef_3/demo_stack.h $
+// $Id: demo_stack.h 45455 2008-09-09 21:46:21Z lrineau $
 // 
 //
 // Author(s)     : Lutz Kettner
@@ -34,7 +34,7 @@
 
 #ifdef CGAL_NEF3_OLD_VISUALIZATION
 
-#elif defined CGAL_USE_QT
+#else
 #include <CGAL/IO/Qt_widget_Nef_3.h>
 #include <qapplication.h>
 #endif
@@ -54,14 +54,15 @@ using std::exit;
 
 CGAL_BEGIN_NAMESPACE
 
-template<typename Kernel, typename Items = CGAL::SNC_items>
+template<typename Kernel>
 class demo_stack {
 
   typedef typename Kernel::RT                    NT;
   typedef CGAL::Polyhedron_3<Kernel>             Polyhedron;
-  typedef CGAL::Nef_polyhedron_3<Kernel, Items>  Nef_polyhedron;
+  typedef CGAL::Nef_polyhedron_3<Kernel>         Nef_polyhedron;
   typedef std::vector< Nef_polyhedron>           Nef_vector;
   typedef typename Nef_vector::iterator          Iterator;
+  typedef typename Nef_polyhedron::Items         Items;
 
   Nef_vector nef;  // contains stack of Nef_polyhedron
 
@@ -341,15 +342,13 @@ public:
             }
 #ifdef CGAL_NEF3_OLD_VISUALIZATION
 	    nef.back().visualize();
-#elif defined (CGAL_USE_QT)
+#else
 	    QApplication a(argc, argv);
 	    CGAL::Qt_widget_Nef_3<Nef_polyhedron>* w = 
 	      new CGAL::Qt_widget_Nef_3<Nef_polyhedron>(nef.back());
 	    a.setMainWidget(w);
 	    w->show();
 	    a.exec();
-#else
-	    std::cout << "Sorry, this demo needs QT..." << std::endl;
 #endif
         } else if ( strcmp( argv[i], "trans") == 0) {
             if ( nef.size() == 0) {

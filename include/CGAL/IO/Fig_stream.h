@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Fig_stream.h $
-// $Id: Fig_stream.h 36312 2007-02-15 16:08:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream.h $
+// $Id: Fig_stream.h 45507 2008-09-11 12:57:41Z ophirset $
 // 
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
 
@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -403,6 +403,39 @@ public:
   /// \name Accessing drawing properties.
   //@{
   
+  /*!
+   * Get the workspace bounding rectangle.
+   */
+  Iso_rectangle_2 bounding_rect() const
+  {
+      return (_bound_rect);
+  }
+
+/*   /\*! */
+/*    * Set the workspace bounding rectangle. */
+/*    *\/ */
+/*   void set_bounding_rect(const Iso_rectangle_2& rect) */
+/*   { */
+/*       _bound_rect = rect; */
+/*   } */
+
+
+  /*!
+   * Get the physical width of the fig
+   */  
+  int width () const
+  {
+    return _width;
+  }
+
+  /*!
+   * Get the physical height of the fig
+   */  
+  int height () const
+  {
+    return _height;
+  }
+
   /*!
    * Get the depth.
    */
@@ -1440,6 +1473,8 @@ protected:
                        const Fig_color&      fill_color,
                        const Fig_fill_style& fill_style) 
   {
+    
+
     // Write the ellipse properties.
     _ofile << "1 1 "                      // Desginate an ellipse.
            << line_style << ' ' 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
-// $Id: Basic_predicates_C2.h 37034 2007-03-12 17:34:47Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
+// $Id: Basic_predicates_C2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -52,6 +52,7 @@ public:
   typedef typename K::Comparison_result   Comparison_result;
   typedef typename K::Sign                Sign;
   typedef typename K::Orientation         Orientation;
+  typedef typename K::Boolean             Boolean;
 
   typedef CGAL::Sqrt_extension_1<RT>       Sqrt_1;
   typedef CGAL::Sqrt_extension_2<RT>       Sqrt_2;
@@ -320,9 +321,7 @@ public:
   Oriented_side
   oriented_side_of_line(const Line_2& l, const Point_2& p)
   {
-    Sign s = CGAL::sign(l.a() * p.x() + l.b() * p.y() + l.c());
-    if ( s == ZERO ) { return ON_ORIENTED_BOUNDARY; }
-    return ( s == POSITIVE ) ? ON_POSITIVE_SIDE : ON_NEGATIVE_SIDE;
+    return CGAL::sign(l.a() * p.x() + l.b() * p.y() + l.c());
   }
 
   static
@@ -333,14 +332,7 @@ public:
       CGAL::sign(l.a() * p.hx() + l.b() * p.hy() + l.c() * p.hw());
     Sign s_hw = CGAL::sign(p.hw());
 
-#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
-    Sign s = CGAL::Sign(s1 * s_hw);
-#else
-    Sign s = s1 * s_hw;
-#endif
-
-    if ( s == ZERO ) { return ON_ORIENTED_BOUNDARY; }
-    return ( s == POSITIVE ) ? ON_POSITIVE_SIDE : ON_NEGATIVE_SIDE;
+    return s1 * s_hw;
   }
 
 

@@ -1,3 +1,25 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/pnm.cpp $
+// $Id: pnm.cpp 41803 2008-01-24 14:17:12Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 #ifdef _MSC_VER
 #pragma warning ( disable : 4068 4786 4081 )
 #endif
@@ -5,6 +27,7 @@
 #include <string.h>
 
 #include "pnm.h"
+#include "fgetns.h"
 
 
 
@@ -73,21 +96,6 @@ PTRIMAGE_FORMAT createPpmFormat() {
   strcpy(f->fileExtension,".ppm,.ppm.gz");
   strcpy(f->realName,"Ppm");
   return f;
-}
-
-/* get a string from a file and discard the ending newline character
-   if any */
-static char *fgetns(char *str, int n, _image *im ) 
-{
-  char *ret;
-  int l;
-
-  ret = ImageIO_gets( im, str, n );
-  
-  if(!ret) return NULL;
-  l = strlen(str);
-  if(l > 0 && str[l-1] == '\n') str[l-1] = '\0';
-  return ret;
 }
 
 
@@ -210,7 +218,7 @@ int writePpmImage( char *name,_image *im )
   
   sprintf( string, "%s\n", PPM_MAGIC );
   ImageIO_write( im, string, strlen( string ) );
-  sprintf( string, "# CREATOR: pnm.c $Revision: 36029 $ $Date: 2007-02-02 17:11:48 +0100 (Fri, 02 Feb 2007) $\n" );
+  sprintf( string, "# CREATOR: pnm.c $Revision: 41803 $ $Date: 2008-01-24 15:17:12 +0100 (Thu, 24 Jan 2008) $\n" );
   ImageIO_write( im, string, strlen( string ) );
   sprintf( string, "%d %d\n", im->xdim, im->ydim );
   ImageIO_write( im, string, strlen( string ) );
@@ -518,7 +526,7 @@ int writePgmImage(char *name,_image *im  )
     sprintf( string, "%s\n", PGM_MAGIC );
   
   ImageIO_write( im, string, strlen( string ) );
-  sprintf( string, "# CREATOR: pnm.c $Revision: 36029 $ $Date: 2007-02-02 17:11:48 +0100 (Fri, 02 Feb 2007) $\n" );
+  sprintf( string, "# CREATOR: pnm.c $Revision: 41803 $ $Date: 2008-01-24 15:17:12 +0100 (Thu, 24 Jan 2008) $\n" );
   ImageIO_write( im, string, strlen( string ) );
   sprintf( string, "%d %d\n", im->xdim, im->ydim );
   ImageIO_write( im, string, strlen( string ) );

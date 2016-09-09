@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/interface_macros.h $
-// $Id: interface_macros.h 33936 2006-09-07 12:26:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/interface_macros.h $
+// $Id: interface_macros.h 45948 2008-10-01 12:27:57Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
+
+// Partially supported by the IST Programme of the EU as a Shared-cost
+// RTD (FET Open) Project under Contract No  IST-2000-26473 
+// (ECG - Effective Computational Geometry for Curves and Surfaces) 
+// and a STREP (FET Open) Project under Contract No  IST-006413 
+// (ACS -- Algorithms for Complex Shapes)
+
 
 
 // This file is intentionally not protected against re-inclusion.
@@ -39,8 +46,6 @@
   compare_y_at_x_2_object)  
   CGAL_Circular_Kernel_pred(Compare_y_to_right_2,
   compare_y_to_right_2_object)  
-  CGAL_Circular_Kernel_pred(Compare_y_to_left_2,
-  compare_y_to_left_2_object)  
   CGAL_Circular_Kernel_pred(Do_overlap_2,
   do_overlap_2_object)  
   CGAL_Circular_Kernel_pred(Equal_2,
@@ -51,10 +56,6 @@
   make_x_monotone_2_object)
   CGAL_Circular_Kernel_cons(Make_xy_monotone_2,
   make_xy_monotone_2_object)
-  CGAL_Circular_Kernel_cons(Advanced_make_x_monotone_2,
-  advanced_make_x_monotone_2_object)
-  CGAL_Circular_Kernel_cons(Advanced_make_xy_monotone_2,
-  advanced_make_xy_monotone_2_object)
   CGAL_Circular_Kernel_cons(Intersect_2,
   intersect_2_object)
   CGAL_Circular_Kernel_cons(Split_2,
@@ -65,9 +66,9 @@
   construct_line_arc_2_object)
   CGAL_Circular_Kernel_cons(Construct_circular_arc_point_2,
   construct_circular_arc_point_2_object)
-  CGAL_Circular_Kernel_cons(Compute_Circular_x_2,
+  CGAL_Circular_Kernel_cons(Compute_circular_x_2,
   compute_circular_x_2_object)  
-  CGAL_Circular_Kernel_cons(Compute_Circular_y_2,
+  CGAL_Circular_Kernel_cons(Compute_circular_y_2,
   compute_circular_y_2_object)
   CGAL_Circular_Kernel_cons(Construct_circular_min_vertex_2,
   construct_circular_min_vertex_2_object)
@@ -81,8 +82,6 @@
   is_x_monotone_2_object)  
   CGAL_Circular_Kernel_pred(Is_y_monotone_2,
   is_y_monotone_2_object)
-  CGAL_Circular_Kernel_pred(On_upper_part_2,
-  on_upper_part_2_object)
   CGAL_Circular_Kernel_pred(Is_vertical_2,
   is_vertical_2_object) 
   CGAL_Circular_Kernel_pred(Has_on_2,
@@ -91,13 +90,15 @@
   CGAL_Circular_Kernel_pred(Has_on_bounded_side_2, has_on_bounded_side_2_object)
   CGAL_Circular_Kernel_pred(Has_on_unbounded_side_2, has_on_unbounded_side_2_object)
   CGAL_Circular_Kernel_pred(Bounded_side_2, bounded_side_2_object)
-  CGAL_Circular_Kernel_pred(Orientation_2, orientation_2_object)
-  CGAL_Circular_Kernel_pred(Collinear_2, collinear_2_object)
-  
-  CGAL_Circular_Kernel_cons(Construct_supporting_circle_2,
-  construct_supporting_circle_2_object)
-  CGAL_Circular_Kernel_cons(Construct_supporting_line_2,
-  construct_supporting_line_2_object)
+  CGAL_Circular_Kernel_pred(Do_intersect_2, do_intersect_2_object)
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+	CGAL_Circular_Kernel_cons(Construct_supporting_circle_2,
+	  construct_supporting_circle_2_object)
+	CGAL_Circular_Kernel_cons(Construct_supporting_line_2,
+	  construct_supporting_line_2_object)
+#endif
+	
   CGAL_Circular_Kernel_cons(Construct_bbox_2,
   construct_bbox_2_object)
 

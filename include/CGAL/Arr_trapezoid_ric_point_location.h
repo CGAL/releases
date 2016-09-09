@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
-// $Id: Arr_trapezoid_ric_point_location.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
+// $Id: Arr_trapezoid_ric_point_location.h 40549 2007-10-07 14:51:59Z ophirset $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -139,7 +139,7 @@ protected:
   typedef Trapezoidal_decomposition             TD;
 
   // Data members:
-  const Traits_adaptor_2    *traits;  // Its associated traits object.
+  const Traits_adaptor_2    *m_traits;  // Its associated traits object.
 
   TD                        td;       // instance of trapezoidal decomposition
   const Td_traits*          td_traits;// instance of the TD traits
@@ -153,7 +153,7 @@ public:
 
   /*! Default constructor. */
   Arr_trapezoid_ric_point_location (bool rebuild = true) : 
-    traits (NULL),
+    m_traits (NULL),
     td_traits(NULL)
   {
     td.set_needs_update(rebuild);
@@ -163,8 +163,8 @@ public:
   Arr_trapezoid_ric_point_location (const Arrangement_2& arr) :
     Arr_observer<Arrangement_2> (const_cast<Arrangement_2 &>(arr))
   {
-    traits = static_cast<const Traits_adaptor_2*> (arr.get_traits());
-    td_traits = new Td_traits(*traits);
+    m_traits = static_cast<const Traits_adaptor_2*> (arr.traits());
+    td_traits = new Td_traits(*m_traits);
     td.init_traits(td_traits);
 
     build_trapezoid_ric();
@@ -219,7 +219,7 @@ public:
   virtual void before_assign (const Arrangement_2& arr)
   {
     clear_trapezoid_ric();
-	  traits = static_cast<const Traits_adaptor_2*> (arr.get_traits());
+    m_traits = static_cast<const Traits_adaptor_2*> (arr.traits());
   }
 
   virtual void after_assign ()
@@ -232,7 +232,7 @@ public:
     clear_trapezoid_ric ();
   }
 
-  virtual void after_clear (Face_handle /* u */)
+  virtual void after_clear ()
   {
     build_trapezoid_ric();
   }
@@ -240,8 +240,8 @@ public:
   virtual void before_attach (const Arrangement_2& arr)
   {
     clear_trapezoid_ric();
-	  traits = static_cast<const Traits_adaptor_2*> (arr.get_traits());
-    td_traits = new Td_traits(*traits);
+    m_traits = static_cast<const Traits_adaptor_2*> (arr.traits());
+    td_traits = new Td_traits(*m_traits);
     td.init_traits(td_traits);
   }
 
@@ -382,6 +382,6 @@ protected:
 CGAL_END_NAMESPACE
 
 // The member-function definitions can be found under:
-#include <CGAL/Arr_point_location/Arr_trapezoid_ric_pl_functions.h>
+#include <CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h>
 
 #endif

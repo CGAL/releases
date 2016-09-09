@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
-// $Id: Arr_Bezier_curve_traits_2.h 39699 2007-08-06 09:26:19Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
+// $Id: Arr_Bezier_curve_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 // 
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -26,11 +26,12 @@
  */
 
 #include <CGAL/tags.h>
-#include <CGAL/Arr_traits_2/Bezier_curve_2.h>
-#include <CGAL/Arr_traits_2/Bezier_point_2.h>
-#include <CGAL/Arr_traits_2/Bezier_x_monotone_2.h>
-#include <CGAL/Arr_traits_2/Bezier_cache.h>
-#include <CGAL/Arr_traits_2/Bezier_bounding_rational_traits.h>
+#include <CGAL/Arr_tags.h>
+#include <CGAL/Arr_geometry_traits/Bezier_curve_2.h>
+#include <CGAL/Arr_geometry_traits/Bezier_point_2.h>
+#include <CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h>
+#include <CGAL/Arr_geometry_traits/Bezier_cache.h>
+#include <CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -75,7 +76,7 @@ public:
   // Category tags:
   typedef Tag_true                               Has_left_category;
   typedef Tag_true                               Has_merge_category;
-  typedef Tag_false                              Has_boundary_category;
+  typedef Arr_no_boundary_tag                    Boundary_category;
 
   // Traits-class types:
   typedef _Bezier_curve_2<Rat_kernel,
@@ -102,63 +103,60 @@ private:
   typedef typename X_monotone_curve_2::Intersection_map   Intersection_map;
 
   // Data members:
-  Bezier_cache      *_cache;      // Caches vertical tangency points and
-                                  // intersection points that have been
-                                  // exactly computed.
-
-  Intersection_map  *_inter_map;  // Mapping curve pairs to their intersection
-                                  // points.
-
-  bool               _owner;      // Does the traits class own its structures.
+  Bezier_cache      *p_cache;     /*!< Caches vertical tangency points and
+                                       intersection points that have been
+                                       computed in an exact manner. */
+  Intersection_map  *p_inter_map; /*!< Maps curve pairs to their intersection
+                                       points. */
+  bool               m_owner;     /*!< Does this instance own its cache amd
+                                       map structures. */
 
 public:
 
-  /*!
-   * Default constructor.
-   */
+  /// \name Construction.
+  //@{
+
+  /*! Default constructor. */
   Arr_Bezier_curve_traits_2 ()
   {
-    _cache = new Bezier_cache;
-    _inter_map = new Intersection_map;
-    _owner = true;
+    p_cache = new Bezier_cache;
+    p_inter_map = new Intersection_map;
+    m_owner = true;
   }
-    
-  /*!
-   * Copy constructor.
-   */
+
+  /*! Copy constructor. */
   Arr_Bezier_curve_traits_2 (const Self& tr) :
-    _cache (tr._cache),
-    _inter_map (tr._inter_map),
-    _owner (false)
+    p_cache (tr.p_cache),
+    p_inter_map (tr.p_inter_map),
+    m_owner (false)
   {}
 
-  /*!
-   * Assignment operator.
-   */
+  /*! Assignmnet operator. */
   Self& operator= (const Self& tr)
   {
     if (this == &tr)
       return (*this);
 
-    _cache = tr._cache;
-    _inter_map = tr._inter_map;
-    _owner = false;
+    p_cache = tr.p_cache;
+    p_inter_map = tr.p_inter_map;
+    m_owner = false;
     return (*this);
   }
 
-  /*!
-   * Destructor.
-   */
+  /*! Destructor. */
   ~Arr_Bezier_curve_traits_2 ()
   {
-    if (_owner)
+    if (m_owner)
     {
-      delete _cache;
-      delete _inter_map;
+      delete p_cache;
+      delete p_inter_map;
     }
+    p_cache = NULL;
+    p_inter_map = NULL;
   }
+  //@}
 
-  /// \name Functor definitions.
+  /// \name Functor definitions for the arrangement traits.
   //@{
 
   /*! \class Compare_x_2
@@ -194,7 +192,7 @@ public:
   /*! Get a Compare_x_2 functor object. */
   Compare_x_2 compare_x_2_object () const
   {
-    return (Compare_x_2 (_cache));
+    return (Compare_x_2 (p_cache));
   }
 
   /*! \class Compare_xy_2
@@ -230,7 +228,7 @@ public:
   /*! Get a Compare_xy_2 functor object. */
   Compare_xy_2 compare_xy_2_object () const
   {
-    return (Compare_xy_2 (_cache));
+    return (Compare_xy_2 (p_cache));
   }
 
   /*! \class Construct_min_vertex_2
@@ -329,8 +327,6 @@ public:
     Comparison_result operator() (const Point_2& p,
                                   const X_monotone_curve_2& cv) const
     {
-      // Iddo: Need to enhance point_position (maybe in the future we will
-      //       store subdivided subcurves).
       return (cv.point_position (p, 
                                  const_cast<Bezier_cache&> (*p_cache)));
     }
@@ -339,7 +335,7 @@ public:
   /*! Get a Compare_y_at_x_2 functor object. */
   Compare_y_at_x_2 compare_y_at_x_2_object () const
   {
-    return (Compare_y_at_x_2 (_cache));
+    return (Compare_y_at_x_2 (p_cache));
   }
 
   /*! \class Compare_y_at_x_left_2
@@ -380,7 +376,7 @@ public:
   /*! Get a Compare_y_at_x_left_2 functor object. */
   Compare_y_at_x_left_2 compare_y_at_x_left_2_object () const
   {
-    return (Compare_y_at_x_left_2 (_cache));
+    return (Compare_y_at_x_left_2 (p_cache));
   }
 
   /*! \class Compare_y_at_x_right_2
@@ -421,7 +417,7 @@ public:
   /*! Get a Compare_y_at_x_right_2 functor object. */
   Compare_y_at_x_right_2 compare_y_at_x_right_2_object () const
   {
-    return (Compare_y_at_x_right_2 (_cache));
+    return (Compare_y_at_x_right_2 (p_cache));
   }
 
   /*! \class Equal_2
@@ -430,7 +426,7 @@ public:
   class Equal_2
   {
   private:
-    const Bezier_cache   *p_cache;
+    const Bezier_cache         *p_cache;
 
   public:
 
@@ -468,7 +464,7 @@ public:
   /*! Get an Equal_2 functor object. */
   Equal_2 equal_2_object () const
   {
-    return (Equal_2 (_cache));
+    return (Equal_2 (p_cache));
   }
 
   /*! \class Make_x_monotone_2
@@ -497,53 +493,35 @@ public:
     template<class OutputIterator>
     OutputIterator operator() (const Curve_2& B, OutputIterator oi)
     {
+      typedef typename Bounding_traits::Vertical_tangency_point
+                                                Vertical_tangency_point;
+
       // Try to compute the bounds of the vertical tangency points.
-      Bounding_traits                              bound_tr;
-      typename Bounding_traits::Control_point_vec  cpts;
+      Bounding_traits                           bound_tr;
+      typename Bounding_traits::Control_points  cpts;
+      std::list<Vertical_tangency_point>        vpt_bounds;
 
       std::copy (B.control_points_begin(), B.control_points_end(),
                  std::back_inserter(cpts));
 
-      typedef std::pair<typename Bounding_traits::Bez_point_bound,
-                        typename Bounding_traits::Bez_point_bbox>  Tang_pair;
+      bound_tr.compute_vertical_tangency_points
+          (cpts, std::back_inserter (vpt_bounds));
 
-      std::list<Tang_pair>                         tang_bounds;
-
-      bound_tr.vertical_tangency_points (cpts, 0, 1, tang_bounds);
-
-      // Go over the computed bounds approximated for the vertical tangency
-      // points in increasing order of their t parameters, and construct
-      // Point_2 objects from the bounded tangency points.
-      std::list<Point_2>                            tang_points;
+      // Construct Point_2 from bounded tangency points.
+      std::list<Point_2>                            vpts;
       bool                                          app_ok = true;
+      typename std::list<Vertical_tangency_point>::const_iterator iter;
 
-      while (! tang_bounds.empty())
+      for (iter = vpt_bounds.begin(); iter != vpt_bounds.end(); ++iter)
       {
-        // Locate the bound with minimal t-value.
-        typename std::list<Tang_pair>::iterator   iter;
-        typename std::list<Tang_pair>::iterator   it_min;
-
-        it_min = iter = tang_bounds.begin();
-        ++iter;
-        while (iter != tang_bounds.end())
-        {
-          if (CGAL::compare (iter->first.t_min,
-                             it_min->first.t_min) == SMALLER)
-          {
-            it_min = iter;
-          }
-          ++iter;
-        }
-
-        // Continue with the bound for the point with minimal t-value.
-        const typename Bounding_traits::Bez_point_bound& bound = it_min->first;
-        const typename Bounding_traits::Bez_point_bbox&  bbox = it_min->second;
+        const typename Bounding_traits::Bez_point_bound& bound = iter->bound;
+        const typename Bounding_traits::Bez_point_bbox&  bbox = iter->bbox;
 
         if (! bound.can_refine)
         {
           // If we cannot refine the vertical-tangency bound anymore, then
           // we failed to bound the vertical tangency point.
-          // Iddo: In the future, we might want to use the info.
+          // \todo In the future, we might want to use the info.
           app_ok = false;
           break;
         }
@@ -551,7 +529,7 @@ public:
         // Construct an approximate vertical tangency point.
         Point_2   pt;
 
-        if (bound.point_type == Bounding_traits::Bez_point_bound::RATIONAL_PT)
+        if (bound.type == Bounding_traits::Bez_point_bound::RATIONAL_PT)
         {
           CGAL_assertion (CGAL::compare (bound.t_min, bound.t_max) == EQUAL); 
           Rational  t0 = bound.t_min;
@@ -564,10 +542,7 @@ public:
         }
         pt.set_bbox (bbox);
 
-        tang_points.push_back(pt);
-
-        // Remove the tangency point with minimal t-value from the list.
-        tang_bounds.erase (it_min);
+        vpts.push_back(pt);
       }
 
       // If bounding the approximated vertical-tangency points went fine,
@@ -576,20 +551,24 @@ public:
       {
         // Create the x-monotone subcurves with approximate endpoints.
         typename std::list<Point_2>::const_iterator pit;
-        Point_2    p0(B, Rational(0)); // A rational start point.
+        Point_2       p0(B, Rational(0)); // A rational start point.
+        unsigned int  xid = 1;            // Serial number of the subcurve.
 
-        for (pit = tang_points.begin(); pit != tang_points.end(); ++pit)
+        for (pit = vpts.begin(); pit != vpts.end(); ++pit)
         {
-          *oi = CGAL::make_object (X_monotone_curve_2 (B, p0, *pit,
+          *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                       p0, *pit,
                                                        *p_cache));
           ++oi;
 
+          xid++;
           p0 = *pit;
         }
 
         Point_2    p1(B, Rational(1)); // A rational end point.
 
-        *oi = CGAL::make_object (X_monotone_curve_2 (B, p0, p1,
+        *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                     p0, p1,
                                                      *p_cache));
 
         return (oi);
@@ -607,19 +586,24 @@ public:
       Point_2                                        p0 (B, Rational(0));
       Point_2                                        p1;
       typename Bezier_cache::Vertical_tangency_iter  it;
+      unsigned int  xid = 1;            // Serial number of the subcurve.
 
       for (it = vt_list.begin(); it != vt_list.end(); ++it)
       {
         p1 = Point_2 (B, *it);
-        *oi = CGAL::make_object (X_monotone_curve_2 (B, p0, p1,
+        *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                     p0, p1,
                                                      *p_cache));
         ++oi;
+
+        xid++;
         p0 = p1;
       }
 
       // Create the final subcurve.
       p1 = Point_2 (B, Rational(1));
-      *oi = CGAL::make_object (X_monotone_curve_2 (B, p0, p1,
+      *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                   p0, p1,
                                                    *p_cache));
 
       return (oi);
@@ -629,7 +613,7 @@ public:
   /*! Get a Make_x_monotone_2 functor object. */
   Make_x_monotone_2 make_x_monotone_2_object ()
   {
-    return (Make_x_monotone_2 (_cache));
+    return (Make_x_monotone_2 (p_cache));
   }
 
   /*! \class Split_2
@@ -697,7 +681,7 @@ public:
   /*! Get an Intersect_2 functor object. */
   Intersect_2 intersect_2_object ()
   {
-    return (Intersect_2 (_cache, _inter_map));
+    return (Intersect_2 (p_cache, p_inter_map));
   }
 
   /*! \class Are_mergeable_2
@@ -779,7 +763,7 @@ public:
       if (cv.is_directed_right())
         return (SMALLER);
       else
-	return (LARGER);
+        return (LARGER);
     }
   };
 

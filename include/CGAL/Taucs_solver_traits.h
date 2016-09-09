@@ -11,24 +11,35 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
-// $Id: Taucs_solver_traits.h 39800 2007-08-09 13:39:20Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
+// $Id: Taucs_solver_traits.h 46746 2008-11-07 15:30:00Z lrineau $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
 
-#ifndef CGAL_TAUCS_SOLVER_TRAITS
-#define CGAL_TAUCS_SOLVER_TRAITS
+#ifndef CGAL_TAUCS_SOLVER_TRAITS_H
+#define CGAL_TAUCS_SOLVER_TRAITS_H
 
+#include <CGAL/basic.h> // include basic.h before testing #defines
+
+// Uncomment the next line to see libraries selected by auto-link
+//#define CGAL_LIB_DIAGNOSTIC
 #include <CGAL/auto_link/TAUCS.h>
+
 #include <CGAL/Taucs_matrix.h>
 #include <CGAL/Taucs_vector.h>
 #include <CGAL/Taucs_fix.h>
 
+#ifdef WIN32
+  #include <CGAL/Win32_exception.h>
+#endif
+    
 #include <boost/shared_ptr.hpp>
 
-#include <cassert>
+#include <cmath>
+#include <cfloat>
+#include <climits>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -38,7 +49,7 @@ CGAL_BEGIN_NAMESPACE
 /// using TAUCS solvers family.
 /// The default solver is the Multifrontal Supernodal Cholesky Factorization.
 ///
-/// Concept: Model of the SparseLinearAlgebraTraits_d concept.
+/// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d concept.
 
 template<class T>       // Tested with T = taucs_single or taucs_double
                         // May also work with T = taucs_dcomplex and taucs_scomplex
@@ -59,8 +70,8 @@ public:
     /// See taucs_linsolve() documentation for the meaning of the
     /// 'options' and 'arguments' parameters.
     Taucs_symmetric_solver_traits(
-                    const char*  options[]   = NULL,  ///< must be persistent
-		    const void*  arguments[] = NULL)  ///< must be persistent
+      const char*  options[]   = NULL,  ///< must be persistent
+      const void*  arguments[] = NULL)  ///< must be persistent
     {
         static const char* MULTIFRONTAL_LLT[] = {"taucs.factor.LLT=true",
                                                  "taucs.factor.mf=true",
@@ -81,13 +92,56 @@ public:
         D = 1;          // TAUCS does not support homogeneous coordinates
 
 #ifdef DEBUG_TRACE
-        // Turn on TAUCS trace
+        // Turn on TAUCS trace to stderr or to a log file
+    #if DEBUG_TRACE >= 2
         std::cerr.flush();
         taucs_logfile((char*)"stderr");
+    #else
+        taucs_logfile((char*)"taucs.log");
+    #endif
+
+//         // Print A and B
+//         int n = A.row_dimension();
+//         if (n < 20)	// if small matrix, print it entirely
+//         {
+//           fprintf(stderr, "******************  A:  ******************\n");
+//           for (int i=0; i<n; i++)  {
+//             for (int j=0; j<n; j++)
+//               fprintf(stderr, "%lf\t", (double)A.get_coef(i, j));
+//             fprintf(stderr, "\n");
+//           }
+//           fprintf(stderr, "******************  B:  ******************\n");
+//           for (int j=0; j<n; j++)
+//             fprintf(stderr, "%lf\t", (double)B[j]);
+//           fprintf(stderr, "\n");
+//           fprintf(stderr, "******************************************\n");
+//         }
+//         else		// if large matrix, print only not null elements
+//         {
+//           fprintf(stderr, "******************  A*X=B  ******************\n");
+//           for (int i=0; i<n; i++)  {
+//             for (int j=0; j<n; j++)
+//               if ( ! IsZero(A.get_coef(i, j)) )
+//                 fprintf(stderr, "A[%d][%d] = %lf\t", i, j, (double)A.get_coef(i, j));
+//             fprintf(stderr, "\n");
+//           }
+//           for (int j=0; j<n; j++)
+//             if ( ! IsZero(B[j]) )
+//               fprintf(stderr, "B[%d] = %lf\t", j, (double)B[j]);
+//           fprintf(stderr, "\n");
+//           fprintf(stderr, "******************************************\n");
+//         }
 #endif
 
+#ifdef WIN32
+        Win32_exception_handler eh; // catch Win32 structured exceptions
+#endif
+    
         try
         {
+//printf("A[0][0]=%lf\n", (double) A.get_coef(0,0));
+//printf("A[77][77]=%lf\n", (double) A.get_coef(77,77));
+//printf("taucs_linsolve()\n");
             // Factor, solve and free
             int success = taucs_linsolve((taucs_ccs_matrix*) A.get_taucs_matrix(),
                                          NULL,
@@ -96,6 +150,8 @@ public:
                                          (T*) B.get_taucs_vector(),
                                          (char**) m_options,
                                          (void**) m_arguments);
+//printf("A[0][0]=%lf\n", (double) A.get_coef(0,0));
+//printf("A[77][77]=%lf\n", (double) A.get_coef(77,77));
             if (success != TAUCS_SUCCESS) {
                 taucs_printf((char*)"\tSolving Failed\n");
                 return false;
@@ -112,10 +168,10 @@ public:
 
 private:
 
-    /// Test if a floating point number is (close to) 0.0.
+    // Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (CGAL_CLIB_STD::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
+        return (std::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 
 // Fields
@@ -129,7 +185,7 @@ private:
 /// is a traits class for solving GENERAL (aka unsymmetric) sparse linear systems
 /// using TAUCS out-of-core LU factorization.
 ///
-/// Concept: Model of the SparseLinearAlgebraTraits_d concept.
+/// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d concept.
 
 template<class T>       // Tested with T = taucs_single or taucs_double
                         // May also work with T = taucs_dcomplex and taucs_scomplex
@@ -161,11 +217,51 @@ public:
         D = 1;          // TAUCS does not support homogeneous coordinates
 
 #ifdef DEBUG_TRACE
-        // Turn on TAUCS trace
+        // Turn on TAUCS trace to stderr or to a log file
+    #if DEBUG_TRACE >= 2
         std::cerr.flush();
         taucs_logfile((char*)"stderr");
+    #else
+        taucs_logfile((char*)"taucs.log");
+    #endif
+
+//         // Print A and B
+//         int n = A.row_dimension();
+//         if (n < 20)  // if small matrix, print it entirely
+//         {
+//           fprintf(stderr, "******************  A:  ******************\n");
+//           for (int i=0; i<n; i++)  {
+//             for (int j=0; j<n; j++)
+//               fprintf(stderr, "%lf\t", (double)A.get_coef(i, j));
+//             fprintf(stderr, "\n");
+//           }
+//           fprintf(stderr, "******************  B:  ******************\n");
+//           for (int j=0; j<n; j++)
+//             fprintf(stderr, "%lf\t", (double)B[j]);
+//           fprintf(stderr, "\n");
+//           fprintf(stderr, "******************************************\n");
+//         }
+//         else     // if large matrix, print only not null elements
+//         {
+//           fprintf(stderr, "******************  A*X=B  ******************\n");
+//           for (int i=0; i<n; i++)  {
+//             for (int j=0; j<n; j++)
+//               if ( ! IsZero(A.get_coef(i, j)) )
+//                 fprintf(stderr, "A[%d][%d] = %lf\t", i, j, (double)A.get_coef(i, j));
+//             fprintf(stderr, "\n");
+//           }
+//           for (int j=0; j<n; j++)
+//             if ( ! IsZero(B[j]) )
+//               fprintf(stderr, "B[%d] = %lf\t", j, (double)B[j]);
+//           fprintf(stderr, "\n");
+//           fprintf(stderr, "******************************************\n");
+//         }
 #endif
 
+#ifdef WIN32
+        Win32_exception_handler eh; // catch Win32 structured exceptions
+#endif
+    
         try
         {
             int     success;
@@ -183,7 +279,7 @@ public:
                 throw std::runtime_error("Ordering Failed");
 
             // Create multi-file for out-of-core swapping.
-            // Note: g++ complains that tempnam() is deprecated. Jus ignore the warning.
+            // Note: g++ complains that tempnam() is deprecated. You may safely ignore the warning.
             boost::shared_ptr<char> matrixfile(tempnam(NULL, "taucs.L"), free);
             if (matrixfile == NULL)
                 throw std::runtime_error("Cannot Create Multifile");
@@ -225,14 +321,14 @@ public:
 
 private:
 
-    /// Test if a floating point number is (close to) 0.0.
+    // Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (CGAL_CLIB_STD::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
+        return (std::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 };
 
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_TAUCS_SOLVER_TRAITS
+#endif // CGAL_TAUCS_SOLVER_TRAITS_H

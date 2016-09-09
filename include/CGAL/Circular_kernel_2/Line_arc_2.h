@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Line_arc_2.h $
-// $Id: Line_arc_2.h 33770 2006-08-25 12:44:18Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/Line_arc_2.h $
+// $Id: Line_arc_2.h 46243 2008-10-13 17:58:36Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -25,9 +25,7 @@
 #ifndef CGAL_CIRCULAR_KERNEL_LINE_ARC_2_H
 #define CGAL_CIRCULAR_KERNEL_LINE_ARC_2_H
 
-#include <CGAL/global_functions_on_line_2.h>
-#include <CGAL/global_functions_on_circle_2.h>
-#include <CGAL/global_functions_on_line_arcs_2.h>
+#include <CGAL/global_functions_circular_kernel_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomial_1_2_and_2_2.h>
 #include <CGAL/Circular_kernel_2/internal_functions_on_line_2.h>
@@ -78,7 +76,7 @@ namespace CGALi {
 	solutions_container;
       
       solutions_container solutions;
-      CGAL::LinearFunctors::intersect_2<CK>
+      CGAL::CircularFunctors::intersect_2<CK>
 	( l, c, std::back_inserter(solutions) );
       typename solutions_container::iterator it = solutions.begin();
       

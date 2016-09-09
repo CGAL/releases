@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
-// $Id: polygon_assertions.h 36297 2007-02-15 14:50:53Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
+// $Id: polygon_assertions.h 44139 2008-07-14 11:16:41Z spion $
 // 
 //
 // Author(s)     : script by Geert-Jan Giezeman and Sven Schoenherr 
@@ -35,9 +35,9 @@
 #  define CGAL_polygon_assertion_code(CODE)
 #else
 #  define CGAL_polygon_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_assertion_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_ASSERTIONS
 
@@ -49,9 +49,9 @@
 #  define CGAL_polygon_exactness_assertion_code(CODE)
 #else
 #  define CGAL_polygon_exactness_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_exactness_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_exactness_assertion_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_ASSERTIONS
 
@@ -64,9 +64,9 @@
 #  define CGAL_polygon_expensive_assertion_code(CODE)
 #else
 #  define CGAL_polygon_expensive_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_assertion_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_ASSERTIONS
 
@@ -79,9 +79,9 @@
 #  define CGAL_polygon_expensive_exactness_assertion_code(CODE)
 #else
 #  define CGAL_polygon_expensive_exactness_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_exactness_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_exactness_assertion_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_ASSERTIONS
 
@@ -96,9 +96,9 @@
 #  define CGAL_polygon_precondition_code(CODE)
 #else
 #  define CGAL_polygon_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_precondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_PRECONDITIONS
 
@@ -110,9 +110,9 @@
 #  define CGAL_polygon_exactness_precondition_code(CODE)
 #else
 #  define CGAL_polygon_exactness_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_exactness_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_exactness_precondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_PRECONDITIONS
 
@@ -124,9 +124,9 @@
 #  define CGAL_polygon_expensive_precondition_code(CODE)
 #else
 #  define CGAL_polygon_expensive_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_precondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_PRECONDITIONS
 
@@ -139,9 +139,9 @@
 #  define CGAL_polygon_expensive_exactness_precondition_code(CODE)
 #else
 #  define CGAL_polygon_expensive_exactness_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_exactness_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_exactness_precondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_PRECONDITIONS
 
@@ -156,9 +156,9 @@
 #  define CGAL_polygon_postcondition_code(CODE)
 #else
 #  define CGAL_polygon_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_postcondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_POSTCONDITIONS
 
@@ -170,9 +170,9 @@
 #  define CGAL_polygon_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_polygon_exactness_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_exactness_postcondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_POSTCONDITIONS
 
@@ -184,9 +184,9 @@
 #  define CGAL_polygon_expensive_postcondition_code(CODE)
 #else
 #  define CGAL_polygon_expensive_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_postcondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_POSTCONDITIONS
 
@@ -199,9 +199,9 @@
 #  define CGAL_polygon_expensive_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_polygon_expensive_exactness_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_exactness_postcondition_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_POSTCONDITIONS
 
@@ -216,9 +216,9 @@
 #  define CGAL_polygon_warning_code(CODE)
 #else
 #  define CGAL_polygon_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_warning_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_WARNINGS
 
@@ -230,9 +230,9 @@
 #  define CGAL_polygon_exactness_warning_code(CODE)
 #else
 #  define CGAL_polygon_exactness_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_exactness_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_exactness_warning_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_WARNINGS
 
@@ -244,9 +244,9 @@
 #  define CGAL_polygon_expensive_warning_code(CODE)
 #else
 #  define CGAL_polygon_expensive_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_warning_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_WARNINGS
 
@@ -259,9 +259,9 @@
 #  define CGAL_polygon_expensive_exactness_warning_code(CODE)
 #else
 #  define CGAL_polygon_expensive_exactness_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_polygon_expensive_exactness_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_polygon_expensive_exactness_warning_code(CODE) CODE
 #endif // CGAL_POLYGON_NO_WARNINGS
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/include/CGAL/barycenter.h $
-// $Id: barycenter.h 37156 2007-03-16 10:32:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/barycenter.h $
+// $Id: barycenter.h 42947 2008-04-17 21:04:05Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -25,6 +25,7 @@
 #include <iterator>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/Kernel/Dimension_utils.h>
+#include <CGAL/Dimension.h>
 
 // Functions to compute the point given its barycentric coordinates.
 // Works in 2D and 3D (and dD ?).
@@ -42,10 +43,10 @@ template < typename InputIterator, typename K >
 typename std::iterator_traits<InputIterator>::value_type::first_type
 barycenter(InputIterator begin, InputIterator end, const K & )
 {
-  typedef typename std::iterator_traits<InputIterator>::value_type  pair;
-  typedef typename pair::second_type                                FT;
-  typedef typename pair::first_type                                 Point;
-  typedef typename Vector<Dimension<Point, K>::value, K>::type      Vector;
+  typedef typename std::iterator_traits<InputIterator>::value_type              pair;
+  typedef typename pair::second_type                                            FT;
+  typedef typename pair::first_type                                             Point;
+  typedef typename Access::Vector<K, typename Ambient_dimension<Point, K>::type>::type  Vector;
 
   CGAL_precondition(begin != end);
 
@@ -71,9 +72,9 @@ typename std::iterator_traits<PointInputIterator>::value_type
 barycenter(PointInputIterator begin, PointInputIterator end,
            WeightInputIterator wbegin, const K & )
 {
-  typedef typename std::iterator_traits<PointInputIterator>::value_type  Point;
-  typedef typename std::iterator_traits<WeightInputIterator>::value_type FT;
-  typedef typename Vector<Dimension<Point, K>::value, K>::type           Vector;
+  typedef typename std::iterator_traits<PointInputIterator>::value_type         Point;
+  typedef typename std::iterator_traits<WeightInputIterator>::value_type        FT;
+  typedef typename Access::Vector<K, typename Ambient_dimension<Point, K>::type>::type  Vector;
 
   CGAL_precondition(begin != end);
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader_doubles.h $
-// $Id: Dxf_reader_doubles.h 35587 2006-12-18 09:37:55Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/IO/Dxf_reader_doubles.h $
+// $Id: Dxf_reader_doubles.h 45153 2008-08-26 13:15:21Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
+
+// Partially supported by the IST Programme of the EU as a Shared-cost
+// RTD (FET Open) Project under Contract No  IST-2000-26473 
+// (ECG - Effective Computational Geometry for Curves and Surfaces) 
+// and a STREP (FET Open) Project under Contract No  IST-006413 
+// (ACS -- Algorithms for Complex Shapes)
 
 // Descriptions of the file format can be found at
 // http://www.autodesk.com/techpubs/autocad/acad2000/dxf/
@@ -28,6 +34,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <CGAL/array.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -36,15 +43,15 @@ class Dxf_reader_doubles {
 
 public:
   typedef double       FT;
-  typedef CGAL::Triple<double, double,double>  Triple;
-  typedef Triple Point_2_and_bulge;
-  typedef Triple Circle_2;
-  
-  
-  typedef std::list<Triple > Polygon;
+  typedef CGAL::array<double, 3>  Triplet;
+  typedef Triplet Point_2_and_bulge;
+  typedef Triplet Circle_2;
+
+
+  typedef std::list<Triplet > Polygon;
   typedef std::list<Polygon> Polygons;
   typedef std::list<Circle_2> Circles;
-  
+
 private:
 
 
@@ -55,82 +62,82 @@ private:
     double xmin, ymin;
     double xmax, ymax;
     is >> n;
-    assert(n == 9);
+    CGAL_assertion(n == 9);
     char c;
     is >> c;
-    assert(c == '$');
+    CGAL_assertion(c == '$');
     std::string str;
     is >> str;
     if(str == std::string("EXTMIN")){
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
     is >> xmin;
     is >> n;
-    assert(n == 20);
+    CGAL_assertion(n == 20);
     is >> ymin;
     }
     is >> n;
-    assert(n == 9);
+    CGAL_assertion(n == 9);
     is >> c;
-    assert(c == '$');
+    CGAL_assertion(c == '$');
     is >> str;
     if(str == "EXTMAX"){
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
       is >> xmax;
       is >> n;
-      assert(n == 20);
+      CGAL_assertion(n == 20);
       is >> ymax;
     }
   }
-  
-  
+
+
   void
   skip_header(std::istream& is)
   {
     int n;
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     std::string str;
     is >> str;
-    assert(str == "SECTION");
+    CGAL_assertion(str == "SECTION");
     is >> n;
-    assert(n == 2);
+    CGAL_assertion(n == 2);
     is >> str;
     if(str == "HEADER"){
       header(is);
     }
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     is >> str;
-    assert(str == "ENDSEC");
+    CGAL_assertion(str == "ENDSEC");
   }
-  
-  
-  
-  void 
+
+
+
+  void
   read_circle(std::istream& is, Circle_2& circ)
   {
     int n;
     double cx, cy, r;
     std::string str;
     is >> n;
-    assert(n == 8);
+    CGAL_assertion(n == 8);
     is >> n;
-    assert(n == 0);
-  
+    CGAL_assertion(n == 0);
+
   is >> n;
-  assert(n == 10);
+  CGAL_assertion(n == 10);
   is >> cx;
   is >> n;
-  assert(n == 20);
+  CGAL_assertion(n == 20);
   is >> cy;
   is >> n;
-  assert(n == 40);
+  CGAL_assertion(n == 40);
   is >> r;
   FT rft(r);
-  
-  circ = Circle_2(cx,cy,rft);
+
+  circ = CGAL::make_array(cx,cy,rft);
 }
 
 
@@ -145,7 +152,7 @@ read_polygon(std::istream& is, Polygon& poly)
     is >> n;
     if(n != 0){
       int m;
-      is >> m; 
+      is >> m;
     }
   } while(n != 0);
 
@@ -153,30 +160,30 @@ read_polygon(std::istream& is, Polygon& poly)
     is >> str;
     if(str == "VERTEX"){
       is >> n;
-      assert(n == 8);
+      CGAL_assertion(n == 8);
       is >> n;
-      assert(n == 0);
+      CGAL_assertion(n == 0);
       is >> n;
-      assert(n == 10);
+      CGAL_assertion(n == 10);
       is >> x;
       is >> n;
-      assert(n == 20);
+      CGAL_assertion(n == 20);
       is >> y;
       is >> n;
       len = 0;
       if(n == 42){
 	is >> len;
       } else {
-	assert(n == 0);
+	CGAL_assertion(n == 0);
       }
-      poly.push_back(Point_2_and_bulge(x,y, len));
+      poly.push_back(CGAL::make_array(x,y, len));
     }
-    
+
   } while (str != "SEQEND");
   is >> n;
-  assert(n == 8);
+  CGAL_assertion(n == 8);
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
 
 
 }
@@ -189,15 +196,15 @@ read_entities(std::istream& is, Polygons& polys, Circles& circles)
   //double x, y;
   std::string str;
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "SECTION");
+  CGAL_assertion(str == "SECTION");
   is >> n;
   is >> str;
-  assert(str == "ENTITIES");
+  CGAL_assertion(str == "ENTITIES");
   do {
     is >> n;
-    assert(n == 0);
+    CGAL_assertion(n == 0);
     is >> str;
     if(str == "POLYLINE"){
       Polygon p;
@@ -205,19 +212,18 @@ read_entities(std::istream& is, Polygons& polys, Circles& circles)
       read_polygon(is, polys.back());
     } else if(str == "CIRCLE"){
       Circle_2 c;
-      read_circle(is,c);      
+      read_circle(is,c);
       circles.push_back(c);
     } else if(str == "ENDSEC"){
-      
+
     } else {
-      std::cerr << "unknown entity" << std::endl;
-      std::exit(0);
+      CGAL_error_msg( "unknown entity" );
     }
   } while(str != "ENDSEC");
   is >> n;
-  assert(n == 0);
+  CGAL_assertion(n == 0);
   is >> str;
-  assert(str == "EOF");
+  CGAL_assertion(str == "EOF");
 }
 
 

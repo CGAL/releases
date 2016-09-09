@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
-// $Id: Bounding_box_3.h 39746 2007-08-07 20:10:09Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
+// $Id: Bounding_box_3.h 43830 2008-06-27 11:27:53Z hachenb $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -34,11 +34,11 @@ class Bounding_box_3 :
 public Box_intersection_d::Box_d< double, 3> {
 
   typedef Box_intersection_d::Box_d< double, 3>  Base;
-  typedef typename Kernel::Point_3             Point_3;
+  typedef typename Kernel::Point_3               Point_3;
 
 public:
   Bounding_box_3() : Base(false) {
-    CGAL_assertion_msg(false, "code not stable");
+    CGAL_error_msg( "code not stable");
   }
 
   Bounding_box_3(double q[3]) : Base(q,q) {}
@@ -68,7 +68,12 @@ public:
   Bounding_box_3(FT q[3]) : Base(q,q), initialized(true) {}
     
   void extend(FT q[3]) {
-    Base::extend(q);
+    if(initialized)
+      Base::extend(q);
+    else {
+      initialized = true;
+      (Base) *this = Base(q,q);
+    }
   }
 
   void extend(const Point_3& p) {
@@ -81,7 +86,8 @@ public:
       Base::extend(q);
     else {
       initialized = true;
-      (Base) *this = Base(q,q);
+      std::copy( q, q + 3, Base::lo );
+      std::copy( q, q + 3, Base::hi );     
     }
   }	  
 };

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h $
-// $Id: Are_parallel_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h $
+// $Id: Are_parallel_C2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -37,8 +37,8 @@ class Are_parallel_C2
 
 public:
   typedef typename K::Site_2       Site_2;
-  typedef bool                     result_type;
-  typedef Arity_tag<2>             Arity;
+  typedef typename K::Boolean      Boolean;
+  typedef Boolean                  result_type;
   typedef Site_2                   argument_type;
 
 private:
@@ -46,7 +46,7 @@ private:
   typedef typename K::FT           FT;
 
 private:
-  bool predicate(const Site_2& p, const Site_2& q) const {
+  Boolean   predicate(const Site_2& p, const Site_2& q) const {
     CGAL_precondition( p.is_segment() && q.is_segment() );
     
     Segment_2 s1 = p.segment();
@@ -61,7 +61,7 @@ private:
       x4 = s2.target().x(),
       y4 = s2.target().y();
 
-    FT det = det2x2_by_formula(x2 - x1, x4 - x3,
+    FT det = determinant(x2 - x1, x4 - x3,
 			       y2 - y1, y4 - y3);
 
     return ( CGAL::sign(det) == CGAL::ZERO );

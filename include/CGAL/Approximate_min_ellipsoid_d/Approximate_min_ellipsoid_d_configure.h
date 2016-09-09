@@ -11,16 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_configure.h $
-// $Id: Approximate_min_ellipsoid_d_configure.h 28726 2006-02-23 14:50:30Z fischerk $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_configure.h $
+// $Id: Approximate_min_ellipsoid_d_configure.h 40822 2007-11-07 16:51:18Z ameyer $
+//
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
 
 #ifndef CGAL_APPROX_MIN_ELL_CONFIGURE_H
 #define CGAL_APPROX_MIN_ELL_CONFIGURE_H
 
-#include <cassert>
+#include <CGAL/basic.h>
 #include <iostream>
 #include <iomanip>
 
@@ -51,7 +51,7 @@
 // (Todo: these routines turned out to not be the most useful for
 // debugging; one could improve this, but it's only debugging, so who
 // cares ...)
-// 
+//
 // - CGAL_APPEL_ASSERT(expr): Asserts that the expression expr evaluates
 //   to true.  This only happens when the assertion mode is enabled.  This
 //   macro should only be used for cheap assertions (which do not heavily
@@ -91,15 +91,15 @@
 //
 
 #ifdef CGAL_APPEL_ASSERTION_MODE
-  #define CGAL_APPEL_ASSERT(expr) assert(expr)
+  #define CGAL_APPEL_ASSERT(expr) CGAL_assertion(expr)
 #else
-  #define CGAL_APPEL_ASSERT(expr) 
+  #define CGAL_APPEL_ASSERT(expr)
 #endif
 
 #ifdef CGAL_APPEL_EXP_ASSERTION_MODE
   #define CGAL_APPEL_ASSERT_EXPENSIVE(expr) CGAL_assertion(expr)
 #else
-  #define CGAL_APPEL_ASSERT_EXPENSIVE(expr) 
+  #define CGAL_APPEL_ASSERT_EXPENSIVE(expr)
 #endif
 
 #ifdef CGAL_APPEL_LOG_MODE
@@ -111,13 +111,13 @@
       Logger::instance().log(channel,s.str()); \
     }
 #else
-  #define CGAL_APPEL_LOG(channel,expr) 
+  #define CGAL_APPEL_LOG(channel,expr)
 #endif
 
 #if defined(CGAL_APPEL_ASSERTION_MODE)||defined(CGAL_APPEL_EXP_ASSERTION_MODE)
   #define CGAL_APPEL_IF_ASSERTIONS(expr) expr
 #else
-  #define CGAL_APPEL_IF_ASSERTIONS(expr) 
+  #define CGAL_APPEL_IF_ASSERTIONS(expr)
 #endif
 
 #ifdef CGAL_APPEL_TIMER_MODE
@@ -149,16 +149,16 @@
   #define CGAL_APPEL_TIMER_STRING(timer) \
     CGAL::Approximate_min_ellipsoid_d_impl::Timer::instance().lapse(timer)
 #else
-  #define CGAL_APPEL_TIME(expr) 
-  #define CGAL_APPEL_TIMER_START(timer) 
-  #define CGAL_APPEL_TIMER_PRINT(channel,timer,msg) 
-  #define CGAL_APPEL_TIMER_STRING(timer) 
+  #define CGAL_APPEL_TIME(expr)
+  #define CGAL_APPEL_TIMER_START(timer)
+  #define CGAL_APPEL_TIMER_PRINT(channel,timer,msg)
+  #define CGAL_APPEL_TIMER_STRING(timer)
 #endif
 
 #ifdef CGAL_APPEL_STATS_MODE
   #define CGAL_APPEL_IF_STATS(expr) expr
 #else
-  #define CGAL_APPEL_IF_STATS(expr) 
+  #define CGAL_APPEL_IF_STATS(expr)
 #endif
 
 #include <CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h>

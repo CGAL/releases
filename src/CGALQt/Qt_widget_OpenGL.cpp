@@ -12,16 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
-// $Id: Qt_widget_OpenGL.cpp 36919 2007-03-08 10:03:49Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
+// $Id: Qt_widget_OpenGL.cpp 47075 2008-11-27 14:42:00Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
 //                 Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
 
 #include <CGAL/basic.h>
-
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget_OpenGL.h>
 #include <cmath>
@@ -155,10 +153,10 @@ void Qt_widget_OpenGL::paintGL() {
 }
 
 void Qt_widget_OpenGL::initializeGL() {
-  GLfloat mat_diffuse[4] = { 0.7, 0.7, 0.7, 1.0 };
-  GLfloat mat_specular[4] = { 1.0, 1.0, 1.0, 1.0 };
-  GLfloat mat_shininess[] = { 100.0 };
-  GLfloat ambient_light[] = { 0.2, 0.2, 0.2, 1.0 };
+  GLfloat mat_diffuse[4] = { 0.7f, 0.7f, 0.7f, 1.0f };
+  GLfloat mat_specular[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+  GLfloat mat_shininess[] = { 100.0f };
+  GLfloat ambient_light[] = { 0.2f, 0.2f, 0.2f, 1.0f };
   
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient_light);
   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse );
@@ -251,5 +249,4 @@ void Qt_widget_OpenGL::slotPerspective() {
 }
 
 } // namespace CGAL
-#include <Qt_widget_OpenGL.moc>
-#endif
+#include "Qt_widget_OpenGL.moc"

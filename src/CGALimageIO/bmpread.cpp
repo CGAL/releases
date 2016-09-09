@@ -1,3 +1,25 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/bmpread.cpp $
+// $Id: bmpread.cpp 45591 2008-09-16 12:45:40Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*
  * from bmp.zip, see the url http://www.ddj.com/ftp/1995/1995.03/
  * author Dr. Dobb's
@@ -29,9 +51,9 @@
  */
 
 /*
- * Read a BITMAPFILEHEADER structure.
+ * Read a Bitmapfileheader structure.
  */
-int readBitmapFileHeader(FILE *fp, BITMAPFILEHEADER *bfh)
+int readBitmapFileHeader(FILE *fp, Bitmapfileheader *bfh)
 {
     int rc;
   
@@ -91,7 +113,7 @@ int readBitmapHeader(FILE *fp, BITMAPHEADER *bh)
 {
     int    rc, oldFormat;
 	unsigned int bytesRead;
-    UINT16 tempVal;
+    CGAL_UINT16 tempVal;
     
     /*
      * Clear the structure.  Default values for all fields are zeros.  This
@@ -364,7 +386,7 @@ int readColorTable(FILE *fp, RGB *rgb, int numEntries, int numBytesPerEntry)
 int readBitsUncompressed(FILE *fp, RGB *image, int width, int height,
 			 int depth, RGB *colorTable)
 {
-    UINT8 temp;
+    CGAL_UINT8 temp;
     int   rc, padBytes, i;
     long  row, column, pixel, value;
     
@@ -579,7 +601,7 @@ int readBitsUncompressed(FILE *fp, RGB *image, int width, int height,
  */
 int readMaskBitsUncompressed(FILE *fp, char *image, int width, int height)
 {
-    UINT8 temp;
+    CGAL_UINT8 temp;
     int   rc, padBytes, i;
     long  row, column, pixel;
     char value;
@@ -674,7 +696,7 @@ void reflectYchar(char *image, int width, int height)
  *
  * These functions read in specific types of bitmap files.  Each assumes that
  * the file pointer is positioned at the appropriate place in a bitmap file.
- * (At the start of a BITMAPFILEHEADER for all functions except
+ * (At the start of a Bitmapfileheader for all functions except
  * readMultipleImages, which assumes the file pointer to be positioned on the
  * start of a BITMAPARRAYHEADER.  These functions will leave the file pointer
  * on the byte after the image's color table.
@@ -706,9 +728,9 @@ void reflectYchar(char *image, int width, int height)
  * triples that contain the RGB values for every pixel.  It will also return
  * the dimensions of the image.
  */
-int readSingleImageBMP(FILE *fp, RGB **argb, UINT32 *width, UINT32 *height)
+int readSingleImageBMP(FILE *fp, RGB **argb, CGAL_UINT32 *width, CGAL_UINT32 *height)
 {
-    BITMAPFILEHEADER  bfh;
+    Bitmapfileheader  bfh;
     BITMAPHEADER      bh;
     RGB              *colorTable = (RGB*)NULL;
     RGB              *image = (RGB*)NULL;
@@ -876,9 +898,9 @@ int readSingleImageBMP(FILE *fp, RGB **argb, UINT32 *width, UINT32 *height)
  * (interpreted as booleans) for the XOR and AND masks.
  */
 int readSingleImageICOPTR(FILE *fp, char **xorMask, char **andMask,
-		          UINT32 *width, UINT32 *height) 
+		          CGAL_UINT32 *width, CGAL_UINT32 *height) 
 {
-    BITMAPFILEHEADER  bfh;
+    Bitmapfileheader  bfh;
     BITMAPHEADER      bh;
     char             *mask1, *mask2;
     int               rc;
@@ -1015,9 +1037,9 @@ int readSingleImageICOPTR(FILE *fp, char **xorMask, char **andMask,
  * masks.
  */
 int readSingleImageColorICOPTR(FILE *fp, RGB **argb, char **xorMask,
-			       char **andMask, UINT32 *width, UINT32 *height)
+			       char **andMask, CGAL_UINT32 *width, CGAL_UINT32 *height)
 {
-    UINT32 width1, height1, width2, height2;
+    CGAL_UINT32 width1, height1, width2, height2;
     int rc;
 
     /*
@@ -1069,13 +1091,13 @@ int readSingleImageColorICOPTR(FILE *fp, RGB **argb, char **xorMask,
  * arrays. 
  */
 int readMultipleImage(FILE *fp, RGB ***argbs, char ***xorMasks,
-		      char ***andMasks, UINT32 **widths, UINT32 **heights,
+		      char ***andMasks, CGAL_UINT32 **widths, CGAL_UINT32 **heights,
 		      int *imageCount)
 {
     int rc;
     long filePos;
     BITMAPARRAYHEADER bah;
-    UINT16 imageType;
+    CGAL_UINT16 imageType;
     int count;
     
     /*
@@ -1115,7 +1137,7 @@ int readMultipleImage(FILE *fp, RGB ***argbs, char ***xorMasks,
 	free(*xorMasks);
 	return 1005;
     }
-    *widths = (UINT32 *)calloc(count, sizeof(UINT32));
+    *widths = (CGAL_UINT32 *)calloc(count, sizeof(CGAL_UINT32));
     if (*widths == NULL)
     {
 	free(*argbs);
@@ -1123,7 +1145,7 @@ int readMultipleImage(FILE *fp, RGB ***argbs, char ***xorMasks,
 	free(*andMasks);
 	return 1005;
     }
-    *heights = (UINT32 *)calloc(count, sizeof(UINT32));
+    *heights = (CGAL_UINT32 *)calloc(count, sizeof(CGAL_UINT32));
     if (*heights == NULL)
     {
 	free(*argbs);

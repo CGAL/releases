@@ -1,8 +1,5 @@
-// Copyright (c) 2003-2004  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2003,2004,2007,2008  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,19 +12,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 32846 2006-07-31 22:31:49Z afabri $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 44130 2008-07-12 21:58:52Z spion $
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_COMPACT_CONTAINER_H
 #define CGAL_COMPACT_CONTAINER_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Default_argument.h>
 
 #include <iterator>
 #include <algorithm>
+#include <vector>
 
 #include <CGAL/memory.h>
 #include <CGAL/iterator.h>
@@ -111,15 +109,11 @@ namespace CGALi {
   class CC_iterator;
 }
 
-struct Default_allocator; // Used to reduce error messages length.
-
-template < class T, class Allocator_ = Default_allocator >
+template < class T, class Allocator_ = Default_argument >
 class Compact_container
 {
   typedef Allocator_                                Al;
-  typedef typename boost::mpl::if_< boost::is_same<Al, Default_allocator>,
-                                    CGAL_ALLOCATOR(T), Al>::type
-                                                    Allocator;
+  typedef typename If_default_argument<Al, CGAL_ALLOCATOR(T) >::type Allocator;
   typedef Compact_container <T, Al>                 Self;
   typedef Compact_container_traits <T>              Traits;
 public:
@@ -133,8 +127,8 @@ public:
   typedef typename Allocator::difference_type       difference_type;
   typedef CGALi::CC_iterator<Self, false>           iterator;
   typedef CGALi::CC_iterator<Self, true>            const_iterator;
-  typedef CGAL_reverse_iterator(iterator)           reverse_iterator;
-  typedef CGAL_reverse_iterator(const_iterator)     const_reverse_iterator;
+  typedef std::reverse_iterator<iterator>           reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>     const_reverse_iterator;
 
   friend class CGALi::CC_iterator<Self, false>;
   friend class CGALi::CC_iterator<Self, true>;
@@ -186,6 +180,7 @@ public:
     std::swap(first_item, c.first_item);
     std::swap(last_item, c.last_item);
     std::swap(free_list, c.free_list);
+    all_items.swap(c.all_items);
   }
 
   iterator begin() { return iterator(first_item, 0, 0); }
@@ -202,9 +197,26 @@ public:
   const_reverse_iterator
   rend()   const { return const_reverse_iterator(begin()); }
 
+  // Special insert methods that construct the objects in place
+  // (just forward the arguments to the constructor, to optimize a copy).
+#ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
+  template < typename... Args >
+  iterator
+  emplace(const Args&... args)
+  {
+    if (free_list == NULL)
+      allocate_new_block();
 
+    pointer ret = free_list;
+    free_list = clean_pointee(ret);
+    new (ret) value_type(args...);
+    CGAL_assertion(type(ret) == USED);
+    ++size_;
+    return iterator(ret, 0);
+  }
+#else
   // inserts a default constructed item.
-  iterator construct_insert()
+  iterator emplace()
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -217,10 +229,9 @@ public:
     return iterator(ret, 0);
   }
 
-  // Special insert methods that construct the objects in place
-  // (just forward the arguments to the constructor, to optimize a copy).
   template < typename T1 >
-  iterator construct_insert(const T1 &t1)
+  iterator
+  emplace(const T1 &t1)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -235,7 +246,7 @@ public:
 
   template < typename T1, typename T2 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2)
+  emplace(const T1 &t1, const T2 &t2)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -250,7 +261,7 @@ public:
 
   template < typename T1, typename T2, typename T3 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -265,7 +276,7 @@ public:
 
   template < typename T1, typename T2, typename T3, typename T4 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -280,8 +291,8 @@ public:
 
   template < typename T1, typename T2, typename T3, typename T4, typename T5 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
-	           const T5 &t5)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
+	  const T5 &t5)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -297,8 +308,8 @@ public:
   template < typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
-                   const T5 &t5, const T6 &t6)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
+          const T5 &t5, const T6 &t6)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -314,8 +325,8 @@ public:
   template < typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
-                   const T5 &t5, const T6 &t6, const T7 &t7)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
+          const T5 &t5, const T6 &t6, const T7 &t7)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -331,8 +342,8 @@ public:
   template < typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8 >
   iterator
-  construct_insert(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
-                   const T5 &t5, const T6 &t6, const T7 &t7, const T8 &t8)
+  emplace(const T1 &t1, const T2 &t2, const T3 &t3, const T4 &t4,
+          const T5 &t5, const T6 &t6, const T7 &t7, const T8 &t8)
   {
     if (free_list == NULL)
       allocate_new_block();
@@ -344,6 +355,7 @@ public:
     ++size_;
     return iterator(ret, 0);
   }
+#endif // CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 
   iterator insert(const T &t)
   {
@@ -437,7 +449,7 @@ private:
   // ptr is composed of a pointer part and the last 2 bits.
   // Here is the meaning of each of the 8 cases.
   //
-  //                          value of the last 2 bits
+  //                          value of the last 2 bits as "Type"
   // pointer part     0              1                2              3
   //         NULL     user elt       unused           free_list end  start/end
   //      != NULL     user elt       block boundary   free elt       unused
@@ -446,40 +458,43 @@ private:
 
   enum Type { USED = 0, BLOCK_BOUNDARY = 1, FREE = 2, START_END = 3 };
 
-  // Using a union is clean and should avoid aliasing problems.
-  union menion {
-    void *         p;
-    unsigned int   t:2;
+  // The bit squatting is implemented by casting pointers to (char *), then
+  // subtracting to NULL, doing bit manipulations on the resulting integer,
+  // and converting back.
 
-    menion(void * ptr)
-    : p(ptr) {}
+  static char * clean_pointer(char * p)
+  {
+    return ((p - (char *) NULL) & ~ (std::ptrdiff_t) START_END) + (char *) NULL;
+  }
 
-    menion(void * ptr, Type type)
-    : p(ptr)
-    {
-      CGAL_precondition(0 <= type && type < 4);
-      t = type;
-    }
-  };
-
-  // Returns the pointee, cleaned from the squatted bits (the last 2 bits).
+  // Returns the pointee, cleaned up from the squatted bits.
   static pointer clean_pointee(const_pointer ptr)
   {
-    return (pointer) menion(Traits::pointer(*ptr), USED).p;
+    return (pointer) clean_pointer((char *) Traits::pointer(*ptr));
   }
 
   // Get the type of the pointee.
   static Type type(const_pointer ptr)
   {
-    menion me(Traits::pointer(*ptr));
-    return (Type) me.t;
+    char * p = (char *) Traits::pointer(*ptr);
+    return (Type) (p - clean_pointer(p));
   }
 
   // Sets the pointer part and the type of the pointee.
   static void set_type(pointer ptr, void * p, Type t)
   {
-    Traits::pointer(*ptr) = menion(p, t).p;
+    CGAL_precondition(0 <= t && t < 4);
+    Traits::pointer(*ptr) = (void *) ((clean_pointer((char *) p)) + (int) t);
   }
+
+  // We store a vector of pointers to all allocated blocks and their sizes.
+  // Knowing all pointers, we don't have to walk to the end of a block to reach
+  // the pointer to the next block.
+  // Knowing the sizes allows to deallocate() without having to compute the size
+  // by walking through the block till its end.
+  // This opens up the possibility for the compiler to optimize the clear()
+  // function considerably when has_trivial_destructor<T>.
+  typedef std::vector<std::pair<pointer, size_type> >  All_items;
 
   void init()
   {
@@ -489,6 +504,7 @@ private:
     free_list  = NULL;
     first_item = NULL;
     last_item  = NULL;
+    all_items  = All_items();
   }
 
   allocator_type   alloc;
@@ -498,6 +514,7 @@ private:
   pointer          free_list;
   pointer          first_item;
   pointer          last_item;
+  All_items        all_items;
 };
 
 template < class T, class Allocator >
@@ -539,23 +556,16 @@ void Compact_container<T, Allocator>::merge(Self &d)
 template < class T, class Allocator >
 void Compact_container<T, Allocator>::clear()
 {
-  // erase(begin(), end()); // nicer, but doesn't free memory.
-  pointer p = first_item;
-  while (p != NULL) { // catches the empty container case.
-    ++p;
-    if (type(p) == USED)
-      alloc.destroy(p); // destroy used elements
-    else if (type(p) == BLOCK_BOUNDARY ||
-             type(p) == START_END) {
-      const_pointer end = p;
-      p = clean_pointee(p);
-      // p becomes NULL if end of block
-      alloc.deallocate(first_item, end - first_item + 1);
-      capacity_ -= end - first_item -1;
-      first_item = p; // keep pointer to begining of current block.
+  for (typename All_items::iterator it = all_items.begin(), end = all_items.end();
+       it != end; ++it) {
+    pointer p = it->first;
+    size_type s = it->second;
+    for (pointer pp = p + 1; pp != p + s - 1; ++pp) {
+      if (type(pp) == USED)
+        alloc.destroy(pp);
     }
-  };
-  CGAL_assertion(capacity_==0);
+    alloc.deallocate(p, s);
+  }
   init();
 }
 
@@ -563,6 +573,7 @@ template < class T, class Allocator >
 void Compact_container<T, Allocator>::allocate_new_block()
 {
   pointer new_block = alloc.allocate(block_size + 2);
+  all_items.push_back(std::make_pair(new_block, block_size + 2));
   capacity_ += block_size;
   // We don't touch the first and the last one.
   // We mark them free in reverse order, so that the insertion order
@@ -571,21 +582,20 @@ void Compact_container<T, Allocator>::allocate_new_block()
     put_on_free_list(new_block + i);
   // We insert this new block at the end.
   if (last_item == NULL) // First time
-    {
+  {
       first_item = new_block;
       last_item  = new_block + block_size + 1;
       set_type(first_item, NULL, START_END);
-      set_type(last_item, NULL, START_END);
-    }
+  }
   else
-    {
+  {
       set_type(last_item, new_block, BLOCK_BOUNDARY);
       set_type(new_block, last_item, BLOCK_BOUNDARY);
       last_item = new_block + block_size + 1;
-      set_type(last_item, NULL, START_END);
-    }
-    // Increase the block_size for the next time.
-    block_size += 16;
+  }
+  set_type(last_item, NULL, START_END);
+  // Increase the block_size for the next time.
+  block_size += 16;
 }
 
 template < class T, class Allocator >
@@ -676,7 +686,7 @@ namespace CGALi {
     }
 
     // Construction from NULL
-    CC_iterator (CGAL_NULL_TYPE CGAL_assertion_code(n))
+    CC_iterator (Nullptr_t CGAL_assertion_code(n))
     {
       CGAL_assertion (n == NULL);
       m_ptr.p = NULL;
@@ -790,10 +800,11 @@ namespace CGALi {
     return &*rhs != &*lhs;
   }
 
+  // Comparisons with NULL are part of CGAL's Handle concept...
   template < class DSC, bool Const >
   inline
   bool operator==(const CC_iterator<DSC, Const> &rhs,
-                  CGAL_NULL_TYPE CGAL_assertion_code(n))
+                  Nullptr_t CGAL_assertion_code(n))
   {
     CGAL_assertion( n == NULL);
     return &*rhs == NULL;
@@ -802,7 +813,7 @@ namespace CGALi {
   template < class DSC, bool Const >
   inline
   bool operator!=(const CC_iterator<DSC, Const> &rhs,
-		  CGAL_NULL_TYPE CGAL_assertion_code(n))
+		  Nullptr_t CGAL_assertion_code(n))
   {
     CGAL_assertion( n == NULL);
     return &*rhs != NULL;

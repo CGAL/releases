@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Ridges_3/include/CGAL/Umbilics.h $
-// $Id: Umbilics.h 36821 2007-03-05 16:24:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Ridges_3/include/CGAL/Umbilics.h $
+// $Id: Umbilics.h 41665 2008-01-17 21:48:08Z spion $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_UMBILIC_H_
@@ -140,12 +140,12 @@ template < class TriangulatedSurfaceMesh,
 
 template < class TriangulatedSurfaceMesh,  class Vertex2FTPropertyMap, class Vertex2VectorPropertyMap >
   Umbilic_approximation< TriangulatedSurfaceMesh, Vertex2FTPropertyMap, Vertex2VectorPropertyMap >::
-Umbilic_approximation(const TriangulatedSurfaceMesh& P, 
+Umbilic_approximation(const TriangulatedSurfaceMesh& p, 
 		      const Vertex2FTPropertyMap& vertex2k1_pm, 
 		      const Vertex2FTPropertyMap& vertex2k2_pm,
 		      const Vertex2VectorPropertyMap& vertex2d1_pm, 
 		      const Vertex2VectorPropertyMap& vertex2d2_pm)
-  : P(P), k1(vertex2k1_pm), k2(vertex2k2_pm), 
+  : P(p), k1(vertex2k1_pm), k2(vertex2k2_pm), 
     d1(vertex2d1_pm), d2(vertex2d2_pm)
 {
   //check that the mesh is a triangular one.

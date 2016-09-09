@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Constructions_C2.h $
-// $Id: Constructions_C2.h 32758 2006-07-27 18:02:56Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Constructions_C2.h $
+// $Id: Constructions_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -74,7 +74,6 @@ public:
   typedef typename Gt::Site_2               Site_2;
 
   typedef Point_2       result_type;
-  typedef Arity_tag<3>  Arity;
 
   Point_2 operator() (const Site_2& p, const Site_2& q,
                       const Site_2& r) const
@@ -129,9 +128,8 @@ public:
   typedef typename Gt::Site_2             Site_2;
 
 #if 0
-  // WARNING: the following two types are just a hack; none of the
-  // two is really valid
-  struct Arity {};
+  // WARNING: the following type is just a hack; it is not
+  // really valid
   typedef Site_2 result_type;
 #endif
 

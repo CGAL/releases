@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Restricted_double.h $
-// $Id: Restricted_double.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Restricted_double.h $
+// $Id: Restricted_double.h 39778 2007-08-08 15:59:25Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -68,12 +68,12 @@ private:
 inline
 Restricted_double
 sqrt(const Restricted_double &f)
-{ return CGAL_CLIB_STD::sqrt(f.dbl()); }
+{ return std::sqrt(f.dbl()); }
 
 inline
 Restricted_double
 abs(const Restricted_double &f)
-{ return CGAL_CLIB_STD::fabs(f.dbl()); }
+{ return std::fabs(f.dbl()); }
 
 inline
 double

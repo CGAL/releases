@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/binop_intersection_tests.h $
-// $Id: binop_intersection_tests.h 37434 2007-03-23 21:24:03Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/binop_intersection_tests.h $
+// $Id: binop_intersection_tests.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Andreas Meyer  <ameyer@mpi-sb.mpg.de>
@@ -76,7 +76,7 @@ struct binop_intersection_test_segment_tree {
         return;
       Point_3 ip;
       if( is.does_intersect_internally( Const_decorator::segment(e0), f1, ip )) {
-        cb(e0,f1,ip);
+        cb(e0,make_object(f1),ip);
       }
     }
   };
@@ -103,7 +103,7 @@ struct binop_intersection_test_segment_tree {
       Point_3 ip;
       if( is.does_intersect_internally( Const_decorator::segment( e1 ),
                                         f0, ip ) )
-        cb(e1,f0,ip);
+        cb(e1,make_object(f0),ip);
     }
   };
 
@@ -126,7 +126,7 @@ struct binop_intersection_test_segment_tree {
       Point_3 ip;
       if( is.does_intersect_internally( Const_decorator::segment( e0 ),
                                         Const_decorator::segment( e1 ), ip ))
-        cb(e0,e1,ip);
+        cb(e0,make_object(e1),ip);
     }
   };
 

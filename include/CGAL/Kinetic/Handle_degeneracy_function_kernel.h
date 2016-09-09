@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Handle_degeneracy_function_kernel.h $
-// $Id: Handle_degeneracy_function_kernel.h 35973 2007-01-31 03:15:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Handle_degeneracy_function_kernel.h $
+// $Id: Handle_degeneracy_function_kernel.h 39014 2007-06-10 23:05:03Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -41,30 +41,30 @@ class HDRS{
     */
     HDRS(const Function &uf, const Root& lb,
 	 const Root& ub, const Traits_t& k): solver_(k.root_stack_object(uf, lb, ub)) {
-      CGAL_KINETIC_LOG(LOG_LOTS, "Function= " << uf << std::endl);
+      CGAL_LOG(Log::LOTS, "Function= " << uf << std::endl);
       CGAL_expensive_precondition(solver_.empty() || solver_.top() >= lb);
       if (uf.degree() == -1) {
-	CGAL_KINETIC_LOG(LOG_SOME, "Zero function found at time " << lb << std::endl);	
+	CGAL_LOG(Log::SOME, "Zero function found at time " << lb << std::endl);	
 	++ internal::zero_certificates__;
       }
 #ifndef NDEBUG
       if (!SLOPPY && k.sign_at_object()(uf, lb) == CGAL::NEGATIVE) {
-	CGAL_KINETIC_ERROR( "Invalid certificate constructed for function " << uf << " between " << lb 
+	CGAL_ERROR( "Invalid certificate constructed for function " << uf << " between " << lb 
 			    << " and " << ub << " will fail immediately." << std::endl);
 	CGAL_exactness_precondition(k.sign_at_object()(uf, lb) != CGAL::NEGATIVE);
       }
 #endif
       if (solver_.empty()) {
-	 CGAL_KINETIC_LOG(LOG_LOTS, "No failure" << std::endl);
+	CGAL_LOG(Log::LOTS, "No failure" << std::endl);
 	 //sn = k.sign_between_roots_object()(uf, lb, ub);
       } else if (solver_.top() == lb) {
-	CGAL_KINETIC_LOG(LOG_LOTS, "Degeneracy at " << solver_.top() << std::endl);
+	CGAL_LOG(Log::LOTS, "Degeneracy at " << solver_.top() << std::endl);
 	CGAL::Sign sn = k.sign_after_object()(uf, lb);
 	if (sn == CGAL::NEGATIVE) {
 	  ++internal::function_degeneracies__;
-	  CGAL_KINETIC_LOG(LOG_LOTS, "Extra root at lower bound of " << lb << std::endl);
+	  CGAL_LOG(Log::LOTS, "Extra root at lower bound of " << lb << std::endl);
 	} else {
-	  CGAL_KINETIC_LOG(LOG_LOTS, "Popping extra root at lower bound of " << lb << std::endl);
+	  CGAL_LOG(Log::LOTS, "Popping extra root at lower bound of " << lb << std::endl);
 	  solver_.pop();
 	}
       } 

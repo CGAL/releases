@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_ds_vertex_base_2.h $
-// $Id: Triangulation_ds_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_ds_vertex_base_2.h $
+// $Id: Triangulation_ds_vertex_base_2.h 41733 2008-01-20 22:46:28Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -36,7 +36,6 @@ public:
   typedef typename TDS::Face_handle    Face_handle;
   typedef typename TDS::Vertex_handle  Vertex_handle;
 
-   // Borland seems to require it.
   template <typename TDS2>
   struct Rebind_TDS { typedef Triangulation_ds_vertex_base_2<TDS2> Other; };
 

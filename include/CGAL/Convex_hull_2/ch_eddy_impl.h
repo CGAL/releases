@@ -11,12 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_eddy_impl.h $
-// $Id: ch_eddy_impl.h 31422 2006-06-04 15:33:38Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/include/CGAL/Convex_hull_2/ch_eddy_impl.h $
+// $Id: ch_eddy_impl.h 45040 2008-08-20 09:52:00Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
-
 
 #ifndef CGAL_CH_EDDY_C
 #define CGAL_CH_EDDY_C
@@ -28,17 +27,20 @@
 #include <CGAL/Convex_hull_2/ch_assertions.h>
 #include <CGAL/ch_selected_extreme_points_2.h>
 #include <CGAL/algorithm.h>
-#include <CGAL/functional.h>
 #include <list>
 #include <algorithm>
+#include <boost/bind.hpp>
 
 CGAL_BEGIN_NAMESPACE
+
 template <class List, class ListIterator, class Traits>
 void
 ch__recursive_eddy(List& L, 
                         ListIterator  a_it, ListIterator  b_it, 
                         const Traits& ch_traits)
 {
+  using namespace boost;
+
   typedef  typename Traits::Point_2                         Point_2;    
   typedef  typename Traits::Left_turn_2                     Left_turn_2;
   typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
@@ -47,7 +49,7 @@ ch__recursive_eddy(List& L,
   
   CGAL_ch_precondition( \
     std::find_if(a_it, b_it, \
-            bind_1(bind_1(left_turn, *b_it), *a_it)) \
+                 bind(left_turn, *b_it, *a_it, _1)) \
     != b_it );
 
 
@@ -55,11 +57,11 @@ ch__recursive_eddy(List& L,
   Less_dist less_dist = ch_traits.less_signed_distance_to_line_2_object();
   ListIterator 
       c_it = std::min_element( f_it, b_it,  // max before
-                               bind_1(bind_1(less_dist, *a_it), *b_it));
+                               bind(less_dist, *a_it, *b_it, _1, _2));
   Point_2 c = *c_it;
 
-  c_it = std::partition(f_it, b_it, bind_1(bind_1(left_turn, c), *a_it));
-  f_it = std::partition(c_it, b_it, bind_1(bind_1(left_turn, *b_it), c));
+  c_it = std::partition(f_it, b_it, bind(left_turn, c, *a_it, _1));
+  f_it = std::partition(c_it, b_it, bind(left_turn, *b_it, c, _1));
   c_it = L.insert(c_it, c);
   L.erase( f_it, b_it );
 
@@ -71,8 +73,6 @@ ch__recursive_eddy(List& L,
   {
       ch__recursive_eddy( L, c_it, b_it, ch_traits);
   }
-
-
 }
 
 template <class InputIterator, class OutputIterator, class Traits>
@@ -81,6 +81,8 @@ ch_eddy(InputIterator first, InputIterator last,
              OutputIterator  result,
              const Traits& ch_traits)
 {
+  using namespace boost;
+
   typedef  typename Traits::Point_2                         Point_2;    
   typedef  typename Traits::Left_turn_2                     Left_turn_2;
   typedef  typename Traits::Equal_2                         Equal_2;   
@@ -89,8 +91,7 @@ ch_eddy(InputIterator first, InputIterator last,
   Equal_2     equal_points = ch_traits.equal_2_object();   
 
   if (first == last) return result;
-  std::list< Point_2 >   L;
-  std::copy( first, last, std::back_inserter(L) );
+  std::list< Point_2 >   L (first, last);
 
   typedef typename std::list< Point_2 >::iterator  list_iterator;
   list_iterator   w, e;
@@ -107,7 +108,7 @@ ch_eddy(InputIterator first, InputIterator last,
   L.erase(e);
   
   e = std::partition(L.begin(), L.end(), 
-                     bind_1(bind_1(left_turn, ep), wp) );
+                     bind(left_turn, ep, wp, _1) );
   L.push_front(wp);
   e = L.insert(e, ep);
 
@@ -115,7 +116,7 @@ ch_eddy(InputIterator first, InputIterator last,
   {
       ch__recursive_eddy( L, L.begin(), e, ch_traits);
   }
-  w = std::find_if( e, L.end(), bind_1(bind_1(left_turn, wp), ep) );
+  w = std::find_if( e, L.end(), bind(left_turn, wp, ep, _1) );
   if ( w == L.end() )
   {
       L.erase( ++e, L.end() );
@@ -132,10 +133,8 @@ ch_eddy(InputIterator first, InputIterator last,
                                    L.begin(), w, ch_traits ) );
 
   return std::copy( L.begin(), w, result );
-
 }
 
 CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_EDDY_C
-

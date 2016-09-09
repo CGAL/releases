@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_point.h $
-// $Id: Sphere_point.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/Sphere_point.h $
+// $Id: Sphere_point.h 44480 2008-07-26 20:26:48Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -21,6 +21,7 @@
 #define CGAL_SPHERE_POINT_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Origin.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -123,8 +124,8 @@ Sphere_point<R> antipode() const
 }; // Sphere_point<R>
 
 template <typename R>
-CGAL::Point_3<R> operator+(
-  const CGAL::Point_3<R>& p, const Sphere_point<R>& q)
+typename R::Point_3 operator+
+  (const typename R::Point_3& p, const Sphere_point<R>& q)
 { return p + (q-CGAL::ORIGIN); }
 
 CGAL_END_NAMESPACE

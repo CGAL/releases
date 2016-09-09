@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_site_2.h $
-// $Id: Segment_Delaunay_graph_site_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_site_2.h $
+// $Id: Segment_Delaunay_graph_site_2.h 46222 2008-10-13 09:56:02Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -96,7 +96,7 @@ public:
  }
 
 public:
-  bool is_defined() const { return type_; }
+  bool is_defined() const { return type_ != 0; }
   bool is_point() const { return (type_ & 3) == 1; }
   bool is_segment() const { return (type_ & 3) == 2; }
   bool is_input() const { return !(type_ & 12); }
@@ -284,8 +284,8 @@ protected:
     RT x3 = p3.x(), y3 = p3.y();
     RT x4 = p4.x(), y4 = p4.y();
 
-    RT D = det2x2_by_formula(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
-    RT Dt = det2x2_by_formula(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
+    RT D = determinant(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
+    RT Dt = determinant(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
 
     RT t = Dt / D;
 

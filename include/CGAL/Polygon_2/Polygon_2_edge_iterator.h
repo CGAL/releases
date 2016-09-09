@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
-// $Id: Polygon_2_edge_iterator.h 31310 2006-05-29 07:28:42Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
+// $Id: Polygon_2_edge_iterator.h 45787 2008-09-25 19:15:00Z spion $
 // 
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -28,13 +28,6 @@
 #include <CGAL/circulator.h>
 
 CGAL_BEGIN_NAMESPACE
-
-//-----------------------------------------------------------------------//
-//                          Polygon_2_edge_iterator
-//-----------------------------------------------------------------------//
-// Ideally the class Polygon_2_edge_iterator would be a nested class of
-// Polygon_2, but this leads to compiler problems with SGI C++ 4.0
-// with the iterator_category() function
 
 template <class Traits_, class Container_> class Polygon_2;
 
@@ -80,7 +73,7 @@ class Polygon_2_edge_iterator {
       return !(first_vertex == x.first_vertex);
     }
 
-    Segment_2 operator*() {
+    Segment_2 operator*() const {
       const_iterator second_vertex = first_vertex;
       ++second_vertex;
       if (second_vertex == container->end())
@@ -90,7 +83,7 @@ class Polygon_2_edge_iterator {
       return construct_segment_2(*first_vertex, *second_vertex);
     }
     
-    Polygon_2__Segment_ptr<Segment_2> operator->()
+    Polygon_2__Segment_ptr<Segment_2> operator->() const
         {return Polygon_2__Segment_ptr<Segment_2>(operator*());}
 
     Polygon_2_edge_iterator<Traits_, Container_>& operator++() {
@@ -123,7 +116,7 @@ class Polygon_2_edge_iterator {
     }
 
     Polygon_2_edge_iterator<Traits_, Container_>
-    operator+(difference_type n) {
+    operator+(difference_type n) const {
       return Polygon_2_edge_iterator<Traits_, Container_>(
         container, first_vertex + n);
     }
@@ -134,37 +127,37 @@ class Polygon_2_edge_iterator {
     }
 
     Polygon_2_edge_iterator<Traits_, Container_>
-    operator-(difference_type n) {
+    operator-(difference_type n) const {
       return Polygon_2_edge_iterator<Traits_, Container_>(
         container, first_vertex - n);
     }
 
     difference_type
-    operator-(const Polygon_2_edge_iterator<Traits_, Container_>& a) {
+    operator-(const Polygon_2_edge_iterator<Traits_, Container_>& a) const {
       return first_vertex - a.first_vertex;
     }
 
-    Segment_2 operator[](int n) {
+    Segment_2 operator[](int n) const {
       return *Polygon_2_edge_iterator<Traits_, Container_>(
         container, first_vertex+n);
     }
 
-    bool operator<(const Polygon_2_edge_iterator<Traits_, Container_>& a)
+    bool operator<(const Polygon_2_edge_iterator<Traits_, Container_>& a) const
     {
       return first_vertex < a.first_vertex;
     }
 
-    bool operator>(const Polygon_2_edge_iterator<Traits_, Container_>& a)
+    bool operator>(const Polygon_2_edge_iterator<Traits_, Container_>& a) const
     {
       return first_vertex > a.first_vertex;
     }
 
-    bool operator<=(const Polygon_2_edge_iterator<Traits_, Container_>& a)
+    bool operator<=(const Polygon_2_edge_iterator<Traits_, Container_>& a) const
     {
       return first_vertex <= a.first_vertex;
     }
 
-    bool operator>=(const Polygon_2_edge_iterator<Traits_, Container_>& a)
+    bool operator>=(const Polygon_2_edge_iterator<Traits_, Container_>& a) const
     {
       return first_vertex >= a.first_vertex;
     }
@@ -201,4 +194,3 @@ value_type(const Polygon_2_edge_iterator<Traits_,Container_>&)
 CGAL_END_NAMESPACE
 
 #endif
-

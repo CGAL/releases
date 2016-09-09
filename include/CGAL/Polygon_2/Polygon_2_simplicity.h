@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
-// $Id: Polygon_2_simplicity.h 31310 2006-05-29 07:28:42Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
+// $Id: Polygon_2_simplicity.h 41736 2008-01-20 22:50:29Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -159,8 +159,7 @@ public:
 template <class ForwardIterator, class PolygonTraits>
 class Vertex_data : public Vertex_data_base<ForwardIterator, PolygonTraits> {
 public:
-    typedef Vertex_data Self;  // Indirection needed by Borland compiler
-    typedef Less_segments<Self> Less_segs;
+    typedef Less_segments<Vertex_data> Less_segs;
     typedef std::set<Vertex_index, Less_segs> Tree;
     typedef Vertex_data_base<ForwardIterator, PolygonTraits> Base_class;
 
@@ -477,6 +476,20 @@ bool is_simple_polygon(Iterator points_begin, Iterator points_end,
     typedef i_polygon::Vertex_data<ForwardIterator, PolygonTraits> Vertex_data;
     typedef std::set<i_polygon::Vertex_index,
                      i_polygon::Less_segments<Vertex_data> >       Tree;
+
+    // A temporary fix as the sweep in some cases doesn't discover vertices with degree > 2
+    // Todo: fix the sweep code
+    std::vector<typename PolygonTraits::Point_2> points(points_begin,points_end);
+    std::sort(points.begin(), points.end(),typename PolygonTraits::Less_xy_2());
+
+    typename std::vector<typename PolygonTraits::Point_2>::iterator 
+                                  succ(points.begin()) , it(succ++);
+    for(;succ != points.end(); ++it,++succ){
+      if(*it == *succ){
+	return false;
+      }
+    }
+    // end of fix    
     Vertex_data   vertex_data(points_begin, points_end, polygon_traits);
     Tree tree(&vertex_data);
     vertex_data.init(&tree);

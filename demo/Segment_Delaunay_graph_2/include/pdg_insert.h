@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/pdg_insert.h $
-// $Id: pdg_insert.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/pdg_insert.h $
+// $Id: pdg_insert.h 40822 2007-11-07 16:51:18Z ameyer $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -27,7 +27,7 @@ int get_new_id()
   static int gen = 0;
   gen++;
 
-  assert( gen != 0 ); // guards against unwanted phenomena due to
+  CGAL_assertion( gen != 0 ); // guards against unwanted phenomena due to
                       // overflow
   return gen;
 }

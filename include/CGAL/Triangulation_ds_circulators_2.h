@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_ds_circulators_2.h $
-// $Id: Triangulation_ds_circulators_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_ds_circulators_2.h $
+// $Id: Triangulation_ds_circulators_2.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -33,16 +33,16 @@ CGAL_BEGIN_NAMESPACE
 template < class Tds>
 class Triangulation_ds_face_circulator_2
   : public Bidirectional_circulator_base< typename Tds::Face,
-                                 CGAL_CLIB_STD::ptrdiff_t,
-				 CGAL_CLIB_STD::size_t>,
+                                 std::ptrdiff_t,
+				 std::size_t>,
     public Triangulation_cw_ccw_2
       
 {
 private:
   typedef
   Bidirectional_circulator_base< typename Tds::Face,
-                                 CGAL_CLIB_STD::ptrdiff_t,
-				 CGAL_CLIB_STD::size_t>  Base_circulator;
+                                 std::ptrdiff_t,
+				 std::size_t>  Base_circulator;
 
 public:
   typedef Triangulation_ds_face_circulator_2<Tds> Face_circulator;
@@ -74,14 +74,13 @@ public:
 
   bool operator==(const Face_circulator &fc) const;
   bool operator!=(const Face_circulator &fc) const;
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
+
   bool operator==(const Face_handle &fh) const { return pos == fh; }
   bool operator!=(const Face_handle &fh) const { return pos != fh; }
-#endif
 
   bool is_empty() const;
-  bool operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
-  bool operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
+  bool operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
 
   Face&
   operator*() const
@@ -100,12 +99,9 @@ public:
   }
   
   Face_handle base()  const {return pos;}
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE   
   operator Face_handle()  const {return pos;}
-#endif
 };
 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
 template < class Tds_ >
 bool
 operator==(typename Tds_::Face_handle fh,
@@ -121,20 +117,14 @@ operator!=(typename Tds_::Face_handle fh,
 {
   return (fc!=fh);
 }
-#endif
+
 
 template < class Tds >
 class Triangulation_ds_vertex_circulator_2 :
   public Bidirectional_circulator_base< typename Tds::Vertex, 
-                                       CGAL_CLIB_STD::ptrdiff_t,
-                                       CGAL_CLIB_STD::size_t>,
+                                       std::ptrdiff_t,
+                                       std::size_t>,
   public  Triangulation_cw_ccw_2
-#ifdef CGAL_CFG_CONVERSION_OPERATOR_BUG
-  // To work around the bug with the conversion operator,
-  // we replace it by storing a vertex_handle as a base class,
-  // so that we effectively get automatic conversion.
-  , public Tds::Vertex_handle
-#endif
 {
 public:
   typedef Triangulation_ds_vertex_circulator_2<Tds> Vertex_circulator;
@@ -148,13 +138,6 @@ private:
   Face_handle   pos;
   int _ri;
   
-  void update_base()
-  {
-#ifdef CGAL_CFG_CONVERSION_OPERATOR_BUG
-    static_cast<Vertex_handle&>(*this) = pos->vertex(_ri);
-#endif
-  }
-
 public:
   Triangulation_ds_vertex_circulator_2()
     :  _v(), pos()
@@ -170,15 +153,15 @@ public:
  
   bool operator==(const Vertex_circulator &vc) const;
   bool operator!=(const Vertex_circulator &vc) const;
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE 
+
   bool operator==(const Vertex_handle &vh) const
   { return pos->vertex(_ri) == vh; }
   bool operator!=(const Vertex_handle &vh) const
   { return pos->vertex(_ri) != vh; }
-#endif
+
   bool is_empty() const;
-  bool operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
-  bool operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
+  bool operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
 
   Vertex&
   operator*() const
@@ -197,13 +180,9 @@ public:
   }
 
    Vertex_handle base() const {return pos->vertex(_ri);}
-#if defined CGAL_T2_USE_ITERATOR_AS_HANDLE && \
-    !defined CGAL_CFG_CONVERSION_OPERATOR_BUG
    operator Vertex_handle() const {return pos->vertex(_ri);}
-#endif
 };
 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
 template < class Tds_ >
 inline
 bool
@@ -221,13 +200,13 @@ operator!=(typename Tds_::Vertex_handle vh,
 {
   return !(vc==vh);
 }
-#endif
+
 
 template < class Tds >
 class Triangulation_ds_edge_circulator_2 :
   public Bidirectional_circulator_base < typename Tds::Edge, 
-                                         CGAL_CLIB_STD::ptrdiff_t,
-					 CGAL_CLIB_STD::size_t>,
+                                         std::ptrdiff_t,
+					 std::size_t>,
   public Triangulation_cw_ccw_2
 {
 public:
@@ -260,8 +239,8 @@ public:
   bool operator==(const Edge_circulator &vc) const;
   bool operator!=(const Edge_circulator &vc) const;
   bool is_empty() const;
-  bool operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
-  bool operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
+  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
+  bool operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const;
 
   Edge*  operator->() const { 
     edge.first=pos;
@@ -378,7 +357,7 @@ return (_v == Vertex_handle() ||  pos == Face_handle() );
 template < class Tds >
 inline bool
 Triangulation_ds_face_circulator_2<Tds> ::
-operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return (_v == Vertex_handle() ||  pos == Face_handle() );  
@@ -387,7 +366,7 @@ operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 template < class Tds >
 inline bool
 Triangulation_ds_face_circulator_2<Tds> ::
-operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return ! (*this == NULL);
@@ -407,7 +386,6 @@ Triangulation_ds_vertex_circulator_2 (Vertex_handle v,
   int i = pos->index(_v);
   if (pos->dimension() == 2) {_ri = ccw(i);}
   else {_ri = 1-i;}
-  update_base();
   return;
 }
 
@@ -430,7 +408,6 @@ operator++()
     i = pos->index(_v);
     _ri = ccw(i);
   }
-  update_base();
   return *this;
 }
         
@@ -462,7 +439,6 @@ operator--()
     i = pos->index(_v);
     _ri = ccw(i);
   }
-  update_base();
   return *this;
 }
         
@@ -503,7 +479,7 @@ is_empty() const
 template < class Tds >
 inline bool
 Triangulation_ds_vertex_circulator_2<Tds> ::
-operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return (_v == Vertex_handle() || pos == Face_handle());
@@ -512,7 +488,7 @@ operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 template < class Tds >
 inline bool
 Triangulation_ds_vertex_circulator_2<Tds> ::        
-operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return !(*this == NULL);
@@ -623,7 +599,7 @@ is_empty() const
 template < class Tds >
 inline bool
 Triangulation_ds_edge_circulator_2<Tds> ::
-operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return (_v == Vertex_handle() || pos == Face_handle());
@@ -632,7 +608,7 @@ operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 template < class Tds >
 inline bool
 Triangulation_ds_edge_circulator_2<Tds> ::
-operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
+operator!=(Nullptr_t CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
   return !(*this == NULL);

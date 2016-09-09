@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/include/CGAL/bounding_box.h $
-// $Id: bounding_box.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/bounding_box.h $
+// $Id: bounding_box.h 42946 2008-04-17 20:53:36Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -23,7 +23,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Kernel_traits.h>
-#include <CGAL/Kernel/Dimension.h>
+#include <CGAL/Dimension.h>
 #include <CGAL/Kernel/Dimension_utils.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -39,7 +39,7 @@ namespace CGALi {
 
 template < class ForwardIterator, class Traits >
 typename Traits::Iso_rectangle_2
-bounding_box_2(ForwardIterator f, ForwardIterator l, const Traits& t)
+bounding_box(ForwardIterator f, ForwardIterator l, const Traits& t, Dimension_tag<2>)
 {
   CGAL_precondition(f != l);
   typedef typename Traits::Less_x_2                  Less_x_2;
@@ -72,7 +72,7 @@ bounding_box_2(ForwardIterator f, ForwardIterator l, const Traits& t)
 
 template < class ForwardIterator, class Traits >
 typename Traits::Iso_cuboid_3
-bounding_box_3(ForwardIterator f, ForwardIterator l, const Traits& t)
+bounding_box(ForwardIterator f, ForwardIterator l, const Traits& t, Dimension_tag<3>)
 {
   CGAL_precondition(f != l);
   typedef typename Traits::Less_x_3                  Less_x_3;
@@ -115,66 +115,29 @@ bounding_box_3(ForwardIterator f, ForwardIterator l, const Traits& t)
 #if 0
 template < class ForwardIterator, class Traits >
 typename Traits::Iso_box_d
-bounding_box_d(ForwardIterator f, ForwardIterator l, const Traits& t);
+bounding_box(ForwardIterator f, ForwardIterator l, const Traits& t, Dynamic_dimension_tag);
 
 // To be written...
 
 #endif
 
-
-template < int dim >
-struct bbox;
-
-template <>
-struct bbox<2>
-{
-  template < class ForwardIterator, class Traits >
-  typename Traits::Iso_rectangle_2
-  operator()(ForwardIterator f, ForwardIterator l, const Traits& t) const
-  {
-    return bounding_box_2(f, l, t);
-  }
-};
-
-template <>
-struct bbox<3>
-{
-  template < class ForwardIterator, class Traits >
-  typename Traits::Iso_cuboid_3
-  operator()(ForwardIterator f, ForwardIterator l, const Traits& t) const
-  {
-    return bounding_box_3(f, l, t);
-  }
-};
-
-template <>
-struct bbox<0>
-{
-  template < class ForwardIterator, class Traits >
-  typename Traits::Iso_box_d
-  operator()(ForwardIterator f, ForwardIterator l, const Traits& t) const
-  {
-    return bounding_box_d(f, l, t);
-  }
-};
-
 }
 
 template < class ForwardIterator, class K >
 inline
-typename Iso_box<Dimension<typename std::iterator_traits<ForwardIterator>
-                                    ::value_type, K>::value, K >::type
+typename Access::Iso_box<K, typename Ambient_dimension<typename std::iterator_traits<ForwardIterator>
+                                              ::value_type, K>::type>::type
 bounding_box(ForwardIterator f, ForwardIterator l, const K& k)
 {
   typedef typename std::iterator_traits< ForwardIterator >::value_type Pt;
-  return CGALi::bbox<Dimension<Pt>::value>()(f, l, k);
+  return CGALi::bounding_box(f, l, k, typename Ambient_dimension<Pt>::type() );
 }
 
 template < class ForwardIterator >
 inline
-typename Iso_box<Dimension<typename std::iterator_traits<ForwardIterator>::value_type,
-                           typename Kernel_traits<typename std::iterator_traits<ForwardIterator>::value_type>::Kernel>::value,
-                 typename Kernel_traits<typename std::iterator_traits<ForwardIterator>::value_type>::Kernel >::type
+typename Access::Iso_box<typename Kernel_traits<typename std::iterator_traits<ForwardIterator>::value_type>::Kernel,
+                   typename Ambient_dimension<typename std::iterator_traits<ForwardIterator>::value_type,
+                   typename Kernel_traits<typename std::iterator_traits<ForwardIterator>::value_type>::Kernel>::type >::type
 bounding_box(ForwardIterator f, ForwardIterator l)
 {
   typedef typename std::iterator_traits< ForwardIterator >::value_type Pt;

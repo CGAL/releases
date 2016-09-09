@@ -15,15 +15,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/GMP/Gmpz_type.h $
-// $Id: Gmpz_type.h 38448 2007-04-26 11:52:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpz_type.h $
+// $Id: Gmpz_type.h 45617 2008-09-17 15:53:27Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra, Sylvain Pion
 
 
-#ifndef CGAL_GMPZ_Type_H
-#define CGAL_GMPZ_Type_H
+#ifndef CGAL_GMPZ_TYPE_H
+#define CGAL_GMPZ_TYPE_H
 
 #include <CGAL/basic.h>
 #include <gmp.h>
@@ -33,11 +33,7 @@
 #include <CGAL/Handle_for.h>
 
 #include <string>
-#ifndef CGAL_CFG_NO_LOCALE
-#  include <locale>
-#else
-#  include <cctype>
-#endif
+#include <locale>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -98,6 +94,7 @@ public:
   Gmpz(double d)
   {
      CGAL_warning_msg(is_integer(d), "Gmpz constructed from non-integer double value");
+     CGAL_assertion(is_finite(d));
      mpz_init_set_d(mpz(), d);
    }
 
@@ -321,22 +318,17 @@ void gmpz_eat_white_space(std::istream &is)
   std::istream::int_type c;
   do {
     c= is.peek();
-    if (c== std::istream::traits_type::eof()) return;
+    if (c== std::istream::traits_type::eof())
+      return;
     else {
       std::istream::char_type cc= c;
-      if (
-#ifndef CGAL_CFG_NO_LOCALE
-	     std::isspace(cc, std::locale::classic() )
-#else
-	     CGAL_CLIB_STD::isspace(cc)
-#endif // CGAL_CFG_NO_LOCALE
-	     ) {
-      is.get();
-      // since peek succeeded, this should too
-      CGAL_assertion(!is.fail());
-    } else {
-      return;
-    }
+      if ( std::isspace(cc, std::locale::classic()) ) {
+        is.get();
+        // since peek succeeded, this should too
+        CGAL_assertion(!is.fail());
+      } else {
+        return;
+      }
     }
   } while (true);
 }
@@ -366,14 +358,8 @@ gmpz_new_read(std::istream &is, Gmpz &z)
 
   std::istream::char_type cc= c;
 
-  if (c== std::istream::traits_type::eof()
-      ||
-#ifndef CGAL_CFG_NO_LOCALE
-      !std::isdigit(cc, std::locale::classic() )
-#else
-      !std::isdigit(cc)
-#endif // CGAL_CFG_NO_LOCALE) {
-      ){
+  if (c== std::istream::traits_type::eof() ||
+      !std::isdigit(cc, std::locale::classic() ) ){
     is.setstate(std::ios_base::failbit);
   } else {
     CGAL_assertion(cc==c);
@@ -386,13 +372,7 @@ gmpz_new_read(std::istream &is, Gmpz &z)
 	break;
       }
       cc=c;
-      if  (
-#ifndef CGAL_CFG_NO_LOCALE
-	   !std::isdigit(cc, std::locale::classic() )
-#else
-	   !std::isdigit(cc)
-#endif // CGAL_CFG_NO_LOCALE
-	   ) {
+      if  ( !std::isdigit(cc, std::locale::classic() )) {
 	break;
       }
       is.get();
@@ -424,36 +404,20 @@ read_gmpz(std::istream& is, Gmpz &z) {
   std::ios::fmtflags old_flags = is.flags();
 
   is.unsetf(std::ios::skipws);
-#ifndef CGAL_CFG_NO_LOCALE
   while (is.get(c) && std::isspace(c, std::locale::classic() ))
-#else
-  while (is.get(c) && CGAL_CLIB_STD::isspace(c))
-#endif // CGAL_CFG_NO_LOCALE
   {}
 
   if (c == '-')
   {
         negative = true;
-#ifndef CGAL_CFG_NO_LOCALE
         while (is.get(c) && std::isspace(c, std::locale::classic() ))
-#else
-        while (is.get(c) && CGAL_CLIB_STD::isspace(c))
-#endif // CGAL_CFG_NO_LOCALE
         {}
   }
-#ifndef CGAL_CFG_NO_LOCALE
   if (std::isdigit(c, std::locale::classic() ))
-#else
-  if (std::isdigit(c))
-#endif // CGAL_CFG_NO_LOCALE
   {
         good = true;
         tmp = c - null;
-#ifndef CGAL_CFG_NO_LOCALE
         while (is.get(c) && std::isdigit(c, std::locale::classic() ))
-#else
-        while (is.get(c) && std::isdigit(c))
-#endif // CGAL_CFG_NO_LOCALE
         {
             tmp = 10*tmp + (c-null);
         }
@@ -495,4 +459,4 @@ struct Split_double<Gmpz>
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_GMPZ_Type_H
+#endif // CGAL_GMPZ_TYPE_H

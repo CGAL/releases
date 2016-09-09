@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/demo/Nef_3/nef_3_filtered.cpp $
-// $Id: nef_3_filtered.cpp 38299 2007-04-18 14:31:06Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/demo/Nef_3/nef_3_filtered.cpp $
+// $Id: nef_3_filtered.cpp 44870 2008-08-11 13:43:58Z hachenb $
 // 
 //
 // Author(s)     : Lutz Kettner
@@ -23,13 +23,12 @@
 // ============================================================================
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Nef_3/demo_stack.h>
-#include <CGAL/Nef_3/SNC_indexed_items.h>
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
 
 int main(  int argc, char* argv[]) {    
  
-  CGAL::demo_stack<Kernel, CGAL::SNC_indexed_items> ds;
+  CGAL::demo_stack<Kernel> ds;
   if ( argc < 2
        || strcmp( argv[1], "-h") == 0
        || strcmp( argv[1], "-help") == 0 )

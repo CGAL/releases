@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Orientation_3.h $
-// $Id: Orientation_3.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Orientation_3.h $
+// $Id: Orientation_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -97,7 +97,7 @@ public:
           if (maxz < fabs(prz)) maxz = fabs(prz);
           if (maxz < fabs(psz)) maxz = fabs(psz);
           double eps = 5.1107127829973299e-15 * maxx * maxy * maxz;
-          double det = det3x3_by_formula(pqx, pqy, pqz,
+          double det = determinant(pqx, pqy, pqz,
                                          prx, pry, prz,
                                          psx, psy, psz);
 
@@ -131,7 +131,7 @@ public:
   {
     typedef Static_filter_error F;
     F t1 = F(1, F::ulp()/2);         // First translation
-    F det = det3x3_by_formula(t1, t1, t1,
+    F det = determinant(t1, t1, t1,
                               t1, t1, t1,
                               t1, t1, t1); // Full det
     double err = det.error();

@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
-// $Id: my_window.h 37470 2007-03-26 08:16:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
+// $Id: my_window.h 41712 2008-01-20 19:13:05Z spion $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
 #ifndef MY_WINDOW_H
 #define MY_WINDOW_H
+
+#include <cassert>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -382,7 +384,7 @@ private slots:
 	  msg_valid = "Voronoi diagram is NOT valid.";
 	}
 
-	CGAL_CLIB_STD::sprintf(msg, "Insertion time: %f", timer.time());
+	std::sprintf(msg, "Insertion time: %f", timer.time());
 	widget->get_label()->setText(msg_valid + " " + msg);
       }
     } else if ( input_mode == VD_CIRCLE ) {
@@ -401,7 +403,7 @@ private slots:
 	  msg_valid = "Voronoi diagram is NOT valid.";
 	}
 
-	CGAL_CLIB_STD::sprintf(msg,	"Insertion time: %f", timer.time());
+	std::sprintf(msg,	"Insertion time: %f", timer.time());
 	widget->get_label()->setText(msg_valid + " " + msg);
       }
     }
@@ -467,15 +469,30 @@ private slots:
     timer.start();
 
     Rep::Point_2 p;
-    while (f >> p) {
-      vvd->insert(p);
-      counter++;
+    Rep::Circle_2 c;
+    double r;
+    if ( vvd == cad || vvd == cpd ) {
+      while (f >> p >> r) {
+	c = Rep::Circle_2(p,r);
+	vvd->insert(c);
+	counter++;
 
-      if ( counter % 500 == 0 ) {
-	sprintf(msg, "%d sites have been inserted...", counter);
-	widget->get_label()->setText(msg);
-      }
-    } // endwhile
+	if ( counter % 500 == 0 ) {
+	  sprintf(msg, "%d sites have been inserted...", counter);
+	  widget->get_label()->setText(msg);
+	}
+      } // endwhile
+    } else {
+      while (f >> p) {
+	vvd->insert(p);
+	counter++;
+
+	if ( counter % 500 == 0 ) {
+	  sprintf(msg, "%d sites have been inserted...", counter);
+	  widget->get_label()->setText(msg);
+	}
+      } // endwhile
+    }
 
     timer.stop();
 
@@ -487,7 +504,7 @@ private slots:
       msg_valid = "Voronoi diagram is NOT valid.";
     }
 
-    CGAL_CLIB_STD::sprintf(msg,
+    std::sprintf(msg,
 			   "%d sites inserted. Insertion time: %f",
 			   counter, timer.time());
     widget->get_label()->setText(msg_valid + " " + msg);
@@ -552,7 +569,7 @@ private slots:
 
       char msg[100];
       int n_sites = static_cast<int>(svd.number_of_input_sites());
-      CGAL_CLIB_STD::sprintf(msg,
+      std::sprintf(msg,
 			     "%d sites inserted. Insertion time: %f",
 			     n_sites, timer.time());
       widget->get_label()->setText(msg);

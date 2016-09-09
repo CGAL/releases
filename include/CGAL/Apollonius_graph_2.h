@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
-// $Id: Apollonius_graph_2.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 42744 2008-04-03 12:14:58Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -525,14 +525,6 @@ public:
   //-------------------
   typename Gt::Object_2 dual(const Face_handle& f) const;
 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
-  //af: all_faces_iterator  == Face_handle
-#else
-  typename Gt::Object_2 dual(const All_faces_iterator& it) const
-  {
-    return dual(*it);
-  }
-#endif
   Site_2 dual(const Finite_faces_iterator& it) const
   {
     typename Gt::Object_2 o = dual(Face_handle(it));
@@ -967,11 +959,7 @@ protected:
   Vertex_handle insert_degree_2(Edge e, const Site_2& p);
   void          remove_degree_2(Vertex_handle v);
   void          remove_degree_3(Vertex_handle v);
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
   void          remove_degree_3(Vertex_handle v, Face_handle f);
-#else
-  void          remove_degree_3(Vertex_handle v, Face* f);
-#endif
 
   // this was defined because the hierarchy needs it
   Vertex_handle create_vertex() {

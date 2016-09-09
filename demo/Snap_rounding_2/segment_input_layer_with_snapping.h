@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Snap_rounding_2/demo/Snap_rounding_2/segment_input_layer_with_snapping.h $
-// $Id: segment_input_layer_with_snapping.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/demo/Snap_rounding_2/segment_input_layer_with_snapping.h $
+// $Id: segment_input_layer_with_snapping.h 39791 2007-08-09 09:48:44Z spion $
 //
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -31,7 +31,6 @@ private:
   typedef typename Base::Point                  Point;
   typedef typename Base::RasterOp               RasterOp;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::widget;
   using Base::x1;
   using Base::y1;
@@ -40,7 +39,6 @@ private:
   using Base::firstpoint;
   using Base::oldcursor;
   using Base::XorROP;
-#endif
 
   std::list<Segment_2>          *seg_list;
   //true if the user selected the first vertex

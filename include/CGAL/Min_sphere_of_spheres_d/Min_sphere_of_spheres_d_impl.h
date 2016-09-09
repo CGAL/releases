@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
-// $Id: Min_sphere_of_spheres_d_impl.h 37181 2007-03-17 09:06:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
+// $Id: Min_sphere_of_spheres_d_impl.h 47405 2008-12-12 10:53:21Z lrineau $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -79,7 +79,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
       for (i=e; i<n; ++i)
         if (!ss.contains(t.center_cartesian_begin(*l[i]),
-                         t.radius(*l[i]),Tol,Is_exact()) && ss.pivot(l,e,i)) {
+                         t.radius(*l[i]),Tol<FT>::result(),Is_exact()) && ss.pivot(l,e,i)) {
           k = i+1;
           break;
         }
@@ -94,7 +94,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
     // we will compute the excesses w.r.t. to the ball B with
     // center ss.begin() and radius radius:
-    const FT radius = ss.radius() * Tol;
+    const FT radius = ss.radius() * Tol<FT>::result();
   
     // find ball with largest excess:
     FT maximum = radius;
@@ -155,7 +155,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     // return whether B doesn't contain the ball l[i]:
     return maximum > radius &&
            !ss.contains(t.center_cartesian_begin(*l[i]),
-                        t.radius(*l[i]),Tol,Is_exact());
+                        t.radius(*l[i]),Tol<FT>::result(),Is_exact());
   }
   
   template<class Traits>
@@ -166,7 +166,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
     // we will compute the excesses w.r.t. to the ball with
     // center ss.begin() and radius radius:
-    const FT radius = ss.radius() * Tol;
+    const FT radius = ss.radius() * Tol<FT>::result();
   
     // find ball with largest excess:
     bool found = false;
@@ -223,7 +223,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     // return whether B doesn't contain the ball l[i]:
     return found &&
            !ss.contains(t.center_cartesian_begin(*l[i]),
-                        t.radius(*l[i]),Tol,Is_exact());
+                        t.radius(*l[i]),Tol<FT>::result(),Is_exact());
   }
   
   template<class Traits>
@@ -280,7 +280,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     // check that the miniball is enclosing:
     for (unsigned int i=0; i<l.size(); ++i)
       if (!ss.contains(t.center_cartesian_begin(*l[i]),
-                       t.radius(*l[i]),Tol,Is_exact())) {
+                       t.radius(*l[i]),Tol<FT>::result(),Is_exact())) {
         cerr << "Min_sphere_of_spheres_d: miniball not enclosing." << endl
              << "Please contact the author <kf@iaeth.ch>." << endl;
         return false;

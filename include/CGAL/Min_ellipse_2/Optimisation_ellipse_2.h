@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2/Optimisation_ellipse_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_ellipse_2/include/CGAL/Min_ellipse_2/Optimisation_ellipse_2.h $
 // $Id: Optimisation_ellipse_2.h 38498 2007-05-02 09:31:28Z gaertner $
 // 
 //

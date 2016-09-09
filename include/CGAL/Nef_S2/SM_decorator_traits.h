@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_decorator_traits.h $
-// $Id: SM_decorator_traits.h 29754 2006-03-24 13:08:31Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_decorator_traits.h $
+// $Id: SM_decorator_traits.h 43825 2008-06-27 11:17:26Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
 
 #ifndef CGAL_NEF_SM_DECORATOR_TRAITS_H
 #define CGAL_NEF_SM_DECORATOR_TRAITS_H
+
+CGAL_BEGIN_NAMESPACE
 
 template <class Refs_>
 class SM_decorator_traits {
@@ -88,4 +90,5 @@ class SM_decorator_const_traits {
   typedef typename Refs::SFace_cycle_const_iterator SFace_cycle_const_iterator;
 };
 
+CGAL_END_NAMESPACE
 #endif // CGAL_NEF_SM_DECORATOR_TRAITS_H

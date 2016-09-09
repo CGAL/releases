@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
-// $Id: Partitioned_polygon_2.h 37714 2007-03-30 11:05:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
+// $Id: Partitioned_polygon_2.h 45989 2008-10-01 19:40:41Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -21,7 +21,7 @@
 #define CGAL_PARTITIONED_POLYGON_2_H
 
 #include <list>
-#include <CGAL/vector.h>
+#include <vector>
 #include <CGAL/circulator.h>
 
 namespace CGAL {
@@ -95,12 +95,12 @@ class Partition_vertex;
 
 template <class Traits_>
 class Partitioned_polygon_2 : 
-                            public CGALi::vector< Partition_vertex< Traits_ > >
+                            public std::vector< Partition_vertex< Traits_ > >
 {
 public:
    typedef Traits_                                      Traits;
    typedef Partition_vertex<Traits>                     Vertex;
-   typedef typename CGALi::vector< Vertex >::iterator   Iterator;
+   typedef typename std::vector< Vertex >::iterator   Iterator;
    typedef Circulator_from_iterator<Iterator>           Circulator;
    typedef typename Traits::Polygon_2                   Subpolygon_2;
    typedef typename Traits::Point_2                     Point_2;
@@ -304,15 +304,6 @@ class Partition_vertex : public Traits_::Point_2
     typedef std::list<Circulator>                         Diagonal_list;
     typedef typename Diagonal_list::iterator              Diagonal_iterator;
 
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-  static Indirect_CW_diag_compare<Circulator,Traits> indirect_cw_diag_compare;
-
-  static bool compare(const Circulator& circ1, const Circulator& circ2)
-  {
-    return indirect_cw_diag_compare(circ1, circ2);
-  }
-#endif
-
   Partition_vertex(Base_point p)
     : Base_point(p) 
   { 
@@ -341,7 +332,7 @@ class Partition_vertex : public Traits_::Point_2
     {
        Diagonal_iterator d_it = diagonals_begin();
        for (d_it = diagonals_begin(); d_it != diagonals_end() && 
-                                     *d_it != diag_endpoint; d_it++);
+                                     *d_it != diag_endpoint; d_it++) {}
        if (d_it != diagonals_end()) return diag_endpoint_refs.erase(d_it);
        return d_it;
     }
@@ -365,13 +356,7 @@ class Partition_vertex : public Traits_::Point_2
     // and remove any duplicate diagonals
     void sort_diagonals(const Circulator& prev, const Circulator& next) 
     {
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-      indirect_cw_diag_compare = Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next);
-      diag_endpoint_refs.sort(&Self::compare);
-     
-#else
       diag_endpoint_refs.sort(Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next));
-#endif
 
        diag_endpoint_refs.unique();
        current_diag = diag_endpoint_refs.begin();
@@ -407,13 +392,6 @@ private:
     Diagonal_iterator current_diag;
 };
 
-#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-template <class Traits>
-Indirect_CW_diag_compare<typename Partitioned_polygon_2<Traits>::Circulator,Traits>
-Partition_vertex<Traits>::indirect_cw_diag_compare;
-#endif
-
 }
-
 
 #endif // CGAL_PARTITIONED_POLYGON_2_H

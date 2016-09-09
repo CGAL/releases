@@ -1,3 +1,4 @@
+
 // Copyright (c) 1999,2007  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -15,24 +16,22 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/leda_bigfloat.h $
-// $Id: leda_bigfloat.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/leda_bigfloat.h $
+// $Id: leda_bigfloat.h 45636 2008-09-18 15:35:55Z hemmer $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
 
-
 #ifndef CGAL_LEDA_BIGFLOAT_H
 #define CGAL_LEDA_BIGFLOAT_H
 
-#include <CGAL/number_type_basic.h>
+#include <CGAL/basic.h>
+
+#ifdef CGAL_USE_LEDA
 
 #include <utility>
-
 #include <CGAL/leda_coercion_traits.h>
 #include <CGAL/Interval_nt.h>
-
-
 
 #include <CGAL/LEDA_basic.h>
 #if CGAL_LEDA_VERSION < 500
@@ -40,7 +39,6 @@
 #else
 #include <LEDA/numbers/bigfloat.h>
 #endif
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -52,7 +50,7 @@ template <> class Algebraic_structure_traits< leda_bigfloat >
     typedef Tag_true            Is_numerical_sensitive;
 
     class Sqrt
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return CGAL_LEDA_SCOPE::sqrt( x );
@@ -60,7 +58,7 @@ template <> class Algebraic_structure_traits< leda_bigfloat >
     };
 
     class Kth_root
-      : public Binary_function<int, Type, Type> {
+      : public std::binary_function<int, Type, Type> {
       public:
         Type operator()( int k,
                                         const Type& x) const {
@@ -76,19 +74,19 @@ template <> class Algebraic_structure_traits< leda_bigfloat >
 };
 
 template <> class Real_embeddable_traits< leda_bigfloat >
-  : public Real_embeddable_traits_base< leda_bigfloat > {
-  public:
-
+  : public INTERN_RET::Real_embeddable_traits_base< leda_bigfloat , CGAL::Tag_true > {
+public:
+  
     class Abs
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
             return CGAL_LEDA_SCOPE::abs( x );
         }
     };
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return (::CGAL::Sign) CGAL_LEDA_SCOPE::sign( x );
@@ -96,17 +94,20 @@ template <> class Real_embeddable_traits< leda_bigfloat >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
                                             const Type& y ) const {
           return (Comparison_result) CGAL_LEDA_SCOPE::compare( x, y );
         }
+        
+        CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( Type, 
+                Comparison_result ); 
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           return x.to_double();
@@ -114,7 +115,7 @@ template <> class Real_embeddable_traits< leda_bigfloat >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
 
@@ -128,7 +129,7 @@ template <> class Real_embeddable_traits< leda_bigfloat >
     };
 
     class Is_finite
-      : public Unary_function< Type, bool > {
+      : public std::unary_function< Type, bool > {
       public:
         bool operator()( const Type& x )  const {
           return !( CGAL_LEDA_SCOPE::isInf(x) || CGAL_LEDA_SCOPE::isNaN(x) );
@@ -138,12 +139,13 @@ template <> class Real_embeddable_traits< leda_bigfloat >
 
 template<>
 class Is_valid< leda_bigfloat >
-  : public Unary_function< leda_bigfloat, bool > {
+  : public std::unary_function< leda_bigfloat, bool > {
   public :
     bool operator()( const leda_bigfloat& x ) const {
       return !( CGAL_LEDA_SCOPE::isNaN(x) );
     }
 };
+
 
 CGAL_END_NAMESPACE
 
@@ -157,5 +159,7 @@ namespace leda {
 #include <CGAL/leda_rational.h>
 #include <CGAL/leda_bigfloat.h>
 #include <CGAL/leda_real.h>
+
+#endif // CGAL_USE_LEDA
 
 #endif // CGAL_LEDA_BIGFLOAT_H

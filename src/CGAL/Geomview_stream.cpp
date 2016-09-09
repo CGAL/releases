@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Geomview/src/CGAL/Geomview_stream.cpp $
-// $Id: Geomview_stream.cpp 30316 2006-04-14 09:19:29Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Geomview/src/CGAL/Geomview_stream.cpp $
+// $Id: Geomview_stream.cpp 40822 2007-11-07 16:51:18Z ameyer $
+//
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 
@@ -68,19 +68,16 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
 
     std::cout << "Starting Geomview..." << std::flush;
     if (pipe(pipe_out) < 0) {
-        std::cerr << "out pipe failed" << std::endl;
-        std::exit(-1);
+        CGAL_error_msg( "out pipe failed" );
     }
 
     if (pipe(pipe_in) < 0) {
-        std::cerr << "in pipe failed" << std::endl;
-        std::exit(-1);
+        CGAL_error_msg(  "in pipe failed" );
     }
 
     switch (pid = fork()){
     case -1:
-        std::cerr << "fork failed" << std::endl;
-        std::exit(-1);
+        CGAL_error_msg( "fork failed" );
     case 0:               // The child process
         close(pipe_out[1]); // does not write to the out pipe,
         close(pipe_in[0]);  // does not read from the in pipe.
@@ -90,7 +87,7 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
 	if (dup2(pipe_in[1], 1) != 1)
 	    std::cerr << "Connect pipe to stdout failed." << std::endl;
 
-        if (machine && (CGAL_CLIB_STD::strlen(machine)>0)) {
+        if (machine && (std::strlen(machine)>0)) {
 	    std::string s (" rgeomview ");
 	    s += machine;
 	    s += ":0.0";
@@ -105,9 +102,9 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         std::cerr << "execl geomview failed" << std::endl;
         switch(errno) {
         case EACCES:
-            std::cerr << "please check your environment variable PATH" 	      
+            std::cerr << "please check your environment variable PATH"
 		      << std::endl;
-            std::cerr << "make sure the file `geomview' is contained in it" 
+            std::cerr << "make sure the file `geomview' is contained in it"
 		      << std::endl;
             std::cerr << "and is executable" << std::endl;
             break;
@@ -115,10 +112,10 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
             std::cerr << "too many links for filename `geomview'" << std::endl;
             break;
         default:
-            std::cerr << "error number " << errno << " (check `man execlp')" 
+            std::cerr << "error number " << errno << " (check `man execlp')"
 		      << std::endl;
         };
-        std::exit(-1);
+        CGAL_error();
     default:              // The parent process
         close(pipe_out[0]); // does not read from the out pipe,
         close(pipe_in[1]);  // does not write to the in pipe.
@@ -149,7 +146,7 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         char inbuf[10];
         ::read(in, inbuf, 7);
 
-        if (CGAL_CLIB_STD::strncmp(inbuf, "started", 7) == 0)
+        if (std::strncmp(inbuf, "started", 7) == 0)
         {
             // std::cerr << "You still have a .geomview file with the\n"
                    // << "(echo \"started\") command. Note that this is not\n"
@@ -157,10 +154,10 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
 
             // Then the next one is supposed to be CGAL-3D.
             ::read(in, inbuf, 7);
-            if (CGAL_CLIB_STD::strncmp(inbuf, "CGAL-3D", 7) != 0)
+            if (std::strncmp(inbuf, "CGAL-3D", 7) != 0)
                 std::cerr << "Unexpected string from Geomview !" << std::endl;
         }
-        else if (CGAL_CLIB_STD::strncmp(inbuf, "CGAL-3D", 7) == 0)
+        else if (std::strncmp(inbuf, "CGAL-3D", 7) == 0)
         {
             // std::cerr << "Good, you don't have a .geomview file with the\n"
                       // << "(echo \"started\") command" << std::endl;
@@ -217,9 +214,7 @@ Geomview_stream&
 Geomview_stream::operator<<(const std::string & s)
 {
     if ((int)s.length() != ::write(out, s.data(), s.length())) {
-        std::cerr << "write problem in the pipe while sending data to geomview"
-             << std::endl;
-        std::exit(-1);
+        CGAL_error_msg( "write problem in the pipe while sending data to geomview" );
     }
     trace(s);
 
@@ -501,7 +496,7 @@ char*
 Geomview_stream::nth(char* s, int count)
 {
     s++; // skip first character (always a parenthesis)
- 
+
     // Skip "count" words.
     for(; count != 0; count--) {
         while (*s == ' ')       // skip whitespaces
@@ -512,7 +507,7 @@ Geomview_stream::nth(char* s, int count)
     }
     while (*s == ' ')           // skip whitespaces
         s++;
- 
+
     // Now we have the beginning of the searched sub-expression.
     int j = 1;
     if (*s == '(')              // Case of a well-parenthesed expression.
@@ -529,7 +524,7 @@ Geomview_stream::nth(char* s, int count)
     else                        // Case of a word terminated by ' ' or ')'.
         while (s[j] != ' ' && s[j] != ')')
             j++;
- 
+
     s[j] = '\0';
     return s;
 }

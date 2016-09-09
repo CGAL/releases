@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 37975 2007-04-06 08:29:24Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 41359 2007-12-30 14:55:28Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -100,7 +100,7 @@ void one_way_scan( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     for( RandomAccessIter2 i = i_begin; i != i_end; ++i ) {
         // look for the first box b with i.min <= p.min
         for( ; p_begin != p_end && Traits::is_lo_less_lo( *p_begin, *i, 0 );
-             ++p_begin );
+             ++p_begin ) {}
 
         // look for all boxes with p.min < i.max
         for( RandomAccessIter1 p = p_begin;

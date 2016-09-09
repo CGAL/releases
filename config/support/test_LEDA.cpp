@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/support/test_LEDA.cpp $
-// $Id: test_LEDA.cpp 32467 2006-07-12 21:58:39Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/test_LEDA.cpp $
+// $Id: test_LEDA.cpp 42329 2008-02-28 16:33:51Z mkerber $
 // 
 //
 // Author(s)     : various
@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-#ifdef HAVE_LEDA5X
+#ifndef HAVE_LEDA4X
   #include <LEDA/system/basic.h>
   #include <LEDA/numbers/integer.h>
 #else
@@ -33,17 +33,17 @@
   #include <LEDA/integer.h>
 #endif
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER)
 #ifndef LEDA_STD_HEADERS
 #  error "LEDA_STD_HEADERS is not defined. Please consult the troubleshooting section of the installation manual."
 #endif // ! LEDA_STD_HEADERS
-#endif // MSVC || BORLAND
+#endif // MSVC
 
 #if defined(LEDA_NAMESPACE)
 using namespace leda;
 #endif
 
-#ifdef HAVE_LEDA5X
+#ifndef HAVE_LEDA4X
  #include <LEDA/internal/REDEFINE_NAMES.h>
  typedef integer I;
  #include <LEDA/internal/UNDEFINE_NAMES.h>

@@ -12,14 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
-// $Id: Gmpzf_type.h 38404 2007-04-20 21:01:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpzf_type.h $
+// $Id: Gmpzf_type.h 45036 2008-08-20 08:52:46Z spion $
 //
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
 
-#ifndef CGAL_GMPZF_Type_H
-#define CGAL_GMPZF_Type_H
+#ifndef CGAL_GMPZF_TYPE_H
+#define CGAL_GMPZF_TYPE_H
 
 // includes
 #include <CGAL/basic.h>
@@ -161,7 +161,7 @@ public:
       return;
     }
     static int p = std::numeric_limits<double>::digits;
-    CGAL_assertion(CGAL_NTS is_finite(d) && is_valid(d));
+    CGAL_assertion(CGAL_NTS is_finite(d) & is_valid(d));
     int exp;
     double x = std::frexp(d, &exp); // x in [1/2, 1], x*2^exp = d
     mpz_init_set_d (man(), // to the following integer:
@@ -575,6 +575,4 @@ bool operator>(const Gmpzf &a, int b)
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_GMPZF_Type_H
-
-// ===== EOF ==================================================================
+#endif // CGAL_GMPZF_TYPE_H

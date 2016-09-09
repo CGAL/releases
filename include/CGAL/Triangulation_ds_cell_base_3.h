@@ -11,12 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h $
-// $Id: Triangulation_ds_cell_base_3.h 39929 2007-08-21 13:24:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h $
+// $Id: Triangulation_ds_cell_base_3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 // cell of a triangulation data structure of any dimension <=3
 
@@ -139,6 +139,7 @@ public:
   void set_neighbor(int i, const Cell_handle& n)
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3);
+    CGAL_triangulation_precondition( this != &*n );
     N[i] = n;
   }
 
@@ -164,6 +165,10 @@ public:
   void set_neighbors(const Cell_handle& n0, const Cell_handle& n1,
                      const Cell_handle& n2, const Cell_handle& n3)
   {
+    CGAL_triangulation_precondition( this != &*n0 );
+    CGAL_triangulation_precondition( this != &*n1 );
+    CGAL_triangulation_precondition( this != &*n2 );
+    CGAL_triangulation_precondition( this != &*n3 );
     N[0] = n0;
     N[1] = n1;
     N[2] = n2;
@@ -177,29 +182,6 @@ public:
   // to add their own purpose checking
   bool is_valid(bool = false, int = 0) const
   { return true; }
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-  // Obsolete, kept for backward compatibility.
-  // This should emit a warning.
-  int mirror_index(int i) const
-  {
-      bool WARNING_THIS_FUNCTION_IS_OBSOLETE;
-      CGAL_triangulation_precondition ( i>=0 && i<4 );
-      Cell_handle ni = neighbor(i);
-      if (&*ni->neighbor(0) == this) return 0;
-      if (&*ni->neighbor(1) == this) return 1;
-      if (&*ni->neighbor(2) == this) return 2;
-      CGAL_triangulation_assertion(&*ni->neighbor(3) == this);
-      return 3;
-  }
-
-  // Obsolete as above.
-  Vertex_handle mirror_vertex(int i) const
-  {
-      bool WARNING_THIS_FUNCTION_IS_OBSOLETE;
-      return neighbor(i)->vertex(mirror_index(i));
-  }
-#endif
 
   // This is here in the *ds*_cell_base to ease its use as default
   // template parameter, so that the .dual() functions of Delaunay_3

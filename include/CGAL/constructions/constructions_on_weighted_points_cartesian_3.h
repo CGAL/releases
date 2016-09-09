@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/constructions/constructions_on_weighted_points_cartesian_3.h $
-// $Id: constructions_on_weighted_points_cartesian_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/constructions/constructions_on_weighted_points_cartesian_3.h $
+// $Id: constructions_on_weighted_points_cartesian_3.h 44915 2008-08-12 13:56:13Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -50,16 +50,16 @@ determinants_for_weighted_circumcenterC3(
   FT sp2 = CGAL_NTS square(spx) + CGAL_NTS square(spy) + 
            CGAL_NTS square(spz) - sw + pw;
 
-  num_x = det3x3_by_formula(qpy,qpz,qp2,
+  num_x = determinant(qpy,qpz,qp2,
 			    rpy,rpz,rp2,
 			    spy,spz,sp2);
-  num_y = det3x3_by_formula(qpx,qpz,qp2,
+  num_y = determinant(qpx,qpz,qp2,
 			    rpx,rpz,rp2,
 			    spx,spz,sp2);
-  num_z = det3x3_by_formula(qpx,qpy,qp2,
+  num_z = determinant(qpx,qpy,qp2,
 			    rpx,rpy,rp2,
 			    spx,spy,sp2);
-  den   = det3x3_by_formula(qpx,qpy,qpz,
+  den   = determinant(qpx,qpy,qpz,
 			    rpx,rpy,rpz,
 			    spx,spy,spz);
 }
@@ -84,7 +84,7 @@ weighted_circumcenterC3(
 					   sx, sy, sz, sw,
 					   num_x,  num_y, num_z,den);
 
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
    FT inv = FT(1)/(FT(2) * den);
 
   x = px + num_x*inv;
@@ -112,7 +112,7 @@ weighted_circumcenterC3(
 					   sx, sy, sz, sw,
 					   num_x,  num_y, num_z, den);
 
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
    FT inv = FT(1)/(FT(2) * den);
 
   x = px + num_x*inv;
@@ -143,7 +143,7 @@ squared_radius_orthogonal_sphereC3(
 					   sx, sy, sz, sw,
 					   num_x, num_y, num_z,den);
 
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
    FT inv = FT(1)/(FT(2) * den);
 
    return
@@ -182,26 +182,26 @@ determinants_for_weighted_circumcenterC3(
 
   // The following determinants can be developped and simplified.
   //
-  // FT num_x = det3x3_by_formula(qpy,qpz,qp2,
+  // FT num_x = determinant(qpy,qpz,qp2,
   //                              rpy,rpz,rp2,
   //                              sy,sz,FT(0));
-  // FT num_y = det3x3_by_formula(qpx,qpz,qp2,
+  // FT num_y = determinant(qpx,qpz,qp2,
   //                              rpx,rpz,rp2,
   //                              sx,sz,FT(0));
-  // FT num_z = det3x3_by_formula(qpx,qpy,qp2,
+  // FT num_z = determinant(qpx,qpy,qp2,
   //                              rpx,rpy,rp2,
   //                              sx,sy,FT(0));
 
-  num_x = qp2 * det2x2_by_formula(rpy,rpz,sy,sz)
-        - rp2 * det2x2_by_formula(qpy,qpz,sy,sz);
+  num_x = qp2 * determinant(rpy,rpz,sy,sz)
+        - rp2 * determinant(qpy,qpz,sy,sz);
 
-  num_y = qp2 * det2x2_by_formula(rpx,rpz,sx,sz)
-	- rp2 * det2x2_by_formula(qpx,qpz,sx,sz);
+  num_y = qp2 * determinant(rpx,rpz,sx,sz)
+	- rp2 * determinant(qpx,qpz,sx,sz);
 
-  num_z = qp2 * det2x2_by_formula(rpx,rpy,sx,sy)
-	- rp2 * det2x2_by_formula(qpx,qpy,sx,sy);
+  num_z = qp2 * determinant(rpx,rpy,sx,sy)
+	- rp2 * determinant(qpx,qpy,sx,sy);
 
-  den   = det3x3_by_formula(qpx,qpy,qpz,
+  den   = determinant(qpx,qpy,qpz,
 			    rpx,rpy,rpz,
 			    sx,sy,sz);
 }
@@ -223,7 +223,7 @@ weighted_circumcenterC3(
 					   rx, ry, rz, rw,
 					   num_x,  num_y, num_z, den);
 
-  CGAL_kernel_assertion( den != FT(0) );
+  CGAL_triangulation_assertion( den != FT(0) );
   FT inv = FT(1)/(FT(2) * den);
 
   x = px + num_x*inv;
@@ -250,7 +250,7 @@ weighted_circumcenterC3(
 					   rx, ry, rz, rw,
 					   num_x,  num_y, num_z, den);
 
-  CGAL_kernel_assertion( den != FT(0) );
+  CGAL_triangulation_assertion( den != FT(0) );
   FT inv = FT(1)/(FT(2) * den);
 
   x = px + num_x*inv;
@@ -279,7 +279,7 @@ squared_radius_smallest_orthogonal_sphereC3(
 					   rx, ry, rz, rw,
 					   num_x,  num_y, num_z, den);
 
-  CGAL_kernel_assertion( den != FT(0) );
+  CGAL_triangulation_assertion( den != FT(0) );
   FT inv = FT(1)/(FT(2) * den);
 
  return
@@ -383,9 +383,9 @@ radical_axisC3(const RT &px, const RT &py, const RT &pz, const We &pw,
 
   //il manque des tests...
 
-  a= RT(1)*det2x2_by_formula(dqy, dqz, dry, drz);
-  b= - RT(1)*det2x2_by_formula(dqx, dqz, drx, drz);
-  c= RT(1)*det2x2_by_formula(dqx, dqy, drx, dry);
+  a= RT(1)*determinant(dqy, dqz, dry, drz);
+  b= - RT(1)*determinant(dqx, dqz, drx, drz);
+  c= RT(1)*determinant(dqx, dqy, drx, dry);
 }
 
 // function used in critical_squared_radiusC3
@@ -423,7 +423,7 @@ power_to_orthogonal_sphereC3(
     FT dst = CGAL_NTS square(dsx) + CGAL_NTS square(dsy) + 
              CGAL_NTS square(dsz) - sw + tw;
 
-    return det4x4_by_formula(dpx, dpy, dpz, dpt,
+    return determinant(dpx, dpy, dpz, dpt,
 			     dqx, dqy, dqz, dqt,
 			     drx, dry, drz, drt,
 			     dsx, dsy, dsz, dst);

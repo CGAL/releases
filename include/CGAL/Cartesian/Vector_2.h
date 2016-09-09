@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
-// $Id: Vector_2.h 33152 2006-08-08 15:38:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
+// $Id: Vector_2.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -25,8 +25,9 @@
 #define CGAL_CARTESIAN_VECTOR_2_H
 
 #include <CGAL/Origin.h>
-#include <CGAL/Twotuple.h>
+#include <CGAL/array.h>
 #include <CGAL/constant.h>
+#include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -41,47 +42,59 @@ class VectorC2
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Direction_2          Direction_2;
 
-  typedef Twotuple<FT>	                           Rep;
+  typedef CGAL::array<FT, 2>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
-  typedef R_                                     R;
+
+  typedef typename Rep::const_iterator      Cartesian_const_iterator;
+
+  typedef R_                                R;
 
   VectorC2() {}
  
   VectorC2(const FT &x, const FT &y)
-    : base(x, y) {}
+    : base(CGAL::make_array(x, y)) {}
 
   VectorC2(const FT &hx, const FT &hy, const FT &hw)
-  {
-    if (hw != FT(1))
-      base = Rep(hx/hw, hy/hw);
-    else
-      base = Rep(hx, hy);
-  }
+    : base( hw != FT(1) ? CGAL::make_array(hx/hw, hy/hw)
+                        : CGAL::make_array(hx, hy) ) {}
 
   const FT & x() const
   {
-      return get(base).e0;
+      return CGAL::get(base)[0];
   }
+
   const FT & y() const
   {
-      return get(base).e1;
+      return CGAL::get(base)[1];
   }
 
   const FT & hx() const
   {
       return x();
   }
+
   const FT & hy() const
   {
       return y();
   }
+
   const FT& hw() const
   {
     return constant<FT, 1>();
+  }
+
+  Cartesian_const_iterator cartesian_begin() const
+  {
+    return CGAL::get(base).begin();
+  }
+
+  Cartesian_const_iterator cartesian_end() const
+  {
+    return CGAL::get(base).end();
   }
 
 };

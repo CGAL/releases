@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_foundations/include/CGAL/number_utils.h $
-// $Id: number_utils.h 37862 2007-04-03 11:08:31Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/number_utils.h $
+// $Id: number_utils.h 45636 2008-09-18 15:35:55Z hemmer $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -103,6 +103,24 @@ integral_division( const A& x, const B& y ) {
     typename Algebraic_structure_traits< Type >::Integral_division 
         integral_division;
     return integral_division( x, y );
+}
+
+template< class A, class B >
+inline
+typename Algebraic_structure_traits< typename Coercion_traits<A,B>::Type> 
+::Divides::result_type
+divides( const A& x, const B& y ) {
+  typedef typename Coercion_traits<A,B>::Type Type;
+  typename Algebraic_structure_traits< Type >::Divides  divides;
+  return divides( x, y );
+}
+
+template< class Type >
+inline
+typename Algebraic_structure_traits<Type>::Divides::result_type
+divides( const Type& x, const Type& y, Type& q ) {
+  typename Algebraic_structure_traits< Type >::Divides  divides;
+  return divides( x, y, q);
 }
 
 template< class A, class B >
@@ -218,10 +236,10 @@ abs( const Real_embeddable& x ) {
 template< class Real_embeddable >
 inline 
 //::Sign 
-typename Real_embeddable_traits< Real_embeddable >::Sign::result_type
+typename Real_embeddable_traits< Real_embeddable >::Sgn::result_type
 sign( const Real_embeddable& x ) {
-    typename Real_embeddable_traits< Real_embeddable >::Sign sign;
-    return sign( x );
+    typename Real_embeddable_traits< Real_embeddable >::Sgn sgn;
+    return sgn( x );
 }
 
 template< class Real_embeddable >

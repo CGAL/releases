@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
-// $Id: Extended_homogeneous.h 34974 2006-10-28 13:33:59Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Extended_homogeneous.h $
+// $Id: Extended_homogeneous.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -167,7 +167,7 @@ on the extended geometric objects.}*/
         res = epoint( l.b(), -l.c(), -l.a(), 0, l.a()); break; 
       case TOPFRAME:
         res = epoint(-l.b(), -l.c(),  l.a(), 0, l.a()); break; 
-      default: CGAL_assertion_msg(0,"EPoint type not correct!");
+      default: CGAL_error_msg("EPoint type not correct!");
     }
     return res;
   }
@@ -432,7 +432,7 @@ on the extended geometric objects.}*/
     CGAL::Object result =
       _intersect(_line(s1),_line(s2));
     if ( !CGAL::assign(p, result) )
-    CGAL_assertion_msg(false,"intersection: no intersection.");
+    CGAL_error_msg("intersection: no intersection.");
     simplify(p);
     return p;
   }

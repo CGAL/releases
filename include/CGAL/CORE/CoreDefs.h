@@ -30,7 +30,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/include/CGAL/CORE/CoreDefs.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/CoreDefs.h $
  * $Id: CoreDefs.h 37060 2007-03-13 18:10:39Z reichel $
  ***************************************************************************/
 

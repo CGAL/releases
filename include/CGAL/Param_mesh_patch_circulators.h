@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
-// $Id: Param_mesh_patch_circulators.h 38428 2007-04-24 13:34:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
+// $Id: Param_mesh_patch_circulators.h 45070 2008-08-21 11:57:02Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -135,8 +135,8 @@ public:
 
     bool operator==(const Self& cir)    const { return (const Base&)*this == cir; }
     bool operator!=(const Self& cir)    const { return !(*this == cir); }
-    bool operator==(CGAL_NULL_TYPE ptr) const { return (const Base&)*this == ptr; }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return !(*this == ptr); }
+    bool operator==(Nullptr_t ptr) const { return (const Base&)*this == ptr; }
+    bool operator!=(Nullptr_t ptr) const { return !(*this == ptr); }
 
     ///  operator*() and operator->() are inherited
 
@@ -148,7 +148,7 @@ public:
 // #endif
 
         // Check that the inherited vertex handle is valid
-        assert((*this)->vertex() == m_adaptor_circulator);
+        CGAL_surface_mesh_parameterization_assertion((*this)->vertex() == m_adaptor_circulator);
 
         // If m_center is an inner vertex, m_adaptor_circulator
         // already circulates over m_center's vertices
@@ -188,7 +188,7 @@ public:
 
         // Special case: m_center is the extremity of the seam.
         // Its seam adaptor neighbor vertex is "virtually" duplicated.
-        assert(m_center->last_cw_neighbor() == m_center->first_cw_neighbor());
+        CGAL_surface_mesh_parameterization_assertion(m_center->last_cw_neighbor() == m_center->first_cw_neighbor());
 
         // If the previous position is the last "virtual" clockwise neighbor,
         // move to first "virtual" clockwise neighbor
@@ -207,7 +207,7 @@ public:
             std::cerr << "#" << m_mesh_patch->get_vertex_index(current_decorated_vertex);
             std::cerr << ")\n";
 #endif*/
-            assert(m_mesh_patch->is_valid(current_decorated_vertex));
+            CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
             Base::operator=(current_decorated_vertex);
 
             return *this;
@@ -234,7 +234,7 @@ public:
             std::cerr << "#" << m_mesh_patch->get_vertex_index(current_decorated_vertex);
             std::cerr << ")\n";
 #endif*/
-            assert(m_mesh_patch->is_valid(current_decorated_vertex));
+            CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
             Base::operator=(current_decorated_vertex);
 
             return *this;
@@ -264,7 +264,7 @@ public:
 // #endif
 
         // Check that the inherited vertex handle is valid
-        assert((*this)->vertex() == m_adaptor_circulator);
+        CGAL_surface_mesh_parameterization_precondition((*this)->vertex() == m_adaptor_circulator);
 
         // If m_center is an inner vertex, m_adaptor_circulator
         // already circulates over m_center's vertices
@@ -304,7 +304,7 @@ public:
 
         // Special case: m_center is the extremity of the seam.
         // Its seam adaptor neighbor vertex is "virtually" duplicated.
-        assert(m_center->last_cw_neighbor() == m_center->first_cw_neighbor());
+        CGAL_surface_mesh_parameterization_assertion(m_center->last_cw_neighbor() == m_center->first_cw_neighbor());
 
         // If the previous position is on the last "virtual" counter-clockwise
         // neighbor, move to first "virtual" counter-clockwise neighbor
@@ -323,7 +323,7 @@ public:
             std::cerr << "#" << m_mesh_patch->get_vertex_index(current_decorated_vertex);
             std::cerr << ")\n";
 #endif*/
-            assert(m_mesh_patch->is_valid(current_decorated_vertex));
+            CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
             Base::operator=(current_decorated_vertex);
 
             return *this;
@@ -350,7 +350,7 @@ public:
             std::cerr << "#" << m_mesh_patch->get_vertex_index(current_decorated_vertex);
             std::cerr << ")\n";
 #endif*/
-            assert(m_mesh_patch->is_valid(current_decorated_vertex));
+            CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
             Base::operator=(current_decorated_vertex);
 
             return *this;
@@ -391,7 +391,8 @@ private:
         {
             // Ambiguous case: m_center is the extremity of the seam
             //                 and m_adaptor_circulator is on the seam
-            assert(m_center->last_cw_neighbor() != m_adaptor_circulator
+            CGAL_surface_mesh_parameterization_assertion(
+                   m_center->last_cw_neighbor()  != m_adaptor_circulator
                 || m_center->first_cw_neighbor() != m_adaptor_circulator);
 
             if (m_center->first_cw_neighbor() == m_adaptor_circulator)
@@ -416,7 +417,7 @@ private:
 // #endif
 
         // Update the inherited vertex handle
-        assert(m_mesh_patch->is_valid(current_decorated_vertex));
+        CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
         Base::operator=(current_decorated_vertex);
     }
 
@@ -520,8 +521,8 @@ public:
 /// OPERATIONS Forward Category
 /// ---------------------------
 
-    bool operator==(CGAL_NULL_TYPE ptr) const { return (const Base&)*this == ptr; }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return !(*this == ptr); }
+    bool operator==(Nullptr_t ptr) const { return (const Base&)*this == ptr; }
+    bool operator!=(Nullptr_t ptr) const { return !(*this == ptr); }
     bool operator==(const Self& cir)    const { return (const Base&)*this == cir; }
     bool operator!=(const Self& cir)    const { return !(*this == cir); }
 
@@ -596,7 +597,7 @@ private:
         }
 
         // Update the inherited vertex handle
-        assert(m_mesh_patch->is_valid(current_decorated_vertex));
+        CGAL_surface_mesh_parameterization_assertion(m_mesh_patch->is_valid(current_decorated_vertex));
         Base::operator=(current_decorated_vertex);
     }
 

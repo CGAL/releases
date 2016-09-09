@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/determinant.h $
-// $Id: determinant.h 32910 2006-08-02 18:19:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/determinant.h $
+// $Id: determinant.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -30,7 +30,7 @@ CGAL_BEGIN_NAMESPACE
 template <class RT>
 inline
 RT
-det2x2_by_formula(
+determinant(
  const RT& a00,  const RT& a01,
  const RT& a10,  const RT& a11)
 {
@@ -42,7 +42,7 @@ det2x2_by_formula(
 template <class RT>
 CGAL_KERNEL_MEDIUM_INLINE
 RT
-det3x3_by_formula(
+determinant(
  const RT& a00,  const RT& a01,  const RT& a02,
  const RT& a10,  const RT& a11,  const RT& a12,
  const RT& a20,  const RT& a21,  const RT& a22)
@@ -59,7 +59,7 @@ det3x3_by_formula(
 template <class RT>
 CGAL_KERNEL_LARGE_INLINE
 RT
-det4x4_by_formula(
+determinant(
  const RT& a00,  const RT& a01,  const RT& a02,  const RT& a03,
  const RT& a10,  const RT& a11,  const RT& a12,  const RT& a13,
  const RT& a20,  const RT& a21,  const RT& a22,  const RT& a23,
@@ -85,7 +85,7 @@ det4x4_by_formula(
 template <class RT>
 CGAL_KERNEL_LARGE_INLINE
 RT
-det5x5_by_formula(
+determinant(
  const RT& a00,  const RT& a01,  const RT& a02,  const RT& a03,  const RT& a04,
  const RT& a10,  const RT& a11,  const RT& a12,  const RT& a13,  const RT& a14,
  const RT& a20,  const RT& a21,  const RT& a22,  const RT& a23,  const RT& a24,
@@ -127,7 +127,7 @@ det5x5_by_formula(
 
 template <class RT>
 RT
-det6x6_by_formula(
+determinant(
  const RT& a00, const RT& a01, const RT& a02, const RT& a03, const RT& a04,
  const RT& a05,
  const RT& a10, const RT& a11, const RT& a12, const RT& a13, const RT& a14,

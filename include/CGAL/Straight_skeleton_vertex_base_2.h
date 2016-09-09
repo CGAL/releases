@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2005-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
-// $Id: Straight_skeleton_vertex_base_2.h 36633 2007-02-27 18:19:42Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
+// $Id: Straight_skeleton_vertex_base_2.h 44130 2008-07-12 21:58:52Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -28,6 +28,8 @@ CGAL_BEGIN_NAMESPACE
 template < class Refs, class P, class N >
 class Straight_skeleton_vertex_base_base_2
 {
+  enum Flags { IsSplitBit = 0x01, HasInfiniteTimeBit = 0x02 } ;
+  
 protected :
 
   class Halfedge_circulator_around_vertex_access_policy
@@ -74,14 +76,14 @@ protected :
         ( Halfedge_circulator_base<OtherHalfedgeHandle,OtherAccessPolicy> const& aOther )
         : mHandle(aOther.mHandle) {}
 
-      bool operator==( CGAL_NULL_TYPE p ) const 
+      bool operator==( Nullptr_t p ) const 
       {
-        CGAL_assertion( p == CGAL_CIRC_NULL ); 
+        CGAL_assertion( p == NULL ); 
         HalfedgeHandle null ;
         return mHandle == null ;
       }
       
-      bool operator!=( CGAL_NULL_TYPE p ) const { return !(*this == p); }
+      bool operator!=( Nullptr_t p ) const { return !(*this == p); }
       
     private :
 
@@ -108,8 +110,7 @@ protected :
 
       value_type mHandle ;
   } ;
-
-
+  
 public:
 
   typedef Straight_skeleton_vertex_base_base_2<Refs, P, N>  Base ;
@@ -130,7 +131,7 @@ public:
   typedef typename Refs::Face_const_handle     Face_const_handle;
   typedef typename Refs::Halfedge              Halfedge;
   typedef typename Refs::Face                  Face;
-
+  
   typedef Halfedge_circulator_base< Halfedge_const_handle
                                    ,Halfedge_circulator_around_vertex_access_policy
                                   >
@@ -151,23 +152,39 @@ public:
                                   >
             Defining_contour_halfedges_circulator ;
 
+  typedef CGAL_SS_i::Triedge<Halfedge_handle> Triedge ;
+  
 public:
 
-  Straight_skeleton_vertex_base_base_2() : mID(-1) {}
+  Straight_skeleton_vertex_base_base_2() : mID(-1), mTime(0.0), mFlags(0) {}
   
+  // Infinite vertex
+  Straight_skeleton_vertex_base_base_2 ( int aID )
+    :
+      mID   (aID)
+    , mP    (ORIGIN) 
+    , mTime (std::numeric_limits<double>::max())
+    , mFlags(HasInfiniteTimeBit)
+  {
+  }
+  
+  // Contour vertex
   Straight_skeleton_vertex_base_base_2 ( int aID, Point_2 const& aP )
     :
-      mP(aP)
-    , mID(aID)
-    , mTime(0.0)
+      mID   (aID)
+    , mP    (aP)
+    , mTime (0.0)
+    , mFlags(0)
   {
   }
 
-  Straight_skeleton_vertex_base_base_2 ( int aID, Point_2 const& aP, FT aTime )
+  // Skeleton vertex, corresponding to a split or edge event.
+  Straight_skeleton_vertex_base_base_2 ( int aID, Point_2 const& aP, FT aTime, bool aIsSplit, bool aHasInfiniteTime )
     :
-      mP(aP)
-    , mID(aID)
-    , mTime(aTime)
+      mID   ( aID )
+    , mP    ( aP )
+    , mTime ( aTime )
+    , mFlags( ( aIsSplit ? IsSplitBit : 0 ) | ( aHasInfiniteTime ? HasInfiniteTimeBit : 0 ) )
  {
  }
 
@@ -176,6 +193,12 @@ public:
   int id() const { return mID ; }
 
   FT time() const { return mTime ; }
+  
+  bool has_infinite_time() const { return ( mFlags & HasInfiniteTimeBit ) == HasInfiniteTimeBit ; }
+  
+  bool has_null_point() const { return has_infinite_time(); }
+  
+  bool is_split() const { return ( mFlags & IsSplitBit ) == IsSplitBit ; }
 
   Halfedge_const_handle primary_bisector() const { return halfedge()->next(); }
 
@@ -201,24 +224,37 @@ public:
     return Defining_contour_halfedges_circulator(halfedge());
   }
 
+
   std::size_t degree() const { return CGAL::circulator_size(halfedge_around_vertex_begin()); }
   
   bool is_skeleton() const { return  halfedge()->is_bisector() ; }
   bool is_contour () const { return !halfedge()->is_bisector() ; }
   
-  const Point_2&        point() const    { return mP; }
+  const Point_2& point() const { return mP; }
   
   Halfedge_handle       halfedge()       { return mHE; }
   Halfedge_const_handle halfedge() const { return mHE; }
   
   void set_halfedge( Halfedge_handle aHE)  { mHE = aHE; }
     
+  Triedge const& event_triedge() const { return mEventTriedge ; }
+  
+  void set_event_triedge( Triedge const& aTriedge ) { mEventTriedge = aTriedge ; }
+  
+  
+public :
+  
+  void reset_id__internal__    ( int aID ) { mID = aID ; }
+  void reset_point__internal__ ( Point_2 const& aP ) { mP = aP ; }
+  
 private:
-
-  Halfedge_handle mHE;
-  Point_2         mP;
+  
   int             mID ;
+  Halfedge_handle mHE;
+  Triedge         mEventTriedge ;
+  Point_2         mP;
   FT              mTime ;
+  unsigned char   mFlags ;
 };
 
 template < class Refs, class P, class N >
@@ -237,18 +273,25 @@ public:
   typedef typename Refs::Face_const_handle     Face_const_handle;
   typedef typename Refs::Halfedge              Halfedge;
   typedef typename Refs::Face                  Face;
-
+  
   typedef Straight_skeleton_vertex_base_base_2<Refs,P,N> Base ;
+  
+  typedef typename Base::Triedge Triedge ;
   
   Straight_skeleton_vertex_base_2() {}
   
+  Straight_skeleton_vertex_base_2 ( int aID ) : Base(aID) {}
+  
   Straight_skeleton_vertex_base_2 ( int aID, Point_2 const& aP ) : Base(aID,aP) {}
 
-  Straight_skeleton_vertex_base_2 ( int aID, Point_2 const& aP, FT aTime ) : Base(aID,aP,aTime) {}
+  Straight_skeleton_vertex_base_2 ( int aID, Point_2 const& aP, FT aTime, bool aIsSplit, bool aHasInfiniteTime ) : Base(aID,aP,aTime,aIsSplit,aHasInfiniteTime) {}
   
 private:
     
-  void set_halfedge( Halfedge_handle aHE)  { Base::set_halfedge(aHE) ; }
+  void set_halfedge     ( Halfedge_handle aHE )     { Base::set_halfedge(aHE) ; }
+  void set_event_triedge( Triedge const& aTriedge ) { Base::set_event_triedge( aTriedge); }
+  void reset_id         ( int aID )                 { Base::reset_id(aID) ; }
+  
 } ;
 
 CGAL_END_NAMESPACE

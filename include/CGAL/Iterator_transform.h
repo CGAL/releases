@@ -15,13 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Iterator_transform.h $
-// $Id: Iterator_transform.h 36700 2007-02-28 18:06:42Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Iterator_transform.h $
+// $Id: Iterator_transform.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 //                 Fernando Cacciola <fernando.cacciola@geometryfactory.com> 
 
 #ifndef CGAL_ITERATOR_TRANSFORM_H
@@ -80,6 +80,18 @@ public:
   Iterator  current_iterator() const { return nt;}
   bool      operator==( const Self& i) const { return ( nt == i.nt); }
   bool      operator!=( const Self& i) const { return !(*this == i); }
+  
+  struct Proxy
+  {
+      Proxy(const reference r) : ref(r) {}
+      reference ref;
+      pointer operator->() { return &ref; }
+  };
+
+  Proxy operator->() const
+  {
+      return Proxy(Fct()(*nt));
+  }
   
   reference operator* () const 
   {

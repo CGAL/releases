@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGAL/numeric_solvers_support.cpp $
-// $Id: numeric_solvers_support.cpp 37016 2007-03-11 19:58:35Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/src/CGAL/numeric_solvers_support.cpp $
+// $Id: numeric_solvers_support.cpp 45829 2008-09-26 19:18:11Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -171,7 +171,11 @@ template <class NT>
       IFn fi(begin, end);
       if (roots.empty()) {
 	Interval_arithmetic_guard guard;
-	vi = fi((INT(lb)+INT(ub))/2.0);
+        if (ub== std::numeric_limits<double>::infinity()) {
+          vi = 10*lb + 1000;
+        } else {
+          vi = fi((INT(lb)+INT(ub))/2.0);
+        }
       } else {
 	Interval_arithmetic_guard guard;
 	vi = fi((INT(last_root)+INT(roots.back()))/2.0);

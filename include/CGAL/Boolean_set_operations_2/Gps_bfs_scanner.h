@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
-// $Id: Gps_bfs_scanner.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
+// $Id: Gps_bfs_scanner.h 39799 2007-08-09 13:35:21Z golubevs $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -30,7 +30,7 @@ class Gps_bfs_scanner
 {
   typedef Arrangement_     Arrangement;
 
-  typedef typename Arrangement::Hole_iterator    Hole_iterator;
+  typedef typename Arrangement::Inner_ccb_iterator    Hole_iterator;
   typedef typename Arrangement::Ccb_halfedge_circulator 
                                                   Ccb_halfedge_circulator;
   typedef typename Arrangement::Face_iterator    Face_iterator;

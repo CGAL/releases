@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
-// $Id: Iso_box_d.h 32991 2006-08-04 10:17:42Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
+// $Id: Iso_box_d.h 46239 2008-10-13 13:18:11Z afabri $
 // 
 //
 // Authors       : Hans Tangelder <hanst@cs.uu.nl>, Michael Hoffmann
@@ -27,6 +27,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/representation_tags.h> 
+#include <CGAL/Dimension.h>
 #include <functional>
 #include <algorithm>
 #include <numeric>
@@ -207,7 +208,7 @@ namespace CGAL {
     return ! (x == y);
   }
   
-  template < typename Kernel_ > struct Iso_box_d;
+  template < typename Kernel_ > class Iso_box_d;
   
   namespace Kernel_d {
 
@@ -253,8 +254,10 @@ namespace CGAL {
   } // namespace Kernel_d
 
   template < typename Kernel_ > 
-  struct Iso_box_d : public Handle_for< Kernel_d::Iso_box_d_rep<Kernel_> > 
+  class Iso_box_d : public Handle_for< Kernel_d::Iso_box_d_rep<Kernel_> > 
   { 
+
+  public:
     typedef Kernel_                   Kernel;
     typedef Kernel_                   R;
     
@@ -310,6 +313,9 @@ namespace CGAL {
     }
     
 public:
+
+    typedef CGAL::Dynamic_dimension_tag Ambient_dimension;
+    typedef CGAL::Dynamic_dimension_tag Feature_dimension;
 
     Iso_box_d() {}
     

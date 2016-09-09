@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
-// $Id: SNC_simplify.h 37558 2007-03-27 12:09:05Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
+// $Id: SNC_simplify.h 43829 2008-06-27 11:27:06Z hachenb $
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -73,6 +73,8 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
   typedef typename SNC_decorator::Sphere_segment Sphere_segment;
   typedef typename SNC_decorator::Sphere_circle Sphere_circle;
   typedef typename SNC_decorator::Sphere_direction Sphere_direction;
+
+  typedef typename SNC_structure::Infi_box Infi_box;
 
   bool simplified;
 
@@ -191,6 +193,16 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
     CGAL_NEF_TRACE("has two svertices ");
     Sphere_point sp1(p1->point()), sp2(p2->point());
     return (sp1 == sp2.antipode());
+  }
+
+  bool simplify_redundant_box_vertex(Vertex_handle v, bool snc_computed) {
+    CGAL_warning("altered code");
+    return false;
+    if(snc_computed) return false;
+    if(!Infi_box::is_redundant_box_vertex(*v)) return false;
+    this->sncp()->delete_vertex(v);
+    simplified = true;
+    return true;
   }
 
   bool simplify_redundant_vertex_in_volume(Vertex_handle v) {
@@ -313,9 +325,10 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
     while( v != (*this->sncp()).vertices_end()) {
       Vertex_iterator v_next(v);
       ++v_next;
-      if(!simplify_redundant_vertex_in_volume(v))
-	if(!simplify_redundant_vertex_on_facet(v))
-	  simplify_redundant_vertex_on_edge(v, snc_computed);
+      if(!simplify_redundant_box_vertex(v, snc_computed))
+	if(!simplify_redundant_vertex_in_volume(v))
+	  if(!simplify_redundant_vertex_on_facet(v))
+	    simplify_redundant_vertex_on_edge(v, snc_computed);
       v = v_next;
     }
     return simplified;
@@ -731,7 +744,7 @@ class SNC_simplify<SNC_indexed_items, SNC_structure>
 	  SHalfloop_handle sl(fci);
 	  sl->set_index(index);
 	} else
-	  CGAL_assertion_msg(false, "wrong handle");
+	  CGAL_error_msg( "wrong handle");
       }
     }
     

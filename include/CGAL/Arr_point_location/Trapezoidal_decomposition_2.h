@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h $
-// $Id: Trapezoidal_decomposition_2.h 37681 2007-03-29 16:32:27Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h $
+// $Id: Trapezoidal_decomposition_2.h 40209 2007-09-05 14:41:48Z efif $
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -586,7 +586,7 @@ public:
 #endif
 
   /* input: X_curve,
-     two Trapezoidal maps that corespond the the
+     two Trapezoidal maps that corespond the
      X_curve's source degenerate trapezoid and the
      X_curve's target degenerate trapezoid
      output: trapezoid iterator
@@ -1642,7 +1642,7 @@ public:
     
     if (right>left)
     {
-      int d=(int)CGAL_CLIB_STD::floor((double(right+left))/2);
+      int d=(int)std::floor((double(right+left))/2);
       // Replacing operator [] of map with find to please MSVC 7
       Point p = (ar.find(d)->second)->right();
       //Point p=ar[d]->right();
@@ -1691,7 +1691,7 @@ public:
     vector_container vtr;
     int sz;
     Td_active_trapezoid pr;
-    sz=X_trapezoid_filter(vtr, &td.get_data_structure());
+    sz=X_trapezoid_filter(vtr, &td.data_structure());
     //! \todo Reduce the 3 iterations to 1 (or 2) iterator.
     // First iteration: filter out the active trapezoids.
     typename vector_container::const_iterator it;
@@ -1810,7 +1810,7 @@ public:
 #endif
 #ifdef CGAL_TDBB_DEBUG
     std::cout << "\ninsert_in_face_interior(" << cv << ")" 
-              << "\nBbox " << traits->get_bounding_box();
+              << "\nBbox " << traits->bounding_box();
 #endif
 
 #ifdef CGAL_TD_DEBUG
@@ -3158,7 +3158,7 @@ public:
 #endif
     
     X_curve_container container;
-    unsigned long rep = X_curve_filter(container, &get_data_structure());
+    unsigned long rep = X_curve_filter(container, &data_structure());
     clear();
     
     // initialize container to point to curves in X_trapezoid Tree
@@ -3204,7 +3204,7 @@ public:
   
   template <class Container, class Predicate>
   void filter(Container& c, const Predicate& pr, 
-		      const Data_structure* ds=&get_data_structure()) const
+		      const Data_structure* ds=&data_structure()) const
   {
     CGAL_assertion(ds);
     ds->filter(c,pr);
@@ -3297,7 +3297,7 @@ public:
     std::cout << "\n|heavy!" << std::flush;
 #endif
     return
-      depth()>(get_depth_threshold()*(CGAL_CLIB_STD::log(double(sz+1))))
+      depth()>(get_depth_threshold()*(std::log(double(sz+1))))
       || size()>(get_size_threshold()*(sz+1));
     /*
       #else
@@ -3333,7 +3333,7 @@ public:
   }
   
   /* returns a reference to the internal data structure */
-  const Data_structure& get_data_structure() const {return *DS;}
+  const Data_structure& data_structure() const {return *DS;}
   
   /* returns a reference to the internal data structure */
   const_Traits_ref get_traits() const {return *traits;}

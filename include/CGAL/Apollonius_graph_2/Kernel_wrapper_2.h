@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Kernel_wrapper_2.h $
-// $Id: Kernel_wrapper_2.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Kernel_wrapper_2.h $
+// $Id: Kernel_wrapper_2.h 41739 2008-01-20 23:09:58Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -52,8 +52,7 @@ private:
 
 
 public:
-#if defined(_MSC_VER) || defined(__sgi) \
-    || defined(CGAL_CFG_USING_BASE_MEMBER_BUG)
+#if defined(_MSC_VER)
   bool operator()(bool b) const {
     return Base::operator()(b);
   }

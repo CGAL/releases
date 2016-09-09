@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/CORE_algebraic_number_traits.h $
-// $Id: CORE_algebraic_number_traits.h 37250 2007-03-19 11:25:41Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/CORE_algebraic_number_traits.h $
+// $Id: CORE_algebraic_number_traits.h 47413 2008-12-12 14:04:18Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -95,12 +95,12 @@ public:
   {
     CGAL_precondition (x1 != x2);
 
-    const BigInt  one (1);
-    Algebraic     scaled_x1 = x1;
-    BigInt        ix1;
-    Algebraic     scaled_x2 = x2;
-    BigInt        ix2;
-    BigInt        denom = 1;
+    const Integer  one (1);
+    Algebraic      scaled_x1 = x1;
+    Integer        ix1;
+    Algebraic      scaled_x2 = x2;
+    Integer        ix2;
+    Integer        denom = 1;
 
     while (true)
     {
@@ -564,7 +564,7 @@ public:
   template <class OutputIterator>
   OutputIterator compute_polynomial_roots (const Polynomial& poly,
                                            double x_min, double x_max,
-                                           OutputIterator oi) const
+					   OutputIterator oi) const
   {
     // Get the real degree of the polynomial.
     int            degree = poly.getTrueDegree();
@@ -583,7 +583,7 @@ public:
                                   poly.getCoeff(1),
                                   poly.getCoeff(0),
                                   buffer);
-      unsigned int  num_of_roots = std::distance (&(buffer[0]), end_buffer);
+      unsigned int  num_of_roots = std::distance(&buffer[0], end_buffer);
 
       for (i = 0; i < num_of_roots; ++i)
       {

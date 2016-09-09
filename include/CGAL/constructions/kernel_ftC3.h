@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/constructions/kernel_ftC3.h $
-// $Id: kernel_ftC3.h 33100 2006-08-07 11:54:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/constructions/kernel_ftC3.h $
+// $Id: kernel_ftC3.h 43442 2008-06-04 08:55:44Z pmachado $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -38,6 +38,87 @@ midpointC3( const FT &px, const FT &py, const FT &pz,
   x = (px + qx) / 2;
   y = (py + qy) / 2;
   z = (pz + qz) / 2;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z,
+             FT &x, FT &y, FT &z)
+{
+   FT w2 = 1 - w1;
+   x = w1 * p1x + w2 * p2x;
+   y = w1 * p1y + w2 * p2y;
+   z = w1 * p1z + w2 * p2z;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z, const FT &w2,
+             FT &x, FT &y, FT &z)
+{
+   FT sum = w1 + w2;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x) / sum;
+   y = (w1 * p1y + w2 * p2y) / sum;
+   z = (w1 * p1z + w2 * p2z) / sum;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &p3z,
+             FT &x, FT &y, FT &z)
+{
+   FT w3 = 1 - w1 - w2;
+   x = w1 * p1x + w2 * p2x + w3 * p3x;
+   y = w1 * p1y + w2 * p2y + w3 * p3y;
+   z = w1 * p1z + w2 * p2z + w3 * p3z;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &p3z, const FT &w3,
+             FT &x, FT &y, FT &z)
+{
+   FT sum = w1 + w2 + w3;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x + w3 * p3x) / sum;
+   y = (w1 * p1y + w2 * p2y + w3 * p3y) / sum;
+   z = (w1 * p1z + w2 * p2z + w3 * p3z) / sum;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &p3z, const FT &w3,
+             const FT &p4x, const FT &p4y, const FT &p4z,
+             FT &x, FT &y, FT &z)
+{
+   FT w4 = 1 - w1 - w2 - w3;
+   x = w1 * p1x + w2 * p2x + w3 * p3x + w4 * p4x;
+   y = w1 * p1y + w2 * p2y + w3 * p3y + w4 * p4y;
+   z = w1 * p1z + w2 * p2z + w3 * p3z + w4 * p4z;
+}
+
+template < class FT >
+void
+barycenterC3(const FT &p1x, const FT &p1y, const FT &p1z, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &p2z, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &p3z, const FT &w3,
+             const FT &p4x, const FT &p4y, const FT &p4z, const FT &w4,
+             FT &x, FT &y, FT &z)
+{
+   FT sum = w1 + w2 + w3 + w4;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x + w3 * p3x + w4 * p4x) / sum;
+   y = (w1 * p1y + w2 * p2y + w3 * p3y + w4 * p4y) / sum;
+   z = (w1 * p1z + w2 * p2z + w3 * p3z + w4 * p4z) / sum;
 }
 
 template < class FT >
@@ -87,16 +168,16 @@ squared_radiusC3(const FT &px, const FT &py, const FT &pz,
   FT spz = sz-pz;
   FT sp2 = CGAL_NTS square(spx) + CGAL_NTS square(spy) + CGAL_NTS square(spz);
 
-  FT num_x = det3x3_by_formula(qpy,qpz,qp2,
+  FT num_x = determinant(qpy,qpz,qp2,
                                rpy,rpz,rp2,
                                spy,spz,sp2);
-  FT num_y = det3x3_by_formula(qpx,qpz,qp2,
+  FT num_y = determinant(qpx,qpz,qp2,
                                rpx,rpz,rp2,
                                spx,spz,sp2);
-  FT num_z = det3x3_by_formula(qpx,qpy,qp2,
+  FT num_z = determinant(qpx,qpy,qp2,
                                rpx,rpy,rp2,
                                spx,spy,sp2);
-  FT den   = det3x3_by_formula(qpx,qpy,qpz,
+  FT den   = determinant(qpx,qpy,qpz,
                                rpx,rpy,rpz,
                                spx,spy,spz);
   CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
@@ -125,14 +206,14 @@ squared_radiusC3(const FT &px, const FT &py, const FT &pz,
   FT rsy = psz*qsx-psx*qsz;
   FT rsz = psx*qsy-psy*qsx;
 
-  FT num_x = ps2 * det2x2_by_formula(qsy,qsz,rsy,rsz)
-	   - qs2 * det2x2_by_formula(psy,psz,rsy,rsz);
-  FT num_y = ps2 * det2x2_by_formula(qsx,qsz,rsx,rsz)
-	   - qs2 * det2x2_by_formula(psx,psz,rsx,rsz);
-  FT num_z = ps2 * det2x2_by_formula(qsx,qsy,rsx,rsy)
-	   - qs2 * det2x2_by_formula(psx,psy,rsx,rsy);
+  FT num_x = ps2 * determinant(qsy,qsz,rsy,rsz)
+	   - qs2 * determinant(psy,psz,rsy,rsz);
+  FT num_y = ps2 * determinant(qsx,qsz,rsx,rsz)
+	   - qs2 * determinant(psx,psz,rsx,rsz);
+  FT num_z = ps2 * determinant(qsx,qsy,rsx,rsy)
+	   - qs2 * determinant(psx,psy,rsx,rsy);
 
-  FT den   = det3x3_by_formula(psx,psy,psz,
+  FT den   = determinant(psx,psy,psz,
                                qsx,qsy,qsz,
                                rsx,rsy,rsz);
 
@@ -254,7 +335,7 @@ scaled_distance_to_planeC3(
      const FT &prx, const FT &pry, const FT &prz,
      const FT &px,  const FT &py,  const FT &pz)
 {
-  return det3x3_by_formula(ppx-px,ppy-py,ppz-pz,
+  return determinant(ppx-px,ppy-py,ppz-pz,
                            pqx-px,pqy-py,pqz-pz,
                            prx-px,pry-py,prz-pz);
 }

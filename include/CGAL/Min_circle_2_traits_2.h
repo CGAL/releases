@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_circle_2/include/CGAL/Min_circle_2_traits_2.h $
-// $Id: Min_circle_2_traits_2.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_circle_2/include/CGAL/Min_circle_2_traits_2.h $
+// $Id: Min_circle_2_traits_2.h 41625 2008-01-14 23:00:24Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -20,12 +20,8 @@
 #ifndef CGAL_MIN_CIRCLE_2_TRAITS_2_H
 #define CGAL_MIN_CIRCLE_2_TRAITS_2_H
 
-// includes
-
-#ifndef CGAL_OPTIMISATION_CIRCLE_2_H
-#  include <CGAL/Min_circle_2/Optimisation_circle_2.h>
-#endif
-#  include <CGAL/predicates_on_points_2.h>
+#include <CGAL/Min_circle_2/Optimisation_circle_2.h>
+#include <CGAL/predicates_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Identity_rejectors.h $
-// $Id: Identity_rejectors.h 37188 2007-03-17 09:37:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Identity_rejectors.h $
+// $Id: Identity_rejectors.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -45,7 +45,6 @@ struct Identity_edge_rejector
 {
   typedef DG                  Delaunay_graph;
   typedef bool                result_type;
-  typedef Arity_tag<2>        Arity;
 
   typedef typename Delaunay_graph::Edge                   Edge;
   typedef typename Delaunay_graph::Face_handle            Face_handle;
@@ -87,7 +86,6 @@ struct Identity_face_rejector
 {
   typedef DG                  Delaunay_graph;
   typedef bool                result_type;
-  typedef Arity_tag<2>        Arity;
 
   typedef typename Delaunay_graph::Vertex_handle  Vertex_handle;
 

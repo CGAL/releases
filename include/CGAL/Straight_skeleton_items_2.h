@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2005-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
-// $Id: Straight_skeleton_items_2.h 36633 2007-02-27 18:19:42Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
+// $Id: Straight_skeleton_items_2.h 41533 2008-01-11 15:46:07Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -20,7 +20,7 @@
 
 #include <CGAL/Straight_skeleton_vertex_base_2.h>
 #include <CGAL/Straight_skeleton_halfedge_base_2.h>
-#include <CGAL/HalfedgeDS_face_base.h>
+#include <CGAL/Straight_skeleton_face_base_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,7 +46,7 @@ public:
   template<class Refs, class Traits> 
   struct Face_wrapper 
   {
-    typedef HalfedgeDS_face_base< Refs > Face;
+    typedef Straight_skeleton_face_base_2 < Refs > Face; 
   } ;
 };
 

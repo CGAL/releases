@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Homogeneous_d.h $
-// $Id: Homogeneous_d.h 33349 2006-08-16 15:12:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Homogeneous_d.h $
+// $Id: Homogeneous_d.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Michael Seel
@@ -24,14 +24,13 @@
 #ifndef CGAL_HOMOGENEOUS_D_H
 #define CGAL_HOMOGENEOUS_D_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/Quotient.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/Kernel_d/function_objects.h>
 #include <CGAL/Linear_algebraHd.h>
 #include <vector>
-#endif
+
 #include <CGAL/Kernel_d/Kernel_classesHd.h>
 #include <CGAL/Kernel_d/PointHd.h>
 #include <CGAL/Kernel_d/VectorHd.h>
@@ -46,6 +45,7 @@
 #include <CGAL/Kernel_d/intersection_objectsHd.h>
 #include <CGAL/Kernel_d/Interface_classes.h>
 #include <CGAL/Kernel_d/simple_objects.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -74,6 +74,18 @@ public:
 
   typedef typename Point_d_base::Cartesian_const_iterator Cartesian_const_iterator_d;
 
+  typedef Dynamic_dimension_tag            Dimension;
+
+  template <typename T>
+  struct Ambient_dimension {
+    typedef typename T::Ambient_dimension type;
+  };
+
+  template <typename T>
+  struct Feature_dimension {
+    typedef typename T::Feature_dimension type;
+  };
+
   template <typename K>
   class Construct_cartesian_const_iterator
   {    
@@ -82,7 +94,6 @@ public:
 
   public:
     typedef Cartesian_const_iterator_d result_type;
-    typedef Arity_tag< 1> Arity;
 
     Cartesian_const_iterator_d
     operator()(const Point_d& p) const
@@ -106,7 +117,6 @@ public:
     typedef typename K::Cartesian_const_iterator_d  Cartesian_const_iterator_d;
   public:
     typedef Point_d result_type;
-    typedef Arity_tag< 2> Arity;
 
     Point_d operator()(const Iso_box_d&  b, int i)
     {
@@ -128,7 +138,6 @@ public:
     typedef typename K::Iso_box_d Iso_box_d;
   public:
     typedef Point_d result_type;
-    typedef Arity_tag< 1 > Arity;
 
     Point_d operator()(const Iso_box_d&  b)
     {
@@ -151,7 +160,6 @@ public:
     typedef typename K::Iso_box_d Iso_box_d;
   public:
     typedef Point_d result_type;
-    typedef Arity_tag< 1 > Arity;
 
     Point_d operator()(const Iso_box_d&  b)
     {

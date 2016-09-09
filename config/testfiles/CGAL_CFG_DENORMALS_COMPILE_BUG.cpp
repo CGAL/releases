@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
-// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 37704 2007-03-30 08:39:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
+// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 41406 2008-01-03 12:11:01Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -28,14 +28,14 @@
 // ---------------------------------------------------------------------
 
 //| This flag is set if the compiler bugs when handling denormal values at
-//| compile time.  At least PGCC 5.1-3 has the bug.
+//| compile time.  At least PGCC 7.1-2 has the bug.
 
-template < typename T >
-void use(const T&) {}
- 
+#undef NDEBUG
+#include <cassert>
+
 int main()
 {
   double d = 5e-324;
-  use(d);
+  assert(d != 0);
   return 0;
 }

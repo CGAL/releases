@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Conic_2/include/CGAL/Conic_2.h $
-// $Id: Conic_2.h 37334 2007-03-20 21:49:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Conic_2/include/CGAL/Conic_2.h $
+// $Id: Conic_2.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -26,16 +26,12 @@
 #define CGAL_CONIC_2_H
 
 #include <CGAL/Conic_misc.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class Optimisation_ellipse_2;
-
-CGAL_END_NAMESPACE
-
-
-CGAL_BEGIN_NAMESPACE
 
 template < class R_>
 class Conic_2 : public R_::Kernel_base::Conic_2 {
@@ -43,6 +39,9 @@ class Conic_2 : public R_::Kernel_base::Conic_2 {
     friend  class Optimisation_ellipse_2<R_>;
 
   public:
+
+    typedef Dimension_tag<2>  Ambient_dimension;
+    typedef Dimension_tag<1>  Feature_dimension;
 
     // types
     typedef  R_                    R;

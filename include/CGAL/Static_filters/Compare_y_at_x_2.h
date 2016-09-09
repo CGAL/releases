@@ -12,9 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Compare_y_at_x_2.h $
-// $Id: Compare_y_at_x_2.h 35070 2006-11-06 17:12:11Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Compare_y_at_x_2.h $
+// $Id: Compare_y_at_x_2.h 44920 2008-08-12 15:23:12Z spion $
 //
 // Author(s)     : Andreas Meyer
 
@@ -23,6 +22,7 @@
 
 #include <CGAL/Profile_counter.h>
 #include <CGAL/Static_filter_error.h>
+#include <CGAL/algorithm.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -44,19 +44,20 @@ public:
     // compares the y-coordinates of p and the vertical projection of p on s.
     // Precondition : p is in the x-range of s.
     
-    CGAL_kernel_precondition(p.x() >= min(s.source().x(), s.target().x()) &&
-                             p.x() <= max(s.source().x(), s.target().x()));
+    typename Kernel::Less_x_2 less_x = Kernel().less_x_2_object();
+    typename Kernel::Less_y_2 less_y = Kernel().less_y_2_object();
+    typename Kernel::Orientation_2 orientation = Kernel().orientation_2_object();
+
+    CGAL_kernel_precondition( are_ordered(s.source(), p, s.target(), less_x) );
     
-    if( Kernel().less_x_2_object()( s.source(), s.target() ) )
-      return enum_cast<Comparison_result>(Kernel().orientation_2_object()
-                                          (p, s.source(), s.target() ));
-    else if ( Kernel().less_x_2_object()( s.target(), s.source() ) )
-      return enum_cast<Comparison_result>(Kernel().orientation_2_object()
-                                          (p, s.target(), s.source() ));
+    if( less_x( s.source(), s.target() ) )
+      return orientation(p, s.source(), s.target());
+    else if ( less_x( s.target(), s.source() ) )
+      return orientation(p, s.target(), s.source());
     else {
-      if( p.y() < min(s.target().y(), s.source().y()) )
+      if( less_y(p, s.source()) && less_y(p, s.target()) )
         return SMALLER;
-      if( max(s.target().y(), s.source().y()) < p.y() )
+      if( less_y(s.source(), p) && less_y(s.target(), p) )
         return LARGER;
       return EQUAL;
     }

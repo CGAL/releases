@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP_solver.h $
-// $Id: QP_solver.h 38453 2007-04-27 00:34:44Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_solver.h $
+// $Id: QP_solver.h 46451 2008-10-23 14:31:10Z gaertner $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -24,9 +24,7 @@
 #define CGAL_QP_SOLVER_H
 
 #include <CGAL/iterator.h>
-#include <CGAL/functional.h>
 #include <CGAL/QP_solver/basic.h>
-#include <CGAL/QP_solver/iterator.h>
 #include <CGAL/QP_solver/functors.h>
 #include <CGAL/QP_options.h>
 #include <CGAL/QP_solution.h>
@@ -41,6 +39,10 @@
 #include <CGAL/algorithm.h>
 
 #include <CGAL/IO/Verbose_ostream.h>
+
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/iterator/transform_iterator.hpp>
 
 #include <vector>
 #include <numeric>
@@ -241,46 +243,50 @@ private:
 
   // access to original problem by basic variable/constraint index:
   typedef  QP_vector_accessor<A_column, false, false >  A_by_index_accessor;
-  typedef  Join_input_iterator_1< Index_const_iterator, A_by_index_accessor >
+  typedef  boost::transform_iterator
+  < A_by_index_accessor,Index_const_iterator >
   A_by_index_iterator;
 
   // todo kf: following can be removed once we have all these (outdated)
   // accessors removed:
   typedef  QP_vector_accessor< B_iterator, false, false >
   B_by_index_accessor;
-  typedef  Join_input_iterator_1< Index_const_iterator, B_by_index_accessor >
+  typedef  boost::transform_iterator
+  < B_by_index_accessor, Index_const_iterator >
   B_by_index_iterator;
 
   typedef  QP_vector_accessor< C_iterator, false, false >
   C_by_index_accessor;
-  typedef  Join_input_iterator_1< Index_const_iterator, C_by_index_accessor >
+  typedef  boost::transform_iterator
+  <C_by_index_accessor, Index_const_iterator >
   C_by_index_iterator;
 
   typedef  QP_matrix_accessor< A_iterator, false, true, false, false>
   A_accessor;
-  typedef  typename CGAL::Bind< A_accessor,
-				typename A_accessor::argument2_type,2>::Type
+  typedef  boost::function1<typename A_accessor::result_type, int>
   A_row_by_index_accessor;
-  typedef  Join_input_iterator_1< Index_iterator, A_row_by_index_accessor >
+  typedef  boost::transform_iterator 
+  < A_row_by_index_accessor, Index_iterator >
   A_row_by_index_iterator;
 
   // Access to the matrix D sometimes converts to ET, and 
   // sometimes retruns the original input type
   typedef  QP_matrix_pairwise_accessor< D_iterator, ET >
   D_pairwise_accessor;
-  typedef  Join_input_iterator_1< Index_const_iterator,
-				  D_pairwise_accessor >
+  typedef boost::transform_iterator 
+  < D_pairwise_accessor, Index_const_iterator>
   D_pairwise_iterator;
   typedef  QP_matrix_pairwise_accessor< D_iterator, D_entry >
   D_pairwise_accessor_input_type;
-  typedef  Join_input_iterator_1< Index_const_iterator, 
-				  D_pairwise_accessor_input_type >
+  typedef  boost::transform_iterator
+  < D_pairwise_accessor_input_type, Index_const_iterator >
   D_pairwise_iterator_input_type;
 
   // access to special artificial column by basic constraint index:
   typedef  QP_vector_accessor< typename S_art::const_iterator, false, false>
   S_by_index_accessor;
-  typedef  Join_input_iterator_1< Index_iterator, S_by_index_accessor >
+  typedef  boost::transform_iterator
+  < S_by_index_accessor, Index_iterator >
   S_by_index_iterator;
   
 public:
@@ -296,9 +302,6 @@ public:
 
   typedef typename Base::Variable_numerator_iterator
   Variable_numerator_iterator;
-
-//   typedef typename Base::Original_index_const_iterator
-//   Original_index_const_iterator;
 
   typedef  Index_const_iterator       Basic_variable_index_iterator;
   typedef  Value_const_iterator       Basic_variable_numerator_iterator;
@@ -695,9 +698,9 @@ public: // only the pricing strategies (including user-defined ones
   {
     CGAL_assertion(!check_tag(Is_nonnegative()) &&
 		   !is_basic(i) && i < qp_n && x_O_v_i[i] == ZERO);
-    if (*(qp_fl+i) && CGAL::is_zero(qp_l[i]))
+    if (*(qp_fl+i) && CGAL::is_zero(*(qp_l+i)))
       return -1;
-    if (*(qp_fu+i) && CGAL::is_zero(qp_u[i]))
+    if (*(qp_fu+i) && CGAL::is_zero(*(qp_u+i)))
       return 1;
     return 0;
   }
@@ -1263,7 +1266,7 @@ public:
     if ( j < qp_n) {                                // original variable
 
       // [c_j +] A_Cj^T * lambda_C
-      mu_j = ( is_phaseI ? NT( 0) : dd * NT(qp_c[ j]));
+      mu_j = ( is_phaseI ? NT( 0) : dd * NT(*(qp_c+ j)));
       mu_j__linear_part( mu_j, j, lambda_it, no_ineq);
 
       // ... + 2 D_Bj^T * x_B
@@ -1290,7 +1293,7 @@ public:
     if ( j < qp_n) {                                // original variable
 
       // [c_j +] A_Cj^T * lambda_C
-      mu_j = ( is_phaseI ? NT( 0) : dd * NT(qp_c[ j]));
+      mu_j = ( is_phaseI ? NT( 0) : dd * NT(*(qp_c+ j)));
       mu_j__linear_part( mu_j, j, lambda_it, no_ineq);
 
       // ... + 2 D_Bj^T * x_B + 2 D_Nj x_N
@@ -1474,23 +1477,30 @@ transition( Tag_false)
   typedef  Creator_2< Index_iterator, D_pairwise_accessor,
     D_pairwise_iterator >  D_transition_creator_iterator;
 
-  typedef  Join_input_iterator_1< Index_iterator, typename Bind<
-    typename Compose< D_transition_creator_iterator,
-    Identity< Index_iterator >, typename
-    Bind< D_transition_creator_accessor, D_iterator, 1 >::Type >::Type,
-    Index_iterator, 1>::Type >
-    twice_D_transition_iterator;
-    
   // initialization of vector w and vector r_B_O:
   if (!check_tag(Is_nonnegative())) {
     init_w();                      
     init_r_B_O();
   }
 
-  inv_M_B.transition( twice_D_transition_iterator( B_O.begin(),
-						   bind_1( compose( D_transition_creator_iterator(),
-								    Identity<Index_iterator>(), bind_1(
-												       D_transition_creator_accessor(), qp_D)), B_O.begin())));
+  // here is what we need in the transition: an iterator that steps through 
+  // the basic indices, where dereferencing
+  // yields an iterator through the corresponding row of D, restricted 
+  // to the basic indices. This means that we select the principal minor of D 
+  // corresponding to the current basis.
+ 
+  // To realize this, we transform B_O.begin() via the function h where
+  //   h(i) = D_pairwise_iterator
+  //           (B_O.begin(), 
+  //            D_pairwise_accessor(qp_D, i))
+
+
+  inv_M_B.transition 
+    (boost::make_transform_iterator 
+     (B_O.begin(),
+      boost::bind 
+      (D_transition_creator_iterator(), B_O.begin(), 
+       boost::bind (D_transition_creator_accessor(), qp_D, _1))));
 }
 
 template < typename Q, typename ET, typename Tags >  inline                                 // LP case
@@ -1711,7 +1721,7 @@ ratio_test_2__p( Tag_false)
 	    i_it != B_O.end();
 	    ++i_it,                ++v_it                ) {
       *v_it = ( sign ? 
-		(*(qp_A+ *i_it))[ row] : - (*(qp_A + *i_it))[ row]);
+		*((*(qp_A+ *i_it))+ row) : - (*((*(qp_A + *i_it))+ row)));
     }
 
     // compute  ( p_l | p_x_O )^T = M_B^{-1} * ( 0 | A_{S_j,B_O} )^T
@@ -1860,7 +1870,8 @@ basis_matrix_stays_regular()
     
   if ( has_ineq && (i >= qp_n)) {	// slack variable
     new_row = slack_A[ i-qp_n].first;
-    A_row_by_index_accessor  a_accessor( A_accessor( qp_A, 0, qp_n), new_row);
+    A_row_by_index_accessor  a_accessor =
+      boost::bind (A_accessor( qp_A, 0, qp_n), _1, new_row);
     std::copy( A_row_by_index_iterator( B_O.begin(), a_accessor),
 	       A_row_by_index_iterator( B_O.end  (), a_accessor),
 	       tmp_x.begin());	   

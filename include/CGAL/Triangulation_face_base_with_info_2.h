@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_face_base_with_info_2.h $
-// $Id: Triangulation_face_base_with_info_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_face_base_with_info_2.h $
+// $Id: Triangulation_face_base_with_info_2.h 39259 2007-06-28 17:41:51Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec,Sylvain Pion

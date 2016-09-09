@@ -11,32 +11,22 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Apollonius_graph_new_traits_2.h $
-// $Id: Apollonius_graph_new_traits_2.h 35587 2006-12-18 09:37:55Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Apollonius_graph_new_traits_2.h $
+// $Id: Apollonius_graph_new_traits_2.h 41439 2008-01-03 19:18:52Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
-//                 Christophe Delage <Christophe.Delage@sophia.inria.fr>
-//                 David Millman <dlm336@cs.nyu.edu>
+//                 Christophe Delage
+//                 David Millman
 
 #ifndef CGAL_APOLLONIUS_GRAPH_NEW_TRAITS_2_H
 #define CGAL_APOLLONIUS_GRAPH_NEW_TRAITS_2_H
 
-
-#ifndef CGAL_REP_CLASS_DEFINED
-#error  no representation class defined
-#endif  // CGAL_REP_CLASS_DEFINED
-
-#if defined CGAL_CARTESIAN_H || defined CGAL_SIMPLE_CARTESIAN_H
 #include <CGAL/Apollonius_graph_2/new_traits/New_predicates_C2.h>
-#endif
-
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Apollonius_graph_2/Kernel_wrapper_2.h>
 
-
 CGAL_BEGIN_NAMESPACE
-
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------

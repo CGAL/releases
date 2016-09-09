@@ -23,163 +23,223 @@
 #include <CGAL/PDB/basic.h>
 #include <CGAL/PDB/Point.h>
 #include <CGAL/Tools/Label.h>
+#include <CGAL/PDB/Transform.h>
+#include <boost/iterator/transform_iterator.hpp>
 #include <string> 
 CGAL_PDB_BEGIN_NAMESPACE
 //! A class repesenting an atom.
 class Atom {
-  friend class Residue;
 public:
-  //! The type to represent the atoms index in the PDB file.
-  typedef CGAL::Label<Atom> Index;
-
+  typedef Label<Atom> Index;
+  
   //! The type (element) of an atom. The currently supported types are C,N,H,O,S, INVALID
-  enum Type {INVALID=0, C,N,H,O, S, FE, PT};
+  enum Type {INVALID=0, C,N,H,O, S, P, FE, PT};
 
   //! Construct and invalid atom
-  inline Atom();
-  //! The int index of the atom (atom number in a PDB -1)
-  /*!
-    \note these are 0 based, and the PDB is 1 based, so this is the PDB index -1
-  */
-  inline Index index() const;
-  //! Set the index
-  inline void set_index(Index i);
+  inline Atom(): type_(INVALID){}
+ 
   //inline Atom_label label() const;
   //! Cartesian coordinates (x,y,z) for the atom.
-  inline const Point &cartesian_coords() const;
-  //! Set the cartesian coordinates.
-  inline void set_cartesian_coords(const Point &pt);
-  inline bool operator<(const Atom &o) const;
+  CGAL_GETSET(Point, point, coordinates_);
+
+  /*inline Point &cartesian_coords() {
+    return coordinates_;
+    }*/
+
+  //inline bool operator<(const Atom &o) const;
   inline bool operator==(const Atom& al) const;
   inline bool operator!=(const Atom& al) const;
   //! The PDB occupancy field.
-  inline float occupancy() const ;
-  //! Set the PDB occupancy field.
-  inline void set_occupancy(float o);
+  CGAL_GETSET(float, occupancy, occupancy_);
+
   //! The PDB temperature factor field.
-  inline float temperature_factor() const;
-  //! Set the PDB temperature factor field.
-  inline void set_temperature_factor(float f);
+  CGAL_GETSET(float, temperature_factor, temp_factor_);
+
   //! The PDB segment ID char
-  inline const char *segment_id() const;
-  //! Set the PDB segment ID char.
-  inline void set_segment_id(const char *c);
+  CGAL_GETSET(std::string, segment_id, segID_);
+
   //! The PDB element field
-  inline const char* element() const;
-  //! Set the element.
-  inline void set_element(const char *c);
+  CGAL_GETSET(std::string, element, element_);
+
   //! The PDB charge field.
-  inline const char *charge() const;
-  //! Set the PDB charge field value.
-  inline void set_charge(const char*c);
+  CGAL_GETSET(std::string, charge, charge_);
+
   //! The type of the atoms (basically what element).
-  inline Type type() const;
-  //! Set the element.
-  inline void set_type(Type t);
+  CGAL_GETSET(Type, type, type_);
+
   //! Returns the van der Waals radius of the atom.
   /*!  Values take from the wikipedia so beware.
    */
-  inline double radius() const;
+  CGAL_GET(double, radius, return radii_[type_]);
+
+
+  //! This is a label which identifies an Atom uniquely within some scale.
+  /*!
+    The uniqueness is only valid if working within the object which assigned the indices,
+    and if nothing has changed since the corresponding index_atoms() function was called.
+  */
+  CGAL_GET(Index, index, return index_);
+
+  //! note const
+  void set_index(Index i) const {index_=i;}
 
   static Type string_to_type(const char *c);
-protected:
-  Index index_;
+
+  void swap_with(Atom &o) {
+    CGAL_ISWAP(type_);
+    CGAL_ISWAP(coordinates_);
+    CGAL_ISWAP(occupancy_);
+    CGAL_ISWAP(temp_factor_);
+    CGAL_ISWAP(segID_);
+    CGAL_ISWAP(element_);
+    CGAL_ISWAP(charge_);
+    CGAL_ISWAP(index_);
+  }
+private:
   Type type_;
   Point coordinates_;
   float occupancy_, temp_factor_;
   std::string segID_, element_, charge_;
   static double radii_[];
+  mutable Index index_;
 };
 
-inline Atom::Index Atom::index() const {
-  assert(index_ != Atom::Index());
-  return index_;
-}
 
-inline void Atom::set_index(Atom::Index i) {
-  assert(i != Atom::Index());
-  index_=i;
-}
+CGAL_SWAP(Atom);
 
-inline Atom::Type Atom::type() const {return type_;}
-
-inline void Atom::set_type(Atom::Type t) {type_=t;}
-
-inline const Point &Atom::cartesian_coords() const {
-  return coordinates_;
-}
-
-inline void Atom::set_cartesian_coords(const Point &pt){
-  coordinates_=pt;
-}
-
-inline bool Atom::operator<(const Atom &o) const {
+/*inline bool Atom::operator<(const Atom &o) const {
   if (index_ < o.index_) return true;
   else if (index_ > o.index_) return false;
   else return type_ < o.type_;
-}
+  }*/
 
 inline bool Atom::operator==(const Atom &o) const {
-  if (index_ != o.index_) return false;
-  else return type_ == o.type_;
+  return type_== o.type_ && coordinates_ == o.coordinates_;
 }
 
 inline bool Atom::operator!=(const Atom &o) const {
   return !operator==(o);
 }
 
-inline float Atom::occupancy() const {
-  return occupancy_;
+
+
+//! Assign unique indices to all atoms in the sequence, starting at optional start value
+/*!
+  This returns the next unused index. 
+*/
+template <class It>
+inline int index_atoms(It b, It e, int start=0) {
+  for (; b != e; ++b) {
+    b->atom().set_index(Atom::Index(start++));
+  }
+  return start;
 }
 
-inline void Atom::set_occupancy(float o) {
-  occupancy_=o;
-}
-    
-inline float Atom::temperature_factor() const {
-  return temp_factor_;
+
+
+
+//! Take an Atom and return the Atom::point()
+/*!
+ */
+struct Point_from_atom {
+  typedef Point result_type;
+ 
+  const result_type& operator()(const Atom& a) const {
+    return a.point();
+  }
+};
+
+//! Returns an interator which takes an Atom and return the coordinates
+/*!
+  The iterator value_type should be an Atom.
+
+ */
+template <class It>
+boost::transform_iterator<Point_from_atom, It>
+make_point_iterator(It it) {
+  return boost::make_transform_iterator(it, Point_from_atom());
 }
 
-inline void Atom::set_temperature_factor(float f) {
-  temp_factor_=f;
-}
-
-inline const char *Atom::segment_id() const {
-  return segID_.c_str();
-}
-
-inline void Atom::set_segment_id(const char *c) {
-  segID_=c;
-}
-
-inline const char* Atom::element() const {
-  return element_.c_str();
-}
-
-inline void Atom::set_element(const char *c) {
-  element_=c;
-}
-
-inline const char *Atom::charge() const {
-  return charge_.c_str();
-}
-
-inline void Atom::set_charge(const char*c) {
-  charge_=c;
-}
-    
-inline Atom::Atom(): type_(Atom::INVALID) {
-}
-
-inline double Atom::radius() const {
-  return radii_[type()];
-}
-
-/*Atom::Atom(Atom_label label): label_(label){
-  index_=0;
-  occupancy_=1.0; temp_factor_=0.0;
-  }*/
+//! Take an Atom and return the Atom::index()
+/*!
+ */
+struct Index_from_atom {
+  typedef Atom::Index result_type;
   
+  const result_type& operator()(const Atom& a) const {
+    return a.index();
+  }
+};
+//! Returns an interator which takes an Atom and return the Atom::index()
+/*!
+  The iterator value_type should be an Atom.
+
+ */
+template <class It>
+boost::transform_iterator<Index_from_atom, It>
+make_index_iterator(It it) {
+  return boost::make_transform_iterator(it, Index_from_atom());
+}
+
+//! Take an Atom and return the a K::Weighted_point
+/*!
+ */
+template <class K>
+struct Weighted_point_from_atom {
+  typedef typename K::Weighted_point result_type;
+  result_type operator()(const Atom &b) const {
+    typedef typename K::Bare_point BP;
+    return result_type(BP(b.point().x(),
+			  b.point().y(),
+			  b.point().z()), 
+		       b.radius()*b.radius());
+  }
+};
+
+//! Return an interator which takes an Atom and return the a K::Weighted_point
+/*!
+  The iterator value_type should be an Atom.
+ */
+template <class It, class K>
+boost::transform_iterator<Weighted_point_from_atom<K>, It>
+make_weighted_point_iterator(It it, K) {
+  return boost::make_transform_iterator(it, Weighted_point_from_atom<K>());
+}
+
+//! Take an Atom and return the a K::Sphere_3
+/*!
+ */
+template <class K>
+struct Sphere_3_from_atom {
+  typedef typename K::Sphere_3 result_type;
+  result_type operator()(const Atom &b) const {
+    typedef typename K::Point_3 BP;
+    return result_type(BP(b.point().x(),
+			  b.point().y(),
+			  b.point().z()), 
+		       b.radius()*b.radius());
+  }
+};
+//! Take an Atom and return the a K::Sphere_3
+/*!
+ */
+template <class It, class K>
+boost::transform_iterator<Sphere_3_from_atom<K>, It>
+make_sphere_3_iterator(It it, K) {
+  return boost::make_transform_iterator(it, Sphere_3_from_atom<K>());
+}
+
+
+//! Apply a transformation to the coordinates of an Atom
+class Transform_atom {
+  Transform t_;
+public:
+  Transform_atom(const Transform &t):t_(t){}
+  void operator()(Atom &a) const {
+    a.set_point(t_(a.point()));
+  }
+};
+
 
 CGAL_PDB_END_NAMESPACE
 #endif

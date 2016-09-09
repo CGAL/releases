@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_3/demo/Convex_hull_3/incremental_hull_3_demo.cpp $
-// $Id: incremental_hull_3_demo.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/demo/Convex_hull_3/incremental_hull_3_demo.cpp $
+// $Id: incremental_hull_3_demo.cpp 44910 2008-08-12 12:58:18Z spion $
 //
 //
 // Author(s)     : Susan Hert
@@ -25,7 +25,7 @@
 #include <CGAL/Convex_hull_d_traits_3.h>
 #include <CGAL/Convex_hull_d_to_polyhedron_3.h>
 #include <CGAL/Polyhedron_3.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/IO/Polyhedron_geomview_ostream.h>
 #include <vector>

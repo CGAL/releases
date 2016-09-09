@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
-// $Id: Vector_3.h 33152 2006-08-08 15:38:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
+// $Id: Vector_3.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author        : Andreas Fabri
@@ -25,7 +25,8 @@
 #define CGAL_CARTESIAN_VECTOR_3_H
 
 #include <CGAL/Origin.h>
-#include <CGAL/Threetuple.h>
+#include <CGAL/array.h>
+#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -40,13 +41,16 @@ class VectorC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
 
-  typedef Threetuple<FT>                           Rep;
+  typedef CGAL::array<FT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
-  typedef R_                                     R;
+
+  typedef typename Rep::const_iterator      Cartesian_const_iterator;
+
+  typedef R_                                R;
 
   VectorC3() {}
 
@@ -66,27 +70,23 @@ public:
   { *this = R().construct_vector_3_object()(l); }
 
   VectorC3(const FT &x, const FT &y, const FT &z)
-    : base(x, y, z) {}
+    : base(CGAL::make_array(x, y, z)) {}
 
   VectorC3(const FT &x, const FT &y, const FT &z, const FT &w)
-  {
-    if (w != FT(1))
-      base = Rep(x/w, y/w, z/w);
-    else
-      base = Rep(x, y, z);
-  }
+    : base( w != FT(1) ? CGAL::make_array(x/w, y/w, z/w)
+                       : CGAL::make_array(x, y, z) ) {}
 
   const FT & x() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const FT & y() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
   const FT & z() const
   {
-      return get(base).e2;
+      return get(base)[2];
   }
 
   const FT & hx() const
@@ -104,6 +104,16 @@ public:
   const FT & hw() const
   {
       return constant<FT, 1>();
+  }
+
+  Cartesian_const_iterator cartesian_begin() const
+  {
+    return get(base).begin();
+  }
+
+  Cartesian_const_iterator cartesian_end() const
+  {
+    return get(base).end();
   }
 
   const FT & cartesian(int i) const;
@@ -177,7 +187,7 @@ inline
 const typename VectorC3<R>::FT &
 VectorC3<R>::cartesian(int i) const
 {
-  CGAL_kernel_precondition( (i>=0) && (i<3) );
+  CGAL_kernel_precondition( (i>=0) & (i<3) );
   if (i==0) return x();
   if (i==1) return y();
   return z();

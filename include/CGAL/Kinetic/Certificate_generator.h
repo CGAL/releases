@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Certificate_generator.h $
-// $Id: Certificate_generator.h 36638 2007-02-27 22:45:58Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Certificate_generator.h $
+// $Id: Certificate_generator.h 42710 2008-04-01 18:01:39Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,76 +30,107 @@ struct Certificate_generator {
   Certificate_generator(typename KK_t::Function_kernel fk): fk_(fk){}
   Certificate_generator(){}
   
+  enum When {AT, AFTER};
+
+  template <class A, class B, class C, class D, class E, class Time>
+  CGAL::Sign sign_at(const A &a, const B &b, const C &c, const D &d, const E &e,
+                     const Time &begin) const {
+    return eval_sign_at(gen_(a,b,c,d,e), begin);
+  }
+
+
+  template <class A, class B, class C, class D, class E, class Time>
+  CGAL::Sign sign_after(const A &a, const B &b, const C &c, const D &d, const E &e,
+                        const Time &begin) const {
+    //if (when==AFTER) {
+      return eval_sign_after(gen_(a, b, c, d, e), begin);
+      /*} elsee {
+      return sign_at(gen_(a,b,c,d,e), begin);
+      }*/
+  }
+
+  template <class A, class B, class C, class D>
+  CGAL::Sign sign_at(const A &a, const B &b, const C &c, const D &d,
+                     const Time &begin) const {
+      return eval_sign_at(gen_(a, b, c, d), begin);
+  }
+
+  template <class A, class B, class C, class D>
+  CGAL::Sign sign_after(const A &a, const B &b, const C &c, const D &d,
+                        const Time &begin) const {
+      return eval_sign_after(gen_(a, b, c, d), begin);
+  }
+
+
+  template <class A, class B, class C>
+  CGAL::Sign sign_at(const A &a, const B &b, const C &c, 
+                     const Time &begin) const {
+    return eval_sign_at(gen_(a,b,c), begin);
+  }
+
+  template <class A, class B, class C>
+  CGAL::Sign sign_after(const A &a, const B &b, const C &c, 
+                        const Time &begin) const {
+    return eval_sign_after(gen_(a,b,c), begin);
+  }
+
+
+  template <class A, class B>
+  CGAL::Sign sign_at(const A &a, const B &b,
+                     const Time &begin) const {
+    return eval_sign_at(gen_(a, b), begin);
+  }
+  template <class A, class B>
+  CGAL::Sign sign_after(const A &a, const B &b,
+                        const Time &begin) const {
+    return eval_sign_after(gen_(a, b), begin);
+  }
+
+  template <class A>
+  CGAL::Sign sign_at(const A &a, const Time &begin) const {
+    return eval_sign_at(gen_(a), begin);
+  }
+
+  template <class A>
+  CGAL::Sign sign_after(const A &a, const Time &begin) const {
+    return eval_sign_after(gen_(a), begin);
+  }
 
   template <class A, class B, class C, class D, class E>
-  result_type operator()(const A &a, const B &b, const C &c, const D &d, const E &e, const Time &begin, const Time &end) const {
+  result_type operator()(const A &a, const B &b, const C &c, const D &d, const E &e,
+                         const Time &begin, const Time &end) const {
     return result_type(gen_(a, b, c, d, e), fk_, begin, end);
   }
+
   template <class A, class B, class C, class D>
-  result_type operator()(const A &a, const B &b, const C &c, const D &d, const Time &begin, const Time &end) const {
+  result_type operator()(const A &a, const B &b, const C &c, const D &d, 
+                         const Time &begin, const Time &end) const {
     return result_type(gen_(a, b, c, d), fk_, begin, end);
   }
+
   template <class A, class B, class C>
-  result_type operator()(const A &a, const B &b, const C &c, const Time &begin, const Time &end) const {
+  result_type operator()(const A &a, const B &b, const C &c, const Time &begin, 
+                         const Time &end) const {
     return result_type(gen_(a, b, c), fk_, begin, end);
   }
+
   template <class A, class B>
   result_type operator()(const A &a, const B &b, const Time &begin, const Time &end) const {
     return result_type(gen_(a, b), fk_, begin, end);
   }
+
   template <class A>
   result_type operator()(const A &a, const Time &begin, const Time &end) const {
     return result_type(gen_(a), fk_,begin,end);
   }
 
 
-  template <class A, class B, class C, class D, class E>
-  CGAL::Sign operator()(const A &a, const B &b, const C &c, const D &d, const E &e, const Time &begin, bool after=false) const {
-    if (after) {
-      return sign_after(gen_(a, b, c, d, e), begin);
-    } else {
-      return sign_at(gen_(a,b,c,d,e), begin);
-    }
-  }
-  template <class A, class B, class C, class D>
-  CGAL::Sign operator()(const A &a, const B &b, const C &c, const D &d, const Time &begin, bool after=false) const {
-    if (after) {
-      return sign_after(gen_(a, b, c, d), begin);
-    } else {
-      return sign_at(gen_(a,b,c,d), begin);
-    }
-  }
-  template <class A, class B, class C>
-  CGAL::Sign operator()(const A &a, const B &b, const C &c, const Time &begin, bool after=false) const {
-    if (after) {
-      return sign_after(gen_(a, b, c), begin);
-    } else {
-      return sign_at(gen_(a,b,c), begin);
-    }
-  }
-  template <class A, class B>
-  CGAL::Sign operator()(const A &a, const B &b, const Time &begin, bool after=false) const {
-    if (after) {
-      return sign_after(gen_(a, b), begin);
-    } else {
-      return sign_at(gen_(a, b), begin);
-    }
-  }
-  template <class A>
-  CGAL::Sign operator()(const A &a, const Time &begin, bool after=false) const {
-    if (after) {
-      return sign_after(gen_(a), begin);
-    } else {
-      return sign_at(gen_(a), begin);
-    }
-  }
-
 protected:
-  CGAL::Sign sign_after(const typename KK_t::Function_kernel::Function &f,
+  CGAL::Sign eval_sign_after(const typename KK_t::Function_kernel::Function &f,
 			const Time &t) const {
     return fk_.sign_after_object()(f,t);
   }
-  CGAL::Sign sign_at(const typename KK_t::Function_kernel::Function &f,
+  CGAL::Sign eval_sign_at(const typename KK_t::Function_kernel::Function &f,
 			const Time &t) const {
     return fk_.sign_at_object()(f,t);
   }

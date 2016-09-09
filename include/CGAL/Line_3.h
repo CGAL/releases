@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Line_3.h $
-// $Id: Line_3.h 33352 2006-08-16 16:38:49Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Line_3.h $
+// $Id: Line_3.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -28,6 +28,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -47,6 +48,9 @@ class Line_3 : public R_::Kernel_base::Line_3
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Line_3>::value));
 
 public:
+
+  typedef Dimension_tag<3>  Ambient_dimension;
+  typedef Dimension_tag<1>  Feature_dimension;
 
   typedef typename R_::Kernel_base::Line_3   Rep;
 

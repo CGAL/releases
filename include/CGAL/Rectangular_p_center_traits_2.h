@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
-// $Id: Rectangular_p_center_traits_2.h 37705 2007-03-30 08:49:32Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h 43679 2008-06-19 12:09:55Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -32,8 +32,6 @@ CGAL_BEGIN_NAMESPACE
 
 template < class A, class S >
 struct Select : public std::binary_function< A, A, A > {
-  typedef Arity_tag< 2 > Arity;
-
   Select() {}
   Select(const S& s) : s_(s) {}
   A operator()(const A& a, const A& b) const
@@ -49,7 +47,6 @@ struct I_Signed_x_distance_2
 : public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
-  typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
   { return q1.x() - q2.x(); }
@@ -59,7 +56,6 @@ struct I_Signed_y_distance_2
 : public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
-  typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
   { return q1.y() - q2.y(); }
@@ -69,7 +65,6 @@ struct I_Infinity_distance_2
 : public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
-  typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const {
     BOOST_USING_STD_MAX();
@@ -83,7 +78,6 @@ struct I_Signed_infinity_distance_2
 : public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
-  typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
   { 
@@ -322,14 +316,6 @@ construct_bounding_box_union_2(const Rectangle& r1,
   Rect     rect  = t.construct_iso_rectangle_2_object();
   CVertex  v     = t.construct_vertex_2_object();
 
-#ifdef __BORLANDC__
-  typedef typename Traits::Point_2 Point_2;
-  Point_2 bpt1 = lessx(v(r1, 0), v(r2, 0)) ? v(r1, 0) : v(r2, 0);
-  Point_2 bpt2 = lessy(v(r1, 0), v(r2, 0)) ? v(r1, 0) : v(r2, 0);
-  Point_2 bpt3 = lessx(v(r2, 2), v(r1, 2)) ? v(r1, 2) : v(r2, 2);
-  Point_2 bpt4 = lessy(v(r2, 2), v(r1, 2)) ? v(r1, 2) : v(r2, 2);
-  return rect(v(rect(bpt1, bpt2), 0), v(rect(bpt3, bpt4), 2));
-#else
   return rect(
     v(rect(lessx(v(r1, 0), v(r2, 0)) ? v(r1, 0) : v(r2, 0),
            lessy(v(r1, 0), v(r2, 0)) ? v(r1, 0) : v(r2, 0)),
@@ -337,8 +323,8 @@ construct_bounding_box_union_2(const Rectangle& r1,
     v(rect(lessx(v(r2, 2), v(r1, 2)) ? v(r1, 2) : v(r2, 2),
            lessy(v(r2, 2), v(r1, 2)) ? v(r1, 2) : v(r2, 2)),
       2));
-#endif
 } // construct_bounding_box_union_2(r1, r2, t)
+
 template < class Rectangle >
 inline Rectangle
 construct_bounding_box_union_2(const Rectangle& r1, const Rectangle& r2)
@@ -347,12 +333,6 @@ construct_bounding_box_union_2(const Rectangle& r1, const Rectangle& r2)
   return construct_bounding_box_union_2(r1, r2, t);
 } // construct_bounding_box_union_2(r1, r2)
 
-
 CGAL_END_NAMESPACE
 
-
 #endif // ! (CGAL_RECTANGULAR_P_CENTER_TRAITS_2_H)
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

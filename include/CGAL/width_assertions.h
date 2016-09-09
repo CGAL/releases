@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Width_3/include/CGAL/width_assertions.h $
-// $Id: width_assertions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Width_3/include/CGAL/width_assertions.h $
+// $Id: width_assertions.h 41708 2008-01-20 18:47:19Z spion $
 // 
 //
 // Author(s)     : Thomas Herrmann
@@ -109,13 +109,6 @@
  #define DEBUGPRINT(doit,msg,var)
  #define DEBUGMSG(doit,msg)
  #define INFOMSG(doit,msg)
-// #define NDEBUG // discard assertions. Changed since it violates std: L.K.
 #endif
 
-#include <assert.h>
-
 #endif //#WIDTH_DEBUG_H
-
-
-
-

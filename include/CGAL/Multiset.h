@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Multiset.h $
-// $Id: Multiset.h 31144 2006-05-16 10:11:35Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Multiset.h $
+// $Id: Multiset.h 41420 2008-01-03 15:04:30Z spion $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -76,7 +76,7 @@ public:
   typedef Compare                                   key_compare;
   typedef Compare                                   value_compare;
   typedef size_t                                    size_type;
-  typedef CGAL_CLIB_STD::ptrdiff_t                  difference_type;
+  typedef std::ptrdiff_t                  difference_type;
 
 protected:
 
@@ -257,7 +257,7 @@ public:
     // Type definitions:
     typedef std::bidirectional_iterator_tag  iterator_category;
     typedef Type                             value_type;
-    typedef CGAL_CLIB_STD::ptrdiff_t         difference_type;
+    typedef std::ptrdiff_t         difference_type;
     typedef size_t                           size_type;
     typedef value_type&                      reference;
     typedef value_type*                      pointer;
@@ -367,7 +367,7 @@ public:
     // Type definitions:
     typedef std::bidirectional_iterator_tag  iterator_category;
     typedef Type                             value_type;
-    typedef CGAL_CLIB_STD::ptrdiff_t         difference_type;
+    typedef std::ptrdiff_t         difference_type;
     typedef size_t                           size_type;
     typedef const value_type&                reference;
     typedef const value_type*                pointer;
@@ -469,8 +469,8 @@ public:
   friend class const_iterator;
 
   // Define the reverse iterators:
-  typedef CGAL_reverse_iterator(iterator)         reverse_iterator;
-  typedef CGAL_reverse_iterator(const_iterator)   const_reverse_iterator;
+  typedef std::reverse_iterator<iterator>         reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
 
 protected:
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2005-2008 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,32 +10,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2.h $
-// $Id: Straight_skeleton_2.h 32540 2006-07-14 14:13:45Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_2.h $
+// $Id: Straight_skeleton_2.h 43050 2008-04-28 17:03:23Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 
 #ifndef CGAL_STRAIGHT_SKELETON_2_H
 #define CGAL_STRAIGHT_SKELETON_2_H 1
 
+#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
 #include <CGAL/Straight_skeleton_items_2.h>
 #include <CGAL/HalfedgeDS_default.h>
-#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
-
-#ifdef CGAL_STRAIGHT_SKELETON_ENABLE_VALIDITY_TRACE
-#  include<string>
-#  include<iostream>
-#  include<sstream>
-#  define CGAL_STSKEL_VALIDITY_TRACE(m) \
-     { \
-       std::ostringstream ss ; ss << m ; std::string s = ss.str(); \
-       Straight_skeleton_external_trace(s); \
-     }
-#  define CGAL_STSKEL_VALIDITY_TRACE_IF(cond,m) if ( cond ) CGAL_STSKEL_VALIDITY_TRACE(m)
-#else
-#  define CGAL_STSKEL_VALIDITY_TRACE(m) 
-#  define CGAL_STSKEL_VALIDITY_TRACE_IF(cond,m)
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -112,23 +97,23 @@ private :
     
     void normalize_border() { Base::normalize_border(); }
     
-    int id ( Vertex_const_handle h ) const
+public :
+
+    static int id ( Vertex_const_handle h )
     {
       Vertex_const_handle null ;
       return h != null ? h->id() : -1 ; 
     }
-    int id ( Halfedge_const_handle h ) const
+    static int id ( Halfedge_const_handle h )
     {
       Halfedge_const_handle null ;
       return h != null ? h->id() : -1 ; 
     }
-    int id ( Face_const_handle h ) const
+    static int id ( Face_const_handle h )
     {
       Face_const_handle null ;
       return h != null ? 0 : -1 ; 
     }
-
-public :
 
     bool is_valid() const
     {
@@ -194,15 +179,18 @@ public :
               CGAL_STSKEL_VALIDITY_TRACE("ERROR: he["<<id(begin)<<"]->vertex() == NULL!");
               break;
           }
-          valid = valid && ( begin->vertex() == begin->next()->opposite()->vertex());
-          if ( ! valid) 
+          if ( ! begin->vertex()->has_infinite_time() )
           {
-              CGAL_STSKEL_VALIDITY_TRACE("ERROR: he["<< id(begin) <<"]->vertex()["<< id(begin->vertex())
-                                        <<"] != he->next()["<< id(begin->next())
-                                        <<"]->opposite()["<< id(begin->next()->opposite()) 
-                                        <<"]->vertex()["<< id(begin->next()->opposite()->vertex())<<"]"
-                                        );
-              break;
+            valid = valid && ( begin->vertex() == begin->next()->opposite()->vertex());
+            if ( ! valid) 
+            {
+                CGAL_STSKEL_VALIDITY_TRACE("ERROR: he["<< id(begin) <<"]->vertex()["<< id(begin->vertex())
+                                          <<"] != he->next()["<< id(begin->next())
+                                          <<"]->opposite()["<< id(begin->next()->opposite()) 
+                                          <<"]->vertex()["<< id(begin->next()->opposite()->vertex())<<"]"
+                                          );
+                break;
+            }
           }
           // face integrity.
           valid = valid && ( begin->is_border() || begin->face() != Face_const_handle() );
@@ -237,8 +225,11 @@ public :
       // All vertices.
       Vertex_const_iterator vbegin = this->vertices_begin();
       Vertex_const_iterator vend   = this->vertices_end();
+      
       size_type v = 0;
       n = 0;
+      bool is_partial_skeleton = false ;
+      
       for( ; valid && (vbegin != vend); ++vbegin) 
       {
           // Pointer integrity.
@@ -249,51 +240,60 @@ public :
             break;
           }
           
-          valid = valid && vbegin->halfedge()->vertex() == vbegin;
-          if ( ! valid) 
-          {
-            CGAL_STSKEL_VALIDITY_TRACE("ERROR: v["<< id(vbegin) <<"]->halfedge()["<< id(vbegin->halfedge()) 
-                                      <<"]->vertex()["<< id(vbegin->halfedge()->vertex()) <<"] != v."
-                                      );
-            break;
-          }
-          CGAL_STSKEL_VALIDITY_TRACE("Circulating halfedges around v["<<id(vbegin)<<"]");
-          
           // cycle-around-vertex test.
-          Halfedge_const_handle h =  vbegin->halfedge();
-          if ( h != Halfedge_const_handle()) 
+          if ( !vbegin->has_infinite_time() )
           {
-            Halfedge_const_handle g = h;
-            do 
+            valid = valid && vbegin->halfedge()->vertex() == vbegin;
+            if ( ! valid) 
             {
-              CGAL_STSKEL_VALIDITY_TRACE("  v->halfedge(): " << id(h) << ", ->next(): " << id(h->next()) 
-                                        << ", ->next()->opposite(): " << id(h->next()->opposite())
+              CGAL_STSKEL_VALIDITY_TRACE("ERROR: v["<< id(vbegin) <<"]->halfedge()["<< id(vbegin->halfedge()) 
+                                        <<"]->vertex()["<< id(vbegin->halfedge()->vertex()) <<"] != v."
                                         );
-              ++n;
-              h = h->next()->opposite();
-              valid = valid && ( n <= this->size_of_halfedges() && n!=0);
-              CGAL_STSKEL_VALIDITY_TRACE_IF(!valid,"ERROR: more than " << this->size_of_halfedges() 
-                                           << " halfedges around v["<< id(vbegin)<<"]"
-                                           );
-            } while ( valid && (h != g));
+              break;
+            }
+            
+            CGAL_STSKEL_VALIDITY_TRACE("Circulating halfedges around v["<<id(vbegin)<<"]");
+            
+            Halfedge_const_handle h =  vbegin->halfedge();
+            if ( h != Halfedge_const_handle()) 
+            {
+              Halfedge_const_handle g = h;
+              do 
+              {
+                CGAL_STSKEL_VALIDITY_TRACE("  v->halfedge(): " << id(h) << ", ->next(): " << id(h->next()) 
+                                          << ", ->next()->opposite(): " << id(h->next()->opposite())
+                                          );
+                ++n;
+                h = h->next()->opposite();
+                valid = valid && ( n <= this->size_of_halfedges() && n!=0);
+                CGAL_STSKEL_VALIDITY_TRACE_IF(!valid,"ERROR: more than " << this->size_of_halfedges() 
+                                             << " halfedges around v["<< id(vbegin)<<"]"
+                                             );
+              } while ( valid && (h != g));
+            }
           }
+          else is_partial_skeleton = true ;
+          
           ++v;
       }
       
-      bool vvalid = ( v == this->size_of_vertices());
-      
-      CGAL_STSKEL_VALIDITY_TRACE_IF(valid && !vvalid
-                                   ,"ERROR: counted number of vertices:" << v 
-                                   << " mismatch with this->size_of_vertices():" << this->size_of_vertices()
-                                   ); 
-          
-      bool vnvalid = n == this->size_of_halfedges() ;
-      CGAL_STSKEL_VALIDITY_TRACE_IF(valid && !vnvalid
-                                   ,"ERROR: counted number of halfedges via vertices:" << n 
-                                   << " mismatch with this->size_of_halfedges():" << this->size_of_halfedges() 
-                                   );
-      
-      valid = valid && vvalid && vnvalid ;
+      if ( ! is_partial_skeleton )
+      {
+        bool vvalid = (v == this->size_of_vertices());
+        
+        CGAL_STSKEL_VALIDITY_TRACE_IF(valid && !vvalid
+                                     ,"ERROR: counted number of vertices:" << v 
+                                     << " mismatch with this->size_of_vertices():" << this->size_of_vertices()
+                                     ); 
+            
+        bool vnvalid = n == this->size_of_halfedges() ;
+        CGAL_STSKEL_VALIDITY_TRACE_IF(valid && !vnvalid
+                                     ,"ERROR: counted number of halfedges via vertices:" << n 
+                                     << " mismatch with this->size_of_halfedges():" << this->size_of_halfedges() 
+                                     );
+        
+        valid = valid && vvalid && vnvalid ;
+      }
       
       // All faces.
       Face_const_iterator fbegin = this->faces_begin();

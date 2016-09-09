@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_foundations/include/CGAL/Rational_traits.h $
-// $Id: Rational_traits.h 37103 2007-03-15 09:05:20Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Rational_traits.h $
+// $Id: Rational_traits.h 39778 2007-08-08 15:59:25Z spion $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>

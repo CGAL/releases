@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: Segment_Delaunay_graph_2.h 37157 2007-03-16 10:49:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: Segment_Delaunay_graph_2.h 44491 2008-07-27 11:58:54Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -44,6 +44,7 @@
 #include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
 
 #include <CGAL/Iterator_project.h>
+#include <CGAL/utility.h>
 
 
 /*

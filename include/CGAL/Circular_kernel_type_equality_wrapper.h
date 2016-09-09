@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,16 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
-// $Id: Circular_kernel_type_equality_wrapper.h 33652 2006-08-24 14:16:33Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
+// $Id: Circular_kernel_type_equality_wrapper.h 44373 2008-07-23 17:13:44Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
 // (ECG - Effective Computational Geometry for Curves and Surfaces) 
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
+
 
 #ifndef CGAL_CIRCULAR_KERNEL_TYPE_EQUALITY_WRAPPER_H
 #define CGAL_CIRCULAR_KERNEL_TYPE_EQUALITY_WRAPPER_H
@@ -47,6 +48,7 @@ struct Circular_kernel_type_equality_wrapper
     typedef CGAL::Circular_arc_2<Kernel>               Circular_arc_2;     
     typedef CGAL::Line_arc_2<Kernel>                   Line_arc_2;
     typedef CGAL::Circular_arc_point_2<Kernel>         Circular_arc_point_2;
+
     //typedef CGAL::Root_of_2<typename Kernel_base::FT>  Root_of_2;
     
 	//Something has to be done with these 3, maybe a lazy Algebraic kernel?

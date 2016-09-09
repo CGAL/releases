@@ -15,15 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Aff_transformation_2.h $
-// $Id: Aff_transformation_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Aff_transformation_2.h $
+// $Id: Aff_transformation_2.h 42932 2008-04-17 10:13:31Z spion $
 // 
-//
-// Author(s)     : Andreas Fabri
-//                 Stefan Schirra
+// Author(s)     : Andreas Fabri, Stefan Schirra
 
 #ifndef CGAL_AFF_TRANSFORMATION_2_H
 #define CGAL_AFF_TRANSFORMATION_2_H
+
+#include <CGAL/basic.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,6 +38,9 @@ class Aff_transformation_2 : public R_::Kernel_base::Aff_transformation_2
   typedef typename R_::Vector_2              Vector_2;
   typedef typename R_::Kernel_base::Aff_transformation_2 RAff_transformation_2;
 public:
+
+  typedef CGAL::Dimension_tag<2>            Ambient_dimension;
+
   typedef  R_                               R;
 
   Aff_transformation_2() {}

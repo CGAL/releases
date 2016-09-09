@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,16 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
-// $Id: Circular_arc_2.h 36189 2007-02-11 22:37:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
+// $Id: Circular_arc_2.h 45974 2008-10-01 15:12:01Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
 // (ECG - Effective Computational Geometry for Curves and Surfaces) 
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
+
 #ifdef CGAL_INTERSECTION_MAP_FOR_XMONOTONIC_ARC_WITH_SAME_SUPPORTING_CIRCLE
 #define CGAL_USEFUL_MAPS_FOR_THE_CIRCULAR_KERNEL
 #endif
@@ -32,7 +33,6 @@
 #ifndef CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_2_H
 #define CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_2_H
 
-#include <CGAL/global_functions_on_circular_arcs_2.h>
 #include <CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h> // temporarily
 
 #ifdef CGAL_USEFUL_MAPS_FOR_THE_CIRCULAR_KERNEL
@@ -172,7 +172,7 @@ namespace CGALi {
 	typedef std::vector<CGAL::Object > solutions_container;
 	
 	solutions_container solutions;
-	CGAL::intersect_2<CK>( c, c1, std::back_inserter(solutions) );
+	intersection( c, c1, std::back_inserter(solutions) );
 	typename solutions_container::iterator it = solutions.begin();
 
 	CGAL_kernel_precondition( it != solutions.end() );
@@ -478,7 +478,7 @@ private:
         return cmp_y > 0;
       
       // There remains the case :
-      assert(cmp_begin == 0 && cmp_end == 0);
+      CGAL_assertion(cmp_begin == 0 && cmp_end == 0);
 
       return cmp_y != 0; // full circle or half circle.
     }

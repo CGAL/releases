@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_lines_2/include/CGAL/Triangular_field_2.h $
-// $Id: Triangular_field_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_lines_2/include/CGAL/Triangular_field_2.h $
+// $Id: Triangular_field_2.h 41685 2008-01-18 20:19:17Z spion $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -23,8 +23,8 @@
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Polygon_2_algorithms.h>
 
-#include <float.h>
-#include <stdlib.h>
+#include <cfloat>
+#include <cstdlib>
 
 #include <iostream>
 #include <fstream>
@@ -110,7 +110,7 @@ public:
 
   std::pair<Vector_2,FT> get_field(const Point_2 & p) const
     {
-      assert(is_in_domain(p));
+      CGAL_assertion(is_in_domain(p));
       Vector_2 v = get_vector_field(p);
       FT density = get_density_field(p);
       return std::make_pair(v, density);
@@ -160,7 +160,7 @@ Triangular_field_2<StreamLinesTraits_2>::get_vector_field(const
   const
 {
   Face_handle m_Face_handle = m_D_Ttr.locate(p);
-  assert(is_in_domain(p));
+  CGAL_assertion(is_in_domain(p));
   Vertex_handle v0 = m_Face_handle->vertex(0);
   Vertex_handle v1 = m_Face_handle->vertex(1);
   Vertex_handle v2 = m_Face_handle->vertex(2);

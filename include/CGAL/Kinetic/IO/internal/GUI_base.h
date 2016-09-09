@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
-// $Id: GUI_base.h 34827 2006-10-18 00:39:13Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
+// $Id: GUI_base.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -60,14 +60,15 @@ public:
   Gui_base(typename Simulator::Handle sh): mode_(STOPPED), paused_mode_(STOPPED),
 					    fps_(60), speed_log_(0),
 					    dir_of_time_(1), timer_(new Timer()),
-					    timer_callback_(timer_,const_cast<This*>(this)),
-					    drawable_(NULL), processing_(false) {
+					   //timer_callback_(timer_,const_cast<This*>(this)),
+					   /*drawable_(NULL),*/ processing_(false) {
     sim_= sh;
     target_cur_time_= CGAL::to_interval(sim_->current_time()).first;
+    CGAL_KINETIC_INIT_LISTEN(Timer, timer_.get());
   }
 
   virtual ~Gui_base() {
-    delete timer_;
+   
   }
 
   //! Return the current mode.
@@ -93,7 +94,7 @@ public:
       mode_= mode;
     }
 
-    CGAL_KINETIC_LOG(LOG_SOME, "Mode changed to " << mode_string(this->mode()) << std::endl);
+    CGAL_LOG(Log::SOME, "Mode changed to " << mode_string(this->mode()) << std::endl);
     timer_->clear();
     switch(this->mode()) {
     case RUNNING_TO_EVENT:
@@ -107,24 +108,12 @@ public:
       break;
     default:
       std::cerr << "Invalid case: " << this->mode() << std::endl;
-      CGAL_assertion(0);
+      CGAL_error();
     }
   }
 
-  class Listener_core
-  {
-  public:
-    typedef typename This::Handle Notifier_handle;
-    typedef enum {CURRENT_TIME}
-      Notification_type;
-  };
-  //! The class to extend if you want to receive events.
-  /*!  See CGAL::Listener to a description of how runtime
-    notifications are handled.
-  */
-  typedef CGAL::Kinetic::Listener<Listener_core> Listener;
-  friend class CGAL::Kinetic::Listener<Listener_core>;
-
+  CGAL_KINETIC_LISTENER1(CURRENT_TIME);
+public:
   //! get the simulator
   typename Simulator::Handle& simulator() {
     return sim_;
@@ -177,16 +166,10 @@ protected:
     }
   }
 
-  const Listener* listener() const
-  {
-    return drawable_;
-  }
+  
 
-  void set_listener(Listener* d) {
-    drawable_=d;
-  }
-
-  class Timer_listener: public Timer::Listener
+  CGAL_KINETIC_LISTEN1(Timer, TICKS, timer_rang());
+  /*class Timer_listener: public Timer::Listener
   {
   public:
     Timer_listener(Timer *tm, This *t):Timer::Listener(tm),  t_(t) {
@@ -198,7 +181,7 @@ protected:
     This *t_;
   };
 
-  friend class Timer_listener;
+  friend class Timer_listener;*/
 
   void timer_rang() {
     // do something here
@@ -309,7 +292,8 @@ protected:
     default:
       std::cerr << "Run callback in invalid mode." << std::endl;
     }
-    if (drawable_ != NULL) drawable_->new_notification(Listener::CURRENT_TIME);
+    CGAL_KINETIC_NOTIFY(CURRENT_TIME);
+    //if (drawable_ != NULL) drawable_->new_notification(Listener::CURRENT_TIME);
 
     set_is_processing(false);
 
@@ -339,9 +323,9 @@ protected:
   double target_cur_time_;
   int dir_of_time_;
   typename Simulator::Handle sim_;
-  Timer *timer_;
-  Timer_listener timer_callback_;
-  Listener *drawable_;
+  std::auto_ptr<Timer> timer_;
+  //Timer_listener timer_callback_;
+  //Listener *drawable_;
   bool processing_;
 };
 CGAL_KINETIC_END_NAMESPACE;

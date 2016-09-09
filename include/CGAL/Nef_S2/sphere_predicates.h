@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
-// $Id: sphere_predicates.h 36309 2007-02-15 16:03:18Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
+// $Id: sphere_predicates.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -299,7 +299,7 @@ intersection(const CGAL::Sphere_circle<R>& c, std::vector<Sphere_segment<R> >& s
     return 1;
   }
 
-  CGAL_assertion_msg(0,"Oops, forgot some case.");
+  CGAL_error_msg("Oops, forgot some case.");
   return -1;
 }
 */
@@ -327,7 +327,7 @@ intersection(const CGAL::Sphere_circle<R>& c,
       s1 = Sphere_segment<R>(source(),i1,sphere_circle());
     else if ( or2 == CGAL::ON_POSITIVE_SIDE )
       s1 = Sphere_segment<R>(i1,target(),sphere_circle());
-    else CGAL_assertion_msg(0,"no intersection.");
+    else CGAL_error_msg("no intersection.");
     return 1;
   }
   else if ( or1 == CGAL::ON_ORIENTED_BOUNDARY && 
@@ -401,7 +401,7 @@ intersection(const CGAL::Sphere_circle<R>& c,
     return 0;
   }
 
-  CGAL_assertion_msg(0,"Oops, forgot some case.");
+  CGAL_error_msg("Oops, forgot some case.");
   return -1;
 }
 

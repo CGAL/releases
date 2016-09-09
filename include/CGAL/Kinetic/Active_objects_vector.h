@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
-// $Id: Active_objects_vector.h 36908 2007-03-08 01:50:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
+// $Id: Active_objects_vector.h 40530 2007-10-04 11:14:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -68,35 +68,24 @@ protected:
   typedef Active_objects_vector<Value_t> This;
   typedef std::pair<Key, Value_t> Storage_item;
   typedef std::vector<Storage_item > Storage;
-  struct Listener_core
-  {
-    typedef enum {IS_EDITING}
-      Notification_type;
-    typedef typename This::Handle Notifier_handle;
-  };
-public:
-  //! The interface to implement if you want to receive notifications.
-  typedef Multi_listener<Listener_core> Listener;
-
-protected:
-  // This is evil here.
-  typedef std::set<Listener*> Subscribers;
+  CGAL_KINETIC_MULTILISTENER1(IS_EDITING);
+  
 public:
 
   //! default constructor
   Active_objects_vector():editing_(false), num_valid_(false){}
 
-  ~Active_objects_vector(){CGAL_precondition(subscribers_.empty());}
+  ~Active_objects_vector(){CGAL_KINETIC_MULTILISTENER_DESTRUCTOR;}
 
   //! access a point
   const Data &operator[](Key key) const
   {
     CGAL_precondition(key.is_valid());
-    CGAL_precondition(storage_[key.to_index()].first == key);
-    CGAL_precondition(static_cast<unsigned int>(key.to_index()) < storage_.size());
+    CGAL_precondition(storage_[key.index()].first == key);
+    CGAL_precondition(static_cast<unsigned int>(key.index()) < storage_.size());
     //if (static_cast<unsigned int>(key.index()) >= storage_.size()) return null_object();
     /*else*/
-    return storage_[key.to_index()].second;
+    return storage_[key.index()].second;
   }
 
   //! non operator based method to access a point.
@@ -140,17 +129,17 @@ public:
   */
   void set(Key key, const Data &new_value) {
     CGAL_precondition(key.is_valid());
-    CGAL_precondition(storage_[key.to_index()].first == key);
+    CGAL_precondition(storage_[key.index()].first == key);
     //CGAL_precondition(editing_);
         //CGAL_precondition(static_cast<unsigned int>(key.index()) < storage_.size());
-    if (storage_.size() <= static_cast<unsigned int>(key.to_index())) {
-      storage_.resize(key.to_index()+1);
+    if (storage_.size() <= static_cast<unsigned int>(key.index())) {
+      storage_.resize(key.index()+1);
     }
-    storage_[key.to_index()].first=key;
-    storage_[key.to_index()].second=new_value;
+    storage_[key.index()].first=key;
+    storage_[key.index()].second=new_value;
     changed_objects_.push_back(key);
     CGAL_expensive_assertion_code(for (unsigned int i=0; i< storage_.size(); ++i) ) {
-      CGAL_expensive_assertion_code(if (key.to_index() != i && storage_[i].second == storage_[key.to_index()].second) CGAL_KINETIC_LOG(LOG_SOME, "WARNING Objects " << Key(i) << " and " << key << " have equal trajectories.\n"));
+      CGAL_expensive_assertion_code(if (key.index() != i && storage_[i].second == storage_[key.index()].second) CGAL_LOG(Log::SOME, "WARNING Objects " << Key(i) << " and " << key << " have equal trajectories.\n"));
     }
 				  
     if (!editing_) finish_editing();
@@ -167,7 +156,7 @@ public:
 
     CGAL_expensive_assertion_code(for (unsigned int i=0; i< storage_.size()-1; ++i) ) {
       
-CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second) CGAL_KINETIC_LOG(LOG_SOME, "WARNING Objects " << Key(i) << " and " << storage_.back().first << " have equal trajectories.\n"));
+CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second) CGAL_LOG(Log::SOME, "WARNING Objects " << Key(i) << " and " << storage_.back().first << " have equal trajectories.\n"));
     }
     if (!editing_) finish_editing();
     return storage_.back().first;
@@ -184,9 +173,9 @@ CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second)
   */
   void erase(Key key) {
     CGAL_precondition(key.is_valid());
-    CGAL_precondition(storage_[key.to_index()].first == key);
+    CGAL_precondition(storage_[key.index()].first == key);
     //CGAL_precondition(editing_);
-    CGAL_precondition(static_cast<unsigned int>(key.to_index()) < storage_.size());
+    CGAL_precondition(static_cast<unsigned int>(key.index()) < storage_.size());
     CGAL_expensive_precondition_code(for (Inserted_iterator dit= inserted_begin(); dit != inserted_end(); ++dit))
       {CGAL_expensive_precondition(*dit != key);}
     CGAL_expensive_precondition_code(for (Changed_iterator dit= changed_begin(); dit != changed_end(); ++dit))
@@ -313,10 +302,10 @@ CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second)
       Data d; 
       iss >> d;
       if (!iss) {
-	CGAL_KINETIC_ERROR("ERROR reading object from line " << buf);
+	CGAL_ERROR("ERROR reading object from line " << buf);
 	++internal::io_errors__;
       } else {
-	//CGAL_KINETIC_LOG(LOG_LOTS, "Read " << d << std::endl);
+	//CGAL_LOG(Log::LOTS, "Read " << d << std::endl);
 	insert(d);
       }
     } while (true);
@@ -325,31 +314,16 @@ CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second)
   }
 
 private:
-  friend class Multi_listener<Listener_core>;
-
-  //! listen for changes
-  void new_listener(Listener *sub) const
-  {
-    subscribers_.insert(sub);
-  }
-
-  //! end listening for changes
-  void delete_listener(Listener *sub) const
-  {
-    subscribers_.erase(sub);
-  }
 
   void finish_editing() {
-    for (typename Subscribers::iterator it= subscribers_.begin(); it != subscribers_.end(); ++it) {
-      (*it)->new_notification(Listener::IS_EDITING);
-    }
+    CGAL_KINETIC_MULTINOTIFY(IS_EDITING);
 
     num_valid_+= new_objects_.size();
     num_valid_-= deleted_objects_.size();
     CGAL_assertion(num_valid_ >=0);
     for (Erased_iterator it= erased_begin(); it != erased_end(); ++it) {
-      storage_[it->to_index()].second=Data();
-      storage_[it->to_index()].first=Key();
+      storage_[it->index()].second=Data();
+      storage_[it->index()].first=Key();
     }
 
     changed_objects_.clear();
@@ -362,7 +336,6 @@ protected:
 
   Storage storage_;
   std::vector<bool> valid_;
-  mutable Subscribers subscribers_;
   std::vector<Key> changed_objects_;
   std::vector<Key> deleted_objects_;
   std::vector<Key> new_objects_;

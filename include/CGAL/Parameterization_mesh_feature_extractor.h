@@ -11,16 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
-// $Id: Parameterization_mesh_feature_extractor.h 35473 2006-12-08 16:12:22Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
+// $Id: Parameterization_mesh_feature_extractor.h 45070 2008-08-21 11:57:02Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
 #ifndef CGAL_PARAMETERIZATION_MESH_FEATURE_EXTRACTOR_H
 #define CGAL_PARAMETERIZATION_MESH_FEATURE_EXTRACTOR_H
-
-#include <CGAL/basic.h>
 
 #include <list>
 #include <vector>
@@ -91,7 +89,7 @@ public:
     /// => The caller must NOT modify 'mesh' during the
     /// Parameterization_mesh_feature_extractor life cycle.
     Parameterization_mesh_feature_extractor(Adaptor& mesh)
-        // Store reference to adapted mesh 
+        // Store reference to adapted mesh
       : m_mesh_adaptor(mesh)
     {
         // m_mesh_adaptor features are not yet computed
@@ -157,7 +155,7 @@ private:
     /// Result is in m_nb_borders and m_skeleton.
     void extract_borders()
     {
-        assert(m_skeleton.size() == 0);
+        CGAL_surface_mesh_parameterization_precondition(m_skeleton.size() == 0);
 
         // Tag all vertices as unprocessed
         const int tag_free = 0;
@@ -320,7 +318,8 @@ private:
                        const int tag_free,
                        const int tag_done)
     {
-        assert(m_mesh_adaptor.get_vertex_tag(pSeedVertex) == tag_free);
+        CGAL_surface_mesh_parameterization_precondition(
+             m_mesh_adaptor.get_vertex_tag(pSeedVertex) == tag_free);
 
         std::list<Vertex_handle> vertices;
         vertices.push_front(pSeedVertex);

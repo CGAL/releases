@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
-// $Id: surface_neighbors_3.h 37294 2007-03-20 08:10:35Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/surface_neighbors_3.h $
+// $Id: surface_neighbors_3.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -76,7 +76,7 @@ surface_neighbors_3(InputIterator first, InputIterator beyond,
     done(vc);
   do{
     *out++= vc->point();
-    assert(! it.is_infinite(vc));
+    CGAL_assertion(! it.is_infinite(vc));
   }
   while(vc++!=done);
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2005  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2005-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,18 +12,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 36742 2007-03-01 18:29:19Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 45093 2008-08-22 16:06:53Z spion $
 //
 // Author(s)     : Sylvain Pion
 
 #ifndef CGAL_UNCERTAIN_H
 #define CGAL_UNCERTAIN_H
 
-#include <CGAL/basic.h>
-#include <stdexcept>
+#include <CGAL/config.h>
+#include <CGAL/assertions.h>
 #include <CGAL/enum.h>
+#include <CGAL/Profile_counter.h>
+#include <stdexcept>
+#include <typeinfo>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -77,57 +79,76 @@ public:
 };
 
 
-// Encodes an interval [min;max] of values of type T.
-// The primary template is supposed to work for enums and bool.
+// Encodes a range [inf,sup] of values of type T.
+// T can be enums or bool.
 
 template < typename T >
 class Uncertain
 {
   T _i, _s;
 
-  static unsigned failures;   // Number of conversion failures.
-
 public:
-
-  typedef CGAL::Uncertain_conversion_exception  Uncertain_conversion_exception;
 
   typedef T  value_type;
 
-  Uncertain()
-    : _i(CGALi::Minmax_traits<T>::min),
-      _s(CGALi::Minmax_traits<T>::max) {}
+  typedef CGAL::Uncertain_conversion_exception  Uncertain_conversion_exception;
 
-  Uncertain(const T & t)
+  Uncertain()
+    : _i(), _s() {}
+
+  Uncertain(T t)
     : _i(t), _s(t) {}
 
-  Uncertain(const T & i, const T & s)
-    : _i(i), _s(s) {}
+  Uncertain(T i, T s)
+    : _i(i), _s(s) { CGAL_precondition(i <= s); }
 
-
-  const T & inf() const { return _i; }
-  const T & sup() const { return _s; }
-
-  // NB : conversion to bool might be too risky
-  //      (boost::tribool uses something else).
-  operator const T &() const
+  Uncertain& operator=(T t)
   {
-    if (_i == _s)
-      return _i;
-    //++failures;
-    ++Uncertain<bool>::number_of_failures();  // reasonnable ?
-    throw Uncertain_conversion_exception(
-                        "undecidable conversion of CGAL::Uncertain<T>");
+    _i = _s = t;
+    return *this;
   }
 
-  static unsigned & number_of_failures() { return failures; }
+  T inf() const { return _i; }
+  T sup() const { return _s; }
+
+  bool is_same(Uncertain u) const { return _i == u._i && _s == u._s; }
+
+  bool is_certain() const { return _i == _s; }
+
+  T make_certain() const
+  {
+    if (is_certain())
+      return _i;
+    CGAL_PROFILER(std::string("Uncertain_conversion_exception thrown for CGAL::Uncertain< ")
+		  + typeid(T).name() + " >");
+    throw Uncertain_conversion_exception(
+                  "Undecidable conversion of CGAL::Uncertain<T>");
+  }
+
+#ifndef CGAL_NO_UNCERTAIN_CONVERSION_OPERATOR
+  // NB : the general conversion to bool might be too risky.
+  //      boost::tribool uses a more restricted conversion (see below).
+  operator T() const
+  {
+    return make_certain();
+  }
+#else
+private:
+  struct dummy {
+    void nonnull() {};
+  };
+
+  typedef void (dummy::*safe_bool)();
+
+public:
+  operator safe_bool() const
+  {
+    return make_certain() ? &dummy::nonnull : 0;
+  }
+#endif
 
   static Uncertain indeterminate();
 };
-
-
-template < typename T >
-unsigned
-Uncertain<T>::failures = 0;
 
 
 // Access functions
@@ -135,14 +156,14 @@ Uncertain<T>::failures = 0;
 
 template < typename T >
 inline
-const T & inf(Uncertain<T> const& i)
+T inf(Uncertain<T> i)
 {
   return i.inf();
 }
 
 template < typename T >
 inline
-const T & sup(Uncertain<T> const& i)
+T sup(Uncertain<T> i)
 {
   return i.sup();
 }
@@ -151,33 +172,121 @@ const T & sup(Uncertain<T> const& i)
 // Basic functions
 // ---------------
 
+#if 1
+// Commenting them out allows the test-suite to spot those predicates that do not
+// propagate Uncertain-ty correctly.  But they should probably be enabled
+// for now, for backward-compatibility.
+template < typename T >
+inline
+bool is_certain(T)
+{
+  return true;
+}
+
+template < typename T >
+inline
+T get_certain(T t)
+{
+  return t;
+}
+#endif
+
+template < typename T >
+inline
+bool is_certain(Uncertain<T> a)
+{
+  return a.is_certain();
+}
+
+template < typename T >
+inline
+T get_certain(Uncertain<T> a)
+{
+  CGAL_assertion(is_certain(a));
+  return a.inf();
+}
+
 template < typename T >
 inline
 Uncertain<T>
 Uncertain<T>::indeterminate()
 {
-  return Uncertain<T>();
+  return Uncertain<T>(CGALi::Minmax_traits<T>::min, CGALi::Minmax_traits<T>::max);
+}
+
+namespace CGALi {
+
+	// helper class
+	template < typename T >
+	struct Indeterminate_helper {
+		typedef T result_type;
+		result_type operator()() const
+		{ return T(); }
+	};
+
+	template < typename T >
+	struct Indeterminate_helper< Uncertain<T> > {
+		typedef Uncertain<T> result_type;
+		result_type operator()() const
+		{ return Uncertain<T>::indeterminate(); }
+	};
+
+} // namespace CGALi
+
+template < typename T >
+inline
+typename CGALi::Indeterminate_helper<T>::result_type
+indeterminate()
+{
+  return CGALi::Indeterminate_helper<T>()();
 }
 
 template < typename T >
 inline
-bool is_indeterminate(T const&)
+bool is_indeterminate(T)
 {
   return false;
 }
 
 template < typename T >
 inline
-bool is_indeterminate(Uncertain<T> const& a)
+bool is_indeterminate(Uncertain<T> a)
 {
-  return a.inf() != a.sup();
+  return ! a.is_certain();
 }
 
-template < typename T >
+
+// certainly/possibly
+// ------------------
+
+inline bool certainly(bool b) { return b; }
+inline bool possibly(bool b) { return b; }
+
+inline bool certainly_not(bool b) { return !b; }
+inline bool possibly_not(bool b) { return !b; }
+
 inline
-bool is_singleton(Uncertain<T> const& a)
+bool certainly(Uncertain<bool> c)
 {
-  return a.inf() == a.sup();
+  return is_certain(c) && get_certain(c);
+}
+
+inline
+bool possibly(Uncertain<bool> c)
+{
+  return !is_certain(c) || get_certain(c);
+}
+
+inline
+bool certainly_not(Uncertain<bool> c)
+{
+  return is_certain(c) && !get_certain(c);
+}
+
+inline
+bool possibly_not(Uncertain<bool> c)
+{
+  return !is_certain(c) || !get_certain(c);
 }
 
 
@@ -185,96 +294,219 @@ bool is_singleton(Uncertain<T> const& a)
 // --------------------------------------
 
 inline
-Uncertain<bool> operator!(Uncertain<bool> const& a)
+Uncertain<bool> operator!(Uncertain<bool> a)
 {
   return Uncertain<bool>(!a.sup(), !a.inf());
 }
 
 inline
-Uncertain<bool> operator|(Uncertain<bool> const& a, Uncertain<bool> const& b)
+Uncertain<bool> operator|(Uncertain<bool> a, Uncertain<bool> b)
 {
-  return Uncertain<bool>(a.inf() || b.inf(), a.sup() || b.sup());
+  return Uncertain<bool>(a.inf() | b.inf(), a.sup() | b.sup());
 }
 
 inline
-Uncertain<bool> operator|(bool a, Uncertain<bool> const& b)
+Uncertain<bool> operator|(bool a, Uncertain<bool> b)
 {
-  return Uncertain<bool>(a || b.inf(), a || b.sup());
+  return Uncertain<bool>(a | b.inf(), a | b.sup());
 }
 
 inline
-Uncertain<bool> operator|(Uncertain<bool> const& a, bool b)
+Uncertain<bool> operator|(Uncertain<bool> a, bool b)
 {
-  return Uncertain<bool>(a.inf() || b, a.sup() || b);
+  return Uncertain<bool>(a.inf() | b, a.sup() | b);
 }
 
 inline
-Uncertain<bool> operator&(Uncertain<bool> const& a, Uncertain<bool> const& b)
+Uncertain<bool> operator&(Uncertain<bool> a, Uncertain<bool> b)
 {
-  return Uncertain<bool>(a.inf() && b.inf(), a.sup() && b.sup());
+  return Uncertain<bool>(a.inf() & b.inf(), a.sup() & b.sup());
 }
 
 inline
-Uncertain<bool> operator&(bool a, Uncertain<bool> const& b)
+Uncertain<bool> operator&(bool a, Uncertain<bool> b)
 {
-  return Uncertain<bool>(a && b.inf(), a && b.sup());
+  return Uncertain<bool>(a & b.inf(), a & b.sup());
 }
 
 inline
-Uncertain<bool> operator&(Uncertain<bool> const& a, bool b)
+Uncertain<bool> operator&(Uncertain<bool> a, bool b)
 {
-  return Uncertain<bool>(a.inf() && b, a.sup() && b);
+  return Uncertain<bool>(a.inf() & b, a.sup() & b);
 }
+
+// operator&& and operator|| are not provided because, unless their bool counterpart,
+// they lack the "short-circuiting" property.
+// We provide macros CGAL_AND and CGAL_OR, which attempt to emulate their behavior.
+// Key things : do not evaluate expressions twice, and evaluate the right hand side
+// expression only when needed.
+#ifdef CGAL_CFG_NO_STATEMENT_EXPRESSIONS
+#  define CGAL_AND(X, Y)  ((X) && (Y))
+#  define CGAL_OR(X, Y)   ((X) || (Y))
+#else
+#  define CGAL_AND(X, Y) \
+       ({ CGAL::Uncertain<bool> CGAL_TMP = (X); \
+          CGAL::certainly_not(CGAL_TMP) ? CGAL::make_uncertain(false) \
+                                        : CGAL_TMP & CGAL::make_uncertain((Y)); })
+#  define CGAL_OR(X, Y) \
+       ({ CGAL::Uncertain<bool> CGAL_TMP = (X); \
+          CGAL::certainly(CGAL_TMP) ? CGAL::make_uncertain(true) \
+                                    : CGAL_TMP | CGAL::make_uncertain((Y)); })
+#endif
+
+#define CGAL_AND_3(X, Y, Z)  CGAL_AND(X, CGAL_AND(Y, Z))
+#define CGAL_OR_3(X, Y, Z)   CGAL_OR(X, CGAL_OR(Y, Z))
 
 
 // Equality operators
 
 template < typename T >
 inline
-Uncertain<bool> operator==(Uncertain<T> const& a, Uncertain<T> const& b)
+Uncertain<bool> operator==(Uncertain<T> a, Uncertain<T> b)
 {
-  if (is_indeterminate(a) || is_indeterminate(b))
-    return Uncertain<bool>::indeterminate();
-  return a.inf() == b.inf();
+  if (a.sup() < b.inf() || b.sup() < a.inf())
+    return false;
+  if (is_certain(a) && is_certain(b)) // test above implies get_certain(a) == get_certain(b)
+    return true;
+  return Uncertain<bool>::indeterminate();
 }
 
 template < typename T >
 inline
-Uncertain<bool> operator==(Uncertain<T> const& a, const T & b)
+Uncertain<bool> operator==(Uncertain<T> a, T b)
 {
-  if (is_indeterminate(a))
-    return Uncertain<bool>::indeterminate();
-  return a.inf() == b;
+  if (a.sup() < b || b < a.inf())
+    return false;
+  if (is_certain(a))
+    return true;
+  return Uncertain<bool>::indeterminate();
 }
 
 template < typename T >
 inline
-Uncertain<bool> operator==(const T & a, Uncertain<T> const& b)
+Uncertain<bool> operator==(T a, Uncertain<T> b)
 {
-  if (is_indeterminate(b))
-    return Uncertain<bool>::indeterminate();
-  return a == b.inf();
+  return b == a;
 }
 
 template < typename T >
 inline
-Uncertain<bool> operator!=(Uncertain<T> const& a, Uncertain<T> const& b)
+Uncertain<bool> operator!=(Uncertain<T> a, Uncertain<T> b)
 {
   return ! (a == b);
 }
 
 template < typename T >
 inline
-Uncertain<bool> operator!=(Uncertain<T> const& a, const T & b)
+Uncertain<bool> operator!=(Uncertain<T> a, T b)
 {
   return ! (a == b);
 }
 
 template < typename T >
 inline
-Uncertain<bool> operator!=(const T & a, Uncertain<T> const& b)
+Uncertain<bool> operator!=(T a, Uncertain<T> b)
 {
   return ! (a == b);
+}
+
+
+// Comparison operators (useful for enums only, I guess (?) ).
+
+template < typename T >
+inline
+Uncertain<bool> operator<(Uncertain<T> a, Uncertain<T> b)
+{
+  if (a.sup() < b.inf())
+    return true;
+  if (a.inf() >= b.sup())
+    return false;
+  return Uncertain<bool>::indeterminate();
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator<(Uncertain<T> a, T b)
+{
+  if (a.sup() < b)
+    return true;
+  if (a.inf() >= b)
+    return false;
+  return Uncertain<bool>::indeterminate();
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator<(T a, Uncertain<T> b)
+{
+  if (a < b.inf())
+    return true;
+  if (a >= b.sup())
+    return false;
+  return Uncertain<bool>::indeterminate();
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>(Uncertain<T> a, Uncertain<T> b)
+{
+  return b < a;
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>(Uncertain<T> a, T b)
+{
+  return b < a;
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>(T a, Uncertain<T> b)
+{
+  return b < a;
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator<=(Uncertain<T> a, Uncertain<T> b)
+{
+  return !(b < a);
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator<=(Uncertain<T> a, T b)
+{
+  return !(b < a);
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator<=(T a, Uncertain<T> b)
+{
+  return !(b < a);
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>=(Uncertain<T> a, Uncertain<T> b)
+{
+  return !(a < b);
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>=(Uncertain<T> a, T b)
+{
+  return !(a < b);
+}
+
+template < typename T >
+inline
+Uncertain<bool> operator>=(T a, Uncertain<T> b)
+{
+  return !(a < b);
 }
 
 
@@ -282,27 +514,108 @@ Uncertain<bool> operator!=(const T & a, Uncertain<T> const& b)
 
 template < typename T >
 inline
-Uncertain<T> make_uncertain(const T&t)
+Uncertain<T> make_uncertain(T t)
 {
   return Uncertain<T>(t);
 }
 
 template < typename T >
 inline
-const Uncertain<T> & make_uncertain(const Uncertain<T> &t)
+Uncertain<T> make_uncertain(Uncertain<T> t)
 {
   return t;
 }
 
 
-// opposite
+// make_certain() : Forcing a cast to certain (possibly throwing).
+// This is meant to be used only in cases where we cannot easily propagate the
+// uncertainty, such as when used in a switch statement (code may later be
+// revisited to do things in a better way).
+
 template < typename T >
 inline
-Uncertain<T> opposite(const Uncertain<T> &u)
+T make_certain(T t)
 {
-  return Uncertain<T>(opposite(u.sup()), opposite(u.inf()));
+  return t;
 }
 
+template < typename T >
+inline
+T make_certain(Uncertain<T> t)
+{
+  return t.make_certain();
+}
+
+
+// opposite
+template < typename T > // should be constrained only for enums.
+inline
+Uncertain<T> operator-(Uncertain<T> u)
+{
+  return Uncertain<T>(-u.sup(), -u.inf());
+}
+
+// "sign" multiplication.
+// Should be constrained only for "sign" enums, useless for bool.
+template < typename T >
+Uncertain<T> operator*(Uncertain<T> a, Uncertain<T> b)
+{
+  if (a.inf() >= 0)                                   // e>=0
+  {
+    // b>=0     [a.inf()*b.inf(); a.sup()*b.sup()]
+    // b<=0     [a.sup()*b.inf(); a.inf()*b.sup()]
+    // b~=0     [a.sup()*b.inf(); a.sup()*b.sup()]
+    T aa = a.inf(), bb = a.sup();
+    if (b.inf() < 0)
+    {
+        aa = bb;
+        if (b.sup() < 0)
+            bb = a.inf();
+    }
+    return Uncertain<T>(aa * b.inf(), bb * b.sup());
+  }
+  else if (a.sup()<=0)                                // e<=0
+  {
+    // b>=0     [a.inf()*b.sup(); a.sup()*b.inf()]
+    // b<=0     [a.sup()*b.sup(); a.inf()*b.inf()]
+    // b~=0     [a.inf()*b.sup(); a.inf()*b.inf()]
+    T aa = a.sup(), bb = a.inf();
+    if (b.inf() < 0)
+    {
+        aa=bb;
+        if (b.sup() < 0)
+            bb=a.sup();
+    }
+    return Uncertain<T>(bb * b.sup(), aa * b.inf());
+  }
+  else                                          // 0 \in [inf();sup()]
+  {
+    if (b.inf()>=0)                           // d>=0
+      return Uncertain<T>(a.inf() * b.sup(), a.sup() * b.sup());
+    if (b.sup()<=0)                           // d<=0
+      return Uncertain<T>(a.sup() * b.inf(), a.inf() * b.inf());
+                                                // 0 \in d
+    T tmp1 = a.inf() * b.sup();
+    T tmp2 = a.sup() * b.inf();
+    T tmp3 = a.inf() * b.inf();
+    T tmp4 = a.sup() * b.sup();
+    return Uncertain<T>((std::min)(tmp1, tmp2), (std::max)(tmp3, tmp4));
+  }
+}
+
+template < typename T >
+inline
+Uncertain<T> operator*(T a, Uncertain<T> b)
+{
+	return Uncertain<T>(a) * b;
+}
+
+template < typename T >
+inline
+Uncertain<T> operator*(Uncertain<T> a, T b)
+{
+	return a * Uncertain<T>(b);
+}
 
 // enum_cast overload
 
@@ -310,7 +623,7 @@ Uncertain<T> opposite(const Uncertain<T> &u)
 
 template < typename T, typename U >
 inline
-Uncertain<T> enum_cast_bug(const Uncertain<U>& u, const T*)
+Uncertain<T> enum_cast_bug(Uncertain<U> u, const T*)
 {
   return Uncertain<T>(static_cast<const T>(u.inf()),
                       static_cast<const T>(u.sup()));
@@ -320,34 +633,12 @@ Uncertain<T> enum_cast_bug(const Uncertain<U>& u, const T*)
 
 template < typename T, typename U >
 inline
-Uncertain<T> enum_cast(const Uncertain<U>& u)
+Uncertain<T> enum_cast(Uncertain<U> u)
 {
   return Uncertain<T>(static_cast<T>(u.inf()), static_cast<T>(u.sup()));
 }
 
 #endif
-
-
-// Additional goodies
-
-inline bool certainly(bool b) { return b; }
-inline bool possibly(bool b) { return b; }
-
-inline
-bool certainly(Uncertain<bool> const& c)
-{
-  if (is_indeterminate(c))
-       return false;
-  else return static_cast<bool>(c);
-}
-
-inline
-bool possibly(Uncertain<bool> const& c)
-{
-  if (is_indeterminate(c))
-       return true;
-  else return static_cast<bool>(c);
-}
 
 CGAL_END_NAMESPACE
 

@@ -15,15 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/cartesian_homogeneous_conversion.h $
-// $Id: cartesian_homogeneous_conversion.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/cartesian_homogeneous_conversion.h $
+// $Id: cartesian_homogeneous_conversion.h 41540 2008-01-11 22:09:24Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
  
-
 #ifndef CGAL_CARTESIAN_HOMOGENEOUS_CONVERSION_H
 #define CGAL_CARTESIAN_HOMOGENEOUS_CONVERSION_H
+
+#include <CGAL/Cartesian.h>
+#include <CGAL/Homogeneous.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -125,6 +127,5 @@ quotient_cartesian_to_homogeneous(
 }
 
 CGAL_END_NAMESPACE
-
 
 #endif // CGAL_CARTESIAN_HOMOGENEOUS_CONVERSION_H

@@ -1,4 +1,5 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2008       GeometryFactory, Sophia Antipolis (France)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
-// $Id: Surface_mesher_manifold.h 36704 2007-02-28 18:22:28Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
+// $Id: Surface_mesher_manifold.h 43498 2008-06-06 12:22:22Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -56,21 +57,23 @@ namespace CGAL {
     // because of the caching, these two members have to be mutable,
     // because they are actually updated in the const method
     // 'no_longer_element_to_refine_impl()'
-    mutable std::set<Vertex_handle> bad_vertices;
+    typedef std::set<Vertex_handle> Bad_vertices;
+    mutable Bad_vertices bad_vertices;
     mutable bool bad_vertices_initialized;
 
     private:
       Facet canonical_facet(const Facet& f) const {
-	Cell_handle c = f.first;
-	Cell_handle c2 = c->neighbor(f.second);
+	const Cell_handle& c = f.first;
+	const Cell_handle& c2 = c->neighbor(f.second);
 	return (c2 < c) ? std::make_pair(c2,c2->index(c)) : f;
       }
 
       // Action to perform on a facet on the boundary of the conflict zone
-      void handle_facet_on_boundary_of_conflict_zone (const Facet& f) {
-	const Facet f1 = canonical_facet(f);
-	const Cell_handle& c = f1.first;
-	const int i = f1.second;
+      void 
+      before_insertion_handle_facet_on_boundary_of_conflict_zone(const Facet& f)
+      {
+	const Cell_handle& c = f.first;
+	const int i = f.second;
 
        	// for each v of f
 	for (int j = 0; j < 4; j++)
@@ -78,14 +81,16 @@ namespace CGAL {
             bad_vertices.erase(c->vertex(j));
       }
 
-      Facet biggest_incident_facet_in_complex(const Vertex_handle sommet) const {
+      Facet 
+      biggest_incident_facet_in_complex(const Vertex_handle sommet) const
+      {
 
 	std::list<Facet> facets;
 	SMMBB::c2t3.incident_facets(sommet, std::back_inserter(facets));
 
 	typename std::list<Facet>::iterator it = facets.begin();
-	Facet first_facet = *it;
-	Facet biggest_facet = first_facet;
+	Facet biggest_facet = *it;
+	CGAL_assertion(it!=facets.end());
 
 	for (++it;
 	     it != facets.end();
@@ -93,7 +98,8 @@ namespace CGAL {
 	  Facet current_facet = *it;
 	  // is the current facet bigger than the current biggest one
 	  if ( SMMBB::compute_distance_to_facet_center(current_facet, sommet) >
-	       SMMBB::compute_distance_to_facet_center(biggest_facet, sommet) ) {
+	       SMMBB::compute_distance_to_facet_center(biggest_facet, sommet) )
+	  {
 	    biggest_facet = current_facet;
 	  }
 	}
@@ -167,18 +173,16 @@ namespace CGAL {
 	}
       }
 
-      void before_insertion_impl(const Facet&, const Point& s,
+      void before_insertion_impl(const Facet& f, const Point& s,
 				 Zone& zone) {
         if(bad_vertices_initialized)
         {
           for (typename Zone::Facets_iterator fit =
                  zone.boundary_facets.begin(); fit !=
                  zone.boundary_facets.end(); ++fit)
-            if (SMMBB::c2t3.is_in_complex(*fit)) {
-              handle_facet_on_boundary_of_conflict_zone (*fit); 
-            }
+	    before_insertion_handle_facet_on_boundary_of_conflict_zone (*fit); 
         }
-	SMMBB::before_insertion_impl(Facet(), s, zone);
+	SMMBB::before_insertion_impl(f, s, zone);
       }
 
     void after_insertion_impl(const Vertex_handle v) {
@@ -212,13 +216,19 @@ namespace CGAL {
     std::string debug_info() const
     {
       std::stringstream s;
-      s << SMMBB::debug_info() << "," << bad_vertices.size();
+      s << SMMBB::debug_info() << ",";
+      if(bad_vertices_initialized) 
+	s << bad_vertices.size();
+      else
+	s << "non manifold vertices not initialized";
       return s.str();
     }
 
-    static std::string debug_info_header()
+    std::string debug_info_header() const
     {
-      return SMMBB::debug_info_header() + "," + "number of bad vertices";
+      std::stringstream s;
+      s << SMMBB::debug_info_header() << "," << "#bad vertices";
+      return s.str();
     }
   };  // end Surface_mesher_manifold_base
 

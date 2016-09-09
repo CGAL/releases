@@ -10,29 +10,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2.cpp $
-// $Id: straight_skeleton_2.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2.cpp $
+// $Id: straight_skeleton_2.cpp 46983 2008-11-21 16:42:02Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-
-
-int main(int, char*)
-{
-
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
-  return 0;
-}
-
-#else
 
 #include<string>
 #include<iostream>
@@ -67,6 +52,8 @@ int main(int, char*)
 #include <CGAL/IO/Qt_widget_standard_toolbar.h>
 #include <CGAL/IO/Qt_help_window.h>
 #include <CGAL/IO/pixmaps/demoicon.xpm>
+
+#include <CGAL/assertions_behaviour.h>
 
 #include "ss_types.h"
 #include "straight_skeleton_2_toolbar.h"
@@ -575,4 +562,3 @@ main(int argc, char **argv)
   return r;
 }
 
-#endif // CGAL_USE_QT

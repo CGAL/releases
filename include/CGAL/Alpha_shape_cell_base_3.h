@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h $
-// $Id: Alpha_shape_cell_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h $
+// $Id: Alpha_shape_cell_base_3.h 44448 2008-07-25 15:10:02Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -21,7 +21,6 @@
 #define CGAL_ALPHA_SHAPE_CELL_BASE_3_H
 
 #include <vector>
-#include <CGAL/utility.h>
 #include <CGAL/Compact_container.h>
 #include <CGAL/Triangulation_cell_base_3.h>
 

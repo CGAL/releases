@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
-// $Id: SNC_SM_overlayer.h 39746 2007-08-07 20:10:09Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
+// $Id: SNC_SM_overlayer.h 39419 2007-07-18 19:02:25Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/iostream/include/CGAL/IO/io.h $
-// $Id: io.h 35276 2006-11-23 10:20:38Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/iostream/include/CGAL/IO/io.h $
+// $Id: io.h 40468 2007-09-27 08:10:36Z slimbach $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -101,6 +101,37 @@ template <class T>
 Input_rep<T>
 iformat( T& t) { return Input_rep<T>(t); }
 
+
+template <class T, class F = Null_tag >
+class Benchmark_rep {
+    const T& t;
+public:
+    //! initialize with a const reference to \a t.
+    Benchmark_rep( const T& tt) : t(tt) {}
+    //! perform the output, calls \c operator\<\< by default.
+    std::ostream& operator()( std::ostream& out) const {
+        return out << t;
+    }
+    
+    // static function to get the benchmark name
+    static std::string get_benchmark_name() {
+        return "";
+    }
+};
+
+template <class T, class F>
+std::ostream& operator<<( std::ostream& out, Benchmark_rep<T,F> rep) {
+    return rep( out);
+}
+
+template <class T>
+Benchmark_rep<T> bmformat( const T& t) { return Benchmark_rep<T>(t); }
+
+template <class T, class F>
+Benchmark_rep<T,F> bmformat( const T& t, F) { return Benchmark_rep<T,F>(t); }
+
+
+
 IO::Mode
 get_mode(std::ios& i);
 
@@ -114,9 +145,6 @@ IO::Mode
 set_pretty_mode(std::ios& i);
 
 IO::Mode
-set_benchmark_mode(std::ios& i);
-
-IO::Mode
 set_mode(std::ios& i, IO::Mode m);
 
 bool
@@ -127,9 +155,6 @@ is_ascii(std::ios& i);
 
 bool
 is_binary(std::ios& i);
-
-bool
-is_benchmark(std::ios& i);
 
 template < class T >
 inline
@@ -246,6 +271,11 @@ std::istream &operator>>(std::istream &is, Color& col)
 }
 
 const char* mode_name( IO::Mode m );
+
+// From polynomial.h TODO: Where to put this?
+void swallow(std::istream &is, char d);
+void swallow(std::istream &is, const std::string& s );
+
 
 
 CGAL_END_NAMESPACE

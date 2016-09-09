@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: Alpha_shape_3.h 36961 2007-03-09 08:24:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
+// $Id: Alpha_shape_3.h 47025 2008-11-25 13:20:21Z afabri $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -33,7 +33,6 @@
 #include <iostream>
 
 #include <CGAL/Triangulation_utils_3.h>
-#include <CGAL/utility.h>
 #include <CGAL/Object.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Compact_container.h>
@@ -103,6 +102,7 @@ public:
 
   typedef typename Gt::FT Coord_type;
   typedef Coord_type      NT;
+  typedef Coord_type      FT;
 
   typedef typename Gt::Point_3 Point;
   

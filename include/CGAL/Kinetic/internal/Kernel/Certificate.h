@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Certificate.h $
-// $Id: Certificate.h 35973 2007-01-31 03:15:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Certificate.h $
+// $Id: Certificate.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -46,7 +46,7 @@ public:
   const Time &failure_time() const {
     if (rs_.empty()) {
       std::cerr << "You now must check if the certificate will fail before calling top.\n";
-      CGAL_assertion(0);
+      CGAL_error();
       static Time t(1000000);
       return t;
     }

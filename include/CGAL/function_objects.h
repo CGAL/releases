@@ -15,18 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/function_objects.h $
-// $Id: function_objects.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/function_objects.h $
+// $Id: function_objects.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_FUNCTION_OBJECTS_H
 #define CGAL_FUNCTION_OBJECTS_H 1
 
-#include <CGAL/functional_base.h>
 #include <functional>
 
 CGAL_BEGIN_NAMESPACE
@@ -35,7 +34,6 @@ template < class Value>
 struct Identity {
   typedef Value argument_type;
   typedef Value result_type;
-  typedef Arity_tag<1> Arity;
   Value&       operator()( Value& x)       const { return x; }
   const Value& operator()( const Value& x) const { return x; }
 };
@@ -44,7 +42,6 @@ template < class Value>
 struct Dereference {
   typedef Value* argument_type;
   typedef Value  result_type;
-  typedef Arity_tag<1> Arity;
   Value&         operator()( Value* x)       const { return *x;}
   const Value&   operator()( const Value* x) const { return *x;}
 };
@@ -53,7 +50,6 @@ template < class Value>
 struct Get_address {
   typedef Value  argument_type;
   typedef Value* result_type;
-  typedef Arity_tag<1> Arity;
   Value*         operator()( Value& x)       const { return &x;}
   const Value*   operator()( const Value& x) const { return &x;}
 };
@@ -62,7 +58,6 @@ template < class Arg, class Result>
 struct Cast_function_object {
   typedef Arg    argument_type;
   typedef Result result_type;
-  typedef Arity_tag<1> Arity;
   Result&       operator()( Arg& x)       const { return (Result&)(x); }
   const Result& operator()( const Arg& x) const {
     return (const Result&)(x);
@@ -74,7 +69,6 @@ struct Project_vertex {
   typedef Node                  argument_type;
   typedef typename Node::Vertex Vertex;
   typedef Vertex                result_type;
-  typedef Arity_tag<1> Arity;
   Vertex&       operator()( Node& x)       const { return x.vertex(); }
   const Vertex& operator()( const Node& x) const { return x.vertex(); }
 };
@@ -84,7 +78,6 @@ struct Project_facet {
   typedef Node                  argument_type;
   typedef typename Node::Facet  Facet;
   typedef Facet                 result_type;
-  typedef Arity_tag<1> Arity;
   Facet&       operator()( Node& x)       const { return x.facet(); }
   const Facet& operator()( const Node& x) const { return x.facet(); }
 };
@@ -94,7 +87,6 @@ struct Project_point {
   typedef Node                  argument_type;
   typedef typename Node::Point  Point;
   typedef Point                 result_type;
-  typedef Arity_tag<1> Arity;
   Point&       operator()( Node& x)       const { return x.point(); }
   const Point& operator()( const Node& x) const { return x.point(); }
 };
@@ -104,7 +96,6 @@ struct Project_normal {
   typedef Node                  argument_type;
   typedef typename Node::Normal Normal;
   typedef Normal                result_type;
-  typedef Arity_tag<1> Arity;
   Normal&       operator()( Node& x)       const { return x.normal(); }
   const Normal& operator()( const Node& x) const { return x.normal(); }
 };
@@ -114,7 +105,6 @@ struct Project_plane {
   typedef Node                  argument_type;
   typedef typename Node::Plane  Plane;
   typedef Plane                 result_type;
-  typedef Arity_tag<1> Arity;
   Plane&       operator()( Node& x)       const { return x.plane(); }
   const Plane& operator()( const Node& x) const { return x.plane(); }
 };
@@ -125,7 +115,6 @@ template < class Node>
 struct Project_next {
   typedef Node*   argument_type;
   typedef Node*   result_type;
-  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const { return x->next(); }
   const Node* operator()( const Node* x) const { return x->next(); }
 };
@@ -134,7 +123,6 @@ template < class Node>
 struct Project_prev {
   typedef Node*   argument_type;
   typedef Node*   result_type;
-  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const { return x->prev(); }
   const Node* operator()( const Node* x) const { return x->prev(); }
 };
@@ -143,7 +131,6 @@ template < class Node>
 struct Project_next_opposite {
   typedef Node*   argument_type;
   typedef Node*   result_type;
-  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const {
     return x->next()->opposite();
   }
@@ -156,7 +143,6 @@ template < class Node>
 struct Project_opposite_prev {
   typedef Node*   argument_type;
   typedef Node*   result_type;
-  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const {
     return x->opposite()->prev();
   }
@@ -170,7 +156,6 @@ public:
   typedef Arg    argument_type;
   typedef Arg    argument1_type;
   typedef Result result_type;
-  typedef Arity_tag<1> Arity;
   Result operator()(Arg a) const { return Result(a);}
 };
 
@@ -180,7 +165,6 @@ public:
   typedef Arg1   argument1_type;
   typedef Arg2   argument2_type;
   typedef Result result_type;
-  typedef Arity_tag<2> Arity;
   Result operator()(Arg1 a1, Arg2 a2) const { return Result(a1,a2);}
 };
 
@@ -191,7 +175,6 @@ public:
   typedef Arg2   argument2_type;
   typedef Arg3   argument3_type;
   typedef Result result_type;
-  typedef Arity_tag<3> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3) const {
     return Result(a1,a2,a3);
   }
@@ -205,7 +188,6 @@ public:
   typedef Arg3   argument3_type;
   typedef Arg4   argument4_type;
   typedef Result result_type;
-  typedef Arity_tag<4> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3, Arg4 a4) const {
     return Result(a1,a2,a3,a4);
   }
@@ -221,7 +203,6 @@ public:
   typedef Arg4   argument4_type;
   typedef Arg5   argument5_type;
   typedef Result result_type;
-  typedef Arity_tag<5> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3, Arg4 a4, Arg5 a5) const {
     return Result(a1,a2,a3,a4,a5);
   }
@@ -234,7 +215,6 @@ public:
   typedef Arg    argument1_type;
   typedef Arg    argument2_type;
   typedef Result result_type;
-  typedef Arity_tag<2> Arity;
   Result operator()(Arg a1, Arg a2) const { return Result(a1,a2);}
 };
 
@@ -246,7 +226,6 @@ public:
   typedef Arg    argument2_type;
   typedef Arg    argument3_type;
   typedef Result result_type;
-  typedef Arity_tag<3> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3) const {
     return Result(a1,a2,a3);
   }
@@ -261,7 +240,6 @@ public:
   typedef Arg    argument3_type;
   typedef Arg    argument4_type;
   typedef Result result_type;
-  typedef Arity_tag<4> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3, Arg a4) const {
     return Result(a1,a2,a3,a4);
   }
@@ -277,7 +255,6 @@ public:
   typedef Arg    argument4_type;
   typedef Arg    argument5_type;
   typedef Result result_type;
-  typedef Arity_tag<5> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3, Arg a4, Arg a5) const {
     return Result(a1,a2,a3,a4,a5);
   }
@@ -367,7 +344,6 @@ class Creator_uniform_d {
  public:
   typedef Arg   argument1_type;
   typedef Result result_type;
-  typedef Arity_tag<2> Arity;
 
   Creator_uniform_d(int dim)
     : d(dim)
@@ -520,6 +496,35 @@ template < class Op >
 inline Compare_to_less<Op>
 compare_to_less(const Op& op)
 { return Compare_to_less<Op>(op); }
+
+
+/*!\brief
+ * Functor class to determine lexicographical order of pairs
+ */
+template < class T1, class T2,
+           class Less1 = std::less<T1>, class Less2 = std::less<T2> >
+struct Pair_lexicographical_less_than {
+    typedef bool result_type;
+    typedef std::pair<T1,T2> first_argument_type;
+    typedef std::pair<T1,T2> second_argument_type;
+    /*!\brief
+     * returns \c true iff \c x is lexicograhically smaller than \c y
+     * using \c Less1 and \c Less2 functors.
+     */
+    bool operator () (const std::pair<T1,T2>& x, const std::pair<T1,T2>& y) {
+        Less1 lt1;
+        Less2 lt2;
+
+        if (lt1(x.first, y.first)) {
+            return true;
+        } else if (lt1(y.first, x.first)) {
+            return false;
+        } else /* neither is less than the other */ {
+            return lt2(x.second, y.second);
+        }
+    }
+};
+
 
 CGAL_END_NAMESPACE
 

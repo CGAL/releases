@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
-// $Id: PolyhedralSurf_neighbors.h 36317 2007-02-15 16:39:10Z mpouget $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $Id: PolyhedralSurf_neighbors.h 39640 2007-08-01 14:06:29Z glisse $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_POLYHEDRALSURF_NEIGHBORS_H_
@@ -232,7 +232,7 @@ compute_neighbors(const Vertex_const_handle v,
     if ( pos_he == contour.end() ) continue;
     // simulate a circulator on the contour: 
     // find the prev and next pos on coutour
-    if ( (++iter) != ite ) pos_next = iter;
+    if ( ite != (++iter) ) pos_next = iter;
     else pos_next = contour.begin();
     iter = pos_he;
     if ( iter != contour.begin() ) pos_prev = --iter;

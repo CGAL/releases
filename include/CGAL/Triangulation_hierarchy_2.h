@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
-// $Id: Triangulation_hierarchy_2.h 37832 2007-04-02 20:40:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
+// $Id: Triangulation_hierarchy_2.h 45033 2008-08-20 08:39:08Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -97,20 +97,39 @@ public:
  
   template < class InputIterator >
   int insert(InputIterator first, InputIterator last)
-    {
+  {
       int n = this->number_of_vertices();
 
-      std::vector<Point> points CGAL_make_vector(first, last);
+      std::vector<Point> points (first, last);
       std::random_shuffle (points.begin(), points.end());
       CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
 
-      Face_handle hint;
-      for (typename std::vector<Point>::const_iterator p = points.begin();
-              p != points.end(); ++p)
-          hint = insert (*p, hint)->face();
+      // hints[i] is the face of the previously inserted point in level i.
+      // Thanks to spatial sort, they are better hints than what the hierarchy
+      // would give us.
+      Face_handle hints[Triangulation_hierarchy_2__maxlevel];
+      for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+              p != end; ++p)
+      {
+          int vertex_level = random_level();
+
+          Vertex_handle v = hierarchy[0]->insert (*p, hints[0]);
+          hints[0] = v->face();
+
+          Vertex_handle prev = v;
+
+          for (int level = 1; level <= vertex_level; ++level) {
+              v = hierarchy[level]->insert (*p, hints[level]);
+              hints[level] = v->face();
+
+              v->set_down (prev);
+              prev->set_up (v);
+              prev = v;
+          }
+      }
 
       return this->number_of_vertices() - n;
-    }
+  }
 
   void remove_degree_3(Vertex_handle  v);
   void remove_first(Vertex_handle  v);
@@ -404,8 +423,8 @@ remove(Vertex_handle v )
   int l = 0 ;
   while(1){
     hierarchy[l++]->remove(v);
-    if (u ==  Vertex_handle()) break; 
-    if(l>Triangulation_hierarchy_2__maxlevel) break;
+    if (u == Vertex_handle()) break; 
+    if (l >= Triangulation_hierarchy_2__maxlevel) break;
     v=u; u=v->up();
   }
 }

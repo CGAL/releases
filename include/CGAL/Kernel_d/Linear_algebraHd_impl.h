@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Linear_algebraHd_impl.h $
-// $Id: Linear_algebraHd_impl.h 31286 2006-05-25 17:51:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Linear_algebraHd_impl.h $
+// $Id: Linear_algebraHd_impl.h 41339 2007-12-27 16:15:21Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -76,7 +76,7 @@ linear_solver(const Matrix& A, const Vector& b,
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -135,7 +135,7 @@ linear_solver(const Matrix& A, const Vector& b,
   }
 
 
-  for(i = rank; i < rows && C(i,cols) == 0; ++i); // no body
+  for(i = rank; i < rows && C(i,cols) == 0; ++i) {}
   if (i < rows) 
   { solvable = false; c = L.row(i); }
 
@@ -182,8 +182,7 @@ RT_ Linear_algebraHd<RT_,AL_>::
 determinant(const Matrix& A)
 { 
   if (A.row_dimension() != A.column_dimension())
-    CGAL_assertion_msg(0,
-      "determinant(): only square matrices are legal inputs."); 
+    CGAL_error_msg(      "determinant(): only square matrices are legal inputs."); 
   Vector b(A.row_dimension()); // zero - vector
   int i,j,k; // indices to step through the matrix
   int rows = A.row_dimension(); 
@@ -223,7 +222,7 @@ determinant(const Matrix& A)
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -297,8 +296,7 @@ determinant(const Matrix& A,
             std::vector<int>& q, Vector& c) 
 { 
   if (A.row_dimension() != A.column_dimension())
-    CGAL_assertion_msg(0,
-      "determinant(): only square matrices are legal inputs."); 
+    CGAL_error_msg(      "determinant(): only square matrices are legal inputs."); 
   Vector b(A.row_dimension()); // zero - vector
   int i,j,k; // indices to step through the matrix
   int rows = A.row_dimension(); 
@@ -338,7 +336,7 @@ determinant(const Matrix& A,
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -424,8 +422,7 @@ verify_determinant(const Matrix& A, RT_ D,
                    const std::vector<int>& q, Vector& c) 
 { 
   if ((int)q.size() != A.column_dimension())
-    CGAL_assertion_msg(0,
-    "verify_determinant: q should be a permutation array \
+    CGAL_error_msg(    "verify_determinant: q should be a permutation array \
     with index range [0,A.column_dimension() - 1]."); 
   int n = A.row_dimension(); 
   int i,j; 
@@ -470,7 +467,7 @@ verify_determinant(const Matrix& A, RT_ D,
 
     for (i = 0; i < n; i++) 
       if (! already_considered[i])
-        CGAL_assertion_msg(0,"verify_determinant:q is not a permutation."); 
+        CGAL_error_msg("verify_determinant:q is not a permutation."); 
       else 
         already_considered[i] = false; 
 
@@ -535,7 +532,7 @@ independent_columns(const Matrix& A,
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -650,7 +647,7 @@ rank(const Matrix& A)
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -718,7 +715,7 @@ inverse(const Matrix& A, Matrix& inverse,
         RT_& D, Vector& c)
 { 
   if (A.row_dimension() != A.column_dimension())
-    CGAL_assertion_msg(0,"inverse: only square matrices are legal inputs."); 
+    CGAL_error_msg("inverse: only square matrices are legal inputs."); 
   Vector b(A.row_dimension()); // zero - vector
   int i,j,k; // indices to step through the matrix
   int rows = A.row_dimension(); 
@@ -758,7 +755,7 @@ inverse(const Matrix& A, Matrix& inverse,
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 
@@ -838,7 +835,7 @@ inverse(const Matrix& A, Matrix& inverse,
 
   #ifdef CGAL_LA_SELFTEST
   if (A*inverse != Matrix(rows,Matrix::RT_val(1))*D)
-    CGAL_assertion_msg(0,"inverse(): matrix inverse computed incorrectly."); 
+    CGAL_error_msg("inverse(): matrix inverse computed incorrectly."); 
   #endif      
 
   return true; 
@@ -892,7 +889,7 @@ homogeneous_linear_solver(const Matrix &A,
   for(k=0; k<rows; k++) {   
     bool non_zero_found = false; 
     for(i = k; i < rows; i++) { // step through rows $k$ to |rows - 1|
-      for (j = k ; j < cols && C(i,j) == 0; j++) ; 
+      for (j = k ; j < cols && C(i,j) == 0; j++) {}
       // step through columns |k| to |cols - 1|
       if (j < cols) {  
         non_zero_found = true; 

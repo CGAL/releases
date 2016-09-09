@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
-// $Id: General_polygon_set_2.h 37178 2007-03-17 08:50:51Z afabri $ $Date: 2007-03-17 09:50:51 +0100 (Sat, 17 Mar 2007) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
+// $Id: General_polygon_set_2.h 45357 2008-09-07 15:30:19Z guyzucke $ $Date: 2008-09-07 17:30:19 +0200 (Sun, 07 Sep 2008) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -29,7 +29,7 @@
 #include <CGAL/Arrangement_2.h>
 #include <CGAL/Arr_walk_along_line_point_location.h>
 
-#include <CGAL/Arr_overlay.h>
+#include <CGAL/Arr_overlay_2.h>
 #include <CGAL/Boolean_set_operations_2/Gps_default_dcel.h>
 #include <CGAL/Boolean_set_operations_2/Gps_do_intersect_functor.h>
 #include <CGAL/Boolean_set_operations_2/Gps_intersection_functor.h>
@@ -60,7 +60,7 @@ private:
   typedef typename Traits_2::X_monotone_curve_2           X_monotone_curve_2;
   
   typedef typename Polygon_with_holes_2::Hole_const_iterator  
-    GP_Holes_const_iterator;
+    															GP_Holes_const_iterator;
   typedef typename Traits_2::Curve_const_iterator         Curve_const_iterator;
   typedef typename Traits_2::Compare_endpoints_xy_2
     Compare_endpoints_xy_2;
@@ -71,14 +71,14 @@ private:
     Halfedge_const_iterator;
   typedef typename Arrangement_2::Vertex_const_iterator   Vertex_const_iterator;
   typedef typename Arrangement_2::Edge_const_iterator     Edge_const_iterator;
-  typedef typename Arrangement_2::Hole_const_iterator     Hole_const_iterator;
+  typedef typename Arrangement_2::Inner_ccb_const_iterator     Hole_const_iterator;
   typedef typename Arrangement_2::Ccb_halfedge_const_circulator 
     Ccb_halfedge_const_circulator;
   typedef typename Arrangement_2::Face_iterator           Face_iterator;
   typedef typename Arrangement_2::Halfedge_iterator       Halfedge_iterator;
   typedef typename Arrangement_2::Vertex_iterator         Vertex_iterator;
   typedef typename Arrangement_2::Edge_iterator           Edge_iterator;
-  typedef typename Arrangement_2::Hole_iterator           Hole_iterator;
+  typedef typename Arrangement_2::Inner_ccb_iterator           Hole_iterator;
   typedef typename Arrangement_2::Ccb_halfedge_circulator 
     Ccb_halfedge_circulator;
   typedef typename Arrangement_2::Face_handle             Face_handle;
@@ -427,12 +427,14 @@ public:
         eit != arr.edges_end();
         ++eit)
     {
-      Halfedge_handle he = eit;
-      X_monotone_curve_2&  cv = he->curve();
-      bool is_cont = he->face()->contained();
-      bool has_same_dir = (cmp_endpoints(cv) == he->direction());
-      if ((is_cont && !has_same_dir) ||
-         (!is_cont && has_same_dir))
+      Halfedge_handle            he = eit;
+      const X_monotone_curve_2&  cv = he->curve();
+      const bool                 is_cont = he->face()->contained();
+      const Comparison_result    he_res = ((Arr_halfedge_direction)he->direction() == ARR_LEFT_TO_RIGHT) ?
+                                          SMALLER : LARGER;
+      const bool                 has_same_dir = (cmp_endpoints(cv) == he_res);
+
+      if ((is_cont && !has_same_dir) || (!is_cont && has_same_dir))
         arr.modify_edge(he, ctr_opp(cv));
     }
   }
@@ -564,16 +566,18 @@ public:
       {
         return false;
       }
+
       const X_monotone_curve_2&  cv = he->curve();
-      bool is_cont = he->face()->contained();
-      bool has_same_dir = (cmp_endpoints(cv) == he->direction());
-      if ((is_cont && !has_same_dir) ||
-         (!is_cont && has_same_dir))
+      const bool                 is_cont = he->face()->contained();
+      const Comparison_result    he_res = ((Arr_halfedge_direction)he->direction() == ARR_LEFT_TO_RIGHT) ?
+                                          SMALLER : LARGER;
+      const bool                 has_same_dir = (cmp_endpoints(cv) == he_res);
+
+      if ((is_cont && !has_same_dir) || (!is_cont && has_same_dir))
         return false;
     }
     return true;
   }
-
 
   // get the simple polygons, takes O(n)
   template <class OutputIterator>
@@ -1025,8 +1029,12 @@ public:
   }
   
   bool _is_plane(const Polygon_with_holes_2& pgn) const
-  {
-    return (pgn.is_unbounded() && (pgn.holes_begin() == pgn.holes_end()));
+  {  		
+  		//typedef typename  Traits_2::Is_unbounded  Is_unbounded;
+		bool unbounded = m_traits->construct_is_unbounded_object()(pgn); 		
+		std::pair<GP_Holes_const_iterator, GP_Holes_const_iterator> pair = m_traits->construct_holes_object()(pgn);  		  		
+      return (unbounded && (pair.first == pair.second));
+    //used to return (pgn.is_unbounded() && (pgn.holes_begin() == pgn.holes_end()))
   }
   
   void _intersection(const Arrangement_2& arr)

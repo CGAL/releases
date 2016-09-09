@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Geomview/demo/Geomview/input.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Geomview/demo/Geomview/input.cpp $
 // $Id: input.cpp 37003 2007-03-10 16:55:12Z spion $
 //
 //

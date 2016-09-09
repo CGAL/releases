@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
-// $Id: Min_sphere_d.h 38400 2007-04-20 17:26:10Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_d/include/CGAL/Min_sphere_d.h $
+// $Id: Min_sphere_d.h 41418 2008-01-03 14:50:13Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
@@ -99,16 +99,16 @@ public:
     Min_sphere_d( InputIterator first,
                        InputIterator last)
       : d(-1), 
-#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER != 1300)
       points( first, last), 
 #endif
       tco( Traits()), 
       ms_basis (tco) 
-#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER != 1300)
       ,support_end(points.begin())
 #endif
     {
-#if ( _MSC_VER == 1300) || defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER == 1300)
       std::copy(first,last,std::back_inserter(points));
       support_end = points.begin();
 #endif
@@ -125,17 +125,17 @@ public:
                        InputIterator last,
                        const Traits& traits)
       : d(-1),
-#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER != 1300)
       points( first, last), 
 #endif
       tco( traits), 
       ms_basis (tco)
-#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER != 1300)
       ,support_end(points.begin())
 #endif
 
     {
-#if ( _MSC_VER == 1300) || defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
+#if ( _MSC_VER == 1300)
       std::copy(first,last,std::back_inserter(points));
       support_end = points.begin();
 #endif

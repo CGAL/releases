@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h $
-// $Id: Side_of_oriented_sphere_3.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h $
+// $Id: Side_of_oriented_sphere_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -39,7 +39,7 @@ public:
   operator()(const Point_3 &p, const Point_3 &q, const Point_3 &r,
              const Point_3 &s, const Point_3 &t) const
   {
-      CGAL_PROFILER("In_sphere_3 calls");
+      CGAL_PROFILER("Side_of_oriented_sphere_3 calls");
 
       using std::fabs;
 
@@ -56,7 +56,7 @@ public:
           fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty) &&
           fit_in_double(t.z(), tz))
       {
-          CGAL_PROFILER("In_sphere_3 semi-static attempts");
+          CGAL_PROFILER("Side_of_oriented_sphere_3 semi-static attempts");
 
           double ptx = px - tx;
           double pty = py - ty;
@@ -104,7 +104,7 @@ public:
           double eps = 1.2466136531027298e-13 * maxx * maxy * maxz
                      * (maxz * maxz);
 
-          double det = det4x4_by_formula(ptx,pty,ptz,pt2,
+          double det = determinant(ptx,pty,ptz,pt2,
                                          rtx,rty,rtz,rt2,
                                          qtx,qty,qtz,qt2,
                                          stx,sty,stz,st2);
@@ -120,25 +120,25 @@ public:
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
 
-          CGAL_PROFILER("In_sphere_3 semi-static failures");
+          CGAL_PROFILER("Side_of_oriented_sphere_3 semi-static failures");
       }
       return Base::operator()(p, q, r, s, t);
   }
 
-  // Computes the epsilon for In_sphere_3.
+  // Computes the epsilon for Side_of_oriented_sphere_3.
   static double compute_epsilon()
   {
     typedef CGAL::Static_filter_error F;
     F t1 = F(1,F::ulp()/2);         // First translation
     F sq = t1*t1+t1*t1+t1*t1; // squares
-    F det = det4x4_by_formula(t1, t1, t1, sq,
+    F det = determinant(t1, t1, t1, sq,
                               t1, t1, t1, sq,
                               t1, t1, t1, sq,
                               t1, t1, t1, sq); // Full det
     double err = det.error();
     err += err * 3 * F::ulp(); // Correction due to "eps * maxx * ...".
 
-    std::cerr << "*** epsilon for In_sphere_3 = " << err << std::endl;
+    std::cerr << "*** epsilon for Side_of_oriented_sphere_3 = " << err << std::endl;
     return err;
   }
 };

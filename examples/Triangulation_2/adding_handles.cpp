@@ -2,7 +2,7 @@
 #include <CGAL/Triangulation_2.h>
 #include <cassert>
 
-/* A facet with an additionnal handle */
+/* A vertex class with an additionnal handle */
 template < class Gt, class Vb = CGAL::Triangulation_vertex_base_2<Gt> >
 class My_vertex_base
   : public  Vb
@@ -32,7 +32,7 @@ public:
   Vertex_handle get_associated_vertex() {return va_ ; }
 };
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef My_vertex_base<K> Vb;
 typedef CGAL::Triangulation_data_structure_2<Vb> Tds;

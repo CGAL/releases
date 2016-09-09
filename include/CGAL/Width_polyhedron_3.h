@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Width_3/include/CGAL/Width_polyhedron_3.h $
-// $Id: Width_polyhedron_3.h 36918 2007-03-08 10:02:46Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Width_3/include/CGAL/Width_polyhedron_3.h $
+// $Id: Width_polyhedron_3.h 41561 2008-01-12 21:24:26Z spion $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -63,6 +63,7 @@ struct Width_polyhedron_items_3 {
 };
 
 
+namespace Width_3_internal {
 
 template <class InputPolyhedron, class Width_Traits>
 class Data_access {
@@ -211,6 +212,7 @@ class Data_access {
 #endif
 };
 
+} // namespace Width_3_internal
 
 CGAL_END_NAMESPACE
 

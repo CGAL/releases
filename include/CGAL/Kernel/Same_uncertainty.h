@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/Same_uncertainty.h $
-// $Id: Same_uncertainty.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/Same_uncertainty.h $
+// $Id: Same_uncertainty.h 44129 2008-07-12 21:09:38Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -24,7 +24,7 @@
 #ifndef CGAL_SAME_UNCERTAINTY_H
 #define CGAL_SAME_UNCERTAINTY_H
 
-#include <CGAL/basic.h>
+#include <CGAL/config.h>
 
 CGAL_BEGIN_NAMESPACE
 

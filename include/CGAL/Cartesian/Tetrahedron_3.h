@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 35640 2006-12-27 23:25:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_TETRAHEDRON_3_H
 #define CGAL_CARTESIAN_TETRAHEDRON_3_H
 
-#include <CGAL/Fourtuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 #include <vector>
 #include <functional>
@@ -39,7 +39,7 @@ class TetrahedronC3
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Tetrahedron_3        Tetrahedron_3;
 
-  typedef Fourtuple<Point_3>                       Rep;
+  typedef CGAL::array<Point_3, 4>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -51,29 +51,29 @@ public:
 
   TetrahedronC3(const Point_3 &p, const Point_3 &q, const Point_3 &r,
                 const Point_3 &s)
-    : base(p, q, r, s) {}
+    : base(CGAL::make_array(p, q, r, s)) {}
 
   const Point_3 &    vertex(int i) const;
   const Point_3 &    operator[](int i) const;
 
-  bool       operator==(const TetrahedronC3 &t) const;
-  bool       operator!=(const TetrahedronC3 &t) const;
+  typename R::Boolean         operator==(const TetrahedronC3 &t) const;
+  typename R::Boolean         operator!=(const TetrahedronC3 &t) const;
 
-  Orientation    orientation() const;
-  Oriented_side  oriented_side(const Point_3 &p) const;
-  Bounded_side   bounded_side(const Point_3 &p) const;
+  typename R::Orientation    orientation() const;
+  typename R::Oriented_side  oriented_side(const Point_3 &p) const;
+  typename R::Bounded_side   bounded_side(const Point_3 &p) const;
 
-  bool       has_on_boundary(const Point_3 &p) const;
-  bool       has_on_positive_side(const Point_3 &p) const;
-  bool       has_on_negative_side(const Point_3 &p) const;
-  bool       has_on_bounded_side(const Point_3 &p) const;
-  bool       has_on_unbounded_side(const Point_3 &p) const;
+  typename R::Boolean         has_on_boundary(const Point_3 &p) const;
+  typename R::Boolean         has_on_positive_side(const Point_3 &p) const;
+  typename R::Boolean         has_on_negative_side(const Point_3 &p) const;
+  typename R::Boolean         has_on_bounded_side(const Point_3 &p) const;
+  typename R::Boolean         has_on_unbounded_side(const Point_3 &p) const;
 
-  bool       is_degenerate() const;
+  typename R::Boolean         is_degenerate() const;
 };
 
 template < class R >
-bool
+typename R::Boolean
 TetrahedronC3<R>::
 operator==(const TetrahedronC3<R> &t) const
 {
@@ -101,7 +101,7 @@ operator==(const TetrahedronC3<R> &t) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::
 operator!=(const TetrahedronC3<R> &t) const
 {
@@ -117,10 +117,10 @@ vertex(int i) const
   else if (i>3) i=i%4;
   switch (i)
     {
-    case 0: return get(base).e0;
-    case 1: return get(base).e1;
-    case 2: return get(base).e2;
-    default: return get(base).e3;
+    case 0: return get(base)[0];
+    case 1: return get(base)[1];
+    case 2: return get(base)[2];
+    default: return get(base)[3];
     }
 }
 
@@ -134,7 +134,7 @@ operator[](int i) const
 }
 
 template < class R >
-Orientation
+typename R::Orientation
 TetrahedronC3<R>::
 orientation() const
 {
@@ -143,20 +143,20 @@ orientation() const
 }
 
 template < class R >
-Oriented_side
+typename R::Oriented_side
 TetrahedronC3<R>::
 oriented_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
-  Orientation o = orientation();
+  typename R::Orientation o = orientation();
   if (o != ZERO)
-    return Oriented_side(o * bounded_side(p));
+    return enum_cast<Oriented_side>(bounded_side(p)) * o;
 
   CGAL_kernel_assertion (!is_degenerate());
   return ON_ORIENTED_BOUNDARY;
 }
 
 template < class R >
-Bounded_side
+typename R::Bounded_side
 TetrahedronC3<R>::
 bounded_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -166,7 +166,7 @@ bounded_side(const typename TetrahedronC3<R>::Point_3 &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::has_on_boundary
   (const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -175,7 +175,7 @@ TetrahedronC3<R>::has_on_boundary
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::has_on_positive_side
   (const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -184,7 +184,7 @@ TetrahedronC3<R>::has_on_positive_side
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::has_on_negative_side
   (const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -193,7 +193,7 @@ TetrahedronC3<R>::has_on_negative_side
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::has_on_bounded_side
   (const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -202,7 +202,7 @@ TetrahedronC3<R>::has_on_bounded_side
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::has_on_unbounded_side
   (const typename TetrahedronC3<R>::Point_3 &p) const
 {
@@ -211,7 +211,7 @@ TetrahedronC3<R>::has_on_unbounded_side
 
 template < class R >
 inline
-bool
+typename R::Boolean
 TetrahedronC3<R>::is_degenerate() const
 {
   return orientation() == COPLANAR;

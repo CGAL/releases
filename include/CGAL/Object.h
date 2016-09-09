@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Object.h $
-// $Id: Object.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Object.h $
+// $Id: Object.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -38,14 +38,18 @@ CGAL_BEGIN_NAMESPACE
 template <class T>
 class Wrapper : public Ref_counted_virtual
 {
+    Wrapper(const Wrapper&); // deleted to make sure we don't make useless copies
   public:
+
     Wrapper(const T& object) : _object(object) {}
 
-    Wrapper() {}
-
-    operator T() const { return _object; }
+#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+    Wrapper(T && object) : _object(std::move(object)) {}
+#endif
 
     ~Wrapper() {}
+
+    const T& get() const { return _object; }
 
     virtual const std::type_info & type() const
     {
@@ -64,7 +68,7 @@ class Wrapper : public Ref_counted_virtual
 class Object
   : public Handle_for_virtual<Ref_counted_virtual>
 {
-    struct empty {};
+    struct Empty {};
     typedef Handle_for_virtual<Ref_counted_virtual> base;
 
   public:
@@ -73,14 +77,25 @@ class Object
 
     Object()
     {
-	initialize_with(Wrapper<empty>());
+	typedef Wrapper<Empty>  Wrap;
+        ptr = new Wrap(Empty());
     }
 
+#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+    template <class T>
+    Object(T && t, private_tag)
+    {
+	typedef Wrapper< typename std::remove_cv< typename std::remove_reference<T>::type >::type >  Wrap;
+        ptr = new Wrap(std::forward<T>(t));
+    }
+#else
     template <class T>
     Object(const T&t, private_tag)
     {
-	initialize_with(Wrapper<T>(t));
+	typedef Wrapper<T>  Wrap;
+        ptr = new Wrap(t);
     }
+#endif
 
     template <class T>
     bool assign(T &t) const
@@ -91,32 +106,56 @@ class Object
         const Wrapper<T> *wp = dynamic_cast<const Wrapper<T> *>(Ptr());
         if (wp == NULL)
             return false;
-        t = *wp;
+        t = wp->get();
 #ifdef _MSC_VER
       }
       catch (...) {
-          std::cerr << "ERROR : YOUR COMPILER MUST SUPPORT RTTI" << std::endl;
-          abort();
+          CGAL_error_msg("Your compiler must support Run-Time Type Information (RTTI)");
       }
 #endif
       return true;
     }
 
     bool
+    empty() const
+    {
+	Empty E;
+	return assign(E);
+    }
+
+    // is_empty() is kept for backward compatibility.
+    // empty() was introduced for consistency with e.g. std::vector::empty().
+    bool
     is_empty() const
     {
-	empty E;
-	return assign(E);
+	return empty();
     }
 
     const std::type_info & type() const
     {
-        return is_empty() ? typeid(void) : Ptr()->type();
+        return empty() ? typeid(void) : Ptr()->type();
     }
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+    // The comparisons with NULL are only there for Nef...
+    bool operator==(Nullptr_t CGAL_assertion_code(n)) const
+    { CGAL_assertion(n == 0); return empty(); }
+    bool operator!=(Nullptr_t CGAL_assertion_code(n)) const
+    { CGAL_assertion(n == 0); return !empty(); }
+#endif // CGAL_NO_DEPRECATED_CODE
 
 };
 
 
+#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+template <class T>
+inline
+Object
+make_object(T && t)
+{
+    return Object(std::forward<T>(t), Object::private_tag());
+}
+#else
 template <class T>
 inline
 Object
@@ -124,6 +163,7 @@ make_object(const T& t)
 {
     return Object(t, Object::private_tag());
 }
+#endif
 
 template <class T>
 inline
@@ -144,14 +184,6 @@ struct Bad_object_cast
     }
 };
 
-/*
-template <class T>
-inline
-T * object_cast(Object * o)
-{
-    return o && o->type() == typeid(T) ? o->object_ptr() : NULL;
-}
-*/
 
 template <class T>
 inline
@@ -161,9 +193,6 @@ const T * object_cast(const Object * o)
     if (wp == NULL)
         return NULL;
     return static_cast<const T*>(wp->object_ptr());
-//    return o && o->type() == typeid(T)
-//         ? static_cast<const T*>(o->object_ptr())
-//         : NULL;
 }
 
 template <class T>

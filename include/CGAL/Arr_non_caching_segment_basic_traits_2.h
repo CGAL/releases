@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
-// $Id: Arr_non_caching_segment_basic_traits_2.h 37075 2007-03-14 11:57:01Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
+// $Id: Arr_non_caching_segment_basic_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -35,9 +35,9 @@
  */
 
 #include <CGAL/tags.h>
-#include <CGAL/representation_tags.h>
+#include <CGAL/Arr_tags.h>
 #include <CGAL/assertions.h>
-#include <CGAL/Arr_traits_2/Segment_assertions.h>
+#include <CGAL/Arr_geometry_traits/Segment_assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -51,10 +51,15 @@ class Arr_non_caching_segment_basic_traits_2 : public T_Kernel
 public:
 
   typedef T_Kernel                              Kernel;
+
   typedef typename Kernel::FT                   FT;
-    
-  typedef typename Algebraic_structure_traits<FT>::Is_exact 
-                                                Has_exact_division;
+
+private:
+  typedef Algebraic_structure_traits<FT> AST; 
+  typedef typename AST::Is_exact FT_is_exact; 
+public:
+
+  typedef Boolean_tag<FT_is_exact::value> Has_exact_division;
 
   typedef
   CGAL::Segment_assertions<Arr_non_caching_segment_basic_traits_2<Kernel> >
@@ -62,7 +67,7 @@ public:
 
   // Categories:
   typedef Tag_true                              Has_left_category;
-  typedef Tag_false                             Has_boundary_category;
+  typedef Arr_no_boundary_tag                   Boundary_category;
     
   /*! Default Constructor */
   Arr_non_caching_segment_basic_traits_2()
@@ -74,6 +79,7 @@ public:
   // Traits types:
   typedef typename Kernel::Point_2                 Point_2;
   typedef typename Kernel::Segment_2               X_monotone_curve_2;
+  typedef unsigned int                             Multiplicity;
 
   /*! Compare the x-coordinates of two points */
   typedef typename Kernel::Compare_x_2             Compare_x_2;

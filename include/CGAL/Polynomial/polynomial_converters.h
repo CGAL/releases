@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/polynomial_converters.h $
-// $Id: polynomial_converters.h 38297 2007-04-18 13:29:18Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/polynomial_converters.h $
+// $Id: polynomial_converters.h 45599 2008-09-16 13:54:07Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -55,6 +55,13 @@ class Polynomial_converter
     {
       return it_-o.it_;
     }
+
+    bool operator<(const Iterator& o) const
+    {
+      return   ( it_-o.it_ ) <  0;
+    }
+
+
     bool operator==(const Iterator &o) const
     {
       return it_==o.it_;

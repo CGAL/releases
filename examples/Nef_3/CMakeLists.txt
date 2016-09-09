@@ -1,0 +1,46 @@
+# Created by the script cgal_create_cmake_script
+# This is the CMake script for compiling a CGAL application.
+
+
+project( Nef_3_example )
+
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4.5)
+
+set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
+ 
+if ( COMMAND cmake_policy )
+  cmake_policy( SET CMP0003 NEW )  
+endif()
+ 
+find_package(CGAL QUIET COMPONENTS Core )
+
+if ( CGAL_FOUND )
+
+  include( ${CGAL_USE_FILE} )
+
+  include( CGAL_CreateSingleSourceCGALProgram )
+
+  create_single_source_cgal_program( "comparison.cpp" )
+  create_single_source_cgal_program( "complex_construction.cpp" )
+  create_single_source_cgal_program( "exploration_SM.cpp" )
+  create_single_source_cgal_program( "extended_kernel.cpp" )
+  create_single_source_cgal_program( "handling_double_coordinates.cpp" )
+  create_single_source_cgal_program( "interface_polyhedron.cpp" )
+  create_single_source_cgal_program( "nef_3_construction.cpp" )
+  create_single_source_cgal_program( "nef_3_point_location.cpp" )
+  create_single_source_cgal_program( "nef_3_simple.cpp" )
+  create_single_source_cgal_program( "nefIO.cpp" )
+  create_single_source_cgal_program( "offIO.cpp" )
+  create_single_source_cgal_program( "point_set_operations.cpp" )
+  create_single_source_cgal_program( "polyline_construction.cpp" )
+  create_single_source_cgal_program( "set_operations.cpp" )
+  create_single_source_cgal_program( "shell_exploration.cpp" )
+  create_single_source_cgal_program( "topological_operations.cpp" )
+  create_single_source_cgal_program( "transformation.cpp" )
+
+else()
+  
+    message(STATUS "This program requires the CGAL library, and will not be compiled.")
+  
+endif()
+

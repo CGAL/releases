@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Isolating_interval.h $
-// $Id: Isolating_interval.h 33379 2006-08-17 09:41:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Isolating_interval.h $
+// $Id: Isolating_interval.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -400,7 +400,7 @@ public:
     c=*this;
     break;
     default:
-    CGAL_assertion(0);
+    CGAL_error();
     }
     CGAL_postcondition(a.ub()==b.lb());
     CGAL_postcondition(b.ub()==c.lb());

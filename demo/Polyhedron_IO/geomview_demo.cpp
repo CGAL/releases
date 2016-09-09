@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polyhedron_IO/demo/Polyhedron_IO/geomview_demo.cpp $
-// $Id: geomview_demo.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron_IO/demo/Polyhedron_IO/geomview_demo.cpp $
+// $Id: geomview_demo.cpp 46350 2008-10-18 14:34:05Z afabri $
 //
 //
 // Author(s)     : Lutz Kettner
 
-//Borland, Microsoft and Intel compiler are excluded
-#if defined(__BORLANDC__) || defined(_MSC_VER)
+#include <CGAL/basic.h>
+
+#ifdef  _MSC_VER
 
 #include <iostream>
 
@@ -26,7 +27,7 @@ int main() {
   std::cout << "Geomview doesn't work on Windows, so no demo." << std::endl;
   return 0;
 }
-#else // not windows
+#else // can have Geomeview
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polyhedron_3.h>
@@ -52,5 +53,4 @@ int main() {
     return 0;
 }
 
-#endif // not windows
-// EOF //
+#endif

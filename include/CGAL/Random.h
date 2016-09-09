@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Random_numbers/include/CGAL/Random.h $
-// $Id: Random.h 32184 2006-07-03 15:16:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Random_numbers/include/CGAL/Random.h $
+// $Id: Random.h 46871 2008-11-13 14:40:48Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Sylvain Pion
@@ -24,20 +24,31 @@
 #ifndef CGAL_RANDOM_H
 #define CGAL_RANDOM_H
 
+#include <utility>
 #include <CGAL/basic.h>
 
 CGAL_BEGIN_NAMESPACE
 
 class Random {
   public:
+    // types
+    typedef std::pair<unsigned int, unsigned int> State;
+
     // creation
     Random( );
     Random( unsigned int  seed);
+
+    // seed
+    unsigned int get_seed ( ) const;
     
     // operations
     bool    get_bool  ( );
     int     get_int   ( int lower, int upper);
     double  get_double( double lower = 0.0, double upper = 1.0);
+
+    // state 
+    void save_state( State& state) const;
+    void restore_state( const State& state);
 
     // Computes a random int value smaller than 2^b.
     // It's supposed to be fast, useful for randomized algorithms.
@@ -70,6 +81,7 @@ class Random {
     const double  rand_max_plus_1;
     unsigned int random_value; // Current 15 bits random value.
     unsigned int val; // random_value shifted by used bits.
+    unsigned int seed; 
 };
 
 // Global variables
@@ -93,7 +105,7 @@ bool
 Random::
 get_bool( )
 {
-    return( static_cast< bool>( CGAL_CLIB_STD::rand() & 1));
+    return( static_cast< bool>( std::rand() & 1));
 }
 
 inline
@@ -103,7 +115,7 @@ get_int( int lower, int upper)
 {
     return( lower + static_cast< int>(
       ( static_cast< double>( upper) - lower) * 
-      CGAL_CLIB_STD::rand() / rand_max_plus_1));
+      std::rand() / rand_max_plus_1));
 }
 
 inline
@@ -112,7 +124,7 @@ Random::
 get_double( double lower, double upper)
 {
     return( lower + ( ( upper-lower) * 
-		      CGAL_CLIB_STD::rand() / rand_max_plus_1));
+		      std::rand() / rand_max_plus_1));
 }
 
 inline

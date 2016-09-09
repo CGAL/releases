@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_with_face_information.h $
-// $Id: Skin_surface_polyhedral_items_with_face_information.h 28711 2006-02-23 10:59:28Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_with_face_information.h $
+// $Id: Skin_surface_polyhedral_items_with_face_information.h 43854 2008-06-27 13:06:20Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
 
 #ifndef CGAL_SKIN_SURFACE_POLYHEDRAL_ITEMS_WITH_FACE_INFORMATION_H
 #define CGAL_SKIN_SURFACE_POLYHEDRAL_ITEMS_WITH_FACE_INFORMATION_H
+
+#include <CGAL/Polyhedron_items_3.h>
 
 CGAL_BEGIN_NAMESPACE
 

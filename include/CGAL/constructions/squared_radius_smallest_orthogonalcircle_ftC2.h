@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/include/CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h $
-// $Id: squared_radius_smallest_orthogonalcircle_ftC2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_2/include/CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h $
+// $Id: squared_radius_smallest_orthogonalcircle_ftC2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -44,11 +44,11 @@ squared_radius_orthogonalcircleC2(
   FT dpp = CGAL_NTS square(dpx)+CGAL_NTS square(dpy)-pw+rw;
   FT dqq = CGAL_NTS square(dqx)+CGAL_NTS square(dqy)-qw+rw;
 
-  FT det0 = det2x2_by_formula(dpx, dpy, dqx, dqy);
+  FT det0 = determinant(dpx, dpy, dqx, dqy);
   
-  FT det1 = det2x2_by_formula(dpp, dpy, dqq, dqy);
+  FT det1 = determinant(dpp, dpy, dqq, dqy);
 
-  FT det2 = det2x2_by_formula(dpx, dpp, dqx, dqq);
+  FT det2 = determinant(dpx, dpp, dqx, dqq);
 
   return 
     (CGAL_NTS square(det1)+CGAL_NTS square(det2))/

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/debug.h $
-// $Id: debug.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/debug.h $
+// $Id: debug.h 41632 2008-01-15 13:31:56Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -35,34 +35,36 @@
 #undef CGAL_KD_CTRACEN
 #undef CGAL_KD_ASSERT
 
+#if CGAL_KD_DEBUG>0
+namespace CGAL {
+namespace Kernel_d_internal {
 static int debugthread=3141592;
-namespace {
-    struct Avoid_warning_for_unused_debugthread { static int x; };
-    int Avoid_warning_for_unused_debugthread::x = debugthread;
-}
+} // Kernel_d_internal 
+} // CGAL
+#endif
 
 #if CGAL_KD_DEBUG>0
-#define CGAL_KD_SETDTHREAD(l) debugthread=l
+#define CGAL_KD_SETDTHREAD(l) CGAL::Kernel_d_internal::debugthread=l
 #else
 #define CGAL_KD_SETDTHREAD(l)
 #endif
 
 #if CGAL_KD_DEBUG>0
-#define CGAL_KD_TRACE(t)   if((debugthread%CGAL_KD_DEBUG)==0)\
+#define CGAL_KD_TRACE(t)   if((CGAL::Kernel_d_internal::debugthread%CGAL_KD_DEBUG)==0)\
  std::cerr<<" "<<t;std::cerr.flush()
 #else
 #define CGAL_KD_TRACE(t) 
 #endif
 
 #if CGAL_KD_DEBUG>0
-#define CGAL_KD_TRACEV(t)  if((debugthread%CGAL_KD_DEBUG)==0)\
+#define CGAL_KD_TRACEV(t)  if((CGAL::Kernel_d_internal::debugthread%CGAL_KD_DEBUG)==0)\
  std::cerr<<" "<<#t<<" = "<<(t)<<std::endl;std::cerr.flush()
 #else
 #define CGAL_KD_TRACEV(t) 
 #endif
 
 #if CGAL_KD_DEBUG>0
-#define CGAL_KD_TRACEN(t)  if((debugthread%CGAL_KD_DEBUG)==0)\
+#define CGAL_KD_TRACEN(t)  if((CGAL::Kernel_d_internal::debugthread%CGAL_KD_DEBUG)==0)\
  std::cerr<<" "<<t<<std::endl;std::cerr.flush()
 #else
 #define CGAL_KD_TRACEN(t) 
@@ -85,38 +87,12 @@ namespace {
 #else
 #define CGAL_KD_ASSERT(cond,fstr)   \
   if (!(cond)) {       \
-    std::cerr << "   ASSERT:   " << #fstr << endl; \
-    std::cerr << "   COND:     " << #cond << endl; \
+    std::cerr << "   ASSERT:   " << #fstr << std::endl; \
+    std::cerr << "   COND:     " << #cond << std::endl; \
     std::cerr << "   POSITION: " << __FILE__ << " at line "<< __LINE__ \
-              <<std::endl; \
-    abort();           \
+              << std::endl; \
+    CGAL_error(); \
   }
 #endif
-
-#define forall_iterators(x,S)\
-for(x = S.begin(); x != S.end(); ++x) 
-
-namespace MSDEBUG {
-
-template <typename C>
-void print_elements(const C& container)
-{ typename C::const_iterator it;
-  forall_iterators(it,container)
-    std::cerr << *it << " ";
-}
-
-template <typename I>
-void print(I s, I e, std::ostream& os = std::cerr)
-{ while(s!=e) os<<*s++<<" "; }
-
-template <class T>
-std::string make_std_string(const T& t)
-{ std::ostringstream os;
-  os << t;
-  std::string res(os.str()); 
-  return res; 
-}
-} // MSDEBUG
-
 
 #endif //CGAL_KERNEL_D_DEBUG_H

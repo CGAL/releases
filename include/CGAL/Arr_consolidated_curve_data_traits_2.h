@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
-// $Id: Arr_consolidated_curve_data_traits_2.h 35514 2006-12-11 15:34:13Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
+// $Id: Arr_consolidated_curve_data_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,7 +25,7 @@
  */
 
 #include<CGAL/Arr_curve_data_traits_2.h>
-#include<CGAL/Arr_traits_2/Consolidated_curve_data_aux.h>
+#include<CGAL/Arr_geometry_traits/Consolidated_curve_data_aux.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -70,10 +70,11 @@ public:
   typedef typename Base::X_monotone_curve_2           X_monotone_curve_2;
   typedef typename Base_traits_2::X_monotone_curve_2  Base_x_monotone_curve_2;
   typedef typename Base_traits_2::Point_2             Point_2;
+  typedef typename Base_traits_2::Multiplicity        Multiplicity;
 
-  typedef typename Base_traits_2::Has_left_category      Has_left_category;
-  typedef typename Base_traits_2::Has_boundary_category  Has_boundary_category;
-
+  typedef typename Base_traits_2::Has_left_category   Has_left_category;
+  typedef typename Base_traits_2::Boundary_category   Boundary_category;
+  
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
 

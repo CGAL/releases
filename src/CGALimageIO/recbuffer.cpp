@@ -1,7 +1,29 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/recbuffer.cpp $
+// $Id: recbuffer.cpp 45554 2008-09-15 14:30:53Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*************************************************************************
  * recbuffer.c - tools for recursive filtering of 3D and 2D image buffers
  *
- * $Id: recbuffer.cpp 36029 2007-02-02 16:11:48Z lrineau $
+ * $Id: recbuffer.cpp 45554 2008-09-15 14:30:53Z lrineau $
  *
  * Copyright©INRIA 1999
  *
@@ -32,8 +54,8 @@
 
 
 
-#include <convert.h>
-#include <recbuffer.h>
+#include "convert.h"
+#include "recbuffer.h"
 
 static int _VERBOSE_ = 0;
 
@@ -74,7 +96,7 @@ int GradientModulus( void *bufferIn,
 
 
   sizeAuxBuf = bufferDims[0] * bufferDims[1] * bufferDims[2];
-  if ( typeOut != FLOAT || bufferIn == bufferOut )
+  if ( typeOut != CGAL_FLOAT || bufferIn == bufferOut )
     sizeAuxBuf *= 2;
 
 
@@ -87,7 +109,7 @@ int GradientModulus( void *bufferIn,
     return( EXIT_ON_FAILURE );
   }
   tmpBuf = auxBuf;
-  if ( typeOut != FLOAT || bufferIn == bufferOut ) {
+  if ( typeOut != CGAL_FLOAT || bufferIn == bufferOut ) {
     grdBuf  = tmpBuf;
     grdBuf += bufferDims[0] * bufferDims[1] * bufferDims[2];
   } else {
@@ -101,7 +123,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = DERIVATIVE_1; 
     derivatives[1] = DERIVATIVE_0;
     derivatives[2] = NODERIVATIVE;
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)grdBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)grdBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -113,7 +135,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = DERIVATIVE_0; 
     derivatives[1] = DERIVATIVE_1;
     derivatives[2] = NODERIVATIVE;
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -131,7 +153,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = NODERIVATIVE;
     derivatives[1] = NODERIVATIVE;
     derivatives[2] = DERIVATIVE_0;
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -143,7 +165,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = DERIVATIVE_1; 
     derivatives[1] = DERIVATIVE_0;
     derivatives[2] = NODERIVATIVE;
-    if ( RecursiveFilterOnBuffer( (void*)tmpBuf, FLOAT, (void*)grdBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( (void*)tmpBuf, CGAL_FLOAT, (void*)grdBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -155,7 +177,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = DERIVATIVE_0; 
     derivatives[1] = DERIVATIVE_1;
     derivatives[2] = NODERIVATIVE;
-    if ( RecursiveFilterOnBuffer( (void*)tmpBuf, FLOAT, (void*)tmpBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( (void*)tmpBuf, CGAL_FLOAT, (void*)tmpBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -171,7 +193,7 @@ int GradientModulus( void *bufferIn,
     derivatives[0] = DERIVATIVE_0;
     derivatives[1] = DERIVATIVE_0;
     derivatives[2] = DERIVATIVE_1;
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, FLOAT,
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, (void*)tmpBuf, CGAL_FLOAT,
 				  bufferDims, borderLengths, derivatives,
 				  filterCoefs, filterType ) != EXIT_ON_SUCCESS ) {
       if ( _VERBOSE_ ) 
@@ -186,7 +208,7 @@ int GradientModulus( void *bufferIn,
   }
 
   if ( grdBuf != bufferOut ) 
-    ConvertBuffer( grdBuf, FLOAT, bufferOut, typeOut,
+    ConvertBuffer( grdBuf, CGAL_FLOAT, bufferOut, typeOut,
 		   bufferDims[0]*bufferDims[1]*bufferDims[2] );
   free( auxBuf );
   return( EXIT_ON_SUCCESS );
@@ -272,7 +294,7 @@ int Laplacian_2D ( void *bufferIn,
   sliceDims[2] = 1;
   
 
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theXX = (float*)malloc( dimxXdimy * sizeof( float ) );
   } else {
     theXX = (float*)malloc( 2 * dimxXdimy * sizeof( float ) );
@@ -286,7 +308,7 @@ int Laplacian_2D ( void *bufferIn,
     return( EXIT_ON_FAILURE );
   }
 
-  if ( typeOut != FLOAT ) {
+  if ( typeOut != CGAL_FLOAT ) {
     theYY  = theXX;
     theYY += dimxXdimy;
   }
@@ -295,11 +317,11 @@ int Laplacian_2D ( void *bufferIn,
   
   for ( z=0; z<bufferDims[2]; z++ ) {
 
-    if ( typeOut == FLOAT ) {
+    if ( typeOut == CGAL_FLOAT ) {
       theYY = ((float*)bufferOut) + z * dimxXdimy;
     }
     
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theXX, FLOAT, 
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theXX, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  XXderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -310,7 +332,7 @@ int Laplacian_2D ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theYY, FLOAT, 
+    if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theYY, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  YYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -323,18 +345,18 @@ int Laplacian_2D ( void *bufferIn,
     
     
     for ( i=0; i<dimxXdimy; i++ ) theYY[i] += theXX[i];
-    if ( typeOut != FLOAT ) {
+    if ( typeOut != CGAL_FLOAT ) {
       switch ( typeOut ) {
-      case UCHAR :
+      case CGAL_UCHAR :
 	sliceOut = (((u8*)bufferOut) + z * dimxXdimy);
 	break;
-      case SCHAR :
+      case CGAL_SCHAR :
 	sliceOut = (((s8*)bufferOut) + z * dimxXdimy);
 	break;
-      case SSHORT :
+      case CGAL_SSHORT :
 	sliceOut = (((s16*)bufferOut) + z * dimxXdimy);
 	break;
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	sliceOut = (((r64*)bufferOut) + z * dimxXdimy);
 	break;
       default :
@@ -343,7 +365,7 @@ int Laplacian_2D ( void *bufferIn,
 	free( theXX );
 	return( EXIT_ON_FAILURE );
       }
-      ConvertBuffer( theYY, FLOAT, sliceOut, typeOut, dimxXdimy );
+      ConvertBuffer( theYY, CGAL_FLOAT, sliceOut, typeOut, dimxXdimy );
     }
   }
 
@@ -424,7 +446,7 @@ int Laplacian ( void *bufferIn,
 
   
 
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theSL = (float*)malloc( (1+bufferDims[2]) * dimxXdimy * sizeof( float ) );
   } else {
     theSL = (float*)malloc( (1+2*bufferDims[2]) * dimxXdimy * sizeof( float ) );
@@ -447,7 +469,7 @@ int Laplacian ( void *bufferIn,
 
 
   
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theZZ = (float*) bufferOut;
   } else {
     theZZ  = theZ0;
@@ -462,7 +484,7 @@ int Laplacian ( void *bufferIn,
    *
    */
 
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ0, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ0, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				Zsmooth, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -472,7 +494,7 @@ int Laplacian ( void *bufferIn,
     free( theSL );
     return( EXIT_ON_FAILURE );
   }
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZZ, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZZ, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				ZZderiv, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -496,7 +518,7 @@ int Laplacian ( void *bufferIn,
      *
      */
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theSL, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theSL, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  XXderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -511,7 +533,7 @@ int Laplacian ( void *bufferIn,
       theZZ[j] += theSL[i];
     }
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theSL, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theSL, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  YYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -528,8 +550,8 @@ int Laplacian ( void *bufferIn,
 
   }
 
-  if ( typeOut != FLOAT ) {
-    ConvertBuffer( theZZ, FLOAT, bufferOut, typeOut, bufferDims[2]*dimxXdimy );
+  if ( typeOut != CGAL_FLOAT ) {
+    ConvertBuffer( theZZ, CGAL_FLOAT, bufferOut, typeOut, bufferDims[2]*dimxXdimy );
   }
 
   return( EXIT_ON_SUCCESS );
@@ -628,7 +650,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
   sliceDims[2] = 1;
   
 
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theXX = (float*)malloc( 4 * dimxXdimy * sizeof( float ) );
   } else {
     theXX = (float*)malloc( 5 * dimxXdimy * sizeof( float ) );
@@ -651,7 +673,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
 
 
 
-  if ( typeOut != FLOAT ) {
+  if ( typeOut != CGAL_FLOAT ) {
     theXY  =   theXX;
     theXY += 4*dimxXdimy;
   }
@@ -663,22 +685,22 @@ int GradientHessianGradient_2D ( void *bufferIn,
     switch( typeIn ) {
     default :
       break;
-    case UCHAR :
-    case SCHAR :
+    case CGAL_UCHAR :
+    case CGAL_SCHAR :
       sliceIn = (void*)( ((u8*)bufferIn) + z*dimxXdimy ); break;
-    case USHORT :
-    case SSHORT :
+    case CGAL_USHORT :
+    case CGAL_SSHORT :
       sliceIn = (void*)( ((u16*)bufferIn) + z*dimxXdimy ); break;
-    case FLOAT :
+    case CGAL_FLOAT :
       sliceIn = (void*)( ((float*)bufferIn) + z*dimxXdimy ); break;
-    case DOUBLE :
+    case CGAL_DOUBLE :
       sliceIn = (void*)( ((double*)bufferIn) + z*dimxXdimy ); break;
     }
-    if ( typeOut == FLOAT ) {
+    if ( typeOut == CGAL_FLOAT ) {
       theXY = ((float*)bufferOut) + z * dimxXdimy;
     }
     
-    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theX, FLOAT, 
+    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theX, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  Ysmooth, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -689,7 +711,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theY, FLOAT, 
+    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theY, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  Xsmooth, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -703,7 +725,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
 
 
 
-    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theXY, FLOAT, 
+    if ( RecursiveFilterOnBuffer( sliceIn, typeIn, theXY, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  XYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -717,7 +739,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
 
 
 
-    if ( RecursiveFilterOnBuffer( theX, FLOAT, theXX, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theX, CGAL_FLOAT, theXX, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  XXderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -728,7 +750,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theY, FLOAT, theYY, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theY, CGAL_FLOAT, theYY, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  YYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -742,7 +764,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
 
 
 
-    if ( RecursiveFilterOnBuffer( theX, FLOAT, theX, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theX, CGAL_FLOAT, theX, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  Xderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -753,7 +775,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theY, FLOAT, theY, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theY, CGAL_FLOAT, theY, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  Yderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -776,18 +798,18 @@ int GradientHessianGradient_2D ( void *bufferIn,
       if ( g > 1e-10 ) theXY[i] = (float)(theXY[i] / g);
     }
 
-    if ( typeOut != FLOAT ) {
+    if ( typeOut != CGAL_FLOAT ) {
       switch ( typeOut ) {
-      case UCHAR :
+      case CGAL_UCHAR :
 	sliceOut = (((u8*)bufferOut) + z * dimxXdimy);
 	break;
-      case SCHAR :
+      case CGAL_SCHAR :
 	sliceOut = (((s8*)bufferOut) + z * dimxXdimy);
 	break;
-      case SSHORT :
+      case CGAL_SSHORT :
 	sliceOut = (((s16*)bufferOut) + z * dimxXdimy);
 	break;
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	sliceOut = (((r64*)bufferOut) + z * dimxXdimy);
 	break;
       default :
@@ -796,7 +818,7 @@ int GradientHessianGradient_2D ( void *bufferIn,
 	free( theXX );
 	return( EXIT_ON_FAILURE );
       }
-      ConvertBuffer( theXY, FLOAT, sliceOut, typeOut, dimxXdimy );
+      ConvertBuffer( theXY, CGAL_FLOAT, sliceOut, typeOut, dimxXdimy );
     }
   }
 
@@ -907,7 +929,7 @@ int GradientHessianGradient ( void *bufferIn,
   sliceDims[2] = 1;
   
 
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theX  = (float*)malloc( (7+3*bufferDims[2]) * dimxXdimy * sizeof( float ) );
   } else {
     theX = (float*)malloc( (7+4*bufferDims[2]) * dimxXdimy * sizeof( float ) );
@@ -945,7 +967,7 @@ int GradientHessianGradient ( void *bufferIn,
   theZ1 += 7*dimxXdimy +   bufferDims[2]*dimxXdimy;
   theZ  += 7*dimxXdimy + 2*bufferDims[2]*dimxXdimy;
 
-  if ( typeOut == FLOAT ) {
+  if ( typeOut == CGAL_FLOAT ) {
     theZZ  = (float*)bufferOut;
   } else {
     theZZ  = theX;
@@ -960,7 +982,7 @@ int GradientHessianGradient ( void *bufferIn,
    *
    */
 
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ0, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ0, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				Z0deriv, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -971,7 +993,7 @@ int GradientHessianGradient ( void *bufferIn,
     return( EXIT_ON_FAILURE );
   }
   
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ1, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ1, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				Z1deriv, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -982,7 +1004,7 @@ int GradientHessianGradient ( void *bufferIn,
     return( EXIT_ON_FAILURE );
   }
   
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZ, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				Zderiv, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -993,7 +1015,7 @@ int GradientHessianGradient ( void *bufferIn,
     return( EXIT_ON_FAILURE );
   }
   
-  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZZ, FLOAT, 
+  if ( RecursiveFilterOnBuffer( bufferIn, typeIn, theZZ, CGAL_FLOAT, 
 				bufferDims, borderLengths,
 				ZZderiv, filterCoefs, filterType ) == 0 ) {
     if ( _VERBOSE_ > 0 ) {
@@ -1023,7 +1045,7 @@ int GradientHessianGradient ( void *bufferIn,
      *
      */
     
-    if ( RecursiveFilterOnBuffer( theZ1+z*dimxXdimy, FLOAT, theXZ, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theZ1+z*dimxXdimy, CGAL_FLOAT, theXZ, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  XZderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1034,7 +1056,7 @@ int GradientHessianGradient ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theZ1+z*dimxXdimy, FLOAT, theYZ, FLOAT, 
+    if ( RecursiveFilterOnBuffer( theZ1+z*dimxXdimy, CGAL_FLOAT, theYZ, CGAL_FLOAT, 
 				  sliceDims, borderLengths,
 				  YZderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1048,7 +1070,7 @@ int GradientHessianGradient ( void *bufferIn,
 
 
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theXX, FLOAT,
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theXX, CGAL_FLOAT,
 				  sliceDims, borderLengths,
 				  XXderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1059,7 +1081,7 @@ int GradientHessianGradient ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theYY, FLOAT,
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theYY, CGAL_FLOAT,
 				  sliceDims, borderLengths,
 				  YYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1070,7 +1092,7 @@ int GradientHessianGradient ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theXY, FLOAT,
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theXY, CGAL_FLOAT,
 				  sliceDims, borderLengths,
 				  XYderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1083,7 +1105,7 @@ int GradientHessianGradient ( void *bufferIn,
 
 
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theX, FLOAT,
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theX, CGAL_FLOAT,
 				  sliceDims, borderLengths,
 				  Xderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1094,7 +1116,7 @@ int GradientHessianGradient ( void *bufferIn,
       return( EXIT_ON_FAILURE );
     }
 
-    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, FLOAT, theY, FLOAT,
+    if ( RecursiveFilterOnBuffer( theZ0+z*dimxXdimy, CGAL_FLOAT, theY, CGAL_FLOAT,
 				  sliceDims, borderLengths,
 				  Yderiv, filterCoefs, filterType ) == 0 ) {
       if ( _VERBOSE_ > 0 ) {
@@ -1121,8 +1143,8 @@ int GradientHessianGradient ( void *bufferIn,
 
   }
 
-  if ( typeOut != FLOAT ) {
-    ConvertBuffer( theZZ, FLOAT, bufferOut, typeOut, bufferDims[2]*dimxXdimy );
+  if ( typeOut != CGAL_FLOAT ) {
+    ConvertBuffer( theZZ, CGAL_FLOAT, bufferOut, typeOut, bufferDims[2]*dimxXdimy );
   }
   
   free( theX );
@@ -1254,10 +1276,10 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 
   /* 
    * May we use the buffer bufferOut as the bufferResult?
-   * If its type is FLOAT or DOUBLE, then yes.
+   * If its type is CGAL_FLOAT or CGAL_DOUBLE, then yes.
    * If not, we have to allocate an auxiliary buffer.
    */
-  if ( (typeOut == FLOAT) || (typeOut == DOUBLE) ) {
+  if ( (typeOut == CGAL_FLOAT) || (typeOut == CGAL_DOUBLE) ) {
     bufferResult = bufferOut;
     typeResult = typeOut;
   } else {
@@ -1267,16 +1289,16 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 	fprintf( stderr, " Fatal error in %s: unable to allocate auxiliary buffer.\n", proc );
       return( EXIT_ON_FAILURE );
     }
-    typeResult = FLOAT;
+    typeResult = CGAL_FLOAT;
   }
   
   /* 
    * May we consider the buffer bufferIn as the bufferToBeProcessed?
-   * If its type is FLOAT or DOUBLE, then yes.
+   * If its type is CGAL_FLOAT or CGAL_DOUBLE, then yes.
    * If not, we convert it into the buffer bufferResult, and this
    * last buffer is the bufferToBeProcessed.
    */
-  if ( (typeIn == FLOAT) || (typeIn == DOUBLE) ) {
+  if ( (typeIn == CGAL_FLOAT) || (typeIn == CGAL_DOUBLE) ) {
     bufferToBeProcessed = bufferIn;
     typeToBeProcessed = typeIn;
   } else {
@@ -1310,7 +1332,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
   if ( maxLengthline <= 0 ) {
     if ( _VERBOSE_ > 0 )
       fprintf( stderr, " Error in %s: unable to deal with dimensions = 0.\n", proc );
-    if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+    if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
       free( bufferResult );
     return( EXIT_ON_FAILURE );
   }
@@ -1322,7 +1344,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
   if ( theLine == (double*)NULL ) {
     if ( _VERBOSE_ > 0 )
       fprintf( stderr, " Fatal error in %s: unable to allocate auxiliary work arrays.\n", proc );
-    if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+    if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
       free( bufferResult );
     return( EXIT_ON_FAILURE );
   }
@@ -1331,7 +1353,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 
   /*
    * From now,
-   * typeToBeProcessed is either FLOAT or DOUBLE
+   * typeToBeProcessed is either CGAL_FLOAT or CGAL_DOUBLE
    * so is typeResult.
    */
 
@@ -1351,7 +1373,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
     if ( RFC == NULL ) {
       if ( _VERBOSE_ != 0 )
 	fprintf( stderr, " %s: unable to allocate coefficients\n", proc );
-      if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+      if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	free( bufferResult );
       return( EXIT_ON_FAILURE );
     }
@@ -1377,11 +1399,11 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        */ 
       dbl_pt1 = theLinePlusBorder;
       switch ( typeToBeProcessed ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	(void)memcpy( (void*)dbl_pt1, (void*)r64firstPoint, dimx * sizeof(r64) );
 	r64firstPoint += dimx;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	for ( x=0; x<dimx; x++, dbl_pt1++, r32firstPoint++ ) *dbl_pt1 = *r32firstPoint;
       }
@@ -1402,7 +1424,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
       if ( RecursiveFilter1D( RFC, theLine, resLine, tmpLine, resLine, lengthX ) == 0 ) {
 	if ( _VERBOSE_ != 0 ) 
 	  fprintf(stderr," Error in %s: unable to process X line (y=%d,z=%d).\n", proc, y, z);
-	if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+	if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	  free( bufferResult );
 	free( (void*)theLine );
 	return( EXIT_ON_FAILURE );
@@ -1412,11 +1434,11 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        */
       dbl_pt1 = resLinePlusBorder;
       switch ( typeResult ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	(void)memcpy( (void*)r64firstPointResult, (void*)dbl_pt1, dimx * sizeof(r64) );
 	r64firstPointResult += dimx;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	for ( x=0; x<dimx; x++, dbl_pt1++, r32firstPointResult++ )
 	  *r32firstPointResult = (r32)(*dbl_pt1);
@@ -1450,7 +1472,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
     if ( RFC == NULL ) {
       if ( _VERBOSE_ != 0 )
 	fprintf( stderr, " %s: unable to allocate coefficients\n", proc );
-      if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+      if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	free( bufferResult );
       return( EXIT_ON_FAILURE );
     }
@@ -1477,7 +1499,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        */ 
 	dbl_pt1 = theLinePlusBorder;
 	switch ( typeToBeProcessed ) {
-	case DOUBLE :
+	case CGAL_DOUBLE :
 	  r64_pt = r64firstPoint;
 	  for ( y=0; y<dimy; y++, dbl_pt1++, r64_pt += dimx ) *dbl_pt1 = *r64_pt;
 	  /*
@@ -1485,7 +1507,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 	   */
 	  r64firstPoint ++;
 	  break;
-	case FLOAT :
+	case CGAL_FLOAT :
 	default :
 	  r32_pt = r32firstPoint;
 	  for ( y=0; y<dimy; y++, dbl_pt1++, r32_pt += dimx ) *dbl_pt1 = *r32_pt;
@@ -1508,7 +1530,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 	if ( RecursiveFilter1D( RFC, theLine, resLine, tmpLine, resLine, lengthY ) == 0 ) {
 	  if ( _VERBOSE_ != 0 ) 
 	    fprintf(stderr," Error in %s: unable to process Y line (x=%d,z=%d).\n", proc, x, z);
-	  if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+	  if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	    free( bufferResult );
 	  free( (void*)theLine );
 	  return( EXIT_ON_FAILURE );
@@ -1518,12 +1540,12 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 	 */
 	dbl_pt1 = resLinePlusBorder;
 	switch ( typeResult ) {
-	case DOUBLE :
+	case CGAL_DOUBLE :
 	  r64_pt = r64firstPointResult;
 	  for ( y=0; y<dimy; y++, dbl_pt1++, r64_pt += dimx ) *r64_pt = *dbl_pt1;
 	  r64firstPointResult ++;
 	  break;
-	case FLOAT :
+	case CGAL_FLOAT :
 	default :
 	  r32_pt = r32firstPointResult;
 	  for ( y=0; y<dimy; y++, dbl_pt1++, r32_pt += dimx ) 
@@ -1541,18 +1563,18 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        * have to increase it by (dimx*dimy)-dimx.
        */
       switch ( typeToBeProcessed ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	r64firstPoint += offsetNextFirstPoint;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	r32firstPoint += offsetNextFirstPoint;
       }
       switch ( typeResult ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	r64firstPointResult += offsetNextFirstPoint;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	r32firstPointResult += offsetNextFirstPoint;
       }
@@ -1586,7 +1608,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
     if ( RFC == NULL ) {
       if ( _VERBOSE_ != 0 )
 	fprintf( stderr, " %s: unable to allocate coefficients\n", proc );
-      if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+      if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	free( bufferResult );
       return( EXIT_ON_FAILURE );
     }
@@ -1614,7 +1636,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        */ 
       dbl_pt1 = theLinePlusBorder;
       switch ( typeToBeProcessed ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	r64_pt = r64firstPoint;
 	for ( z=0; z<dimz; z++, dbl_pt1++, r64_pt += dimxXdimy ) *dbl_pt1 = *r64_pt;
 	/*
@@ -1622,7 +1644,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
 	 */
 	r64firstPoint ++;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	r32_pt = r32firstPoint;
 	for ( z=0; z<dimz; z++, dbl_pt1++, r32_pt += dimxXdimy ) *dbl_pt1 = *r32_pt;
@@ -1645,7 +1667,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
       if ( RecursiveFilter1D( RFC, theLine, resLine, tmpLine, resLine, lengthZ ) == 0 ) {
 	if ( _VERBOSE_ != 0 ) 
 	  fprintf(stderr," Error in %s: unable to process Z line (x=%d,y=%d).\n", proc, x, y);
-	if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+	if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
 	  free( bufferResult );
 	free( (void*)theLine );
 	return( EXIT_ON_FAILURE );
@@ -1656,13 +1678,13 @@ int RecursiveFilterOnBuffer( void *bufferIn,
        */
       dbl_pt1 = resLinePlusBorder;
       switch ( typeResult ) {
-      case DOUBLE :
+      case CGAL_DOUBLE :
 	r64_pt = r64firstPointResult;
 	for ( z=0; z<dimz; z++, dbl_pt1++, r64_pt += dimxXdimy ) 
 	  *r64_pt = *dbl_pt1;
 	r64firstPointResult ++;
 	break;
-      case FLOAT :
+      case CGAL_FLOAT :
       default :
 	r32_pt = r32firstPointResult;
 	for ( z=0; z<dimz; z++, dbl_pt1++, r32_pt += dimxXdimy ) 
@@ -1687,7 +1709,7 @@ int RecursiveFilterOnBuffer( void *bufferIn,
   /*
    * Releasing the buffers.
    */
-  if ( (typeOut != FLOAT) && (typeOut != DOUBLE) )
+  if ( (typeOut != CGAL_FLOAT) && (typeOut != CGAL_DOUBLE) )
     free( bufferResult );
   free( (void*)theLine );
   

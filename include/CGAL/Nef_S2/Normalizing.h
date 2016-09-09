@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
-// $Id: Normalizing.h 39747 2007-08-07 20:10:54Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
+// $Id: Normalizing.h 43821 2008-06-27 10:04:22Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -241,7 +241,7 @@ class Normalizing<Cartesian_tag> {
     RT y = p.hy()/g;
     RT z = p.hz()/g;
     
-    return CGAL::Sphere_point<R>(CGAL::Point_3<R>(x,y,z,1));
+    return CGAL::Sphere_point<R>(x,y,z);
   }
 
   template <typename R> static
@@ -294,7 +294,8 @@ class Normalizing<Cartesian_tag> {
     
     typename FracTraits::Numerator_type num;
     typename FracTraits::Denominator_type denom;
-    typename FracTraits::Decompose decomposer;   
+    typename FracTraits::Decompose decomposer; 
+    typename FracTraits::Compose composer; 
     NV vec;
     
     decomposer(h.a(),num,denom);
@@ -320,8 +321,10 @@ class Normalizing<Cartesian_tag> {
     
     Normalizing<Homogeneous_tag>::
       normalized(vec.begin(),vec.end());
-    return typename R::Plane_3(FT(vec[0]),FT(vec[1]),
-			       FT(vec[2]),FT(vec[3]));
+    return typename R::Plane_3(composer(vec[0],1),
+			       composer(vec[1],1),
+			       composer(vec[2],1),
+			       composer(vec[3],1));
   }
 
   template <typename R> static

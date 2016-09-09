@@ -15,16 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 31557 2006-06-13 14:35:19Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
+// $Id: Cartesian_base.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
 
 #ifndef CGAL_CARTESIAN_BASE_H
 #define CGAL_CARTESIAN_BASE_H
-
-#define CGAL_REP_CLASS_DEFINED
 
 #include <CGAL/basic.h>
 #include <CGAL/basic_classes.h>
@@ -58,6 +56,7 @@
 #include <CGAL/Cartesian/Tetrahedron_3.h>
 #include <CGAL/Cartesian/Iso_cuboid_3.h>
 #include <CGAL/Cartesian/Sphere_3.h>
+#include <CGAL/Cartesian/Circle_3.h>
 #include <CGAL/Cartesian/Aff_transformation_3.h>
 
 #include <CGAL/Cartesian/predicates_on_points_3.h>
@@ -82,14 +81,11 @@ struct Cartesian_base
     typedef CGAL::Object                                Object_2;
     typedef CGAL::Object                                Object_3;
 
-    // These are currently undocumented.
-    // Should they be part of the Kernel interface ?
-
-    // Bool_type had originally been Bool. It was renamed to avoid a conflict
+    // Boolean   had originally been Bool. It was renamed to avoid a conflict
     // between a macro defined in Xlib.h poorly chosen to have the same name,
     // that is 'Bool'.
     typedef typename Same_uncertainty_nt<bool, FT>::type
-                                                        Bool_type;
+                                                        Boolean;
     typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type
                                                         Sign;
     typedef typename Same_uncertainty_nt<CGAL::Comparison_result, FT>::type
@@ -102,6 +98,16 @@ struct Cartesian_base
                                                         Bounded_side;
     typedef typename Same_uncertainty_nt<CGAL::Angle, FT>::type
                                                         Angle;
+
+    template <typename T>
+    struct Ambient_dimension {
+      typedef typename T::Ambient_dimension type;
+    };
+
+    template <typename T>
+    struct Feature_dimension {
+      typedef typename T::Feature_dimension type;
+    };
 
     typedef PointC2<Kernel>                             Point_2;
     typedef VectorC2<Kernel>                            Vector_2;
@@ -125,6 +131,7 @@ struct Cartesian_base
     typedef TetrahedronC3<Kernel>                       Tetrahedron_3;
     typedef Iso_cuboidC3<Kernel>                        Iso_cuboid_3;
     typedef SphereC3<Kernel>                            Sphere_3;
+    typedef CircleC3<Kernel>                            Circle_3;
     typedef Aff_transformationC3<Kernel>                Aff_transformation_3;
 
     typedef const FT_*                                  Cartesian_const_iterator_2;

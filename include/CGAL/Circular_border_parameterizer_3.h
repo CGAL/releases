@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Circular_border_parameterizer_3.h $
-// $Id: Circular_border_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Circular_border_parameterizer_3.h $
+// $Id: Circular_border_parameterizer_3.h 45050 2008-08-20 14:47:53Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -43,9 +43,10 @@ CGAL_BEGIN_NAMESPACE
 /// ParameterizationMesh_3 class. They do not know the parameterization algorithm
 /// requirements or the kind of sparse linear system used.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept (although you cannot instantiate this class).
+/// @heading Is Model for the Concepts:
+/// Model of the BorderParameterizer_3 concept (although you cannot instantiate this class).
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3.
 
@@ -121,7 +122,7 @@ private:
 };
 
 
-/// Compute the total length of the border
+// Compute the total length of the border
 template<class Adaptor>
 inline
 double Circular_border_parameterizer_3<Adaptor>::compute_border_length(
@@ -146,8 +147,8 @@ double Circular_border_parameterizer_3<Adaptor>::compute_border_length(
     return len;
 }
 
-/// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
-/// on border's shape. Mark them as "parameterized".
+// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
+// on border's shape. Mark them as "parameterized".
 template<class Adaptor>
 inline
 typename Parameterizer_traits_3<Adaptor>::Error_code
@@ -159,12 +160,12 @@ Circular_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
 
     // Nothing to do if no border
     if (mesh.mesh_main_border_vertices_begin() == mesh.mesh_main_border_vertices_end())
-        return Parameterizer_traits_3<Adaptor>::ERROR_INVALID_BORDER;
+        return Parameterizer_traits_3<Adaptor>::ERROR_BORDER_TOO_SHORT;
 
     // Compute the total border length
     double total_len = compute_border_length(mesh);
     if (total_len == 0)
-        return Parameterizer_traits_3<Adaptor>::ERROR_INVALID_BORDER;
+        return Parameterizer_traits_3<Adaptor>::ERROR_BORDER_TOO_SHORT;
 
     const double PI = 3.14159265359;
     const double tmp = 2*PI/total_len;
@@ -179,7 +180,7 @@ Circular_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
 
         // map vertex on unit circle
         Point_2 uv;
-        uv = Point_2(0.5+0.5*CGAL_CLIB_STD::cos(-angle),0.5+0.5*CGAL_CLIB_STD::sin(-angle));
+        uv = Point_2(0.5+0.5*std::cos(-angle),0.5+0.5*std::sin(-angle));
         mesh.set_vertex_uv(it, uv);
 
         // Mark vertex as "parameterized"
@@ -209,9 +210,9 @@ Circular_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
 /// algorithm. This class implements only compute_edge_length() to compute a
 /// segment's length.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept.
+/// @heading Is Model for the Concepts: Model of the BorderParameterizer_3 concept.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3
 
@@ -289,9 +290,9 @@ protected:
 /// algorithm. This class implements only compute_edge_length() to compute a
 /// segment's length.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept.
+/// @heading Is Model for the Concepts: Model of the BorderParameterizer_3 concept.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3
 

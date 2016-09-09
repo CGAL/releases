@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/Wutils.h $
-// $Id: Wutils.h 33103 2006-08-07 12:34:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/Wutils.h $
+// $Id: Wutils.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Sylvain Pion
@@ -156,7 +156,7 @@ struct wcross_tag_2<Homogeneous_tag>
                                      const Point_2 &q,
                                      const Point_2 &r) const
   {
-    return det3x3_by_formula(p.hx(), q.hx(), r.hx(),
+    return determinant(p.hx(), q.hx(), r.hx(),
                              p.hy(), q.hy(), r.hy(),
                              p.hw(), q.hw(), r.hw());
   }

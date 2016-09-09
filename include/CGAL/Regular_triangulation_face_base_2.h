@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Regular_triangulation_face_base_2.h $
-// $Id: Regular_triangulation_face_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Regular_triangulation_face_base_2.h $
+// $Id: Regular_triangulation_face_base_2.h 41117 2007-12-07 13:14:48Z yvinec $
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec
@@ -23,7 +23,7 @@
 #include <list>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_short_names_2.h>
-#include <CGAL/Triangulation_ds_face_base_2.h>
+#include <CGAL/Triangulation_face_base_2.h>
 
 CGAL_BEGIN_NAMESPACE
 

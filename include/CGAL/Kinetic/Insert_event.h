@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Insert_event.h $
-// $Id: Insert_event.h 33689 2006-08-24 15:54:13Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Insert_event.h $
+// $Id: Insert_event.h 39015 2007-06-10 23:46:47Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -39,7 +39,7 @@ public:
 	       Pointer mot):mot_(mot),
 			    obj_(obj){}
   void process() {
-    CGAL_KINETIC_LOG(LOG_SOME, "Inserting object.\n");
+    CGAL_LOG(Log::SOME, "Inserting object.\n");
     mot_->insert(obj_);
   }
   void* kds() const {return NULL;}

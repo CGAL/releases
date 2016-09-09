@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Constructions_ftC2.h $
-// $Id: Constructions_ftC2.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Constructions_ftC2.h $
+// $Id: Constructions_ftC2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -65,9 +65,9 @@ w_plane_tangent_line_2(const FT &x1, const FT &y1, const FT &w1,
   FT Dv = v2 - v3;
   FT Dr = r2 - r3;
 
-  FT Duv = det2x2_by_formula(u2, v2, u3, v3);
-  FT Dur = det2x2_by_formula(u2, r2, u3, r3);
-  FT Dvr = det2x2_by_formula(v2, r2, v3, r3);
+  FT Duv = determinant(u2, v2, u3, v3);
+  FT Dur = determinant(u2, r2, u3, r3);
+  FT Dvr = determinant(v2, r2, v3, r3);
 
   FT D1 = CGAL::square(Du) + CGAL::square(Dv);
   FT D1inv = FT(1) / D1;
@@ -162,9 +162,9 @@ ad_left_bitangent_lineC2(const FT &x1, const FT &y1, const FT &w1,
   FT dy = y1 - y2;
   FT dw = w1 - w2;
 
-  FT dxw = det2x2_by_formula(x1, w1, x2, w2);
-  FT dyw = det2x2_by_formula(y1, w1, y2, w2);
-  FT dxy = det2x2_by_formula(x1, y1, x2, y2);
+  FT dxw = determinant(x1, w1, x2, w2);
+  FT dyw = determinant(y1, w1, y2, w2);
+  FT dxy = determinant(x1, y1, x2, y2);
 
   FT D1 = CGAL::square(dx) + CGAL::square(dy);
   FT invD1 = FT(1) / D1;

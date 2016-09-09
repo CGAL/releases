@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Handle_for_virtual.h $
-// $Id: Handle_for_virtual.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Handle_for_virtual.h $
+// $Id: Handle_for_virtual.h 45176 2008-08-27 15:36:24Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -99,6 +99,15 @@ class Handle_for_virtual
       return *this;
     }
 
+#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+    Handle_for_virtual&
+    operator=( Handle_for_virtual && h)
+    {
+      swap(h);
+      return *this;
+    }
+#endif
+
 // protected:
     typedef RefCounted element_type;
 
@@ -116,6 +125,10 @@ class Handle_for_virtual
     long int
     id() const
     { return reinterpret_cast<long int>(&*ptr); }
+
+    void
+    swap(Handle_for_virtual & h)
+    { std::swap(h.ptr, ptr); }
 
     const RefCounted *
     Ptr() const
@@ -157,8 +170,6 @@ protected:
 	return ptr;
     }
     */
-
-private:
 
     RefCounted * ptr;
 };

@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/include/CGAL/CORE/ExprRep.h $
- * $Id: ExprRep.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/ExprRep.h $
+ * $Id: ExprRep.h 41739 2008-01-20 23:09:58Z spion $
  ***************************************************************************/
 
 #ifndef _CORE_EXPRREP_H_
@@ -69,7 +69,7 @@ const double log_5 = log(double(5))/log(double(2));
 
 // Returns the ceil of log_2(5^a).
 inline extLong ceilLg5(const extLong & a) {
-#if defined (_MSC_VER) || defined (__sgi)
+#if defined (_MSC_VER)
   return (int) ::ceil(log_5 * a.toLong());
 #else
   return (int) std::ceil(log_5 * a.toLong());

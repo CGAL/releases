@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Skin_surface_3/include/CGAL/Compute_anchor_3.h $
-// $Id: Compute_anchor_3.h 37489 2007-03-26 11:43:04Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Compute_anchor_3.h $
+// $Id: Compute_anchor_3.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -78,7 +78,7 @@ public:
       Cell_handle ch = s;
       return anchor_del(ch);
     }
-    CGAL_assertion(false);
+    CGAL_error();
     return Simplex();
   }
   Simplex anchor_vor( const Vertex_handle v ) {
@@ -191,7 +191,7 @@ private:
         wp2 = ch->vertex((f.second+2)&3)->point();
         break;
       default:
-        CGAL_assertion(false);
+        CGAL_error();
     }
 
     return 
@@ -394,7 +394,7 @@ compute_anchor_vor (Vertex_handle const v) {
       } else if (side == ZERO) {
         Edge e;
         if (!reg.is_edge (v, *adj_vertex, e.first, e.second, e.third)) {
-          CGAL_assertion(false);
+          CGAL_error();
         }
         equiv_anchors.push_back(Simplex(e));
       }
@@ -407,7 +407,7 @@ compute_anchor_vor (Vertex_handle const v) {
     adj_vertex--;
     Edge e;
     if (!reg.is_edge(v, *adj_vertex, e.first, e.second, e.third)) {
-      CGAL_assertion(false);
+      CGAL_error();
     }
     s = anchor_vor(e);
     Simplex tmp;
@@ -449,7 +449,7 @@ compute_anchor_vor (Vertex_handle const v) {
               if (side==ZERO) {
                 Edge e2;
                 if (!reg.is_edge(v, *adj_vertex, e2.first, e2.second, e2.third)) {
-                  CGAL_assertion(false);
+                  CGAL_error();
                 }
                 equiv_anchors.push_back(e2);
               }

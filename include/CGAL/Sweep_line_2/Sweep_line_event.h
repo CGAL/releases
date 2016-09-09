@@ -1,4 +1,4 @@
-// Copyright (c) 1997  Tel-Aviv University (Israel).
+// Copyright (c) 2005  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,23 +11,28 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
-// $Id: Sweep_line_event.h 35514 2006-12-11 15:34:13Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
+// $Id: Sweep_line_event.h 41325 2007-12-26 15:39:40Z golubevs $
 // 
 //
-// Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
+// Author(s)     : Tali Zvi        <talizvi@post.tau.ac.il>,
 //                 Baruch Zukerman <baruchzu@post.tau.ac.il>
+//                 Ron Wein        <wein@post.tau.ac.il>
+//                 Efi Fogel       <efif@post.tau.ac.il>
 
 #ifndef CGAL_SWEEP_LINE_EVENT_H
 #define CGAL_SWEEP_LINE_EVENT_H
 
+/*! \file
+ * Defintion of the Sweep_line_event class.
+ */
+
 #include <list>
 #include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
 
- 
 CGAL_BEGIN_NAMESPACE
 
-/*! @class Sweep_line_event
+/*! \class Sweep_line_event
  *
  * A class associated with an event in a sweep line algorithm.
  * An intersection point in the sweep line algorithm is refered to as an event.
@@ -43,291 +48,308 @@ CGAL_BEGIN_NAMESPACE
  * significant functionality otherwise.
  * 
  */
-
-
-
-template<class SweepLineTraits_2, class CurveWrap>
+template<class Traits_, class Subcurve_>
 class Sweep_line_event
 {
 public:
-  typedef SweepLineTraits_2                                Traits;
-  typedef typename Traits::X_monotone_curve_2              X_monotone_curve_2;
-  typedef typename Traits::Point_2                         Point_2;
 
-  typedef CurveWrap                                        SubCurve;
-  template<typename SC>
-  struct SC_container { typedef std::list<SC> other; };
+  typedef Traits_                                       Traits_2;
+  typedef typename Traits_2::X_monotone_curve_2         X_monotone_curve_2;
+  typedef typename Traits_2::Point_2                    Point_2;
+  typedef typename Traits_2::Boundary_category          Boundary_category;
 
-  typedef std::list<SubCurve*>                             SubcurveContainer; 
-  typedef typename SubcurveContainer::iterator             SubCurveIter;
-  typedef typename SubcurveContainer::reverse_iterator     SubCurveRevIter;
+  typedef Subcurve_                                     Subcurve;
+  //template<typename SC>
+  //struct SC_container { typedef std::list<SC> other; };
+  typedef std::list<Subcurve*>                          Subcurve_container; 
+  typedef typename Subcurve_container::iterator         Subcurve_iterator;
+  typedef typename Subcurve_container::reverse_iterator   
+                                                Subcurve_reverse_iterator;
  
-  typedef std::pair<bool, SubCurveIter>                    Pair;
-
-  typedef typename Traits::Has_boundary_category           Has_boundary_category;
-
-
-  /*! The type of the event */
-  typedef enum 
+  /*! \enum The event type (with other information bits). */
+  enum Attribute 
   {
     DEFAULT = 0,
-    
-    LEFT_END = 1, // a curve's left-end is on the event point
-    
-    RIGHT_END = 2, // a curve's right-end is on the event point
-    
-    ACTION = 4,   // action point 
-    
-    QUERY = 8,    //query point
-    
-    INTERSECTION = 16,     // two curves intersects at their interior 
-    
-    WEAK_INTERSECTION = 32, // when a curve's end-point is on the interior
-                           //of another curve (also may indicate overlap)
-    OVERLAP = 64, // end-point of an overlap subcurve
+    LEFT_END = 1,            // A curve's left-end is on the event point.
+    RIGHT_END = 2,           // A curve's right-end is on the event point.
+    ACTION = 4,              // An action point.
+    QUERY = 8,               // A query point.
+    INTERSECTION = 16,       // Two curves intersects at their interior.
+    WEAK_INTERSECTION = 32,  // A curve's end-point is on the interior
+                             // of another curve (also may indicate overlap).
+    OVERLAP = 64             // Endpoint of an overlap subcurve
+  };
 
-    MINUS_INNO_BOUNDARY_X = 128,
+protected:
 
-    NO_BOUNDARY_X = 256,
+  // Data members:
+  Point_2            m_point;       // The point associated with the event.
 
-    PLUS_INNO_BOUNDARY_X = 512,
+  Subcurve_container m_leftCurves;  // The curves lying to the left of the
+                                    // event and incident to it.
 
-    MINUS_INNO_BOUNDARY_Y = 1024,
+  Subcurve_container m_rightCurves; // The curves lying to the right of the
+                                    // event and incident to it, sorted by
+                                    // their y-value to the right of the point.
 
-    NO_BOUNDARY_Y = 2048,
+  char               m_type;        // The event type.
+  char               m_ps_x;        // The boundary condition in x.
+  char               m_ps_y;        // The boundary condition in y.
+  char               m_finite;      // Is the event finite (associated with
+                                    // a valid point.
 
-    PLUS_INNO_BOUNDARY_Y = 4096
+public:
 
-  }Attribute;
+  /*! Default constructor. */
+  Sweep_line_event() :
+    m_type (0),
+    m_ps_x (static_cast<char> (ARR_INTERIOR)),
+    m_ps_y (static_cast<char> (ARR_INTERIOR)),
+    m_finite (1)
+  {}
 
-
-  Sweep_line_event(){}
-
-  
-  void init(const Point_2 &point, Attribute type)
+  /*! Initialize an event that is associated with a valid point. */
+  void init (const Point_2& point, Attribute type,
+             Arr_parameter_space ps_x, Arr_parameter_space ps_y)
   {
     m_point = point;
     m_type = type;
+    m_ps_x = static_cast<char> (ps_x);
+    m_ps_y = static_cast<char> (ps_y);
+    m_finite = 1;
   }
 
-
-  /*! Destructor */
-  ~Sweep_line_event() 
-  {}
-
-  void add_curve_to_left(SubCurve *curve)
+  /*! Initialize an event associates with an unbounded curve end. */
+  void init_at_infinity (Attribute type,
+                         Arr_parameter_space ps_x, Arr_parameter_space ps_y)
   {
-    // look for the curve, and if exists, nothing to do
-    for(SubCurveIter iter = m_leftCurves.begin();
-        iter != m_leftCurves.end();
-        ++iter)
+    m_type = type;
+    m_ps_x = ps_x;
+    m_ps_y = ps_y;
+    m_finite = 0;
+  }
+
+  /*! Add a subcurve to the container of left curves. */
+  void add_curve_to_left (Subcurve *curve)
+  {
+    // Look for the subcurve.
+    Subcurve_iterator iter;
+    
+    for (iter = m_leftCurves.begin(); iter != m_leftCurves.end(); ++iter)
     {
-      if((curve == *iter) || (*iter)->is_inner_node(curve))
-      {
+      // Do nothing if the curve exists.
+      if ((curve == *iter) || (*iter)->is_inner_node(curve))
         return;
-      }
-      if((curve)->is_inner_node(*iter))
+
+      // Replace the existing curve in case of overlap.
+      if (curve->is_inner_node(*iter))
       {
         *iter = curve;
         return;
       }
     }
+
+    // The curve does not exist - insert it to the container.
+    m_leftCurves.push_back (curve);
+    return;
+  }
+
+  /*! Add a subcurve to the container of left curves (without checks). */
+  void push_back_curve_to_left(Subcurve *curve)
+  {
     m_leftCurves.push_back(curve);
   }
 
-
-
-    void push_back_curve_to_left(SubCurve *curve)
-    {
-      m_leftCurves.push_back(curve);
-    }
-
-
-
-  std::pair<bool, SubCurveIter>  add_curve_to_right(SubCurve *curve, Traits* tr) 
+  /*! Add a subcurve to the container of right curves. */
+  std::pair<bool, Subcurve_iterator>
+  add_curve_to_right (Subcurve *curve, Traits_2 *tr) 
   {
-    if (m_rightCurves.empty()) {
+    if (m_rightCurves.empty())
+    {
       m_rightCurves.push_back(curve);
-      return Pair(false, m_rightCurves.begin());
+      return (std::make_pair(false, m_rightCurves.begin()));
     }
 
-    //check if its an event an infinity, and if so then there's an overlap
+    // Check if its an event an infinity, and if so then there is no overlap
     //(there cannot be two non-overlap curves at the same event at infinity).
-    if(!this->is_finite())
-      return Pair(true, m_rightCurves.begin());
+    if (!this->is_finite())
+      return (std::make_pair(true, m_rightCurves.begin()));
  
-    SubCurveIter iter = m_rightCurves.begin();
-    
+    Subcurve_iterator iter = m_rightCurves.begin();
     Comparison_result res;
+
     while ((res = tr->compare_y_at_x_right_2_object()
-                    (curve->get_last_curve(),
-                     (*iter)->get_last_curve(), 
-                     m_point)) == LARGER)
+            (curve->last_curve(),
+             (*iter)->last_curve(), 
+             m_point)) == LARGER)
     {
       ++iter;
-      if ( iter == m_rightCurves.end())
+      if (iter == m_rightCurves.end())
       {
-              m_rightCurves.insert(iter, curve);
-              return Pair(false, --iter);
+        m_rightCurves.insert (iter, curve);
+        return std::make_pair (false, --iter);
       }
     }
     
-    if ( res == EQUAL ) //overlap !!
+    if (res == EQUAL) //overlap !!
     {
-      return Pair(true, iter);
-     }
-     m_rightCurves.insert(iter, curve);
-     return Pair(false,--iter);
+      return std::make_pair(true, iter);
+    }
+     
+    m_rightCurves.insert (iter, curve);
+    return std::make_pair (false,--iter);
   }
   
-
-  // add two Subcurves to the right of the event.
-  //precondition: no right curves, the order of sc1, sc2 is correct
-  std::pair<bool, SubCurveIter> add_pair_curves_to_right(SubCurve *sc1,
-                                                         SubCurve *sc2)
+  /*!
+   * Add two Subcurves to the right of the event.
+   * \pre The event does not contain any right curves, and the order of sc1
+   *      and sc2 is correct.
+   */
+  std::pair<bool, Subcurve_iterator>
+  add_curve_pair_to_right (Subcurve *sc1, Subcurve *sc2)
   {
     m_rightCurves.push_back(sc1);
     m_rightCurves.push_back(sc2);
 
-    SubCurveIter iter = m_rightCurves.end(); --iter;
-    return (std::make_pair(false,iter));
+    Subcurve_iterator iter = m_rightCurves.end();
+    --iter;
+    return (std::make_pair (false, iter));
   }
 
-
-
-  void remove_curve_from_left(SubCurve* curve)
+  /*! Remove a curve from the set of left curves. */
+  void remove_curve_from_left (Subcurve* curve)
   {
-    for(SubCurveIter iter = m_leftCurves.begin();
-        iter!= m_leftCurves.end();
-        ++iter)
+    Subcurve_iterator iter;
+
+    for (iter = m_leftCurves.begin(); iter!= m_leftCurves.end(); ++iter)
     {
-      if(curve->has_common_leaf(*iter))
+      if(curve->has_common_leaf (*iter))
       {
-         m_leftCurves.erase(iter);
+        m_leftCurves.erase(iter);
         return;
       }
     }
+    return;
   }
 
-
-
-  /*! Returns an iterator to the first curve to the left of the event */
-  SubCurveIter left_curves_begin() {
-    return m_leftCurves.begin();
+  /*! Returns an iterator to the first curve to the left of the event. */
+  Subcurve_iterator left_curves_begin()
+  {
+    return (m_leftCurves.begin());
   }
 
   /*! Returns an iterator to the one past the last curve to the left 
-      of the event */
-  SubCurveIter left_curves_end() {
-    return m_leftCurves.end();
+      of the event. */
+  Subcurve_iterator left_curves_end()
+  {
+    return (m_leftCurves.end());
   }
 
-  /*! Returns an iterator to the first curve to the right of the event */
-  SubCurveIter right_curves_begin() {
-    return m_rightCurves.begin();
+  /*! Returns an iterator to the first curve to the right of the event. */
+  Subcurve_iterator right_curves_begin()
+  {
+    return (m_rightCurves.begin());
   }
 
   /*! Returns an iterator to the one past the last curve to the right 
-      of the event */
-  SubCurveIter right_curves_end() {
-    return m_rightCurves.end();
+      of the event. */
+  Subcurve_iterator right_curves_end()
+  {
+    return (m_rightCurves.end());
   }
 
   /*! Returns a reverse_iterator to the first curve of the reversed list
-      of the right curves of the event */
-  SubCurveRevIter right_curves_rbegin()
+      of the right curves of the event. */
+  Subcurve_reverse_iterator right_curves_rbegin()
   {
-    return m_rightCurves.rbegin();
+    return (m_rightCurves.rbegin());
   }
 
   /*! Returns a reverse_iterator to the past-end curve of the reversed list
-      of the right curves of the event */
-  SubCurveRevIter right_curves_rend()
+      of the right curves of the event. */
+  Subcurve_reverse_iterator right_curves_rend()
   {
-    return m_rightCurves.rend();
+    return (m_rightCurves.rend());
   }
 
   /*! Returns a reverse_iterator to the first curve of the reversed list
-      of the left curves of the event */
-  SubCurveRevIter left_curves_rbegin()
+      of the left curves of the event. */
+  Subcurve_reverse_iterator left_curves_rbegin()
   {
-    return m_leftCurves.rbegin();
+    return (m_leftCurves.rbegin());
   }
 
   /*! Returns a reverse_iterator to the past-end curve of the reversed list
-      of the left curves of the event */
-  SubCurveRevIter left_curves_rend()
+      of the left curves of the event. */
+  Subcurve_reverse_iterator left_curves_rend()
   {
-    return m_leftCurves.rend();
+    return (m_leftCurves.rend());
   }
 
-
-  /*! Returns the number of intersecting curves that are defined
-      to the right of the event point. */
-  int get_num_right_curves() {
-    return m_rightCurves.size();
-  }
-
-  /*! Returns the number of intersecting curves that are defined
-      to the left of the event point. */
-  int get_num_left_curves() {
+  /*! Returns the number of curves defined to the left of the event. */
+  unsigned int number_of_left_curves() {
     return m_leftCurves.size();
   }
 
-  /*! Returns true if at least one intersecting curve is defined to 
-      the left of the point. */
-  bool has_left_curves() const{
-    return !m_leftCurves.empty();
-  }
-
-  /*! Returns true if at least one intersecting curve is defined to 
-      the right of the point. */
-  bool has_right_curves() const{
-    return !m_rightCurves.empty();
-  }
-
-  /*! Returns the actual point of the event */
-  const Point_2 &get_point() const {
-    CGAL_assertion(is_finite());
-    return m_point;
-  }
-
-  /*! Returns the actual point of the event (non-const) */
-  Point_2& get_point()
+  /*! Returns the number of curves defined to the right of the event. */
+  unsigned int number_of_right_curves()
   {
-    CGAL_assertion(is_finite());
-    return m_point;
+    return (m_rightCurves.size());
   }
 
-  const X_monotone_curve_2& get_unbounded_curve() const
+  /*! Checks if at least one curve is defined to the left of the event. */
+  bool has_left_curves() const
   {
-    CGAL_assertion(!this->is_finite());
-    
-    //the event cannot be isolated.
-    if(has_left_curves())
-      return m_leftCurves.front()->get_last_curve();
-
-    CGAL_assertion(has_right_curves());
-    return m_rightCurves.front()->get_last_curve();
+    return (! m_leftCurves.empty());
   }
 
-  X_monotone_curve_2& get_unbounded_curve()
+  /*! Checks if at least one curve is defined to the right of the event. */
+  bool has_right_curves() const
   {
-    CGAL_assertion(!this->is_finite());
-    //the event cannot be isolated.
-    if(has_left_curves())
-      return m_leftCurves.front()->get_last_curve();
-
-    CGAL_assertion(has_right_curves());
-    return m_rightCurves.front()->get_last_curve();
+    return (! m_rightCurves.empty());
   }
 
-  /*! change the point of the event. */
+  /*!
+   * Get the actual event point (const version).
+   * \pre The event is associated with a finite point.
+   */
+  const Point_2& point() const
+  {
+    CGAL_precondition (is_finite());
+    return (m_point);
+  }
+
+  /*!
+   * Get the actual event point (non-const version).
+   * \pre The event is associated with a finite point.
+   */
+  Point_2& point()
+  {
+    CGAL_precondition (is_finite());
+    return (m_point);
+  }
+
+  /*!
+   * Get a curve associated with the event (const version).
+   * \pre The event has incident curves.
+   */
+  const X_monotone_curve_2& curve () const
+  {
+    if (has_left_curves())
+      return (m_leftCurves.front()->last_curve());
+
+    CGAL_assertion (has_right_curves());
+    return (m_rightCurves.front()->last_curve());
+  }
+
+  /*! Set the event point. */
   void set_point(const Point_2& pt)
   {
     m_point = pt;
   }
 
+  /// \name Get the event attributes.
+  //@{
   bool is_left_end() const
   {
     return ((m_type & LEFT_END) != 0);
@@ -362,7 +384,10 @@ public:
   {
     return ((m_type & OVERLAP ) != 0);
   }
+  //@}
 
+  /// \name Set the event attributes.
+  //@{
   void set_left_end()
   {
     m_type |= LEFT_END;
@@ -398,281 +423,159 @@ public:
     m_type |= OVERLAP;
   }
 
-  void set_attribute(Attribute type)
+  void set_attribute (Attribute type)
   {
     m_type |= type;
   }
+  //@}
 
-  void set_minus_infinite_x()
-  {
-    m_type |= MINUS_INNO_BOUNDARY_X;
-  }
-
-  void set_plus_infinite_x()
-  {
-    m_type |= PLUS_INNO_BOUNDARY_X;
-  }
-
-  void set_finite_x()
-  {
-    m_type |= NO_BOUNDARY_X;
-  }
-
-  void set_finite_y()
-  {
-    m_type |= NO_BOUNDARY_Y;
-  }
-
-  void set_finite()
-  {
-    m_type |= NO_BOUNDARY_X;
-    m_type |= NO_BOUNDARY_Y;
-
-  }
-
-  void set_minus_infinite_y()
-  {
-    m_type |= MINUS_INNO_BOUNDARY_Y;
-  }
-
-  void set_plus_infinite_y()
-  {
-    m_type |= PLUS_INNO_BOUNDARY_Y;
-  }
-
+  /// \name Get the boundary conditions of the event.
+  //@{
   inline bool is_finite() const
   {
-    return ((m_type & NO_BOUNDARY_X ) != 0) && ((m_type & NO_BOUNDARY_Y ) != 0);
+    return (m_finite != 0);
   }
-  /*inline bool is_finite() const
+
+  inline bool is_on_boundary () const
   {
-    return is_finite_impl(Has_boundary_category());
+    return (m_ps_x != static_cast<char> (ARR_INTERIOR) ||
+            m_ps_y != static_cast<char> (ARR_INTERIOR));
   }
-  inline bool is_finite_impl(Tag_false) const
+
+  inline Arr_parameter_space parameter_space_in_x() const
   {
+    return (Arr_parameter_space (m_ps_x));
+  }
+
+  inline Arr_parameter_space parameter_space_in_y() const
+  {
+    return (Arr_parameter_space (m_ps_y));
+  }
+  //@}
+
+  /*! Replace the set of left subcurves. */
+  template <class InputIterator>
+  void replace_left_curves (InputIterator begin, InputIterator end)
+  {
+    Subcurve_iterator left_iter = m_leftCurves.begin();
+    InputIterator     iter;
+
+    for (iter = begin; iter != end; ++iter, ++left_iter)
+    {
+      *left_iter = static_cast<Subcurve*>(*iter);
+    }
+
+    m_leftCurves.erase (left_iter, m_leftCurves.end());
+    return;
+  }
+
+  bool is_right_curve_bigger (Subcurve* c1, Subcurve* c2)
+  {
+    Subcurve_iterator   iter;
+    for (iter = m_rightCurves.begin(); iter != m_rightCurves.end(); ++iter)
+    {
+      if (*iter == c1 ||
+          static_cast<Subcurve*>((*iter)->originating_subcurve1()) == c1 ||
+          static_cast<Subcurve*>((*iter)->originating_subcurve2()) == c1)
+        return (false);
+
+      if (*iter == c2 ||
+          static_cast<Subcurve*>((*iter)->originating_subcurve1()) == c2 ||
+          static_cast<Subcurve*>((*iter)->originating_subcurve2()) == c2)
+        return (true);
+    }
+
     return (true);
   }
 
-  inline bool is_finite_impl(Tag_true) const
+  /*! Check if the two curves are negihbors to the left of the event. */
+  bool are_left_neighbours (Subcurve* c1, Subcurve* c2)
   {
-    return ((m_type & NO_BOUNDARY_X ) != 0) && ((m_type & NO_BOUNDARY_Y ) != 0);
-  }*/
+    Subcurve_iterator left_iter = m_leftCurves.begin();
 
-  bool is_minus_boundary_in_x() const
-  {
-    return ((m_type & MINUS_INNO_BOUNDARY_X ) != 0);
-  }
-
-  bool is_plus_boundary_in_x() const
-  {
-    return ((m_type & PLUS_INNO_BOUNDARY_X ) != 0);
-  }
-
-  bool is_finite_in_x() const
-  {
-    return ((m_type & NO_BOUNDARY_X ) != 0);
-  }
-
-  bool is_finite_in_y() const
-  {
-    return ((m_type & NO_BOUNDARY_Y ) != 0);
-  }
-
-  bool is_minus_boundary_in_y() const
-  {
-    return ((m_type & MINUS_INNO_BOUNDARY_Y ) != 0);
-  }
-
-  bool is_plus_boundary_in_y() const
-  {
-    return ((m_type & PLUS_INNO_BOUNDARY_Y ) != 0);
-  }
-
-  Boundary_type infinity_at_x() const
-  {
-    if((m_type & MINUS_INNO_BOUNDARY_X ) != 0)
-      return MINUS_INFINITY;
-
-    if((m_type & PLUS_INNO_BOUNDARY_X ) != 0)
-      return PLUS_INFINITY;
-
-    CGAL_assertion((m_type & NO_BOUNDARY_X ) != 0);
-    return NO_BOUNDARY;
-  }
-
-  Boundary_type infinity_at_y() const
-  {
-    if((m_type & MINUS_INNO_BOUNDARY_Y ) != 0)
-      return MINUS_INFINITY;
-
-    if((m_type & PLUS_INNO_BOUNDARY_Y ) != 0)
-      return PLUS_INFINITY;
-
-    CGAL_assertion((m_type & NO_BOUNDARY_Y ) != 0);
-    return NO_BOUNDARY;
-  }
-
-  
-
-
-
-  template <class InputIterator>
-  void replace_left_curves(InputIterator begin, InputIterator end)
-  {
-    SubCurveIter left_iter = m_leftCurves.begin();
-    for(InputIterator itr = begin; itr != end; ++itr , ++left_iter)
-    {
-      *left_iter = static_cast<SubCurve*>(*itr);
-    }
-    m_leftCurves.erase(left_iter, m_leftCurves.end());
-  }
-
-
-  bool is_right_curve_bigger(SubCurve* c1, SubCurve* c2)
-  {
-    for(SubCurveIter iter = m_rightCurves.begin();
-        iter != m_rightCurves.end();
-        ++iter)
-    {
-      if(*iter == c1 ||
-         static_cast<SubCurve*>((*iter)->get_orig_subcurve1()) == c1 ||
-         static_cast<SubCurve*>((*iter)->get_orig_subcurve2()) == c1)
-        return false;
-      if(*iter == c2 ||
-         static_cast<SubCurve*>((*iter)->get_orig_subcurve1()) == c2 ||
-         static_cast<SubCurve*>((*iter)->get_orig_subcurve2()) == c2)
-        return true;
-    }
-    return true;
-  }
-
-  bool are_left_neighbours(SubCurve* c1, SubCurve* c2)
-  {
-    SubCurveIter left_iter = m_leftCurves.begin();
     for( ; left_iter != m_leftCurves.end(); ++left_iter)
     {
-      if(*left_iter == c1)
+      if (*left_iter == c1)
       {
-        SubCurveIter temp = left_iter;
+        Subcurve_iterator temp = left_iter;
         ++temp;
-        if(temp!=m_leftCurves.end())
-        {
+        if (temp != m_leftCurves.end())
           return (*temp == c2);
-        }
-        return false;
+
+        return (false);
       }
 
       if(*left_iter == c2)
       {
-        SubCurveIter temp = left_iter;
+        Subcurve_iterator temp = left_iter;
         ++temp;
         if(temp!=m_leftCurves.end())
-        {
           return (*temp == c1);
-        }
-        return false;
+        
+        return (false);
       }
     }
     
-    return false;
+    return (false);
   }
 
- 
-  
-
-#ifdef VERBOSE
+#ifdef CGAL_SL_VERBOSE
   void Print() ;
 #endif
- 
-  
-
-  protected:
-
-
-  /*! The point of the event */
-  Point_2 m_point;
-
-  /*! A list of curves on the left side of the event (or traverse at event)*/
-  SubcurveContainer m_leftCurves;
-
-  /*! A list of curves on the right side of the event(or traverse at event),
-      sorted by their y value to the right of the point */
-  SubcurveContainer m_rightCurves;
-
-  /*! */
-  int m_type;
 
 };
 
-
-
-
-
-#ifdef VERBOSE
-template<class SweepLineTraits_2, class CurveWrap>
-void 
-Sweep_line_event<SweepLineTraits_2, CurveWrap>::
-Print() 
-{
-  std::cout << "\tEvent info: "  << "\n" ;
-  if(this->is_finite())
-    std::cout << "\t" << m_point << "\n" ;
-  else
+#ifdef CGAL_SL_VERBOSE
+  template<class Traits, class Subcurve>
+  void Sweep_line_event<Traits, Subcurve>::Print() 
   {
-    std::cout << "\t";
-    Boundary_type x = this->infinity_at_x(),
-                  y = this->infinity_at_y();
-    switch(x)
+    std::cout << "\tEvent info: "  << "\n" ;
+    if (this->is_finite())
+      std::cout << "\t" << m_point << "\n" ;
+    else
     {
-    case MINUS_INFINITY:
-      std::cout<<" X = -00 ";
-      break;
-    case PLUS_INFINITY:
-      std::cout<<" X = +00 ";
-      break;
-    case NO_BOUNDARY:
-      {
-        switch(y)
-        {
-        case MINUS_INFINITY:
-          std::cout<<" Y = -00 ";
-          break;
-        case PLUS_INFINITY:
-          std::cout<<" Y = +00 ";
-          break;
-        case NO_BOUNDARY:
-          CGAL_assertion(false);
+      std::cout << "\t";
+      Arr_parameter_space ps_x = this->parameter_space_in_x();
+      Arr_parameter_space ps_y = this->parameter_space_in_y();
+
+      switch (ps_x) {
+       case ARR_LEFT_BOUNDARY:  std::cout << "left boundary"; break;
+       case ARR_RIGHT_BOUNDARY: std::cout << "right boundary"; break;
+       case ARR_INTERIOR:
+       default:
+        switch (ps_y) {
+         case ARR_BOTTOM_BOUNDARY: std::cout << "bottom boundary"; break;
+         case ARR_TOP_BOUNDARY:    std::cout << "top boundary"; break;
+         case ARR_INTERIOR:
+         default:
+          CGAL_error();
         }
-      } 
+      }
     }
-  }
-  std::cout<<"\n";
+    std::cout<<"\n";
 
-  std::cout << "\tLeft curves: \n" ;
-  for ( SubCurveIter iter = m_leftCurves.begin() ;
-        iter != m_leftCurves.end() ; ++iter )
-  {
-    std::cout << "\t";
-    (*iter)->Print();
-    std::cout << "\n";
-  }
-  std::cout << std::endl;
-  std::cout << "\tRight curves: \n" ;
-  for ( SubCurveIter iter1 = m_rightCurves.begin() ;
-        iter1 != m_rightCurves.end() ; ++iter1 )
-  {
-    std::cout << "\t";
-    (*iter1)->Print();
-    std::cout << "\n";
-  }
- 
-  std::cout << std::endl;
-}
-
-
- 
-#endif // NDEBUG
+    std::cout << "\tLeft curves: \n" ;
+    for ( Subcurve_iterator iter = m_leftCurves.begin() ;
+          iter != m_leftCurves.end() ; ++iter )
+    {
+      std::cout << "\t";
+      (*iter)->Print();
+      std::cout << "\n";
+    }
+    std::cout << std::endl;
+    std::cout << "\tRight curves: \n" ;
+    for ( Subcurve_iterator iter1 = m_rightCurves.begin() ;
+          iter1 != m_rightCurves.end() ; ++iter1 )
+    {
+      std::cout << "\t";
+      (*iter1)->Print();
+      std::cout << "\n";
+    }
+    
+    std::cout << std::endl;
+  } 
+#endif // CGAL_SL_VERBOSE
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_SWEEP_LINE_EVENT_H
+#endif

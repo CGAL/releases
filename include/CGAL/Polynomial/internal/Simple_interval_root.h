@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
-// $Id: Simple_interval_root.h 36369 2007-02-16 02:46:23Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
+// $Id: Simple_interval_root.h 45637 2008-09-18 15:41:45Z hemmer $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -429,7 +429,7 @@ protected:
 
     ii_= std::make_pair(plist[plist.size()-2], plist[plist.size()-1]);
     CGAL_postcondition(sign_at(plist[plist.size()-2]) == ps);
-    CGAL_postcondition(sign_at(plist[plist.size()-1]) == CGAL::Sign(-ps));
+    CGAL_postcondition(sign_at(plist[plist.size()-1]) == -ps);
     audit();
   }
 
@@ -642,11 +642,11 @@ CGAL_BEGIN_NAMESPACE
 
 template <class T>
 class Real_embeddable_traits< CGAL::POLYNOMIAL::internal::Simple_interval_root<T> > 
-  : public Real_embeddable_traits_base< CGAL::POLYNOMIAL::internal::Simple_interval_root<T> > {
+  : public INTERN_RET::Real_embeddable_traits_base< CGAL::POLYNOMIAL::internal::Simple_interval_root<T> , Tag_true > {
 public:
   typedef CGAL::POLYNOMIAL::internal::Simple_interval_root<T>  Type;
   class Abs 
-    : public Unary_function< Type, Type > {
+    : public std::unary_function< Type, Type > {
   public:
     Type operator()( const Type& x ) const {
       if (x < Type(0)) return -x;
@@ -654,8 +654,8 @@ public:
     }
   };
     
-  class Sign 
-    : public Unary_function< Type, ::CGAL::Sign > {
+  class Sgn 
+    : public std::unary_function< Type, ::CGAL::Sign > {
   public:
     ::CGAL::Sign operator()( const Type& x ) const {
       return static_cast<CGAL::Sign>(x.compare(0));
@@ -663,7 +663,7 @@ public:
   };
     
   class Compare 
-    : public Binary_function< Type, Type,
+    : public std::binary_function< Type, Type,
 			      Comparison_result > {
   public:
     Comparison_result operator()( const Type& x, 
@@ -677,7 +677,7 @@ public:
       };
     
   class To_double 
-    : public Unary_function< Type, double > {
+    : public std::unary_function< Type, double > {
   public:
     double operator()( const Type& x ) const {
       // this call is required to get reasonable values for the double
@@ -687,7 +687,7 @@ public:
   };
     
   class To_interval 
-    : public Unary_function< Type, std::pair< double, double > > {
+    : public std::unary_function< Type, std::pair< double, double > > {
   public:
     std::pair<double, double> operator()( const Type& x ) const {
 

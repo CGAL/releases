@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 42900 2008-04-15 15:13:17Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr, Herve Bronnimann, Sylvain Pion
@@ -53,7 +53,7 @@ circumcenter_translateC2(const FT &dqx, const FT &dqy,
   // What we do is intersect the bisectors.
   FT r2 = CGAL_NTS square(drx) + CGAL_NTS square(dry);
   FT q2 = CGAL_NTS square(dqx) + CGAL_NTS square(dqy);
-  FT den = 2 * det2x2_by_formula(dqx, dqy, drx, dry);
+  FT den = 2 * determinant(dqx, dqy, drx, dry);
 
   // The 3 points aren't collinear.
   // Hopefully, this is already checked at the upper level.
@@ -61,8 +61,8 @@ circumcenter_translateC2(const FT &dqx, const FT &dqy,
 
   // One possible optimization here is to precompute 1/den, to avoid one
   // division.  However, we loose precision, and it's maybe not worth it (?).
-  dcx =   det2x2_by_formula (dry, dqy, r2, q2) / den;
-  dcy = - det2x2_by_formula (drx, dqx, r2, q2) / den;
+  dcx =   determinant (dry, dqy, r2, q2) / den;
+  dcy = - determinant (drx, dqx, r2, q2) / den;
 }
 
 template < class FT >
@@ -76,6 +76,81 @@ circumcenterC2( const FT &px, const FT &py,
   circumcenter_translateC2<FT>(qx-px, qy-py, rx-px, ry-py, x, y);
   x += px;
   y += py;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y,
+             FT &x, FT &y)
+{
+   FT w2 = 1 - w1;
+   x = w1 * p1x + w2 * p2x;
+   y = w1 * p1y + w2 * p2y;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &w2,
+             FT &x, FT &y)
+{
+   FT sum = w1 + w2;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x) / sum;
+   y = (w1 * p1y + w2 * p2y) / sum;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &w2,
+             const FT &p3x, const FT &p3y,
+             FT &x, FT &y)
+{
+   FT w3 = 1 - w1 - w2;
+   x = w1 * p1x + w2 * p2x + w3 * p3x;
+   y = w1 * p1y + w2 * p2y + w3 * p3y;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &w3,
+             FT &x, FT &y)
+{
+   FT sum = w1 + w2 + w3;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x + w3 * p3x) / sum;
+   y = (w1 * p1y + w2 * p2y + w3 * p3y) / sum;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &w3,
+             const FT &p4x, const FT &p4y,
+             FT &x, FT &y)
+{
+   FT w4 = 1 - w1 - w2 - w3;
+   x = w1 * p1x + w2 * p2x + w3 * p3x + w4 * p4x;
+   y = w1 * p1y + w2 * p2y + w3 * p3y + w4 * p4y;
+}
+
+template < class FT >
+void
+barycenterC2(const FT &p1x, const FT &p1y, const FT &w1,
+             const FT &p2x, const FT &p2y, const FT &w2,
+             const FT &p3x, const FT &p3y, const FT &w3,
+             const FT &p4x, const FT &p4y, const FT &w4,
+             FT &x, FT &y)
+{
+   FT sum = w1 + w2 + w3 + w4;
+   CGAL_kernel_assertion(sum != 0);
+   x = (w1 * p1x + w2 * p2x + w3 * p3x + w4 * p4x) / sum;
+   y = (w1 * p1y + w2 * p2y + w3 * p3y + w4 * p4y) / sum;
 }
 
 template < class FT >
@@ -338,7 +413,7 @@ scaled_distance_to_lineC2( const FT &px, const FT &py,
                            const FT &qx, const FT &qy,
                            const FT &rx, const FT &ry)
 {
-  return det2x2_by_formula<FT>(px-rx, py-ry, qx-rx, qy-ry);
+  return determinant<FT>(px-rx, py-ry, qx-rx, qy-ry);
 }
 
 CGAL_END_NAMESPACE

@@ -1,4 +1,4 @@
-// Copyright (c) 2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2006-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
-// $Id: Sphere_oracle_3.h 37095 2007-03-14 23:29:49Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
+// $Id: Sphere_oracle_3.h 43529 2008-06-09 14:20:14Z lrineau $
 //
 //
 // Author(s)     : Laurent RINEAU
@@ -42,7 +42,6 @@ namespace CGAL {
     typedef Sphere_oracle_3<GT, Point_creator, Visitor> Self;
     
     typedef typename GT::Point_3 Point;
-
     typedef typename GT::FT FT;
     typedef typename GT::Sphere_3 Sphere_3;
 
@@ -57,6 +56,7 @@ namespace CGAL {
 
     typedef Sphere_3 Surface_3;
 
+    typedef Point Intersection_point;
   private:
     // Private members
     Visitor visitor; // a visitor that can modify a point, before returning it.
@@ -149,9 +149,12 @@ namespace CGAL {
         case ZERO:
           return boost::make_tuple(1, ab_ac / ab2, 0);
         case POSITIVE:
-          return boost::make_tuple(2,
-                                   (ab_ac - CGAL::sqrt(deltaprime)) / ab2,
-                                   (ab_ac + CGAL::sqrt(deltaprime)) / ab2);
+	  {
+	    const FT sqrt_deltaprime = CGAL::sqrt(deltaprime);
+	    return boost::make_tuple(2,
+				     (ab_ac - sqrt_deltaprime) / ab2,
+				     (ab_ac + sqrt_deltaprime) / ab2);
+	  }
         case NEGATIVE:
           break;
         }
@@ -284,19 +287,39 @@ namespace CGAL {
         boost::tie(number_of_roots, root_1, root_2) = 
           intersection_line_sphere_lambda(sphere, a, b);
 
+#ifdef CGAL_SURFACE_MESHER_DEBUG_IMPLICIT_ORACLE
+        std::cerr << "Clip segment. Roots=("
+                  << root_1 << ", " << root_2 << ")\n";
+#endif
         if( number_of_roots < 2 )
           return false;
 
-        const Vector ab = vector(a, b);
+        if( root_1 > FT(1) ) // root_x \in ]1,\infinity[
+          return false;      // no intersection
 
-        const Point original_a = a;
-
-        if( ! a_in_sphere )
+        if( root_1 >= FT(0) ) // root_1 \in [0,1[
+        {                     // move point a
+          const Point original_a = a;
+          const Vector ab = vector(a, b);
           a = translated_point(original_a, scaled_vector(ab, root_1));
-        if( ! b_in_sphere )
-          b = translated_point(original_a, scaled_vector(ab, root_2));
-          
-        return true;
+          if( root_2 <= FT(1) ) /// move b iif root_2 <=1
+          {
+            b = translated_point(original_a, scaled_vector(ab, root_2));
+          }
+          return true;
+        }
+        else // root_1 in ]-\infinity, 0[
+        {    // do not move point a
+          if( root_2 < FT(0) ) // root_x in ]-\infinity, 0[
+            return false;      // no intersection
+          else 
+          {
+            const Vector ab = vector(a, b);
+            if( root_2 <= FT(1) )
+              b = translated_point(a, scaled_vector(ab, root_2));
+            return true;
+          }
+        }
       }
 
       /** The return value s is r clipped to sphere.
@@ -341,7 +364,7 @@ namespace CGAL {
         return false;
       } // end clip_ray
 
-      /** The return value s is l clipped to sphere.
+      /** The return value s=(ab) is l clipped to sphere.
           Return false iff l does not intersect sphere. */
       bool clip_line(const Surface_3& sphere, const Line_3& l,
                      Point& a,
@@ -369,7 +392,7 @@ namespace CGAL {
         boost::tie(number_of_roots, root_1, root_2) = 
           intersection_line_sphere_lambda(sphere, a, b);
 
-        if( number_of_roots == 2 && root_2 > FT(0) )
+        if( number_of_roots == 2 )
         {
           const Point original_a = a;
           const Vector ab = vector(a, b);

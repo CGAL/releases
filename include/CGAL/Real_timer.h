@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/include/CGAL/Real_timer.h $
-// $Id: Real_timer.h 32857 2006-08-01 00:05:18Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Profiling_tools/include/CGAL/Real_timer.h $
+// $Id: Real_timer.h 41685 2008-01-18 20:19:17Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -27,7 +27,7 @@
 
 #include <CGAL/basic.h>
 // For the numerical limits
-#include <float.h>
+#include <cfloat>
 
 CGAL_BEGIN_NAMESPACE
 

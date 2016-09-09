@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h $
-// $Id: Constraint_hierarchy_2.h 36935 2007-03-08 13:32:45Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h $
+// $Id: Constraint_hierarchy_2.h 41717 2008-01-20 20:47:32Z spion $
 // 
 //
 // Author(s)     : Olivier Billet, Mariette Yvinec
@@ -591,21 +591,13 @@ add_Steiner(T va, T vb, T vc){
   }
 
   if (H_context_list* hcl3 = get_contexts(va,vc)) { // (va,vc) is already a subconstraint
-#ifdef __SUNPRO_CC
-    std::copy(hcl->begin(), hcl->end(), std::back_inserter(*hcl3));
-#else
     hcl3->splice(hcl3->end(), *hcl);
-#endif
     delete hcl;
   }
   else   sc_to_c_map.insert(std::make_pair(make_edge(va,vc), hcl));
 
   if (H_context_list* hcl3 = get_contexts(vc,vb)) {// (vc,vb) is already a subconstraint
-#ifdef __SUNPRO_CC    
-    std::copy(hcl2->begin(), hcl2->end(), std::back_inserter(*hcl3));
-#else
     hcl3->splice(hcl3->end(),*hcl2);
-#endif
     delete hcl2;
   }
   else  sc_to_c_map.insert(std::make_pair(make_edge(vc,vb), hcl2));

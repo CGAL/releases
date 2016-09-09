@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 42682 2008-03-31 17:33:48Z pmachado $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -160,7 +160,7 @@ public:
                            Proj_point,
 	                   const Point&, 
                            const Point*,
-                           CGAL_CLIB_STD::ptrdiff_t,
+                           std::ptrdiff_t,
                            std::bidirectional_iterator_tag>  Point_iterator;
 
   typedef Point                value_type; // to have a back_inserter
@@ -247,7 +247,7 @@ public:
 		     const Point& p2) const;
   
 
-  //INSERTION - DELETION - Flip
+  //MOVE - INSERTION - DELETION - Flip
 public:
   void   flip(Face_handle f, int i);
   
@@ -269,6 +269,9 @@ public:
   void remove_first(Vertex_handle  v);
   void remove_second(Vertex_handle v);
   void remove(Vertex_handle  v);
+
+  // MOVE
+  bool move(Vertex_handle v, const Point &p);
 
   // POINT LOCATION
   Face_handle
@@ -439,15 +442,58 @@ int insert(InputIterator first, InputIterator last)
 {
   int n = number_of_vertices();
 
-  std::vector<Point> points CGAL_make_vector(first, last);
+  std::vector<Point> points (first, last);
   std::random_shuffle (points.begin(), points.end());
   spatial_sort (points.begin(), points.end(), geom_traits());
   Face_handle f;
-  for (typename std::vector<Point>::const_iterator p = points.begin();
-          p != points.end(); ++p)
+  for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+          p != end; ++p)
       f = insert (*p, f)->face();
 
   return number_of_vertices() - n;
+}
+
+template < class InputIterator >
+bool move(InputIterator first, InputIterator last)
+{
+  bool blocked = false;
+  std::map<Vertex_handle, int> hash;
+  std::list< std::pair<Vertex_handle, Point> > to_move(first, last);
+  while(!to_move.empty()) {
+    std::pair<Vertex_handle, Point> pp = to_move.front();
+    to_move.pop_front();
+    if(!move(pp.first, pp.second)) {
+      if(hash[pp.first] == 3) break;
+      else if(hash[pp.first] == 2) blocked = true;
+      hash[pp.first]++;
+      to_move.push_back(pp);
+    }
+  }
+  return !blocked;
+}
+
+bool well_oriented(Vertex_handle v)
+{
+  typedef typename Geom_traits::Orientation_2   Orientation_2; 
+  Orientation_2 orientation_2 = geom_traits().orientation_2_object();
+  Face_circulator fc = incident_faces(v), done(fc);
+  do {
+    if(!is_infinite(fc)) {
+      Vertex_handle v0 = fc->vertex(0);
+      Vertex_handle v1 = fc->vertex(1);
+      Vertex_handle v2 = fc->vertex(2);
+      if(orientation_2(v0->point(),v1->point(),v2->point()) 
+        != COUNTERCLOCKWISE) return false;
+    }
+  } while(++fc != done);
+  return true;
+}
+
+bool from_convex_hull(Vertex_handle v) {
+  CGAL_triangulation_precondition(!is_infinite(v));
+  Vertex_circulator vc = incident_vertices(v), done(vc);
+  do { if(is_infinite(vc)) return true; } while(++vc != done);
+  return false;
 }
 
 public:
@@ -1036,7 +1082,6 @@ insert_outside_affine_hull(const Point& p)
       CGAL_triangulation_precondition(orient != COLLINEAR);
       conform = ( orient == COUNTERCLOCKWISE);
   }
-
   Vertex_handle v = _tds.insert_dim_up( infinite_vertex(), conform);
   v->set_point(p);
   return v;
@@ -1490,6 +1535,105 @@ fill_hole_delaunay(std::list<Edge> & first_hole)
 	}
       }
     }
+}
+
+template <class Gt, class Tds >
+bool
+Triangulation_2<Gt, Tds>::
+move(Vertex_handle v, const Point &p) {
+  CGAL_triangulation_precondition(!is_infinite(v));
+  const int dim = dimension();
+
+  if(dim == 2) {
+    Point ant = v->point();
+    v->set_point(p);
+    if(well_oriented(v)) {
+      if(!from_convex_hull(v)) {
+        return true;
+      }
+    }
+    v->set_point(ant);
+  }
+
+  Locate_type lt;
+  int li;
+  Vertex_handle inserted;
+  Face_handle loc = locate(p, lt, li);
+
+  if(lt == VERTEX) return false;
+
+  if(dim < 0) return true;
+
+  if(dim == 0) {
+    v->point() = p;
+    return true;
+  }
+
+  if((loc != NULL) && (dim == 1)) {
+    if(loc->has_vertex(v)) {
+      v->point() = p;
+    } else {
+      inserted = insert(p, lt, loc, li);
+      Face_handle f = v->face();
+      int i = f->index(v);
+      if (i==0) {f = f->neighbor(1);}
+      CGAL_triangulation_assertion(f->index(v) == 1);
+      Face_handle g= f->neighbor(0);
+      f->set_vertex(1, g->vertex(1));
+      f->set_neighbor(0, g->neighbor(0));
+      g->neighbor(0)->set_neighbor(1,f);
+      g->vertex(1)->set_face(f);
+      delete_face(g);
+      Face_handle f_ins = inserted->face();
+      i = f_ins->index(inserted);
+      if (i==0) {f_ins = f_ins->neighbor(1);}
+      CGAL_triangulation_assertion(f_ins->index(inserted) == 1);
+      Face_handle g_ins = f_ins->neighbor(0);
+      f_ins->set_vertex(1, v);
+      g_ins->set_vertex(0, v);
+      std::swap(*v, *inserted);
+      delete_vertex(inserted);
+    }
+    return true;
+  }
+
+  if((loc != NULL) && test_dim_down(v)) {
+    v->point() = p;
+    int i = loc->index(v);
+    Face_handle locl;
+    int i_locl;
+    if(is_infinite(loc)) {
+      int i_inf = loc->index(infinite_vertex());
+      locl = loc->neighbor(i_inf);
+      i_locl = locl->index(v);
+    } else { locl = loc; i_locl = i; }
+    if(orientation(p, locl->vertex(ccw(i_locl))->point(),
+                      locl->vertex(cw(i_locl))->point()) == COLLINEAR) {
+      _tds.dim_2D_1D(loc, i);
+    }
+    return true;
+  }
+
+  inserted = insert(p, lt, loc, li);
+
+  std::list<Edge> hole;
+  make_hole(v, hole);
+  fill_hole(v, hole);
+
+  // fixing pointer
+  Face_circulator fc = incident_faces(inserted), done(fc);
+  std::list<Face_handle> faces_pt;
+  do { faces_pt.push_back(fc); } while(++fc != done);
+  while(!faces_pt.empty()) {
+    Face_handle f = faces_pt.front();
+    faces_pt.pop_front();
+    int i = f->index(inserted);
+    f->set_vertex(i, v);
+  }
+  std::swap(*v, *inserted);
+  delete_vertex(inserted);
+
+  return true;
 }
   
 template <class Gt, class Tds >    

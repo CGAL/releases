@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Triangle_2.h $
-// $Id: Triangle_2.h 35642 2006-12-27 23:26:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Triangle_2.h $
+// $Id: Triangle_2.h 45156 2008-08-26 13:40:26Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -28,6 +28,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_2.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -42,6 +43,9 @@ class Triangle_2 : public R_::Kernel_base::Triangle_2
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Triangle_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<2>  Feature_dimension;
 
   typedef RTriangle_2 Rep;
 
@@ -72,31 +76,31 @@ public:
     return R().compute_area_2_object()(vertex(0), vertex(1), vertex(2));
   }
 
-  Orientation
+  typename R::Orientation
   orientation() const
   {
     return R().orientation_2_object()(vertex(0), vertex(1), vertex(2));
   }
 
-  Bounded_side
+  typename R::Bounded_side
   bounded_side(const Point_2 &p) const
   {
     return R().bounded_side_2_object()(*this,p);
   }
 
-  Oriented_side
+  typename R::Oriented_side
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this,p);
   }
 
-  bool
+  typename R::Boolean
   operator==(const Triangle_2 &t) const
   {
     return R().equal_2_object()(*this,t);
   }
 
-  bool
+  typename R::Boolean
   operator!=(const Triangle_2 &t) const
   {
     return !(*this == t);
@@ -114,37 +118,37 @@ public:
     return vertex(i);
   }
 
-  bool
+  typename R::Boolean
   has_on_bounded_side(const Point_2 &p) const
   {
     return bounded_side(p) == ON_BOUNDED_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_unbounded_side(const Point_2 &p) const
   {
     return bounded_side(p) == ON_UNBOUNDED_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_boundary(const Point_2 &p) const
   {
     return bounded_side(p) == ON_BOUNDARY;
   }
 
-  bool
+  typename R::Boolean
   has_on_negative_side(const Point_2 &p) const
   {
     return oriented_side(p) == ON_NEGATIVE_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_positive_side(const Point_2 &p) const
   {
     return oriented_side(p) == ON_POSITIVE_SIDE;
   }
 
-  bool
+  typename R::Boolean
   is_degenerate() const
   {
     return R().collinear_2_object()(vertex(0), vertex(1), vertex(2));

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
-// $Id: Cartesian_I.h 37001 2007-03-10 16:45:36Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
+// $Id: Cartesian_I.h 44317 2008-07-22 12:29:01Z spion $
 //
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -40,7 +40,6 @@ public:
     typedef typename K::Segment_2     Segment_2;
   public:
     typedef void result_type;
-    typedef Arity_tag< 2 >   Arity;
 
     Intersect_with_iterators_2() {}
 

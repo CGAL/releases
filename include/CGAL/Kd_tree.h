@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 38496 2007-05-02 08:28:37Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 40677 2007-10-20 20:51:59Z spion $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -85,7 +85,7 @@ private:
   Node_handle 
   create_leaf_node(Point_container& c) const
   {
-    Node_handle nh = nodes.construct_insert(c.size(), Node::LEAF);
+    Node_handle nh = nodes.emplace(c.size(), Node::LEAF);
 
     nh->data = c.begin();
     return nh;
@@ -115,7 +115,7 @@ private:
   Node_handle 
   create_internal_node_use_extension(Point_container& c)  const
   {
-    Node_handle nh = nodes.construct_insert(Node::EXTENDED_INTERNAL);
+    Node_handle nh = nodes.emplace(Node::EXTENDED_INTERNAL);
     
     Point_container c_low(c.dimension());
     split(nh->separator(), c, c_low);
@@ -148,7 +148,7 @@ private:
   Node_handle 
   create_internal_node(Point_container& c) const
   {
-    Node_handle nh = nodes.construct_insert(Node::INTERNAL);
+    Node_handle nh = nodes.emplace(Node::INTERNAL);
     
     Point_container c_low(c.dimension());
     split(nh->separator(), c, c_low);

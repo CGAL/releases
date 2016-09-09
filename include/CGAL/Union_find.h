@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Union_find/include/CGAL/Union_find.h $
-// $Id: Union_find.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Union_find/include/CGAL/Union_find.h $
+// $Id: Union_find.h 46254 2008-10-14 07:23:48Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>,
@@ -60,7 +60,7 @@ public:
     reference operator*()  const { return m_p->value; }
     pointer   operator->() const { return &(m_p->value); }
     Self&     operator++() {
-                  CGAL_assertion(m_p);
+                  CGAL_assertion(m_p != 0);
                   m_p = m_p->next;
                   return *this;
     }
@@ -132,7 +132,7 @@ private:
     Self& operator=(const Self&);
 
     pointer find( pointer p) const {
-        CGAL_assertion(p);
+        CGAL_assertion(p != 0);
         pointer r = p;
         while (r->up) 
             r = r->up; // now r is the root;

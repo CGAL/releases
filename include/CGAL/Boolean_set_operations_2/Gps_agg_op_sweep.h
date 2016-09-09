@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
-// $Id: Gps_agg_op_sweep.h 32004 2006-06-22 12:01:14Z baruchzu $ $Date: 2006-06-22 14:01:14 +0200 (Thu, 22 Jun 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
+// $Id: Gps_agg_op_sweep.h 41153 2007-12-10 23:21:34Z efif $ $Date: 2007-12-11 00:21:34 +0100 (Tue, 11 Dec 2007) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -37,7 +37,7 @@ class Gps_agg_op_sweep_line_2 :
                       SweepVisitor,
                       CurveWrap,
                       SweepEvent,
-                      Allocator>          
+                      Allocator>
 {
 public:
 
@@ -59,8 +59,10 @@ public:
                        Allocator>                 Base;
 
   typedef SweepEvent                              Event;
-  typedef typename Base::EventQueueIter           EventQueueIter;
-  typedef typename Event::SubCurveIter            EventCurveIter;
+
+
+  typedef typename Base::Event_queue_iterator     EventQueueIter;
+  typedef typename Event::Subcurve_iterator       EventCurveIter;
 
   typedef typename Base::Base_event               Base_event;
   typedef typename Base_event::Attribute          Attribute;
@@ -72,7 +74,8 @@ public:
   typedef std::list<Subcurve*>                    SubCurveList;
   typedef typename SubCurveList::iterator         SubCurveListIter; 
 
-  typedef typename Base::StatusLineIter           StatusLineIter;
+
+  typedef typename Base::Status_line_iterator     StatusLineIter;
 
 public:
 
@@ -138,11 +141,15 @@ public:
       if (event_type == Base_event::DEFAULT)
         continue;
 
-      event = this->allocate_event (vh->point(), event_type);
-      //TODO: when the boolean set operations will be exteneded to support
-      // unbounded curves, we will need here a special treatment.
-      event->set_finite();
+      event = this->_allocate_event (vh->point(), event_type,
+                                     ARR_INTERIOR, ARR_INTERIOR);
+      // \todo When the boolean set operations are exteneded to support
+      //       unbounded curves, we will need here a special treatment.
 
+      #ifndef CGAL_ARRANGEMENT_ON_SURFACE_2_H
+        event->set_finite();
+      #endif
+      
       if (! first)
       {
         q_iter = this->m_queue->insert_after (q_iter, event);
@@ -159,7 +166,7 @@ public:
     Comparison_result  res = LARGER;
     Compare_xy_2       comp_xy = this->m_traits->compare_xy_2_object();
     EventQueueIter     q_end = this->m_queue->end();
-    
+
     for (i += jump; i <= upper; i += jump)
     {
       // Merge the vertices of the other vectors into the existing queue.
@@ -173,20 +180,24 @@ public:
         event_type = _type_of_vertex (vh);
         if (event_type == Base_event::DEFAULT)
           continue;
-        
+
         while (q_iter != q_end &&
-               (res = comp_xy (vh->point(), (*q_iter)->get_point())) == LARGER)
+               (res = comp_xy (vh->point(), (*q_iter)->point())) == LARGER)
         {
           ++q_iter;
         }
 
         if (res == SMALLER || q_iter == q_end)
         {
-          event = this->allocate_event (vh->point(), event_type);
+          event = this->_allocate_event (vh->point(), event_type,
+                                         ARR_INTERIOR, ARR_INTERIOR);
+          // \todo When the boolean set operations are exteneded to support
+          //       unbounded curves, we will need here a special treatment.
+          
+          #ifndef CGAL_ARRANGEMENT_ON_SURFACE_2_H
+             event->set_finite();
+          #endif
 
-          //TODO: when the boolean set operations will be exteneded to support
-          // unbounded curves, we will need here a special treatment.
-          event->set_finite();
           this->m_queue->insert_before (q_iter, event);
           vert_map[vh] = event;
         }
@@ -216,7 +227,7 @@ public:
       CGAL_assertion (vert_map.is_defined (he->source()));
       CGAL_assertion (vert_map.is_defined (he->target()));
 
-      if (he->direction() == SMALLER)
+      if ((Arr_halfedge_direction)he->direction() == ARR_LEFT_TO_RIGHT)
       {
         e_left = vert_map[he->source()];
         e_right = vert_map[he->target()];
@@ -240,7 +251,6 @@ public:
     }
 
     // Perform the sweep:
-    this->m_visitor->after_init();
     this->_sweep();
     this->_complete_sweep();
     this->m_visitor->after_sweep();
@@ -265,7 +275,7 @@ private:
       // containment flags (otherwise we will simply not keep it).
       if (circ->face()->contained() != circ->twin()->face()->contained())
       {
-        if (circ->direction() == SMALLER)
+        if ((Arr_halfedge_direction)circ->direction() == ARR_LEFT_TO_RIGHT)
           return (Base_event::RIGHT_END);
         else
           return (Base_event::LEFT_END);

@@ -1,7 +1,10 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+#include <cassert>
+#include <iostream>
+
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Triangulation_vertex_base_2<K>                     Vb;
 typedef CGAL::Constrained_triangulation_face_base_2<K>           Fb;

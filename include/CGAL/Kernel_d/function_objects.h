@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/function_objects.h $
-// $Id: function_objects.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/function_objects.h $
+// $Id: function_objects.h 44370 2008-07-23 15:27:18Z hoffmann $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -26,8 +26,6 @@
 
 // These functors come from the 2D-3D kernels.
 // Since they have changed there, they now need to be copied here.
-
-#include <CGAL/functional_base.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -120,7 +118,6 @@ class Call_has_on_positive_side
 {
   public:
     typedef bool           result_type;
-    typedef Arity_tag< 2 >   Arity;
 
     template <class Cls, class Arg>
     bool
@@ -132,7 +129,6 @@ class Call_oriented_side
 {
   public:
     typedef Oriented_side   result_type;
-    typedef Arity_tag< 2 >   Arity;
 
     template <class Cls, class Arg>
     Oriented_side
@@ -144,7 +140,6 @@ class Intersect
 {
   public:
     typedef CGAL::Object   result_type;
-    typedef Arity_tag< 2 >   Arity;
 
     template <class T1, class T2>
     CGAL::Object

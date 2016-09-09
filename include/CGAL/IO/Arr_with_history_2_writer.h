@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005-2007  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Arr_with_history_2_writer.h $
-// $Id: Arr_with_history_2_writer.h 33888 2006-09-03 07:11:05Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Arr_with_history_2_writer.h $
+// $Id: Arr_with_history_2_writer.h 40209 2007-09-05 14:41:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
@@ -49,8 +49,6 @@ protected:
                                                      Curve_const_iterator;
   typedef typename Arr_with_history_2::Curve_const_handle
                                                      Curve_const_handle;
-  typedef typename Arr_with_history_2::Halfedge_const_handle
-                                                     Halfedge_const_handle;
   typedef typename Arr_with_history_2::Induced_edge_iterator
                                                      Induced_edge_iterator;
 
@@ -111,7 +109,7 @@ protected:
     for (ieit = this->m_arr.induced_edges_begin(cv);
          ieit != this->m_arr.induced_edges_end(cv); ++ieit)
     {
-      formatter.write_halfedge_index (this->_get_index (*ieit));
+      formatter.write_halfedge_index (this->_index (&(**ieit)));
     }
     formatter.write_induced_edges_end();
     

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/vector.h $
-// $Id: vector.h 32846 2006-07-31 22:31:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/vector.h $
+// $Id: vector.h 41698 2008-01-20 15:27:47Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
@@ -25,10 +25,6 @@
 #ifndef CGAL_VECTOR_H
 #define CGAL_VECTOR_H 1
 
-#if defined( _MSC_VER) && (_MSC_VER <= 1200)
-#error CGAL::vector not available on MSC VC6
-#else
-
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
 #include <iterator>
@@ -36,11 +32,9 @@
 #include <memory>
 #include <cstddef>
 
-
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
-
 
 // We give the vector container class a class based iterator implementation.
 // It ensures that iterator_traits work on compilers not supporting
@@ -154,8 +148,8 @@ public:
                                                      const_iterator;
     typedef vector< T, Alloc>                        Self;
 
-    typedef CGAL_reverse_iterator(iterator)          reverse_iterator;
-    typedef CGAL_reverse_iterator(const_iterator)    const_reverse_iterator;
+    typedef std::reverse_iterator<iterator>          reverse_iterator;
+    typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
 protected:
 #ifndef _MSC_VER
@@ -601,7 +595,4 @@ void vector<T, Alloc>::insert( iterator position, size_type n, const T& x) {
 
 CGAL_END_NAMESPACE
 
-#endif // defined( _MSC_VER) && (_MSC_VER <= 1200)
-
 #endif // CGAL_VECTOR_H //
-// EOF //

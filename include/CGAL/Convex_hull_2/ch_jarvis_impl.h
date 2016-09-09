@@ -11,12 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
-// $Id: ch_jarvis_impl.h 31422 2006-06-04 15:33:38Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
+// $Id: ch_jarvis_impl.h 42460 2008-03-11 14:45:12Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
-
 
 #ifndef CGAL_CH_JARVIS_C
 #define CGAL_CH_JARVIS_C
@@ -27,10 +26,11 @@
 
 #include <CGAL/Convex_hull_2/ch_assertions.h>
 #include <CGAL/ch_selected_extreme_points_2.h>
-#include <CGAL/functional.h>
 #include <algorithm>
+#include <boost/bind.hpp>
 
 CGAL_BEGIN_NAMESPACE
+
 template <class ForwardIterator, class OutputIterator, 
           class Point, class Traits>
 OutputIterator
@@ -40,6 +40,8 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
                 OutputIterator  result,
                 const Traits& ch_traits)
 {
+  using namespace boost;
+
   if (first == last) return result;
   typedef   typename Traits::Less_rotate_ccw_2     Less_rotate_ccw;
   typedef   typename Traits::Point_2               Point_2;
@@ -66,7 +68,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       Point previous_point = start_p; ) 
 
   ForwardIterator it = std::min_element( first, last, 
-                                         bind_1(rotation_predicate, start_p) );
+                                         bind(rotation_predicate, boost::cref(start_p), _1, _2) );
   while (! equal_points(*it, stop_p) )
   {
       CGAL_ch_exactness_assertion( \
@@ -81,7 +83,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
           constructed_points <= count_points + 1 );
 
       it = std::min_element( first, last, 
-                             bind_1(rotation_predicate, *it) );
+                             bind(rotation_predicate, *it, _1, _2) );
   } 
   CGAL_ch_postcondition( \
       is_ccw_strongly_convex_2( res.output_so_far_begin(), \
@@ -115,4 +117,3 @@ ch_jarvis(ForwardIterator first, ForwardIterator last,
 CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_JARVIS_C
-

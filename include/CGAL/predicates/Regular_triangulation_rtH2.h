@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h $
-// $Id: Regular_triangulation_rtH2.h 32441 2006-07-12 12:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h $
+// $Id: Regular_triangulation_rtH2.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
 #ifndef CGAL_REGULAR_TRIANGULATION_RTH2_H
@@ -76,10 +76,10 @@ power_testH2( const RT &phx, const RT &phy, const RT &phw, const RT &pwt,
     RT dthw = CGAL_NTS square(thw);
     RT dtz = CGAL_NTS square(thx) + CGAL_NTS square(thy) - twt*dthw;
 
-    return Oriented_side(sign_of_determinant4x4(dphx, dphy, dpz, dphw,
-	                                        dqhx, dqhy, dqz, dqhw,
-	                                        drhx, drhy, drz, drhw,
-	                                        dthx, dthy, dtz, dthw));
+    return sign_of_determinant(dphx, dphy, dpz, dphw,
+	                       dqhx, dqhy, dqz, dqhw,
+	                       drhx, drhy, drz, drhw,
+	                       dthx, dthy, dtz, dthw);
 }
 
 
@@ -115,10 +115,9 @@ power_testH2( const RT &phx, const RT &phy, const RT &phw, const RT &pwt,
     RT dthw = CGAL_NTS square(thw);
     RT dtz = CGAL_NTS square(thx) + CGAL_NTS square(thy) - twt*dthw;
 
-    return Oriented_side(CGAL_NTS compare(pa, qa) *
-	                 sign_of_determinant3x3(pa, dpz, dphw,
-				                qa, dqz, dqhw,
-				                ta, dtz, dthw));
+    return CGAL_NTS compare(pa, qa) * sign_of_determinant(pa, dpz, dphw,
+				                          qa, dqz, dqhw,
+				                          ta, dtz, dthw);
 }
 
 CGAL_END_NAMESPACE

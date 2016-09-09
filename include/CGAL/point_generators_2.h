@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/point_generators_2.h $
-// $Id: point_generators_2.h 32923 2006-08-03 03:37:56Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/point_generators_2.h $
+// $Id: point_generators_2.h 45662 2008-09-22 08:09:22Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -57,10 +57,10 @@ Random_points_in_disc_2<P,Creator>::
 generate_point() {
     typedef typename Creator::argument_type T;
     double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
-    double r = this->d_range * CGAL_CLIB_STD::sqrt( this->_rnd.get_double());
+    double r = this->d_range * std::sqrt( this->_rnd.get_double());
     Creator creator;
-    this->d_item = creator( T(r * CGAL_CLIB_STD::cos(alpha)), 
-                            T(r * CGAL_CLIB_STD::sin(alpha)));
+    this->d_item = creator( T(r * std::cos(alpha)), 
+                            T(r * std::sin(alpha)));
 }
 
 
@@ -93,8 +93,8 @@ generate_point() {
     typedef typename Creator::argument_type T;
     double a = this->_rnd.get_double() * 2.0 * CGAL_PI;
     Creator creator;
-    this->d_item = creator( T(this->d_range * CGAL_CLIB_STD::cos(a)), 
-                            T(this->d_range * CGAL_CLIB_STD::sin(a)));
+    this->d_item = creator( T(this->d_range * std::cos(a)), 
+                            T(this->d_range * std::sin(a)));
 }
 
 
@@ -184,6 +184,47 @@ generate_point() {
         break;
     }
 }
+
+
+template < class P, class Creator = 
+                   Creator_uniform_2<typename Kernel_traits<P>::Kernel::RT,P> >
+class Random_points_in_iso_rectangle_2 : public Random_generator_base<P> {
+  double left, right, top, bottom;
+    void generate_point();
+public:
+    typedef Random_points_in_iso_rectangle_2<P,Creator> This;
+    Random_points_in_iso_rectangle_2( const P&p, const P& q, Random& rnd = default_random)
+      : Random_generator_base<P>( 1.0 , rnd)
+  {
+    left = (std::min)(to_double(p.x()), to_double(q.x()));
+    right = (std::max)(to_double(p.x()), to_double(q.x()));
+    top = (std::min)(to_double(p.y()), to_double(q.y()));
+    bottom = (std::max)(to_double(p.y()), to_double(q.y()));
+    generate_point(); 
+  }
+
+    This& operator++()    {
+        generate_point();
+        return *this;
+    }
+    This  operator++(int) {
+        This tmp = *this;
+        ++(*this);
+        return tmp;
+    }
+};
+
+template < class P, class Creator >
+void
+Random_points_in_iso_rectangle_2<P,Creator>::
+generate_point() {
+    typedef typename Creator::argument_type  T;
+    Creator creator;
+    this->d_item =
+	    creator( T(this->_rnd.get_double(left,right)),
+                     T(this->_rnd.get_double(top,bottom)));
+}
+
 
 
 template < class P, class Creator = 
@@ -285,7 +326,7 @@ points_on_square_grid_2( double a, std::size_t n, OutputIterator o,
     typedef typename Creator::argument_type T;
     if  (n == 0)
         return o;
-    int m = int(CGAL_CLIB_STD::ceil(std::sqrt(static_cast<double>(n))));
+    int m = int(std::ceil(std::sqrt(static_cast<double>(n))));
     double base = -a;  // Left and bottom boundary.
     double step = (2*a)/(m - 1);
     int j = 0;

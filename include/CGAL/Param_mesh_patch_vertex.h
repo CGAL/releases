@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_vertex.h $
-// $Id: Param_mesh_patch_vertex.h 29081 2006-03-06 13:32:35Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_vertex.h $
+// $Id: Param_mesh_patch_vertex.h 45070 2008-08-21 11:57:02Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -146,11 +146,11 @@ private:
 }; // Param_mesh_patch_vertex
 
 
-/// Param_mesh_patch_vertex_handle represents a handle to a 
+/// Param_mesh_patch_vertex_handle represents a handle to a
 /// Param_mesh_patch_vertex object, thus has the same behavior
 /// as Param_mesh_patch_vertex* pointer type.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// Param_mesh_patch_vertex_handle is a Bridge [GHJV95].
 ///
 /// Implementation note:
@@ -200,7 +200,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
     }
 
     /// Extra constructor that will create the Parameterization_mesh_patch_3<ParameterizationPatchableMesh_3>::Vertex on the fly
@@ -232,7 +232,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
     }
 
     /// operator =()
@@ -249,7 +249,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
 
         return *this;
     }
@@ -266,11 +266,11 @@ public:
     bool operator!=(const Self& hdl) const { return ! (*this == hdl); }
 
     /// Comparison to NULL pointer
-    bool operator==(CGAL_NULL_TYPE ptr) const {
+    bool operator==(Nullptr_t ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
         return m_ptr == NULL;
     }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
+    bool operator!=(Nullptr_t ptr) const { return ! (*this == ptr); }
 
     pointer operator->()  const { return  m_ptr; }
     reference operator*() const { return *m_ptr; }
@@ -290,11 +290,11 @@ private:
 }; // Param_mesh_patch_vertex_handle
 
 
-/// Param_mesh_patch_vertex_const_handle represents a handle to a 
+/// Param_mesh_patch_vertex_const_handle represents a handle to a
 /// Param_mesh_patch_vertex object, thus has the same behavior
 /// as const Param_mesh_patch_vertex* pointer type.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// Param_mesh_patch_vertex_const_handle is a Bridge [GHJV95].
 ///
 /// Implementation note:
@@ -344,7 +344,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
     }
 
     /// Extra constructor that will create the Parameterization_mesh_patch_3<ParameterizationPatchableMesh_3>::Vertex on the fly
@@ -378,7 +378,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
     }
 
     /// operator =()
@@ -395,7 +395,7 @@ public:
             m_ptr = &m_vertex;
         }
 
-        assert(m_ptr == NULL || m_ptr == &m_vertex);
+        CGAL_surface_mesh_parameterization_assertion(m_ptr == NULL || m_ptr == &m_vertex);
 
         return *this;
     }
@@ -412,11 +412,11 @@ public:
     bool operator!=(const Self& hdl) const { return ! (*this == hdl); }
 
     /// Comparison to NULL pointer
-    bool operator==(CGAL_NULL_TYPE ptr) const {
+    bool operator==(Nullptr_t ptr) const {
         CGAL_surface_mesh_parameterization_assertion(ptr == NULL);
         return m_ptr == NULL;
     }
-    bool operator!=(CGAL_NULL_TYPE ptr) const { return ! (*this == ptr); }
+    bool operator!=(Nullptr_t ptr) const { return ! (*this == ptr); }
 
     pointer operator->()  const { return  m_ptr; }
     reference operator*() const { return *m_ptr; }

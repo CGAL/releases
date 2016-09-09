@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: Plane_3.h 33070 2006-08-06 16:06:39Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: Plane_3.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_PLANE_3_H
 #define CGAL_CARTESIAN_PLANE_3_H
 
-#include <CGAL/Fourtuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -41,15 +41,17 @@ class PlaneC3
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Plane_3              Plane_3;
+  typedef typename R_::Circle_3             Circle_3;
   typedef typename R_::Construct_point_3    Construct_point_3;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef Fourtuple<FT>	                           Rep;
+  typedef CGAL::array<FT, 4>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
+
   typedef R_                                     R;
 
   PlaneC3() {}
@@ -64,7 +66,7 @@ public:
   { *this = plane_from_point_direction(p, v.direction()); }
 
   PlaneC3(const FT &a, const FT &b, const FT &c, const FT &d)
-    : base(a, b, c, d) {}
+    : base(CGAL::make_array(a, b, c, d)) {}
 
   PlaneC3(const Line_3 &l, const Point_3 &p)
   { *this = plane_from_points(l.point(),
@@ -77,24 +79,24 @@ public:
   PlaneC3(const Ray_3 &r, const Point_3 &p)
   { *this = plane_from_points(r.start(), r.second_point(), p); }
 
-  bool         operator==(const PlaneC3 &p) const;
-  bool         operator!=(const PlaneC3 &p) const;
+  typename R::Boolean   operator==(const PlaneC3 &p) const;
+  typename R::Boolean   operator!=(const PlaneC3 &p) const;
 
   const FT & a() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const FT & b() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
   const FT & c() const
   {
-      return get(base).e2;
+      return get(base)[2];
   }
   const FT & d() const
   {
-      return get(base).e3;
+      return get(base)[3];
   }
 
   Line_3       perpendicular_line(const Point_3 &p) const;
@@ -112,25 +114,43 @@ public:
   Point_2      to_2d(const Point_3 &p) const;
   Point_3      to_3d(const Point_2 &p) const;
 
-  Oriented_side oriented_side(const Point_3 &p) const;
-  bool         has_on_positive_side(const Point_3 &l) const;
-  bool         has_on_negative_side(const Point_3 &l) const;
-  bool         has_on(const Point_3 &p) const
+  typename R::Oriented_side     oriented_side(const Point_3 &p) const;
+  typename R::Boolean           has_on_positive_side(const Point_3 &l) const;
+  typename R::Boolean           has_on_negative_side(const Point_3 &l) const;
+  typename R::Boolean           has_on(const Point_3 &p) const
   {
     return oriented_side(p) == ON_ORIENTED_BOUNDARY;
   }
-  bool         has_on(const Line_3 &l) const
+  typename R::Boolean           has_on(const Line_3 &l) const
   {
     return has_on(l.point())
        &&  has_on(l.point() + l.direction().to_vector());
   }
+  typename R::Boolean           has_on(const Circle_3 &circle) const
+  {
+    if(circle.squared_radius() != FT(0)) {
+      const Plane_3& p = circle.supporting_plane();
+      if(is_zero(a())) {
+        if(!is_zero(p.a())) return false;
+        if(is_zero(b())) {
+          if(!is_zero(p.b())) return false;
+          return c() * p.d() == d() * p.c();
+        }
+        return (p.c() * b() == c() * p.b()) &&
+               (p.d() * b() == d() * p.b());
+      }
+      return (p.b() * a() == b() * p.a()) &&
+             (p.c() * a() == c() * p.a()) &&
+             (p.d() * a() == d() * p.a());
+    } else return has_on(circle.center());
+  }
 
-  bool         is_degenerate() const;
+  typename R::Boolean           is_degenerate() const;
 };
 
 template < class R >
 CGAL_KERNEL_INLINE
-bool
+typename R::Boolean
 PlaneC3<R>::operator==(const PlaneC3<R> &p) const
 {
   if (CGAL::identical(base, p.base))
@@ -140,7 +160,7 @@ PlaneC3<R>::operator==(const PlaneC3<R> &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 PlaneC3<R>::operator!=(const PlaneC3<R> &p) const
 {
   return !(*this == p);
@@ -248,7 +268,7 @@ PlaneC3<R>::opposite() const
 
 template < class R >
 inline
-Oriented_side
+typename R::Oriented_side
 PlaneC3<R>::
 oriented_side(const typename PlaneC3<R>::Point_3 &p) const
 {
@@ -257,7 +277,7 @@ oriented_side(const typename PlaneC3<R>::Point_3 &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 PlaneC3<R>::
 has_on_positive_side(const  typename PlaneC3<R>::Point_3 &p) const
 {
@@ -266,7 +286,7 @@ has_on_positive_side(const  typename PlaneC3<R>::Point_3 &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 PlaneC3<R>::
 has_on_negative_side(const  typename PlaneC3<R>::Point_3 &p) const
 {
@@ -275,7 +295,7 @@ has_on_negative_side(const  typename PlaneC3<R>::Point_3 &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 PlaneC3<R>::
 is_degenerate() const
 { // FIXME : predicate

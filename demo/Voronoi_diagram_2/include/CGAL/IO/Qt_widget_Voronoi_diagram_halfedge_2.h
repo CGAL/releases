@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/CGAL/IO/Qt_widget_Voronoi_diagram_halfedge_2.h $
-// $Id: Qt_widget_Voronoi_diagram_halfedge_2.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/CGAL/IO/Qt_widget_Voronoi_diagram_halfedge_2.h $
+// $Id: Qt_widget_Voronoi_diagram_halfedge_2.h 45453 2008-09-09 21:35:22Z lrineau $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -20,7 +20,6 @@
 #ifndef CGAL_QT_WIDGET_VORONOI_DIAGRAM_HALFEDGE_2_H
 #define CGAL_QT_WIDGET_VORONOI_DIAGRAM_HALFEDGE_2_H 1
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 
@@ -132,6 +131,5 @@ Qt_widget& operator<<(Qt_widget& qt_w,
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_USE_QT
 
 #endif // CGAL_QT_WIDGET_VORONOI_DIAGRAM_HALFEDGE_2_H

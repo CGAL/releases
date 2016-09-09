@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
-// $Id: Parameterization_polyhedron_adaptor_3.h 38428 2007-04-24 13:34:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Parameterization_polyhedron_adaptor_3.h $
+// $Id: Parameterization_polyhedron_adaptor_3.h 45070 2008-08-21 11:57:02Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -30,7 +30,6 @@
 #include <CGAL/Convertible_circulator_project.h>
 
 #include <list>
-#include <cassert>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -58,11 +57,11 @@ CGAL_BEGIN_NAMESPACE
 /// "Patches" are a subset of a 3D mesh. "Virtual seams" are the ability
 /// to behave exactly as if the surface was cut following a certain path.
 ///
-/// Concept:
+/// @heading Is Model for the Concepts:
 /// Model of ParameterizationPatchableMesh_3 concept, whose purpose is to allow
 /// the Surface_mesh_parameterization package to access meshes in a uniform manner.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// Parameterization_polyhedron_adaptor_3 is an Adaptor [GHJV95]: it changes the
 /// Polyhedron interface to match the ParameterizationPatchableMesh_3 concept.
 
@@ -328,7 +327,7 @@ public:
         // Extract mesh's longest border
         m_main_border = extract_longest_border(mesh);
 
-#ifndef NDEBUG
+#ifndef CGAL_NDEBUG
         // Index vertices right away to ease debugging
         index_mesh_vertices();
 #endif
@@ -345,8 +344,8 @@ public:
     typename Polyhedron::Halfedge_const_handle get_halfedge(
         Vertex_const_handle source, Vertex_const_handle target) const
     {
-        assert(source != NULL);
-        assert(target != NULL);
+        CGAL_surface_mesh_parameterization_precondition(source != NULL);
+        CGAL_surface_mesh_parameterization_precondition(target != NULL);
 
         Halfedge_around_vertex_const_circulator cir     = target->vertex_begin(),
                                                 cir_end = cir;
@@ -354,7 +353,8 @@ public:
             if (cir->opposite()->vertex() == source)
                 return cir;
 
-        assert(false);              // error if we reach this point
+        // we should not get here
+        CGAL_error();
         return NULL;
     }
     typename Polyhedron::Halfedge_handle get_halfedge(
@@ -724,8 +724,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // get (u,v) pair from first inner halfedge (clockwise)
             Halfedge_around_vertex_const_circulator cir(
@@ -749,8 +749,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // first inner halfedge (for a clockwise rotation)
             Halfedge_around_vertex_circulator cir(
@@ -783,8 +783,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // get "is parameterized" field from first inner halfedge (clockwise)
             Halfedge_around_vertex_const_circulator cir(
@@ -808,8 +808,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // first inner halfedge (for a clockwise rotation)
             Halfedge_around_vertex_circulator cir(
@@ -842,8 +842,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // get index from first inner halfedge (clockwise)
             Halfedge_around_vertex_const_circulator cir(
@@ -867,8 +867,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // first inner halfedge (for a clockwise rotation)
             Halfedge_around_vertex_circulator cir(
@@ -901,8 +901,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // get tag from first inner halfedge (clockwise)
             Halfedge_around_vertex_const_circulator cir(
@@ -926,8 +926,8 @@ public:
         }
         else // if seam vertex
         {
-            assert(prev_vertex != NULL);
-            assert(next_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(prev_vertex != NULL);
+            CGAL_surface_mesh_parameterization_precondition(next_vertex != NULL);
 
             // first inner halfedge (for a clockwise rotation)
             Halfedge_around_vertex_circulator cir(
@@ -1075,7 +1075,6 @@ private:
         typedef typename Parameterization_polyhedron_adaptor_3::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         /// Get the target vertex of a halfedge
         Vertex&       operator()(Halfedge& h)       const {
@@ -1092,7 +1091,6 @@ private:
         typedef typename Parameterization_polyhedron_adaptor_3::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         /// Convert Vertex_handle to Vertex
         Vertex&       operator()(Vertex_handle& vh)       const { return *vh; }
@@ -1105,7 +1103,6 @@ private:
         typedef typename Parameterization_polyhedron_adaptor_3::Vertex
                                                     Vertex;
         typedef Vertex                              result_type;
-        typedef CGAL::Arity_tag<1>                  Arity;
 
         /// Get the source vertex of a halfedge
         Vertex&       operator()(Halfedge& h)       const {

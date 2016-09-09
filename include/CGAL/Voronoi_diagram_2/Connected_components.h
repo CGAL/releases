@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Connected_components.h $
-// $Id: Connected_components.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Connected_components.h $
+// $Id: Connected_components.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -47,7 +47,6 @@ class Connected_components
   typedef typename Voronoi_diagram_2::size_type          size_type;
   typedef size_type                                      result_type;
   typedef Voronoi_diagram_2                              argument_type;
-  typedef Arity_tag<1>                                   Arity;
 
  private:
   struct Halfedge_handle_less {

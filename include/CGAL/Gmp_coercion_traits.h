@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007 Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Gmp_coercion_traits.h $
-// $Id: Gmp_coercion_traits.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Gmp_coercion_traits.h $
+// $Id: Gmp_coercion_traits.h 47264 2008-12-08 06:25:14Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -37,33 +37,33 @@
 CGAL_BEGIN_NAMESPACE
 
 //Gmp internal coercions:
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpz);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpzf);
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpq);
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpzf);
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpz)
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpzf)
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(Gmpq)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpzf)
 //CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpzf,Gmpzq); // todo
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpq);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(Gmpz,Gmpq)
 
 // The following definitions reflect the interaction of the Gmp number types
 // with the built in types,
 // Gmpz:
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short    ,Gmpz);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int      ,Gmpz);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long     ,Gmpz);
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short    ,Gmpz)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int      ,Gmpz)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long     ,Gmpz)
 
 // Gmpzf: not tested
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short    ,Gmpzf);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int      ,Gmpzf);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long     ,Gmpzf);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float    ,Gmpzf);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double   ,Gmpzf);
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short    ,Gmpzf)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int      ,Gmpzf)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long     ,Gmpzf)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float    ,Gmpzf)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double   ,Gmpzf)
 
 // Gmpq:
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short      ,Gmpq);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int        ,Gmpq);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long       ,Gmpq);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float      ,Gmpq);
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double     ,Gmpq);
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(short      ,Gmpq)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int        ,Gmpq)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long       ,Gmpq)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float      ,Gmpq)
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double     ,Gmpq)
 
 CGAL_END_NAMESPACE
 

@@ -22,87 +22,70 @@
 #ifndef CGAL_DSRPDB_RMS_H
 #define CGAL_DSRPDB_RMS_H
 #include <CGAL/PDB/basic.h>
-#include <CGAL/PDB/Protein.h>
+#include <CGAL/PDB/Chain.h>
 #include <CGAL/PDB/geometry.h>
 #include <CGAL/PDB/Matrix.h>
 #include <cmath>
 #include <vector>
 CGAL_PDB_BEGIN_NAMESPACE
-//! Compute the all-atom cRMS with no alignment. 
-/*!  This function assumes that a, and b have already been rigidly
-  aligned externally. 
+//! Compute the cRMS of the collection of Points without alignment
+template <class ItA, class ItB>
+double cRMS(ItA ba, ItA ea, ItB bb, ItB eb) {
+  Squared_distance sd;
+  if (std::distance(ab, ae) != std::distance(bb, be)){
+    CGAL_PDB_INTERNAL_NS::error_logger.new_fatal_error("Protein chains used for computing cRMS must have equal lengths.\n");
+    return std::numeric_traits<double>::infinity();
+  }
+  double ret=0;
+  int num=0;
+  for (It bc= bb, ac= ab; bc != be; ++bc, ++ac){
     
-  \pre {a and b must have the same number of atoms. This is checked.}
+    Point pt= Point(*bc);
+    Point tpt= f(pt);
+    ret += sd(*ac, tpt);
+    ++num;
+  }
+  return std::sqrt(ret)/ num;
+}
 
-  See pdb_distance.cc for an example.
-*/
-double no_align_cRMS(const Protein &a, const Protein &b);
+//! Compute the dRMS of the collection of Points without alignment
+template <class ItA, class ItB>
+double dRMS(ItA ba, ItA ea, ItB bb, ItB eb) {
+  CGAL_assertion(std::distance(ba, ea) == std::distance(bb, eb));
+  double ret=0;
+  int count=0;
+  for (It ac= ba, bc= bb; ac != ea; ++ac, ++bc) {
+    for (It ac2= ba, bc2= bb; ac2 != ac; ++ac2, ++bc2) {
+      Vector va= *ac- *ac2;
+      Vector vb= *bc- *bc2;
+      double da= std::sqrt(va*va);
+      double db= std::sqrt(vb*vb);
+      ret+= (da-db)*(da-db);
+      ++count;
+    }
+  }
+  return ret/count;
+}
 
-
-//! Compute the calpha cRMS without aligning the proteins.
-/*!
-  \pre {a and b must have the same number of atoms. This is checked.}
-    
-  See pdb_distance.cc for an example.
-*/
-double no_align_ca_cRMS(const Protein &a, const Protein &b);
-
-
-//! Compute the all-atom cRMS between two proteins
-/*!
-  \pre {a and b must have the same number of atoms. This is checked.}
-*/
-double cRMS(const Protein &a, const Protein &b);
-
-
-//! Compute the C_alpha cRMS between two proteins
-/*!
-  \pre {a and b must have the same number of atoms. This is checked.}
-*/
-double ca_cRMS(const Protein &a, const Protein &b);
-
-
-//! Compute the all-atom dRMS between two proteins
-/*!
-  \pre {a and b must have the same number of atoms. This is checked.}
-
-  See pdb_distance.cc for an example.
-*/
-double dRMS(const Protein &a, const Protein &b);
-
-
-//! Compute the C_alpha cRMS between two proteins
-/*!
-  \pre {a and b must have the same number of atoms. This is checked.}
-
-  See pdb_distance.cc for an example.
-*/
-double ca_dRMS(const Protein &a, const Protein &b);
-
-
-//! Return the distance matrix of a protein
-/*!
-  See pdb_distance_matrix.cc for an example.
-*/
-Matrix distance_matrix(const Protein &a);
-
-
-//! Return the C_alpha distance matrix of a protein
-Matrix ca_distance_matrix(const Protein &a);
-
-//! Return the backbone atom distance matrix of a protein
-Matrix backbone_distance_matrix(const Protein &a);
-
-
-//! Return the distance matrix of a protein
-Matrix distance_matrix(const Model &a);
-
-
-//! Return the C_alpha distance matrix of a protein
-Matrix ca_distance_matrix(const Model &a);
-
-//! Return the backbone atom distance matrix of a protein
-Matrix backbone_distance_matrix(const Model &a);
+//! Return the distance matrix
+template <class ItA, class ItB>
+Matrix distance_matrix(ItA ba, ItA ea, ItB bb, ItB eb) {
+  int dist= std::distance(ab, ae);
+  Matrix ret(std::distance(ba, ea),std::distance(bb, e));
+  
+  int indi=0;
+  for (ItA ac= ba; ac != ea; ++ac, ++indi){
+    int indj=0;
+    for (ItB ac2= bb; ac2!= eb; ++ac2, ++indj){
+      Vector dif= *ac- *ac2;
+      //std::cout << dif << std::endl;
+      double d= std::sqrt(dif*dif);
+      //std::cout << d << std::endl;
+      ret[indi][indj]=d;
+    }
+  }
+  return ret;
+}
 
 CGAL_PDB_END_NAMESPACE
 #endif

@@ -15,18 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/VectorHd.h $
-// $Id: VectorHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/VectorHd.h $
+// $Id: VectorHd.h 42940 2008-04-17 13:32:52Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_VECTORHD_H
 #define CGAL_VECTORHD_H 
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/Quotient.h>
-#endif
 #include <CGAL/Kernel_d/Tuple_d.h> 
 #include <CGAL/Kernel_d/PointHd.h>
 #include <CGAL/Kernel_d/Aff_transformationHd.h>

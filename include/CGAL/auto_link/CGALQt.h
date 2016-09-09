@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/auto_link/CGALQt.h $
-// $Id: CGALQt.h 37263 2007-03-19 14:37:41Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/CGALQt.h $
+// $Id: CGALQt.h 46207 2008-10-12 10:31:12Z lrineau $
 // 
 //
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactry.com)
@@ -22,7 +22,7 @@
 
 #ifndef CGAL_NO_AUTOLINK_CGALQT
 
-#define CGAL_LIB_NAME CGALQt
+#define CGAL_LIB_NAME CGAL_Qt3
 #include <CGAL/auto_link/auto_link.h>
 
 #endif // CGAL_NO_AUTOLINK_CGALQT

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 33346 2006-08-16 14:24:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 44908 2008-08-12 12:43:20Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)
@@ -25,6 +25,7 @@
 #ifndef CGAL_PREDICATES_KERNEL_FTC2_H
 #define CGAL_PREDICATES_KERNEL_FTC2_H
 
+#include <CGAL/algorithm.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/predicates/sign_of_determinant.h>
 #include <CGAL/constructions/kernel_ftC2.h>
@@ -37,7 +38,7 @@ typename Equal_to<FT>::result_type
 parallelC2(const FT &l1a, const FT &l1b,
            const FT &l2a, const FT &l2b)
 {
-    return sign_of_determinant2x2(l1a, l1b, l2a, l2b) == ZERO;
+    return sign_of_determinant(l1a, l1b, l2a, l2b) == ZERO;
 }
 
 template < class FT >
@@ -47,7 +48,7 @@ parallelC2(const FT &s1sx, const FT &s1sy,
            const FT &s2sx, const FT &s2sy,
            const FT &s2tx, const FT &s2ty)
 {
-    return sign_of_determinant2x2(s1tx - s1sx, s1ty - s1sy,
+    return sign_of_determinant(s1tx - s1sx, s1ty - s1sy,
                                   s2tx - s2sx, s2ty - s2sy) == ZERO;
 }
 
@@ -57,14 +58,14 @@ typename Equal_to<FT>::result_type
 equal_lineC2(const FT &l1a, const FT &l1b, const FT &l1c,
              const FT &l2a, const FT &l2b, const FT &l2c)
 {
-    if (sign_of_determinant2x2(l1a, l1b, l2a, l2b) != ZERO)
+    if (sign_of_determinant(l1a, l1b, l2a, l2b) != ZERO)
         return false; // Not parallel.
     typename Sgn<FT>::result_type s1a = CGAL_NTS sign(l1a);
     if (s1a != ZERO)
         return s1a == CGAL_NTS sign(l2a)
-	    && sign_of_determinant2x2(l1a, l1c, l2a, l2c) == ZERO;
+	    && sign_of_determinant(l1a, l1c, l2a, l2c) == ZERO;
     return CGAL_NTS sign(l1b) == CGAL_NTS sign(l2b)
-	&& sign_of_determinant2x2(l1b, l1c, l2b, l2c) == ZERO;
+	&& sign_of_determinant(l1b, l1c, l2b, l2c) == ZERO;
 }
 
 template < class FT >
@@ -75,11 +76,11 @@ compare_xC2(const FT &px,
             const FT &ha, const FT &hb, const FT &hc)
 {
   // The abscissa of the intersection point is num/den.
-  FT num = det2x2_by_formula( lb, lc, hb, hc);
-  FT den = det2x2_by_formula( la, lb, ha, hb);
+  FT num = determinant( lb, lc, hb, hc);
+  FT den = determinant( la, lb, ha, hb);
   typename Sgn<FT>::result_type s = CGAL_NTS sign(den);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>( s * CGAL_NTS compare( px * den, num) );
+  return s * CGAL_NTS compare(px * den, num);
 }
 
 template < class FT >
@@ -90,25 +91,24 @@ compare_xC2(const FT &la, const FT &lb, const FT &lc,
             const FT &h2a, const FT &h2b, const FT &h2c)
 {
   /*
-  FT num1 = det2x2_by_formula( lb, lc, h1b, h1c);
-  FT den1 = det2x2_by_formula( la, lb, h1a, h1b);
-  FT num2 = det2x2_by_formula( lb, lc, h2b, h2c);
-  FT den2 = det2x2_by_formula( la, lb, h2a, h2b);
+  FT num1 = determinant( lb, lc, h1b, h1c);
+  FT den1 = determinant( la, lb, h1a, h1b);
+  FT num2 = determinant( lb, lc, h2b, h2c);
+  FT den2 = determinant( la, lb, h2a, h2b);
   Sign s = Sign (CGAL_NTS sign(den1) * CGAL_NTS sign(den2));
   CGAL_kernel_assertion( s != ZERO );
-  return Comparison_result( s * sign_of_determinant2x2(num1, 
-                                                       num2, den1, den2));
+  return s * sign_of_determinant(num1, num2, den1, den2);
   */
-  FT num1 = det2x2_by_formula( la, lc, h1a, h1c);
-  FT num2 = det2x2_by_formula( la, lc, h2a, h2c);
-  FT num  = det2x2_by_formula(h1a,h1c,h2a,h2c)*lb
-            + det2x2_by_formula(num1,num2,h1b,h2b);
-  FT den1 = det2x2_by_formula( la, lb, h1a, h1b);
-  FT den2 = det2x2_by_formula( la, lb, h2a, h2b);
-  return enum_cast<Comparison_result>( CGAL_NTS sign(lb) *
-                                       CGAL_NTS sign(num) *
-                                       CGAL_NTS sign(den1) *
-                                       CGAL_NTS sign(den2));
+  FT num1 = determinant( la, lc, h1a, h1c);
+  FT num2 = determinant( la, lc, h2a, h2c);
+  FT num  = determinant(h1a,h1c,h2a,h2c)*lb
+            + determinant(num1,num2,h1b,h2b);
+  FT den1 = determinant( la, lb, h1a, h1b);
+  FT den2 = determinant( la, lb, h2a, h2b);
+  return CGAL_NTS sign(lb) *
+         CGAL_NTS sign(num) *
+         CGAL_NTS sign(den1) *
+         CGAL_NTS sign(den2);
 }
 
 template < class FT >
@@ -119,15 +119,13 @@ compare_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
             const FT &l2a, const FT &l2b, const FT &l2c,
             const FT &h2a, const FT &h2b, const FT &h2c)
 {
-  FT num1 = det2x2_by_formula( l1b, l1c, h1b, h1c);
-  FT den1 = det2x2_by_formula( l1a, l1b, h1a, h1b);
-  FT num2 = det2x2_by_formula( l2b, l2c, h2b, h2c);
-  FT den2 = det2x2_by_formula( l2a, l2b, h2a, h2b);
-  typename Sgn<FT>::result_type s = enum_cast<Sign>(CGAL_NTS sign(den1) *
-                                                    CGAL_NTS sign(den2));
+  FT num1 = determinant( l1b, l1c, h1b, h1c);
+  FT den1 = determinant( l1a, l1b, h1a, h1b);
+  FT num2 = determinant( l2b, l2c, h2b, h2c);
+  FT den2 = determinant( l2a, l2b, h2a, h2b);
+  typename Sgn<FT>::result_type s = CGAL_NTS sign(den1) * CGAL_NTS sign(den2);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>( s * sign_of_determinant2x2(num1, num2,
-			                                          den1, den2));
+  return s * sign_of_determinant(num1, num2, den1, den2);
 }
 
 template < class FT >
@@ -138,7 +136,7 @@ compare_y_at_xC2(const FT &px, const FT &py,
 {
   typename Sgn<FT>::result_type s = CGAL_NTS sign(lb);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>(s * CGAL_NTS sign(la*px + lb*py + lc));
+  return s * CGAL_NTS sign(la*px + lb*py + lc);
 }
 
 template < class FT >
@@ -148,12 +146,10 @@ compare_y_at_xC2(const FT &px,
                  const FT &l1a, const FT &l1b, const FT &l1c,
                  const FT &l2a, const FT &l2b, const FT &l2c)
 {
-  typename Sgn<FT>::result_type s = enum_cast<Sign>(CGAL_NTS sign(l1b) *
-                                                    CGAL_NTS sign(l2b));
+  typename Sgn<FT>::result_type s = CGAL_NTS sign(l1b) * CGAL_NTS sign(l2b);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>( s *
-                               sign_of_determinant2x2<FT>(l2a*px+l2c, l2b,
-                                                          l1a*px+l1c, l1b));
+  return s * sign_of_determinant<FT>(l2a*px+l2c, l2b,
+                                        l1a*px+l1c, l1b);
 }
 
 template < class FT >
@@ -163,12 +159,12 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
                  const FT &l2a, const FT &l2b, const FT &l2c,
                  const FT &ha,  const FT &hb,  const FT &hc)
 {
-  typename Sgn<FT>::result_type s = enum_cast<Sign>( CGAL_NTS sign(hb) *
-                                    sign_of_determinant2x2(l1a, l1b, l2a, l2b));
+  typename Sgn<FT>::result_type s = CGAL_NTS sign(hb) *
+                                    sign_of_determinant(l1a, l1b, l2a, l2b);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>(s * sign_of_determinant3x3(l1a, l1b, l1c,
-                                                                 l2a, l2b, l2c,
-                                                                 ha,  hb,  hc));
+  return s * sign_of_determinant(l1a, l1b, l1c,
+                                    l2a, l2b, l2c,
+                                    ha,  hb,  hc);
 }
 
 template < class FT >
@@ -180,15 +176,14 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
                  const FT &h2a, const FT &h2b, const FT &h2c)
 {
   // The abscissa of the intersection point is num/den.
-  FT num = det2x2_by_formula( l1b, l1c, l2b, l2c);
-  FT den = det2x2_by_formula( l1a, l1b, l2a, l2b);
-  typename Sgn<FT>::result_type s = enum_cast<Sign>(CGAL_NTS sign(h1b) *
-                                                    CGAL_NTS sign(h2b) *
-                                                    CGAL_NTS sign(den));
+  FT num = determinant( l1b, l1c, l2b, l2c);
+  FT den = determinant( l1a, l1b, l2a, l2b);
+  typename Sgn<FT>::result_type s = CGAL_NTS sign(h1b) *
+                                    CGAL_NTS sign(h2b) *
+                                    CGAL_NTS sign(den);
   CGAL_kernel_assertion( s != ZERO );
-  return enum_cast<Comparison_result>( s *
-	                     sign_of_determinant2x2<FT>(h2a*num+h2c*den, h2b,
-                                                        h1a*num+h1c*den, h1b));
+  return s * sign_of_determinant<FT>(h2a*num+h2c*den, h2b,
+                                        h1a*num+h1c*den, h1b);
 }
 
 template < class FT >
@@ -201,12 +196,12 @@ compare_y_at_xC2(const FT &px, const FT &py,
     // compares the y-coordinates of p and the vertical projection of p on s.
     // Precondition : p is in the x-range of s.
 
-    CGAL_kernel_precondition(px >= (CGAL::min)(ssx, stx) && px <= (CGAL::max)(ssx, stx));
+    CGAL_kernel_precondition(are_ordered(ssx, px, stx));
 
     if (ssx < stx)
-	return enum_cast<Comparison_result>(orientationC2(px, py, ssx, ssy, stx, sty));
+	return orientationC2(px, py, ssx, ssy, stx, sty);
     else if (ssx > stx)
-	return enum_cast<Comparison_result>(orientationC2(px, py, stx, sty, ssx, ssy));
+	return orientationC2(px, py, stx, sty, ssx, ssy);
     else {
 	if (py < (CGAL::min)(sty, ssy))
 	    return SMALLER;
@@ -231,19 +226,18 @@ compare_y_at_x_segment_C2(const FT &px,
     //   - if the segments intersect, return EQUAL
     //   - if not, return the obvious SMALLER/LARGER.
 
-    CGAL_kernel_precondition(px >= (CGAL::min)(s1sx, s1tx) && px <= (CGAL::max)(s1sx, s1tx));
-    CGAL_kernel_precondition(px >= (CGAL::min)(s2sx, s2tx) && px <= (CGAL::max)(s2sx, s2tx));
+    CGAL_kernel_precondition(are_ordered(s1sx, px, s1tx));
+    CGAL_kernel_precondition(are_ordered(s2sx, px, s2tx));
 
     if (s1sx != s1tx && s2sx != s2tx) {
 	FT s1stx = s1sx-s1tx;
 	FT s2stx = s2sx-s2tx;
 
-	return enum_cast<Comparison_result>(
-	    CGAL_NTS compare(s1sx, s1tx) *
-	    CGAL_NTS compare(s2sx, s2tx) *
-	    CGAL_NTS compare(-(s1sx-px)*(s1sy-s1ty)*s2stx,
-		             (s2sy-s1sy)*s2stx*s1stx
-		            -(s2sx-px)*(s2sy-s2ty)*s1stx ));
+	return CGAL_NTS compare(s1sx, s1tx) *
+	       CGAL_NTS compare(s2sx, s2tx) *
+	       CGAL_NTS compare(-(s1sx-px)*(s1sy-s1ty)*s2stx,
+		                (s2sy-s1sy)*s2stx*s1stx
+		                -(s2sx-px)*(s2sy-s2ty)*s1stx );
     }
     else {
 	if (s1sx == s1tx) { // s1 is vertical
@@ -259,7 +253,7 @@ compare_y_at_x_segment_C2(const FT &px,
 	c3 = compare_y_at_xC2(px, s2sy, s1sx, s1sy, s1tx, s1ty);
 	c4 = compare_y_at_xC2(px, s2ty, s1sx, s1sy, s1tx, s1ty);
 	if (c3 == c4)
-	    return opposite(c3);
+	    return -c3;
 	return EQUAL;
     }
 }
@@ -272,7 +266,7 @@ equal_directionC2(const FT &dx1, const FT &dy1,
 {
   return CGAL_NTS sign(dx1) == CGAL_NTS sign(dx2)
       && CGAL_NTS sign(dy1) == CGAL_NTS sign(dy2)
-      && sign_of_determinant2x2(dx1, dy1, dx2, dy2) == ZERO;
+      && sign_of_determinant(dx1, dy1, dx2, dy2) == ZERO;
 }
 
 template < class FT >
@@ -293,7 +287,7 @@ compare_angle_with_x_axisC2(const FT &dx1, const FT &dy1,
     return LARGER;
   else if (quadrant_1 < quadrant_2)
     return SMALLER;
-  return enum_cast<Comparison_result>(-sign_of_determinant2x2(dx1,dy1,dx2,dy2));
+  return -sign_of_determinant(dx1,dy1,dx2,dy2);
 }
 
 template < class FT >
@@ -301,23 +295,23 @@ CGAL_KERNEL_MEDIUM_INLINE
 typename Compare<FT>::result_type
 compare_slopesC2(const FT &l1a, const FT &l1b, const FT &l2a, const FT &l2b) 
 {
+   typedef typename Compare<FT>::result_type result_type;
+
    if (CGAL_NTS is_zero(l1a))  // l1 is horizontal
-    return CGAL_NTS is_zero(l2b) ? SMALLER
-	                : enum_cast<Comparison_result>(CGAL_NTS sign(l2a) *
-                                                       CGAL_NTS sign(l2b));
+    return CGAL_NTS is_zero(l2b) ? result_type(SMALLER)
+	                         : CGAL_NTS sign(l2a) * CGAL_NTS sign(l2b);
    if (CGAL_NTS is_zero(l2a)) // l2 is horizontal
-    return CGAL_NTS is_zero(l1b) ? LARGER
-	                : enum_cast<Comparison_result>(-CGAL_NTS sign(l1a) *
-                                                        CGAL_NTS sign(l1b));
+    return CGAL_NTS is_zero(l1b) ? result_type(LARGER)
+	                         : - CGAL_NTS sign(l1a) * CGAL_NTS sign(l1b);
    if (CGAL_NTS is_zero(l1b)) return CGAL_NTS is_zero(l2b) ? EQUAL : LARGER;
    if (CGAL_NTS is_zero(l2b)) return SMALLER;
-   int l1_sign = - CGAL_NTS sign(l1a) * CGAL_NTS sign(l1b);
-   int l2_sign = - CGAL_NTS sign(l2a) * CGAL_NTS sign(l2b);
+   result_type l1_sign = - CGAL_NTS sign(l1a) * CGAL_NTS sign(l1b);
+   result_type l2_sign = - CGAL_NTS sign(l2a) * CGAL_NTS sign(l2b);
 
    if (l1_sign < l2_sign) return SMALLER;
    if (l1_sign > l2_sign) return LARGER;
 
-   if (l1_sign > 0)
+   if (l1_sign > ZERO)
      return CGAL_NTS compare ( CGAL_NTS abs(l1a * l2b),
 			       CGAL_NTS abs(l2a * l1b) );
 
@@ -340,8 +334,7 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
       Cmp cmp_x2 = CGAL_NTS compare(s2_src_x, s2_tgt_x);
 
       if (cmp_x2 == EQUAL) return SMALLER;
-      return enum_cast<Comparison_result>(- CGAL_NTS sign((s2_src_y - s2_tgt_y) *
-                                                          (s2_src_x - s2_tgt_x)) );
+      return - CGAL_NTS sign(s2_src_y - s2_tgt_y) * CGAL_NTS sign(s2_src_x - s2_tgt_x);
    }
 
    Cmp cmp_y2 = CGAL_NTS compare(s2_src_y, s2_tgt_y);
@@ -350,8 +343,7 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
       Cmp cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
 
       if (cmp_x1 == EQUAL) return LARGER;
-      return enum_cast<Comparison_result>( CGAL_NTS sign((s1_src_y - s1_tgt_y) *
-                                                         (s1_src_x - s1_tgt_x)) );
+      return CGAL_NTS sign(s1_src_y - s1_tgt_y) * CGAL_NTS sign(s1_src_x - s1_tgt_x);
    }
 
    Cmp cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
@@ -365,13 +357,13 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
    FT s1_ydiff = s1_src_y - s1_tgt_y;
    FT s2_xdiff = s2_src_x - s2_tgt_x;
    FT s2_ydiff = s2_src_y - s2_tgt_y;
-   Sg s1_sign = enum_cast<Sign>(CGAL_NTS sign(s1_ydiff) * CGAL_NTS sign(s1_xdiff));
-   Sg s2_sign = enum_cast<Sign>(CGAL_NTS sign(s2_ydiff) * CGAL_NTS sign(s2_xdiff));
+   Sg s1_sign = CGAL_NTS sign(s1_ydiff) * CGAL_NTS sign(s1_xdiff);
+   Sg s2_sign = CGAL_NTS sign(s2_ydiff) * CGAL_NTS sign(s2_xdiff);
 
    if (s1_sign < s2_sign) return SMALLER;
    if (s1_sign > s2_sign) return LARGER;
 
-   if (s1_sign > 0)
+   if (s1_sign > ZERO)
      return CGAL_NTS compare( CGAL_NTS abs(s1_ydiff * s2_xdiff),
                               CGAL_NTS abs(s2_ydiff * s1_xdiff));
 
@@ -409,8 +401,7 @@ orientationC2(const FT &px, const FT &py,
               const FT &qx, const FT &qy,
               const FT &rx, const FT &ry)
 {
-  return enum_cast<Orientation>(sign_of_determinant2x2(qx-px, qy-py,
-                                                       rx-px, ry-py));
+  return sign_of_determinant(qx-px, qy-py, rx-px, ry-py);
 }
 
 template < class FT >
@@ -418,7 +409,7 @@ inline
 typename Same_uncertainty_nt<Orientation, FT>::type
 orientationC2(const FT &ux, const FT &uy, const FT &vx, const FT &vy)
 {
-  return enum_cast<Orientation>(sign_of_determinant2x2(ux, uy, vx, vy));
+  return sign_of_determinant(ux, uy, vx, vy);
 }
 
 template < class FT >
@@ -467,11 +458,10 @@ side_of_oriented_circleC2(const FT &px, const FT &py,
                           const FT &rx, const FT &ry,
                           const FT &tx, const FT &ty)
 {
-  // Oriented_side(
-  //  sign_of_determinant4x4(px, py, px*px + py*py, 1,
+  //  sign_of_determinant(px, py, px*px + py*py, 1,
   //                         qx, qy, qx*qx + qy*qy, 1,
   //                         rx, ry, rx*rx + ry*ry, 1,
-  //                         tx, ty, tx*tx + ty*ty, 1));
+  //                         tx, ty, tx*tx + ty*ty, 1);
   // We first translate so that p is the new origin.
   FT qpx = qx-px;
   FT qpy = qy-py;
@@ -480,12 +470,11 @@ side_of_oriented_circleC2(const FT &px, const FT &py,
   FT tpx = tx-px;
   FT tpy = ty-py;
 // The usual 3x3 formula can be simplified a little bit to a 2x2.
-//         - sign_of_determinant3x3(qpx, qpy, square(qpx) + square(qpy),
+//         - sign_of_determinant(qpx, qpy, square(qpx) + square(qpy),
 //                                  rpx, rpy, square(rpx) + square(rpy),
 //                                  tpx, tpy, square(tpx) + square(tpy)));
-  return enum_cast<Oriented_side>(sign_of_determinant2x2<FT>(
-                             qpx*tpy - qpy*tpx, tpx*(tx-qx) + tpy*(ty-qy),
-                             qpx*rpy - qpy*rpx, rpx*(rx-qx) + rpy*(ry-qy)));
+  return sign_of_determinant<FT>( qpx*tpy - qpy*tpx, tpx*(tx-qx) + tpy*(ty-qy),
+                                  qpx*rpy - qpy*rpx, rpx*(rx-qx) + rpy*(ry-qy));
 }
 
 template < class FT >
@@ -614,7 +603,7 @@ typename Same_uncertainty_nt<Oriented_side, FT>::type
 side_of_oriented_lineC2(const FT &a, const FT &b, const FT &c,
                         const FT &x, const FT &y)
 {
-  return enum_cast<Oriented_side>(CGAL_NTS sign(a*x+b*y+c));
+  return CGAL_NTS sign(a*x+b*y+c);
 }
 
 CGAL_END_NAMESPACE

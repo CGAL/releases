@@ -11,19 +11,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.cpp $
-// $Id: boolean_operations_2_toolbar.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.cpp $
+// $Id: boolean_operations_2_toolbar.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 
 #include "boolean_operations_2_toolbar.h"
+#include "boolean_operations_2.h"
 
 // icons
 #include <CGAL/IO/pixmaps/arrow.xpm>
@@ -37,22 +37,26 @@
 
 
 class MyWindow;
+//mw used to be QMainWindow 
 Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
-                             QMainWindow *mw) :
+                             MyWindow *mw) :
     QToolBar(mw, "NT")
   {
 
 
     w->attach(&getsimplebut);
     w->attach(&getcirclebut);
-    w->attach(&locatebut);
+	 locatebut = new Qt_widget_locate_layer(mw);   
+    //w->attach(&locatebut);
+    w->attach(locatebut);
+    
     /*w->attach(delete_red_but);
     w->attach(delete_blue_but);*/
     //w->attach(&delete_polygon);
 
     getsimplebut.deactivate();
     getcirclebut.deactivate();
-    locatebut.deactivate();
+    locatebut->deactivate();
     /*delete_red_but->deactivate();
     delete_blue_but->deactivate();*/
     //delete_polygon.deactivate();
@@ -102,7 +106,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
         &getcirclebut, SLOT(stateChanged(int)));
 
   connect(but[3], SIGNAL(stateChanged(int)),
-        &locatebut, SLOT(stateChanged(int)));
+        locatebut, SLOT(stateChanged(int)));
 }
 
 
@@ -110,4 +114,3 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w,
 
 #include "boolean_operations_2_toolbar.moc"
 
-#endif

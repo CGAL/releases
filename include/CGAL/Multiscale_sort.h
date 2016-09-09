@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_sorting/include/CGAL/Multiscale_sort.h $
-// $Id: Multiscale_sort.h 36875 2007-03-07 11:37:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_sorting/include/CGAL/Multiscale_sort.h $
+// $Id: Multiscale_sort.h 47102 2008-11-28 09:07:23Z spion $
 //
 // Author(s)     : Christophe Delage
 
@@ -21,6 +21,8 @@
 #define CGAL_MULTISCALE_SORT_H
 
 #include <CGAL/basic.h>
+#include <iterator>
+#include <cstddef>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -28,11 +30,11 @@ template <class Sort>
 class Multiscale_sort
 {
     Sort _sort;
-    int _threshold;
+    std::ptrdiff_t _threshold;
     double _ratio;
 
 public:
-    Multiscale_sort (const Sort &sort = Sort(), int threshold = 1, double ratio = 0.5)
+    Multiscale_sort (const Sort &sort = Sort(), std::ptrdiff_t threshold = 1, double ratio = 0.5)
         : _sort (sort), _threshold (threshold), _ratio (ratio)
     {
         CGAL_precondition (0. <= ratio && ratio <= 1.);
@@ -41,9 +43,10 @@ public:
     template <class RandomAccessIterator>
     void operator() (RandomAccessIterator begin, RandomAccessIterator end) const
     {
+	typedef typename std::iterator_traits<RandomAccessIterator>::difference_type difference_type;
         RandomAccessIterator middle = begin;
         if (end - begin >= _threshold) {
-            middle = begin + int ((end - begin) * _ratio);
+            middle = begin + difference_type ((end - begin) * _ratio);
             this->operator() (begin, middle);
         }
         _sort (middle, end);
@@ -52,4 +55,4 @@ public:
 
 CGAL_END_NAMESPACE
 
-#endif//CGAL_MULTISCALE_SORT_H
+#endif // CGAL_MULTISCALE_SORT_H

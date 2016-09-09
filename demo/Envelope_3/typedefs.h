@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/demo/Envelope_3/typedefs.h $
-// $Id: typedefs.h 38503 2007-05-02 16:52:59Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/demo/Envelope_3/typedefs.h $
+// $Id: typedefs.h 44499 2008-07-28 05:55:45Z ophirset $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -37,8 +37,8 @@
 #include <CGAL/IO/Qt_widget_Polygon_2.h>
 #include <CGAL/IO/Qt_widget_Conic_arc_2.h>
 #include <CGAL/IO/Qt_widget_Linear_object_2.h>
-#include <CGAL/Arr_overlay.h>
-#include <CGAL/Arr_overlay_2/Arr_overlay_traits.h>
+#include <CGAL/Arr_overlay_2.h>
+#include <CGAL/Sweep_line_2/Arr_overlay_traits_2.h>
 
 #include <qpainter.h>
 
@@ -130,9 +130,10 @@ typedef Double_kernel::Point_2                          Double_point_2;
 typedef CGAL::Polygon_2<Double_kernel>                  Polygon_2;
 
 template<class Arrangement, class OutputIterator>
-class Faces_visitor : public CGAL::_Arr_default_overlay_traits<Arrangement,
-                                           Arrangement,
-                                           Arrangement>
+class Faces_visitor :
+  public CGAL::Arr_overlay_traits_2<typename Arrangement::Geometry_traits_2,
+                                    Arrangement,
+                                    Arrangement>
 {
 private:
   typedef typename Arrangement::Vertex_const_handle     V_const_handle;
@@ -248,7 +249,7 @@ void construct_polygon(CGAL::Qt_widget* w,
       App_point_2  *pts = new App_point_2 [n + 1];
       cv.polyline_approximation (n, pts);
 
-      if (cc->direction() == CGAL::LARGER) {
+      if (cc->direction() == CGAL::ARR_RIGHT_TO_LEFT) {
         std::reverse(pts, pts+n+1);
       }
 
@@ -377,7 +378,7 @@ void draw_face(CGAL::Qt_widget* w, typename Arr::Face_const_iterator f)
     }
   }
 
-  typename Arr::Hole_const_iterator hit;
+  typename Arr::Inner_ccb_const_iterator hit;
   for (hit = f->holes_begin(); hit != f->holes_end(); ++hit) {
     pgns.clear();
     construct_polygon(w, *hit, std::back_inserter(pgns), is_unb, true);

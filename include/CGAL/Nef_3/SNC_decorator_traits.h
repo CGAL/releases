@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h $
-// $Id: SNC_decorator_traits.h 29327 2006-03-09 22:49:45Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h $
+// $Id: SNC_decorator_traits.h 43831 2008-06-27 11:28:28Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -21,9 +21,12 @@
 #define CGAL_NEF3_SNC_DECORATOR_TRAITS_H
 
 #include <CGAL/Nef_S2/SM_decorator_traits.h>
+#include <CGAL/Nef_S2/SM_decorator.h>
+
+CGAL_BEGIN_NAMESPACE
 
 template <class Refs_>
-class SNC_decorator_traits : public SM_decorator_traits<Refs_> {
+class SNC_decorator_traits : public CGAL::SM_decorator_traits<Refs_> {
   typedef Refs_ Refs;
   typedef typename Refs::Sphere_map Sphere_map;
  public:
@@ -100,4 +103,5 @@ class SNC_decorator_const_traits {
   typedef typename Refs::Shell_entry_const_iterator Shell_entry_iterator;
 };
 
+CGAL_END_NAMESPACE
 #endif // CGAL_NEF3_SNC_DECORATOR_TRAITS_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
-// $Id: Constrained_Delaunay_triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $Id: Constrained_Delaunay_triangulation_2.h 41717 2008-01-20 20:47:32Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
@@ -180,7 +180,7 @@ public:
   //template member functions
 public:
   template < class InputIterator >
-#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+#if defined(_MSC_VER)
    int insert(InputIterator first, InputIterator last, int i = 0)
 #else
    int insert(InputIterator first, InputIterator last) 
@@ -188,12 +188,12 @@ public:
     {
       int n = number_of_vertices();
 
-      std::vector<Point> points CGAL_make_vector(first, last);
+      std::vector<Point> points (first, last);
       std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
       Face_handle f;
-      for (typename std::vector<Point>::const_iterator p = points.begin();
-              p != points.end(); ++p)
+      for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+              p != end; ++p)
           f = insert (*p, f)->face();
 
       return number_of_vertices() - n;

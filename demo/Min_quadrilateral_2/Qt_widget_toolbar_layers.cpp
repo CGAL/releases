@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_quadrilateral_2/demo/Min_quadrilateral_2/Qt_widget_toolbar_layers.cpp $
-// $Id: Qt_widget_toolbar_layers.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/demo/Min_quadrilateral_2/Qt_widget_toolbar_layers.cpp $
+// $Id: Qt_widget_toolbar_layers.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include "Qt_widget_toolbar_layers.h"
 
@@ -118,4 +117,3 @@ Layers_toolbar::Layers_toolbar(CGAL::Qt_widget *w, QMainWindow *mw,
 
 #include "Qt_widget_toolbar_layers.moc"
 
-#endif

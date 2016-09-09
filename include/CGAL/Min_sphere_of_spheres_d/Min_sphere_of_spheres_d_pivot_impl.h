@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pivot_impl.h $
-// $Id: Min_sphere_of_spheres_d_pivot_impl.h 37980 2007-04-06 09:08:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pivot_impl.h $
+// $Id: Min_sphere_of_spheres_d_pivot_impl.h 47405 2008-12-12 10:53:21Z lrineau $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -61,7 +61,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
             for(int i=0; i<e; ++i)
               if (!T.test(i) && !contains(t.center_cartesian_begin(*l[i]),
                                           t.radius(*l[i]),
-                                          Tol,Is_exact())) {
+                                          Tol<FT>::result(),Is_exact())) {
                 isEnclosingSupporting = false;
                 break;
               }

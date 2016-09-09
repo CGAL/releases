@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Distance_2/include/CGAL/squared_distance_2_1.h $
-// $Id: squared_distance_2_1.h 37938 2007-04-04 20:42:54Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Distance_2/include/CGAL/squared_distance_2_1.h $
+// $Id: squared_distance_2_1.h 45215 2008-08-29 15:48:00Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -45,8 +45,8 @@ namespace CGALi {
   
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 & pt1,
-		   const typename CGAL_WRAP(K)::Point_2 & pt2,
+  squared_distance(const typename K::Point_2 & pt1,
+		   const typename K::Point_2 & pt2,
 		   const K& k)
   {
     typename K::Vector_2 vec = k.construct_vector_2_object()(pt2, pt1);
@@ -55,8 +55,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
-		   const typename CGAL_WRAP(K)::Line_2 &line,
+  squared_distance(const typename K::Point_2 &pt,
+		   const typename K::Line_2 &line,
 		   const K&,
 		   const Homogeneous_tag&)
   {
@@ -72,8 +72,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
-		   const typename CGAL_WRAP(K)::Line_2 &line,
+  squared_distance(const typename K::Point_2 &pt,
+		   const typename K::Line_2 &line,
 		   const K&,
 		   const Cartesian_tag&)
   {
@@ -88,8 +88,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
-		   const typename CGAL_WRAP(K)::Line_2 &line,
+  squared_distance(const typename K::Point_2 &pt,
+		   const typename K::Line_2 &line,
 		   const K& k)
   {  
     typedef typename K::Kernel_tag Tag;
@@ -99,8 +99,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Line_2 &line, 
-		   const typename CGAL_WRAP(K)::Point_2 &pt,
+  squared_distance(const typename K::Line_2 &line, 
+		   const typename K::Point_2 &pt,
 		   const K& k)
   {
     return CGALi::squared_distance(pt, line, k);
@@ -108,8 +108,8 @@ namespace CGALi {
   
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
-		   const typename CGAL_WRAP(K)::Ray_2 &ray,
+  squared_distance(const typename K::Point_2 &pt,
+		   const typename K::Ray_2 &ray,
 		   const K& k)
   {
     typedef typename K::Vector_2 Vector_2;
@@ -123,8 +123,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Ray_2 &ray,
-		   const typename CGAL_WRAP(K)::Point_2 &pt,
+  squared_distance(const typename K::Ray_2 &ray,
+		   const typename K::Point_2 &pt,
 		   const K& k)
   {
     return CGALi::squared_distance(pt, ray, k);
@@ -132,8 +132,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
-		   const typename CGAL_WRAP(K)::Segment_2 &seg,
+  squared_distance(const typename K::Point_2 &pt,
+		   const typename K::Segment_2 &seg,
 		   const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -153,8 +153,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Segment_2 &seg,
-		   const typename CGAL_WRAP(K)::Point_2 &pt,
+  squared_distance(const typename K::Segment_2 &seg,
+		   const typename K::Point_2 &pt,
 		   const K& k)
   {
     return CGALi::squared_distance(pt, seg, k);
@@ -162,8 +162,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance_parallel(const typename CGAL_WRAP(K)::Segment_2 &seg1,
-			    const typename CGAL_WRAP(K)::Segment_2 &seg2,
+  squared_distance_parallel(const typename K::Segment_2 &seg1,
+			    const typename K::Segment_2 &seg2,
 			    const K& k)
   {
     typedef typename K::Vector_2 Vector_2;
@@ -187,8 +187,8 @@ namespace CGALi {
   inline typename K::RT 
   _distance_measure_sub(const typename K::RT &startwcross, 
 			const typename K::RT &endwcross,
-			const typename CGAL_WRAP(K)::Point_2 &start, 
-			const typename CGAL_WRAP(K)::Point_2 &end)
+			const typename K::Point_2 &start, 
+			const typename K::Point_2 &end)
   {
     return  CGAL_NTS abs(wmult((K*)0, startwcross, end.hw())) -
       CGAL_NTS abs(wmult((K*)0, endwcross, start.hw()));
@@ -196,8 +196,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Segment_2 &seg1,
-		   const typename CGAL_WRAP(K)::Segment_2 &seg2,
+  squared_distance(const typename K::Segment_2 &seg1,
+		   const typename K::Segment_2 &seg2,
 		   const K& k)
   {
     typedef typename K::RT RT;
@@ -291,8 +291,8 @@ namespace CGALi {
   inline typename K::RT 
   _distance_measure_sub(const typename K::RT &startwcross, 
 			const typename K::RT &endwcross,
-			const typename CGAL_WRAP(K)::Vector_2 &start, 
-			const typename CGAL_WRAP(K)::Vector_2 &end)
+			const typename K::Vector_2 &start, 
+			const typename K::Vector_2 &end)
   {
     return  CGAL_NTS abs(wmult((K*)0, startwcross, end.hw())) -
       CGAL_NTS abs(wmult((K*)0, endwcross, start.hw()));
@@ -300,8 +300,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance_parallel(const typename CGAL_WRAP(K)::Segment_2 &seg,
-			    const typename CGAL_WRAP(K)::Ray_2 &ray,
+  squared_distance_parallel(const typename K::Segment_2 &seg,
+			    const typename K::Ray_2 &ray,
 			    const K& k)
   {
     typedef typename K::Vector_2 Vector_2;
@@ -320,8 +320,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Segment_2 &seg,
-		   const typename CGAL_WRAP(K)::Ray_2 &ray,
+  squared_distance(const typename K::Segment_2 &seg,
+		   const typename K::Ray_2 &ray,
 		   const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -396,8 +396,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Ray_2 &ray,
-		   const typename CGAL_WRAP(K)::Segment_2 &seg,
+  squared_distance(const typename K::Ray_2 &ray,
+		   const typename K::Segment_2 &seg,
 		   const K& k)
   {
     return CGALi::squared_distance(seg, ray, k);
@@ -405,9 +405,9 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  _sqd_to_line(const typename CGAL_WRAP(K)::Vector_2 &diff,
+  _sqd_to_line(const typename K::Vector_2 &diff,
 	       const typename K::RT & wcross, 
-	       const typename CGAL_WRAP(K)::Vector_2 &dir )
+	       const typename K::Vector_2 &dir )
   {
     typedef typename K::RT RT;
     typedef typename K::FT FT;
@@ -419,8 +419,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Segment_2 &seg,
-		   const typename CGAL_WRAP(K)::Line_2 &line,
+  squared_distance(const typename K::Segment_2 &seg,
+		   const typename K::Line_2 &line,
 		   const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -464,8 +464,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Line_2 &line,
-		   const typename CGAL_WRAP(K)::Segment_2 &seg,
+  squared_distance(const typename K::Line_2 &line,
+		   const typename K::Segment_2 &seg,
 		   const K& k)
   {
     return CGALi::squared_distance(seg, line, k);
@@ -474,9 +474,9 @@ namespace CGALi {
   template <class K>
   typename K::FT
   ray_ray_squared_distance_parallel(
-    const typename CGAL_WRAP(K)::Vector_2 &ray1dir,
-    const typename CGAL_WRAP(K)::Vector_2 &ray2dir,
-    const typename CGAL_WRAP(K)::Vector_2 &from1to2,
+    const typename K::Vector_2 &ray1dir,
+    const typename K::Vector_2 &ray2dir,
+    const typename K::Vector_2 &from1to2,
     const K& k)
   {
     typedef typename K::RT RT;
@@ -494,8 +494,8 @@ namespace CGALi {
 
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Ray_2 &ray1,
-		   const typename CGAL_WRAP(K)::Ray_2 &ray2,
+  squared_distance(const typename K::Ray_2 &ray1,
+		   const typename K::Ray_2 &ray2,
 		   const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -538,8 +538,8 @@ namespace CGALi {
   
   template <class K>
   typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Line_2 &line,
-		   const typename CGAL_WRAP(K)::Ray_2 &ray,
+  squared_distance(const typename K::Line_2 &line,
+		   const typename K::Ray_2 &ray,
 		   const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -560,8 +560,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Ray_2 &ray,
-		   const typename CGAL_WRAP(K)::Line_2 &line,
+  squared_distance(const typename K::Ray_2 &ray,
+		   const typename K::Line_2 &line,
 		   const K& k)
   {
     return CGALi::squared_distance(line, ray, k);
@@ -569,8 +569,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance(const typename CGAL_WRAP(K)::Line_2 &line1,
-		   const typename CGAL_WRAP(K)::Line_2 &line2,
+  squared_distance(const typename K::Line_2 &line1,
+		   const typename K::Line_2 &line2,
 		   const K& k)
   {
     typedef typename K::FT FT;
@@ -583,8 +583,8 @@ namespace CGALi {
   template <class K>
   void
   distance_index(int &ind,
-		 const typename CGAL_WRAP(K)::Point_2 &pt,
-		 const typename CGAL_WRAP(K)::Ray_2 &ray,
+		 const typename K::Point_2 &pt,
+		 const typename K::Ray_2 &ray,
 		 const K& k)
   {
     typename K::Construct_vector_2 construct_vector;
@@ -598,8 +598,8 @@ namespace CGALi {
   template <class K>
   void
   distance_index(int &ind,
-		 const typename CGAL_WRAP(K)::Point_2 &pt,
-		 const typename CGAL_WRAP(K)::Segment_2 &seg,
+		 const typename K::Point_2 &pt,
+		 const typename K::Segment_2 &seg,
 		 const K& k)
   {
     if (!is_acute_angle(seg.target(),seg.source(),pt, k)) {
@@ -615,8 +615,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance_indexed(const typename CGAL_WRAP(K)::Point_2 &pt,
-			   const typename CGAL_WRAP(K)::Ray_2 &ray, 
+  squared_distance_indexed(const typename K::Point_2 &pt,
+			   const typename K::Ray_2 &ray, 
 			   int ind,
 			   const K& k)
   {
@@ -627,8 +627,8 @@ namespace CGALi {
 
   template <class K>
   inline typename K::FT
-  squared_distance_indexed(const typename CGAL_WRAP(K)::Point_2 &pt,
-			   const typename CGAL_WRAP(K)::Segment_2 &seg, 
+  squared_distance_indexed(const typename K::Point_2 &pt,
+			   const typename K::Segment_2 &seg, 
 			   int ind,
 			   const K& k)
   {
@@ -648,42 +648,6 @@ squared_distance(const Point_2<K> & pt1, const Point_2<K> & pt2)
   return CGALi::squared_distance(pt1, pt2, K());
 }
 
-template <class K>
-class Squared_distance_to_line {
-  typename K::RT  a, b, c, sqnorm;
-public:
-  Squared_distance_to_line(typename K::Line_2 const &line)
-    : a(line.a()), b(line.b()), c(line.c())
-  {
-    sqnorm = a*a+b*b;
-  }
-
-
-  typename K::FT impl(typename K::Point_2 const &pt, const Homogeneous_tag&) const
-  {
-    typedef typename K::RT RT;
-    typedef typename K::FT FT;
-    const RT & w = pt.hw();
-    RT n = a*pt.hx() + b*pt.hy() + c * w;
-    RT d = sqnorm * CGAL_NTS square(w);
-    return Rational_traits<FT>().make_rational(CGAL_NTS square(n), d);
-  }
-
-  typename K::FT impl(typename K::Point_2 const &pt, const Cartesian_tag&) const
-  {
-    typedef typename K::FT FT;
-    FT n = a*pt.x() + b*pt.y() + c;
-    return (n*n) / sqnorm;
-  }
-
-  typename K::FT operator()(typename K::Point_2 const &pt) const
-  {
-    typedef typename K::Kernel_tag Tag;
-    Tag tag;
-    return impl(pt, tag);
-  }
-};
-
 
 template <class K>
 inline typename K::FT
@@ -700,29 +664,6 @@ squared_distance(const Line_2<K> & line, const Point_2<K> & pt)
     return squared_distance(pt, line);
 }
 
-template <class K>
-class Squared_distance_to_ray {
-    typename K::Vector_2 ray_dir;
-    typename K::Point_2 ray_source;
-    Squared_distance_to_line<K> supline_dist;
-  public:
-    Squared_distance_to_ray(typename K::Ray_2 const &ray)
-    : ray_dir(ray.direction().vector()),
-      ray_source(ray.source()),
-      supline_dist(ray.supporting_line())
-    { }
-    typename K::FT operator()(typename K::Point_2 const &pt) const
-    {
-      typename K::Construct_vector_2 construct_vector;
-      typename K::Compute_squared_length_2 compute_squared_length;
-        typename K::Vector_2 diff = construct_vector(ray_source, pt);
-        if (! CGALi::is_acute_angle(ray_dir,diff, K()) )
-            return (typename K::FT)compute_squared_length(diff);
-        return supline_dist(pt);
-    }
-};
-
-
 
 template <class K>
 inline typename K::FT
@@ -737,40 +678,6 @@ squared_distance(const Ray_2<K> & ray, const Point_2<K> & pt)
 {
     return squared_distance(pt, ray);
 }
-
-
-
-
-template <class K>
-class Squared_distance_to_segment {
-    typename K::Point_2 seg_source, seg_target;
-    Squared_distance_to_line<K> supline_dist;
-    typename K::Vector_2 segvec;
-    typename K::RT e;
-  public:
-    Squared_distance_to_segment(typename K::Segment_2 const &seg)
-    : seg_source(seg.source()), seg_target(seg.target()),
-      supline_dist(seg.supporting_line())
-    {
-        typename K::Construct_vector_2 construct_vector;
-        segvec = construct_vector(seg_source, seg_target);
-        e = CGALi::wdot(segvec,segvec, K());
-    }
-    typename K::FT operator()(typename K::Point_2 const &pt) const
-    {
-        typename K::Construct_vector_2 construct_vector;
-	typename K::Compute_squared_length_2 compute_squared_length;
-        typedef typename K::RT RT;
-        // assert that the segment is valid (non zero length).
-        typename K::Vector_2 diff = construct_vector(seg_source, pt);
-        RT d = CGALi::wdot(diff,segvec, K());
-        if (d <= (RT)0)
-            return (typename K::FT)compute_squared_length(diff);
-        if (wmult((K*)0 ,d, segvec.hw()) > wmult((K*)0, e, diff.hw()))
-            return CGALi::squared_distance(pt, seg_target, K());
-        return supline_dist(pt);
-    }
-};
 
 
 template <class K>

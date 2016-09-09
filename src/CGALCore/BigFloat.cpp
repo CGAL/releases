@@ -36,14 +36,11 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/src/CGALCore/BigFloat.cpp $
- * $Id: BigFloat.cpp 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/BigFloat.cpp $
+ * $Id: BigFloat.cpp 41714 2008-01-20 20:24:20Z spion $
  ***************************************************************************/
 
 #include <ctype.h>
-#if defined (__BORLANDC__)
-  #include <mem.h>
-#endif
 #include <CGAL/CORE/BigFloat.h>
 #include <CGAL/CORE/Expr.h>
 

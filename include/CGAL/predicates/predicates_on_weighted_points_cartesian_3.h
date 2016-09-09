@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
 
-// $Id: predicates_on_weighted_points_cartesian_3.h 35252 2006-11-21 09:56:48Z fcazals $
+// $Id: predicates_on_weighted_points_cartesian_3.h 44915 2008-08-12 13:56:13Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -24,9 +24,7 @@
 #include <CGAL/determinant.h>
 #include <CGAL/enum.h>
 
-//-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
-//-------------------------------------------------------------------
 
 template < class FT >
 Comparison_result
@@ -35,15 +33,14 @@ compare_power_distanceC3(
 		  const FT &qx, const FT &qy, const FT &qz, const FT &qw,
 		  const FT &rx, const FT &ry, const FT &rz, const FT &rw)
 {
- FT dqx = qx - px;
- FT dqy = qy - py;
- FT dqz = qz - pz;
- FT drx = rx - px;
- FT dry = ry - py;
- FT drz = rz - pz;
-   return Comparison_result((Sign) CGAL_NTS sign (
-      (dqx*dqx + dqy*dqy + dqz*dqz - qw )
-    - (drx*drx + dry*dry + drz*drz - rw ) ));
+   FT dqx = qx - px;
+   FT dqy = qy - py;
+   FT dqz = qz - pz;
+   FT drx = rx - px;
+   FT dry = ry - py;
+   FT drz = rz - pz;
+   return CGAL_NTS compare(dqx*dqx + dqy*dqy + dqz*dqz - qw,
+                           drx*drx + dry*dry + drz*drz - rw);
 }
 
 
@@ -75,11 +72,11 @@ in_smallest_orthogonal_sphereC3(
   FT qpw = qq - qw + pw ;
   FT rpw = rr - rw + pw ;
   
-  FT den = det2x2_by_formula(qq,qr,
+  FT den = determinant(qq,qr,
 			     qr,rr);
-  FT detq = det2x2_by_formula(qpw,qr,
+  FT detq = determinant(qpw,qr,
 			      rpw,rr);
-  FT detr = det2x2_by_formula(qq,qpw,
+  FT detr = determinant(qq,qpw,
 			      qr,rpw);
 
   // Smallest  smallest orthogonal sphere center
@@ -93,7 +90,7 @@ in_smallest_orthogonal_sphereC3(
   FT sq = spx*qpx + spy*qpy + spz*qpz;
   FT sr = spx*rpx + spy*rpy + spz*rpz;
 
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
   // return  sign of (c- s)^2 - (c^2 - pw) - sw    note that den >= 0 - 
   return CGAL_NTS sign( den*(ss - sw + pw)- detq*sq - detr*sr);
 }
@@ -162,19 +159,19 @@ does_simplex_intersect_weighted_dual_supportC3(
   FT rpw = rr - rw + pw ;
   FT spw = ss - sw + pw ;
  
-  FT den = det3x3_by_formula(qq,qr,qs,
+  FT den = determinant(qq,qr,qs,
 			     qr,rr,rs,
 			     qs,rs,ss);
-  FT detq = det3x3_by_formula(qpw,qr,qs,
+  FT detq = determinant(qpw,qr,qs,
 			      rpw,rr,rs,
 			      spw,rs,ss);
-  FT detr = det3x3_by_formula(qq,qpw,qs,
+  FT detr = determinant(qq,qpw,qs,
 			      qr,rpw,rs,
 			      qs,spw,ss);
-  FT dets = det3x3_by_formula(qq,qr,qpw,
+  FT dets = determinant(qq,qr,qpw,
 			      qr,rr,rpw,
 			      qs,rs,spw);
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
 
   
   // The barycentrique coordinate of the smallest orthogonal sphere center
@@ -225,14 +222,14 @@ does_simplex_intersect_weighted_dual_supportC3(
   FT qpw = qq - qw + pw ;
   FT rpw = rr - rw + pw ;
   
-  FT den = det2x2_by_formula(qq,qr,
+  FT den = determinant(qq,qr,
 			     qr,rr);
-  FT detq = det2x2_by_formula(qpw,qr,
+  FT detq = determinant(qpw,qr,
 			      rpw,rr);
-  FT detr = det2x2_by_formula(qq,qpw,
+  FT detr = determinant(qq,qpw,
 			      qr,rpw);
 
-  CGAL_kernel_assertion( ! CGAL_NTS is_zero(den) );
+  CGAL_triangulation_assertion( ! CGAL_NTS is_zero(den) );
 
    // The barycentrique coordinate of the smallest orthogonal sphere center
   // are  detq/2*den detr/2*den 

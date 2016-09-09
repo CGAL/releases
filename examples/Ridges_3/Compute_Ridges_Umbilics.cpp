@@ -1,18 +1,11 @@
 #include <CGAL/Cartesian.h>
-#ifndef CGAL_USE_LAPACK
-int main()
-{
-  std::cerr << "Skip since LAPACK is not installed" << std::endl;
-  std::cerr << std::endl;
-  return 0;
-}
-#else
 #include <CGAL/Ridges.h>
 #include <CGAL/Umbilics.h>
 #include <CGAL/Monge_via_jet_fitting.h>
 #include <CGAL/Lapack/Linear_algebra_lapack.h>
 
 #include <fstream>
+#include <cassert>
 
 #ifdef CGAL_USE_BOOST_PROGRAM_OPTIONS
 #include <boost/program_options.hpp>
@@ -188,7 +181,7 @@ int main()
    po::options_description desc("Allowed options");
     desc.add_options()
       ("help,h", "produce help message.")
-      ("input-file,f", po::value<string>(&if_name)->default_value("data/ellipsoid_u_0.02.off"),
+      ("input-file,f", po::value<string>(&if_name)->default_value("data/poly2x^2+y^2-0.062500.off"),
        "name of the input off file")
       ("degree-jet,d", po::value<unsigned int>(&d_fitting)->default_value(3),
        "degree of the jet,  3 <= degre-jet <= 4")
@@ -225,7 +218,7 @@ int main()
     }
 #else 
     std::cerr << "Command-line options require Boost.ProgramOptions" << std::endl;
-    if_name = "data/ellipsoid_u_0.02.off";
+    if_name = "data/poly2x^2+y^2-0.062500.off";
     d_fitting = 3;
     d_monge = 3;
     nb_rings = 0;
@@ -289,7 +282,7 @@ int main()
 
   //exit if not enough points in the model
   if (min_nb_points > P.size_of_vertices())
-    {std::cerr << "not enough points in the model" << std::endl;   exit(0);}
+    {std::cerr << "not enough points in the model" << std::endl;   exit(1);}
 
   //initialize Polyhedral data : normal of facets
   P.compute_facets_normals();
@@ -368,5 +361,3 @@ int main()
   }
   return 0;
 }
- 
-#endif // CGAL_USE_LAPACK

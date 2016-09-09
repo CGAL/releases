@@ -1,7 +1,29 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/typedefs.h $
+// $Id: typedefs.h 45554 2008-09-15 14:30:53Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*************************************************************************
  * typedefs.h - 
  *
- * $Id: typedefs.h 37795 2007-04-02 09:50:40Z lrineau $
+ * $Id: typedefs.h 45554 2008-09-15 14:30:53Z lrineau $
  *
  * Copyright©INRIA 1998
  *
@@ -27,14 +49,14 @@
  */
 typedef enum {
   TYPE_UNKNOWN /* unknown type */,
-  UCHAR  /* unsigned char */,
-  SCHAR  /* signed char */,
-  USHORT /* unsigned short int */,
-  SSHORT /* signed short int */,
-  INT    /* signed int */,
-  ULINT  /* unsigned long int */,
-  FLOAT  /* float */,
-  DOUBLE  /* double */
+  CGAL_UCHAR  /* unsigned char */,
+  CGAL_SCHAR  /* signed char */,
+  CGAL_USHORT /* unsigned short int */,
+  CGAL_SSHORT /* signed short int */,
+  CGAL_INT    /* signed int */,
+  CGAL_ULINT  /* unsigned long int */,
+  CGAL_FLOAT  /* float */,
+  CGAL_DOUBLE  /* double */
 } ImageType, bufferType;
 
 typedef char               s8;

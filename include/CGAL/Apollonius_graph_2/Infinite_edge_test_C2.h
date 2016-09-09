@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Infinite_edge_test_C2.h $
-// $Id: Infinite_edge_test_C2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Infinite_edge_test_C2.h $
+// $Id: Infinite_edge_test_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -64,23 +64,23 @@ public:
 
 
       Orientation o = chi2(l1, l2, tag);
-                   //sign_of_determinant2x2(a1, b1, a2, b2);
+                   //sign_of_determinant(a1, b1, a2, b2);
 
 
       if ( o == COLLINEAR ) {
 	Bitangent_line l2_rot = l2.get_rot90();
 	Sign dot = chi2(l1, l2_rot, tag);
-                              //sign_of_determinant2x2(a1, b1, -b2, a2);
+                              //sign_of_determinant(a1, b1, -b2, a2);
 
 	CGAL_assertion( dot != ZERO );
 	Orientation o1 = chi2(l1, l3, tag);
-                          //sign_of_determinant2x2(a1, b1, a3, b3);
+                          //sign_of_determinant(a1, b1, a3, b3);
 
 	if ( dot == POSITIVE ) {
 	  if ( o1 != COLLINEAR ) { return ON_UNBOUNDED_SIDE; }
 	  Bitangent_line l3_rot = l3.get_rot90();
 	  Sign dot1 = chi2(l1, l3_rot, tag);
-                       //sign_of_determinant2x2(a1, b1, -b3, a3);
+                       //sign_of_determinant(a1, b1, -b3, a3);
 
 	  CGAL_assertion( dot1 != ZERO );
 	  return ( dot1 == POSITIVE ) ? ON_BOUNDARY : ON_UNBOUNDED_SIDE;
@@ -90,9 +90,9 @@ public:
 	return ( o1 == COLLINEAR ) ? ON_BOUNDARY : ON_UNBOUNDED_SIDE;
       } else if ( o == LEFT_TURN ) {
 	Orientation o1 = chi2(l1, l3, tag);
-	                //sign_of_determinant2x2(a1, b1, a3, b3);
+	                //sign_of_determinant(a1, b1, a3, b3);
 	Orientation o2 = chi2(l2, l3, tag);
-                        //sign_of_determinant2x2(a2, b2, a3, b3);
+                        //sign_of_determinant(a2, b2, a3, b3);
 
 	//	std::cout << "orientation(l1, l3): " << int(o1) << std::endl;
 	//	std::cout << "orientation(l2, l3): " << int(o2) << std::endl;
@@ -107,9 +107,9 @@ public:
 	return ON_UNBOUNDED_SIDE;
       }
       Orientation o1 = chi2(l1, l3, tag);
-                        //sign_of_determinant2x2(a1, b1, a3, b3);
+                        //sign_of_determinant(a1, b1, a3, b3);
       Orientation o2 = chi2(l2, l3, tag);
-                        //sign_of_determinant2x2(a2, b2, a3, b3);
+                        //sign_of_determinant(a2, b2, a3, b3);
 
       //      std::cout << "orientation(l1, l3): " << int(o1) << std::endl;
       //      std::cout << "orientation(l2, l3): " << int(o2) << std::endl;
@@ -155,7 +155,7 @@ public:
 	    const FT& D, const FT& P) const
     {
       FT sigma = a * A + b * B;
-      FT delta = det2x2_by_formula(a, b, A, B);
+      FT delta = determinant(a, b, A, B);
 
       Sign sign_sigma = CGAL::sign(sigma);
       Sign sign_delta = CGAL::sign(delta);
@@ -265,7 +265,6 @@ public:
 
 public:
   typedef bool            result_type;
-  typedef Arity_tag<5>    Arity;
   struct argument_type {};
 
 

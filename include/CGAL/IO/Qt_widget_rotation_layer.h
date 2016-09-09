@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/include/CGAL/IO/Qt_widget_rotation_layer.h $
-// $Id: Qt_widget_rotation_layer.h 32795 2006-07-30 16:38:54Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/include/CGAL/IO/Qt_widget_rotation_layer.h $
+// $Id: Qt_widget_rotation_layer.h 39778 2007-08-08 15:59:25Z spion $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -166,8 +166,8 @@ private:
       if(!wasrepainted) {
         widget->x_real(x2 - first_x, xcoord);
         widget->x_real(y2 - first_y, ycoord);
-        CGAL_CLIB_STD::sprintf(tempc1, " dx=%20.6f", xcoord);
-        CGAL_CLIB_STD::sprintf(tempc2, ", dy=%20.6f", ycoord);
+        std::sprintf(tempc1, " dx=%20.6f", xcoord);
+        std::sprintf(tempc2, ", dy=%20.6f", ycoord);
         strcat(tempc1, tempc2);
         widget->get_painter().drawLine(first_x, first_y, x2, y2);
         *widget << CGAL::GREEN;
@@ -176,8 +176,8 @@ private:
       }
       widget->x_real(x - first_x, xcoord);
       widget->x_real(y - first_y, ycoord);
-      CGAL_CLIB_STD::sprintf(tempc1, " dx=%20.6f", xcoord);
-      CGAL_CLIB_STD::sprintf(tempc2, ", dy=%20.6f", ycoord);
+      std::sprintf(tempc1, " dx=%20.6f", xcoord);
+      std::sprintf(tempc2, ", dy=%20.6f", ycoord);
       strcat(tempc1, tempc2);
       widget->get_painter().drawLine(first_x, first_y, x, y);
       *widget << CGAL::GREEN;

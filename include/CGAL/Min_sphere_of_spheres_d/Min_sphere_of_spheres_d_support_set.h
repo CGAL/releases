@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set.h $
-// $Id: Min_sphere_of_spheres_d_support_set.h 37980 2007-04-06 09:08:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set.h $
+// $Id: Min_sphere_of_spheres_d_support_set.h 47405 2008-12-12 10:53:21Z lrineau $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -274,7 +274,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
         if (std::abs(psi[m]) < Min_float)
           return false;
         sol[m+1] = -omega[m]/psi[m];
-        return sol[m+1]*Tol >= maxradius[m];
+        return sol[m+1]*Tol<FT>::result() >= maxradius[m];
       }
 
       // calculate the two solutions:
@@ -289,12 +289,12 @@ namespace CGAL_MINIBALL_NAMESPACE {
         std::swap(sols[0],sols[1]);
 
       // eliminate negative solutions:
-      if (sols[0]*Tol >= maxradius[m]) {
+      if (sols[0]*Tol<FT>::result() >= maxradius[m]) {
         sol[m+1] = sols[0];
         return true;
       }
       sol[m+1] = sols[1];
-      return sol[m+1]*Tol >= maxradius[m];
+      return sol[m+1]*Tol<FT>::result() >= maxradius[m];
     }
 
     template<class Traits>

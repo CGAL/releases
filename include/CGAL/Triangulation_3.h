@@ -11,12 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 37831 2007-04-02 20:19:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 46883 2008-11-14 10:43:11Z cwormser $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 
 #ifndef CGAL_TRIANGULATION_3_H
@@ -25,9 +25,11 @@
 #include <CGAL/basic.h>
 
 #include <iostream>
+#include <list>
 #include <set>
 #include <map> 
 #include <utility>
+#include <stack>
 
 #include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
@@ -41,9 +43,11 @@
 
 #include <CGAL/iterator.h>
 #include <CGAL/function_objects.h>
-#include <CGAL/functional.h>
 #include <CGAL/Iterator_project.h>
 #include <CGAL/Random.h>
+#include <CGAL/Unique_hash_map.h>
+
+#include <boost/bind.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -52,10 +56,6 @@ template < class GT, class Tds > class Triangulation_3;
 template < class GT, class Tds > std::istream& operator>> 
 (std::istream& is, Triangulation_3<GT,Tds> &tr);
 
-template < class GT, class Tds >
-bool operator==(const Triangulation_3<GT, Tds> &t1,
-	        const Triangulation_3<GT, Tds> &t2);
- 
 template < class GT, 
            class Tds = Triangulation_data_structure_3 <
                                    Triangulation_vertex_base_3<GT>,
@@ -65,9 +65,6 @@ class Triangulation_3
 {
   friend std::istream& operator>> <>
   (std::istream& is, Triangulation_3<GT,Tds> &tr);
-
-  friend bool operator== <>
-  (const Triangulation_3<GT,Tds> &t1, const Triangulation_3<GT,Tds> &t2);
 
   typedef Triangulation_3<GT, Tds>             Self;
 public:
@@ -302,8 +299,6 @@ protected:
     {
       infinite = _tds.insert_increase_dimension();
     }
-  
-  bool test_dim_down(Vertex_handle v) const;
 
 public:
 
@@ -576,13 +571,13 @@ public:
     {
       int n = number_of_vertices();
 
-      std::vector<Point> points CGAL_make_vector(first, last);
+      std::vector<Point> points (first, last);
       std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
 
       Cell_handle hint;
-      for (typename std::vector<Point>::const_iterator p = points.begin();
-              p != points.end(); ++p)
+      for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+              p != end; ++p)
           hint = insert (*p, hint)->cell();
 
       return number_of_vertices() - n;
@@ -627,36 +622,6 @@ public:
   }
  
 protected:
-  template <class Conflict_test,
-            class OutputIteratorBoundaryFacets,
-            class OutputIteratorCells,
-            class OutputIteratorInternalFacets>
-  Triple<OutputIteratorBoundaryFacets,
-         OutputIteratorCells,
-         OutputIteratorInternalFacets>
-  find_conflicts_2(Cell_handle c, const Conflict_test &tester,
-	           Triple<OutputIteratorBoundaryFacets,
-                          OutputIteratorCells,
-		          OutputIteratorInternalFacets> it) const {
-    bool FIND_CONFLICTS_2_DEPRECATED_USE_FIND_CONFLICTS;
-    return find_conflicts(c,tester,it);
-  }
-
-  template <class Conflict_test,
-            class OutputIteratorBoundaryFacets,
-            class OutputIteratorCells,
-            class OutputIteratorInternalFacets>
-  Triple<OutputIteratorBoundaryFacets,
-         OutputIteratorCells,
-         OutputIteratorInternalFacets>
-  find_conflicts_3(Cell_handle c, const Conflict_test &tester,
-	           Triple<OutputIteratorBoundaryFacets,
-                          OutputIteratorCells,
-		          OutputIteratorInternalFacets> it) const {
-    bool FIND_CONFLICTS_3_DEPRECATED_USE_FIND_CONFLICTS;
-    return find_conflicts(c,tester,it);
-  }
-
   // - c is the current cell, which must be in conflict.
   // - tester is the function object that tests if a cell is in conflict.
   //
@@ -672,35 +637,45 @@ protected:
   Triple<OutputIteratorBoundaryFacets,
          OutputIteratorCells,
          OutputIteratorInternalFacets>
-  find_conflicts(Cell_handle c, const Conflict_test &tester,
+  find_conflicts(Cell_handle d, const Conflict_test &tester,
 		 Triple<OutputIteratorBoundaryFacets,
                         OutputIteratorCells,
 		        OutputIteratorInternalFacets> it) const
   {
     CGAL_triangulation_precondition( dimension()>=2 );
-    CGAL_triangulation_precondition( tester(c) );
+    CGAL_triangulation_precondition( tester(d) );
 
-    c->set_in_conflict_flag(1);
-    *it.second++ = c;
+    std::stack<Cell_handle> cell_stack;
+    cell_stack.push(d);
+    d->set_in_conflict_flag(1);
+    *it.second++ = d;
 
-    for (int i=0; i<dimension()+1; ++i) {
-      Cell_handle test = c->neighbor(i);
-      if (test->get_in_conflict_flag() == 1) {
-	  if (c < test)
-	      *it.third++ = Facet(c, i); // Internal facet.
-          continue; // test was already in conflict.
-      }
-      if (test->get_in_conflict_flag() == 0) {
-	  if (tester(test)) {
-	      if (c < test)
-		  *it.third++ = Facet(c, i); // Internal facet.
-              it = find_conflicts(test, tester, it);
-	      continue;
-	  }
-	  test->set_in_conflict_flag(2); // test is on the boundary.
-      }
-      *it.first++ = Facet(c, i);
-    }
+    do {
+        Cell_handle c = cell_stack.top();
+		cell_stack.pop();
+		
+        for (int i=0; i<dimension()+1; ++i) {
+          Cell_handle test = c->neighbor(i);
+          if (test->get_in_conflict_flag() == 1) {
+	        if (c < test)
+	          *it.third++ = Facet(c, i); // Internal facet.
+            continue; // test was already in conflict.
+          }
+          if (test->get_in_conflict_flag() == 0) {
+	        if (tester(test)) {
+	          if (c < test)
+		        *it.third++ = Facet(c, i); // Internal facet.
+
+              cell_stack.push(test);
+              test->set_in_conflict_flag(1);
+              *it.second++ = test;
+	          continue;
+	        }
+     	    test->set_in_conflict_flag(2); // test is on the boundary.
+          }
+          *it.first++ = Facet(c, i);
+        }
+    } while(!cell_stack.empty());
     return it;
   }
 
@@ -774,6 +749,37 @@ private:
 	  return t->side_of_facet( p, c, loc, i, j ) == ON_BOUNDED_SIDE;
       }
   };
+
+protected:
+  // test_dim_down needs to be protected because it is used by the
+  // ear algorithm in Delaunay_triangulation_3
+  bool test_dim_down(Vertex_handle v) const;
+  template < class VertexRemover >
+  void remove(Vertex_handle v, VertexRemover &remover);
+
+private:
+  typedef Facet Edge_2D;
+  typedef Triple<Vertex_handle,Vertex_handle,Vertex_handle> Vertex_triple;
+
+  Vertex_triple make_vertex_triple(const Facet& f) const;
+  void make_canonical(Vertex_triple& t) const;
+
+  template < class VertexRemover >
+  VertexRemover& make_hole_2D(Vertex_handle v, std::list<Edge_2D> & hole,
+      VertexRemover &remover);
+  template < class VertexRemover >
+  void fill_hole_2D(std::list<Edge_2D> & hole, VertexRemover &remover);
+  void make_hole_3D( Vertex_handle v, std::map<Vertex_triple,Facet>& outer_map,
+      std::vector<Cell_handle> & hole);
+
+  template < class VertexRemover >
+  VertexRemover& remove_dim_down(Vertex_handle v, VertexRemover &remover);
+  template < class VertexRemover >
+  VertexRemover& remove_1D(Vertex_handle v, VertexRemover &remover);
+  template < class VertexRemover >
+  VertexRemover& remove_2D(Vertex_handle v, VertexRemover &remover);
+  template < class VertexRemover >
+  VertexRemover& remove_3D(Vertex_handle v, VertexRemover &remover);
 
 
   // They access "Self", so need to be friend.
@@ -964,31 +970,95 @@ public:
   }
 
   // around a vertex
+  class Finite_filter {
+    const Self* t;
+    public:
+    Finite_filter(const Self* _t): t(_t) {}
+    template<class T>
+    bool operator() (const T& e) const {
+      return t->is_infinite(e);
+    }
+  };
+
+  class Finite_filter_2D {
+    const Self* t;
+    public:
+    Finite_filter_2D(const Self* _t): t(_t) {}
+
+    template<class T>
+    bool operator() (const T& e) const {
+      return t->is_infinite(e);
+    }
+
+    bool operator() (const Cell_handle c) {
+      return t->is_infinite(c, 3);
+    }
+  };
+
   template <class OutputIterator>
   OutputIterator
   incident_cells(Vertex_handle v, OutputIterator cells) const
   {
-      return _tds.incident_cells(v, cells);
+    return _tds.incident_cells(v, cells);
   }
 
   template <class OutputIterator>
   OutputIterator
+  finite_incident_cells(Vertex_handle v, OutputIterator cells) const
+  {
+  	if(dimension() == 2)
+  	  return _tds.incident_cells(v, cells, Finite_filter_2D(this));
+    return _tds.incident_cells(v, cells, Finite_filter(this));
+  }
+  
+  template <class OutputIterator>
+  OutputIterator
   incident_facets(Vertex_handle v, OutputIterator facets) const
   {
-      return _tds.incident_facets(v, facets);
+    return _tds.incident_facets(v, facets);
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  finite_incident_facets(Vertex_handle v, OutputIterator facets) const
+  {
+    return _tds.incident_facets(v, facets, Finite_filter(this));
   }
 
   template <class OutputIterator>
   OutputIterator
   incident_vertices(Vertex_handle v, OutputIterator vertices) const
   {
-      return _tds.incident_vertices(v, vertices);
+    return _tds.incident_vertices(v, vertices);
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  finite_incident_vertices(Vertex_handle v, OutputIterator vertices) const
+  {
+    return _tds.incident_vertices(v, vertices, Finite_filter(this));
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  incident_edges(Vertex_handle v, OutputIterator edges) const
+  {
+      return _tds.incident_edges(v, edges);
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  finite_incident_edges(Vertex_handle v, OutputIterator edges) const
+  {
+    return _tds.incident_edges(v, edges, Finite_filter(this));
   }
 
   size_type degree(Vertex_handle v) const
   {
       return _tds.degree(v);
   }
+
+
 
   // CHECKING
   bool is_valid(bool verbose = false, int level = 0) const;
@@ -997,7 +1067,6 @@ public:
 
   bool is_valid_finite(Cell_handle c, bool verbose = false, int level=0) const;
 };
-
 
 template < class GT, class Tds >
 std::istream & 
@@ -1143,62 +1212,6 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
 
   
   return os ;
-}
-
-template < class GT, class Tds >
-bool
-Triangulation_3<GT,Tds>::
-test_dim_down(Vertex_handle v) const
-  // tests whether removing v decreases the dimension of the triangulation 
-  // true iff
-  // v is incident to all finite cells/facets
-  // and all the other vertices are coplanar/collinear in dim3/2.
-{
-  CGAL_triangulation_precondition(dimension() >= 0);
-  CGAL_triangulation_precondition(! is_infinite(v) );
-
-  if (dimension() == 3) {
-      Finite_cells_iterator cit = finite_cells_begin();
-
-      int iv;
-      if ( ! cit->has_vertex(v,iv) )
-          return false;
-      const Point &p1=cit->vertex((iv+1)&3)->point();  
-      const Point &p2=cit->vertex((iv+2)&3)->point();  
-      const Point &p3=cit->vertex((iv+3)&3)->point();
-      ++cit;
-
-      for (; cit != finite_cells_end(); ++cit ) {
-          if ( ! cit->has_vertex(v,iv) )
-              return false;
-          for (int i=1; i<4; i++ )
-	      if ( !coplanar(p1,p2,p3,cit->vertex((iv+i)&3)->point()) )
-	          return false;
-      }
-  }
-  else if (dimension() == 2)
-  {
-      Finite_facets_iterator cit = finite_facets_begin();
-
-      int iv;
-      if ( ! cit->first->has_vertex(v,iv) )
-          return false;
-      const Point &p1 = cit->first->vertex(cw(iv))->point();  
-      const Point &p2 = cit->first->vertex(ccw(iv))->point();  
-      ++cit;
-
-      for (; cit != finite_facets_end(); ++cit ) {
-          if ( ! cit->first->has_vertex(v,iv) )
-              return false;
-          if ( !collinear(p1, p2, cit->first->vertex(cw(iv))->point()) ||
-	       !collinear(p1, p2, cit->first->vertex(ccw(iv))->point()) )
-	      return false;
-      }
-  }
-  else // dimension() == 1 or 0
-      return number_of_vertices() == (size_type) dimension() + 1;
-
-  return true;
 }
 
 template < class GT, class Tds >
@@ -2690,6 +2703,526 @@ insert_outside_affine_hull(const Point & p)
   return v;
 }
 
+template < class Gt, class Tds >
+typename Triangulation_3<Gt,Tds>::Vertex_triple
+Triangulation_3<Gt,Tds>::
+make_vertex_triple(const Facet& f) const
+{
+  Cell_handle ch = f.first;
+  int i = f.second;
+
+  return Vertex_triple(ch->vertex(vertex_triple_index(i,0)),
+      ch->vertex(vertex_triple_index(i,1)),
+      ch->vertex(vertex_triple_index(i,2)));
+}
+
+template < class Gt, class Tds >
+void
+Triangulation_3<Gt,Tds>::
+make_canonical(Vertex_triple& t) const
+{
+  int i = (&*(t.first) < &*(t.second))? 0 : 1;
+  if(i==0) {
+    i = (&*(t.first) < &*(t.third))? 0 : 2;
+  } else {
+    i = (&*(t.second) < &*(t.third))? 1 : 2;
+  }
+  Vertex_handle tmp;
+  switch(i){
+  case 0: return;
+  case 1:
+    tmp = t.first;
+    t.first = t.second;
+    t.second = t.third;
+    t.third = tmp;
+    return;
+  default:
+    tmp = t.first;
+    t.first = t.third;
+    t.third = t.second;
+    t.second = tmp;
+  }
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+test_dim_down(Vertex_handle v) const
+  // tests whether removing v decreases the dimension of the triangulation 
+  // true iff
+  // v is incident to all finite cells/facets
+  // and all the other vertices are coplanar/collinear in dim3/2.
+{
+  CGAL_triangulation_precondition(dimension() >= 0);
+  CGAL_triangulation_precondition(! is_infinite(v) );
+
+  if (dimension() == 3) {
+      Finite_cells_iterator cit = finite_cells_begin();
+
+      int iv;
+      if ( ! cit->has_vertex(v,iv) )
+          return false;
+      const Point &p1=cit->vertex((iv+1)&3)->point();  
+      const Point &p2=cit->vertex((iv+2)&3)->point();  
+      const Point &p3=cit->vertex((iv+3)&3)->point();
+      ++cit;
+
+      for (; cit != finite_cells_end(); ++cit ) {
+          if ( ! cit->has_vertex(v,iv) )
+              return false;
+          for (int i=1; i<4; i++ )
+	      if ( !coplanar(p1,p2,p3,cit->vertex((iv+i)&3)->point()) )
+	          return false;
+      }
+  }
+  else if (dimension() == 2)
+  {
+      Finite_facets_iterator cit = finite_facets_begin();
+
+      int iv;
+      if ( ! cit->first->has_vertex(v,iv) )
+          return false;
+      const Point &p1 = cit->first->vertex(cw(iv))->point();  
+      const Point &p2 = cit->first->vertex(ccw(iv))->point();  
+      ++cit;
+
+      for (; cit != finite_facets_end(); ++cit ) {
+          if ( ! cit->first->has_vertex(v,iv) )
+              return false;
+          if ( !collinear(p1, p2, cit->first->vertex(cw(iv))->point()) ||
+	       !collinear(p1, p2, cit->first->vertex(ccw(iv))->point()) )
+	      return false;
+      }
+  }
+  else // dimension() == 1 or 0
+      return number_of_vertices() == (size_type) dimension() + 1;
+
+  return true;
+}
+
+template <class Gt, class Tds >
+template < class VertexRemover >
+VertexRemover&
+Triangulation_3<Gt, Tds>::
+make_hole_2D(Vertex_handle v, std::list<Edge_2D> &hole, VertexRemover &remover)
+{
+  std::vector<Cell_handle> to_delete;
+
+  typename Tds::Face_circulator fc = tds().incident_faces(v);
+  typename Tds::Face_circulator done(fc);
+
+  // We prepare for deleting all interior cells.
+  // We ->set_cell() pointers to cells outside the hole.
+  // We push the Edges_2D of the boundary (seen from outside) in "hole".
+  do {
+    Cell_handle f = fc;
+    int i = f->index(v);
+    Cell_handle fn = f->neighbor(i);
+    int in = fn->index(f);
+
+    f->vertex(cw(i))->set_cell(fn);
+    fn->set_neighbor(in, Cell_handle());
+
+    hole.push_back(Edge_2D(fn, in));
+    remover.add_hidden_points(f);
+    to_delete.push_back(f);
+
+    ++fc;
+  } while (fc != done);
+
+  tds().delete_cells(to_delete.begin(), to_delete.end());
+  return remover;
+}
+
+template <class Gt, class Tds >
+template < class VertexRemover >
+void
+Triangulation_3<Gt, Tds>::
+fill_hole_2D(std::list<Edge_2D> & first_hole, VertexRemover &remover)
+{
+  typedef std::list<Edge_2D> Hole;
+
+  std::vector<Hole> hole_list;
+
+  Cell_handle  f, ff, fn;
+  int i, ii, in;
+
+  hole_list.push_back(first_hole);
+
+  while( ! hole_list.empty())
+    {
+      Hole hole = hole_list.back();
+      hole_list.pop_back();
+
+      // if the hole has only three edges, create the triangle
+      if (hole.size() == 3) {
+	typename Hole::iterator hit = hole.begin();
+	f = (*hit).first;        i = (*hit).second;
+	ff = (* ++hit).first;    ii = (*hit).second;
+	fn = (* ++hit).first;    in = (*hit).second;
+	tds().create_face(f, i, ff, ii, fn, in);
+	continue;
+      }
+
+      // else find an edge with two finite vertices
+      // on the hole boundary
+      // and the new triangle adjacent to that edge
+      //  cut the hole and push it back
+
+      // first, ensure that a neighboring face
+      // whose vertices on the hole boundary are finite
+      // is the first of the hole
+      while (1) {
+	ff = (hole.front()).first;
+	ii = (hole.front()).second;
+	if ( is_infinite(ff->vertex(cw(ii))) ||
+	     is_infinite(ff->vertex(ccw(ii)))) {
+          hole.push_back(hole.front());
+          hole.pop_front();
+	}
+	else
+	    break;
+      }
+
+      // take the first neighboring face and pop it;
+      ff = (hole.front()).first;
+      ii = (hole.front()).second;
+      hole.pop_front();
+
+      Vertex_handle v0 = ff->vertex(cw(ii));
+      Vertex_handle v1 = ff->vertex(ccw(ii));
+      Vertex_handle v2 = infinite_vertex();
+      const Point &p0 = v0->point();
+      const Point &p1 = v1->point();
+      const Point *p2 = NULL; // Initialize to NULL to avoid warning.
+
+      typename Hole::iterator hdone = hole.end();
+      typename Hole::iterator hit = hole.begin();
+      typename Hole::iterator cut_after(hit);
+
+      // if tested vertex is c with respect to the vertex opposite
+      // to NULL neighbor,
+      // stop at the before last face;
+      hdone--;
+      for (; hit != hdone; ++hit) {
+	fn = hit->first;
+	in = hit->second;
+        Vertex_handle vv = fn->vertex(ccw(in));
+	if (is_infinite(vv)) {
+	  if (is_infinite(v2))
+	      cut_after = hit;
+	}
+	else {     // vv is a finite vertex
+	  const Point &p = vv->point();
+	  if (coplanar_orientation(p0, p1, p) == COUNTERCLOCKWISE) {
+	    if (is_infinite(v2) ||
+	        remover.side_of_bounded_circle(p0, p1, *p2, p, true)
+		  == ON_BOUNDED_SIDE) {
+		v2 = vv;
+		p2 = &p;
+		cut_after = hit;
+	    }
+	  }
+	}
+      }
+
+      // create new triangle and update adjacency relations
+      Cell_handle newf;
+
+      //update the hole and push back in the Hole_List stack
+      // if v2 belongs to the neighbor following or preceding *f
+      // the hole remain a single hole
+      // otherwise it is split in two holes
+
+      fn = (hole.front()).first;
+      in = (hole.front()).second;
+      if (fn->has_vertex(v2, i) && i == ccw(in)) {
+	newf = tds().create_face(ff, ii, fn, in);
+	hole.pop_front();
+	hole.push_front(Edge_2D(newf, 1));
+	hole_list.push_back(hole);
+      }
+      else{
+	fn = (hole.back()).first;
+	in = (hole.back()).second;
+	if (fn->has_vertex(v2, i) && i == cw(in)) {
+	  newf = tds().create_face(fn, in, ff, ii);
+	  hole.pop_back();
+	  hole.push_back(Edge_2D(newf, 1));
+	  hole_list.push_back(hole);
+	}
+	else{
+	  // split the hole in two holes
+	  newf = tds().create_face(ff, ii, v2);
+	  Hole new_hole;
+	  ++cut_after;
+	  while( hole.begin() != cut_after )
+            {
+              new_hole.push_back(hole.front());
+              hole.pop_front();
+            }
+
+	  hole.push_front(Edge_2D(newf, 1));
+	  new_hole.push_front(Edge_2D(newf, 0));
+	  hole_list.push_back(hole);
+	  hole_list.push_back(new_hole);
+	}
+      }
+    }
+}
+
+template < class Gt, class Tds >
+void
+Triangulation_3<Gt,Tds>::
+make_hole_3D( Vertex_handle v,
+	      std::map<Vertex_triple,Facet>& outer_map,
+	      std::vector<Cell_handle> & hole)
+{
+  CGAL_triangulation_expensive_precondition( ! test_dim_down(v) );
+
+  incident_cells(v, std::back_inserter(hole));
+
+  for (typename std::vector<Cell_handle>::iterator cit = hole.begin();
+       cit != hole.end(); ++cit) {
+    int indv = (*cit)->index(v);
+    Cell_handle opp_cit = (*cit)->neighbor( indv );
+    Facet f(opp_cit, opp_cit->index(*cit));
+    Vertex_triple vt = make_vertex_triple(f);
+    make_canonical(vt);
+    outer_map[vt] = f;
+    for (int i=0; i<4; i++)
+      if ( i != indv )
+	(*cit)->vertex(i)->set_cell(opp_cit);
+  }
+}
+
+template < class Gt, class Tds >
+template < class VertexRemover >
+VertexRemover&
+Triangulation_3<Gt,Tds>::
+remove_dim_down(Vertex_handle v, VertexRemover &remover)
+{
+    CGAL_triangulation_precondition (dimension() >= 0);
+
+    // Collect all the hidden points.
+    for (All_cells_iterator ci = tds().raw_cells_begin();
+            ci != tds().raw_cells_end(); ++ci)
+        remover.add_hidden_points(ci);
+
+    tds().remove_decrease_dimension(v, infinite_vertex());
+
+    // Now try to see if we need to re-orient.
+    if (dimension() == 2) {
+        Facet f = *finite_facets_begin();
+        if (coplanar_orientation(f.first->vertex(0)->point(),
+                                 f.first->vertex(1)->point(),
+                                 f.first->vertex(2)->point()) == NEGATIVE)
+            tds().reorient();
+    }
+
+    return remover;
+}
+
+template < class Gt, class Tds >
+template < class VertexRemover >
+VertexRemover&
+Triangulation_3<Gt,Tds>::
+remove_1D(Vertex_handle v, VertexRemover &remover)
+{
+    CGAL_triangulation_precondition (dimension() == 1);
+
+    Cell_handle c1 = v->cell();
+    Cell_handle c2 = c1->neighbor(c1->index(v) == 0 ? 1 : 0);
+    remover.add_hidden_points(c1);
+    remover.add_hidden_points(c2);
+
+    tds().remove_from_maximal_dimension_simplex (v);
+
+    return remover;
+}
+
+template < class Gt, class Tds >
+template < class VertexRemover >
+VertexRemover&
+Triangulation_3<Gt,Tds>::
+remove_2D(Vertex_handle v, VertexRemover &remover)
+{
+    CGAL_triangulation_precondition(dimension() == 2);
+    std::list<Edge_2D> hole;
+    make_hole_2D(v, hole, remover);
+    fill_hole_2D(hole, remover);
+    tds().delete_vertex(v);
+    return remover;
+}
+
+template < class Gt, class Tds >
+template < class VertexRemover >
+VertexRemover&
+Triangulation_3<Gt,Tds>::
+remove_3D(Vertex_handle v, VertexRemover &remover)
+{
+  std::vector<Cell_handle> hole;
+  hole.reserve(64);
+
+  // Construct the set of vertex triples on the boundary
+  // with the facet just behind
+  typedef std::map<Vertex_triple,Facet> Vertex_triple_Facet_map;
+  Vertex_triple_Facet_map outer_map;
+  Vertex_triple_Facet_map inner_map;
+
+  make_hole_3D(v, outer_map, hole);
+  CGAL_assertion(remover.hidden_points_begin() ==
+      remover.hidden_points_end() );
+
+  // Output the hidden points.
+  for (typename std::vector<Cell_handle>::iterator
+      hi = hole.begin(), hend = hole.end(); hi != hend; ++hi)
+    remover.add_hidden_points(*hi);
+
+  bool inf = false;
+  unsigned int i;
+  // collect all vertices on the boundary
+  std::vector<Vertex_handle> vertices;
+  vertices.reserve(64);
+
+  incident_vertices(v, std::back_inserter(vertices));
+
+  // create a Delaunay triangulation of the points on the boundary
+  // and make a map from the vertices in remover.tmp towards the vertices
+  // in *this
+
+  Unique_hash_map<Vertex_handle,Vertex_handle> vmap;
+  Cell_handle ch = Cell_handle();
+  for(i=0; i < vertices.size(); i++){
+    if(! is_infinite(vertices[i])){
+      Vertex_handle vh = remover.tmp.insert(vertices[i]->point(), ch);
+      ch = vh->cell();
+      vmap[vh] = vertices[i];
+    }else {
+      inf = true;
+    }
+  }
+
+  if(remover.tmp.dimension()==2){
+    Vertex_handle fake_inf = remover.tmp.insert(v->point());
+    vmap[fake_inf] = infinite_vertex();
+  } else {
+    vmap[remover.tmp.infinite_vertex()] = infinite_vertex();
+  }
+
+  CGAL_triangulation_assertion(remover.tmp.dimension() == 3);
+
+  // Construct the set of vertex triples of remover.tmp
+  // We reorient the vertex triple so that it matches those from outer_map
+  // Also note that we use the vertices of *this, not of remover.tmp
+
+  if(inf){
+    for(All_cells_iterator it = remover.tmp.all_cells_begin();
+	it != remover.tmp.all_cells_end();
+	++it){
+      for(i=0; i < 4; i++){
+	Facet f = std::pair<Cell_handle,int>(it,i);
+	Vertex_triple vt_aux = make_vertex_triple(f);
+	Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
+	make_canonical(vt);
+	inner_map[vt]= f;
+      }
+    }
+  } else {
+      for(Finite_cells_iterator it = remover.tmp.finite_cells_begin();
+	it != remover.tmp.finite_cells_end();
+	++it){
+      for(i=0; i < 4; i++){
+	Facet f = std::pair<Cell_handle,int>(it,i);
+	Vertex_triple vt_aux = make_vertex_triple(f);
+	Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
+	make_canonical(vt);
+	inner_map[vt]= f;
+      }
+    }
+  }
+  // Grow inside the hole, by extending the surface
+  while(! outer_map.empty()){
+    typename Vertex_triple_Facet_map::iterator oit = outer_map.begin();
+    while(is_infinite(oit->first.first) ||
+	  is_infinite(oit->first.second) ||
+	  is_infinite(oit->first.third)){
+      ++oit;
+      // otherwise the lookup in the inner_map fails
+      // because the infinite vertices are different
+    }
+    typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    Cell_handle o_ch = o_vt_f_pair.second.first;
+    unsigned int o_i = o_vt_f_pair.second.second;
+
+    typename Vertex_triple_Facet_map::iterator iit =
+             inner_map.find(o_vt_f_pair.first);
+    CGAL_triangulation_assertion(iit != inner_map.end());
+    typename Vertex_triple_Facet_map::value_type i_vt_f_pair = *iit;
+    Cell_handle i_ch = i_vt_f_pair.second.first;
+    unsigned int i_i = i_vt_f_pair.second.second;
+
+    // create a new cell and glue it to the outer surface
+    Cell_handle new_ch = tds().create_cell();
+    new_ch->set_vertices(vmap[i_ch->vertex(0)], vmap[i_ch->vertex(1)],
+			 vmap[i_ch->vertex(2)], vmap[i_ch->vertex(3)]);
+
+    o_ch->set_neighbor(o_i,new_ch);
+    new_ch->set_neighbor(i_i, o_ch);
+
+    // for the other faces check, if they can also be glued
+    for(i = 0; i < 4; i++){
+      if(i != i_i){
+	Facet f = std::pair<Cell_handle,int>(new_ch,i);
+	Vertex_triple vt = make_vertex_triple(f);
+	make_canonical(vt);
+	std::swap(vt.second,vt.third);
+	typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
+	if(oit2 == outer_map.end()){
+	  std::swap(vt.second,vt.third);
+	  outer_map[vt]= f;
+	} else {
+	  // glue the faces
+	  typename Vertex_triple_Facet_map::value_type o_vt_f_pair2 = *oit2;
+	  Cell_handle o_ch2 = o_vt_f_pair2.second.first;
+	  int o_i2 = o_vt_f_pair2.second.second;
+	  o_ch2->set_neighbor(o_i2,new_ch);
+	  new_ch->set_neighbor(i, o_ch2);
+	  outer_map.erase(oit2);
+	}
+      }
+    }
+    outer_map.erase(oit);
+  }
+  tds().delete_vertex(v);
+  tds().delete_cells(hole.begin(), hole.end());
+
+  return remover;
+}
+
+template < class Gt, class Tds >
+template < class VertexRemover >
+void
+Triangulation_3<Gt, Tds>::
+remove(Vertex_handle v, VertexRemover &remover) {
+  CGAL_triangulation_precondition( v != Vertex_handle());
+  CGAL_triangulation_precondition( !is_infinite(v));
+  CGAL_triangulation_expensive_precondition( tds().is_vertex(v) );
+
+  if (test_dim_down (v)) {
+    remove_dim_down (v, remover);
+  }
+  else {
+    switch (dimension()) {
+    case 1: remove_1D (v, remover); break;
+    case 2: remove_2D (v, remover); break;
+    case 3: remove_3D (v, remover); break;
+    default:
+      CGAL_triangulation_assertion (false);
+    }
+  }
+}
+
 template < class GT, class Tds >
 bool
 Triangulation_3<GT,Tds>::
@@ -2844,14 +3377,16 @@ is_valid_finite(Cell_handle c, bool verbose, int) const
 namespace CGALi {
 
 // Internal function used by operator==.
-template <class Tr>
+template < class GT, class Tds1, class Tds2 >
 bool
-test_next(const Tr &t1, const Tr &t2,
-	  typename Tr::Cell_handle c1, typename Tr::Cell_handle c2,
-	  std::map<typename Tr::Cell_handle,
-                   typename Tr::Cell_handle> &Cmap,
-	  std::map<typename Tr::Vertex_handle,
-                   typename Tr::Vertex_handle> &Vmap)
+test_next(const Triangulation_3<GT, Tds1> &t1,
+          const Triangulation_3<GT, Tds2> &t2,
+	  typename Triangulation_3<GT, Tds1>::Cell_handle c1,
+	  typename Triangulation_3<GT, Tds2>::Cell_handle c2,
+	  std::map<typename Triangulation_3<GT, Tds1>::Cell_handle,
+                   typename Triangulation_3<GT, Tds2>::Cell_handle> &Cmap,
+	  std::map<typename Triangulation_3<GT, Tds1>::Vertex_handle,
+                   typename Triangulation_3<GT, Tds2>::Vertex_handle> &Vmap)
 {
     // This function tests and registers the 4 neighbors of c1/c2,
     // and recursively calls itself over them.
@@ -2866,18 +3401,22 @@ test_next(const Tr &t1, const Tr &t2,
     CGAL_triangulation_precondition(t1.dimension() == 2 ||
                                     Vmap.find(c1->vertex(3)) != Vmap.end());
 
-    typedef typename Tr::Vertex_handle  Vertex_handle;
-    typedef typename Tr::Cell_handle    Cell_handle;
-    typedef typename std::map<Cell_handle, Cell_handle>::const_iterator  Cit;
-    typedef typename std::map<Vertex_handle,
-                              Vertex_handle>::const_iterator Vit;
+    typedef Triangulation_3<GT, Tds1> Tr1;
+    typedef Triangulation_3<GT, Tds2> Tr2;
+    typedef typename Tr1::Vertex_handle  Vertex_handle1;
+    typedef typename Tr1::Cell_handle    Cell_handle1;
+    typedef typename Tr2::Vertex_handle  Vertex_handle2;
+    typedef typename Tr2::Cell_handle    Cell_handle2;
+    typedef typename std::map<Cell_handle1, Cell_handle2>::const_iterator  Cit;
+    typedef typename std::map<Vertex_handle1,
+                              Vertex_handle2>::const_iterator Vit;
 
     for (int i=0; i <= t1.dimension(); ++i) {
-	Cell_handle n1 = c1->neighbor(i);
+	Cell_handle1 n1 = c1->neighbor(i);
 	Cit cit = Cmap.find(n1);
-	Vertex_handle v1 = c1->vertex(i);
-	Vertex_handle v2 = Vmap[v1];
-	Cell_handle n2 = c2->neighbor(c2->index(v2));
+	Vertex_handle1 v1 = c1->vertex(i);
+	Vertex_handle2 v2 = Vmap[v1];
+	Cell_handle2 n2 = c2->neighbor(c2->index(v2));
 	if (cit != Cmap.end()) {
             // n1 was already registered.
 	    if (cit->second != n2)
@@ -2887,8 +3426,8 @@ test_next(const Tr &t1, const Tr &t2,
         // n1 has not yet been registered.
         // We check that the new vertices match geometrically.
         // And we register them.
-        Vertex_handle vn1 = n1->vertex(n1->index(c1));
-        Vertex_handle vn2 = n2->vertex(n2->index(c2));
+        Vertex_handle1 vn1 = n1->vertex(n1->index(c1));
+        Vertex_handle2 vn2 = n2->vertex(n2->index(c2));
         Vit vit = Vmap.find(vn1);
         if (vit != Vmap.end()) {
             // vn1 already registered
@@ -2920,14 +3459,23 @@ test_next(const Tr &t1, const Tr &t2,
 } // namespace CGALi
 
 
-template < class GT, class Tds >
+template < class GT, class Tds1, class Tds2 >
 bool
-operator==(const Triangulation_3<GT, Tds> &t1,
-	   const Triangulation_3<GT, Tds> &t2)
+operator==(const Triangulation_3<GT, Tds1> &t1,
+	   const Triangulation_3<GT, Tds2> &t2)
 {
-    typedef typename Triangulation_3<GT, Tds>::Vertex_handle Vertex_handle;
-    typedef typename Triangulation_3<GT, Tds>::Cell_handle   Cell_handle;
-    typedef typename Triangulation_3<GT, Tds>::Point         Point;
+    typedef typename Triangulation_3<GT, Tds1>::Vertex_handle Vertex_handle1;
+    typedef typename Triangulation_3<GT, Tds1>::Cell_handle   Cell_handle1;
+    typedef typename Triangulation_3<GT, Tds2>::Vertex_handle Vertex_handle2;
+    typedef typename Triangulation_3<GT, Tds2>::Cell_handle   Cell_handle2;
+
+    typedef typename Triangulation_3<GT, Tds1>::Point                       Point;
+    typedef typename Triangulation_3<GT, Tds1>::Geom_traits::Equal_3        Equal_3;
+    typedef typename Triangulation_3<GT, Tds1>::Geom_traits::Compare_xyz_3  Compare_xyz_3;
+
+    Equal_3 equal = t1.geom_traits().equal_3_object();
+    Compare_xyz_3 cmp1 = t1.geom_traits().compare_xyz_3_object();
+    Compare_xyz_3 cmp2 = t2.geom_traits().compare_xyz_3_object();
 
     // Some quick checks.
     if (t1.dimension() != t2.dimension()
@@ -2945,71 +3493,68 @@ operator==(const Triangulation_3<GT, Tds> &t1,
     if (dim == 1) {
         // It's enough to test that the points are the same,
         // since the triangulation is uniquely defined in this case.
-        std::vector<Point> V1 CGAL_make_vector(t1.points_begin(), t1.points_end());
-        std::vector<Point> V2 CGAL_make_vector(t2.points_begin(), t2.points_end());
-        std::sort(V1.begin(), V1.end(),
-                compose(Is_negative<int>(),// implicit conversion of CGAL::Sign 
-                        t1.geom_traits().compare_xyz_3_object()));
-        std::sort(V2.begin(), V2.end(),
-                compose(Is_negative<int>(),// implicit conversion of CGAL::Sign 
-                        t2.geom_traits().compare_xyz_3_object()));
+        using namespace boost;
+        std::vector<Point> V1 (t1.points_begin(), t1.points_end());
+        std::vector<Point> V2 (t2.points_begin(), t2.points_end());
+        std::sort(V1.begin(), V1.end(), bind(cmp1, _1, _2) == NEGATIVE);
+        std::sort(V2.begin(), V2.end(), bind(cmp2, _1, _2) == NEGATIVE);
         return V1 == V2;
     }
 
     // We will store the mapping between the 2 triangulations vertices and
     // cells in 2 maps.
-    std::map<Vertex_handle, Vertex_handle> Vmap;
-    std::map<Cell_handle, Cell_handle> Cmap;
+    std::map<Vertex_handle1, Vertex_handle2> Vmap;
+    std::map<Cell_handle1, Cell_handle2> Cmap;
 
     // Handle the infinite vertex.
-    Vertex_handle v1 = t1.infinite_vertex();
-    Vertex_handle iv2 = t2.infinite_vertex();
+    Vertex_handle1 v1 = t1.infinite_vertex();
+    Vertex_handle2 iv2 = t2.infinite_vertex();
     Vmap.insert(std::make_pair(v1, iv2));
 
     // We pick one infinite cell of t1, and try to match it against the
     // infinite cells of t2.
-    Cell_handle c = v1->cell();
-    Vertex_handle v2 = c->vertex((c->index(v1)+1)%(dim+1));
-    Vertex_handle v3 = c->vertex((c->index(v1)+2)%(dim+1));
-    Vertex_handle v4 = c->vertex((c->index(v1)+3)%(dim+1));
+    Cell_handle1 c = v1->cell();
+    Vertex_handle1 v2 = c->vertex((c->index(v1)+1)%(dim+1));
+    Vertex_handle1 v3 = c->vertex((c->index(v1)+2)%(dim+1));
+    Vertex_handle1 v4 = c->vertex((c->index(v1)+3)%(dim+1));
     const Point &p2 = v2->point();
     const Point &p3 = v3->point();
     const Point &p4 = v4->point();
 
-    std::vector<Cell_handle> ics;
+    std::vector<Cell_handle2> ics;
     t2.incident_cells(iv2, std::back_inserter(ics));
-    for (typename std::vector<Cell_handle>::const_iterator cit = ics.begin();
+    for (typename std::vector<Cell_handle2>::const_iterator cit = ics.begin();
 	    cit != ics.end(); ++cit) {
 	int inf = (*cit)->index(iv2);
 
-	if (t1.equal(p2, (*cit)->vertex((inf+1)%(dim+1))->point()))
+	if (equal(p2, (*cit)->vertex((inf+1)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v2, (*cit)->vertex((inf+1)%(dim+1))));
-	else if (t1.equal(p2, (*cit)->vertex((inf+2)%(dim+1))->point()))
+	else if (equal(p2, (*cit)->vertex((inf+2)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v2, (*cit)->vertex((inf+2)%(dim+1))));
 	else if (dim == 3 &&
-                 t1.equal(p2, (*cit)->vertex((inf+3)%(dim+1))->point()))
+                 equal(p2, (*cit)->vertex((inf+3)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v2, (*cit)->vertex((inf+3)%(dim+1))));
 	else
 	    continue; // None matched v2.
 
-	if (t1.equal(p3, (*cit)->vertex((inf+1)%(dim+1))->point()))
+	if (equal(p3, (*cit)->vertex((inf+1)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v3, (*cit)->vertex((inf+1)%(dim+1))));
-	else if (t1.equal(p3, (*cit)->vertex((inf+2)%(dim+1))->point()))
+	else if (equal(p3, (*cit)->vertex((inf+2)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v3, (*cit)->vertex((inf+2)%(dim+1))));
 	else if (dim == 3 &&
-                 t1.equal(p3, (*cit)->vertex((inf+3)%(dim+1))->point()))
+                 equal(p3, (*cit)->vertex((inf+3)%(dim+1))->point()))
 	    Vmap.insert(std::make_pair(v3, (*cit)->vertex((inf+3)%(dim+1))));
 	else
 	    continue; // None matched v3.
 
         if (dim == 3) {
-	    if (t1.equal(p4, (*cit)->vertex((inf+1)%(dim+1))->point()))
+	    if (equal(p4, (*cit)->vertex((inf+1)%(dim+1))->point()))
 	        Vmap.insert(std::make_pair(v4,
                                            (*cit)->vertex((inf+1)%(dim+1))));
-	    else if (t1.equal(p4, (*cit)->vertex((inf+2)%(dim+1))->point()))
+	    else if (equal(p4, (*cit)->vertex((inf+2)%(dim+1))->point()))
 	        Vmap.insert(std::make_pair(v4,
                                            (*cit)->vertex((inf+2)%(dim+1))));
-	    else if (t1.equal(p4, (*cit)->vertex((inf+3)%(dim+1))->point()))
+	    else if (equal(p4, (*cit)->vertex((inf+3)%(dim+1))->point()))
 	        Vmap.insert(std::make_pair(v4,
                                            (*cit)->vertex((inf+3)%(dim+1))));
 	    else
@@ -3029,11 +3574,11 @@ operator==(const Triangulation_3<GT, Tds> &t1,
 	             Cmap.begin()->first, Cmap.begin()->second, Cmap, Vmap);
 }
 
-template < class GT, class Tds >
+template < class GT, class Tds1, class Tds2 >
 inline
 bool
-operator!=(const Triangulation_3<GT, Tds> &t1,
-	   const Triangulation_3<GT, Tds> &t2)
+operator!=(const Triangulation_3<GT, Tds1> &t1,
+	   const Triangulation_3<GT, Tds2> &t2)
 {
   return ! (t1 == t2);
 }

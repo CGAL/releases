@@ -15,13 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 37265 2007-03-19 14:42:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_IN_PLACE_LIST_H
 #define CGAL_IN_PLACE_LIST_H 1
@@ -215,8 +215,8 @@ public:
   typedef CGALi::In_place_list_iterator<T, Alloc> iterator;
   typedef CGALi::In_place_list_const_iterator<T, Alloc> const_iterator;
 
-  typedef CGAL_reverse_iterator(iterator)         reverse_iterator;
-  typedef CGAL_reverse_iterator(const_iterator)   const_reverse_iterator;
+  typedef std::reverse_iterator<iterator>         reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
 
   typedef In_place_list<T,managed,Alloc>          Self;
 
@@ -356,16 +356,8 @@ public:
     CGAL_assertion( length > 0);
     (*((*i.node).prev_link)).next_link = (*i.node).next_link;
     (*((*i.node).next_link)).prev_link = (*i.node).prev_link;
-#ifdef __BORLANDC__
-#pragma warn -8008
-#pragma warn -8066
-#endif
     if (managed)
       put_node(i.node);
-#ifdef __BORLANDC__
-#pragma warn .8008
-#pragma warn .8066
-#endif
     --length;
   }
   void erase(T* pos)  { erase( iterator( pos)); }
@@ -390,23 +382,13 @@ public:
 
   // CREATION (Continued)
 
-  explicit In_place_list(size_type n, const T& value) : length(0) {
+  explicit In_place_list(size_type n, const T& value = T()) : length(0) {
     // introduces a list with n items, all initialized with copies of
     // value.
     node = get_node();
     (*node).next_link = node;
     (*node).prev_link = node;
     insert(begin(), n, value);
-  }
-  // Sylvain reported a problem with the default argument
-  // on sunpro; hence, I took it out.
-  explicit In_place_list(size_type n) : length(0) {
-    // introduces a list with n items, all initialized with copies of
-    // value.
-    node = get_node();
-    (*node).next_link = node;
-    (*node).prev_link = node;
-    T t; insert(begin(), n, t);
   }
 
   template <class InputIterator>
@@ -452,7 +434,7 @@ public:
     insert( begin(), n, t);
   }
 
-  void resize( size_type sz, const T& c) {
+  void resize( size_type sz, const T& c = T()) {
     if ( sz > size())
       insert( end(), sz - size(), c);
     else if ( sz < size()) {
@@ -461,12 +443,6 @@ public:
         ++i;
       erase( i, end());
     }  // else do nothing
-  }
-  // Sylvain reported a problem with the default argument
-  // on sunpro; hence, I took it out.
-  void resize( size_type sz) {
-    T t;
-    resize( sz, t);
   }
 
   // COMPARISON OPERATIONS

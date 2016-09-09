@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
-// $Id: Apollonius_graph_hierarchy_2_impl.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
+// $Id: Apollonius_graph_hierarchy_2_impl.h 42744 2008-04-03 12:14:58Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -147,11 +147,7 @@ is_valid(bool verbose, int level) const
   for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
     for( Finite_vertices_iterator it = hierarchy[i]->finite_vertices_begin(); 
 	 it != hierarchy[i]->finite_vertices_end(); ++it) {
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE 
       result = result && ( &*it == &*(it->down()->up()) );
-#else
-      result = result && ( it->down()->up() ==  it );
-#endif
     }
   }
   return result;

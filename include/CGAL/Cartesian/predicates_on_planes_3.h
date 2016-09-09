@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_planes_3.h $
-// $Id: predicates_on_planes_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_planes_3.h $
+// $Id: predicates_on_planes_3.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -30,7 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class K >
 inline
-Oriented_side
+typename K::Oriented_side
 side_of_oriented_plane(const PlaneC3<K> &h,
                        const PointC3<K> &p)
 { 
@@ -40,7 +40,7 @@ side_of_oriented_plane(const PlaneC3<K> &h,
 
 template < class K >
 inline
-bool
+typename K::Boolean
 equal_plane(const PlaneC3<K> &h, const PlaneC3<K> &p)
 { 
   return equal_planeC3(h.a(), h.b(), h.c(), h.d(),

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
-// $Id: Convex_hull_traits_3.h 36710 2007-02-28 19:28:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
+// $Id: Convex_hull_traits_3.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -109,7 +109,6 @@ public:
     typedef typename K::Plane_3 Plane_3;
 
     typedef bool             result_type;
-    typedef Arity_tag< 3 >   Arity;
 
     bool
     operator()( const Plane_3& h, const Point_3& p, const Point_3& q) const

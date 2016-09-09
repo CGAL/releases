@@ -10,15 +10,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_simplification/include/CGAL/Modifiable_priority_queue.h $
-// $Id: Modifiable_priority_queue.h 37468 2007-03-26 08:03:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_simplification/include/CGAL/Modifiable_priority_queue.h $
+// $Id: Modifiable_priority_queue.h 44299 2008-07-21 14:14:02Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_MODIFIABLE_PRIORITY_QUEUE_H
 #define CGAL_MODIFIABLE_PRIORITY_QUEUE_H
 
-#include <CGAL/boost_relaxed_heap.hpp>
+#include <climits> // Neeeded by the following Boost header for CHAR_BIT.
+#include <boost/pending/relaxed_heap.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -36,7 +37,7 @@ public:
   typedef Compare_     Compare;
   typedef ID_          ID ;
   
-  typedef boost::boost_relaxed_heap<IndexedType,Compare,ID> Heap ;
+  typedef boost::relaxed_heap<IndexedType,Compare,ID> Heap ;
   
   typedef typename Heap::value_type value_type;
   typedef typename Heap::size_type  size_type;

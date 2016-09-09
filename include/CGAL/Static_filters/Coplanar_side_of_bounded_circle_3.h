@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Coplanar_side_of_bounded_circle_3.h $
-// $Id: Coplanar_side_of_bounded_circle_3.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Coplanar_side_of_bounded_circle_3.h $
+// $Id: Coplanar_side_of_bounded_circle_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -42,7 +42,7 @@ class SF_Side_of_bounded_circle_3
     F sq = t1*t1+t1*t1+t1*t1; // squares
     F n1 = t1*t1 - t1*t1;     // normal vector
     F sq_n1 = n1*n1 + n1*n1 + n1*n1;
-    F det = det4x4_by_formula(t1, t1, t1, sq,
+    F det = determinant(t1, t1, t1, sq,
                               t1, t1, t1, sq,
                               t1, t1, t1, sq,
                               n1, n1, n1, sq_n1); // Full det
@@ -99,7 +99,7 @@ public:
     double v2 = CGAL_NTS square(vx) + CGAL_NTS square(vy) +
 	        CGAL_NTS square(vz);
 
-    double det = det4x4_by_formula(ptx,pty,ptz,pt2,
+    double det = determinant(ptx,pty,ptz,pt2,
                                    rtx,rty,rtz,rt2,
                                    qtx,qty,qtz,qt2,
                                    vx,vy,vz,v2);

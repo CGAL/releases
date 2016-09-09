@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_triangulation_point_location.h $
-// $Id: Arr_triangulation_point_location.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_triangulation_point_location.h $
+// $Id: Arr_triangulation_point_location.h 40549 2007-10-07 14:51:59Z ophirset $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -105,7 +105,7 @@ protected:
   typedef Arr_traits_basic_adaptor_2<Traits_2>  Traits_adaptor_2;
 
   // Data members:
-  const Traits_adaptor_2  *traits;     // Its associated traits object.
+  const Traits_adaptor_2  *m_traits;     // Its associated traits object.
   bool                    ignore_notifications;  
   CDT                     cdt;
   bool                    updated_cdt;
@@ -114,7 +114,7 @@ public:
 
   /*! Default constructor. */
   Arr_triangulation_point_location () : 
-    traits (NULL)
+    m_traits (NULL)
   {
   }
 
@@ -140,7 +140,7 @@ public:
     /*! Attach an arrangement object. */
     virtual void before_attach (const Arrangement_2& arr)
     {
-	    traits = static_cast<const Traits_adaptor_2*> (arr.get_traits());
+      m_traits = static_cast<const Traits_adaptor_2*> (arr.traits());
     }
 
     virtual void after_attach ()
@@ -168,7 +168,7 @@ public:
     * Notification after the arrangement is cleared.
     * \param u A handle to the unbounded face.
     */
-    virtual void after_clear (Face_handle /* u */)
+    virtual void after_clear ()
     { 
       clear_triangulation();
       build_triangulation();

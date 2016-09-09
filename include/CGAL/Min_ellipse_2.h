@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
-// $Id: Min_ellipse_2.h 35787 2007-01-24 17:16:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 41714 2008-01-20 20:24:20Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -324,7 +324,7 @@ class Min_ellipse_2 {
     Min_ellipse_2( InputIterator first,
                    InputIterator last,
                    bool          randomize
-    #if !defined(__BORLANDC__) && (!defined(_MSC_VER) || _MSC_VER > 1300)
+    #if !defined(_MSC_VER) || _MSC_VER > 1300
                                                = false
     #endif
                                                       ,
@@ -342,12 +342,7 @@ class Min_ellipse_2 {
                 if ( randomize) {
     
                     // shuffle points at random
-#ifndef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
                     std::vector<Point> v( first, last);
-#else
-		    std::vector<Point> v;
-		    std::copy( first, last, std::back_inserter( v));
-#endif
                     std::random_shuffle( v.begin(), v.end(), random);
                     std::copy( v.begin(), v.end(),
                                std::back_inserter( points)); }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Filtered_construction.h $
-// $Id: Filtered_construction.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Filtered_construction.h $
+// $Id: Filtered_construction.h 46439 2008-10-23 12:23:18Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -46,7 +46,6 @@ private:
 
 public:
   typedef AC_result_type           result_type;
-  typedef typename AC::Arity       Arity;
 
 public:
   Filtered_construction() {}
@@ -55,12 +54,13 @@ public:
   result_type
   operator()(const A1 &a1) const
   {
+    // Protection is outside the try block as VC8 has the CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG
+    Protect_FPU_rounding<Protection> P1;
     try
     {
-      Protect_FPU_rounding<Protection> P;
       return From_Filtered( Filter_construction(To_Filtered(a1)) );
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
+    catch (Uncertain_conversion_exception)
     {
       Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
       return From_Exact( Exact_construction(To_Exact(a1)) );
@@ -70,13 +70,13 @@ public:
   result_type
   operator()(const A1 &a1, const A2 &a2) const
   {
+    Protect_FPU_rounding<Protection> P1;
     try
     {
-      Protect_FPU_rounding<Protection> P;
       return From_Filtered( Filter_construction(To_Filtered(a1),
 						To_Filtered(a2)) );
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
+    catch (Uncertain_conversion_exception)
     {
       Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
       return From_Exact( Exact_construction(To_Exact(a1),
@@ -88,14 +88,14 @@ public:
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
   {
+    Protect_FPU_rounding<Protection> P1;
     try
     {
-      Protect_FPU_rounding<Protection> P;
       return From_Filtered( Filter_construction(To_Filtered(a1),
 						To_Filtered(a2),
 						To_Filtered(a3)) );
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
+    catch (Uncertain_conversion_exception)
     {
       Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
       return From_Exact( Exact_construction(To_Exact(a1),

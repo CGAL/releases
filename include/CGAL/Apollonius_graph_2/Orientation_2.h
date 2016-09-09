@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Orientation_2.h $
-// $Id: Orientation_2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Orientation_2.h $
+// $Id: Orientation_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -43,7 +43,6 @@ public:
   typedef typename K::Orientation  Orientation;
 
   typedef Orientation              result_type;
-  typedef Arity_tag<3>             Arity;
   typedef Site_2                   argument_type;
 
 private:
@@ -62,7 +61,7 @@ private:
     FT b = vc.b1() + vc.b2() * CGAL::sqrt(vc.delta());
     FT det1 = a * (p2.y() - p1.y()) - b * (p2.x() - p1.x());
     FT c = vc.c1() + vc.c2() * CGAL::sqrt(vc.delta());
-    FT det2 = det2x2_by_formula(p1.x() - sp1.x(), p1.y() - sp1.y(),
+    FT det2 = determinant(p1.x() - sp1.x(), p1.y() - sp1.y(),
 				p2.x() - sp1.x(), p2.y() - sp1.y());
     return CGAL::sign(det1 + FT(2) * c * det2);
   }
@@ -73,7 +72,7 @@ private:
   {
     FT dx = p2.x() - p1.x();
     FT dy = p2.y() - p1.y();
-    FT det1 = det2x2_by_formula(p1.x() - sp1.x(), p1.y() - sp1.y(),
+    FT det1 = determinant(p1.x() - sp1.x(), p1.y() - sp1.y(),
 				p2.x() - sp1.x(), p2.y() - sp1.y());
     FT A = vc.a1() * dy - vc.b1() * dx + FT(2) * vc.c1() * det1;
     FT B = vc.a2() * dy - vc.b2() * dx + FT(2) * vc.c2() * det1;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Construct_dual_points.h $
-// $Id: Construct_dual_points.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Construct_dual_points.h $
+// $Id: Construct_dual_points.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -37,7 +37,6 @@ private:
 public:
   typedef typename Geom_traits::Point_2  result_type;
   typedef typename AG2::Face_handle      Face_handle;
-  typedef Arity_tag<1>                   Arity;
 
   result_type operator()(const Face_handle& f) const {
     return Geom_traits().construct_Apollonius_vertex_2_object()
@@ -56,7 +55,6 @@ private:
 public:
   typedef typename Geom_traits::Point_2   result_type;
   typedef typename DT2::Face_handle       Face_handle;
-  typedef Arity_tag<1>                    Arity;
 
   result_type operator()(const Face_handle& f) const {
     return Geom_traits().construct_circumcenter_2_object()
@@ -74,7 +72,6 @@ private:
 public:
   typedef typename Geom_traits::Point_2   result_type;
   typedef typename RT2::Face_handle       Face_handle;
-  typedef Arity_tag<1>                    Arity;
 
   result_type operator()(const Face_handle& f) const {
     return Geom_traits().construct_weighted_circumcenter_2_object()
@@ -93,7 +90,6 @@ private:
 public:
   typedef typename SVD2::Point_2       result_type;
   typedef typename SVD2::Face_handle   Face_handle;
-  typedef Arity_tag<1>                 Arity;
 
   result_type operator()(const Face_handle& f) const {
     return Geom_traits().construct_svd_vertex_2_object()
@@ -110,7 +106,6 @@ private:
 public:
   typedef typename SDG2::Point_2       result_type;
   typedef typename SDG2::Face_handle   Face_handle;
-  typedef Arity_tag<1>                 Arity;
 
   result_type operator()(const Face_handle& f) const {
     return Geom_traits().construct_svd_vertex_2_object()

@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/SearchStructures/include/CGAL/Segment_tree_k.h $
-// $Id: Segment_tree_k.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/SearchStructures/include/CGAL/Segment_tree_k.h $
+// $Id: Segment_tree_k.h 41371 2007-12-30 16:55:25Z spion $
 // 
 //
 // Author(s)     : Gabriele Neyer
 
-#ifndef __CGAL_Segment_tree_pre__
-#define __CGAL_Segment_tree_pre__
+#ifndef CGAL_SEGMENT_TREE_K_H
+#define CGAL_SEGMENT_TREE_K_H
 
 // Predefined k-dimensional Segment Trees (k=1..4) 
 // The trees can either be templated with d arbitrary types
@@ -34,6 +34,7 @@
 #include <CGAL/Tree_base.h>
 #include <CGAL/Tree_traits.h>
 #include <CGAL/Segment_tree_d.h>
+
 CGAL_BEGIN_NAMESPACE
 
 template <class C_Traits_1>
@@ -441,5 +442,7 @@ public:
       delete anchor;
   }
 };
+
 CGAL_END_NAMESPACE
+
 #endif

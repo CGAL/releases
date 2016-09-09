@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/BGL/include/CGAL/boost/graph/halfedge_graph_traits_HalfedgeDS.h $
-// $Id: halfedge_graph_traits_HalfedgeDS.h 37284 2007-03-19 19:36:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/BGL/include/CGAL/boost/graph/halfedge_graph_traits_HalfedgeDS.h $
+// $Id: halfedge_graph_traits_HalfedgeDS.h 43252 2008-05-21 17:13:31Z fcacciola $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -69,19 +69,6 @@ public :
   
   typedef typename HDS::Vertex::Point Point ;
 };
-
-template <class HDS_>
-struct HDS_halfedge_graph_traits<HDS_ const> 
-{
-public :
-  
-  typedef HDS_ HDS;
-  
-  typedef HDS_all_undirected_edges_const_iterator<HDS> undirected_edge_iterator;
-  
-  typedef typename HDS::Vertex::Point Point ;
-};
-
 
 CGAL_END_NAMESPACE
 

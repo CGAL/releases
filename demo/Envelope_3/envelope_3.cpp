@@ -11,24 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/demo/Envelope_3/envelope_3.cpp $
-// $Id: envelope_3.cpp 37633 2007-03-28 15:08:37Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/demo/Envelope_3/envelope_3.cpp $
+// $Id: envelope_3.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
 
-// if QT is not installed, a message will be issued in runtime.
 #include <CGAL/basic.h>
 
-#ifndef CGAL_USE_QT
-#include <iostream>
-int main(int, char*){
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-  return 0;
-}
-#else
 
 #include <fstream>
 #include <string>
@@ -479,4 +470,3 @@ int main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

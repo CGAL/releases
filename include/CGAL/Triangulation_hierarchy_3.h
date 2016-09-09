@@ -11,12 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h 37831 2007-04-02 20:19:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
+// $Id: Triangulation_hierarchy_3.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_TRIANGULATION_HIERARCHY_3_H
 #define CGAL_TRIANGULATION_HIERARCHY_3_H
@@ -53,10 +53,8 @@ public:
   typedef typename Tr_Base::Finite_facets_iterator    Finite_facets_iterator;
   typedef typename Tr_Base::Finite_edges_iterator     Finite_edges_iterator;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Tr_Base::number_of_vertices;
   using Tr_Base::geom_traits;
-#endif
 
 private:
   // here is the stack of triangulations which form the hierarchy
@@ -101,7 +99,7 @@ public:
   {
       int n = number_of_vertices();
 
-      std::vector<Point> points CGAL_make_vector(first, last);
+      std::vector<Point> points (first, last);
       std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
 
@@ -109,8 +107,8 @@ public:
       // Thanks to spatial sort, they are better hints than what the hierarchy
       // would give us.
       Cell_handle hints[maxlevel];
-      for (typename std::vector<Point>::const_iterator p = points.begin();
-              p != points.end(); ++p)
+      for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
+              p != end; ++p)
       {
           int vertex_level = random_level();
 
@@ -323,14 +321,12 @@ Triangulation_hierarchy_3<Tr>::
 remove(Vertex_handle v)
 {
   CGAL_triangulation_precondition(v != Vertex_handle());
-  Vertex_handle u = v->up();
-  int l = 0;
-  while (1) {
-    hierarchy[l++]->remove(v);
-    if (u == Vertex_handle() || l > maxlevel)
+  for (int l = 0; l < maxlevel; ++l) {
+    Vertex_handle u = v->up();
+    hierarchy[l]->remove(v);
+    if (u == Vertex_handle())
 	break;
     v = u;
-    u = v->up();
   }
   return true;
 }
@@ -341,23 +337,24 @@ Triangulation_hierarchy_3<Tr>::
 move_point(Vertex_handle v, const Point & p)
 {
   CGAL_triangulation_precondition(v != Vertex_handle());
-  Vertex_handle u = v->up();
   Vertex_handle old, ret;
-  int l = 0;
-  while (1) {
-    Vertex_handle w = hierarchy[l++]->move_point(v, p);
-    if (l == 1)
+
+  for (int l = 0; l < maxlevel; ++l) {
+    Vertex_handle u = v->up();
+    Vertex_handle w = hierarchy[l]->move_point(v, p);
+    if (l == 0) {
 	ret = w;
-    if (l > 1) {
+    }
+    else {
 	old->set_up(w);
 	w->set_down(old);
     }
-    old = w;
-    if (u == Vertex_handle() || l > maxlevel)
+    if (u == Vertex_handle())
 	break;
+    old = w;
     v = u;
-    u = v->up();
   }
+
   return ret;
 }
  
@@ -442,11 +439,8 @@ Triangulation_hierarchy_3<Tr>::
 random_level()
 {
   int l = 0;
-  while ( ! random(ratio) )
+  while ( ! random(ratio) && l < maxlevel-1 )
     ++l;
-
-  if (l >= maxlevel)
-    l = maxlevel - 1;
 
   return l;
 }

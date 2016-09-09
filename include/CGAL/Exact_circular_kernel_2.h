@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,11 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
-// $Id: Exact_circular_kernel_2.h 35468 2006-12-08 10:39:32Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
+// $Id: Exact_circular_kernel_2.h 44373 2008-07-23 17:13:44Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
-
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -48,18 +47,19 @@ TODO: CORRECT THE MAKE_ROOT_OF_2 of GMPq GMPz
 
 CGAL_BEGIN_NAMESPACE
 
+namespace CGALi {
 /*
 #ifdef CGAL_USE_GMP
   typedef CGAL::Gmpq                                           NT1;
 #else
 */
-  typedef CGAL::Quotient<CGAL::MP_Float>                       NT1;
+  typedef Quotient<MP_Float>                       NT1;
 /*
 #endif
 */
-  typedef CGAL::Cartesian<NT1>                                 Linear_k1;
-  typedef CGAL::Algebraic_kernel_for_circles_2_2<NT1>          Algebraic_k1;
-  typedef CGAL::Circular_kernel_2<Linear_k1,Algebraic_k1>      CK1;
+  typedef Cartesian<NT1>                                 Linear_k1;
+  typedef Algebraic_kernel_for_circles_2_2<NT1>          Algebraic_k1;
+  typedef Circular_kernel_2<Linear_k1, Algebraic_k1>     CK1;
 
 //   typedef CGAL::Interval_nt_advanced                           NT2;
 //   typedef CGAL::Cartesian<NT2>                                 Linear_k2;
@@ -68,7 +68,10 @@ CGAL_BEGIN_NAMESPACE
 
 //  typedef CGAL::Lazy_circular_kernel_2<CK1,CK2>
 //  Exact_circular_kernel_2;
-  typedef CGAL::Filtered_bbox_circular_kernel_2<CK1> Exact_circular_kernel_2;
+
+} // namespace CGALi
+
+typedef Filtered_bbox_circular_kernel_2<CGALi::CK1>   Exact_circular_kernel_2;
 
 CGAL_END_NAMESPACE
 

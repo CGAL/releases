@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
-// $Id: Default_site_removers.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
+// $Id: Default_site_removers.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -36,7 +36,6 @@ struct Default_site_remover
   typedef DG                                        Delaunay_graph;
   typedef typename Delaunay_graph::Vertex_handle    Vertex_handle;
   typedef void                                      result_type;
-  typedef Arity_tag<2>                              Arity;
 
   Default_site_remover() {}
 
@@ -62,7 +61,6 @@ public:
   typedef typename Adaptation_traits::Delaunay_graph   Delaunay_graph;
   typedef typename Site_remover::Vertex_handle         Vertex_handle;
   typedef typename Site_remover::result_type           result_type;
-  typedef Arity_tag<2>                                 Arity;
 
 public:
   Default_caching_site_remover(const Adaptation_traits* at = NULL) : at_(at) {}
@@ -102,8 +100,9 @@ private:
 //===========================================================================
 
 template<class AT>
-struct Default_caching_site_remover<AT,Null_functor>
+class Default_caching_site_remover<AT,Null_functor>
 {
+public:
   Default_caching_site_remover() {}
   template<typename T> Default_caching_site_remover(T t) {}
 };

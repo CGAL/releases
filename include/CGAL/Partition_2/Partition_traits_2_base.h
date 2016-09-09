@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/Partition_traits_2_base.h $
-// $Id: Partition_traits_2_base.h 39256 2007-06-28 09:09:07Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/Partition_traits_2_base.h $
+// $Id: Partition_traits_2_base.h 39255 2007-06-28 08:46:53Z cwormser $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>

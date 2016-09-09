@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_utils.h $
-// $Id: Gps_utils.h 35719 2007-01-14 14:42:35Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_utils.h $
+// $Id: Gps_utils.h 45357 2008-09-07 15:30:19Z guyzucke $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -55,7 +55,7 @@ public:
     Ccb_halfedge_const_circulator;
   typedef typename Arrangement::Face_const_iterator     Face_const_iterator;
   typedef typename Arrangement::Halfedge_const_iterator Halfedge_const_iterator;
-  typedef typename Arrangement::Hole_const_iterator     Hole_const_iterator;
+  typedef typename Arrangement::Inner_ccb_const_iterator     Hole_const_iterator;
 
 
 protected:
@@ -121,6 +121,7 @@ public:
 
   void scan_ccb(Ccb_halfedge_const_circulator ccb)
   {
+  	 
     Polygon_2 pgn_boundary;
     General_polygon_set_2<Gps_traits, Gps_dcel>::
       construct_polygon(ccb, pgn_boundary, m_traits);
@@ -134,9 +135,12 @@ public:
       ++ccb;
     }
     while(ccb != ccb_end);
-    Polygon_with_holes_2 pgn(pgn_boundary,
+    Polygon_with_holes_2 pgn = m_traits->construct_polygon_with_holes_2_object()(pgn_boundary,
                              m_pgn_holes.begin(),
                              m_pgn_holes.end());
+    /*Polygon_with_holes_2 pgn(pgn_boundary,
+                             m_pgn_holes.begin(),
+                             m_pgn_holes.end());*/
     *m_oi = pgn;
     ++m_oi;
     m_pgn_holes.clear();
@@ -148,9 +152,12 @@ public:
     // ubf is contained -> unbounded polygon !!
     all_incident_faces(ubf);
     Polygon_2 boundary;
-    Polygon_with_holes_2 pgn(boundary,
+    Polygon_with_holes_2 pgn = m_traits->construct_polygon_with_holes_2_object()(boundary,
                              m_pgn_holes.begin(),
                              m_pgn_holes.end());
+    /*Polygon_with_holes_2 pgn(boundary,
+                             m_pgn_holes.begin(),
+                             m_pgn_holes.end());*/
     *m_oi = pgn;
     ++m_oi;
     m_pgn_holes.clear();
@@ -397,7 +404,8 @@ insert(PolygonIter p_begin, PolygonIter p_end,
   for( ; pwh_begin != pwh_end; ++pwh_begin)
   {
     CGAL_precondition(m_traits->is_valid_2_object()(*pwh_begin));
-    is_unbounded = (is_unbounded || pwh_begin->is_unbounded());
+     is_unbounded = (is_unbounded || m_traits->construct_is_unbounded_object()(*pwh_begin));
+   // is_unbounded = (is_unbounded || pwh_begin->is_unbounded());
     _construct_curves(*pwh_begin, std::back_inserter(xcurve_list));
   }
   insert_non_intersecting_curves(*m_arr, xcurve_list.begin(), xcurve_list.end());
@@ -438,7 +446,8 @@ _insert(PolygonIter p_begin, PolygonIter p_end, Polygon_with_holes_2 & /*pgn*/)
   for( ; p_begin != p_end; ++p_begin)
   {
     CGAL_precondition(m_traits->is_valid_2_object()(*p_begin));
-    is_unbounded = (is_unbounded || p_begin->is_unbounded());
+//    is_unbounded = (is_unbounded || p_begin->is_unbounded());
+    is_unbounded = (is_unbounded || m_traits->construct_is_unbounded_object()(*p_begin));  
     _construct_curves(*p_begin, std::back_inserter(xcurve_list));
 
   }
@@ -452,8 +461,6 @@ _insert(PolygonIter p_begin, PolygonIter p_end, Polygon_with_holes_2 & /*pgn*/)
   scanner.scan(*m_arr);
   _reset_faces(m_arr);
 }
-
-
 
 
  //insert non-sipmle poloygons with holes (non incident edges may have
@@ -471,7 +478,8 @@ _insert(const Polygon_with_holes_2 & pgn, Arrangement_2 & arr)
   _construct_curves(pgn, std::back_inserter(xcurve_list));
   insert_non_intersecting_curves(arr, xcurve_list.begin(), xcurve_list.end());
 
-  if (pgn.is_unbounded())
+  //if (pgn.is_unbounded())
+  if (m_traits->construct_is_unbounded_object()(pgn))	  
     arr.unbounded_face()->set_contained(true);
 
   My_visitor v;
@@ -498,17 +506,18 @@ void
 General_polygon_set_2<Traits_, Dcel_>::
 _construct_curves(const Polygon_with_holes_2 & pgn, OutputIterator oi)
 {
-  if (!pgn.is_unbounded())
+  //if (!pgn.is_unbounded())
+  if (!m_traits->construct_is_unbounded_object()(pgn))
   {
-    const Polygon_2& pgn_boundary = pgn.outer_boundary();
+    const Polygon_2& pgn_boundary = m_traits->construct_outer_boundary_object ()(pgn);
     std::pair<Curve_const_iterator,
               Curve_const_iterator> itr_pair = 
               m_traits->construct_curves_2_object()(pgn_boundary);
     std::copy (itr_pair.first, itr_pair.second, oi);
   }
-
+  std::pair<GP_Holes_const_iterator, GP_Holes_const_iterator> hpair = m_traits->construct_holes_object()(pgn);
   GP_Holes_const_iterator hit;
-  for (hit = pgn.holes_begin(); hit != pgn.holes_end(); ++hit)
+  for (hit = hpair.first; hit != hpair.second; ++hit)
   {
     const Polygon_2& pgn_hole = *hit;
     std::pair<Curve_const_iterator,
@@ -536,10 +545,12 @@ typename General_polygon_set_2<Traits_, Dcel_>::Size
 General_polygon_set_2<Traits_, Dcel_>::
 number_of_polygons_with_holes() const
 {
+ 
   typedef Arr_bfs_scanner<Arrangement_2, Counting_output_iterator>
     Arr_bfs_scanner;
-  Counting_output_iterator coi;
-  Arr_bfs_scanner scanner(this->m_traits, coi);
+  //counting_output_operator CTOR reqires a parameter  
+  std::size_t *cc = new size_t();  
+  Arr_bfs_scanner scanner(this->m_traits, Counting_output_iterator(cc));
   scanner.scan(*(this->m_arr));
   return (scanner.output_iterator().current_counter());
 }
@@ -641,7 +652,7 @@ get_boundary_of_polygon(Face_const_iterator f) const
     ++ccb_circ;
   }
   while(ccb_circ != ccb_end);
-  CGAL_assertion(false);
+  CGAL_error();
   return Ccb_halfedge_const_circulator();
   
 }

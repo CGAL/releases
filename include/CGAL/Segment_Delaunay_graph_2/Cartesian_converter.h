@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Cartesian_converter.h $
-// $Id: Cartesian_converter.h 32830 2006-07-31 13:25:07Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Cartesian_converter.h $
+// $Id: Cartesian_converter.h 41739 2008-01-20 23:09:58Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -118,8 +118,7 @@ public:
     return convert_site(t, intersections_tag());
   }
 
-#if defined(CGAL_CFG_USING_BASE_MEMBER_BUG) || defined(_MSC_VER) \
-    || defined(__sgi)
+#if defined(_MSC_VER)
   K2_Point_2
   operator()(const K1_Point_2& p) const
   {

@@ -15,20 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
-// $Id: Tuple_d.h 34870 2006-10-21 17:04:32Z gaertner $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
+// $Id: Tuple_d.h 42940 2008-04-17 13:32:52Z spion $
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_TUPLE_D_H
 #define CGAL_TUPLE_D_H
 
-#ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Quotient.h>
+#include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
 #include <sstream>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 #define PointCd PointCd2
@@ -56,45 +55,7 @@ class Tuple_d  {
 public:
   typedef typename Vector::const_iterator const_iterator;
 
-  struct Cartesian_const_iterator {
-    typedef Cartesian_const_iterator self;
-    typedef std::random_access_iterator_tag iterator_category;
-    typedef CGAL::Quotient<NT>              value_type;
-    typedef std::ptrdiff_t                  difference_type;
-    typedef const value_type*               pointer;
-    typedef const value_type&               reference;
-
-  Cartesian_const_iterator() : _it(0), _w(0) {}
-  Cartesian_const_iterator(const_iterator it, const_iterator w = 0) 
-    : _it(it), _w(w) {}
-    
-  value_type operator*() const { return value_type(*_it,*_w); }
-
-  self& operator++() { ++_it; return *this; }
-  self  operator++(int) { self tmp = *this; ++_it; return tmp; }
-  self& operator--() { --_it; return *this; }
-  self  operator--(int) { self tmp = *this; --_it; return tmp; }
-
-  self& operator+=(difference_type i) { _it+=i; return *this; }
-  self& operator-=(difference_type i) { _it-=i; return *this; }
-  self operator+(difference_type i) const 
-  { self tmp=*this; return tmp += i; }
-  self operator-(difference_type i) const 
-  { self tmp=*this; return tmp -= i; }
-
-  difference_type operator-(self x) const { return _it-x._it; }
-  // Bernd Gaertner: the following is no good, since non-const;
-  // replaced by appropriate const-version 
-  // reference operator[](difference_type i) { return *(*this + i); }
-  value_type operator[](difference_type i) const { return *(*this + i); }
-
-  bool operator==(const self& x) const { return _it==x._it; }
-  bool operator!=(const self& x) const { return ! (*this==x); }
-  bool operator<(const self& x) const { return (x - *this) > 0; }
-
-  private:
-    const_iterator _it, _w;  
-  }; // Cartesian_const_iterator
+  typedef Cartesian_const_iterator_d<const_iterator> Cartesian_const_iterator;
 
   struct Homogeneous_const_iterator {
     typedef Homogeneous_const_iterator self;
@@ -124,9 +85,6 @@ public:
   { self tmp=*this; return tmp -= i; }
 
   difference_type operator-(self x) const { return _it-x._it; }
-  // Bernd Gaertner: the following is no good, since non-const;
-  // replaced by appropriate const-version 
-  // reference operator[](difference_type i) { return *(*this + i); }
   value_type operator[](difference_type i) const { return *(*this + i); }
 
   bool operator==(const self& x) const { return _it==x._it; }
@@ -291,7 +249,7 @@ void Tuple_d<NT,LA>::read(std::istream& is)
       CGAL::read(is, d); v = Vector(d);
       while (i < d) { CGAL::read(is, v[i]); ++i; } break;
     default:
-    CGAL_assertion_msg(0,"\nStream must be in ascii or binary mode\n"); 
+    CGAL_error_msg("\nStream must be in ascii or binary mode\n"); 
   }
 }
 
@@ -305,7 +263,7 @@ void tuple_dim_check(ForwardIterator first, ForwardIterator last,
       std::ostringstream os;
       os << "Tuple Dimension Error " << 
             "File " << file << "Line " << line << "Operation " << op << '\0';
-      CGAL_assertion_msg(0,os.str().c_str()); 
+      CGAL_error_msg(os.str().c_str()); 
     }
 }
 

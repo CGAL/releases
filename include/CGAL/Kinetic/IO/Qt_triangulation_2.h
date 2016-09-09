@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
-// $Id: Qt_triangulation_2.h 40020 2007-08-23 17:05:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
+// $Id: Qt_triangulation_2.h 39365 2007-07-10 22:09:27Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -45,32 +45,19 @@ class Qt_triangulation_2: public Ref_counted<Qt_triangulation_2<KDel, IK, Qt_gui
   typedef typename Triangulation::Edge Edge;
 
   // maybe icl wants the class definition before the useage. 
-  typedef typename Qt_gui::Listener QTL;
-  class Listener: public QTL
-  {
-    typedef Qt_triangulation_2<KDel, IK, Qt_gui> Container;
-    typedef QTL P;
-  public:
-    Listener(typename Qt_gui::Handle &h, Container *t): P(h), t_(t){}
-    virtual void new_notification(typename P::Notification_type nt) {
-      if (nt == P::PICTURE_IS_VALID) {
-        t_->draw(*P::widget(), P::notifier()->current_time());
-      }
-    }
-  protected:
-    Container *t_;
-  };
-  friend class Listener;
+  CGAL_KINETIC_LISTEN1(Qt_gui, PICTURE_IS_VALID, draw());
+
 
 public:
   //typedef Kinetic_Delaunay Kinetic_Delaunay;
   //typedef CGAL::Ref_counted_pointer<This> Pointer;
 
   Qt_triangulation_2(typename KDel::Handle kdel,
-                     IK ik,
-                     typename Qt_gui::Handle gui): listener_(gui, this),
-                                                   ik_(ik),
-                                                   kdel_(kdel) {
+		     IK ik,
+		     typename Qt_gui::Handle gui): 
+						   ik_(ik),
+						   kdel_(kdel) {
+    CGAL_KINETIC_INIT_LISTEN(Qt_gui, gui);
   }
 
 protected:
@@ -106,7 +93,9 @@ protected:
       w << CGAL::Color(0,0,0);
     }
   }
-
+  void draw() const {
+    draw(CGAL_KINETIC_NOTIFIER(Qt_gui)->widget(), CGAL_KINETIC_NOTIFIER(Qt_gui)->current_time());
+  }
   //! Draw the triangulation.
   void draw( CGAL::Qt_widget &w, double t) const
   {
@@ -122,7 +111,7 @@ protected:
     ik_.set_time(typename IK::NT(t));
     typename IK::Current_coordinates cc= ik_.current_coordinates_object();
     for (typename Triangulation::Finite_edges_iterator fit = tri.finite_edges_begin();
-         fit != tri.finite_edges_end(); ++fit) {
+	 fit != tri.finite_edges_end(); ++fit) {
       Static_point p0= cc(fit->first->vertex((fit->second+1)%3)->point());
       Static_point p1= cc(fit->first->vertex((fit->second+2)%3)->point());
       Static_segment ss(p0, p1);
@@ -131,7 +120,6 @@ protected:
     }
   }
 
-  Listener listener_;
   IK ik_;
   typename KDel::Handle kdel_;
 };

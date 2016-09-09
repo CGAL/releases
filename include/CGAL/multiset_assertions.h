@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/multiset_assertions.h $
-// $Id: multiset_assertions.h 31144 2006-05-16 10:11:35Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/multiset_assertions.h $
+// $Id: multiset_assertions.h 44139 2008-07-14 11:16:41Z spion $
 // 
 // Author(s)     : Geert-Jan Giezeman, Sven Schönherr
 //
@@ -31,9 +31,9 @@
 #  define CGAL_multiset_assertion_code(CODE)
 #else
 #  define CGAL_multiset_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_assertion_code(CODE) CODE
 #  define CGAL_multiset_assertions 1
 #endif // CGAL_MULTISET_NO_ASSERTIONS
@@ -46,9 +46,9 @@
 #  define CGAL_multiset_exactness_assertion_code(CODE)
 #else
 #  define CGAL_multiset_exactness_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_exactness_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_exactness_assertion_code(CODE) CODE
 #  define CGAL_multiset_exactness_assertions 1
 #endif // CGAL_MULTISET_NO_ASSERTIONS
@@ -62,9 +62,9 @@
 #  define CGAL_multiset_expensive_assertion_code(CODE)
 #else
 #  define CGAL_multiset_expensive_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_assertion_code(CODE) CODE
 #  define CGAL_multiset_expensive_assertions 1
 #endif // CGAL_MULTISET_NO_ASSERTIONS
@@ -78,9 +78,9 @@
 #  define CGAL_multiset_expensive_exactness_assertion_code(CODE)
 #else
 #  define CGAL_multiset_expensive_exactness_assertion(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_exactness_assertion_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_exactness_assertion_code(CODE) CODE
 #  define CGAL_multiset_expensive_exactness_assertions 1
 #endif // CGAL_MULTISET_NO_ASSERTIONS
@@ -96,9 +96,9 @@
 #  define CGAL_multiset_precondition_code(CODE)
 #else
 #  define CGAL_multiset_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_precondition_code(CODE) CODE
 #  define CGAL_multiset_preconditions 1
 #endif // CGAL_MULTISET_NO_PRECONDITIONS
@@ -111,9 +111,9 @@
 #  define CGAL_multiset_exactness_precondition_code(CODE)
 #else
 #  define CGAL_multiset_exactness_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_exactness_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_exactness_precondition_code(CODE) CODE
 #  define CGAL_multiset_exactness_preconditions 1
 #endif // CGAL_MULTISET_NO_PRECONDITIONS
@@ -126,9 +126,9 @@
 #  define CGAL_multiset_expensive_precondition_code(CODE)
 #else
 #  define CGAL_multiset_expensive_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_precondition_code(CODE) CODE
 #  define CGAL_multiset_expensive_preconditions 1
 #endif // CGAL_MULTISET_NO_PRECONDITIONS
@@ -142,9 +142,9 @@
 #  define CGAL_multiset_expensive_exactness_precondition_code(CODE)
 #else
 #  define CGAL_multiset_expensive_exactness_precondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_exactness_precondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_exactness_precondition_code(CODE) CODE
 #  define CGAL_multiset_expensive_exactness_preconditions 1
 #endif // CGAL_MULTISET_NO_PRECONDITIONS
@@ -160,9 +160,9 @@
 #  define CGAL_multiset_postcondition_code(CODE)
 #else
 #  define CGAL_multiset_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_postcondition_code(CODE) CODE
 #  define CGAL_multiset_postconditions 1
 #endif // CGAL_MULTISET_NO_POSTCONDITIONS
@@ -175,9 +175,9 @@
 #  define CGAL_multiset_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_multiset_exactness_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_exactness_postcondition_code(CODE) CODE
 #  define CGAL_multiset_exactness_postconditions 1
 #endif // CGAL_MULTISET_NO_POSTCONDITIONS
@@ -190,9 +190,9 @@
 #  define CGAL_multiset_expensive_postcondition_code(CODE)
 #else
 #  define CGAL_multiset_expensive_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_postcondition_code(CODE) CODE
 #  define CGAL_multiset_expensive_postconditions 1
 #endif // CGAL_MULTISET_NO_POSTCONDITIONS
@@ -206,9 +206,9 @@
 #  define CGAL_multiset_expensive_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_multiset_expensive_exactness_postcondition(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_exactness_postcondition_code(CODE) CODE
 #  define CGAL_multiset_expensive_exactness_postconditions 1
 #endif // CGAL_MULTISET_NO_POSTCONDITIONS
@@ -224,9 +224,9 @@
 #  define CGAL_multiset_warning_code(CODE)
 #else
 #  define CGAL_multiset_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_warning_code(CODE) CODE
 #  define CGAL_multiset_warnings 1
 #endif // CGAL_MULTISET_NO_WARNINGS
@@ -239,9 +239,9 @@
 #  define CGAL_multiset_exactness_warning_code(CODE)
 #else
 #  define CGAL_multiset_exactness_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_exactness_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_exactness_warning_code(CODE) CODE
 #  define CGAL_multiset_exactness_warnings 1
 #endif // CGAL_MULTISET_NO_WARNINGS
@@ -254,9 +254,9 @@
 #  define CGAL_multiset_expensive_warning_code(CODE)
 #else
 #  define CGAL_multiset_expensive_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_warning_code(CODE) CODE
 #  define CGAL_multiset_expensive_warnings 1
 #endif // CGAL_MULTISET_NO_WARNINGS
@@ -270,9 +270,9 @@
 #  define CGAL_multiset_expensive_exactness_warning_code(CODE)
 #else
 #  define CGAL_multiset_expensive_exactness_warning(EX) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_multiset_expensive_exactness_warning_msg(EX,MSG) \
-   ((EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
+   (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_multiset_expensive_exactness_warning_code(CODE) CODE
 #  define CGAL_multiset_expensive_exactness_warnings 1
 #endif // CGAL_MULTISET_NO_WARNINGS

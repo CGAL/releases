@@ -11,17 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/parameterize.h $
-// $Id: parameterize.h 29081 2006-03-06 13:32:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/parameterize.h $
+// $Id: parameterize.h 42550 2008-03-21 16:11:18Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
-
-//  We need a doxygen comment about CGAL in order for doxygen to
-//  extract the global functions, variables or constants of the namespace
-/// @namespace CGAL
-/// CGAL is a great stuff!
-
 
 #ifndef CGAL_PARAMETERIZE_H
 #define CGAL_PARAMETERIZE_H

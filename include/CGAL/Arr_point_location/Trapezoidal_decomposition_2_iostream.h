@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
-// $Id: Trapezoidal_decomposition_2_iostream.h 31514 2006-06-11 17:22:18Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
+// $Id: Trapezoidal_decomposition_2_iostream.h 40209 2007-09-05 14:41:48Z efif $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -46,7 +46,7 @@ template < class Traits>
 std::ostream& operator<<(
 			 std::ostream &out,const Trapezoidal_decomposition_2<Traits>& td)
 {
-  return write(out,td.get_data_structure(),td.get_traits());
+  return write(out,td.data_structure(),td.get_traits());
 }
 
 template < class Traits>
@@ -96,14 +96,14 @@ std::ostream& write(std::ostream &out,const Td_X_trapezoid<Traits>& t,
       for (i=0;i<size;i++)
 	if (value[j]==value[i])
 	  {
-	    CGAL_CLIB_STD::strcat(name[i],"=");
-	    CGAL_CLIB_STD::strcat(name[i],name[j]);
+	    std::strcat(name[i],"=");
+	    std::strcat(name[i],name[j]);
 	    break;
 	  }
       if (i==size)
 	{
 	  value[size]=value[j];
-	  CGAL_CLIB_STD::strcpy(name[size++],name[j]);
+	  std::strcpy(name[size++],name[j]);
 	}
     }
   if (size==null_size) {out << "none";}
@@ -207,14 +207,14 @@ std::ostream& operator<<(std::ostream &out,const Td_X_trapezoid<Traits>& t)
       for (i=0;i<size;i++)
 	if (value[j]==value[i])
 	  {
-	    CGAL_CLIB_STD::strcat(name[i],"=");
-	    CGAL_CLIB_STD::strcat(name[i],name[j]);
+	    std::strcat(name[i],"=");
+	    std::strcat(name[i],name[j]);
 	    break;
 	  }
       if (i==size)
 	{
 	  value[size]=value[j];
-	  CGAL_CLIB_STD::strcpy(name[size++],name[j]);
+	  std::strcpy(name[size++],name[j]);
 	}
     }
   if (size==null_size) {out << "none";}

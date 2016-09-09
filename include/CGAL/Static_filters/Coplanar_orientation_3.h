@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Coplanar_orientation_3.h $
-// $Id: Coplanar_orientation_3.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Coplanar_orientation_3.h $
+// $Id: Coplanar_orientation_3.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -143,7 +143,7 @@ private:
     double prx = rx-px;
     double pry = ry-py;
 
-    double det = det2x2_by_formula(pqx, pqy,
+    double det = determinant(pqx, pqy,
                                    prx, pry);
 
     // Then semi-static filter.

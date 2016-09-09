@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h $
-// $Id: Point_2_Point_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h $
+// $Id: Point_2_Point_2_intersection.h 39776 2007-08-08 15:15:20Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -34,16 +34,16 @@ namespace CGALi {
 
 template <class K>
 inline bool
-do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt1, 
-	     const typename CGAL_WRAP(K)::Point_2 &pt2)
+do_intersect(const typename K::Point_2 &pt1, 
+	     const typename K::Point_2 &pt2)
 {
     return pt1 == pt2;
 }
 
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Point_2 &pt1, 
-	     const typename CGAL_WRAP(K)::Point_2 &pt2)
+intersection(const typename K::Point_2 &pt1, 
+	     const typename K::Point_2 &pt2)
 {
     if (pt1 == pt2) {
         return make_object(pt1);

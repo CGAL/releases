@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
-// $Id: Filtered_extended_homogeneous.h 36826 2007-03-05 16:49:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 44806 2008-08-06 13:16:04Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -162,7 +162,7 @@ std::istream& operator>>(std::istream& is, SPolynomial<RT>& p)
     case CGAL::IO::BINARY :
       CGAL::read(is,m);CGAL::read(is,n);break;
     default:
-    CGAL_assertion_msg(0,"\nStream must be in ascii or binary mode\n");
+    CGAL_error_msg("\nStream must be in ascii or binary mode\n");
       break;  
   }
   return is; 
@@ -236,9 +236,7 @@ class Extended_point : public Handle_for< Extended_point_rep<RT_> > {
   typedef Extended_point_rep<RT_> Rep;
   typedef Handle_for< Rep >       Base;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::ptr;
-#endif
 
 public:
   typedef typename Rep::DT DT;
@@ -333,7 +331,7 @@ std::istream& operator>>(std::istream& is, Extended_point<RT>& p)
     case CGAL::IO::BINARY :
       CGAL::read(is,x);CGAL::read(is,y);CGAL::read(is,w); break;
     default:
-    CGAL_assertion_msg(0,"\nStream must be in ascii or binary mode\n");
+    CGAL_error_msg("\nStream must be in ascii or binary mode\n");
       break;  
   }
   p = Extended_point<RT>(x,y,w); 
@@ -395,7 +393,7 @@ int orientation(const Extended_point<RT>& p1,
                              p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                              p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(or2);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(or2);
     res = orientation_coeff2(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                              p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                              p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw());
@@ -407,7 +405,7 @@ int orientation(const Extended_point<RT>& p1,
                              p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                              p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(or1);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(or1);
     res = orientation_coeff1(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                              p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                              p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw());
@@ -419,7 +417,7 @@ int orientation(const Extended_point<RT>& p1,
                              p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                              p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(or0);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(or0);
     res = orientation_coeff0(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                              p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                              p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw());
@@ -444,7 +442,7 @@ int compare_x(const Extended_point<RT>& p1,
   try { INCTOTAL(cmpx1); Protect_FPU_rounding<true> Protection;
     res = compare_expr(p1.mxD(),p1.hwD(),p2.mxD(),p2.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmpx1);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmpx1);
     res = compare_expr(p1.mx(),p1.hw(),p2.mx(),p2.hw());
   }
   if ( res != 0 ) return res; 
@@ -452,7 +450,7 @@ int compare_x(const Extended_point<RT>& p1,
   try { INCTOTAL(cmpx0); Protect_FPU_rounding<true> Protection;
     res = compare_expr(p1.nxD(),p1.hwD(),p2.nxD(),p2.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmpx0);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmpx0);
     res = compare_expr(p1.nx(),p1.hw(),p2.nx(),p2.hw());
   }
   return res;  
@@ -469,7 +467,7 @@ int compare_y(const Extended_point<RT>& p1,
   try { INCTOTAL(cmpy1); Protect_FPU_rounding<true> Protection;
     res = compare_expr(p1.myD(),p1.hwD(),p2.myD(),p2.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmpy1);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmpy1);
     res = compare_expr(p1.my(),p1.hw(),p2.my(),p2.hw());
   }
   if ( res != 0 ) return res; 
@@ -477,7 +475,7 @@ int compare_y(const Extended_point<RT>& p1,
   try { INCTOTAL(cmpy0); Protect_FPU_rounding<true> Protection;
     res = compare_expr(p1.nyD(),p1.hwD(),p2.nyD(),p2.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmpy0);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmpy0);
     res = compare_expr(p1.ny(),p1.hw(),p2.ny(),p2.hw());
   }
   return res;  
@@ -614,7 +612,7 @@ int compare_pair_dist(
                        p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                        p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmppd2);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmppd2);
     res = cmppd_coeff2(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                        p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                        p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -628,7 +626,7 @@ int compare_pair_dist(
                        p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                        p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmppd1);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmppd1);
     res = cmppd_coeff1(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                        p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                        p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -642,7 +640,7 @@ int compare_pair_dist(
                        p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                        p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
   }
-  catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(cmppd0);
+  catch (Uncertain_conversion_exception) { INCEXCEPTION(cmppd0);
     res = cmppd_coeff0(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                        p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                        p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -878,7 +876,7 @@ int orientation(const Extended_direction<RT>& d1,
                      p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                      p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                      p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
-  } catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(ord2);
+  } catch (Uncertain_conversion_exception) { INCEXCEPTION(ord2);
     res = coeff2_dor(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                      p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                      p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -891,7 +889,7 @@ int orientation(const Extended_direction<RT>& d1,
                      p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                      p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                      p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
-  } catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(ord1);
+  } catch (Uncertain_conversion_exception) { INCEXCEPTION(ord1);
     res = coeff1_dor(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                      p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                      p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -903,7 +901,7 @@ int orientation(const Extended_direction<RT>& d1,
                      p2.mxD(),p2.nxD(),p2.myD(),p2.nyD(),p2.hwD(),
                      p3.mxD(),p3.nxD(),p3.myD(),p3.nyD(),p3.hwD(),
                      p4.mxD(),p4.nxD(),p4.myD(),p4.nyD(),p4.hwD());
-  } catch (Interval_nt_advanced::unsafe_comparison) { INCEXCEPTION(ord0);
+  } catch (Uncertain_conversion_exception) { INCEXCEPTION(ord0);
     res = coeff0_dor(p1.mx(),p1.nx(),p1.my(),p1.ny(),p1.hw(),
                      p2.mx(),p2.nx(),p2.my(),p2.ny(),p2.hw(),
                      p3.mx(),p3.nx(),p3.my(),p3.ny(),p3.hw(),
@@ -1041,7 +1039,7 @@ Point_type determine_type(const Standard_line_2& l) const
              abscissa_distance(l) > Standard_FT(0))) {
     return TOPFRAME;
   }
-  CGAL_assertion_msg(false," determine_type: degenerate line.");
+  CGAL_error_msg(" determine_type: degenerate line.");
   return (Point_type)-1; // never come here
 }
 
@@ -1073,7 +1071,7 @@ Point_2 construct_point(const Standard_line_2& l, Point_type& t) const
                      break; 
     case TOPFRAME: res = epoint(-l.b(), -l.c(),  l.a(), 0, l.a()); 
                      break; 
-    default: CGAL_assertion_msg(0,"EPoint type not correct!");
+    default: CGAL_error_msg("EPoint type not correct!");
   }
   return res;
 }
@@ -1228,8 +1226,7 @@ bool strictly_ordered_ccw(const Direction_2& d1,
 void print_statistics() const
 {
   std::cout << "Statistics of filtered kernel:\n";
-  std::cout << "total failed double filter stages = ";
-  std::cout << CGAL::Interval_nt_advanced::number_of_failures() << std::endl;
+  std::cout << "total failed double filter stages = (now needs CGAL_PROFILE)\n";
   PRINT_CHECK_ENABLED;
   PRINT_STATISTICS(or2);
   PRINT_STATISTICS(or1);

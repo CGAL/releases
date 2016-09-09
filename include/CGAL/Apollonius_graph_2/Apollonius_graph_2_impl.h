@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
-// $Id: Apollonius_graph_2_impl.h 32657 2006-07-20 16:30:15Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
+// $Id: Apollonius_graph_2_impl.h 42744 2008-04-03 12:14:58Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -396,22 +396,14 @@ void
 Apollonius_graph_2<Gt,Agds,LTag>::
 remove_degree_3(Vertex_handle v)
 {
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
   remove_degree_3(v, Face_handle());
-#else
-  remove_degree_3(v, NULL);
-#endif
 }
 
 
 template<class Gt, class Agds, class LTag>
 void
 Apollonius_graph_2<Gt,Agds,LTag>::
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
-remove_degree_3(Vertex_handle v, Face_handle f) // af:was Face*
-#else
-remove_degree_3(Vertex_handle v, Face* f)
-#endif
+remove_degree_3(Vertex_handle v, Face_handle f)
 {
   CGAL_triangulation_precondition( degree(v) == 3 );
   this->_tds.remove_degree_3(v, f);
@@ -1625,7 +1617,7 @@ finite_edge_conflict_type_degenerated(const Site_2& p1,
   } else {
     // this should never be reached; the degenerated incircle never
     // returns ZERO
-    CGAL_assertion( false );
+    CGAL_error();
   }
 
   // to satisfy compiler
@@ -1834,14 +1826,10 @@ remove_degree_d_vertex(Vertex_handle v)
   }
   CGAL_triangulation_precondition( degree(v) == 3 );
 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
   this->_tds.remove_degree_3( v, Face_handle() );
-#else
-  this->_tds.remove_degree_3( v, NULL );
-#endif
 
   for (unsigned int i = 0; i < num_fe; i++) {
-    delete flipped_edges[i];
+    delete[] flipped_edges[i];
   }
 }
 

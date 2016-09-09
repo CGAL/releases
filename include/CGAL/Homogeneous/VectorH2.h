@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
-// $Id: VectorH2.h 33113 2006-08-07 15:57:40Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
+// $Id: VectorH2.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -26,7 +26,8 @@
 #define CGAL_HOMOGENEOUS_VECTOR_2_h
 
 #include <CGAL/Origin.h>
-#include <CGAL/Threetuple.h>
+#include <CGAL/array.h>
+#include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -43,7 +44,7 @@ class VectorH2
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Vector_2             Vector_2;
 
-  typedef Threetuple<RT>                           Rep;
+  typedef CGAL::array<RT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   typedef Rational_traits<FT>               Rat_traits;
@@ -51,33 +52,33 @@ class VectorH2
   Base base;
 
 public:
+
   typedef const FT Cartesian_coordinate_type;
   typedef const RT& Homogeneous_coordinate_type;
+  typedef Cartesian_const_iterator_d<const RT*> Cartesian_const_iterator;
+
   typedef R_                                    R;
 
    VectorH2() {}
 
-   VectorH2(int x, int y)
-      : base(x, y, RT(1)) {}
-  
-   VectorH2(const RT& x, const RT& y)
-      : base (x, y, RT(1)) {}
+   template < typename Tx, typename Ty >
+   VectorH2(const Tx & x, const Ty & y,
+            typename boost::enable_if< boost::mpl::and_<boost::is_convertible<Tx, RT>,
+                                                        boost::is_convertible<Ty, RT> > >::type* = 0)
+      : base(CGAL::make_array<RT>(x, y, RT(1))) {}
 
    VectorH2(const FT& x, const FT& y)
-      : base(Rat_traits().numerator(x) * Rat_traits().denominator(y),
+      : base(CGAL::make_array<RT>(
+             Rat_traits().numerator(x) * Rat_traits().denominator(y),
              Rat_traits().numerator(y) * Rat_traits().denominator(x),
-             Rat_traits().denominator(x) * Rat_traits().denominator(y))
+             Rat_traits().denominator(x) * Rat_traits().denominator(y)))
    {
      CGAL_kernel_assertion(hw() > 0);
    }
 
    VectorH2(const RT& x, const RT& y, const RT& w )
-   {
-     if ( w >= RT(0)   )
-       base = Rep( x,  y,  w);
-     else
-       base = Rep(-x, -y, -w);
-   }
+     : base( w >= RT(0) ? CGAL::make_array( x,  y,  w)
+                        : CGAL::make_array<RT>(-x, -y, -w) ) {}
 
   const Self&
   rep() const
@@ -90,9 +91,9 @@ public:
    bool    operator==( const Null_vector&) const;
    bool    operator!=( const Null_vector& v) const;
 
-   const RT & hx() const { return get(base).e0; };
-   const RT & hy() const { return get(base).e1; };
-   const RT & hw() const { return get(base).e2; };
+   const RT & hx() const { return get(base)[0]; };
+   const RT & hy() const { return get(base)[1]; };
+   const RT & hw() const { return get(base)[2]; };
 
    FT      x()  const { return FT(hx()) / FT(hw()); };
    FT      y()  const { return FT(hy()) / FT(hw()); };
@@ -100,6 +101,17 @@ public:
    FT      cartesian(int i)   const;
    const RT & homogeneous(int i) const;
    FT      operator[](int i)  const;
+
+   Cartesian_const_iterator cartesian_begin() const
+   {
+     return make_cartesian_const_iterator_begin(get(base).begin(),
+                                                boost::prior(get(base).end()));
+   }
+
+   Cartesian_const_iterator cartesian_end() const
+   {
+     return make_cartesian_const_iterator_end(boost::prior(get(base).end()));
+   }
 
    int     dimension() const;
    Direction_2 direction() const;
@@ -165,11 +177,7 @@ const typename VectorH2<R>::RT &
 VectorH2<R>::homogeneous(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  if (i==0)
-      return hx();
-  if (i==1)
-      return hy();
-  return hw();
+  return get(base)[i];
 }
 
 template < class R >

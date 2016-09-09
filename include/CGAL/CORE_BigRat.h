@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007 Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/CORE_BigRat.h $
-// $Id: CORE_BigRat.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/CORE_BigRat.h $
+// $Id: CORE_BigRat.h 47264 2008-12-08 06:25:14Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -58,19 +58,19 @@ template <> class Algebraic_structure_traits< CORE::BigRat >
 // Real embeddable traits
 //
 template <> class Real_embeddable_traits< CORE::BigRat >
-  : public Real_embeddable_traits_base< CORE::BigRat > {
+  : public INTERN_RET::Real_embeddable_traits_base< CORE::BigRat , CGAL::Tag_true > {
   public:
 
     class Abs
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return CORE::abs( x );
         }
     };
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return (::CGAL::Sign) CORE::sign( x );
@@ -78,18 +78,17 @@ template <> class Real_embeddable_traits< CORE::BigRat >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
                                             const Type& y ) const {
-          typedef Real_embeddable_traits<int> Int_traits;
-          return Int_traits::Sign()( ::CORE::cmp(x,y));
+          return CGAL::sign( ::CORE::cmp(x,y));
         }
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           // this call is required to get reasonable values for the double
@@ -99,7 +98,7 @@ template <> class Real_embeddable_traits< CORE::BigRat >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x_ ) const {
             CORE::Expr x(x_);
@@ -202,6 +201,24 @@ public:
             return out <<"("<< oformat(t) <<")";
         else
             return out << oformat(t);
+    }
+};
+
+// Benchmark_rep specialization 
+template<>
+class Benchmark_rep< CORE::BigRat > {
+    const CORE::BigRat& t;
+public:
+    //! initialize with a const reference to \a t.
+    Benchmark_rep( const CORE::BigRat& tt) : t(tt) {}
+    //! perform the output, calls \c operator\<\< by default.
+    std::ostream& operator()( std::ostream& out) const { 
+            out << "Rational(" << numerator(t) << "," << denominator(t) << ")";
+            return out;
+    }
+    
+    static std::string get_benchmark_name() {
+        return "Rational";
     }
 };
 

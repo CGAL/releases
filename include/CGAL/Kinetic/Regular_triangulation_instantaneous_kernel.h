@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_instantaneous_kernel.h $
-// $Id: Regular_triangulation_instantaneous_kernel.h 37526 2007-03-26 22:17:39Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_instantaneous_kernel.h $
+// $Id: Regular_triangulation_instantaneous_kernel.h 40530 2007-10-04 11:14:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -73,7 +73,7 @@ public:
   //typedef P::Static_kernel Static_kernel;
 
   CGAL_MSA(Power_test,power_test, Weighted_point_3, 3);
-
+  CGAL_MSA(Equal, equal, Weighted_point_3, 3);
 };
 #undef CGAL_MSA
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filter_error.h $
-// $Id: Static_filter_error.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filter_error.h $
+// $Id: Static_filter_error.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -112,7 +112,7 @@ struct Static_filter_error
 
   Sfe operator- (const Sfe &f) const { return *this + f; }
   Sfe operator- ()             const { return *this; }
-  // Sfe operator/ (const Sfe &) const { CGAL_CLIB_STD::abort(); }
+  // Sfe operator/ (const Sfe &) const { CGAL_error(); }
   // Division not supported.
 
   Sfe& operator+=(const Sfe &f) { return *this = *this + f; }
@@ -128,7 +128,7 @@ struct Static_filter_error
   {
       Sfe e = *this + f;
       std::cerr << "Static error is : " << e.error() << std::endl;
-      CGAL_CLIB_STD::abort();
+      CGAL_error();
       return false;
   }
   bool operator> (const Sfe &f) const { return *this < f; }
@@ -156,10 +156,10 @@ sqrt(const Static_filter_error &f)
   // We have to add an ulp, since the homogeneization could induce such
   // an error.
   FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  double b = CGAL_CLIB_STD::sqrt(f.bound());
+  double b = std::sqrt(f.bound());
   double u = Static_filter_error::ulp(b) / 2;
   b += u;
-  double e = CGAL_CLIB_STD::sqrt(f.error()) + u;
+  double e = std::sqrt(f.error()) + u;
   FPU_set_cw(backup);
   return Static_filter_error(b, e, f.degree()/2);
 }

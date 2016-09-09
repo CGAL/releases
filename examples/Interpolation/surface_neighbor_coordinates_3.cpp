@@ -3,12 +3,12 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
 #include <CGAL/point_generators_3.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/Origin.h>
 
 #include <CGAL/surface_neighbor_coordinates_3.h>
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::FT                      Coord_type;
 typedef K::Point_3                 Point_3;
 typedef K::Vector_3                Vector_3;

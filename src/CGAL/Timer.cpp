@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/src/CGAL/Timer.cpp $
-// $Id: Timer.cpp 33359 2006-08-16 21:27:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Profiling_tools/src/CGAL/Timer.cpp $
+// $Id: Timer.cpp 41685 2008-01-18 20:19:17Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -50,7 +50,7 @@
 #endif //  CGAL__GETRUSAGE //
 
 // For the numerical limits
-#include <float.h>
+#include <cfloat>
 
 
 CGAL_BEGIN_NAMESPACE
@@ -81,10 +81,10 @@ double Timer::user_process_time() const {
              + double( usage.ru_utime.tv_usec) / 1000000.0; // microseconds
     }
 #else // CGAL__GETRUSAGE //
-    CGAL_CLIB_STD::clock_t clk = CGAL_CLIB_STD::clock();
-    CGAL_warning_msg( clk != (CGAL_CLIB_STD::clock_t)-1,
+    std::clock_t clk = std::clock();
+    CGAL_warning_msg( clk != (std::clock_t)-1,
         "Call to clock() in class CGAL::Timer failed - timings will be 0.");
-    if ( clk != (CGAL_CLIB_STD::clock_t)-1) {
+    if ( clk != (std::clock_t)-1) {
         return double(clk) / CLOCKS_PER_SEC;
     }        
 #endif // CGAL__GETRUSAGE //

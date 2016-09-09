@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
-// $Id: Qt_widget_OpenGL.h 38897 2007-05-31 15:46:23Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
+// $Id: Qt_widget_OpenGL.h 38978 2007-06-06 16:11:12Z fcacciola $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>

@@ -27,7 +27,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/include/CGAL/CORE/BigRat.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/BigRat.h $
  * $Id: BigRat.h 37435 2007-03-23 23:34:14Z spion $
  ***************************************************************************/
 

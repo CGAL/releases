@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_3.h $
-// $Id: Enclosing_box_3.h 36134 2007-02-09 00:39:39Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_3.h $
+// $Id: Enclosing_box_3.h 39095 2007-06-14 21:50:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,8 +22,7 @@
 #define CGAL_KINETIC_ENCLOSING_BOX_3_H
 #include <CGAL/basic.h>
 #include <CGAL/Kinetic/Ref_counted.h>
-#include <CGAL/Kinetic/Active_objects_listener_helper.h>
-#include <CGAL/Kinetic/Simulator_kds_listener.h>
+#include <CGAL/Kinetic/listeners.h>
 #include <CGAL/Kinetic/Enclosing_box_3.h>
 #include <CGAL/Kinetic/Event_base.h>
 
@@ -74,10 +73,7 @@ class  Enclosing_box_3: public Ref_counted<Enclosing_box_3<Traits> >
   typedef typename Traits::Kinetic_kernel Kinetic_kernel;
   typedef typename Traits::Active_points_3_table Active_points_3_table;
 
-  typedef typename CGAL::Kinetic::Simulator_kds_listener<typename Simulator::Listener, This> Simulator_listener;
-  friend  class CGAL::Kinetic::Simulator_kds_listener<typename Simulator::Listener, This>;
-  typedef typename CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_3_table::Listener, This> Active_points_3_table_listener;
-  friend class CGAL::Kinetic::Active_objects_listener_helper<typename Active_points_3_table::Listener, This>;
+  CGAL_KINETIC_DECLARE_AOT_LISTENER(typename Active_points_3_table);
 
   typedef typename Simulator::Event_key Event_key;
   typedef typename Simulator::Time Time;
@@ -99,8 +95,7 @@ public:
 
   typedef typename Fn::NT NT;
   //typedef double NT;
-  Enclosing_box_3(Traits tr, NT xmin=-10, NT xmax=10, NT ymin=-10, NT ymax=10, NT zmin=-10, NT zmax=10):traits_(tr),
-													motl_(tr.active_points_3_table_handle(), this) {
+  Enclosing_box_3(Traits tr, NT xmin=-10, NT xmax=10, NT ymin=-10, NT ymax=10, NT zmin=-10, NT zmax=10):traits_(tr) {
     CGAL_assertion(xmin<xmax);
     CGAL_assertion(ymin<ymax);
     CGAL_assertion(zmin<zmax);
@@ -110,6 +105,7 @@ public:
     bounds_[BOTTOM]=ymin;
     bounds_[FRONT]=zmax;
     bounds_[BACK]=zmin;
+    CGAL_KINETIC_INITIALIZE_AOT_LISTENER(tr.active_points_3_table_handle());
   };
 
   ~Enclosing_box_3() {
@@ -147,7 +143,7 @@ public:
   }
 
   void bounce(Point_key k, NT time, Side s) {
-    CGAL_KINETIC_LOG(LOG_LOTS, "Bouncing " << k << " off side " << s << std::endl);
+    CGAL_LOG(Log::LOTS, "Bouncing " << k << " off side " << s << std::endl);
     certs_.erase(k);
     std::vector<NT> coefs[3];
     if (s==TOP || s== BOTTOM) {
@@ -232,7 +228,7 @@ protected:
       }
     }
     if (re.will_fail()) {
-      CGAL_KINETIC_LOG(LOG_LOTS, "Side fails at " << re.failure_time() << std::endl);
+      CGAL_LOG(Log::LOTS, "Side fails at " << re.failure_time() << std::endl);
       double dv= CGAL::to_interval(re.failure_time()).first;
       if (dv < old_time) {
 	old_time=dv;
@@ -287,8 +283,6 @@ protected:
   NT bounds_[6];
   Traits traits_;
   std::map<Point_key, Event_key> certs_;
-  Active_points_3_table_listener motl_;
-
 };
 
 CGAL_KINETIC_END_NAMESPACE

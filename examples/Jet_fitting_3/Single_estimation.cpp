@@ -1,13 +1,5 @@
 #include <CGAL/Cartesian.h>
 
-#ifndef CGAL_USE_LAPACK
-int main()
-{
-  std::cerr << "Skip since LAPACK is not installed" << std::endl;
-  std::cerr << std::endl;
-  return 0;
-}
-#else
 
 #include <fstream>
 #include <vector>
@@ -21,20 +13,30 @@ typedef My_Monge_via_jet_fitting::Monge_form     My_Monge_form;
 
 int main(int argc, char *argv[])
 {
+  size_t d_fitting = 4;
+  size_t d_monge = 4;
+  const char* name_file_in = "data/in_points_d4.txt";
   //check command line
   if (argc<4)
     {
       std::cout << " Usage : " << argv[0]
-                << " <inputPoints.txt> <d_fitting> <d_monge>" << std::endl;
-      return 0;
+                << " <inputPoints.txt> <d_fitting> <d_monge>" << std::endl
+		<< "test with default arguments" << std::endl;
     }
+  else {
+    name_file_in = argv[1];
+    d_fitting = std::atoi(argv[2]);
+    d_monge = std::atoi(argv[3]);
+  }
+
   //open the input file
-  std::ifstream inFile( argv[1]);
+  std::ifstream inFile(name_file_in);
   if ( !inFile )
     {
       std::cerr << "cannot open file for input\n";
       exit(-1);
     }
+  
   //initalize the in_points container
   double x, y, z;
   std::vector<DPoint> in_points;
@@ -45,8 +47,6 @@ int main(int argc, char *argv[])
   }
   inFile.close();
   // fct parameters
-  size_t d_fitting = std::atoi(argv[2]);
-  size_t d_monge = std::atoi(argv[3]);
 
   My_Monge_form monge_form;
   My_Monge_via_jet_fitting monge_fit;
@@ -64,4 +64,3 @@ int main(int argc, char *argv[])
 	      << monge_fit.pca_basis(i).second  << std::endl;
   return 0;
 }
-#endif //CGAL_USE_LAPACK

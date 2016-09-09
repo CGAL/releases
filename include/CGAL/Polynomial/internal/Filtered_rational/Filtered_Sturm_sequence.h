@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_Sturm_sequence.h $
-// $Id: Filtered_Sturm_sequence.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_Sturm_sequence.h $
+// $Id: Filtered_Sturm_sequence.h 41708 2008-01-20 18:47:19Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,8 +24,6 @@
 #include <CGAL/Polynomial/basic.h>
 #include <CGAL/NT_converter.h>
 #include <CGAL/Polynomial/internal/Sign_variations_counter.h>
-
-//#include <cassert>
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 

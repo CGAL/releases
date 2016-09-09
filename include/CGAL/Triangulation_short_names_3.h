@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_short_names_3.h $
-// $Id: Triangulation_short_names_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_short_names_3.h $
+// $Id: Triangulation_short_names_3.h 41378 2007-12-30 23:54:19Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_SHORT_NAMES_3_H
 #define CGAL_TRIANGULATION_SHORT_NAMES_3_H
+
+#if 0 // Disabled to see if it's still really needed.
 
 #define Triangulation_vertex_base_3                 T_vb3
 #define Triangulation_cell_base_3                   T_cb3
@@ -46,5 +48,7 @@
 
 #define Triangulation_hierarchy_3                   TH3
 #define Triangulation_hierarchy_vertex_base_3       TH_vb3
+
+#endif // 0
 
 #endif // CGAL_TRIANGULATION_SHORT_NAMES_3_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/demo/Interpolation/surface_voronoi.cpp $
-// $Id: surface_voronoi.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/demo/Interpolation/surface_voronoi.cpp $
+// $Id: surface_voronoi.cpp 44910 2008-08-12 12:58:18Z spion $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -40,7 +40,7 @@ int main()
 
 #include <CGAL/point_generators_3.h>
 #include <CGAL/point_generators_2.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/Origin.h>

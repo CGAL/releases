@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_2.h $
-// $Id: Ray_2.h 33240 2006-08-11 09:01:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Ray_2.h $
+// $Id: Ray_2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_RAY_2_H
 #define CGAL_CARTESIAN_RAY_2_H
 
-#include <CGAL/Twotuple.h>
+#include <CGAL/array.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -35,7 +35,7 @@ class RayC2
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Ray_2                Ray_2;
 
-  typedef Twotuple<Point_2>                        Rep;
+  typedef CGAL::array<Point_2, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -47,23 +47,23 @@ public:
   {}
 
   RayC2(const Point_2 &sp, const Point_2 &secondp)
-    : base(sp, secondp) 
+    : base(CGAL::make_array(sp, secondp)) 
   {}
 
 
   const Point_2&
   source() const
   {
-    return get(base).e0;
+    return get(base)[0];
   }
 
   const Point_2 &
   second_point() const
   {
-    return get(base).e1;
+    return get(base)[1];
   }
 
-  bool is_degenerate() const
+  typename R_::Boolean   is_degenerate() const
   {
     return source() == second_point();
   }

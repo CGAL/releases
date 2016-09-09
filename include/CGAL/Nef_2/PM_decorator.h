@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_decorator.h $
-// $Id: PM_decorator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_decorator.h $
+// $Id: PM_decorator.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -111,9 +111,7 @@ enum { BEFORE = -1, AFTER = 1 };
 
 
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::phds;
-#endif
 
 /*{\Mcreation 3}*/
 
@@ -702,8 +700,6 @@ void clone(const Plane_map& H) const;
   \precond |H.check_integrity_and_topological_planarity()| and 
   |P| is empty.}*/
 
-#if ! defined(CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG)
-
 template <typename LINKDA>
 void clone_skeleton(const Plane_map& H, const LINKDA& L) const;
 /*{\Mop clones the skeleton of |H| into |P|. Afterwards |P| is a copy 
@@ -716,56 +712,6 @@ objects.\\
 \precond |H.check_integrity_and_topological_planarity()| and 
 |P| is empty.}*/
 
-#else
-
-template <typename LINKDA>
-void clone_skeleton(const HDS& H, const LINKDA& L) const
-{
-  CGAL_assertion(number_of_vertices()==0&&
-                 number_of_halfedges()==0&&
-                 number_of_faces()==0);
-
-  PM_const_decorator<HDS> DC(H);
-  CGAL_assertion((DC.check_integrity_and_topological_planarity(),1));
-  CGAL::Unique_hash_map<Vertex_const_iterator,Vertex_handle>     Vnew;
-  CGAL::Unique_hash_map<Halfedge_const_iterator,Halfedge_handle> Hnew;
-
-  /* First clone all objects and store correspondance in the two maps.*/
-  Vertex_const_iterator vit, vend = H.vertices_end();
-  for (vit = H.vertices_begin(); vit!=vend; ++vit) {
-    Vertex_handle v = this->phds->vertices_push_back(Vertex_base());
-    Vnew[vit] = v;
-  }
-  Halfedge_const_iterator eit, eend = H.halfedges_end();
-  for (eit = H.halfedges_begin(); eit!=eend; ++(++eit)) {
-    Halfedge_handle e = this->phds->edges_push_back(Halfedge_base(),Halfedge_base());
-    Hnew[eit] = e; Hnew[eit->opposite()] = e->opposite();
-  }
-
-  /* Now copy topology.*/
-  Vertex_iterator vit2, vend2 = vertices_end();
-  for (vit = H.vertices_begin(), vit2 = vertices_begin(); 
-       vit2!=vend2; ++vit, ++vit2) {
-    mark(vit2) = DC.mark(vit);
-    point(vit2) = DC.point(vit);
-    if ( !DC.is_isolated(vit) ) 
-      vit2->set_halfedge(Hnew[vit->halfedge()]);
-    L(vit2,vit);
-  }
-  Halfedge_iterator eit2, eend2 = this->phds->halfedges_end();
-  for (eit = H.halfedges_begin(), eit2 = halfedges_begin(); 
-       eit2!=eend2; ++eit, ++eit2) {
-    eit2->set_prev(Hnew[eit->prev()]);
-    eit2->set_next(Hnew[eit->next()]);
-    eit2->set_vertex(Vnew[eit->vertex()]);
-    mark(eit2) = DC.mark(eit);
-    // eit2->set_face(Face_handle((Face*)&*(eit->face()))); 
-    L(eit2,eit);
-    // link to face of original
-  }
-}
-
-#endif
 
 void reflecting_inversion()
 /*{\Xop inverts the topological links corresponding to a reflecting
@@ -794,7 +740,7 @@ order-preserving).}*/
     for (int i=0; i<n; ++i)
       set_adjacency_at_source_between(A[(i+1)%n],A[i],A[(i-1)%n]);
   }
-  CGAL_assertion_msg(0,"test this");
+  CGAL_error_msg("test this");
 }
 
 /*{\Mtext \headerline{Associated Information}\restoreopdims}*/
@@ -906,7 +852,6 @@ void PM_decorator<HDS>::clone(const HDS& H) const
   CGAL_assertion((this->check_integrity_and_topological_planarity(),1));
 }
 
-#if ! defined(CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG)
 
 template <typename HDS>
 template <typename LINKDA>
@@ -957,10 +902,6 @@ clone_skeleton(const HDS& H, const LINKDA& L) const
   }
 }
 
-#endif
-
-
-
 CGAL_END_NAMESPACE
-#endif //CGAL_PM_DECORATOR_H
 
+#endif //CGAL_PM_DECORATOR_H

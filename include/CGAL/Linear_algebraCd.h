@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Linear_algebraCd.h $
-// $Id: Linear_algebraCd.h 38827 2007-05-23 13:36:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Linear_algebraCd.h $
+// $Id: Linear_algebraCd.h 41674 2008-01-18 10:20:44Z spion $
 // 
 //
 // Author(s)     : Herve.Bronnimann@sophia.inria.fr
@@ -29,10 +29,7 @@
 #include <memory>
 #include <vector>
 
-#undef CGAL_KD_DEBUG
-#define CGAL_KD_DEBUG 13
 #include <CGAL/Kernel_d/debug.h>
-
 
 //#define CGAL_LA_SELFTEST
 
@@ -46,8 +43,8 @@ public:
   typedef _FT                     RT;
   typedef _AL                     AL;
   typedef Linear_algebraCd<FT,AL> Self;
-  typedef CGALLA::Vector_<FT,AL>  Vector;
-  typedef CGALLA::Matrix_<FT,AL>  Matrix;
+  typedef Linear_Algebra::Vector_<FT,AL>  Vector;
+  typedef Linear_Algebra::Matrix_<FT,AL>  Matrix;
   typedef const FT*               const_iterator;
   typedef FT*                     iterator;
   

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/IO/Qt_widget_Apollonius_site_2.h $
-// $Id: Qt_widget_Apollonius_site_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/IO/Qt_widget_Apollonius_site_2.h $
+// $Id: Qt_widget_Apollonius_site_2.h 45459 2008-09-09 22:29:51Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -20,8 +20,6 @@
 
 #ifndef CGAL_QT_WIDGET_APOLLONIUS_SITE_2_H
 #define CGAL_QT_WIDGET_APOLLONIUS_SITE_2_H
-
-#ifdef CGAL_USE_QT
 
 #include <CGAL/Apollonius_site_2.h>
 #include <CGAL/IO/Qt_widget.h>
@@ -44,7 +42,5 @@ CGAL_END_NAMESPACE
 
 
 #include <CGAL/IO/Qt_widget_Hyperbola_2.h>
-
-#endif
 
 #endif // CGAL_QT_WIDGET_APOLLONIUS_SITE_2_H

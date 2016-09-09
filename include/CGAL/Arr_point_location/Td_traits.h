@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_traits.h $
-// $Id: Td_traits.h 31554 2006-06-13 09:25:48Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits.h $
+// $Id: Td_traits.h 40209 2007-09-05 14:41:48Z efif $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -182,9 +182,9 @@ public:
   
   
 public:
-  static const Point& get_point_at_left_top_infinity();
-  static const Point& get_point_at_right_bottom_infinity();
-  static const X_curve& get_curve_at_infinity();
+  static const Point& point_at_left_top_infinity();
+  static const Point& point_at_right_bottom_infinity();
+  static const X_curve& curve_at_infinity();
 private:
   static Point * POINT_AT_LEFT_TOP_INFINITY;
   static Point * POINT_AT_RIGHT_BOTTOM_INFINITY;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2/Min_ellipse_2_adapterC2.h $
-// $Id: Min_ellipse_2_adapterC2.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_ellipse_2/include/CGAL/Min_ellipse_2/Min_ellipse_2_adapterC2.h $
+// $Id: Min_ellipse_2_adapterC2.h 41695 2008-01-20 14:48:37Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -68,8 +68,6 @@ are_ordered_along_lineC2( const PT& p, const PT& q, const PT& r,
     else
         return(    ( ( py < qy) && ( qy < ry))
                 || ( ( ry < qy) && ( qy < py)));
-    // keeps g++ happy
-    return false;
 }
 
 template < class PT_, class DA_ >

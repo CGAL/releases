@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circulator/include/CGAL/Safe_circulator_from_iterator.h $
-// $Id: Safe_circulator_from_iterator.h 37826 2007-04-02 19:09:56Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circulator/include/CGAL/Safe_circulator_from_iterator.h $
+// $Id: Safe_circulator_from_iterator.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -34,15 +34,15 @@
 CGAL_BEGIN_NAMESPACE
 
 
-// Note: TT, SS, and DD are here for backwards compatibility, they are
+// Note: Tt, Ss, and Dd are here for backwards compatibility, they are
 // not used.
-template < class  I, class TT = int, class SS = int, class DD = int>
+template < class  I, class Tt = int, class Ss = int, class Dd = int>
 class Safe_circulator_from_iterator {
 public:
 // TYPES
 
-    typedef Safe_circulator_from_iterator<I,TT,SS,DD> Self;
-    typedef Circulator_from_iterator<I,TT,SS,DD>      Unsafe;
+    typedef Safe_circulator_from_iterator<I,Tt,Ss,Dd> Self;
+    typedef Circulator_from_iterator<I,Tt,Ss,Dd>      Unsafe;
     typedef I                                         iterator;
     typedef std::iterator_traits<iterator>            Traits;
 
@@ -93,11 +93,11 @@ public:
 //
 // OPERATIONS
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return m_empty;
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     
     bool operator==( const Self& c) const
     {

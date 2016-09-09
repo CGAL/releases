@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Apollonius_graph_degeneracy_testers.h $
-// $Id: Apollonius_graph_degeneracy_testers.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Apollonius_graph_degeneracy_testers.h $
+// $Id: Apollonius_graph_degeneracy_testers.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -22,6 +22,7 @@
 
 #include <CGAL/Voronoi_diagram_2/basic.h>
 #include <CGAL/Voronoi_diagram_2/Adaptation_traits_base_2.h>
+#include <CGAL/Voronoi_diagram_2/Identity_rejectors.h>
 #include <CGAL/Triangulation_utils_2.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -46,7 +47,6 @@ class Apollonius_graph_edge_tester_2
   typedef typename DG::Finite_edges_iterator       Finite_edges_iterator;
 
   typedef bool           result_type;
-  typedef Arity_tag<2>   Arity;
 
  private:
   typedef Triangulation_cw_ccw_2                     CW_CCW_2;

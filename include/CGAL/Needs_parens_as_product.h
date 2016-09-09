@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
-// $Id: Needs_parens_as_product.h 37103 2007-03-15 09:05:20Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
+// $Id: Needs_parens_as_product.h 46979 2008-11-21 10:11:44Z afabri $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -80,9 +80,13 @@ template <> struct Needs_parens_as_product<int>{
 template <> struct Needs_parens_as_product<long>{
     bool operator()(const long& x){return x < long(0);} 
 };
+
+#ifdef CGAL_USE_LONG_LONG
 template <> struct Needs_parens_as_product<long long>{
     bool operator()(const long long& x){return x < (long long)(0);} 
 };
+#endif
+
 template <> struct Needs_parens_as_product<float>{
     bool operator()(const float& x){return x < float(0);} 
 };

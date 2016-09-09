@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Rational_between_roots.h $
-// $Id: Rational_between_roots.h 40020 2007-08-23 17:05:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Rational_between_roots.h $
+// $Id: Rational_between_roots.h 40016 2007-08-23 15:34:09Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -50,10 +50,10 @@ protected:
     result_type step=.0000000596046447753906250000000;
     do {
       while (T(ret) >= r1) {
-        ret-= step;
+	ret-= step;
       }
       while (T(ret) <= r0) {
-        ret += step;
+	ret += step;
       }
       step/= 2.0;
     } while (T(ret) >= r1 || T(ret) <= r0);
@@ -68,7 +68,7 @@ protected:
   
   result_type compute(const double &r0, const double &r1) const {
     if (std::numeric_limits<double>::has_infinity
-        && r1 == std::numeric_limits<double>::infinity()) {
+	&& r1 == std::numeric_limits<double>::infinity()) {
       return 2*r0;
     } else {
       return (r0+r1)/2.0;
@@ -80,10 +80,10 @@ protected:
     result_type step=.0000000596046447753906250000000;
     do {
       while (ret >= r1) {
-        ret-= step;
+	ret-= step;
       }
       while (ret <= r0) {
-        ret += step;
+	ret += step;
       }
       step/= 2.0;
     } while (ret >= r1 || ret <= r0);

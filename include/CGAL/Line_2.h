@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Line_2.h $
-// $Id: Line_2.h 33352 2006-08-16 16:38:49Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Line_2.h $
+// $Id: Line_2.h 45156 2008-08-26 13:40:26Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -27,6 +27,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -47,6 +48,9 @@ class Line_2 : public R_::Kernel_base::Line_2
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Line_2>::value));
 
 public:
+
+  typedef Dimension_tag<2>  Ambient_dimension;
+  typedef Dimension_tag<1>  Feature_dimension;
 
   typedef RLine_2 Rep;
 
@@ -139,47 +143,47 @@ public:
     return R().construct_projected_point_2_object()(*this,p);
   }
 
-  bool
+  typename R::Boolean
   is_horizontal() const
   {
     return R().is_horizontal_2_object()(*this);
   }
 
-  bool
+  typename R::Boolean
   is_vertical() const
   {
     return R().is_vertical_2_object()(*this);
   }
 
-  bool
+  typename R::Boolean
   is_degenerate() const
   { return R().is_degenerate_2_object()(*this); }
 
-  Oriented_side
+  typename R::Oriented_side
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this,p);
   }
 
-  bool
+  typename R::Boolean
   has_on_boundary(const Point_2 &p) const
   {
     return oriented_side(p) == ON_ORIENTED_BOUNDARY;
   }
 
-  bool
+  typename R::Boolean
   has_on_positive_side(const Point_2 &p) const
   {
     return oriented_side(p) == ON_POSITIVE_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on_negative_side(const Point_2 &p) const
   {
     return oriented_side(p) == ON_NEGATIVE_SIDE;
   }
 
-  bool
+  typename R::Boolean
   has_on(const Point_2 &p) const
   {
     return has_on_boundary(p);
@@ -209,13 +213,13 @@ public:
     return R().construct_point_2_object()(*this,i);
   }
 
-  bool
+  typename R::Boolean
   operator==(const Line_2 &l) const
   {
     return R().equal_2_object()(*this, l);
   }
 
-  bool
+  typename R::Boolean
   operator!=(const Line_2 &l) const
   {
     return !(*this == l);

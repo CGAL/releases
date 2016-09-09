@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
-// $Id: Constrained_triang_traits.h 34224 2006-09-14 08:14:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
+// $Id: Constrained_triang_traits.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -37,11 +37,6 @@
 #endif                          // initialize a member
 
 CGAL_BEGIN_NAMESPACE
-
-inline void CGAL_error_handler(int n, const char* s)
-{ std::cerr << s << std::endl;
-  std::exit(n);
-}
 
 struct Do_nothing {
 Do_nothing() {}
@@ -105,11 +100,11 @@ public:
     int s = 0;
     if ( p == point(source(e1)) )      s =   orientation(e2,p);
     else if ( p == point(source(e2)) ) s = - orientation(e1,p);
-    else CGAL_error_handler(1,"compare error in sweep.");
+    else CGAL_error_msg("compare error in sweep.");
     if ( s || source(e1) == target(e1) || source(e2) == target(e2) ) 
       return ( s < 0 );
     s = orientation(e2,point(target(e1)));
-    if (s==0) CGAL_error_handler(1,"parallel edges not allowed.");
+    if (s==0) CGAL_error_msg("parallel edges not allowed.");
     return ( s < 0 );
   }
 
@@ -236,7 +231,7 @@ public:
   {
     // we triangulate the interior of the whole chain between
     // target(e_upper) and target(e_lower)
-    assert(source(e_upper)==source(e_lower));
+    CGAL_assertion(source(e_upper)==source(e_lower));
     CGAL_NEF_TRACE("triangulate_between\n   "<<seg(e_upper));
     CGAL_NEF_TRACEN("\n   "<<seg(e_lower));
     Halfedge_handle e_end = twin(e_lower);

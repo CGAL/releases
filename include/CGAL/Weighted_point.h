@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Weighted_point.h $
-// $Id: Weighted_point.h 32411 2006-07-12 01:01:59Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Weighted_point.h $
+// $Id: Weighted_point.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -37,8 +37,7 @@ public:
   Weighted_point (const Point &p)
       : Point(p), _weight(0)
   {
-    //abort();
-    //std::cerr << "Warning : truncated weight !!!" << std::endl;
+    // CGAL_error_msg( "Warning : truncated weight !!!");
   }
 
   Weighted_point (const Point &p, const Weight &w)

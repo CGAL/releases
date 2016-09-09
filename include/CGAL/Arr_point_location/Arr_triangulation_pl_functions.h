@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_triangulation_pl_functions.h $
-// $Id: Arr_triangulation_pl_functions.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_triangulation_pl_functions.h $
+// $Id: Arr_triangulation_pl_functions.h 41629 2008-01-15 09:47:29Z efif $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>

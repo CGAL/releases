@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_conic_traits_2.h $
-// $Id: Arr_conic_traits_2.h 35514 2006-12-11 15:34:13Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_conic_traits_2.h $
+// $Id: Arr_conic_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,9 +25,10 @@
  */
 
 #include <CGAL/tags.h>
-#include <CGAL/Arr_traits_2/Conic_arc_2.h>
-#include <CGAL/Arr_traits_2/Conic_x_monotone_arc_2.h>
-#include <CGAL/Arr_traits_2/Conic_point_2.h>
+#include <CGAL/Arr_tags.h>
+#include <CGAL/Arr_geometry_traits/Conic_arc_2.h>
+#include <CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h>
+#include <CGAL/Arr_geometry_traits/Conic_point_2.h>
 
 #include <fstream>
 
@@ -70,12 +71,13 @@ public:
   // Category tags:
   typedef Tag_true                        Has_left_category;
   typedef Tag_true                        Has_merge_category;
-  typedef Tag_false                       Has_boundary_category;
+  typedef Arr_no_boundary_tag             Boundary_category;
 
   // Traits objects:
   typedef _Conic_arc_2<Rat_kernel, Alg_kernel, Nt_traits> Curve_2;
   typedef _Conic_x_monotone_arc_2<Curve_2>                X_monotone_curve_2;
   typedef _Conic_point_2<Alg_kernel>                      Point_2;
+  typedef unsigned int                                    Multiplicity;
 
 private:
 
@@ -269,7 +271,7 @@ public:
 	{
 	  CGAL_precondition (x_res != LARGER);
 
-	  q = cv.get_point_at_x (p);
+	  q = cv.point_at_x (p);
 	}
       }
 

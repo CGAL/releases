@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Line_2.h $
-// $Id: Line_2.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Line_2.h $
+// $Id: Line_2.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_LINE_2_H
 #define CGAL_CARTESIAN_LINE_2_H
 
-#include <CGAL/Threetuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/predicates/kernel_ftC2.h>
 
@@ -41,43 +41,41 @@ class LineC2
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Line_2               Line_2;
 
-
-  typedef Threetuple<FT>	                   Rep;
+  typedef CGAL::array<FT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
+
   typedef R_                                     R;
 
   LineC2() {}
 
   LineC2(const FT &a, const FT &b, const FT &c)
-    : base(a, b, c) {}
+    : base(CGAL::make_array(a, b, c)) {}
   
-  bool            operator==(const LineC2 &l) const;
-  bool            operator!=(const LineC2 &l) const;
+  typename R_::Boolean   operator==(const LineC2 &l) const;
+  typename R_::Boolean   operator!=(const LineC2 &l) const;
 
   const FT & a() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const FT & b() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
   const FT & c() const
   {
-      return get(base).e2;
+      return get(base)[2];
   }
-
-
 
 };
 
 template < class R >
 CGAL_KERNEL_INLINE
-bool
+typename R::Boolean
 LineC2<R>::operator==(const LineC2<R> &l) const
 {
   if (CGAL::identical(base, l.base))
@@ -87,12 +85,11 @@ LineC2<R>::operator==(const LineC2<R> &l) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 LineC2<R>::operator!=(const LineC2<R> &l) const
 {
   return ! (*this == l);
 }
-
 
 CGAL_END_NAMESPACE
 

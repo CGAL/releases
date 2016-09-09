@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
-// $Id: Polygon_offset_pred_ftC2.h 36633 2007-02-27 18:19:42Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
+// $Id: Polygon_offset_pred_ftC2.h 46494 2008-10-27 16:30:51Z afabri $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -30,11 +30,9 @@ namespace CGAL_SS_i
 // returns the relative order of 't' w.r.t 'et'.
 // PRECONDITION: There exist a positive distance et for which the offset triple intersect at a single point.
 template<class K>
-Uncertain<Comparison_result> compare_offset_against_isec_timeC2 ( typename K::FT const& t, Seeded_trisegment_2<K> const& st )
+Uncertain<Comparison_result> compare_offset_against_isec_timeC2 ( typename K::FT const& t, intrusive_ptr< Trisegment_2<K> > const& tri )
 {
   typedef typename K::FT FT ;
-  
-  typedef Seeded_trisegment_2<K> Seeded_trisegment_2 ;
   
   typedef Rational<FT> Rational ;
   typedef Quotient<FT> Quotient ;
@@ -43,14 +41,14 @@ Uncertain<Comparison_result> compare_offset_against_isec_timeC2 ( typename K::FT
  
   Uncertain<Comparison_result> rResult = Uncertain<Comparison_result>::indeterminate();
 
-  Optional_rational et_ = compute_offset_lines_isec_timeC2(st);
+  Optional_rational et_ = compute_offset_lines_isec_timeC2(tri);
   if ( et_ )
   {
     Quotient et = et_->to_quotient();
 
     CGAL_assertion ( CGAL_NTS certified_is_positive(et) ) ;
 
-    rResult = CGAL_NTS certified_compare(et,t);
+    rResult = CGAL_NTS certified_compare( Quotient(t), et);
   }
 
   return rResult ;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_2/Arrangement_2_iterators.h $
-// $Id: Arrangement_2_iterators.h 35752 2007-01-18 13:57:15Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_2_iterators.h $
+// $Id: Arrangement_2_iterators.h 35817 2007-01-26 08:26:02Z wein $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -283,13 +283,12 @@ public:
 
   /*! Constructors. */
   I_Filtered_iterator()
-  {
-  }
+  {}
 
   I_Filtered_iterator (Iterator it) :
-    nt (it), iend(it)
-  {
-  }
+    nt (it),
+    iend (nt)
+  {}
 
   I_Filtered_iterator (Iterator it, Iterator end) :
     nt (it),
@@ -299,8 +298,7 @@ public:
       ++nt;
   }
 
-  I_Filtered_iterator (Iterator it, Iterator end, 
-                       const Filter& f) :
+  I_Filtered_iterator (Iterator it, Iterator end, Filter f) :
     nt (it),
     iend (end),
     filt (f)
@@ -387,7 +385,6 @@ public:
     --(*this);
     return tmp;
   }
-
 };
 
 /*!
@@ -432,13 +429,12 @@ public:
 
   /*! Constructors. */
   I_Filtered_const_iterator()
-  {
-  }
+  {}
 
   I_Filtered_const_iterator (Iterator it) :
-    nt (it), iend(it)
-  {
-  }
+    nt (it),
+    iend (it)
+  {}
 
   I_Filtered_const_iterator (Iterator it, Iterator end) :
     nt (it),
@@ -448,8 +444,7 @@ public:
       ++nt;
   }
 
-  I_Filtered_const_iterator (Iterator it, Iterator end,
-                             const Filter& f) :
+  I_Filtered_const_iterator (Iterator it, Iterator end, Filter f) :
     nt (it),
     iend (end),
     filt (f)
@@ -463,6 +458,8 @@ public:
     iend (it.past_the_end()),
     filt (it.filter())
   {
+    //    while (nt != iend && ! filt (*nt))
+    //      ++nt;
   }
 
   /*! Access operations. */
@@ -543,7 +540,6 @@ public:
     --(*this);
     return tmp;
   }
-
 };
 
 CGAL_END_NAMESPACE

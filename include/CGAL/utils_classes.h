@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007  Max-Planck-Institute Saarbruecken (Germany)
+// Copyright (c) 2006-2008  Max-Planck-Institute Saarbruecken (Germany)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -9,8 +9,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/utils_classes.h $
-// $Id: utils_classes.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/utils_classes.h $
+// $Id: utils_classes.h 47264 2008-12-08 06:25:14Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-sb.mpg.de>
@@ -22,43 +22,43 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class A, class B = A >
-struct Equal_to : public Binary_function< A, B, bool > {
+struct Equal_to : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x == y; }
 };
 
 template < class A, class B = A >
-struct Not_equal_to : public Binary_function< A, B, bool > {
+struct Not_equal_to : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x != y; }
 };
 
 template < class A, class B = A >
-struct Greater : public Binary_function< A, B, bool > {
+struct Greater : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x > y; }
 };
 
 template < class A, class B = A >
-struct Less : public Binary_function< A, B, bool > {
+struct Less : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x < y; }
 };
 
 template < class A, class B = A >
-struct Greater_equal : public Binary_function< A, B, bool > {
+struct Greater_equal : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x >= y; }
 };
 
 template < class A, class B = A >
-struct Less_equal : public Binary_function< A, B, bool > {
+struct Less_equal : public std::binary_function< A, B, bool > {
   bool operator()( const A& x, const B& y) const
   { return x <= y; }
 };
 
 template < class NT, class Less = std::less< NT > >
-struct Min :public Binary_function< NT, NT, NT > {
+struct Min :public std::binary_function< NT, NT, NT > {
  Min() {}
  Min(const Less& c_) : c(c_) {}
  NT operator()( const NT& x, const NT& y) const
@@ -68,7 +68,7 @@ protected:
 };
 
 template < class NT, class Less = std::less< NT > >
-struct Max :public Binary_function< NT, NT, NT > {
+struct Max :public std::binary_function< NT, NT, NT > {
  Max() {}
  Max(const Less& c_) : c(c_) {}
  NT operator()( const NT& x, const NT& y) const
@@ -79,7 +79,7 @@ protected:
 
 template< class T >
 class Is_valid
-  : public Unary_function< T, bool > {
+  : public std::unary_function< T, bool > {
   public:
     bool operator()( const T& ) const {
       return true;

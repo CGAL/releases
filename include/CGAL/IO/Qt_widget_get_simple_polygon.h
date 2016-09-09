@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h $
-// $Id: Qt_widget_get_simple_polygon.h 32795 2006-07-30 16:38:54Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h $
+// $Id: Qt_widget_get_simple_polygon.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Laurent Rineau and Radu Ursu
@@ -52,7 +52,7 @@ protected:
         if(!this->poly.is_simple()) return;
         if(this->poly.is_clockwise_oriented())
           this->poly.reverse_orientation ();
-        assert( ! this->poly.is_clockwise_oriented());
+        CGAL_assertion( ! this->poly.is_clockwise_oriented());
       }
     }
     Get_polygon::mousePressEvent(e);

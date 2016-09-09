@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_ray_shooter.h $
-// $Id: SNC_ray_shooter.h 29610 2006-03-19 15:58:28Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_ray_shooter.h $
+// $Id: SNC_ray_shooter.h 43845 2008-06-27 11:40:00Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -171,7 +171,7 @@ public:
       if( is.does_intersect_internally( ray, f, q) ) {
         if(!hit || 
 	   has_smaller_distance_to_point(ray.source(), q, end_of_seg)) {
-        CGAL_NEF_TRACEN("ray hit facet "<<plane(f)<<" on "<<q);
+        CGAL_NEF_TRACEN("ray hit facet "<< f->plane()<<" on "<<q);
         end_of_seg = q;
         hit = true;
         o = Object_handle(f);
@@ -190,7 +190,7 @@ public:
     CGAL_NEF_TRACEN( "Point locator for " << p);
     Vertex_handle v;
     CGAL_forall_vertices( v, *this->sncp()) {
-      CGAL_NEF_TRACEN("test vertex " << point(v));
+      CGAL_NEF_TRACEN("test vertex " << v->point());
       if ( p == v->point()) {
 	CGAL_NEF_TRACEN("on vertex.");
 	return Object_handle(v);
@@ -212,7 +212,8 @@ public:
       }
     }
 
-    Ray_3 r( p, Vector_3( -1, 0, 0));
+    CGAL_warning("altered code in SNC_ray_shooter");
+    Ray_3 r( p, Vector_3( 0, 0, 1));
     return Object_handle(determine_volume(r));
   }   
 

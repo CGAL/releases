@@ -10,15 +10,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar_layers.cpp $
-// $Id: straight_skeleton_2_toolbar_layers.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar_layers.cpp $
+// $Id: straight_skeleton_2_toolbar_layers.cpp 45456 2008-09-09 21:53:57Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 
 #include <CGAL/basic.h>
 
-#ifdef CGAL_USE_QT
 
 #include "cgal_types.h"
 #include "ss_types.h"
@@ -110,4 +109,3 @@ Layers_toolbar::Layers_toolbar(CGAL::Qt_widget*        w
 
 #include "straight_skeleton_2_toolbar_layers.moc"
 
-#endif

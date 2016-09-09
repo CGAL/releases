@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_vertex_conflict_2.h $
-// $Id: Uncertain_vertex_conflict_2.h 35587 2006-12-18 09:37:55Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_vertex_conflict_2.h $
+// $Id: Uncertain_vertex_conflict_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
@@ -40,7 +40,6 @@ public:
     typedef typename K::Site_2                Site_2;
     typedef typename K::RT                    RT;
     typedef Uncertain<Sign>                   result_type;
-    struct Arity {};
 
 private:
     
@@ -226,7 +225,7 @@ private:
 
 	CGAL_assertion (radSideQ != ZERO);
 
-	if (! perturb) { return (radSideQ == orient) ? ZERO : Sign(orient); }
+	if (! perturb) { return (radSideQ == orient) ? Uncertain<Sign>(ZERO) : orient; }
 
 	int i = max_radius (p1, p2, p3, q);
 	if ( i == -1 ) { return Uncertain<Sign>::indeterminate(); }
@@ -307,7 +306,7 @@ private:
 	  if (power_test != ZERO) { return -power_test; }
 
 	    // this result is consistant with the perturb on off idea
-	    //if (power_test != ZERO || ! perturb) return Sign(- power_test);
+	    //if (power_test != ZERO || ! perturb) return -power_test;
 
 	  o1q = CGAL::sign(xq);
 	  o2q = CGAL::sign(q.x() - p2.x());
@@ -322,7 +321,7 @@ private:
 	  if (power_test != ZERO) { return -power_test; }
 
 	  // this result is consistant with the perturb on off idea
-	  //if (power_test != ZERO || ! perturb) return Sign(- power_test);
+	  //if (power_test != ZERO || ! perturb) return -power_test;
 
 	  o1q = CGAL::sign(yq);
 	  o2q = CGAL::sign(q.y() - p2.y());

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
-// $Id: QP_functions_impl.h 38487 2007-05-01 15:55:12Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
+// $Id: QP_functions_impl.h 46451 2008-10-23 14:31:10Z gaertner $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -313,8 +313,8 @@ namespace QP_functions_detail {
 	written = true;
       }
       for (int i=0; i<m; ++i) { 
-	if (!CGAL_NTS is_zero ((*a)[i])) {
-	  out << "  x" << j << "  c" << i << "  " << (*a)[i] << "\n";
+	if (!CGAL_NTS is_zero (*((*a)+i))) {
+	  out << "  x" << j << "  c" << i << "  " << *((*a)+i) << "\n";
 	  written = true;
 	}
       }

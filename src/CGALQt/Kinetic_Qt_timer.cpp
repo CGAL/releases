@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_timer.cpp $
-// $Id: Kinetic_Qt_timer.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_timer.cpp $
+// $Id: Kinetic_Qt_timer.cpp 39103 2007-06-15 20:42:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -40,6 +40,7 @@ void Qt_timer::run(double time_in_seconds) {
 
 void Qt_timer::timerDone() {
   ++tick_;
-  cb_->new_notification(Listener::TICKS);
+  CGAL_KINETIC_NOTIFY(TICKS);
+  //cb_->new_notification(Listener::TICKS);
 }
 CGAL_KINETIC_END_INTERNAL_NAMESPACE

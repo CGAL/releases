@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Linear_algebraHd.h $
-// $Id: Linear_algebraHd.h 31298 2006-05-26 21:31:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Linear_algebraHd.h $
+// $Id: Linear_algebraHd.h 41674 2008-01-18 10:20:44Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -68,10 +68,10 @@ public:
 typedef RT_ RT;
 /*{\Mtypemember the ring type of the components.}*/ 
 
-typedef CGALLA::Vector_<RT_,AL_> Vector;
+typedef Linear_Algebra::Vector_<RT_,AL_> Vector;
 /*{\Mtypemember the vector type.}*/ 
 
-typedef CGALLA::Matrix_<RT_,AL_> Matrix;
+typedef Linear_Algebra::Matrix_<RT_,AL_> Matrix;
 /*{\Mtypemember the matrix type.}*/ 
 
 typedef AL_ allocator_type;
@@ -97,7 +97,7 @@ static Matrix  inverse(const Matrix& M, RT& D)
   Matrix result; 
   Vector c;
   if (!inverse(M,result,D,c)) 
-    CGAL_assertion_msg(0,"inverse(): matrix is singular."); 
+    CGAL_error_msg("inverse(): matrix is singular."); 
   return result;
 }
 

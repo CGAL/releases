@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
-// $Id: Monge_via_jet_fitting.h 36983 2007-03-10 10:59:33Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
+// $Id: Monge_via_jet_fitting.h 45273 2008-09-02 07:38:25Z mpouget $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_MONGE_VIA_JET_FITTING_H_
@@ -29,6 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
+inline
 unsigned int fact(unsigned int n){
   unsigned int i, p=1;
   for(i=2; i<=n; i++) p *= i;
@@ -278,7 +279,7 @@ template < class DataKernel, class LocalKernel, class SvdTraits>
 
 template < class DataKernel, class LocalKernel, class SvdTraits> 
 template <class InputIterator>
- typename  Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::Monge_form
+  typename  Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::Monge_form
   Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::
   operator()(InputIterator begin, InputIterator end, 
 	     size_t d, size_t dprime)
@@ -735,14 +736,19 @@ void Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::
 switch_to_direct_orientation(Vector_3& v1, const Vector_3& v2,
 			    const Vector_3& v3) 
 {
-  CGAL::Sign orientation = CGAL::sign_of_determinant3x3(v1[0], v2[0], v3[0],
-							v1[1], v2[1], v3[1],
-							v1[2], v2[2], v3[2]);
+  typedef typename CGAL::Linear_algebraCd<FT>::Matrix Matrix;
+  Matrix M(3,3);
+  for (int i=0; i<3; i++) M(i,0) = v1[i];
+  for (int i=0; i<3; i++) M(i,1) = v2[i];
+  for (int i=0; i<3; i++) M(i,2) = v3[i];
+
+  CGAL::Sign orientation = CGAL::Linear_algebraCd<FT>::sign_of_determinant(M);
   if (orientation == CGAL::NEGATIVE) v1 = -v1;
 }
 
 
 // template < class DataKernel, class LocalKernel, class SvdTraits>  
+// inline
 // std::ostream&
 // operator<<(std::ostream& out_stream, 
 // 	  const typename Monge_via_jet_fitting<DataKernel, LocalKernel, SvdTraits>::Monge_form& monge)

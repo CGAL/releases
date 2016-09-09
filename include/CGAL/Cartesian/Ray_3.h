@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
-// $Id: Ray_3.h 33071 2006-08-06 16:37:35Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
+// $Id: Ray_3.h 45156 2008-08-26 13:40:26Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,7 @@
 #ifndef CGAL_CARTESIAN_RAY_3_H
 #define CGAL_CARTESIAN_RAY_3_H
 
-#include <CGAL/Twotuple.h>
+#include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -39,7 +39,7 @@ class RayC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Ray_3                Ray_3;
 
-  typedef Twotuple<Point_3>                        Rep;
+  typedef CGAL::array<Point_3, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -50,27 +50,27 @@ public:
   RayC3() {}
 
   RayC3(const Point_3 &sp, const Point_3 &secondp)
-    : base(sp, secondp) {}
+    : base(CGAL::make_array(sp, secondp)) {}
 
   RayC3(const Point_3 &sp, const Vector_3 &v)
-    : base(sp, sp + v) {}
+    : base(CGAL::make_array(sp, sp + v)) {}
 
   RayC3(const Point_3 &sp, const Direction_3 &d)
-    : base(sp, sp + d.to_vector()) {}
+    : base(CGAL::make_array(sp, sp + d.to_vector())) {}
 
   RayC3(const Point_3 &sp, const Line_3 &l)
-    : base(sp, sp + l.to_vector()) {}
+    : base(CGAL::make_array(sp, sp + l.to_vector())) {}
 
-  bool        operator==(const RayC3 &r) const;
-  bool        operator!=(const RayC3 &r) const;
+  typename R::Boolean          operator==(const RayC3 &r) const;
+  typename R::Boolean          operator!=(const RayC3 &r) const;
 
   const Point_3 &   source() const
   {
-      return get(base).e0;
+      return get(base)[0];
   }
   const Point_3 &   second_point() const
   {
-      return get(base).e1;
+      return get(base)[1];
   }
   Point_3     point(int i) const;
 
@@ -79,14 +79,14 @@ public:
   Line_3      supporting_line() const;
   Ray_3       opposite() const;
 
-  bool        is_degenerate() const;
-  bool        has_on(const Point_3 &p) const;
-  bool        collinear_has_on(const Point_3 &p) const;
+  typename R::Boolean          is_degenerate() const;
+  typename R::Boolean          has_on(const Point_3 &p) const;
+  typename R::Boolean          collinear_has_on(const Point_3 &p) const;
 };
 
 template < class R >
 inline
-bool
+typename R::Boolean
 RayC3<R>::operator==(const RayC3<R> &r) const
 {
     if (CGAL::identical(base, r.base))
@@ -96,7 +96,7 @@ RayC3<R>::operator==(const RayC3<R> &r) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 RayC3<R>::operator!=(const RayC3<R> &r) const
 {
   return !(*this == r);
@@ -146,7 +146,7 @@ RayC3<R>::opposite() const
 }
 
 template < class R >
-bool
+typename R::Boolean
 RayC3<R>::
 has_on(const typename RayC3<R>::Point_3 &p) const
 {
@@ -157,7 +157,7 @@ has_on(const typename RayC3<R>::Point_3 &p) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 RayC3<R>::is_degenerate() const
 {
   return source() == second_point();
@@ -165,21 +165,21 @@ RayC3<R>::is_degenerate() const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 RayC3<R>::
 collinear_has_on(const typename RayC3<R>::Point_3 &p) const
 {
   CGAL_kernel_exactness_precondition( collinear(source(), p, second_point()) );
 
-  Comparison_result cx = compare_x(source(), second_point());
+  typename R::Comparison_result cx = compare_x(source(), second_point());
   if (cx != EQUAL)
     return cx != compare_x(p, source());
 
-  Comparison_result cy = compare_y(source(), second_point());
+  typename R::Comparison_result cy = compare_y(source(), second_point());
   if (cy != EQUAL)
     return cy != compare_y(p, source());
 
-  Comparison_result cz = compare_z(source(), second_point());
+  typename R::Comparison_result cz = compare_z(source(), second_point());
   if (cz != EQUAL)
     return cz != compare_z(p, source());
 

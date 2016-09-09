@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/all_furthest_neighbors_2.h $
-// $Id: all_furthest_neighbors_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Matrix_search/include/CGAL/all_furthest_neighbors_2.h $
+// $Id: all_furthest_neighbors_2.h 43649 2008-06-17 15:26:21Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -25,8 +25,8 @@
 #include <CGAL/Dynamic_matrix.h>
 #include <CGAL/monotone_matrix_search.h>
 #include <CGAL/Polygon_2_algorithms.h>
-#include <CGAL/functional.h>
 #include <algorithm>
+#include <boost/bind.hpp>
 
 CGAL_BEGIN_NAMESPACE
 template < class Operation, class RandomAccessIC >
@@ -117,10 +117,10 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
     v.begin());
 
   // output result:
-  return transform( v.begin(),
-                    v.end(),
-                    o,
-                    bind_2( modulus< int >(), number_of_points));
+  return transform(v.begin(),
+		   v.end(),
+		   o,
+		   boost::bind(modulus<int>(), _1, number_of_points));
 } // all_furthest_neighbors_2( ... )
 
 

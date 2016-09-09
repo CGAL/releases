@@ -12,28 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/demo/Mesh_2/conform.cpp $
-// $Id: conform.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/demo/Mesh_2/conform.cpp $
+// $Id: conform.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau
 
 #include <CGAL/basic.h>
 
- // if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-
-int main(int, char*)
-{
-
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
-  return 0;
-}
-
-#else
 
 #include <iostream>
 #include <fstream>
@@ -156,4 +142,3 @@ int main(int argc, char** argv)
   return 0;
 };
 
-#endif // CGAL_USE_QT

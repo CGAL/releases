@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Square_border_parameterizer_3.h $
-// $Id: Square_border_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Square_border_parameterizer_3.h $
+// $Id: Square_border_parameterizer_3.h 45050 2008-08-20 14:47:53Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -48,9 +48,10 @@ CGAL_BEGIN_NAMESPACE
 /// ParameterizationMesh_3 class. They do not know the parameterization algorithm
 /// requirements or the kind of sparse linear system used.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept (although you cannot instantiate this class).
+/// @heading Is Model for the Concepts:
+/// Model of the BorderParameterizer_3 concept (although you cannot instantiate this class).
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3.
 
@@ -133,7 +134,7 @@ private:
 };
 
 
-/// Compute the total length of the border.
+// Compute the total length of the border.
 template<class Adaptor>
 inline
 double Square_border_parameterizer_3<Adaptor>::compute_border_length(
@@ -158,8 +159,8 @@ double Square_border_parameterizer_3<Adaptor>::compute_border_length(
     return len;
 }
 
-/// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
-/// on border's shape. Mark them as "parameterized".
+// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
+// on border's shape. Mark them as "parameterized".
 template<class Adaptor>
 inline
 typename Parameterizer_traits_3<Adaptor>::Error_code
@@ -171,12 +172,12 @@ Square_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
 
     // Nothing to do if no border
     if (mesh.mesh_main_border_vertices_begin() == mesh.mesh_main_border_vertices_end())
-        return Parameterizer_traits_3<Adaptor>::ERROR_INVALID_BORDER;
+        return Parameterizer_traits_3<Adaptor>::ERROR_BORDER_TOO_SHORT;
 
     // Compute the total border length
     double total_len = compute_border_length(mesh);
     if (total_len == 0)
-        return Parameterizer_traits_3<Adaptor>::ERROR_INVALID_BORDER;
+        return Parameterizer_traits_3<Adaptor>::ERROR_BORDER_TOO_SHORT;
 
     // map to [0,4[
     double len = 0.0;           // current position on square in [0, total_len[
@@ -211,7 +212,7 @@ Square_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
     //
     // We may get into trouble if the border is too short
     if (it0 == it1 || it1 == it2 || it2 == it3 || it3 == it0)
-        return Parameterizer_traits_3<Adaptor>::ERROR_INVALID_BORDER;
+        return Parameterizer_traits_3<Adaptor>::ERROR_BORDER_TOO_SHORT;
     //
     // Snap these vertices to corners
     offset[mesh.get_vertex_index(it0)] = 0.0;
@@ -248,8 +249,8 @@ Square_border_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
     return Parameterizer_traits_3<Adaptor>::OK;
 }
 
-/// Utility method for parameterize_border().
-/// Compute mesh iterator whose offset is closest to 'value'.
+// Utility method for parameterize_border().
+// Compute mesh iterator whose offset is closest to 'value'.
 template<class Adaptor>
 inline
 typename Adaptor::Border_vertex_iterator
@@ -264,7 +265,7 @@ Square_border_parameterizer_3<Adaptor>::closest_iterator(Adaptor& mesh,
          it != mesh.mesh_main_border_vertices_end();
          it++)
     {
-        double d = CGAL_CLIB_STD::fabs(offset[mesh.get_vertex_index(it)] - value);
+        double d = std::fabs(offset[mesh.get_vertex_index(it)] - value);
         if (d < min)
         {
             best = it;
@@ -287,9 +288,9 @@ Square_border_parameterizer_3<Adaptor>::closest_iterator(Adaptor& mesh,
 /// algorithm. This class implements only compute_edge_length() to compute a
 /// segment's length.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept.
+/// @heading Is Model for the Concepts: Model of the BorderParameterizer_3 concept.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3.
 
@@ -368,9 +369,9 @@ protected:
 /// algorithm. This class implements only compute_edge_length() to compute a
 /// segment's length.
 ///
-/// Concept: Model of the BorderParameterizer_3 concept.
+/// @heading Is Model for the Concepts: Model of the BorderParameterizer_3 concept.
 ///
-/// Design Pattern:
+/// @heading Design Pattern:
 /// BorderParameterizer_3 models are Strategies [GHJV95]: they implement
 /// a strategy of border parameterization for models of ParameterizationMesh_3
 

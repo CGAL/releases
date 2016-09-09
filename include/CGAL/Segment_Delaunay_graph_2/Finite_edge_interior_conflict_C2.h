@@ -11,14 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
-// $Id: Finite_edge_interior_conflict_C2.h 37157 2007-03-16 10:49:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
+// $Id: Finite_edge_interior_conflict_C2.h 46227 2008-10-13 11:52:58Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
-
-
-
 
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_FINITE_EDGE_INTERIOR_CONFLICT_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_FINITE_EDGE_INTERIOR_CONFLICT_C2_H
@@ -27,6 +24,11 @@
 #include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4800) // complaint about performance where we can't do anything
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -54,6 +56,7 @@ public:
   typedef typename Base::Sign                 Sign;
   typedef typename Base::Orientation          Orientation;
   typedef typename Base::Oriented_side        Oriented_side;
+  typedef typename Base::Boolean              Boolean;
 
   typedef typename Base::Homogeneous_point_2  Homogeneous_point_2;
 
@@ -73,12 +76,12 @@ private:
   //--------------------------------------------------------------------
   //--------------------------------------------------------------------
 
-  bool
+  Boolean
   is_interior_in_conflict_both(const Site_2& p, const Site_2& q,
 			       const Site_2& r, const Site_2& s,
 			       const Site_2& t, Method_tag tag) const
   {
-    bool in_conflict(false);
+    Boolean   in_conflict(false);
 
     if ( p.is_point() && q.is_point() ) {
       in_conflict = is_interior_in_conflict_both_pp(p, q, r, s, t, tag);
@@ -174,7 +177,7 @@ private:
 
   //--------------------------------------------------------------------
 
-  bool
+  Boolean
   is_interior_in_conflict_both_ps(const Site_2& p, const Site_2& q,
 				  const Site_2& r, const Site_2& s,
 				  const Site_2& t, Method_tag tag) const
@@ -194,7 +197,7 @@ private:
 
   //--------------------------------------------------------------------
 
-  bool
+  Boolean
   is_interior_in_conflict_both_ps_p(const Site_2& p, const Site_2& q,
 				    const Site_2& r, const Site_2& s,
 				    const Site_2& t, Method_tag ) const
@@ -207,7 +210,9 @@ private:
     Comparison_result res =
       compare_squared_distances_to_line(lq, p.point(), t.point());
 
-    if ( res != SMALLER ) { return true; }
+    //if ( res != SMALLER ) { return true; }
+    if (certainly( res != SMALLER ) ) { return true; }
+    if (! is_certain( res != SMALLER ) ) { return indeterminate<Boolean>(); }
 
     Voronoi_vertex_2 vpqr(p, q, r);
     Voronoi_vertex_2 vqps(q, p, s);
@@ -232,7 +237,7 @@ private:
     return t1.is_input();
   }
 
-  bool
+  Boolean
   is_interior_in_conflict_both_ps_s(const Site_2& sp, const Site_2& sq,
 				    const Site_2& r, const Site_2& s,
 				    const Site_2& st, Method_tag ) const
@@ -258,11 +263,13 @@ private:
       Oriented_side opqr = vpqr.oriented_side(lqperp);
       Oriented_side oqps = vqps.oriented_side(lqperp);
 
-      bool on_different_parabola_arcs =
-	((opqr == ON_NEGATIVE_SIDE && oqps == ON_POSITIVE_SIDE) ||
-	 (opqr == ON_POSITIVE_SIDE && oqps == ON_NEGATIVE_SIDE));
+      Boolean   on_different_parabola_arcs =
+	 ((opqr == ON_NEGATIVE_SIDE) & (oqps == ON_POSITIVE_SIDE)) |
+	 ((opqr == ON_POSITIVE_SIDE) & (oqps == ON_NEGATIVE_SIDE));
 
-      if ( !on_different_parabola_arcs ) { return true; }
+      //if ( !on_different_parabola_arcs ) { return true; }
+      if (certainly( !on_different_parabola_arcs ) ) { return true; }
+      if (! is_certain( !on_different_parabola_arcs ) ) { return indeterminate<Boolean>(); }
 
       Site_2 t1;
       if ( same_points(sp, st.source_site()) ) {
@@ -327,10 +334,14 @@ private:
 
     Oriented_side o_l_pqr = vpqr.oriented_side(l);
     Oriented_side o_l_qps = vqps.oriented_side(l);
-    if ( o_l_pqr == ON_POSITIVE_SIDE &&
-	 o_l_qps == ON_NEGATIVE_SIDE ) { return false; }
-    if ( o_l_pqr == ON_NEGATIVE_SIDE &&
-	 o_l_qps == ON_POSITIVE_SIDE ) { return true; }
+    if (certainly( (o_l_pqr == ON_POSITIVE_SIDE) &
+	           (o_l_qps == ON_NEGATIVE_SIDE) ) )
+        return false;
+    if (certainly( (o_l_pqr == ON_NEGATIVE_SIDE) &
+	           (o_l_qps == ON_POSITIVE_SIDE) ) )
+	return true;
+    if (! is_certain((o_l_pqr == -o_l_qps) & (o_l_pqr != ZERO)))
+        return indeterminate<Boolean>();
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //>>>>>>>>>> HERE I NEED TO CHECK THE BOUNDARY CASES <<<<<<
@@ -340,11 +351,11 @@ private:
     Oriented_side opqr = vpqr.oriented_side(lqperp);
     Oriented_side oqps = vqps.oriented_side(lqperp);
 
-    bool on_different_parabola_arcs =
-      ((opqr == ON_NEGATIVE_SIDE && oqps == ON_POSITIVE_SIDE) ||
-       (opqr == ON_POSITIVE_SIDE && oqps == ON_NEGATIVE_SIDE));
+    Boolean   on_different_parabola_arcs = (opqr == -oqps) & (opqr != ZERO);
 
-    if ( !on_different_parabola_arcs ) { return true; }
+    // if ( !on_different_parabola_arcs ) { return true; }
+    if (certainly( !on_different_parabola_arcs ) ) { return true; }
+    if (! is_certain( !on_different_parabola_arcs ) ) { return indeterminate<Boolean>(); }
       
     Homogeneous_point_2 pv = projection_on_line(lq, p);
     Homogeneous_point_2 hp(p);
@@ -368,7 +379,7 @@ private:
 
   //--------------------------------------------------------------------
 
-  bool
+  Boolean
   is_interior_in_conflict_both_sp(const Site_2& p, const Site_2& q,
 				  const Site_2& r, const Site_2& s,
 				  const Site_2& t, Method_tag tag) const
@@ -634,12 +645,11 @@ private:
   //------------------------------------------------------------------------
 
 public:
-  typedef bool              result_type;
+  typedef Boolean           result_type;
   typedef Site_2            argument_type;
-  struct Arity {};
 
-  bool operator()(const Site_2& p, const Site_2& q, const Site_2& r,
-		  const Site_2& s, const Site_2& t, Sign sgn) const
+  Boolean   operator()(const Site_2& p, const Site_2& q, const Site_2& r,
+		       const Site_2& s, const Site_2& t, Sign sgn) const
   {
     if ( sgn == POSITIVE ) {
       return is_interior_in_conflict_none(p, q, r, s, t, Method_tag());
@@ -651,8 +661,8 @@ public:
   }
 
 
-  bool operator()(const Site_2& p, const Site_2& q, const Site_2& ,
-		  const Site_2& t, Sign sgn) const
+  Boolean   operator()(const Site_2& p, const Site_2& q, const Site_2& ,
+		       const Site_2& t, Sign sgn) const
   {
     if ( t.is_point() ) {
       return ( sgn == NEGATIVE );
@@ -674,8 +684,8 @@ public:
     return ( p_is_endpoint && q_is_endpoint );
   }
 
-  bool operator()(const Site_2& p, const Site_2& q, const Site_2& t,
-		  Sign ) const
+  Boolean   operator()(const Site_2& p, const Site_2& q, const Site_2& t,
+		       Sign ) const
   {
     if ( p.is_segment() || q.is_segment()) {
       return false;
@@ -688,7 +698,7 @@ public:
       RT dtqx = q.point().x() - t.point().x();
       RT dtqy = q.point().y() - t.point().y();
 
-      Sign s1 = sign_of_determinant2x2(dtpx, minus_dtpy, dtqy, dtqx);
+      Sign s1 = sign_of_determinant(dtpx, minus_dtpy, dtqy, dtqx);
 
       CGAL_assertion( s1 != ZERO );
       return ( s1 == NEGATIVE );
@@ -711,5 +721,11 @@ public:
 CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
+
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_FINITE_EDGE_INTERIOR_CONFLICT_C2_H

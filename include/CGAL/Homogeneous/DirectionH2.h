@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: DirectionH2.h 33050 2006-08-05 22:55:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: DirectionH2.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -24,7 +24,7 @@
 #ifndef CGAL_HOMOGENEOUS_DIRECTION_2_H
 #define CGAL_HOMOGENEOUS_DIRECTION_2_H
 
-#include <CGAL/Threetuple.h>
+#include <CGAL/array.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -40,12 +40,13 @@ class DirectionH2
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Segment_2            Segment_2;
 
-  typedef Threetuple<RT>                           Rep;
+  typedef CGAL::array<RT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
 public:
+
   typedef R_                                    R;
 
   typedef const RT& Homogeneous_coordinate_type;
@@ -59,17 +60,13 @@ public:
    DirectionH2() {}
 
    DirectionH2(const RT& x, const RT& y)
-      : base (x, y, RT(1)) {}
+      : base(CGAL::make_array(x, y, RT(1))) {}
 
-   // TODO Not documented : should not exist , not used.
-   // we should also change Threetuple<RT> -> Twotuple<RT>
+   // TODO Not documented : should not exist, not used.
+   // we should also change array<RT, 3> -> array<RT, 2>
    DirectionH2(const RT& x, const RT& y, const RT& w )
-   {
-     if (w > RT(0)   )
-       base = Rep(x, y, w);
-     else
-       base = Rep(-x, -y, -w);
-   }
+     : base( w > RT(0) ? CGAL::make_array(x, y, w)
+                       : CGAL::make_array<RT>(-x, -y, -w) ) {}
 
     bool    operator==( const DirectionH2<R>& d) const;
     bool    operator!=( const DirectionH2<R>& d) const;
@@ -77,12 +74,12 @@ public:
 
     Vector_2       to_vector() const;
 
-    const RT & x() const { return get(base).e0; };
-    const RT & y() const { return get(base).e1; };
+    const RT & x() const { return get(base)[0]; }
+    const RT & y() const { return get(base)[1]; }
 
     const RT & delta(int i) const;
-    const RT & dx() const { return get(base).e0; };
-    const RT & dy() const { return get(base).e1; };
+    const RT & dx() const { return get(base)[0]; }
+    const RT & dy() const { return get(base)[1]; }
 
 };
 

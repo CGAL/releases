@@ -1,3 +1,25 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/bmpendian.h $
+// $Id: bmpendian.h 45591 2008-09-16 12:45:40Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*
  * from bmp.zip, see the url http://www.ddj.com/ftp/1995/1995.03/
  * author Dr. Dobb's
@@ -5,7 +27,7 @@
 
 /*
  * This is the header for endian.c - functions to read/write our
- * INT8, INT16 and INT32 types from/to a little-endian file.
+ * CGAL_INT8, CGAL_INT16 and CGAL_INT32 types from/to a little-endian file.
  */
 
 #ifndef __ENDIAN_H_INCLUDED__
@@ -15,23 +37,23 @@
  * Read the basic types as little-endian values.  The return value will be
  * zero if successful, EOF, otherwise.
  */
-extern int readINT8little(FILE *f, INT8 *i);
-extern int readINT16little(FILE *f, INT16 *i);
-extern int readINT32little(FILE *f, INT32 *i);
-extern int readUINT8little(FILE *f, UINT8 *i);
-extern int readUINT16little(FILE *f, UINT16 *i);
-extern int readUINT32little(FILE *f, UINT32 *i);
+extern int readINT8little(FILE *f, CGAL_INT8 *i);
+extern int readINT16little(FILE *f, CGAL_INT16 *i);
+extern int readINT32little(FILE *f, CGAL_INT32 *i);
+extern int readUINT8little(FILE *f, CGAL_UINT8 *i);
+extern int readUINT16little(FILE *f, CGAL_UINT16 *i);
+extern int readUINT32little(FILE *f, CGAL_UINT32 *i);
 
 /*
  * Write the basic types as little-endian values.  The return value will be
  * zero if successful, EOF otherwise.
  */
-int writeINT8little(FILE *f, INT8 i);
-int writeINT16little(FILE *f, INT16 i);
-int writeINT32little(FILE *f, INT32 i);
-int writeUINT8little(FILE *f, UINT8 i);
-int writeUINT16little(FILE *f, UINT16 i);
-int writeUINT32little(FILE *f, UINT32 i);
+int writeINT8little(FILE *f, CGAL_INT8 i);
+int writeINT16little(FILE *f, CGAL_INT16 i);
+int writeINT32little(FILE *f, CGAL_INT32 i);
+int writeUINT8little(FILE *f, CGAL_UINT8 i);
+int writeUINT16little(FILE *f, CGAL_UINT16 i);
+int writeUINT32little(FILE *f, CGAL_UINT32 i);
 
 #endif  /* __ENDIAN_H_INCLUDED__ */
 

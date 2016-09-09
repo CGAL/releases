@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
-// $Id: edit_vertex_layer.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
+// $Id: edit_vertex_layer.h 45453 2008-09-09 21:35:22Z lrineau $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -20,7 +20,6 @@
 #ifndef APOLLONIUS_GRAPH_2_EDIT_VERTEX_H
 #define APOLLONIUS_GRAPH_2_EDIT_VERTEX_H
 
-#ifdef CGAL_USE_QT
 
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_layer.h>
@@ -279,6 +278,5 @@ private:
 
 
 
-#endif // CGAL_USE_QT
 
 #endif // APOLLONIUS_GRAPH_2_EDIT_VERTEX_H

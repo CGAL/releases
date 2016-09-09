@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/long_long.h $
-// $Id: long_long.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/long_long.h $
+// $Id: long_long.h 44789 2008-08-05 13:42:15Z hemmer $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -44,31 +44,28 @@ template<> class Algebraic_structure_traits< long long int >
     typedef INTERN_AST::Mod_per_operator< Type >  Mod;
 
     class Is_square
-      : public Binary_function< Type, Type&,
+      : public std::binary_function< Type, Type&,
                                 bool > {
       public:
         bool operator()( const Type& x,
                          Type& y ) const {
-          y = (Type) CGAL_CLIB_STD::sqrt( (double)x );
+          y = (Type) std::sqrt( (double)x );
           return x == y * y;
         }
         bool operator()( const Type& x) const {
             Type y
-                = (Type) CGAL_CLIB_STD::sqrt( (double)x );
+                = (Type) std::sqrt( (double)x );
           return x == y * y;
         }
     };
 };
 
 template <> class Real_embeddable_traits< long long int >
-  : public Real_embeddable_traits_base< long long int > {
+  : public INTERN_RET::Real_embeddable_traits_base< long long int , CGAL::Tag_true > {
   public:
 
-    typedef INTERN_RET::To_double_by_conversion< Type >
-                                                                      To_double;
-
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
           Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
@@ -81,7 +78,6 @@ template <> class Real_embeddable_traits< long long int >
 };
 
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
-    (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \
     (defined(__i386__)  || defined(__i386)  || defined(i386)) || \
     (defined(__ppc__)   || defined(__ppc)   || defined(ppc)) || \
     (defined(__powerpc__) || defined(__powerpc) || defined(powerpc))

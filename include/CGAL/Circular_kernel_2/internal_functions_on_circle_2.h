@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
-// $Id: internal_functions_on_circle_2.h 33935 2006-09-07 12:26:01Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
+// $Id: internal_functions_on_circle_2.h 46419 2008-10-22 13:32:25Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion
+// Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -37,7 +37,7 @@ circle_intersect( const typename CK::Circle_2 & c1,
   typedef std::vector<CGAL::Object > solutions_container;
   solutions_container solutions;
   
-  CGAL::intersect_2<CK>( c1, c2, std::back_inserter(solutions) );
+  intersection( c1, c2, std::back_inserter(solutions) );
   
   typename solutions_container::iterator it = solutions.begin();
   
@@ -109,10 +109,10 @@ namespace CircularFunctors {
   typename CK::Linear_kernel::Bounded_side
   bounded_side(const typename CK::Circle_2 &c,
                const typename CK::Circular_arc_point_2 &p) {
-    typedef typename CK::Algebraic_kernel AK;
+   typedef typename CK::Algebraic_kernel AK;
     typedef typename CK::Polynomial_for_circles_2_2 Equation;
     Equation equation = get_equation<CK>(c);
-    Sign sign = AK().sign_at_object()(equation,p.rep().coordinates());
+    Sign sign = AK().sign_at_object()(equation,p.coordinates());
     if(sign == NEGATIVE) return ON_BOUNDED_SIDE;
     else if(sign == POSITIVE) return ON_UNBOUNDED_SIDE;
     else return ON_BOUNDARY;

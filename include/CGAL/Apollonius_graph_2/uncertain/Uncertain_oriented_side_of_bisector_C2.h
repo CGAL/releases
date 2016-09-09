@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_oriented_side_of_bisector_C2.h $
-// $Id: Uncertain_oriented_side_of_bisector_C2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_oriented_side_of_bisector_C2.h $
+// $Id: Uncertain_oriented_side_of_bisector_C2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -75,25 +75,13 @@ private:
     if ( sign_of_Dw == POSITIVE ) {
       if ( R != SMALLER )  return LARGER;
 
-      Uncertain<Sign> s =
-	uncertain_sign_a_plus_b_x_sqrt_c(D1 - D2 + CGAL::square(Dw),
-					 RT(2) * Dw, D1);
-      if ( is_indeterminate(s) ) {
-	return Uncertain<Comparison_result>::indeterminate();
-      }
-
-      return ((s == POSITIVE) ? LARGER : ((s == ZERO) ? EQUAL : SMALLER));
+      return uncertain_sign_a_plus_b_x_sqrt_c(D1 - D2 + CGAL::square(Dw),
+					      RT(2) * Dw, D1);
     }
 
     if ( R != LARGER )  return SMALLER;
-    Uncertain<Sign> s =
-      uncertain_sign_a_plus_b_x_sqrt_c(D1 - D2 - CGAL::square(Dw),
-				       RT(2) * Dw, D2);
-    if ( is_indeterminate(s) ) {
-      return Uncertain<Comparison_result>::indeterminate();
-    }
-
-    return ((s == POSITIVE) ? LARGER : ((s == ZERO) ? EQUAL : SMALLER));
+    return uncertain_sign_a_plus_b_x_sqrt_c(D1 - D2 - CGAL::square(Dw),
+				            RT(2) * Dw, D2);
   }
 
   Comparison_result
@@ -117,7 +105,6 @@ private:
 
 public:
   typedef Uncertain<Oriented_side>        result_type;
-  typedef Arity_tag<3>                    Arity;
   struct argument_type {};
 
   inline
@@ -125,14 +112,7 @@ public:
   operator()(const Site_2& p1, const Site_2& p2,
 	     const Point_2 &p) const
   {
-    Uncertain<Comparison_result> r =
-      compare_distances(p1, p2, p, Method_tag());
-
-    if ( is_indeterminate(r) ) {
-      return Uncertain<Oriented_side>::indeterminate();
-    }
-    if ( r == EQUAL ) { return ON_ORIENTED_BOUNDARY; }
-    return ( r == LARGER ) ? ON_NEGATIVE_SIDE : ON_POSITIVE_SIDE;
+    return - compare_distances(p1, p2, p, Method_tag());
   }
 
 };

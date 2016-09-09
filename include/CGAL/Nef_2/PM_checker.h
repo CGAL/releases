@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_checker.h $
-// $Id: PM_checker.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_checker.h $
+// $Id: PM_checker.h 40851 2007-11-09 15:27:44Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -62,7 +62,6 @@ typedef typename Base::Halfedge_around_vertex_const_circulator Halfedge_around_v
 typedef typename Base::Halfedge_around_face_const_circulator Halfedge_around_face_const_circulator;
 
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::clear;
   using Base::vertices_begin;
   using Base::vertices_end;
@@ -76,7 +75,6 @@ typedef typename Base::Halfedge_around_face_const_circulator Halfedge_around_fac
   using Base::number_of_faces;
   using Base::number_of_connected_components;
   using Base::check_integrity_and_topological_planarity;
-#endif
 
 /*{\Mtext Iterators, handles, and circulators are inherited from 
 |PM_const_decorator|.}*/
@@ -148,7 +146,7 @@ check_order_preserving_embedding(Vertex_const_handle v) const
 				       direction(ef));
     if ( !(ccw1 && ccw2) ) {
       error_status << "ccw order violate!" << std::endl << '\0';
-      CGAL_assertion_msg(0,error_status.str().c_str());
+      CGAL_error_msg(error_status.str().c_str());
     }
     e = en;
   }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_X_monotone_circle_segment_2.h $
-// $Id: Qt_widget_X_monotone_circle_segment_2.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_X_monotone_circle_segment_2.h $
+// $Id: Qt_widget_X_monotone_circle_segment_2.h 39985 2007-08-22 22:58:35Z golubevs $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -21,7 +21,7 @@
 #define CGAL_IO_QT_WIDGET_CIRCULAR_ARC_2_H
 
 #include <CGAL/IO/Qt_widget.h>
-#include <CGAL/Arr_traits_2/Circle_segment_2.h>
+#include <CGAL/Arr_geometry_traits/Circle_segment_2.h>
 #include <CGAL/Simple_cartesian.h>
 #include <cmath>
 

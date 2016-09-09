@@ -11,15 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/demo/Nef_2/Qt_widget_toolbar.cpp $
-// $Id: Qt_widget_toolbar.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/demo/Nef_2/Qt_widget_toolbar.cpp $
+// $Id: Qt_widget_toolbar.cpp 45459 2008-09-09 22:29:51Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-#if defined CGAL_USE_QT && defined CGAL_USE_GMP
+#if defined CGAL_USE_GMP
 
 #include <CGAL/IO/Qt_widget.h>
 #include "Qt_widget_toolbar.h"

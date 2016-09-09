@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Orientation_2.h $
-// $Id: Orientation_2.h 35070 2006-11-06 17:12:11Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Static_filters/Orientation_2.h $
+// $Id: Orientation_2.h 42811 2008-04-09 13:35:34Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -76,7 +76,7 @@ public:
           double prx = rx - px;
           double pry = ry - py;
 
-          double det = det2x2_by_formula(pqx, pqy,
+          double det = determinant(pqx, pqy,
                                          prx, pry);
 
           // Then semi-static filter.
@@ -111,7 +111,7 @@ public:
   {
     typedef Static_filter_error F;
     F t1 = F(1, F::ulp()/2);         // First translation
-    F det = det2x2_by_formula(t1, t1,
+    F det = determinant(t1, t1,
                               t1, t1); // Full det
     double err = det.error();
     err += err * 2 * F::ulp(); // Correction due to "epsilon * maxx * maxy".

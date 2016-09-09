@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007 Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Gmpq.h $
-// $Id: Gmpq.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Gmpq.h $
+// $Id: Gmpq.h 47264 2008-12-08 06:25:14Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -35,7 +35,7 @@ template <> class Algebraic_structure_traits< Gmpq >
     typedef Tag_false            Is_numerical_sensitive;
 
     class Is_square
-      : public Binary_function< Type, Type&,
+      : public std::binary_function< Type, Type&,
                                 bool > {
       public:
         bool operator()( const Type& x_, Type& y ) const {
@@ -53,7 +53,7 @@ template <> class Algebraic_structure_traits< Gmpq >
     };
 
     class Simplify
-      : public Unary_function< Type&, void > {
+      : public std::unary_function< Type&, void > {
       public:
         void operator()( Type& x) const {
           mpq_canonicalize( x.mpq() );
@@ -65,11 +65,11 @@ template <> class Algebraic_structure_traits< Gmpq >
 // RET for Gmpq-class
 
 template <> class Real_embeddable_traits< Gmpq >
-  : public Real_embeddable_traits_base< Gmpq > {
+  : public INTERN_RET::Real_embeddable_traits_base< Gmpq , CGAL::Tag_true > {
   public:
-
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+  
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return x.sign();
@@ -77,7 +77,7 @@ template <> class Real_embeddable_traits< Gmpq >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
           return x.to_double();
@@ -85,7 +85,7 @@ template <> class Real_embeddable_traits< Gmpq >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
           mpfr_t y;

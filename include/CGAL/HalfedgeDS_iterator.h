@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
-// $Id: HalfedgeDS_iterator.h 35794 2007-01-24 18:00:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
+// $Id: HalfedgeDS_iterator.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -56,11 +56,11 @@ public:
 
     // pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
+    bool operator==( Nullptr_t CGAL_assertion_code(p)) const {
         CGAL_assertion( p == 0);
         return It::operator==( It());
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i)    const { return  It::operator==(i); }
     bool operator!=( const Self& i)    const { return !(*this == i); }
 
@@ -116,11 +116,11 @@ public:
 
     // pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
+    bool operator==( Nullptr_t CGAL_assertion_code(p)) const {
         CGAL_assertion( p == 0);
         return It::operator==( It());
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i)    const { return  It::operator==(i); }
     bool operator!=( const Self& i)    const { return !(*this == i); }
 
@@ -194,11 +194,11 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -257,11 +257,11 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -315,11 +315,11 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -378,11 +378,11 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == CGAL_CIRC_NULL);
+    bool operator==( Nullptr_t p) const {
+        CGAL_assertion( p == NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator!=( Nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 

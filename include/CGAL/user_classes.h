@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/user_classes.h $
-// $Id: user_classes.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/user_classes.h $
+// $Id: user_classes.h 43435 2008-06-04 07:52:01Z pmachado $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -48,6 +48,7 @@
 #include <CGAL/Tetrahedron_3.h>
 #include <CGAL/Iso_cuboid_3.h>
 #include <CGAL/Sphere_3.h>
+#include <CGAL/Circle_3.h>
 #include <CGAL/Aff_transformation_3.h>
 
 #endif  // CGAL_USER_CLASSES_H

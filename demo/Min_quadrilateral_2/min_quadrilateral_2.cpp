@@ -11,26 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_quadrilateral_2/demo/Min_quadrilateral_2/min_quadrilateral_2.cpp $
-// $Id: min_quadrilateral_2.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/demo/Min_quadrilateral_2/min_quadrilateral_2.cpp $
+// $Id: min_quadrilateral_2.cpp 45454 2008-09-09 21:42:42Z lrineau $
 //
 //
 // Author(s)     : Radu Ursu
 
 #include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-
-int main(int, char*)
-{
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-  return 0;
-}
-
-#else
 
 #include <fstream>
 #include <stack>
@@ -160,9 +148,8 @@ public slots:
 private slots:
   void get_new_object(CGAL::Object obj)
   {
-    Point_2 p;
-    if(CGAL::assign(p,obj)) {
-      list_of_points.push_back(p);
+    if(const Point_2 *p = CGAL::object_cast<Point_2>(&obj)) {
+      list_of_points.push_back(*p);
       something_changed();
     }
   };
@@ -251,4 +238,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

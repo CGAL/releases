@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
-// $Id: Voronoi_diagram_2.h 31656 2006-06-16 19:28:51Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
+// $Id: Voronoi_diagram_2.h 46258 2008-10-14 07:47:16Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -59,7 +59,7 @@ class Voronoi_diagram_2
   typedef Voronoi_diagram_2<DG,AT,AP>        Self;
   typedef Triangulation_cw_ccw_2             CW_CCW_2;
 
-  friend struct CGAL_VORONOI_DIAGRAM_2_INS::Accessor<Self>;
+  friend class CGAL_VORONOI_DIAGRAM_2_INS::Accessor<Self>;
  public:
   //-------
   // TYPES
@@ -664,7 +664,7 @@ public:
     }
 
     // I should never have reached this line;
-    CGAL_assertion( false );
+    CGAL_error();
     return Locate_result();
   }
 

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 36051 2007-02-05 15:53:32Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/exceptions.h $
+// $Id: exceptions.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
@@ -57,7 +57,7 @@ CGAL_BEGIN_NAMESPACE
     should not cost too much runtime overhead, maybe 10%.
 
     \see \c CGAL_test for checks that cannot be disabled and 
-         \c CGAL_error for an unconditional error message that cannot 
+         \c CGAL_error_msg for an unconditional error message that cannot 
          be disabled with macros.
 */
 //@{
@@ -112,7 +112,7 @@ public:
     std::string      message() const { return m_msg; }
 };
 
-//! Exception thrown for \c CGAL_error.
+//! Exception thrown for \c CGAL_error_msg.
 class Error_exception : public Failure_exception {
 public:
     Error_exception( std::string lib,

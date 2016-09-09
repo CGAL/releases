@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_walk_along_line_point_location.h $
-// $Id: Arr_walk_along_line_point_location.h 33891 2006-09-03 12:45:13Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_walk_along_line_point_location.h $
+// $Id: Arr_walk_along_line_point_location.h 35622 2006-12-25 08:56:47Z wein $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -26,7 +26,6 @@
  */
 
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
-#include <CGAL/Arr_accessor.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -35,64 +34,74 @@ CGAL_BEGIN_NAMESPACE
  * on a planar arrangement by walking on a vertical ray emanating from the
  * query point, going from "infinity" (the unbounded face) until reaching
  * the point.
- * The Arrangement parameter corresponds to an arrangement instantiation.
+ * The Arrangement parameter corresponds to an arrangement instantiation
+ * of type Arrangement_on_surface_2<GeomTraits, TopTraits>. The topology
+ * traits class has to support the additional method initial_face().
  */
 template <class Arrangement_>
 class Arr_walk_along_line_point_location
 {
 public:
 
-  typedef Arrangement_                          Arrangement_2;
-  typedef typename Arrangement_2::Traits_2      Traits_2;
+  typedef Arrangement_                                   Arrangement_2;
+  typedef typename Arrangement_2::Geometry_traits_2      Geometry_traits_2;
+  typedef typename Arrangement_2::Topology_traits        Topology_traits;
 
-  typedef typename Arrangement_2::Vertex_const_handle   Vertex_const_handle;
-  typedef typename Arrangement_2::Halfedge_const_handle Halfedge_const_handle;
-  typedef typename Arrangement_2::Face_const_handle     Face_const_handle;
+  typedef typename Arrangement_2::Vertex_const_handle    Vertex_const_handle;
+  typedef typename Arrangement_2::Halfedge_const_handle  Halfedge_const_handle;
+  typedef typename Arrangement_2::Face_const_handle      Face_const_handle;
 
-  typedef typename Traits_2::Point_2            Point_2;
-  typedef typename Traits_2::X_monotone_curve_2 X_monotone_curve_2;
+  typedef typename Geometry_traits_2::Point_2            Point_2;
+  typedef typename Geometry_traits_2::X_monotone_curve_2 X_monotone_curve_2;
 
 protected:
 
-  typedef Arr_traits_basic_adaptor_2<Traits_2>  Traits_adaptor_2;
+  typedef Arr_traits_basic_adaptor_2<Geometry_traits_2>  Traits_adaptor_2;
   typedef typename Arrangement_2::Ccb_halfedge_const_circulator
                                              Ccb_halfedge_const_circulator;
-  typedef typename Arrangement_2::Hole_const_iterator
-                                             Hole_const_iterator;
+  typedef typename Arrangement_2::Inner_ccb_const_iterator
+                                             Inner_ccb_const_iterator;
   typedef typename Arrangement_2::Isolated_vertex_const_iterator
                                              Isolated_vertex_const_iterator;
 
   // Data members:
-  const Arrangement_2     *p_arr;     // The associated arrangement.
-  const Traits_adaptor_2  *traits;    // Its associated traits object.
-        
+  const Arrangement_2     *p_arr;        // The associated arrangement.  
+  const Traits_adaptor_2  *geom_traits;  // Its associated geometry traits.
+  const Topology_traits   *top_traits;   // Its associated topology traits.
+
 public:
 
   /*! Default constructor. */
   Arr_walk_along_line_point_location () : 
     p_arr (NULL),
-    traits (NULL)
+    geom_traits (NULL),
+    top_traits (NULL)
   {}
         
   /*! Constructor given an arrangement. */
   Arr_walk_along_line_point_location (const Arrangement_2& arr) :
     p_arr (&arr)
   {
-    traits = static_cast<const Traits_adaptor_2*> (p_arr->get_traits());
+    geom_traits =
+      static_cast<const Traits_adaptor_2*> (p_arr->geometry_traits());
+    top_traits = p_arr->topology_traits();
   }
- 
+
   /*! Attach an arrangement object. */
   void attach (const Arrangement_2& arr) 
   {
     p_arr = &arr;
-    traits = static_cast<const Traits_adaptor_2*> (p_arr->get_traits());
+    geom_traits =
+      static_cast<const Traits_adaptor_2*> (p_arr->geometry_traits());
+    top_traits = p_arr->topology_traits();
   }
 
   /*! Detach from the current arrangement object. */
   void detach ()
   {
     p_arr = NULL;
-    traits = NULL;
+    geom_traits = NULL;
+    top_traits = NULL;
   }
  
   /*!
@@ -182,12 +191,11 @@ protected:
    */
   Halfedge_const_handle _first_around_vertex (Vertex_const_handle v,
 					      bool shoot_up) const;
-
 };
 
 CGAL_END_NAMESPACE
 
 // The member-function definitions can be found under:
-#include <CGAL/Arr_point_location/Arr_walk_along_line_pl_functions.h>
+#include <CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h>
 
 #endif

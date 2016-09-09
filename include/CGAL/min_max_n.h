@@ -12,11 +12,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/min_max_n.h $
-// $Id: min_max_n.h 35403 2006-12-02 21:50:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/min_max_n.h $
+// $Id: min_max_n.h 46206 2008-10-11 20:21:08Z spion $
 //
 //
-// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_MIN_MAX_N_H
 #define CGAL_MIN_MAX_N_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
-// $Id: regular_neighbor_coordinates_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
+// $Id: regular_neighbor_coordinates_2.h 40822 2007-11-07 16:51:18Z ameyer $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -387,7 +387,7 @@ regular_neighbor_coordinates_2(const Rt& rt,
   Vertex_circulator vc = rt.incident_vertices(vh),
     done(vc);
   do{
-    assert(!rt.is_infinite(vc));
+    CGAL_assertion(!rt.is_infinite(vc));
     t2.insert(vc->point());
   }
   while(++vc!=done);

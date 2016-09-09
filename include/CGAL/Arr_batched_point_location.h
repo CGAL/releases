@@ -11,27 +11,28 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_batched_point_location.h $
-// $Id: Arr_batched_point_location.h 34645 2006-10-02 21:05:41Z efif $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_batched_point_location.h $
+// $Id: Arr_batched_point_location.h 40964 2007-11-21 10:23:08Z efif $
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+//                 Ron Wein <wein@post.tau.ac.il>
+//                 Efi Fogel <efif@post.tau.ac.il>
 
 #ifndef CGAL_ARR_BATCHED_POINT_LOCATION_H
 #define CGAL_ARR_BATCHED_POINT_LOCATION_H
 
+#include <CGAL/Arrangement_on_surface_2.h>
 #include <CGAL/Basic_sweep_line_2.h>
-#include <CGAL/Sweep_line_2/Sweep_line_subcurve.h>
-#include <CGAL/Sweep_line_2/Sweep_line_event.h>
-#include <CGAL/Arr_point_location/Arr_batched_point_location_visitor.h>
-#include <CGAL/Arr_point_location/Arr_batched_point_location_meta_traits.h>
+
 #include <vector>
-#include <iostream>
+#include <boost/mpl/if.hpp>
+#include <boost/type_traits.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
 /*!
- * Perform a batched point-location operation on an arrangement.
+ * Issue a batched point-location query on an arrangement given an input
+ * range of points.
  * \param arr The arrangement.
  * \param points_begin An iterator for the range of query points.
  * \param points_end A past-the-end iterator for the range of query points.
@@ -40,77 +41,98 @@ CGAL_BEGIN_NAMESPACE
  *      and the value-type of OutputIterator is pair<Point_2,Object>, where
  *      the Object represents the arrangement feature containing the points.
  */
-template<typename Traits, typename Dcel, typename PointsIterator,
-         typename OutputIterator> 
-OutputIterator locate(const Arrangement_2<Traits,Dcel>& arr,
-                      PointsIterator points_begin,
-                      PointsIterator points_end,
-                      OutputIterator oi)
+template<class GeomTraits, class TopTraits,
+         class PointsIterator, class OutputIterator> 
+OutputIterator locate
+    (const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
+     PointsIterator points_begin, PointsIterator points_end,
+     OutputIterator oi)
 {
   // Arrangement types:
-  typedef Arrangement_2<Traits,Dcel>                   Arrangement_2;
-  typedef typename Arrangement_2::Traits_2             Traits_2;
-  typedef typename Traits_2::X_monotone_curve_2        Base_X_monotone_curve_2;
-  typedef typename Arrangement_2::Halfedge_const_handle  Halfedge_const_handle;
-  typedef typename Arrangement_2::Vertex_const_iterator  Vertex_const_iterator;
-  typedef typename Arrangement_2::Edge_const_iterator    Edge_const_iterator;
-  typedef typename Arrangement_2::Size                   Size;
+  typedef Arrangement_on_surface_2<GeomTraits, TopTraits>  Arr;
+  typedef typename TopTraits::template
+          Sweep_line_bacthed_point_location_visitor<OutputIterator>
+                                                           Bpl_visitor;
 
+  typedef typename Arr::Halfedge_const_handle          Halfedge_const_handle;
+  typedef typename Arr::Vertex_const_iterator          Vertex_const_iterator;
+  typedef typename Arr::Edge_const_iterator            Edge_const_iterator;
+  typedef typename Arr::Vertex_const_handle            Vertex_const_handle;
+  typedef typename Arr::Halfedge_const_handle          Halfedge_const_handle;
 
-  // Define meta-traits class for the batched point location:
-  typedef Arr_batched_point_location_meta_traits<Traits_2, Arrangement_2>
-                                                       Meta_traits_2;
+  typedef typename Bpl_visitor::Traits_2               Bpl_traits_2;
+  typedef typename Bpl_traits_2::X_monotone_curve_2    Bpl_x_monotone_curve_2;
+  typedef typename Bpl_traits_2::Point_2               Bpl_point_2;
 
-  typedef typename Meta_traits_2::X_monotone_curve_2   X_monotone_curve_2;
-  typedef typename Meta_traits_2::Point_2              Point_2;
-
-  // Define the sweep-line visitor:
-  typedef Arr_batched_point_location_visitor<Meta_traits_2,
-                                             OutputIterator,
-                                             Arrangement_2>  Visitor;
-  
-  typedef Basic_sweep_line_2<Meta_traits_2, Visitor>       Sweep_line;
-
-  // Go over all arrangement edges.
-  std::vector<X_monotone_curve_2>  xcurves_vec (arr.number_of_edges());
-  Edge_const_iterator              eit;
-  Size                             i = 0;
+  // Go over all arrangement edges and collect their associated x-monotone
+  // curves. To each curve we attach a halfedge handle going from right to
+  // left.
+  std::vector<Bpl_x_monotone_curve_2>  xcurves_vec (arr.number_of_edges());
+  Edge_const_iterator                  eit;
+  Halfedge_const_handle                he;
+  unsigned int                         i = 0;
 
   for (eit = arr.edges_begin(); eit != arr.edges_end(); ++eit, ++i) 
   {
     // Associate each x-monotone curve with the halfedge that represent it
     // that is directed from right to left.
-    if (eit->direction() == LARGER)
-      xcurves_vec[i] = X_monotone_curve_2(eit->curve(),eit);
+    if (eit->direction() == ARR_RIGHT_TO_LEFT)
+      he = eit;
     else
-      xcurves_vec[i] = X_monotone_curve_2(eit->curve(),eit->twin());
+      he = eit->twin();
+
+    xcurves_vec[i] = Bpl_x_monotone_curve_2 (eit->curve(), he);
   }
 
-  std::vector<Point_2>    iso_points;
-  for(Vertex_const_iterator v_itr = arr.vertices_begin();
-      v_itr != arr.vertices_end();
-      ++v_itr)
+  // Go over all isolated vertices and collect their points. To each point
+  // we attach its vertex handle.
+  std::vector<Bpl_point_2>    iso_pts_vec (arr.number_of_isolated_vertices());
+  Vertex_const_iterator       vit;
+  Vertex_const_handle         iso_v;
+
+  i = 0;
+  for (vit = arr.vertices_begin(); vit != arr.vertices_end(); ++vit, ++i)
   {
-    if(v_itr->is_isolated())
-    iso_points.push_back(Point_2(v_itr->point(), v_itr));
+    if (vit->is_isolated())
+    {
+      iso_v = vit;
+      iso_pts_vec[i] = Bpl_point_2 (vit->point(), iso_v);
+    }
   }
-  
-  // Perform the sweep, while initializing it with all query points as event
-  // points.
-  Visitor          visitor (oi, arr);
-  Meta_traits_2    meta_tr(arr.get_traits());
-  Sweep_line  sweep_line (&meta_tr ,&visitor);
-  
-  sweep_line.sweep(xcurves_vec.begin(),
-		               xcurves_vec.end(),
-                   iso_points.begin(),  
-                   iso_points.end(), 
-		               points_begin, 
-		               points_end);
-  
-  return visitor.get_output_iterator();  // return a past_end iterator
-}
+    
+  // Obtain a extended traits-class object.
+  GeomTraits    *geom_traits = const_cast<GeomTraits*> (arr.geometry_traits());
 
+  /* We would like to avoid copy construction of the geometry traits class.
+   * Copy construction is undesired, because it may results with data
+   * duplication or even data loss.
+   *
+   * If the type Bpl_traits_2 is the same as the type
+   * GeomTraits, use a reference to GeomTraits to avoid constructing a new one.
+   * Otherwise, instantiate a local variable of the former and provide
+   * the later as a single parameter to the constructor.
+   * 
+   * Use the form 'A a(*b);' and not ''A a = b;' to handle the case where A has
+   * only an implicit constructor, (which takes *b as a parameter).
+   */
+  typename boost::mpl::if_<boost::is_same<GeomTraits, Bpl_traits_2>,
+                           Bpl_traits_2&, Bpl_traits_2>::type
+    ex_traits(*geom_traits);
+
+  // Define the sweep-line visitor and perform the sweep.
+  Bpl_visitor   visitor (&arr, &oi);
+  Basic_sweep_line_2<typename Bpl_visitor::Traits_2,
+                     Bpl_visitor,
+                     typename Bpl_visitor::Subcurve,
+                     typename Bpl_visitor::Event>
+    sweep_line (&ex_traits, &visitor);
+
+  sweep_line.sweep (xcurves_vec.begin(), xcurves_vec.end(), // Curves.
+                    iso_pts_vec.begin(), iso_pts_vec.end(), // Action points.
+                    points_begin, points_end);              // Query points.
+
+  return (oi);
+}
 
 CGAL_END_NAMESPACE
 

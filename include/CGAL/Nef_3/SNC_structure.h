@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 37422 2007-03-23 18:18:36Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 45448 2008-09-09 16:03:25Z spion $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -25,6 +25,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/In_place_list.h>
+#include <CGAL/Nef_3/SNC_list.h>
 #include <CGAL/Nef_S2/Generic_handle_map.h>
 #include <CGAL/Nef_2/Object_handle.h>
 #include <CGAL/Nef_3/SNC_iteration.h>
@@ -325,7 +326,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-      { CGAL_assertion_msg(0,"not impl."); return Object_handle();}
+      { CGAL_error_msg("not impl."); return Object_handle();}
   };
 
   class Halffacet_cycle_const_iterator : public Object_const_iterator 
@@ -352,7 +353,7 @@ public:
     operator Object_handle() const { return Ibase::operator*(); }
     Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
-    { CGAL_assertion_msg(0,"not impl."); return Object_handle();}
+    { CGAL_error_msg("not impl."); return Object_handle();}
   };
 
   class SFace_cycle_iterator : public Object_iterator 
@@ -516,7 +517,7 @@ public:
 	  SHalfloop_handle l(fc);
 	  isolated_vertices.push_back(l->incident_sface()->center_vertex()->point());
 	} else
-	  CGAL_assertion_msg(false, "wrong value");
+	  CGAL_error_msg( "wrong value");
       }
     }
 
@@ -1340,10 +1341,10 @@ protected:
   void pointer_update(const Self& D);
   
   typedef boost::optional<Object_iterator> Optional_object_iterator ;
-  
+ private:
   Generic_handle_map<Optional_object_iterator> boundary_item_;
   Generic_handle_map<Optional_object_iterator> sm_boundary_item_;
-
+ protected:
   Vertex_list    vertices_;
   Halfedge_list  halfedges_;
   Halffacet_list halffacets_;
@@ -1421,13 +1422,13 @@ pointer_update(const SNC_structure<Kernel,Items,Mark>& D)
     for(ftc = f->facet_cycles_begin(); ftc !=  f->facet_cycles_end(); ++ftc) {
       if (ftc.is_shalfedge() ) {
 	se = SHalfedge_handle(ftc);
-	*ftc = Object_handle(SEM[se]); 
+	*ftc = make_object(SEM[se]); 
 	store_boundary_item(se,ftc); 
       } else if (ftc.is_shalfloop() ) {
 	sl = SHalfloop_handle(ftc);
-	*ftc = Object_handle(SLM[sl]); 
+	*ftc = make_object(SLM[sl]); 
 	store_boundary_item(sl,ftc); 
-      } else CGAL_assertion_msg(0,"damn wrong boundary item in facet.");
+      } else CGAL_error_msg("damn wrong boundary item in facet.");
     }
   }
 
@@ -1436,7 +1437,7 @@ pointer_update(const SNC_structure<Kernel,Items,Mark>& D)
     Shell_entry_iterator sei;
     CGAL_forall_shells_of(sei,c) {
       sf = sei; // conversion from generic iterator to sface const handle
-      *sei = Object_handle(SFM[sf]); 
+      *sei = make_object(SFM[sf]); 
       store_boundary_item(sf,sei); 
     }
   }
@@ -1473,17 +1474,17 @@ pointer_update(const SNC_structure<Kernel,Items,Mark>& D)
         sfc != sf->sface_cycles_end(); ++sfc) {
       if (sfc.is_svertex()) { 
 	SVertex_handle sv(sfc);
-	*sfc = Object_handle(EM[sv]);
+	*sfc = make_object(EM[sv]);
 	store_sm_boundary_item(sv,sfc);
       } else if (sfc.is_shalfedge()) { 
 	se = SHalfedge_handle(sfc);
-	*sfc = Object_handle(SEM[se]);
+	*sfc = make_object(SEM[se]);
 	store_sm_boundary_item(se,sfc);
       } else if (sfc.is_shalfloop()) { 
 	sl = SHalfloop_handle(sfc);
-	*sfc = Object_handle(SLM[sl]);
+	*sfc = make_object(SLM[sl]);
 	store_sm_boundary_item(sl,sfc);
-      } else CGAL_assertion_msg(0,"damn wrong boundary item in sface.");
+      } else CGAL_error_msg("damn wrong boundary item in sface.");
     }
   }
 }

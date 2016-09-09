@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_2.h $
-// $Id: natural_neighbor_coordinates_2.h 34757 2006-10-10 11:57:17Z nmeskini $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/natural_neighbor_coordinates_2.h $
+// $Id: natural_neighbor_coordinates_2.h 44490 2008-07-27 11:54:19Z spion $
 // 
 //
 // Author(s)     : Frank Da, Julia Floetotto
@@ -24,6 +24,7 @@
 #include <CGAL/Iterator_project.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/number_utils_classes.h>
+#include <CGAL/utility.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -295,7 +296,7 @@ natural_neighbor_coordinates_2(const Dt& dt,
   Vertex_circulator vc = dt.incident_vertices(vh),
     done(vc);
   do{
-    assert(!dt.is_infinite(vc));
+    CGAL_assertion(!dt.is_infinite(vc));
     t2.insert(vc->point());
   }
   while(++vc!=done);

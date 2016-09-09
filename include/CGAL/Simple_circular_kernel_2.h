@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Simple_circular_kernel_2.h $
-// $Id: Simple_circular_kernel_2.h 33653 2006-08-24 14:16:45Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Simple_circular_kernel_2.h $
+// $Id: Simple_circular_kernel_2.h 45974 2008-10-01 15:12:01Z pmachado $
 //
-// Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
+// Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck, Pedro Machado
 
 // Partially supported by the IST Programme of the EU as a Shared-cost
 // RTD (FET Open) Project under Contract No  IST-2000-26473 
@@ -25,35 +25,49 @@
 #ifndef CGAL_SIMPLE_CIRCULAR_KERNEL_2_H
 #define CGAL_SIMPLE_CIRCULAR_KERNEL_2_H
 
-#include <CGAL/Circular_kernel_2/Circular_arc_point_2.h>
-#include <CGAL/Circular_kernel_2/Circular_arc_2.h>
-#include <CGAL/Circular_kernel_2/Line_arc_2.h>
 #include <CGAL/Circular_arc_2.h>
 #include <CGAL/Circular_arc_point_2.h>
 #include <CGAL/Line_arc_2.h>
-
-#include <CGAL/Circular_kernel_2/function_objects_on_circle_2.h>
-#include <CGAL/global_functions_on_circle_2.h>
-
-#include <CGAL/Circular_kernel_2/function_objects_polynomial_circular.h>
-#include <CGAL/global_functions_on_circular_arcs_2.h>
+#include <CGAL/Circular_kernel_2/Circular_arc_point_2.h>
+#include <CGAL/Circular_kernel_2/Circular_arc_2.h>
+#include <CGAL/Circular_kernel_2/Line_arc_2.h>
 
 #include <CGAL/Circular_kernel_type_equality_wrapper.h>
 
-namespace CGAL {
+#include <CGAL/Circular_kernel_2/function_objects_polynomial_circular.h>
+#include <CGAL/global_functions_circular_kernel_2.h>
+
+#include <CGAL/Circular_kernel_2/function_objects_on_line_2.h>
+
+#include <CGAL/Circular_kernel_2/function_objects_on_circle_2.h>
+
+CGAL_BEGIN_NAMESPACE
+
 namespace CGALi {
 
-template < class CircularKernel, class LinearKernelBase >
-struct Circular_kernel_base_no_ref_count: public LinearKernelBase
+template < class CircularKernel, class LinearKernelBase, class AlgebraicKernel >
+struct Circular_kernel_base_ref_count: public LinearKernelBase
 {
   typedef CGALi::Circular_arc_2<CircularKernel>         Circular_arc_2;
   typedef CGALi::Circular_arc_point_2<CircularKernel>   Circular_arc_point_2;
   typedef CGALi::Line_arc_2<CircularKernel>             Line_arc_2;
+  typedef LinearKernelBase                              Linear_kernel;
+  typedef AlgebraicKernel                               Algebraic_kernel;
+  typedef typename Algebraic_kernel::Root_of_2            Root_of_2;
+  typedef typename Algebraic_kernel::Root_for_circles_2_2 Root_for_circles_2_2;
+  typedef typename Algebraic_kernel::Polynomial_for_circles_2_2
+                                                    Polynomial_for_circles_2_2;
+  typedef typename Algebraic_kernel::Polynomial_1_2 Polynomial_1_2;
+  typedef typename Linear_kernel::RT                       RT;
+  typedef typename Linear_kernel::FT                       FT;
 
   // The mecanism that allows to specify reference-counting or not.
   template < typename T >
   struct Handle { typedef T    type; };
-  
+
+  template < typename Kernel2 >
+  struct Base { typedef Circular_kernel_base_ref_count<Kernel2, LinearKernelBase, AlgebraicKernel>  Type; };  
+
   #define CGAL_Circular_Kernel_pred(Y,Z) \
     typedef CircularFunctors::Y<CircularKernel> Y; \
     Y Z() const { return Y(); }
@@ -68,43 +82,16 @@ template < class LinearKernel, class AlgebraicKernel >
 struct Circular_kernel_2
   : public Circular_kernel_type_equality_wrapper
   <
-  CGALi::Circular_kernel_base_no_ref_count
+  CGALi::Circular_kernel_base_ref_count
   < Circular_kernel_2<LinearKernel,AlgebraicKernel>,
-    typename LinearKernel::
-#ifndef CGAL_CFG_DEEP_DEPENDENT_TEMPLATE_BUG
-                           template 
-#endif
-    Base<Circular_kernel_2<LinearKernel,AlgebraicKernel> >::Type 
+    typename LinearKernel:: template 
+    Base<Circular_kernel_2<LinearKernel,AlgebraicKernel> >::Type,
+    AlgebraicKernel 
   >,
-  Circular_kernel_2<LinearKernel,AlgebraicKernel> 
+  Circular_kernel_2<LinearKernel,AlgebraicKernel>
   >
-{
-  typedef Circular_kernel_2<LinearKernel,AlgebraicKernel>      Self;
+{};
 
-  typedef typename LinearKernel::template 
-  Base<Circular_kernel_2<LinearKernel,AlgebraicKernel> >::Type Linear_kernel;
-  typedef AlgebraicKernel                                  Algebraic_kernel;
-
-  // for Lazy hexagons/bbox kernels
-  // Please remove this if you consider it to be sloppy
-  struct Circular_tag{};
-  typedef Circular_tag Definition_tag;
-  //
-
-  typedef typename LinearKernel::RT                       RT;
-  typedef typename LinearKernel::FT                       FT;
-
-  typedef typename Algebraic_kernel::Root_of_2            Root_of_2;
-  typedef typename Algebraic_kernel::Root_for_circles_2_2 Root_for_circles_2_2;
-  typedef typename Algebraic_kernel::Polynomial_for_circles_2_2
-                                                    Polynomial_for_circles_2_2;
-  typedef typename Algebraic_kernel::Polynomial_1_2 Polynomial_1_2;
-
-//   typedef CGAL::Object Object_2;
-//   typedef CGAL::Object Object_3;
-  
-};
-
-} // namespace CGAL
+CGAL_END_NAMESPACE
 
 #endif // CGAL_SIMPLE_CIRCULAR_KERNEL_2_H

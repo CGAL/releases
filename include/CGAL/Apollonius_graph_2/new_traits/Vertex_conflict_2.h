@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Vertex_conflict_2.h $
-// $Id: Vertex_conflict_2.h 32634 2006-07-19 21:58:48Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/new_traits/Vertex_conflict_2.h $
+// $Id: Vertex_conflict_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
@@ -41,7 +41,6 @@ public:
     typedef typename K::Site_2                Site_2;
     typedef typename K::RT                    RT;	
     typedef Sign                              result_type;
-    struct Arity {};
 
 private:
     
@@ -241,7 +240,7 @@ private:
                 if (power_test != ZERO) { return -power_test; }
 
                 // this result is consistant with the perturb on off idea
-                //if (power_test != ZERO || ! perturb) return Sign(- power_test);
+                //if (power_test != ZERO || ! perturb) return -power_test;
                 o1q = CGAL::sign(xq);
                 o2q = CGAL::sign(q.x() - p2.x());
             } else {
@@ -252,7 +251,7 @@ private:
                 if (power_test != ZERO) { return -power_test; }
 
                 // this result is consistant with the perturb on off idea
-                //if (power_test != ZERO || ! perturb) return Sign(- power_test);
+                //if (power_test != ZERO || ! perturb) return -power_test;
                 o1q = CGAL::sign(yq);
                 o2q = CGAL::sign(q.y() - p2.y());
             }

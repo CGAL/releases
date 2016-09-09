@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/Dynamic_matrix.h $
-// $Id: Dynamic_matrix.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Matrix_search/include/CGAL/Dynamic_matrix.h $
+// $Id: Dynamic_matrix.h 41493 2008-01-09 21:32:40Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -20,6 +20,8 @@
 #if ! (CGAL_DYNAMIC_MATRIX_H)
 #define CGAL_DYNAMIC_MATRIX_H 1
 
+#include <vector>
+#include <utility>
 #include <CGAL/Optimisation/assertions.h>
 
 CGAL_BEGIN_NAMESPACE

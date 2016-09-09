@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Straight_2.h $
-// $Id: Straight_2.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Straight_2.h $
+// $Id: Straight_2.h 45075 2008-08-21 12:50:41Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -27,6 +27,7 @@
 
 #include <CGAL/Line_2_Line_2_intersection.h>
 #include <CGAL/squared_distance_utils.h>
+#include <CGAL/Kernel/global_functions_internal_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -43,7 +44,7 @@ protected:
     int                     dir_sign_;  // sign of main direction coord.
     unsigned int            bound_state_; // 0, 1, 2, 3, 4.
 public:
-inline unsigned int            bound_state() const {return bound_state_;}
+    unsigned int            bound_state() const {return bound_state_;}
 };
 
 template <class K>
@@ -55,7 +56,6 @@ public:
                             Straight_2_(typename K::Ray_2 const &ray) ;
                             Straight_2_(typename K::Ray_2 const &ray,bool cooriented) ;
                             Straight_2_(typename K::Segment_2 const &seg) ;
-                            ~Straight_2_() {}
     void                    cut_right_off(typename K::Line_2 const & cutter) ;
     int                     collinear_order(typename K::Point_2 const & p1,
                                             typename K::Point_2 const &p2) const ;
@@ -277,8 +277,6 @@ cut_right_off(typename K::Line_2 const & cutter)
 {
     if (bound_state_ == LINE_EMPTY)
         return;
-    typename K::Point_2 ispoint;
-    bool new_point;
     Line_2_Line_2_pair<K> pair(&support_, &cutter);
     switch (pair.intersection_type()) {
     case Line_2_Line_2_pair<K>::NO_INTERSECTION:
@@ -288,8 +286,8 @@ cut_right_off(typename K::Line_2 const & cutter)
     case Line_2_Line_2_pair<K>::LINE:
         break;
     case Line_2_Line_2_pair<K>::POINT:
-        pair.intersection(ispoint);
-        new_point = false;
+        typename K::Point_2 ispoint = pair.intersection_point();
+        bool new_point = false;
         switch (sign_of_cross(support_.direction(), cutter.direction(), K())) {
         case -1: // new minimum.
             if (bound_state_ & MIN_UNBOUNDED) {

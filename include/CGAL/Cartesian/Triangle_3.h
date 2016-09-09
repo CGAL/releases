@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
-// $Id: Triangle_3.h 35640 2006-12-27 23:25:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
+// $Id: Triangle_3.h 45152 2008-08-26 13:08:16Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,8 +24,8 @@
 #ifndef CGAL_CARTESIAN_TRIANGLE_3_H
 #define CGAL_CARTESIAN_TRIANGLE_3_H
 
-#include <CGAL/Threetuple.h>
 #include <CGAL/Handle_for.h>
+#include <CGAL/array.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -38,7 +38,7 @@ class TriangleC3
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Triangle_3           Triangle_3;
 
-  typedef Threetuple<Point_3>                      Rep;
+  typedef CGAL::array<Point_3, 3>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -49,7 +49,7 @@ public:
   TriangleC3() {}
 
   TriangleC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
-    : base(p, q, r) {}
+    : base(CGAL::make_array(p, q, r)) {}
 
   bool       operator==(const TriangleC3 &t) const;
   bool       operator!=(const TriangleC3 &t) const;
@@ -94,9 +94,9 @@ TriangleC3<R>::vertex(int i) const
 {
   if (i<0) i=(i%3)+3;
   else if (i>2) i=i%3;
-  return (i==0) ? get(base).e0 :
-         (i==1) ? get(base).e1 :
-                  get(base).e2;
+  return (i==0) ? get(base)[0] :
+         (i==1) ? get(base)[1] :
+                  get(base)[2];
 }
 
 template < class R >

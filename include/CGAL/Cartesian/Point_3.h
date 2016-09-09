@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h $
-// $Id: Point_3.h 35640 2006-12-27 23:25:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h $
+// $Id: Point_3.h 42834 2008-04-10 14:41:35Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri and Herve Bronnimann
@@ -24,10 +24,7 @@
 #ifndef CGAL_CARTESIAN_POINT_3_H
 #define CGAL_CARTESIAN_POINT_3_H
 
-#include <CGAL/Threetuple.h>
-#include <CGAL/Handle_for.h>
 #include <CGAL/Origin.h>
-#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -39,72 +36,52 @@ class PointC3
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Threetuple<FT>                           Rep;
-  typedef typename R_::template Handle<Rep>::type  Base;
-
-  Base base;
+  // We do not use reference counting here as it is done at the Vector_3 level.
+  Vector_3 base;
 
 public:
-  typedef const FT* Cartesian_const_iterator;
+  typedef typename Vector_3::Cartesian_const_iterator Cartesian_const_iterator;
   typedef R_                                R;
 
   PointC3() {}
 
   PointC3(const Origin &)
-    : base(FT(0), FT(0), FT(0)) {}
+    : base(NULL_VECTOR) {}
 
   PointC3(const FT &x, const FT &y, const FT &z)
     : base(x, y, z) {}
 
   PointC3(const FT &x, const FT &y, const FT &z, const FT &w)
-  {
-    if (w != FT(1))
-      base = Rep(x/w, y/w, z/w);
-    else
-      base = Rep(x, y, z);
-  }
-
-/*
-  bool operator==(const PointC3 &p) const
-  {
-      if (CGAL::identical(base, p.base))
-	  return true;
-      return x_equal(*this, p) && y_equal(*this, p) && z_equal(*this, p);
-  }
-  bool operator!=(const PointC3 &p) const
-  {
-      return !(*this == p);
-  }
-*/
+    : base(x, y, z, w) {}
 
   const FT & x() const
   {
-      return get(base).e0;
+      return base.x();
   }
   const FT & y() const
   {
-      return get(base).e1;
+      return base.y();
   }
   const FT & z() const
   {
-      return get(base).e2;
+      return base.z();
   }
 
   const FT & hx() const
   {
-      return x();
+      return base.hx();
   }
   const FT & hy() const
   {
-      return y();
+      return base.hy();
   }
   const FT & hz() const
   {
-      return z();
+      return base.hz();
   }
   const FT & hw() const
   {
-      return constant<FT, 1>();
+      return base.hw();
   }
 
   const FT & cartesian(int i) const;
@@ -113,19 +90,17 @@ public:
 
   Cartesian_const_iterator cartesian_begin() const 
   {
-    return & get(base).e0; 
+    return base.cartesian_begin(); 
   }
 
   Cartesian_const_iterator cartesian_end() const 
   {
-    const FT* ptr = & get(base).e2;
-    ptr++;
-    return ptr;
+    return base.cartesian_end();
   }
 
   int dimension() const
   {
-      return 3;
+      return base.dimension();
   }
 
   Point_3 transform(const Aff_transformation_3 &t) const
@@ -139,8 +114,7 @@ inline
 const typename PointC3<R>::FT &
 PointC3<R>::cartesian(int i) const
 {
-  CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  return *(&(get(base).e0)+i);
+  return base.cartesian(i);
 }
 
 template < class R >
@@ -148,7 +122,7 @@ inline
 const typename PointC3<R>::FT &
 PointC3<R>::operator[](int i) const
 {
-  return cartesian(i);
+  return base[i];
 }
 
 template < class R >
@@ -156,9 +130,7 @@ inline
 const typename PointC3<R>::FT &
 PointC3<R>::homogeneous(int i) const
 {
-  CGAL_kernel_precondition(i>=0 && i<=3);
-  if (i<3) return cartesian(i);
-  return hw();
+  return base.homogeneous(i);
 }
 
 CGAL_END_NAMESPACE

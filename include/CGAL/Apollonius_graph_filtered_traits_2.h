@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_filtered_traits_2.h $
-// $Id: Apollonius_graph_filtered_traits_2.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_filtered_traits_2.h $
+// $Id: Apollonius_graph_filtered_traits_2.h 41721 2008-01-20 21:20:28Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -48,29 +48,6 @@ CGAL_BEGIN_NAMESPACE
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 
-
-#if defined(__sun) && defined(__SUNPRO_CC)
-// workaround for the Sun CC-5.30 compiler; it does not like default
-// template parameters that are themselves templates and have
-// templated classes as parameters, which have then nested types as
-// arguments... oooof!!!
-//
-// In case you did understand what I just described you are most
-// probably crazy... If you did not, look below to see what kind of
-// code CC-5.30 did not like.
-namespace CGALi {
-
-  template<class CK, class FK>
-  struct AG_SUNPRO_CC_Interval_converter
-    : public Cartesian_converter<CK, FK,
-                                 To_interval< typename CK::RT > >
-  {
-  };
-
-}
-#endif
-
-
 template<class CK_t,
 	 class CK_MTag = Integral_domain_without_division_tag,
 	 class EK_t    = Simple_cartesian< MP_Float >,
@@ -78,12 +55,8 @@ template<class CK_t,
 	 class FK_t    = Simple_cartesian< Interval_nt<false> >,
 	 class FK_MTag = CK_MTag,
          class C2E_t   = Cartesian_converter<CK_t, EK_t>,
-#if defined(__sun) && defined(__SUNPRO_CC)
-         class C2F_t   = CGALi::AG_SUNPRO_CC_Interval_converter<CK_t, FK_t> >
-#else
          class C2F_t   =
          Cartesian_converter<CK_t, FK_t, To_interval<typename CK_t::RT> > >
-#endif
 class Apollonius_graph_filtered_traits_2
 {
 private:

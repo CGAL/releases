@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd_impl.h $
-// $Id: HyperplaneHd_impl.h 35126 2006-11-10 13:36:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd_impl.h $
+// $Id: HyperplaneHd_impl.h 41339 2007-12-27 16:15:21Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -46,7 +46,7 @@ weak_cmp(const HyperplaneHd<RT,LA>& h1,
   int i, d = h1.dimension();
   for (i = 0; i <= d && 
               h1.coefficient(i) == 0 && 
-              h2.coefficient(i) == 0; i++); // no body
+              h2.coefficient(i) == 0; i++) {}
   if (h1.coefficient(i) == 0) return SMALLER;
   if (h2.coefficient(i) == 0) return LARGER;
  
@@ -79,7 +79,7 @@ strong_cmp(const HyperplaneHd<RT,LA>& h1,
   int d = h1.dimension();
   for (i = 0; i <=d && 
               h1.coefficient(i)==0 && 
-              h2.coefficient(i)==0; i++) ; // no body
+              h2.coefficient(i)==0; i++) {}
   int c1 = CGAL_NTS sign(h1.coefficient(i));
   int c2 = CGAL_NTS sign(h2.coefficient(i));
   if (c1 != c2) return CGAL_NTS compare(c1,c2);

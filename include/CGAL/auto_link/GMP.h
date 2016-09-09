@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/auto_link/GMP.h $
-// $Id: GMP.h 38566 2007-05-06 03:27:01Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/GMP.h $
+// $Id: GMP.h 47051 2008-11-26 15:35:30Z lrineau $
 // 
 //
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactry.com)

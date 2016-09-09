@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: CORE_Expr.h 38140 2007-04-16 08:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/CORE_Expr.h $
+// $Id: CORE_Expr.h 45636 2008-09-18 15:35:55Z hemmer $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -40,7 +40,7 @@ template <> class Algebraic_structure_traits< CORE::Expr >
     typedef Tag_true            Is_numerical_sensitive;
 
     class Sqrt
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
           return CORE::sqrt( x );
@@ -48,7 +48,7 @@ template <> class Algebraic_structure_traits< CORE::Expr >
     };
 
     class Kth_root
-      : public Binary_function<int, Type, Type> {
+      : public std::binary_function<int, Type, Type> {
       public:
         Type operator()( int k,
                                         const Type& x) const {
@@ -67,7 +67,6 @@ template <> class Algebraic_structure_traits< CORE::Expr >
 //        typedef CORE::BigRat Boundary;
         typedef Type   result_type;
 
-        typedef Arity_tag< 3 >         Arity;
 
       public:
         // constructs the kth roots of the polynomial
@@ -125,19 +124,18 @@ template <> class Algebraic_structure_traits< CORE::Expr >
 };
 
 template <> class Real_embeddable_traits< CORE::Expr >
-  : public Real_embeddable_traits_base< CORE::Expr > {
+  : public INTERN_RET::Real_embeddable_traits_base< CORE::Expr , CGAL::Tag_true > {
   public:
-
     class Abs
-      : public Unary_function< Type, Type > {
+      : public std::unary_function< Type, Type > {
       public:
         Type operator()( const Type& x ) const {
             return CORE::abs( x );
         }
     };
 
-    class Sign
-      : public Unary_function< Type, ::CGAL::Sign > {
+    class Sgn
+      : public std::unary_function< Type, ::CGAL::Sign > {
       public:
         ::CGAL::Sign operator()( const Type& x ) const {
           return (::CGAL::Sign) CORE::sign( x );
@@ -145,7 +143,7 @@ template <> class Real_embeddable_traits< CORE::Expr >
     };
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
@@ -159,22 +157,20 @@ template <> class Real_embeddable_traits< CORE::Expr >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
-          // this call is required to get reasonable values for the double
-          // approximation
-          x.approx( 53, 1 );
+          x.approx(53,1024);
           return x.doubleValue();
         }
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
             std::pair<double,double> result;
-            x.approx(52,1);
+            x.approx(53,1024);
             x.doubleInterval(result.first, result.second);
             CGAL_expensive_assertion(result.first  <= x);
             CGAL_expensive_assertion(result.second >= x);

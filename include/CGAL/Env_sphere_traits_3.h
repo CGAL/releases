@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
-// $Id: Env_sphere_traits_3.h 38451 2007-04-26 19:52:58Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
+// $Id: Env_sphere_traits_3.h 46882 2008-11-14 09:00:26Z ophirset $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -542,13 +542,13 @@ public:
             //Algebraic x_mid = (inter_xs[0] + inter_xs[1]) / 2;
             Alg_point_2 x_mid_point(x_mid, 0);
             
-            int  x_mid_n_y_points;
+            CGAL_precondition_code(int  x_mid_n_y_points;);
             Alg_point_2 x_mid_y_points[2];
 
             Curve_2 inter_cv(R, S, T, U, V, W);
 
-            x_mid_n_y_points = inter_cv.get_points_at_x(x_mid_point,
-                                                        x_mid_y_points);
+            CGAL_precondition_code(x_mid_n_y_points = )
+              inter_cv.points_at_x(x_mid_point, x_mid_y_points);
             
             CGAL_precondition(x_mid_n_y_points > 0);
 
@@ -603,11 +603,10 @@ public:
 
             Alg_point_2 y_mid_point(0, y_mid);
             Alg_point_2 y_mid_x_points[2];
-            int  y_mid_n_x_points;
-
             Curve_2 inter_cv(R, S, T, U, V, W);
-            y_mid_n_x_points = inter_cv.get_points_at_y(y_mid_point,
-                                                        y_mid_x_points);
+
+            CGAL_precondition_code(int  y_mid_n_x_points =)
+              inter_cv.points_at_y(y_mid_point, y_mid_x_points);
 
             CGAL_precondition(y_mid_n_x_points > 0);
 
@@ -641,10 +640,13 @@ public:
 
           Curve_2 inter_cv(R, S, T, U, V, W);
           Alg_point_2 vtan_ps[2];
-          int         n_vtan_ps;
 
-          n_vtan_ps = inter_cv.vertical_tangency_points(vtan_ps);
+          CGAL_assertion_code(int         n_vtan_ps =)
+            inter_cv.vertical_tangency_points(vtan_ps);
+          
+          
           CGAL_assertion(n_vtan_ps == 2);
+
           Algebraic lval = Algebraic(la)*vtan_ps[0].x() +
                            Algebraic(lb)*vtan_ps[0].y() + Algebraic(lc);
           Sign lval_sign = CGAL_NTS sign(lval);
@@ -773,9 +775,9 @@ public:
 
       Sign res = CGAL_NTS sign(z1 - z2);
       if (parent.m_is_lower)
-        return Comparison_result(res);
+        return res;
       else
-        return Comparison_result(-res);
+        return -res;
     }
 
     // second method of compare in point
@@ -825,7 +827,7 @@ public:
                                                            Algebraic(1),
                                                            A1,
                                                            A2);
-      return Comparison_result(res);    
+      return res;    
     }  
   };
    
@@ -1034,7 +1036,7 @@ public:
       Sign sign3 = (compare_on_right ? (CGAL_NTS sign(1)) :
                                        (CGAL_NTS sign(-1)));
 
-      return Comparison_result(sign1 * sign2 * sign3);
+      return sign1 * sign2 * sign3;
 
     }
     else if (C1 != 0 && C2 == 0)
@@ -1049,7 +1051,7 @@ public:
       return SMALLER;
     }
     else
-      CGAL_assertion(false);
+      CGAL_error();
 
     return EQUAL;
   }
@@ -1123,7 +1125,7 @@ public:
     if (cv.is_vertical())
       return Point_2(mid_x);
 
-    return Point_2(cv.get_point_at_x(mid_x));
+    return Point_2(cv.point_at_x(mid_x));
   }
 
 
@@ -1218,7 +1220,7 @@ public:
       }
     }
     else
-      return cv.get_point_at_x(pt);
+      return cv.point_at_x(pt);
   }
 
   template <class OutputIterator>

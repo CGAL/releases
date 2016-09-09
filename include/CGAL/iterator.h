@@ -15,13 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 36568 2007-02-23 08:35:43Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h 47027 2008-11-25 17:17:06Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_ITERATOR_H
 #define CGAL_ITERATOR_H 1
@@ -209,9 +209,9 @@ private:
 class Counting_output_iterator
   : public std::iterator< std::output_iterator_tag, void, void, void, void >
 {
-  std::size_t c;
+  std::size_t *c;
 public:
-  Counting_output_iterator() : c(0) {}
+  Counting_output_iterator(std::size_t *cc) : c(cc) { *c = 0; }
 
   Counting_output_iterator& operator++()    { return *this; }
   Counting_output_iterator& operator++(int) { return *this; }
@@ -219,9 +219,9 @@ public:
   Counting_output_iterator& operator*() { return *this; }
 
   template <typename T>
-  void operator=(const T&) { ++c; }
+  void operator=(const T&) { ++*c; }
 
-  std::size_t current_counter() const { return c;}
+  std::size_t current_counter() const { return *c; }
 };
 
 template < class I,
@@ -309,11 +309,11 @@ public:
   Circulator  current_circulator() const { return nt;}
 
   Iterator  current_iterator() const { return nt;}
-  bool operator==( CGAL_NULL_TYPE p) const {
+  bool operator==( Nullptr_t p) const {
     CGAL_assertion( p == 0);
     return empty;
   }
-  bool  operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+  bool  operator!=( Nullptr_t p) const { return !(*this == p); }
   bool  operator==( const Self& i) const { return (empty && i.empty) ||( nt == i.nt); }
   bool  operator!=( const Self& i) const { return !(*this == i); }
   reference operator*()  const { return *nt; }
@@ -1168,52 +1168,6 @@ template < class I, class P >
 inline Filter_output_iterator< I, P >
 filter_output_iterator(I e, const P& p)
 { return Filter_output_iterator< I, P >(e, p); }
-
-
-// Transforming output iterator : applies a functor to each assigned object.
-// (not documented for now...)
-
-template < typename OutIt, typename F >
-class Transform_output_iterator
-    : public std::iterator<std::output_iterator_tag, void, void, void, void>
-{
-protected:
-
-  OutIt *_o;
-  F     _f;
-
-public:
-
-  typedef OutIt  iterator_type;
-
-  Transform_output_iterator(OutIt *o, const F & f = F()) : _o(o), _f(f) {}
-
-  template <typename T>
-  Transform_output_iterator&
-  operator=(const T& t)
-  {
-    *(*_o)++ = _f(t);
-    return *this;
-  }
-
-  Transform_output_iterator&
-  operator*()
-  { return *this; }
-
-  Transform_output_iterator&
-  operator++()
-  { return *this; }
-
-  Transform_output_iterator
-  operator++(int)
-  { return *this; }
-};
-
-template < typename OutIt, typename F >
-inline
-Transform_output_iterator<OutIt, F>
-make_transform_output_iterator(OutIt *o, const F&f)
-{ return Transform_output_iterator<OutIt, F>(o, f); }
 
 CGAL_END_NAMESPACE
 

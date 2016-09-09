@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_hyperbolic_arc_traits_2.h $
-// $Id: Arr_hyperbolic_arc_traits_2.h 35532 2006-12-13 13:12:38Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_hyperbolic_arc_traits_2.h $
+// $Id: Arr_hyperbolic_arc_traits_2.h 41124 2007-12-08 10:56:13Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -25,6 +25,7 @@
  */
 
 #include <CGAL/tags.h>
+#include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_traits_2/Hyperbolic_arc_2.h>
 
 #include <fstream>
@@ -50,7 +51,7 @@ public:
   // Category tags:
   typedef Tag_true                                      Has_left_category;
   typedef Tag_false                                     Has_merge_category;
-  typedef Tag_false                                     Has_boundary_category;
+  typedef Arr_no_boundary_tag                           Boundary_category;
 
 public:
 

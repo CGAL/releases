@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Root_of_2.h $
-// $Id: Root_of_2.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Root_of_2.h $
+// $Id: Root_of_2.h 45860 2008-09-29 18:20:02Z pmachado $
 //
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias, Pedro Machado
@@ -94,7 +94,7 @@ public:
 private:
 
   FT  _alpha, _beta, _gamma;
-  unsigned char _rational;
+  bool _rational;
 
 public:
 
@@ -104,25 +104,25 @@ public:
 #endif
 
   Root_of_2()
-    : _alpha(0), _rational(1)
+    : _alpha(0), _rational(true)
   {
     CGAL_assertion(is_valid());
   }
 
   Root_of_2(const RT& c0)
-    : _alpha(c0), _rational(1)
+    : _alpha(c0), _rational(true)
   {
     CGAL_assertion(is_valid());
   }
 
   Root_of_2(const typename First_if_different<int, RT>::Type & c0)
-    : _alpha(RT(c0)), _rational(1)
+    : _alpha(RT(c0)), _rational(true)
   {
     CGAL_assertion(is_valid());
   }
 
   Root_of_2(const typename First_if_different<FT, RT>::Type & c0)
-    : _alpha(c0), _rational(1)
+    : _alpha(c0), _rational(true)
   {
     CGAL_assertion(is_valid());
   }
@@ -130,7 +130,7 @@ public:
   Root_of_2(const RT& a, const RT& b) {
     CGAL_assertion( b != 0 );
     _alpha = FT(a,b);
-    _rational = 1;
+    _rational = true;
     CGAL_assertion(is_valid());
   }
 
@@ -140,15 +140,15 @@ public:
       _alpha = FT(-b,2*a);
       _gamma = CGAL_NTS square(alpha()) - FT(c,a);
       if(CGAL_NTS is_zero(gamma())) {
-	_rational = 1;
+	_rational = true;
       } else {
 	_beta = (s ? -1 : 1);
-	_rational = 0;
+	_rational = false;
       }
     }
     else {
       CGAL_assertion( b != 0 );
-      _rational = 1;
+      _rational = true;
       _alpha = FT(-c,b);
       _beta = 0;
       _gamma = 0;
@@ -162,7 +162,7 @@ public:
   {
     if(CGAL_NTS is_zero(c1) || CGAL_NTS is_zero(c2)) {
       _alpha = c0;
-      _rational = 1;
+      _rational = true;
 
 #ifdef CGAL_ROOT_OF_2_ENABLE_HISTOGRAM_OF_NUMBER_OF_DIGIT_ON_THE_COMPLEX_CONSTRUCTOR
       int n_a = c0.tam();
@@ -174,7 +174,7 @@ public:
       _alpha = c0;
       _beta = c1;
       _gamma = c2;
-      _rational = 0;
+      _rational = false;
 
 #ifdef CGAL_ROOT_OF_2_ENABLE_HISTOGRAM_OF_NUMBER_OF_DIGIT_ON_THE_COMPLEX_CONSTRUCTOR
       int n_a = c0.tam();
@@ -259,7 +259,7 @@ public:
   RT operator[](int i) const
   {
     typedef Rational_traits< FT > Rational;
-    CGAL_assertion((i>=0)&&(i<3));
+    CGAL_assertion((i>=0) & (i<3));
     Rational r;
     const RT r1 = r.numerator(alpha());
     const RT d1 = r.denominator(alpha());
@@ -310,7 +310,7 @@ public:
 
 // COERCION_TRAITS BEGIN
 
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF_TEM(Root_of_2<RT>,class RT);
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF_TEM(Root_of_2<RT>,class RT)
 
 template <class RT>
 struct Coercion_traits< RT , Root_of_2<RT> >{
@@ -416,7 +416,7 @@ public:
     typedef Root_of_2<RT> Type;
     typedef typename Algebraic_structure_traits<RT>::Is_exact Is_exact;
     struct Square
-        : public Unary_function< Root_of_2<RT> , Root_of_2<RT> >{
+        : public std::unary_function< Root_of_2<RT> , Root_of_2<RT> >{
         Root_of_2<RT> operator()(const Root_of_2<RT>& a){
 
             CGAL_assertion(is_valid(a));
@@ -439,24 +439,23 @@ public:
 
 template<class RT>
 class Real_embeddable_traits<Root_of_2<RT> >
-    :public Real_embeddable_traits_base<Root_of_2<RT> >{
+    :public INTERN_RET::Real_embeddable_traits_base<Root_of_2<RT> , CGAL::Tag_true >{
     typedef Real_embeddable_traits<RT> RET_RT;
     typedef typename Root_of_traits<RT>::RootOf_1 Root_of_1;
 public:
-
     typedef Root_of_2<RT> Type;
     typedef Tag_true Is_real_embeddable;
 
     class Abs
-        : public Unary_function< Type, Type >{
+        : public std::unary_function< Type, Type >{
     public:
         Type operator()(const Type& x) const {
             return (x>=0)?x:-x;
         }
     };
 
-    class Sign
-        : public Unary_function< Type, ::CGAL::Sign >{
+    class Sgn
+        : public std::unary_function< Type, ::CGAL::Sign >{
     public:
         ::CGAL::Sign operator()(const Type& a) const {
             const ::CGAL::Sign sign_alpha = CGAL_NTS sign(a.alpha());
@@ -476,7 +475,7 @@ public:
     };
 
     class Compare
-        : public Binary_function< Type,
+        : public std::binary_function< Type,
                                   Type,
                                   Comparison_result >{
     public:
@@ -487,7 +486,7 @@ public:
             typedef typename First_if_different<FT, RT>::Type WhatType;
             typedef typename boost::is_same< WhatType, RT > do_not_filter;
 
-            CGAL_assertion(is_valid(a) && is_valid(b));
+            CGAL_assertion(is_valid(a) & is_valid(b));
 
             if (a.is_rational()) return (CGAL_NTS compare(a.alpha(), b));
             if (b.is_rational()) return (CGAL_NTS compare(a, b.alpha()));
@@ -531,7 +530,7 @@ public:
                             break;
                         default:
                             // We should never reach here.
-                            CGAL_assertion (false);
+                            CGAL_error();
                         }
                 }
             else
@@ -603,7 +602,7 @@ public:
             typedef typename First_if_different<FT, RT>::Type WhatType;
             typedef typename boost::is_same< WhatType, RT > do_not_filter;
 
-            CGAL_assertion(is_valid(a) && is_valid(b));
+            CGAL_assertion(is_valid(a) & is_valid(b));
 
             if (a.is_rational()) return (CGAL_NTS compare (a.alpha(), b));
 
@@ -638,7 +637,7 @@ public:
             typedef typename First_if_different<FT, RT>::Type WhatType;
             typedef typename boost::is_same< WhatType, RT > do_not_filter;
 
-            CGAL_assertion(is_valid(a) && is_valid(b));
+            CGAL_assertion(is_valid(a) & is_valid(b));
 
             if (a.is_rational()) return (CGAL_NTS compare (a.alpha(), b));
 
@@ -679,31 +678,20 @@ public:
     };
 
     class To_double
-        : public Unary_function< Type, double >{
+        : public std::unary_function< Type, double >{
     public:
         double operator()(const Type& x) const {
-            typedef typename Root_of_traits<RT>::RootOf_1 FT;
-            typedef Rational_traits< FT > Rational;
-            Rational r;
-            const RT r1 = r.numerator(x.alpha());
-            const RT d1 = r.denominator(x.alpha());
-            const RT r2 = r.numerator(x.beta());
-            const RT d2 = r.denominator(x.beta());
-            const RT r3 = r.numerator(x.gamma());
-            const RT d3 = r.denominator(x.gamma());
-
             if (x.is_rational()) {
-                return (CGAL_NTS to_double(r1) / CGAL_NTS to_double(d1));
-            }
-
-            return ((CGAL_NTS to_double(r1) / CGAL_NTS to_double(d1)) +
-                    (CGAL_NTS to_double(r2) / CGAL_NTS to_double(d2)) *
-                    std::sqrt((CGAL_NTS to_double(r3) / CGAL_NTS to_double(d3))));
+			        return (CGAL_NTS to_double(x.alpha()));
+			      }
+            return CGAL_NTS to_double(x.alpha()) +
+                   CGAL_NTS to_double(x.beta()) *
+                   (std::sqrt)(CGAL_NTS to_double(x.gamma()));
         }
     };
 
     class To_interval
-        : public Unary_function< Type, std::pair< double, double > >{
+        : public std::unary_function< Type, std::pair< double, double > >{
     public:
         std::pair<double,double> operator()(const Type& x) const {
 
@@ -1020,7 +1008,7 @@ operator-(const Root_of_2<RT> &a,
   typedef Rational_traits< RootOf_1 >        Rational;
   //RT should be the same as Rational::RT
 
-  CGAL_assertion(is_valid(a) && is_valid(b));
+  CGAL_assertion(is_valid(a) & is_valid(b));
 
   if(a.is_rational()) {
     return Root_of_2<RT>(a.alpha() - b);
@@ -1046,7 +1034,7 @@ operator-(const Root_of_2<RT> &a, const RT& b)
   typedef Rational_traits< RootOf_1 >        Rational;
   //RT should be the same as Rational::RT
 
-  CGAL_assertion(is_valid(a) && is_valid(b));
+  CGAL_assertion(is_valid(a) & is_valid(b));
 
   if(a.is_rational()) {
     return Root_of_2<RT>(a.alpha() - b);
@@ -1120,7 +1108,7 @@ operator*(const Root_of_2<RT> &a,
   typedef Rational_traits< RootOf_1 >        Rational;
   //RT should be the same as Rational::RT
 
-  CGAL_assertion(is_valid(a) && is_valid(b));
+  CGAL_assertion(is_valid(a) & is_valid(b));
 
   if(CGAL_NTS is_zero(b)) return Root_of_2<RT>();
 
@@ -1150,7 +1138,7 @@ operator*(const Root_of_2<RT> &a, const RT& b)
   typedef Rational_traits< RootOf_1 >        Rational;
   //RT should be the same as Rational::RT
 
-  CGAL_assertion(is_valid(a) && is_valid(b));
+  CGAL_assertion(is_valid(a) & is_valid(b));
 
   if(CGAL_NTS is_zero(b)) return Root_of_2<RT>();
 
@@ -1313,23 +1301,12 @@ template < typename RT >
 double
 to_double(const Root_of_2<RT> &x)
 {
-  typedef typename Root_of_traits<RT>::RootOf_1 FT;
-  typedef Rational_traits< FT > Rational;
-  Rational r;
-  const RT r1 = r.numerator(x.alpha());
-  const RT d1 = r.denominator(x.alpha());
-  const RT r2 = r.numerator(x.beta());
-  const RT d2 = r.denominator(x.beta());
-  const RT r3 = r.numerator(x.gamma());
-  const RT d3 = r.denominator(x.gamma());
-
   if (x.is_rational()) {
-    return (CGAL_NTS to_double(r1) / CGAL_NTS to_double(d1));
+    return (CGAL_NTS to_double(x.alpha()));
   }
-
-  return ((CGAL_NTS to_double(r1) / CGAL_NTS to_double(d1)) +
-          (CGAL_NTS to_double(r2) / CGAL_NTS to_double(d2)) *
-          std::sqrt((CGAL_NTS to_double(r3) / CGAL_NTS to_double(d3))));
+  return CGAL_NTS to_double(x.alpha()) +
+         CGAL_NTS to_double(x.beta()) *
+         (std::sqrt)(CGAL_NTS to_double(x.gamma()));
 }
 
 template < typename RT >
@@ -1377,7 +1354,7 @@ print(std::ostream &os, const Root_of_2<RT> &r)
 }
 
 template < typename RT >
-class Is_valid<Root_of_2<RT> >: public Unary_function<Root_of_2<RT> , bool>{
+class Is_valid<Root_of_2<RT> >: public std::unary_function<Root_of_2<RT> , bool>{
 public:
     bool operator()(const Root_of_2<RT> &r)
     {

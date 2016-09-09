@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/support/test_TAUCS.cpp $
-// $Id: test_TAUCS.cpp 38440 2007-04-25 13:51:03Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/test_TAUCS.cpp $
+// $Id: test_TAUCS.cpp 41686 2008-01-18 20:33:57Z spion $
 //
 // Author(s)     : Laurent Saboret
 
@@ -24,8 +24,8 @@
 
 
 #include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <sys/types.h>
 #include <sys/timeb.h>
 

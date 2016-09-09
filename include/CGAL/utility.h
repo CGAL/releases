@@ -15,28 +15,75 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/utility.h $
-// $Id: utility.h 38151 2007-04-16 16:26:57Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/utility.h $
+// $Id: utility.h 46206 2008-10-11 20:21:08Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Sylvain Pion
 
 #ifndef CGAL_UTILITY_H
 #define CGAL_UTILITY_H 1
 
 #include <CGAL/basic.h>
 
+// The Triple and Quadruple classes are NOT RECOMMENDED anymore.
+// We recommend that you use boost::tuple or CGAL::array instead
+// for new uses.
+
 CGAL_BEGIN_NAMESPACE
+
+namespace CGALi {
+
+template <int i, typename T>
+struct Tuple_get;
+
+template <typename T>
+struct Tuple_get<0, T>
+{
+  typedef typename T::first_type result_type;
+  static result_type       & get(T       & t) { return t.first; }
+  static result_type const & get(T const & t) { return t.first; }
+};
+
+template <typename T>
+struct Tuple_get<1, T>
+{
+  typedef typename T::second_type result_type;
+  static result_type       & get(T       & t) { return t.second; }
+  static result_type const & get(T const & t) { return t.second; }
+};
+
+template <typename T>
+struct Tuple_get<2, T>
+{
+  typedef typename T::third_type result_type;
+  static result_type       & get(T       & t) { return t.third; }
+  static result_type const & get(T const & t) { return t.third; }
+};
+
+template <typename T>
+struct Tuple_get<3, T>
+{
+  typedef typename T::fourth_type result_type;
+  static result_type       & get(T       & t) { return t.fourth; }
+  static result_type const & get(T const & t) { return t.fourth; }
+};
+
+}
 
 //+---------------------------------------------------------------------+
 //| Triple class                                                        |
 //+---------------------------------------------------------------------+
 
 template <class T1, class T2, class T3>
-struct Triple
+class Triple
 {
+  typedef Triple<T1, T2, T3> Self;
+
+public:
+
   typedef T1 first_type;
   typedef T2 second_type;
   typedef T3 third_type;
@@ -63,11 +110,33 @@ struct Triple
     third = t.third;
     return *this;
   }
+
+  template < int i >
+  typename CGALi::Tuple_get<i, Self>::result_type const &
+  get() const
+  {
+    return CGALi::Tuple_get<i, Self>::get(*this);
+  }
+
+  template < int i >
+  typename CGALi::Tuple_get<i, Self>::result_type &
+  get()
+  {
+    return CGALi::Tuple_get<i, Self>::get(*this);
+  }
+
 };
 
 template <class T1, class T2, class T3>
 inline
 Triple<T1, T2, T3> make_triple(const T1& x, const T2& y, const T3& z)
+{
+  return Triple<T1, T2, T3>(x, y, z);
+}
+
+template <class T1, class T2, class T3>
+inline
+Triple<T1, T2, T3> make_tuple(const T1& x, const T2& y, const T3& z)
 {
   return Triple<T1, T2, T3>(x, y, z);
 }
@@ -103,8 +172,12 @@ bool operator<(const Triple<T1, T2, T3>& x,
 //+---------------------------------------------------------------------+
 
 template <class T1, class T2, class T3, class T4>
-struct Quadruple
+class Quadruple
 {
+  typedef Quadruple<T1, T2, T3, T4>  Self;
+
+public:
+
   typedef T1 first_type;
   typedef T2 second_type;
   typedef T3 third_type;
@@ -134,12 +207,34 @@ struct Quadruple
     fourth = q.fourth;
     return *this;
   }
+
+  template < int i >
+  typename CGALi::Tuple_get<i, Self>::result_type const &
+  get() const
+  {
+    return CGALi::Tuple_get<i, Self>::get(*this);
+  }
+
+  template < int i >
+  typename CGALi::Tuple_get<i, Self>::result_type &
+  get()
+  {
+    return CGALi::Tuple_get<i, Self>::get(*this);
+  }
 };
 
 template <class T1, class T2, class T3, class T4>
 inline
 Quadruple<T1, T2, T3, T4>
 make_quadruple(const T1& x, const T2& y, const T3& z, const T4& zz)
+{
+  return Quadruple<T1, T2, T3, T4>(x, y, z, zz);
+}
+
+template <class T1, class T2, class T3, class T4>
+inline
+Quadruple<T1, T2, T3, T4>
+make_tuple(const T1& x, const T2& y, const T3& z, const T4& zz)
 {
   return Quadruple<T1, T2, T3, T4>(x, y, z, zz);
 }

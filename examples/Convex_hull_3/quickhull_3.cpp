@@ -1,19 +1,12 @@
-#include <CGAL/Homogeneous.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/point_generators_3.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/Convex_hull_traits_3.h>
 #include <CGAL/convex_hull_3.h>
 #include <vector>
 
-#ifdef CGAL_USE_GMP
-#include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz RT;
-#else
-#include <CGAL/MP_Float.h>
-typedef CGAL::MP_Float RT;
-#endif
 
-typedef CGAL::Homogeneous<RT>                     K;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel  K;
 typedef CGAL::Convex_hull_traits_3<K>             Traits;
 typedef Traits::Polyhedron_3                      Polyhedron_3;
 typedef K::Segment_3                              Segment_3;
@@ -39,11 +32,9 @@ int main()
   CGAL::convex_hull_3(points.begin(), points.end(), ch_object);
 
   // determine what kind of object it is
-  Segment_3 segment;
-  Polyhedron_3 polyhedron;
-  if ( CGAL::assign(segment, ch_object) )
+  if (CGAL::object_cast<Segment_3>(&ch_object) )
      std::cout << "convex hull is a segment " << std::endl;
-  else if ( CGAL::assign (polyhedron, ch_object) )
+  else if (CGAL::object_cast<Polyhedron_3>(&ch_object) )
      std::cout << "convex hull is a polyhedron " << std::endl;
   else
      std::cout << "convex hull error!" << std::endl;

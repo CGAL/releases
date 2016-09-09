@@ -12,20 +12,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGAL/KDS_Log.cpp $
-// $Id: KDS_Log.cpp 36128 2007-02-08 16:31:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/src/CGAL/KDS_Log.cpp $
+// $Id: KDS_Log.cpp 39014 2007-06-10 23:05:03Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
 
-#include <CGAL/Kinetic/internal/Log.h>
+#include <CGAL/Tools/Log.h>
 #include <CGAL/Kinetic/internal/debug_counters.h>
 #include <iostream>
-
+CGAL_BEGIN_NAMESPACE
+Log::State Log::state_;
+CGAL_END_NAMESPACE
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
-
-Logs kds_logs;
 
   unsigned int function_degeneracies__=0;
   unsigned int zero_certificates__=0;

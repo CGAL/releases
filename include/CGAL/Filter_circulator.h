@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Filter_circulator.h $
-// $Id: Filter_circulator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Filter_circulator.h $
+// $Id: Filter_circulator.h 44130 2008-07-12 21:58:52Z spion $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -63,11 +63,11 @@ public:
 	}
     };
 
-  bool operator==( CGAL_NULL_TYPE ) const {
+  bool operator==( Nullptr_t ) const {
     return is_null;
   }
 
-  bool operator!=( CGAL_NULL_TYPE ) const {
+  bool operator!=( Nullptr_t ) const {
     return !is_null;
   }
 

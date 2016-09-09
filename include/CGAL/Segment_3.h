@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Segment_3.h $
-// $Id: Segment_3.h 35642 2006-12-27 23:26:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Segment_3.h $
+// $Id: Segment_3.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -28,6 +28,7 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_3.h>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,6 +47,9 @@ class Segment_3 : public R_::Kernel_base::Segment_3
   BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Segment_3>::value));
 
 public:
+
+  typedef Dimension_tag<3>  Ambient_dimension;
+  typedef Dimension_tag<1>  Feature_dimension;
 
   typedef typename R_::Kernel_base::Segment_3  Rep;
 

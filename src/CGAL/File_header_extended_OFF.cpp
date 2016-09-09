@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
-// $Id: File_header_extended_OFF.cpp 33358 2006-08-16 21:22:51Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
+// $Id: File_header_extended_OFF.cpp 39778 2007-08-08 15:59:25Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -149,14 +149,14 @@ std::ostream& operator<<( std::ostream& out,
 #undef OUTBOOL
 
 #define CGAL_IN(item,type)                         \
-    else if ( CGAL_CLIB_STD::strcmp( keyword, #item) == 0) { \
+    else if ( std::strcmp( keyword, #item) == 0) { \
         type t;                               \
         in >> t;                              \
         h.set_##item( t);                     \
     }
 
 #define CGAL_INBOOL(item)                          \
-    else if ( CGAL_CLIB_STD::strcmp( keyword, #item) == 0) { \
+    else if ( std::strcmp( keyword, #item) == 0) { \
         in >> c;                              \
         h.set_##item( c == '1');              \
     }
@@ -167,8 +167,8 @@ std::istream& operator>>( std::istream& in, File_header_extended_OFF& h) {
     char c;
     char keyword[max_keyword] = "";
     in >> keyword;
-    while ( in && CGAL_CLIB_STD::strcmp( keyword, "ENDCBP") != 0) {
-        if ( CGAL_CLIB_STD::strcmp( keyword, "#") == 0)
+    while ( in && std::strcmp( keyword, "ENDCBP") != 0) {
+        if ( std::strcmp( keyword, "#") == 0)
             ;
         CGAL_INBOOL( polyhedral_surface)
         CGAL_IN(     halfedges, int)

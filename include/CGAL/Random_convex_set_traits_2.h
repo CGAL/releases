@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
-// $Id: Random_convex_set_traits_2.h 32923 2006-08-03 03:37:56Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/Random_convex_set_traits_2.h $
+// $Id: Random_convex_set_traits_2.h 42902 2008-04-15 16:03:13Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -29,7 +29,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class Kernel >
-struct Random_convex_set_traits_2 {
+struct Random_convex_set_traits_2 : public Kernel {
 
   typedef typename Kernel::Point_2      Point_2;
   typedef typename Kernel::Direction_2  Direction_2;
@@ -97,6 +97,7 @@ random_convex_set_2( int n,
   typedef typename Point_generator::value_type Point_2;
   return CGAL_random_convex_set_2(n, o, pg, reinterpret_cast<Point_2*>(0));
 }
+
 template < class OutputIterator, class Point_generator, class R >
 inline
 OutputIterator

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
-// $Id: Gps_agg_op.h 28831 2006-02-27 14:28:18Z baruchzu $ $Date: 2006-02-27 15:28:18 +0100 (Mon, 27 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
+// $Id: Gps_agg_op.h 40966 2007-11-21 10:24:10Z efif $ $Date: 2007-11-21 11:24:10 +0100 (Wed, 21 Nov 2007) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -22,7 +22,7 @@
 
 #include <CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h>
 #include <CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h>
-#include <CGAL/Sweep_line_2/Arr_construction_curve.h>
+#include <CGAL/Sweep_line_2/Arr_construction_subcurve.h>
 #include <CGAL/Sweep_line_2/Arr_construction_event.h>
 
 #include <CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h>
@@ -56,10 +56,12 @@ class Gps_agg_op
   typedef std::pair<Arrangement_2 *,
                     std::vector<Vertex_handle> *>     Arr_entry;
 
-  typedef Arr_construction_curve<Meta_traits>         Subcurve; 
+  typedef Arr_construction_subcurve<Meta_traits>      Subcurve; 
+
   typedef Arr_construction_event<Meta_traits,
                                  Subcurve,
-                                 Halfedge_handle>     Base_event;
+//				 Halfedge_handle>       Base_event;
+                                 Arrangement_2>       Base_event;
 
   typedef Indexed_event<Base_event>                   Event;
 
@@ -130,8 +132,7 @@ public:
         Halfedge_iterator he = itr;
         if(he->face()->contained() == he->twin()->face()->contained())
           continue;
-
-        if(he->direction() == LARGER)
+        if ((Arr_halfedge_direction)he->direction() == ARR_RIGHT_TO_LEFT)
           he = he->twin();
 
         Curve_data cv_data(arr, he, 1, 0);

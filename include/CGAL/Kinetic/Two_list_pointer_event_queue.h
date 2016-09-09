@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
-// $Id: Two_list_pointer_event_queue.h 37472 2007-03-26 08:22:12Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
+// $Id: Two_list_pointer_event_queue.h 41341 2007-12-27 16:23:41Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -158,15 +158,15 @@ public:
     return out;
   }
   virtual void process() {
-    CGAL_assertion(0);
-    CGAL_KINETIC_ERROR("Writing dummy queue element.");
+    CGAL_error();
+    CGAL_ERROR("Writing dummy queue element.");
   }
   virtual CGAL::Comparison_result compare_concurrent(Key , Key ) const {
-    CGAL_assertion(0);
+    CGAL_error();
     return CGAL::EQUAL;
   };
   virtual bool merge_concurrent(Key , Key ) {
-    CGAL_assertion(0);
+    CGAL_error();
     return false;
   }
   virtual void *kds() const{return NULL;}
@@ -198,7 +198,7 @@ public:
     Two_list_event_queue_item<Priority>(){}
   virtual void process() {
     std::cerr << "Trying to process a NULL event.\n";
-    CGAL_assertion(0);
+    CGAL_error();
   }
   virtual CGAL::Comparison_result compare_concurrent(typename P::Key , typename P::Key ) const{return CGAL::EQUAL;}
   virtual bool merge_concurrent(typename P::Key, typename P::Key){
@@ -440,6 +440,7 @@ public:
     return Key(ni);
   }
 
+
   //! remove the event referenced by item from the queue
   /*!
     \todo Add check that item is actually in the list
@@ -565,14 +566,14 @@ public:
     CGAL_expensive_precondition(audit());
     if (!front_.empty()) {
       Item *i= &front_.front();
-      CGAL_KINETIC_LOG(LOG_SOME, "Processing event " << *i << std::endl);
+      CGAL_LOG(Log::SOME, "Processing event " << *i << std::endl);
       front_.pop_front();
       CGAL_expensive_postcondition(audit());
       if (front_.empty() && !back_.empty()) grow_front();
       i->process();
 
       /*if (!front_.empty() && i->time() == front_.front().time()) {
-	CGAL_KINETIC_LOG(LOG_SOME, "Degeneracy at time "
+	CGAL_LOG(Log::SOME, "Degeneracy at time "
 	<< i->time() << " the events are: "
 	<< *i << " and " << front_.front() << std::endl);
 	}*/
@@ -747,11 +748,11 @@ public:
   }
 protected:
   unsigned int select(Queue &source, Queue &target/*, bool binf*/) {
-    unsigned int sz= source.size() + target.size();if (sz);
+    CGAL_assertion_code(unsigned int sz= source.size() + target.size();)
     int count=0;
     Iterator it= source.begin();
     while (it != source.end()) {
-      // assert(it->time() >= a);
+      // CGAL_assertion(it->time() >= a);
     
       if (leq_ub(it->time())) {
 	Item *i= &*it;
@@ -876,8 +877,8 @@ protected:
 	  cand.swap(front_);
 	  //ub_=lb_;
 	  if (step_ == 0) {
-	    CGAL_KINETIC_ERROR( "underflow in queue ");
-	    CGAL_KINETIC_ERROR_WRITE(write(LOG_STREAM));
+	    CGAL_ERROR( "underflow in queue ");
+	    CGAL_ERROR_WRITE(write(LOG_STREAM));
 	    CGAL_assertion(cand.empty());
 	    step_=.0000001;
 	    return;
@@ -907,7 +908,7 @@ protected:
   void grow_front() {
     //++growth__;
     //std::cout << "Growing front from " << ub_ << std::endl;
-    //assert(is_valid());
+    //CGAL_assertion(is_valid());
     CGAL_precondition(!back_.empty());
     CGAL_precondition(front_.empty());
     CGAL_assertion_code(unsigned int sz= front_.size()+back_.size()+ inf_.size());
@@ -982,7 +983,7 @@ protected:
 	if (step_<=0) {
 	  /*if (dprint) std::cout << "fixing step since " << oub 
 	    << " equals new bound" << std::endl;*/
-	  CGAL_KINETIC_ERROR("Roundoff error in split " << split << " " << ub_ << " "
+	  CGAL_ERROR("Roundoff error in split " << split << " " << ub_ << " "
 			     <<  oub);
 	  step_=.00001;
 	}

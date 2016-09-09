@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h 41435 2008-01-03 19:05:31Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -34,14 +34,9 @@
 #include <CGAL/HalfedgeDS_decorator.h>
 #include <CGAL/Modifier_base.h>
 #include <CGAL/IO/Verbose_ostream.h>
-
-#ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/Polyhedron_traits_3.h>
-#endif // CGAL_REP_CLASS_DEFINED
-
 
 CGAL_BEGIN_NAMESPACE
-
 
 template <class VertexBase>
 class I_Polyhedron_vertex  : public VertexBase  {
@@ -1525,4 +1520,3 @@ public:
 CGAL_END_NAMESPACE
 
 #endif // CGAL_POLYHEDRON_3_H //
-// EOF //

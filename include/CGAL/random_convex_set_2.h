@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/random_convex_set_2.h $
-// $Id: random_convex_set_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/random_convex_set_2.h $
+// $Id: random_convex_set_2.h 44910 2008-08-12 12:58:18Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -25,15 +25,15 @@
 #define CGAL_RANDOM_CONVEX_SET_2_H 1
 
 #include <CGAL/basic.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/Random_convex_set_traits_2.h>
-#endif
+#include <CGAL/centroid.h>
 
 CGAL_BEGIN_NAMESPACE
+
 template < class OutputIterator, class Point_generator, class Traits >
 OutputIterator
 random_convex_set_2( int n,
@@ -74,10 +74,7 @@ random_convex_set_2( int n,
   CGAL::copy_n( pg, n, back_inserter( points));
 
   // compute centroid of points:
-  Point_2 centroid(
-    scale(
-      accumulate( points.begin(), points.end(), t.origin(), Sum()),
-      FT( 1) / FT( n)));
+  Point_2 centroid = CGAL::centroid( points.begin(), points.end(), t );
 
   // translate s.t. centroid == origin:
   transform(
@@ -95,10 +92,7 @@ random_convex_set_2( int n,
     points.begin(), points.end(), points.begin(), Sum());
 
   // and compute its centroid:
-  Point_2 new_centroid(
-    scale(
-      accumulate( points.begin(), points.end(), t.origin(), Sum()),
-      FT( 1) / FT( n)));
+  Point_2 new_centroid = CGAL::centroid( points.begin(), points.end(), t );
 
   // translate s.t. centroids match:
   transform(
@@ -124,11 +118,7 @@ random_convex_set_2( int n,
     bind2nd( Scale(), FT( pg.range()) / maxcoord));
 
 } // random_convex_set_2( n, o, pg, t)
+
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_RANDOM_CONVEX_SET_2_H)
-
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

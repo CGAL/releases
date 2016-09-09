@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Inventor/include/CGAL/IO/Inventor_ostream.h $
-// $Id: Inventor_ostream.h 35701 2007-01-10 19:09:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Inventor/include/CGAL/IO/Inventor_ostream.h $
+// $Id: Inventor_ostream.h 47017 2008-11-25 10:24:36Z afabri $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
@@ -59,7 +59,7 @@ public:
         // cerr or a file handle to /dev/null. The latter one would
         // mimick the behaviour that one can still use a stream with
         // an invalid stream, but without producing any output.
-        CGAL_assertion( m_os);
+        CGAL_assertion( m_os != 0 );
         return *m_os;
     }
 };

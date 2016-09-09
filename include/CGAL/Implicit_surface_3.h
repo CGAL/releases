@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Implicit_surface_3.h $
-// $Id: Implicit_surface_3.h 37876 2007-04-03 13:59:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Implicit_surface_3.h $
+// $Id: Implicit_surface_3.h 46082 2008-10-03 13:58:08Z lrineau $
 //
 // Author(s)     : Laurent RINEAU
 
@@ -45,16 +45,18 @@ namespace CGAL {
 
     Implicit_surface_3(Function f,
 		       const Sphere_3 bounding_sphere,
-		       const FT error_bound = FT(1e-3))
+		       const FT error_bound = FT(1e-3),
+		       Geom_traits gt = Geom_traits())
       : func(f),
-	sphere(bounding_sphere)
+	sphere(bounding_sphere),
+	gt(gt)
     {
       squared_error = error_bound * error_bound;
       squared_error = squared_error * 
-        GT().compute_squared_radius_3_object()(bounding_sphere);
+        gt.compute_squared_radius_3_object()(bounding_sphere);
     }
 
-    FT operator()(Point p)
+    FT operator()(Point p) const
     {
       return func(p);
     }
@@ -69,10 +71,31 @@ namespace CGAL {
       return sphere;
     }
 
+    const Sphere_3& bounding_sphere_squared_radius() const
+    {
+      return gt.compute_squared_radius_3_object()(sphere);
+    }
+
+    template <typename Vertex_handle>
+    bool vertices_not_on_same_surface_patch(const Vertex_handle& v1,
+                                            const Vertex_handle& v2,
+                                            const Vertex_handle& v3) const
+    {
+      return
+        v1->point().element_index() != v2->point().element_index() ||
+        v1->point().element_index() != v3->point().element_index();
+    }
+
+    const Function& function() const
+    {
+      return func;
+    }
+
   private:
     Function func;
     Sphere_3 sphere;
     FT squared_error;
+    Geom_traits gt;
   }; // end Implicit_surface_3
 
 
@@ -106,7 +129,7 @@ namespace CGAL {
   public:
     Implicit_function_wrapper(Implicit_function f) : function(f) {}
 
-    FT operator()(Point p)
+    FT operator()(Point p) const
     {
       return function(p.x(), p.y(), p.z());
     }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/demo/Interpolation/interpolation_2.cpp $
-// $Id: interpolation_2.cpp 37295 2007-03-20 08:11:41Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/demo/Interpolation/interpolation_2.cpp $
+// $Id: interpolation_2.cpp 47396 2008-12-12 08:45:46Z afabri $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -39,20 +39,17 @@ int main()
 #include <fstream>
 #include <iostream>
 #include <utility>
+#include <cassert>
 
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-
-//#include <CGAL/double.h>
-//#include <CGAL/Random.h>
-
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/natural_neighbor_coordinates_2.h>
 #include <CGAL/Interpolation_traits_2.h>
 #include <CGAL/interpolation_functions.h>
 
 #include <CGAL/point_generators_2.h>
-#include <CGAL/copy_n.h>
+#include <CGAL/algorithm.h>
 
 #include <CGAL/IO/Geomview_stream.h>
 

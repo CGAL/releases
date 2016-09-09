@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_event_log_visitor_3.h $
-// $Id: Regular_triangulation_event_log_visitor_3.h 36012 2007-02-02 02:13:42Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_event_log_visitor_3.h $
+// $Id: Regular_triangulation_event_log_visitor_3.h 39015 2007-06-10 23:46:47Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -49,7 +49,7 @@ public Delaunay_triangulation_event_log_visitor_3
         out << "Moving " << k << " from ";
         log_cell(c, out);
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
   template <class Key, class Cell>
@@ -58,7 +58,7 @@ public Delaunay_triangulation_event_log_visitor_3
         out << "Moved " << k << " from ";
         log_cell(c, out);
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
   /*template <class Key, class Cell>
@@ -67,7 +67,7 @@ public Delaunay_triangulation_event_log_visitor_3
         out << "Pushing " << k << " into ";
         log_cell(c, out);
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Vertex_handle>
@@ -75,7 +75,7 @@ public Delaunay_triangulation_event_log_visitor_3
         std::ostringstream out;
         out << "Pushed " << vh->point();
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Vertex_handle>
@@ -83,7 +83,7 @@ public Delaunay_triangulation_event_log_visitor_3
         std::ostringstream out;
         out << "Popping " << vh->point();
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Key, class Cell>
@@ -92,7 +92,7 @@ public Delaunay_triangulation_event_log_visitor_3
         out << "Popped " << k << " from ";
         log_cell(c, out);
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+        CGAL_LOG(Log::LOTS, "Logging: " << out.str() << std::endl);
 	}*/
 };
 

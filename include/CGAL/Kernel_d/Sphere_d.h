@@ -15,16 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h $
-// $Id: Sphere_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h $
+// $Id: Sphere_d.h 42932 2008-04-17 10:13:31Z spion $
 // 
 //
 // Author(s)     : Michael Seel
+
 #ifndef CGAL_SPHERE_D_H
 #define CGAL_SPHERE_D_H
 
 #include <CGAL/basic.h>
 #include <vector>
+#include <CGAL/Dimension.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -77,6 +79,9 @@ set of defining points to be legal.  The orientation of $S$ is equal
 to the orientation of the defining points, i.e., |orientation(A)|. }*/
 
 public: 
+  typedef CGAL::Dynamic_dimension_tag Ambient_dimension;
+  typedef CGAL::Dynamic_dimension_tag Feature_dimension;
+
 /*{\Mtypes 4}*/
 
 typedef Sphere_d_rep<R_>  Rep;
@@ -170,7 +175,7 @@ of |\Mvar| is non-zero. }*/
       Point_d po = A[0];
       for (int i = 1; i < int(A.size()); ++i) 
         if (A[i] != po)
-          CGAL_assertion_msg(0,"Sphere_d::center(): points are illegal.");
+          CGAL_error_msg("Sphere_d::center(): points are illegal.");
       const_cast<Self&>(*this).ptr()->cp = new Point_d(A[0]);
       return *(ptr()->cp);
     }

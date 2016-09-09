@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/basic.h $
-// $Id: basic.h 35973 2007-01-31 03:15:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/basic.h $
+// $Id: basic.h 39015 2007-06-10 23:46:47Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -78,19 +78,12 @@ CGAL_KINETIC_END_NAMESPACE
 #endif
 
 CGAL_KINETIC_BEGIN_NAMESPACE
-//! The types of logs available.
-typedef enum {LOG_NONE=0, LOG_SOME=2, LOG_LOTS=3}
-Log_level;
 
 CGAL_KINETIC_END_NAMESPACE
 
-#include <CGAL/Kinetic/internal/Log.h>
+#include <CGAL/Tools/Log.h>
 
-#define CGAL_KINETIC_LOG(level, expr) if (CGAL::Kinetic::internal::Logs::get().is_output(level))\
-{ CGAL::Kinetic::internal::Logs::get().stream(level) << expr;};
-#define CGAL_KINETIC_LOG_WRITE(level, expr) if (CGAL::Kinetic::internal::Logs::get().is_output(level))\
-{std::ostream &LOG_STREAM= CGAL::Kinetic::internal::Logs::get().stream(level); expr;}
-#define CGAL_KINETIC_ERROR(expr) std::cerr << expr << std::endl;
-#define CGAL_KINETIC_ERROR_WRITE(expr) {std::ostream &LOG_STREAM= std::cerr; expr; std::cerr << std::endl;}
-#define CGAL_KINETIC_SET_LOG_LEVEL(level) CGAL::Kinetic::internal::Logs::get().set_level(level);
+
+#include <CGAL/Tools/utility_macros.h>
+
 #endif

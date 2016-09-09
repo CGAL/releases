@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Envelope_3/include/CGAL/Env_plane_traits_3.h $
-// $Id: Env_plane_traits_3.h 37895 2007-04-03 18:32:55Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Env_plane_traits_3.h $
+// $Id: Env_plane_traits_3.h 42807 2008-04-09 12:46:22Z spion $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -22,7 +22,8 @@
 #include <CGAL/basic.h>
 #include <CGAL/tags.h>
 #include <CGAL/representation_tags.h>
-#include <CGAL/functions_on_enums.h>
+#include <CGAL/enum.h>
+#include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_linear_traits_2.h>
 #include <CGAL/number_utils.h> 
 #include <CGAL/Envelope_3/Envelope_base.h>
@@ -51,9 +52,8 @@ class Env_plane_traits_3 : public Arr_linear_traits_2<Kernel_>
   typedef typename Kernel::Line_2              Line_2;
   typedef typename Kernel::Line_3              Line_3;
   typedef typename Kernel::Object_3            Object_3;
-  typedef std::pair<Curve_2, 
-                    Multiplicity>              Intersection_curve;
-  typedef Tag_true                             Has_boundary_category;
+  typedef std::pair<Curve_2, Multiplicity>     Intersection_curve;
+  typedef Arr_unbounded_boundary_tag           Boundary_category;
   
 
   class Is_vertical_3
@@ -280,7 +280,7 @@ class Env_plane_traits_3 : public Arr_linear_traits_2<Kernel_>
                 y2 = p2.y();
 
       Sign s2 = CGAL_NTS sign(-b3*x1+a3*y1-(-b3*x2+a3*y2));
-      return (Comparison_result(s1 * s2));
+      return s1 * s2;
     }
 
   };

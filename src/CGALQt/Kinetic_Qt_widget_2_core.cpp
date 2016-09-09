@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_widget_2_core.cpp $
-// $Id: Kinetic_Qt_widget_2_core.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_widget_2_core.cpp $
+// $Id: Kinetic_Qt_widget_2_core.cpp 39103 2007-06-15 20:42:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,14 +29,15 @@ void Qt_widget_2_core::redraw() {
   clear();
   //std::cout << "size of drawables = " << drawable_s.size() << std::endl;
   is_drawn_=false;
-  if (drawable_!= NULL) drawable_->new_notification(Listener::PICTURE_IS_CURRENT);
+  CGAL_KINETIC_NOTIFY(PICTURE_IS_CURRENT);
+  //if (drawable_!= NULL) drawable_->new_notification(Listener::PICTURE_IS_CURRENT);
   is_drawn_=true;
   unlock();
   //::CGAL::Qt_widget::redraw();
 }
 
 Qt_widget_2_core::Qt_widget_2_core(QMainWindow *parent): ::CGAL::Qt_widget(parent) {
-  drawable_=NULL;
+  //drawable_=NULL;
   is_drawn_=false;
 }
 CGAL_KINETIC_END_INTERNAL_NAMESPACE

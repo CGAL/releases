@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Point_2_Iso_rectangle_2_intersection.h $
-// $Id: Point_2_Iso_rectangle_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Point_2_Iso_rectangle_2_intersection.h $
+// $Id: Point_2_Iso_rectangle_2_intersection.h 39776 2007-08-08 15:15:20Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -36,8 +36,8 @@ namespace CGALi {
 template <class K>
 inline 
 bool
-do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt,
-	     const typename CGAL_WRAP(K)::Iso_rectangle_2 &iso,
+do_intersect(const typename K::Point_2 &pt,
+	     const typename K::Iso_rectangle_2 &iso,
 	     const K&)
 {
     return !iso.has_on_unbounded_side(pt);
@@ -46,8 +46,8 @@ do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt,
 template <class K>
 inline 
 bool
-do_intersect(const typename CGAL_WRAP(K)::Iso_rectangle_2 &iso,
-	     const typename CGAL_WRAP(K)::Point_2 &pt,
+do_intersect(const typename K::Iso_rectangle_2 &iso,
+	     const typename K::Point_2 &pt,
 	     const K&)
 {
     return !iso.has_on_unbounded_side(pt);
@@ -55,8 +55,8 @@ do_intersect(const typename CGAL_WRAP(K)::Iso_rectangle_2 &iso,
 
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Point_2 &pt,
-	     const typename CGAL_WRAP(K)::Iso_rectangle_2 &iso,
+intersection(const typename K::Point_2 &pt,
+	     const typename K::Iso_rectangle_2 &iso,
 	     const K& k)
 {
   if (CGALi::do_intersect(pt,iso,k)) {
@@ -68,8 +68,8 @@ intersection(const typename CGAL_WRAP(K)::Point_2 &pt,
 
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Iso_rectangle_2 &iso,
-	     const typename CGAL_WRAP(K)::Point_2 &pt,
+intersection(const typename K::Iso_rectangle_2 &iso,
+	     const typename K::Point_2 &pt,
 	     const K& k)
 {
   if (CGALi::do_intersect(pt,iso,k)) {

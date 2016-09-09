@@ -1,7 +1,29 @@
+// Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
+// All rights reserved.
+//
+// This file is part of the ImageIO Library, and as been adapted for
+// CGAL (www.cgal.org).
+// You can redistribute it and/or  modify it under the terms of the
+// GNU Lesser General Public License as published by the Free Software Foundation;
+// version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/recline.cpp $
+// $Id: recline.cpp 41804 2008-01-24 14:42:03Z lrineau $
+//
+//
+// Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
+
 /*************************************************************************
  * recline.c - tools for recursive filtering of 1D lines
  *
- * $Id: recline.cpp 36029 2007-02-02 16:11:48Z lrineau $
+ * $Id: recline.cpp 41804 2008-01-24 14:42:03Z lrineau $
  *
  * Copyright©INRIA 1999
  *
@@ -31,9 +53,9 @@
 
 
 
-#include <recline.h>
+#include "recline.h"
 
-static int _VERBOSE_ = 0;
+static int _VERBOSE_RECLINE_ = 0;
 
 #define EXIT_ON_FAILURE 0
 #define EXIT_ON_SUCCESS 1
@@ -65,7 +87,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
   RFcoefficientType *RFC = NULL;
   RFC = (RFcoefficientType *)malloc( sizeof(RFcoefficientType) );
   if ( RFC == NULL ) {
-    if ( _VERBOSE_ != 0 ) 
+    if ( _VERBOSE_RECLINE_ != 0 ) 
       fprintf( stderr, "%s: allocation failed\n", proc );
     return( NULL );
   }
@@ -90,7 +112,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
   case GAUSSIAN_FIDRICH :
     
     if ( x < 0.1 ) {
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1).\n", proc );
       }
       free( RFC );
@@ -99,7 +121,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 
     switch ( derivative ) {
     default :
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: improper value of derivative order.\n", proc );
       }
       free( RFC );
@@ -170,7 +192,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
     
     switch ( derivative ) {
     default :
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: improper value of derivative order.\n", proc );
       }
       free( RFC );
@@ -198,7 +220,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
   case GAUSSIAN_DERICHE :
     
     if ( x < 0.1 ) {
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1).\n", proc );
       }
       free( RFC );
@@ -207,7 +229,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 
     switch ( derivative ) {
     default :
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: switch to default coefficients (smoothing).\n", proc );
       }
       derivative = DERIVATIVE_0;
@@ -382,14 +404,14 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 
 
   default :
-    if ( _VERBOSE_ != 0 ) {
+    if ( _VERBOSE_RECLINE_ != 0 ) {
       fprintf( stderr, "%s: switch to default recursive filter (Deriche's filters).\n", proc );
     }
     type_filter = ALPHA_DERICHE;
   case ALPHA_DERICHE :
 
     if ( (x < 0.1) || (x > 1.9) ) {
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1 and <= 1.9).\n", proc );
       }
       free( RFC );
@@ -399,7 +421,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
     
     switch ( derivative ) {
     default :
-      if ( _VERBOSE_ != 0 ) {
+      if ( _VERBOSE_RECLINE_ != 0 ) {
 	fprintf( stderr, "%s: switch to default coefficients (smoothing).\n", proc );
       }
       derivative = DERIVATIVE_0;
@@ -472,12 +494,12 @@ int RecursiveFilter1D( RFcoefficientType *RFC,
   register double *d0, *d1, *d2, *d3, *d4;
 
   if ( RFC->type_filter == UNKNOWN_FILTER ) {
-    if ( _VERBOSE_ != 0 )
+    if ( _VERBOSE_RECLINE_ != 0 )
       fprintf( stderr, "%s: unknown type of recursive filter.\n", proc );
     return( EXIT_ON_FAILURE );
   }
   if ( RFC->derivative == NODERIVATIVE ) {
-    if ( _VERBOSE_ != 0 )
+    if ( _VERBOSE_RECLINE_ != 0 )
       fprintf( stderr, "%s: unknown type of derivative.\n", proc );
     return( EXIT_ON_FAILURE );
   }
@@ -488,7 +510,7 @@ int RecursiveFilter1D( RFcoefficientType *RFC,
   
   switch( RFC->type_filter ) {
   default :
-    if ( _VERBOSE_ != 0 )
+    if ( _VERBOSE_RECLINE_ != 0 )
       fprintf( stderr, "%s: unknown type of recursive filter.\n", proc );
     return( EXIT_ON_FAILURE );
   case GAUSSIAN_FIDRICH :
@@ -646,9 +668,9 @@ int RecursiveFilter1D( RFcoefficientType *RFC,
 
 void Recline_verbose ( )
 {
-  _VERBOSE_ = 1;
+  _VERBOSE_RECLINE_ = 1;
 }
 void Recline_noverbose ( )
 {
-  _VERBOSE_ = 0;
+  _VERBOSE_RECLINE_ = 0;
 }

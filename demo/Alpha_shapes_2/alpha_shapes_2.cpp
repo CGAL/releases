@@ -11,25 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.cpp $
-// $Id: alpha_shapes_2.cpp 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.cpp $
+// $Id: alpha_shapes_2.cpp 45367 2008-09-08 09:22:06Z afabri $
 //
 //
 // Author(s)     : Radu Ursu
 
-#include <CGAL/basic.h>
 
-// if QT is not installed, a message will be issued in runtime.
-#ifndef CGAL_USE_QT
-#include <iostream>
-
-int main(int, char*)
-{
-  std::cout << "Sorry, this demo needs QT." << std::endl;
-  return 0;
-}
-
-#else
 
 
 //Application headers
@@ -497,4 +485,3 @@ main(int argc, char **argv)
   return app.exec();
 }
 
-#endif // CGAL_USE_QT

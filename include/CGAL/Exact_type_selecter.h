@@ -15,14 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Exact_type_selecter.h $
-// $Id: Exact_type_selecter.h 37955 2007-04-05 13:02:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Exact_type_selecter.h $
+// $Id: Exact_type_selecter.h 45354 2008-09-07 13:46:20Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
 
-#ifndef CGAL_EXACT_Type_SELECTER_H
-#define CGAL_EXACT_Type_SELECTER_H
+#ifndef CGAL_EXACT_TYPE_SELECTER_H
+#define CGAL_EXACT_TYPE_SELECTER_H
 
 // This is an undocumented private helper for Filtered_kernel.
 
@@ -52,12 +52,24 @@ class Expr;
 
 CGAL_BEGIN_NAMESPACE
 
-// A class which tells the prefered exact number type corresponding to a type.
+// A class which tells the prefered "exact number type" corresponding to a type.
 
-// The default template chooses Quotient<MP_Float>.
-// It should support the built-in types, MP_Float, Quotient<MP_Float>.
+// The default template chooses Gmpq or Quotient<MP_Float>.
+// It should support the built-in types.
 template < typename >
 struct Exact_type_selecter
+#ifdef CGAL_USE_GMP
+{ typedef Gmpq Type; };
+#else
+{ typedef Quotient<MP_Float> Type; };
+#endif
+
+template <>
+struct Exact_type_selecter<MP_Float>
+{ typedef Quotient<MP_Float> Type; };
+
+template <>
+struct Exact_type_selecter<Quotient<MP_Float> >
 { typedef Quotient<MP_Float> Type; };
 
 // And we specialize for the following types :
@@ -113,4 +125,4 @@ struct Exact_type_selecter<Lazy_exact_nt<ET> >
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_EXACT_Type_SELECTER_H
+#endif // CGAL_EXACT_TYPE_SELECTER_H

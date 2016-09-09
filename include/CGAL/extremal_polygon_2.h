@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
-// $Id: extremal_polygon_2.h 32779 2006-07-30 13:08:43Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Matrix_search/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -28,17 +28,15 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
-#ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/Extremal_polygon_traits_2.h>
-#endif // CGAL_REP_CLASS_DEFINED
 
 CGAL_BEGIN_NAMESPACE
+
 //!!! This will eventually be integrated into function_objects.h
 template < class Array, class Index, class Element >
 struct Index_operator
 : public std::binary_function< Array, Index, Element >
 {
-  typedef Arity_tag< 2 > Arity;
 
   Element&
   operator()( Array& a, const Index& i) const
@@ -746,9 +744,4 @@ CGAL_maximum_inscribed_k_gon_2(
 
 CGAL_END_NAMESPACE
 
-
 #endif // ! (CGAL_EXTREMAL_POLYGON_2_H)
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

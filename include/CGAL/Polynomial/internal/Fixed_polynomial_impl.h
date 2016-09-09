@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Fixed_polynomial_impl.h $
-// $Id: Fixed_polynomial_impl.h 33722 2006-08-25 08:36:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Fixed_polynomial_impl.h $
+// $Id: Fixed_polynomial_impl.h 41418 2008-01-03 14:50:13Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,11 +26,7 @@
 #include <iostream>
 #include <CGAL/Polynomial/internal/Rational/Evaluate_polynomial.h>
 #include <sstream>
-
-#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
-// need std::copy
 #include <algorithm>
-#endif
 
 #define CGAL_EXCESSIVE(x)
 

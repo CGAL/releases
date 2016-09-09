@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
-// $Id: Min_sphere_of_spheres_d.h 36399 2007-02-16 16:02:10Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
+// $Id: Min_sphere_of_spheres_d.h 46510 2008-10-28 09:21:39Z gaertner $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -22,7 +22,6 @@
 #define CGAL_MINIBALL_MINIBALL
 
 #include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_configure.h>
-#include <cassert>
 #include <cstdlib>                 // for std::rand()
 #include <cmath>
 #include <vector>
@@ -68,7 +67,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     typedef const Result *Cartesian_const_iterator; // coordinate iterator
   
     class Support_iterator {
-      typedef typename std::vector<Sphere>::const_iterator It;
+      typedef typename std::vector<const Sphere*>::const_iterator It;
       It it;
   
     private:
@@ -271,7 +270,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     Min_sphere_of_spheres_d<Traits>::support_begin() {
     if (!is_up_to_date)
       update();
-    return Support_iterator(*l.begin());
+    return Support_iterator(l.begin());
   }
 
   template<class Traits>
@@ -279,7 +278,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     Min_sphere_of_spheres_d<Traits>::support_end() {
     if (!is_up_to_date)
       update();
-    return Support_iterator(*l.begin()+e);
+    return Support_iterator(l.begin()+e);
   }
 
 } // namespace CGAL_MINIBALL_NAMESPACE

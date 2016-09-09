@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_traits_functions.h $
-// $Id: Td_traits_functions.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits_functions.h $
+// $Id: Td_traits_functions.h 40209 2007-09-05 14:41:48Z efif $
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -24,7 +24,7 @@ CGAL_BEGIN_NAMESPACE
 
 template <class Traits,class X_curve_plus>
 const typename Td_traits<Traits,X_curve_plus>::Point&
-Td_traits<Traits,X_curve_plus>::get_point_at_left_top_infinity(){
+Td_traits<Traits,X_curve_plus>::point_at_left_top_infinity(){
   /*
   static typename Td_traits<Traits,X_curve_plus>::Point
     Td_traits<Traits,X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY;
@@ -38,7 +38,7 @@ Td_traits<Traits,X_curve_plus>::get_point_at_left_top_infinity(){
 
 template <class Traits,class X_curve_plus>
 const typename Td_traits<Traits,X_curve_plus>::Point&
-Td_traits<Traits,X_curve_plus>::get_point_at_right_bottom_infinity(){
+Td_traits<Traits,X_curve_plus>::point_at_right_bottom_infinity(){
   /*
   static typename Td_traits<Traits,X_curve_plus>::Point
     Td_traits<Traits,X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY;
@@ -52,7 +52,7 @@ Td_traits<Traits,X_curve_plus>::get_point_at_right_bottom_infinity(){
 
 template <class Traits,class X_curve_plus>
 const typename Td_traits<Traits,X_curve_plus>::X_curve&
-Td_traits<Traits,X_curve_plus>::get_curve_at_infinity(){
+Td_traits<Traits,X_curve_plus>::curve_at_infinity(){
   /*
   static typename typename Traits::X_curveTraits::X_curve 
     Td_traits<Traits,X_curve_plus>::CURVE_AT_INFINITY;

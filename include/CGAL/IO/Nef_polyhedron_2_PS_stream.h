@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
-// $Id: Nef_polyhedron_2_PS_stream.h 33222 2006-08-10 15:14:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
+// $Id: Nef_polyhedron_2_PS_stream.h 41628 2008-01-14 23:08:43Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
-#ifndef NEF_POLYHEDRON_2_PS_STREAM_H
-#define NEF_POLYHEDRON_2_PS_STREAM_H
+#ifndef CGAL_NEF_POLYHEDRON_2_PS_STREAM_H
+#define CGAL_NEF_POLYHEDRON_2_PS_STREAM_H
 
 #include <CGAL/Nef_polyhedron_2.h>
 #if CGAL_LEDA_VERSION < 500
@@ -118,4 +118,4 @@ ps_file& operator<<(ps_file& PS, const Nef_polyhedron_2<T>& P)
 
 CGAL_END_NAMESPACE
 
-#endif // NEF_POLYHEDRON_2_PS_STREAM_H
+#endif // CGAL_NEF_POLYHEDRON_2_PS_STREAM_H

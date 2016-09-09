@@ -285,7 +285,7 @@ parameterize(ParameterizationMesh_3& mesh,  // Mesh parameterization adaptor
     }
     else
     {
-        std::cerr << "FATAL ERROR: invalid parameters combination " << type << " + " << border << std::endl;
+        std::cerr << "Error: invalid parameters combination " << type << " + " << border << std::endl;
         err = CGAL::Parameterizer_traits_3<ParameterizationMesh_3>::ERROR_WRONG_PARAMETER;
     }
 
@@ -297,7 +297,11 @@ parameterize(ParameterizationMesh_3& mesh,  // Mesh parameterization adaptor
 // main()
 // ----------------------------------------------------------------------------
 
+#ifdef CGAL_USE_BOOST_PROGRAM_OPTIONS
 int main(int argc, char * argv[])
+#else
+int main()
+#endif
 {
     CGAL::Timer total_timer;
     total_timer.start();
@@ -331,15 +335,12 @@ int main(int argc, char * argv[])
             "output file (EPS or OBJ)")
             ;
 
-
         po::positional_options_description p;
         p.add("input", 1);
-        p.add("output", 2);
+        p.add("output", 1);
 
         po::variables_map vm;
-        po::store(po::command_line_parser(argc, argv).
-                    options(desc).positional(p).run(), vm);
-
+        po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
         po::notify(vm);
 
         if (vm.count("help")) {
@@ -348,6 +349,7 @@ int main(int argc, char * argv[])
         }
 #else
         std::cerr << "Command-line options require Boost.ProgramOptions" << std::endl;
+        std::cerr << "Use hard-coded options" << std::endl;
         border = "square";
         type = "floater";
         solver = "opennl";
@@ -376,7 +378,7 @@ int main(int argc, char * argv[])
     stream >> mesh;
     if(!stream || !mesh.is_valid() || mesh.empty())
     {
-        std::cerr << "FATAL ERROR: cannot read OFF file " << input << std::endl;
+        std::cerr << "Error: cannot read OFF file " << input << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -401,7 +403,7 @@ int main(int argc, char * argv[])
     Seam seam = cut_mesh(mesh_adaptor);
     if (seam.empty())
     {
-        std::cerr << "FATAL ERROR: an unexpected error occurred while cutting the shape" << std::endl;
+        std::cerr << "Input mesh not supported: the example cutting algorithm is too simple to cut this shape" << std::endl;
         return EXIT_FAILURE;
     }
     //
@@ -409,7 +411,7 @@ int main(int argc, char * argv[])
     Mesh_patch_polyhedron   mesh_patch(mesh_adaptor, seam.begin(), seam.end());
     if (!mesh_patch.is_valid())
     {
-        std::cerr << "FATAL ERROR: non manifold shape or invalid cutting" << std::endl;
+        std::cerr << "Input mesh not supported: non manifold shape or invalid cutting" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -432,8 +434,6 @@ int main(int argc, char * argv[])
                            OpenNL::DefaultLinearSolverTraits<double>,
                            OpenNL::SymmetricLinearSolverTraits<double>
                           >(mesh_patch, type, border);
-        if (err != Parameterizer::OK)
-            std::cerr << "FATAL ERROR: " << Parameterizer::get_error_message(err) << std::endl;
     }
     else if (solver == std::string("taucs"))
     {
@@ -442,18 +442,33 @@ int main(int argc, char * argv[])
                            CGAL::Taucs_solver_traits<double>,
                            CGAL::Taucs_symmetric_solver_traits<double>
                           >(mesh_patch, type, border);
-        if (err != Parameterizer::OK)
-            std::cerr << "FATAL ERROR: " << Parameterizer::get_error_message(err) << std::endl;
 #else
-        std::cerr << "FATAL ERROR: TAUCS is not installed" << std::endl;
+        std::cerr << "Error: TAUCS is not installed" << std::endl;
         err = Parameterizer::ERROR_WRONG_PARAMETER;
 #endif
     }
     else
     {
-        std::cerr << "FATAL ERROR: invalid solver parameter " << solver << std::endl;
+        std::cerr << "Error: invalid solver parameter " << solver << std::endl;
         err = Parameterizer::ERROR_WRONG_PARAMETER;
     }
+    
+    // Report errors
+    switch(err) {
+    case Parameterizer::OK: // Success
+        break;
+    case Parameterizer::ERROR_EMPTY_MESH: // Input mesh not supported
+    case Parameterizer::ERROR_NON_TRIANGULAR_MESH:   
+    case Parameterizer::ERROR_NO_TOPOLOGICAL_DISC:     
+    case Parameterizer::ERROR_BORDER_TOO_SHORT:    
+        std::cerr << "Input mesh not supported: " << Parameterizer::get_error_message(err) << std::endl;
+        return EXIT_FAILURE;
+        break;
+    default: // Error
+        std::cerr << "Error: " << Parameterizer::get_error_message(err) << std::endl;
+        return EXIT_FAILURE;
+        break;
+    };
 
     std::cerr << "Parameterization: " << task_timer.time() << " seconds." << std::endl;
     task_timer.reset();
@@ -462,36 +477,37 @@ int main(int argc, char * argv[])
     // Output
     //***************************************
 
-    // Save mesh
-    if (err == Parameterizer::OK)
-    {
-        if(output.substr(output.length()-4) == std::string(".eps"))
-        {
-            // write Postscript file
-            if ( ! mesh.write_file_eps(output.c_str()) )
-            {
-                std::cerr << "FATAL ERROR: cannot write file " << output << std::endl;
-                return EXIT_FAILURE;
-            }
-        }
-        else if(output.substr(output.length()-4) == std::string(".obj"))
-        {
-            // write Wavefront obj file
-            if ( ! mesh.write_file_obj(output.c_str()) )
-            {
-                std::cerr << "FATAL ERROR: cannot write file " << output << std::endl;
-                return EXIT_FAILURE;
-            }
-        }
-        else
-        {
-            std::cerr << "FATAL ERROR: cannot write format " << output << std::endl;
-            err = Parameterizer::ERROR_WRONG_PARAMETER;
-        }
+    // get output file's extension
+    std::string extension = output.substr(output.find_last_of('.'));
 
-        std::cerr << "Write file " << output << ": "
-                  << task_timer.time() << " seconds " << std::endl;
+    // Save mesh
+    if (extension == ".eps" || extension == ".EPS")
+    {
+        // write Postscript file
+        if ( ! mesh.write_file_eps(output.c_str()) )
+        {
+            std::cerr << "Error: cannot write file " << output << std::endl;
+            return EXIT_FAILURE;
+        }
+    }
+    else if (extension == ".obj" || extension == ".OBJ")
+    {
+        // write Wavefront obj file
+        if ( ! mesh.write_file_obj(output.c_str()) )
+        {
+            std::cerr << "Error: cannot write file " << output << std::endl;
+            return EXIT_FAILURE;
+        }
+    }
+    else
+    {
+        std::cerr << "Error: output format not supported" << output << std::endl;
+        err = Parameterizer::ERROR_WRONG_PARAMETER;
+        return EXIT_FAILURE;
     }
 
-    return (err == Parameterizer::OK) ? EXIT_SUCCESS : EXIT_FAILURE;
+    std::cerr << "Write file " << output << ": "
+              << task_timer.time() << " seconds " << std::endl;
+
+    return EXIT_SUCCESS;
 }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h $
-// $Id: Min_sphere_of_spheres_d_pair.h 37181 2007-03-17 09:06:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h $
+// $Id: Min_sphere_of_spheres_d_pair.h 47423 2008-12-14 12:35:21Z ophirset $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -24,10 +24,74 @@
 namespace CGAL_MINIBALL_NAMESPACE {
 
   namespace Min_sphere_of_spheres_d_impl {
-    const double Min_float = 1.0e-120;
-    const double Eps = 1.0e-16;
-    const double SqrOfEps = 1.0e-32;
-    const double Tol = 1.0+Eps;
+
+    static const double Min_float = 1.0e-120;
+
+    // a bunch of float/double constants that are used as tolerance in the
+    // template code of the package.
+    // "The stuff we're talking about only kicks in when floating-point 
+    // arithmetic is being used, and here double is surely a reasonable 
+    // default."
+    // An old code contained functions instead of the following types and 
+    // it work for exact type (for example, Gmpq) due to the fact that 
+    // they are convertible to double.
+    // This is indeed the least invasive fix dropint the function that were
+    // defined here and cause linkage bug.
+    // You can still have a behaviour of instantiating only if a type
+    // is convertibale to double (by using type_traits together with _if)
+    // but until "the whole design should be overhauled at some point"
+    // this is fine.
+    template <typename FT>
+      struct SqrOfEps
+      {
+          // That constant is embedded in an inline static function, to
+          // workaround a bug of g++>=4.1
+          //   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36912
+          // g++ does not like const floating expression when -frounding-math
+          // is used.
+          static double result() { 
+              return 1.0e-32;
+          }
+      };
+
+    template <>
+      struct SqrOfEps<float>
+      {
+          // That constant is embedded in an inline static function, to
+          // workaround a bug of g++>=4.1
+          //   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36912
+          // g++ does not like const floating expression when -frounding-math
+          // is used.
+          static float result() { 
+              return  1.0e-14f;
+          }
+      };
+
+    template <typename FT>
+      struct Tol
+      {
+	// That constant is embedded in an inline static function, to
+	// workaround a bug of g++>=4.1
+	//   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36912
+	// g++ does not like const floating expression when -frounding-math
+	// is used.
+        static double result() { 
+	  return 1.0 + 1.0e-16; // 1.0e-16 = Eps_double 
+	}
+      };
+
+    template <>
+      struct Tol<float>
+      {
+	// That constant is embedded in an inline static function, to
+	// workaround a bug of g++>=4.1
+	//   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36912
+	// g++ does not like const floating expression when -frounding-math
+	// is used.
+        static float result() {
+	  return 1.0f + 1.0e-7f; // 1.0e-7f = Eps_float;
+	}
+      };
   }
 
   template<typename FT>

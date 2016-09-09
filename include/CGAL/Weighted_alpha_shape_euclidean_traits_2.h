@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
-// $Id: Weighted_alpha_shape_euclidean_traits_2.h 32917 2006-08-03 03:34:47Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
+// $Id: Weighted_alpha_shape_euclidean_traits_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -39,7 +39,6 @@ class Compute_squared_radius_orthogonalcircleC2
 {
 public:
   typedef return_type result_type;
-  typedef Arity_tag< 3 >   Arity;
   typedef typename K::Point T;
 
   result_type operator()(const T& p, const T& q, const T& r)
@@ -86,7 +85,6 @@ class Side_of_bounded_orthogonalcircleC2
 {
 public:
   typedef Bounded_side result_type;
-  typedef Arity_tag< 3 >   Arity;
   typedef typename K::Point Point;
   result_type operator()(const Point& p, const Point& q, const Point& t)
   {  

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Line_2_Line_2_intersection.h $
-// $Id: Line_2_Line_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_2/include/CGAL/Line_2_Line_2_intersection.h $
+// $Id: Line_2_Line_2_intersection.h 45075 2008-08-21 12:50:41Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -40,15 +40,14 @@ template <class K>
 class Line_2_Line_2_pair {
 public:
     enum Intersection_results {NO_INTERSECTION, POINT, LINE};
-    Line_2_Line_2_pair() ;
     Line_2_Line_2_pair(typename K::Line_2 const *line1,
-		       typename K::Line_2 const *line2);
-    ~Line_2_Line_2_pair() {}
+		       typename K::Line_2 const *line2)
+      : _line1(line1), _line2(line2), _known(false) {}
 
     Intersection_results intersection_type() const;
 
-    bool                intersection(typename K::Point_2 &result) const;
-    bool                intersection(typename K::Line_2 &result) const;
+    typename K::Point_2 intersection_point() const;
+    typename K::Line_2  intersection_line() const;
 protected:
     typename K::Line_2 const*   _line1;
     typename K::Line_2 const *  _line2;
@@ -59,8 +58,8 @@ protected:
 
 template <class K>
 inline bool do_intersect(
-    const typename CGAL_WRAP(K)::Line_2 &p1,
-    const typename CGAL_WRAP(K)::Line_2 &p2,
+    const typename K::Line_2 &p1,
+    const typename K::Line_2 &p2,
     const K&)
 {
     typedef Line_2_Line_2_pair<K> pair_t;
@@ -72,8 +71,8 @@ inline bool do_intersect(
 
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Line_2 &line1, 
-	     const typename CGAL_WRAP(K)::Line_2 &line2,
+intersection(const typename K::Line_2 &line1, 
+	     const typename K::Line_2 &line2,
 	     const K&)
 {
     typedef Line_2_Line_2_pair<K> is_t;
@@ -82,11 +81,8 @@ intersection(const typename CGAL_WRAP(K)::Line_2 &line1,
     case is_t::NO_INTERSECTION:
     default:
         return Object();
-    case is_t::POINT: {
-        typename K::Point_2 pt;
-        linepair.intersection(pt);
-        return make_object(pt);
-    }
+    case is_t::POINT:
+        return make_object(linepair.intersection_point());
     case is_t::LINE:
         return make_object(line1);
     }
@@ -142,25 +138,6 @@ construct_if_finite(POINT &pt, RT x, RT y, RT w, const R &r)
 }
 
 
-
-
-template <class K>
-Line_2_Line_2_pair<K>::Line_2_Line_2_pair()
-{
-    _line1 = 0;
-    _line2 = 0;
-    _known = false;
-}
-
-template <class K>
-Line_2_Line_2_pair<K>::Line_2_Line_2_pair(
-    typename K::Line_2 const *line1, typename K::Line_2 const *line2)
-{
-    _line1 = line1;
-    _line2 = line2;
-    _known = false;
-}
-
 template <class K>
 typename Line_2_Line_2_pair<K>::Intersection_results
 Line_2_Line_2_pair<K>::intersection_type() const
@@ -202,31 +179,26 @@ Line_2_Line_2_pair<K>::intersection_type() const
 
 
 template <class K>
-bool
-Line_2_Line_2_pair<K>::intersection(typename K::Point_2 &pt) const
+typename K::Point_2
+Line_2_Line_2_pair<K>::intersection_point() const
 {
     if (!_known)
         intersection_type();
-    if (_result != POINT)
-        return false;
-    pt = _intersection_point;
-    return true;
+    CGAL_kernel_assertion(_result == POINT);
+    return _intersection_point;
 }
 
 template <class K>
-bool
-Line_2_Line_2_pair<K>::intersection(typename K::Line_2 &l) const
+typename K::Line_2
+Line_2_Line_2_pair<K>::intersection_line() const
 {
     if (!_known)
         intersection_type();
-    if (_result != LINE)
-        return false;
-    l = *_line1;
-    return true;
+    CGAL_kernel_assertion(_result == LINE);
+    return *_line1;
 }
 
 } // namespace CGALi
-
 
 
 template <class K>
@@ -246,9 +218,6 @@ intersection(const Line_2<K> &line1, const Line_2<K> &line2)
   return Intersect()(line1, line2);
 }
 
-
 CGAL_END_NAMESPACE
-
-
 
 #endif

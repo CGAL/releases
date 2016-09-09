@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
-// $Id: PM_overlayer.h 35730 2007-01-15 17:51:17Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
+// $Id: PM_overlayer.h 39791 2007-08-09 09:48:44Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -271,7 +271,6 @@ public:
   typedef typename Decorator::Hole_iterator Hole_iterator;
   typedef typename Decorator::Isolated_vertex_iterator Isolated_vertex_iterator;
 
-#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::clear;
   using Base::vertices_begin;
   using Base::vertices_end;
@@ -284,7 +283,6 @@ public:
   using Base::number_of_faces;
   using Base::new_vertex;
   using Base::new_face;
-#endif
 
   // C++ is really friendly:
   #define USECMARK(t) const Mark& mark(t h) const { return Base::mark(h); }

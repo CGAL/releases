@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Edge_less.h $
-// $Id: Edge_less.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Edge_less.h $
+// $Id: Edge_less.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -31,7 +31,6 @@ struct Edge_less
 {
   typedef Edge_t        Edge;
   typedef bool          result_type;
-  typedef Arity_tag<2>  Arity;
 
   bool operator()(const Edge& e1, const Edge& e2) const {
     if ( e1.first != e2.first ) { return e1.first < e2.first; }

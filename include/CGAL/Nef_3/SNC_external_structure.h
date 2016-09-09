@@ -341,7 +341,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -369,7 +368,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -397,7 +395,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -425,7 +422,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -506,7 +502,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -527,7 +522,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -548,7 +542,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<<-e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	make_twins(e1,e2);
 	CGAL_assertion(e1->mark()==e2->mark());
 	
@@ -569,7 +562,6 @@ public:
 	CGAL_NEF_TRACEN("    " << e1->source()->point() 
 			<< " -> " << e2->source()->point());
 	CGAL_NEF_TRACEN(e1->vector()<<" -> "<< -e2->vector());
-	//	CGAL_assertion(normalized(e1->vector())==normalized(-e2->vector()));
 	CGAL_assertion(e1->source()->point() != e2->source()->point());
 	CGAL_assertion(e1->mark()==e2->mark());
 	make_twins(e1,e2);
@@ -617,7 +609,7 @@ public:
 	       cet->source()->twin() == ce->source() ) 
             break;
 
-      // DEBUG     
+#ifndef NDEBUG
       if( cet->circle() != ce->circle().opposite() )
 	CGAL_NEF_TRACEN("assertion failed!");
       
@@ -633,21 +625,21 @@ public:
 	CGAL_NEF_TRACEN("sseg@E addr="<<&*sc<<
 			" src="<< sc->source()->point()<<
 			" tgt="<< sc->target()->point()<<std::endl<<
-			" circle=" << sc->circle());
-
+			" circle=" << normalized(sc->circle()));
       CGAL_NEF_TRACEN("");
 
       CGAL_For_all(sct,cete)
       CGAL_NEF_TRACEN("sseg@ET addr="<<&*sct<<
 		      " src="<< sct->source()->point()<<
 		      " tgt="<<sct->target()->point()<<std::endl<<
-		      " circle=" << sct->circle());
+		      " circle=" << normalized(sct->circle()));
       CGAL_NEF_TRACEN("");
+#endif
 
       CGAL_assertion( normalized(cet->circle()) == normalized(ce->circle().opposite()) ); 
       CGAL_assertion( cet->source()->twin() == ce->source()); 
       CGAL_For_all(ce,cee) { 
-	CGAL_NEF_TRACEN("circles " << cet->circle() << "   " << ce->circle() << 
+	CGAL_NEF_TRACEN("circles " << normalized(cet->circle()) << "   " << normalized(ce->circle()) << 
 			" sources " << cet->target()->point() << 
 			"   " << ce->target()->point());
 	CGAL_assertion( normalized(cet->circle()) == normalized(ce->circle().opposite())); 
@@ -688,7 +680,7 @@ public:
 		      " has plane " << h << " has circle " << e->circle() << 
 		      " has signum " << sign_of(h));
       if ( sign_of(h)<0 ) continue;
-      M[normalized(h)].push_back(Object_handle(e->twin())); 
+      M[normalized(h)].push_back(make_object(e->twin())); 
       CGAL_NEF_TRACEN(" normalized as " << normalized(h));
       /*
 	Unique_hash_map<SHalfedge_handle, bool> Done(false);
@@ -709,7 +701,7 @@ public:
       }
       SHalfedge_around_facet_circulator sfc(e), send(sfc);
       CGAL_For_all(sfc, send) {
-	M[normalized(h)].push_back(Object_handle(e->twin())); 
+	M[normalized(h)].push_back(make_object(e->twin())); 
 	Done[sfc] = true;
 	Done[sfc->twin()] = true;
 	CGAL_NEF_TRACEN(" normalized as " << normalized(h)); 
@@ -722,7 +714,7 @@ public:
       Plane_3 h = c.plane_through(l->incident_sface()->center_vertex()->point()); 
       if ( sign_of(h)<0 ) continue;
       // CGAL_assertion( h == normalized(h));
-      M[normalized(h)].push_back(Object_handle(l->twin()));
+      M[normalized(h)].push_back(make_object(l->twin()));
     }
     
 #ifdef CGAL_NEF3_TIMER_PLANE_SWEEPS
@@ -1162,13 +1154,11 @@ public:
 
       CGAL_assertion( cet->get_index() == ce->twin()->get_index());
       CGAL_assertion( cet->twin()->get_index() == ce->get_index());
-      CGAL_assertion( normalized(cet->circle()) == normalized(ce->circle().opposite()) ); 
       CGAL_assertion( cet->source()->twin() == ce->source()); 
       CGAL_For_all(ce,cee) { 
 	CGAL_NEF_TRACEN("circles " << cet->circle() << "   " << ce->circle() << 
 			" sources " << cet->target()->point() << 
 			"   " << ce->target()->point());
-	CGAL_assertion( normalized(cet->circle()) == normalized(ce->circle().opposite())); 
 	CGAL_assertion( cet->source()->twin() == ce->source()); 
 	CGAL_assertion(ce->mark()==cet->mark());
 	link_as_prev_next_pair(cet->twin(),ce);
@@ -1195,13 +1185,13 @@ public:
     CGAL_forall_shalfedges(e,*this->sncp()) {
       if(e->get_index() > e->twin()->get_index())
 	continue;
-      M[e->get_index()].push_back(Object_handle(e));
+      M[e->get_index()].push_back(make_object(e));
     }
     SHalfloop_iterator l;
     CGAL_forall_shalfloops(l,*this->sncp()) {
       if(l->get_index() > l->twin()->get_index())
 	continue;
-      M[l->get_index()].push_back(Object_handle(l));
+      M[l->get_index()].push_back(make_object(l));
     }
     
 #ifdef CGAL_NEF3_TIMER_PLANE_SWEEPS
@@ -1221,7 +1211,7 @@ public:
       else if(CGAL::assign(l, o))
 	h = l->circle().opposite().plane_through(l->incident_sface()->center_vertex()->point());
       else
-	CGAL_assertion_msg(false, "wrong handle");
+	CGAL_error_msg( "wrong handle");
 
       D.create_facet_objects(h,it->second.begin(),it->second.end());
     }

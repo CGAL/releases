@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
-// $Id: Cached_degeneracy_testers.h 38716 2007-05-15 10:40:26Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
+// $Id: Cached_degeneracy_testers.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -60,7 +60,6 @@ public:
   typedef typename Edge_rejector::All_edges_iterator     All_edges_iterator;
   typedef typename Edge_rejector::Finite_edges_iterator  Finite_edges_iterator;
   typedef typename Edge_rejector::result_type            result_type;
-  typedef typename Edge_rejector::Arity                  Arity;
 
 private:
   typedef std::map<Edge,bool,Edge_less<Edge> >   Edge_map;
@@ -176,7 +175,6 @@ public:
   typedef typename Edge_rejector::All_edges_iterator     All_edges_iterator;
   typedef typename Edge_rejector::Finite_edges_iterator  Finite_edges_iterator;
   typedef typename Edge_rejector::result_type            result_type;
-  typedef typename Edge_rejector::Arity                  Arity;
 
 private:
   enum Three_valued { UNDEFINED = -1, False, True };
@@ -286,7 +284,6 @@ public:
   typedef typename Face_rejector::Delaunay_graph  Delaunay_graph;
   typedef typename Face_rejector::Vertex_handle   Vertex_handle;
   typedef typename Face_rejector::result_type     result_type;
-  typedef typename Face_rejector::Arity           Arity;
 
 private:
   typedef Cached_face_rejector<Face_rejector,Tag_true>  Self;
@@ -367,7 +364,6 @@ public:
   typedef typename Face_rejector::Delaunay_graph  Delaunay_graph;
   typedef typename Face_rejector::Vertex_handle   Vertex_handle;
   typedef typename Face_rejector::result_type     result_type;
-  typedef typename Face_rejector::Arity           Arity;
 
 private:
   typedef Cached_face_rejector<Face_rejector,Tag_false> Self;

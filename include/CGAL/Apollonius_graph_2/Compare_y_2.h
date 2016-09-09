@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Compare_y_2.h $
-// $Id: Compare_y_2.h 32650 2006-07-20 14:46:46Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Compare_y_2.h $
+// $Id: Compare_y_2.h 44317 2008-07-22 12:29:01Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -38,7 +38,6 @@ public:
   typedef typename K::Site_2             Site_2;
 
   typedef typename K::Comparison_result  result_type;
-  typedef Arity_tag<2>                   Arity;
   typedef Site_2                         argument_type;
 
   inline

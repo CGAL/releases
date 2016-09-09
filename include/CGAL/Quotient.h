@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 38448 2007-04-26 11:52:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Quotient.h $
+// $Id: Quotient.h 46253 2008-10-14 07:22:04Z afabri $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -29,19 +29,14 @@
 
 // The include is done before the protect macro on purpose, because
 // of a cyclic dependency.
+
 #include <CGAL/number_type_basic.h>
 
 #ifndef CGAL_QUOTIENT_H
 #define CGAL_QUOTIENT_H
 
 #include <utility>
-
-#ifndef CGAL_CFG_NO_LOCALE
-#  include <locale>
-#else
-#  include <cctype>
-#endif
-
+#include <locale>
 
 #include <CGAL/Interval_nt.h>
 #include <CGAL/Kernel/mpl.h>
@@ -102,9 +97,59 @@ class Quotient
   template <class T>
   Quotient(const Quotient<T>& n) : num(n.numerator()), den(n.denominator()) {}
 
+  Quotient& operator=(const NT & n)
+  {
+    num = n;
+    den = 1;
+    return *this;
+  }
+
+  Quotient& operator=(const CGAL_double(NT) & n)
+  {
+    num = n;
+    den = 1;
+    return *this;
+  }
+
+  Quotient& operator=(const CGAL_int(NT) & n)
+  {
+    num = n;
+    den = 1;
+    return *this;
+  }
+
+#ifdef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+
   template <class T1, class T2>
   Quotient(const T1& n, const T2& d) : num(n), den(d)
   { CGAL_precondition( d != 0 ); }
+
+#else
+  template <class T1, class T2>
+  Quotient(T1 && n, T2 && d)
+     : num(std::forward<T1>(n)), den(std::forward<T2>(d))
+  { CGAL_postcondition( den != 0 ); }
+
+  Quotient(Quotient && q)
+    : num(std::move(q.num)), den(std::move(q.den)) {}
+
+  Quotient(NT && n)
+    : num(std::move(n)), den(1) {}
+
+  Quotient& operator=(NT && n)
+  {
+    num = std::move(n);
+    den = 1;
+    return *this;
+  }
+
+  Quotient& operator=(Quotient && q)
+  {
+    num = std::move(q.num);
+    den = std::move(q.den);
+    return *this;
+  }
+#endif
 
   Quotient<NT>& operator+= (const Quotient<NT>& r);
   Quotient<NT>& operator-= (const Quotient<NT>& r);
@@ -300,8 +345,12 @@ CGAL_MEDIUM_INLINE
 Quotient<NT>&
 Quotient<NT>::operator+= (const CGAL_double(NT)& r)
 {
-    num += r * den;
-    return *this;
+  //num += r * den; 
+  NT r_num, r_den; 
+  Split_double<NT>()(r,r_num,r_den);
+  num = num*r_den + r_num*den;
+  den *=r_den; 
+  return *this;
 }
 
 template <class NT>
@@ -309,8 +358,12 @@ CGAL_MEDIUM_INLINE
 Quotient<NT>&
 Quotient<NT>::operator-= (const CGAL_double(NT)& r)
 {
-    num -= r * den;
-    return *this;
+  //num -= r * den;
+  NT r_num, r_den; 
+  Split_double<NT>()(r,r_num,r_den);
+  num =  num*r_den - r_num*den;
+  den *= r_den; 
+  return *this;
 }
 
 template <class NT>
@@ -318,8 +371,13 @@ CGAL_MEDIUM_INLINE
 Quotient<NT>&
 Quotient<NT>::operator*= (const CGAL_double(NT)& r)
 {
-    num *= r;
-    return *this;
+  // num *= r;
+  
+  NT r_num, r_den; 
+  Split_double<NT>()(r,r_num,r_den);
+  num *= r_num;
+  den *= r_den; 
+  return *this;
 }
 
 template <class NT>
@@ -327,9 +385,12 @@ CGAL_MEDIUM_INLINE
 Quotient<NT>&
 Quotient<NT>::operator/= (const CGAL_double(NT)& r)
 {
-    CGAL_precondition( r != 0 );
-    den *= r;
-    return *this;
+  CGAL_precondition( r != 0 );
+  NT r_num, r_den; 
+  Split_double<NT>()(r,r_num,r_den);
+  num *= r_den;
+  den *= r_num; 
+  return *this;
 }
 
 template <class NT>
@@ -377,11 +438,7 @@ operator>>(std::istream& in, Quotient<NT>& r)
 
   char c = 0;
 
-#ifndef CGAL_CFG_NO_LOCALE
-  while (in.get(c) && std::isspace(c, std::locale::classic() ));
-#else
-  while (in.get(c) && CGAL_CLIB_STD::isspace(c));
-#endif // CGAL_CFG_NO_LOCALE
+  while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
   if ( !in ) return in;
   in.putback(c);
 
@@ -389,19 +446,11 @@ operator>>(std::istream& in, Quotient<NT>& r)
   NT den(1);
   in >> num;
 
-#ifndef CGAL_CFG_NO_LOCALE
-  while (in.get(c) && std::isspace(c, std::locale::classic() ));
-#else
-  while (in.get(c) && CGAL_CLIB_STD::isspace(c));
-#endif // CGAL_CFG_NO_LOCALE
+  while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
   if (( in ) && ( c == '/'))
   {
-#ifndef CGAL_CFG_NO_LOCALE
-      while (in.get(c) && std::isspace(c, std::locale::classic() ));
-#else
-      while (in.get(c) && CGAL_CLIB_STD::isspace(c));
-#endif // CGAL_CFG_NO_LOCALE
-      CGAL_assertion( in );
+      while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
+      CGAL_assertion( in != 0 );
       in.putback(c);
       in >> den;
   }
@@ -516,7 +565,7 @@ operator>(const Quotient<NT>& x, const CGAL_double(NT)& y)
 
 template< class NT >
 class Is_valid< Quotient<NT> >
-  : public Unary_function< Quotient<NT>, bool > {
+  : public std::unary_function< Quotient<NT>, bool > {
   public :
     bool operator()( const Quotient<NT>& x ) const {
       return is_valid(x.num) && is_valid(x.den);
@@ -575,7 +624,7 @@ namespace INTERN_QUOTIENT {
   class Sqrt_selector {
     public:
       class Sqrt
-        : public Unary_function< NT, NT > {
+        : public std::unary_function< NT, NT > {
         public:
           NT operator()( const NT& x ) const {
             CGAL_precondition(x > 0);
@@ -607,7 +656,7 @@ public:
 
 
     class Is_square
-        : public Binary_function< Quotient<NT>, Quotient<NT>&, bool > {
+        : public std::binary_function< Quotient<NT>, Quotient<NT>&, bool > {
     public:
         bool operator()( Quotient<NT> x, Quotient<NT>& y ) const {
             NT x_num, x_den, y_num, y_den;
@@ -638,7 +687,7 @@ public:
                             >::type Sqrt;
 
     class Simplify
-      : public Unary_function< Type&, void > {
+      : public std::unary_function< Type&, void > {
       public:
         void operator()( Type& x) const {
             x.normalize();
@@ -650,13 +699,13 @@ public:
 template<class NT> class Real_embeddable_traits_quotient_base;
 // Real embeddable traits
 template < class NT > class Real_embeddable_traits_quotient_base< Quotient<NT> >
-  : public INTERN_RET::Real_embeddable_traits_base_selector< Quotient<NT>,
+  : public INTERN_RET::Real_embeddable_traits_base< Quotient<NT>,
                   typename Real_embeddable_traits< NT >::Is_real_embeddable > {
   public:
     typedef Quotient<NT> Type;
 
     class Compare
-      : public Binary_function< Type, Type,
+      : public std::binary_function< Type, Type,
                                 Comparison_result > {
       public:
         Comparison_result operator()( const Type& x,
@@ -666,7 +715,7 @@ template < class NT > class Real_embeddable_traits_quotient_base< Quotient<NT> >
     };
 
     class To_double
-      : public Unary_function< Type, double > {
+      : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
         // Original global function was marked with an TODO!!
@@ -687,7 +736,7 @@ template < class NT > class Real_embeddable_traits_quotient_base< Quotient<NT> >
           {
               NT  nt_div = x.num / x.den;
               double divd = CGAL_NTS to_double(nt_div);
-              if ( divd >= CGAL_CLIB_STD::ldexp(1.0,53) )
+              if ( divd >= std::ldexp(1.0,53) )
               { return divd; }
           }
           if ( CGAL_NTS abs(x.num) < CGAL_NTS abs(x.den) )
@@ -698,7 +747,7 @@ template < class NT > class Real_embeddable_traits_quotient_base< Quotient<NT> >
     };
 
     class To_interval
-      : public Unary_function< Type, std::pair< double, double > > {
+      : public std::unary_function< Type, std::pair< double, double > > {
       public:
         std::pair<double, double> operator()( const Type& x ) const {
           Interval_nt<> quot =
@@ -709,7 +758,7 @@ template < class NT > class Real_embeddable_traits_quotient_base< Quotient<NT> >
     };
 
     class Is_finite
-      : public Unary_function< Type, bool > {
+      : public std::unary_function< Type, bool > {
       public:
         bool operator()( const Type& x ) const {
           return CGAL_NTS is_finite(x.num) && CGAL_NTS is_finite(x.den);
@@ -728,7 +777,7 @@ Quotient<NT> >{};
 
 
 // self coercion
-CGAL_DEFINE_COERCION_TRAITS_FOR_SELF_TEM( Quotient<NT>, class NT);
+CGAL_DEFINE_COERCION_TRAITS_FOR_SELF_TEM( Quotient<NT>, class NT)
 
 // from int to Quotient
 template <class NT>
@@ -773,7 +822,7 @@ Quotient<NT> >
 {};
 
 // from NT to Quotient
-CGAL_DEFINE_COERCION_TRAITS_FROM_TO_TEM ( NT, Quotient<NT>, class NT);
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO_TEM ( NT, Quotient<NT>, class NT)
 
 /*! \ingroup NiX_Fraction_traits_spec
  *  \brief Specialization of Fraction_traits for Quotient<NT>

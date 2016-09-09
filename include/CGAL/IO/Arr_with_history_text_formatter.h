@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Arr_with_history_text_formatter.h $
-// $Id: Arr_with_history_text_formatter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/IO/Arr_with_history_text_formatter.h $
+// $Id: Arr_with_history_text_formatter.h 44498 2008-07-28 05:46:17Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
@@ -45,7 +45,6 @@ public:
   typedef typename Base::Arrangement_2                    Arr_with_history_2;
   typedef typename Arr_with_history_2::Size                             Size;
   typedef typename Arr_with_history_2::Dcel                             Dcel;
-  typedef typename Arr_with_history_2::Traits_2           Traits_2;
   typedef typename Arr_with_history_2::Curve_2            Curve_2;
   typedef typename Arr_with_history_2::X_monotone_curve_2 X_monotone_curve_2;
   typedef typename Arr_with_history_2::Point_2            Point_2;
@@ -167,7 +166,7 @@ private:
   void __skip_until_EOL () 
   {
     int     c;
-    while ((c = this->in().get()) != EOF && c != '\n');
+    while ((c = this->in().get()) != EOF && c != '\n') {};
     return;
   }
   

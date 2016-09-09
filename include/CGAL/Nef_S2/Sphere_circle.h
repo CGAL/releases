@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_circle.h $
-// $Id: Sphere_circle.h 36309 2007-02-15 16:03:18Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/Sphere_circle.h $
+// $Id: Sphere_circle.h 44480 2008-07-26 20:26:48Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -67,7 +67,7 @@ between $p$ and $q$. If $p$ and $q$ are antipodal of each other then we
 create any great circle that contains $p$ and $q$.}*/ 
 { Point_3 p1(0,0,0), p4 = CGAL::ORIGIN + ((Base*) this)->orthogonal_vector();
   if ( p != q.antipode() ) {
-    if ( CGAL::orientation(p1,p,q,p4) != CGAL::POSITIVE )
+    if (R_().orientation_3_object()(p1,p,q,p4) != CGAL::POSITIVE )
       *this = Self(opposite());
   } else {
     /* previous method was: *this = Self(Plane_3(p1,q-p)); 
@@ -168,7 +168,7 @@ Sphere_point<R> intersection(const Sphere_circle<R>& c1,
   typename R::Line_3 lres;
   CGAL_NEF_TRACEN("circle_intersection "<<c1<<" "<<c2);
   CGAL::Object o = CGAL::intersection(c1.plane(),c2.plane());
-  if ( !CGAL::assign(lres,o) ) CGAL_assertion_msg(0,"damn id planes.");
+  if ( !CGAL::assign(lres,o) ) CGAL_error();
   return CGAL::ORIGIN + lres.direction().vector();
 }
 
