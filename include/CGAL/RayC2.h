@@ -1,37 +1,47 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/RayC2.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source:RayC2.h
-// Author: Andreas.Fabri
 
 #ifndef CGAL_RAYC2_H
 #define CGAL_RAYC2_H
@@ -96,17 +106,20 @@ inline CGAL__Twotuple< CGAL_PointC2<FT> > *CGAL_RayC2<FT>::ptr() const
 
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayC2<FT>::CGAL_RayC2()
 {
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
 }
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_RayC2<FT>  &r) :
   CGAL_Handle((CGAL_Handle&)r)
 {}
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
                            const CGAL_PointC2<FT> &secondp)
 {
@@ -114,6 +127,7 @@ CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
 }
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
                            const CGAL_DirectionC2<FT> &d)
 {
@@ -121,11 +135,13 @@ CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
 }
 
 template < class FT >
+inline
 CGAL_RayC2<FT>::~CGAL_RayC2()
 {}
 
 
 template < class FT >
+inline
 CGAL_RayC2<FT> &CGAL_RayC2<FT>::operator=(const CGAL_RayC2<FT> &r)
 {
 
@@ -133,6 +149,7 @@ CGAL_RayC2<FT> &CGAL_RayC2<FT>::operator=(const CGAL_RayC2<FT> &r)
   return *this;
 }
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_RayC2<FT>::operator==(const CGAL_RayC2<FT> &r) const
 {
   return ((source() == r.source()) && (direction() == r.direction()) );
@@ -145,23 +162,27 @@ bool CGAL_RayC2<FT>::operator!=(const CGAL_RayC2<FT> &r) const
 }
 
 template < class FT >
+inline
 int CGAL_RayC2<FT>::id() const
 {
   return (int) PTR ;
 }
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::start() const
 {
   return ptr()->e0;
 }
 
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::source() const
 {
   return ptr()->e0;
 }
 
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::second_point() const
 {
 
@@ -169,6 +190,7 @@ CGAL_PointC2<FT>  CGAL_RayC2<FT>::second_point() const
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::point(int i) const
 {
   CGAL_kernel_precondition( i >= 0 );
@@ -182,28 +204,29 @@ CGAL_PointC2<FT>  CGAL_RayC2<FT>::point(int i) const
 }
 
 template < class FT >
+inline
 CGAL_DirectionC2<FT> CGAL_RayC2<FT>::direction() const
 {
-
   return CGAL_DirectionC2<FT>(  second_point() - source() );
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT> CGAL_RayC2<FT>::supporting_line() const
 {
-
   return CGAL_LineC2<FT>(*this);
 }
 
 template < class FT >
+inline
 CGAL_RayC2<FT> CGAL_RayC2<FT>::opposite() const
 {
-
   return CGAL_RayC2<FT>( source(), - direction() );
 }
 
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const
                                      CGAL_Aff_transformationC2<FT> &t) const
 {
@@ -213,27 +236,28 @@ CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const
 
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_RayC2<FT>::is_horizontal() const
 {
-
   return (source().y() ==  second_point().y());
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_RayC2<FT>::is_vertical() const
 {
-
   return  (source().x() == second_point().x());
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_RayC2<FT>::is_degenerate() const
 {
-
   return (source() == second_point());
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_RayC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 {
   return ( p == source()
@@ -243,6 +267,7 @@ bool CGAL_RayC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 }
 
 template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
 bool CGAL_RayC2<FT>::collinear_has_on(const CGAL_PointC2<FT> &p) const
 {
     switch(CGAL_compare_x(source(), second_point())){
@@ -286,7 +311,7 @@ istream &operator>>(istream &is, CGAL_RayC2<FT> &r)
     CGAL_DirectionC2<FT> d;
 
     is >> p >> d;
-      
+
     r = CGAL_RayC2<FT>(p, d);
     return is;
 }

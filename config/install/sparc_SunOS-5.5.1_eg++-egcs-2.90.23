@@ -1,0 +1,26 @@
+/*
+** file: sparc_SunOS-5.5.1_eg++-egcs-2.90.23
+** Configuration file for CGAL 1.0
+** on GNU egcs-2.90.23
+** Automatically created by install_cgal 1.22.
+** Please do not edit.
+*/
+
+/* COMPILER = 'eg++@GNU@/KM/opt/bin/cc@/KM/opt/bin/eg++@egcs-2.90.23' */
+/* CGAL_INSTALL_VERSION = '1.22' */
+/* STL_STATUS = 'b' */
+/* STL_DIR = '' */
+/* LEDA_SUPPORT = '_LEDA' */
+/* NEED_EXTRA_LEDA_IDIR = 'y' */
+/* LEDA_INCL_DIR = '/LEDA/BETA/incl' */
+/* NEED_EXTRA_LEDA_LDIR = 'y' */
+/* LEDA_LIB_DIR = '/LEDA/BETA/solaris/eg++' */
+/* GMP_SUPPORT = '_GMP' */
+/* GMP_INSTALLATION = 'e' */
+/* GMP_INCL_DIR = '//KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2' */
+/* GMP_LIB_DIR = '//KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2' */
+/* CUSTOM_CXXFLAGS = '' */
+/* CUSTOM_LDFLAGS = '' */
+/* CGAL_STL_VERSION = 'CGAL_STL_SGI_3_0' */
+
+/* EOF */

@@ -1,48 +1,78 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Aff_transformationC3.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Source: Aff_transformationC3.h
-// Author: Andreas Fabri
 
 #ifndef CGAL_AFF_TRANSFORMATIONC3_H
 #define CGAL_AFF_TRANSFORMATIONC3_H
 #include <math.h>
-#include <CGAL/bool.h>
 #include <CGAL/Handle.h>
 #include <CGAL/cartesian_classes.h>
 #include <CGAL/determinant.h>
 
-#ifdef CGAL_WORKAROUND_015
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
 #define CGAL_NO_PLANE_TRANSFORM_IN_AT
-#endif // CGAL_WORKAROUND_015
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
+
+template <class FT> class CGAL_Aff_transformationC3;
+template <class FT> class CGAL__Aff_transformation_repC3;
+template <class FT> class CGAL__Translation_repC3;
+template <class FT> class CGAL__Scaling_repC3;
+
+template <class FT> CGAL_Aff_transformationC3<FT>
+                    CGAL__general_transformation_composition (
+                                   CGAL__Aff_transformation_repC3<FT> &l,
+                                   CGAL__Aff_transformation_repC3<FT> &r );
+template <class FT> CGAL_Aff_transformationC3<FT> operator*
+                                  (const CGAL_Aff_transformationC3<FT> &a,
+                                   const CGAL_Aff_transformationC3<FT> &b);
+
+template <class FT> ostream &operator<<
+                             (ostream &os, CGAL__Translation_repC3<FT> &t);
+template <class FT> ostream &operator<<
+                             (ostream &os, CGAL__Scaling_repC3<FT> &t);
+template <class FT> ostream &operator<<
+                             (ostream &os, const CGAL_Aff_transformationC3<FT> &t);
 
 template < class FT >
 class CGAL__Aff_transformation_rep_baseC3 : public CGAL_Rep
@@ -60,6 +90,7 @@ public:
   virtual CGAL_Aff_transformationC3<FT> transpose() const = 0;
 
   virtual bool                 is_even() const = 0;
+  virtual FT                   cartesian(int i, int j) const = 0;
   virtual ostream              &print(ostream &os) const = 0;
   virtual CGAL_Aff_transformationC3<FT> general_form() const = 0;
 };
@@ -72,11 +103,11 @@ class CGAL__Aff_transformation_repC3 :
 {
   friend class CGAL_Aff_transformationC3<FT>;
 
-  friend   CGAL_Aff_transformationC3<FT>
-  CGAL__general_transformation_composition(
+  friend  CGAL_Aff_transformationC3<FT>
+  CGAL__general_transformation_composition CGAL_NULL_TMPL_ARGS(
                                    CGAL__Aff_transformation_repC3<FT> &l,
                                    CGAL__Aff_transformation_repC3<FT> &r );
-  friend CGAL_Aff_transformationC3<FT> operator*
+  friend CGAL_Aff_transformationC3<FT> operator* CGAL_NULL_TMPL_ARGS
                                 (const CGAL_Aff_transformationC3<FT> &a,
                                  const CGAL_Aff_transformationC3<FT> &b);
 
@@ -248,11 +279,48 @@ public:
                                               t31, t32, t33)) == 1 );
   }
 
+ virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return t11;
+              case 1: return t12;
+              case 2: return t13;
+              case 3: return t14;
+            }
+    case 1: switch (j)
+            {
+              case 0: return t21;
+              case 1: return t22;
+              case 2: return t23;
+              case 3: return t24;
+            }
+    case 2: switch (j)
+            {
+              case 0: return t31;
+              case 1: return t32;
+              case 2: return t33;
+              case 3: return t34;
+            }
+    case 3: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(0);
+              case 3: return FT(1);
+            }
+    }
+  return FT(0);
+  }
+
+
   ostream &print(ostream &os) const
   {
     os <<"                   "<< t11 <<' '<< t12 <<' '<< t13 <<' '<< t14 <<"\n";
     os <<"                   "<< t21 <<' '<< t22 <<' '<< t23 <<' '<< t24 <<"\n";
-    os <<"                   "<< t31<<' '<< t32 <<' '<< t33 <<' '<< t34 <<")\n";
+    os <<"                   "<< t31 <<' '<< t32 <<' '<< t33 <<' '<< t34 <<")\n";
 
     return os;
   }
@@ -267,10 +335,11 @@ private:
 template < class FT >
 class CGAL__Translation_repC3 : public CGAL__Aff_transformation_rep_baseC3<FT>
 {
-  friend ostream &operator<<(ostream &os, CGAL__Translation_repC3<FT> &t);
-  friend CGAL_Aff_transformationC3<FT> operator*
-                                (const CGAL_Aff_transformationC3<FT> &a,
-                                 const CGAL_Aff_transformationC3<FT> &b);
+  friend ostream &operator<<  CGAL_NULL_TMPL_ARGS(
+                              ostream &os, CGAL__Translation_repC3<FT> &t);
+  friend CGAL_Aff_transformationC3<FT> operator* CGAL_NULL_TMPL_ARGS
+                             (const CGAL_Aff_transformationC3<FT> &a,
+                              const CGAL_Aff_transformationC3<FT> &b);
 
 public:
   CGAL__Translation_repC3()
@@ -328,6 +397,42 @@ public:
     return true;
   }
 
+  virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return FT(1);
+              case 1: return FT(0);
+              case 2: return FT(0);
+              case 3: return translationvector.x();
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(1);
+              case 2: return FT(0);
+              case 3: return translationvector.y();
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+              case 3: return translationvector.z();
+            }
+    case 3: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(0);
+              case 3: return FT(1);
+            }
+    }
+    return FT(0);
+  }
+
   ostream &print(ostream &os) const
   {
     FT ft0(0), ft1(1);
@@ -350,8 +455,9 @@ private:
 template < class FT >
 class CGAL__Scaling_repC3: public CGAL__Aff_transformation_rep_baseC3<FT>
 {
-  friend ostream &operator<<(ostream &os, CGAL__Scaling_repC3<FT> &t);
-  friend CGAL_Aff_transformationC3<FT> operator*
+  friend ostream &operator<< CGAL_NULL_TMPL_ARGS(
+                                 ostream &os, CGAL__Scaling_repC3<FT> &t);
+  friend CGAL_Aff_transformationC3<FT> operator* CGAL_NULL_TMPL_ARGS
                                 (const CGAL_Aff_transformationC3<FT> &a,
                                  const CGAL_Aff_transformationC3<FT> &b);
 
@@ -407,6 +513,43 @@ public:
     return true;
   }
 
+  virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return scalefactor;
+              case 1: return FT(0);
+              case 2: return FT(0);
+              case 3: return FT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return scalefactor;
+              case 2: return FT(0);
+              case 3: return FT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return scalefactor;
+              case 3: return FT(0);
+            }
+    case 3: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(0);
+              case 3: return FT(1);
+            }
+    }
+    return FT(0);
+  }
+
+
   virtual ostream &print(ostream &os) const
   {
     FT ft0(0);
@@ -428,14 +571,14 @@ private:
 template < class FT >
 class CGAL_Aff_transformationC3 : public CGAL_Handle
 {
-  friend   ostream &
-    operator<< ( ostream &os, const CGAL_Aff_transformationC3<FT> &t);
+  friend ostream &operator<< CGAL_NULL_TMPL_ARGS(ostream &os,
+                                 const CGAL_Aff_transformationC3<FT> &t);
 
   friend   CGAL_Aff_transformationC3<FT>
-  CGAL__general_transformation_composition(
-                                   CGAL__Aff_transformation_repC3<FT> &l,
-                                   CGAL__Aff_transformation_repC3<FT> &r );
-  friend CGAL_Aff_transformationC3<FT> operator*
+  CGAL__general_transformation_composition CGAL_NULL_TMPL_ARGS(
+                                 CGAL__Aff_transformation_repC3<FT> &l,
+                                 CGAL__Aff_transformation_repC3<FT> &r );
+  friend CGAL_Aff_transformationC3<FT> operator* CGAL_NULL_TMPL_ARGS
                                 (const CGAL_Aff_transformationC3<FT> &a,
                                  const CGAL_Aff_transformationC3<FT> &b);
 
@@ -494,6 +637,10 @@ public:
   CGAL_Aff_transformationC3<FT>  general_form() const;
   bool                 is_even() const;
   bool                 is_odd() const;
+  FT                   cartesian(int i, int j) const { return ptr()->cartesian(i,j); }
+  FT                   homogeneous(int i, int j) const { return cartesian(i,j); }
+  FT                   m(int i, int j) const { return cartesian(i,j); }
+  FT                   hm(int i, int j) const { return cartesian(i,j); }
 
 private:
   CGAL__Aff_transformation_rep_baseC3<FT>*   ptr() const
@@ -743,3 +890,4 @@ ostream &operator<<(ostream &os, const CGAL_Aff_transformationC3<FT> &t)
 
 
 #endif // CGAL_AFF_TRANSFORMATIONC3_H
+

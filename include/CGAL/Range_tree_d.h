@@ -1,39 +1,47 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Range_tree_d.h
+// author(s)     : Gabriele Neyer      
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// file  : include/CGAL/Range_tree_d.h
-// source: include/CGAL/Range_tree_d.h
-// author: Gabriele Neyer
-// $Revision: 1.2 $
-// $Date: 1997/06/16 13:39:18 $
 
 #ifndef CGAL_Range_tree_d__
 #define CGAL_Range_tree_d__
@@ -46,26 +54,28 @@ INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 #include <vector.h>
 
 // A d-dimensional Range Tree or a multilayer tree consisting of Range 
-// and other trees that are derived public CGAL_Tree_base<_Data, _Window, _Interface>
+// and other trees that are derived public 
+// CGAL_Tree_base<_Data, _Window, _Interface>
 // can be constructed within this class.
 // _Data: container class which contains the d-dimensional data the tree holds.
 // _Window: Query window -- a d-dimensional interval
-// _Interface: Interface for the class with functions that allow to access the data.
-//             cf. file Tree_interface.h, class CGAL_point_interface for the requirements.
+// _Interface: Interface for the class with functions that allow to 
+// access the data.
+// cf. file Tree_interface.h, class CGAL_point_interface for the requirements.
 
 
 template <class _Data, class _Window, class _Interface>
-class CGAL_Range_tree_d: public CGAL_tree_base<_Data, _Window>
+class CGAL_Range_tree_d: public CGAL_tree_base< _Data,  _Window>
 {
  private:
-  typedef CGAL__typename _Data Data;
-  typedef CGAL__typename _Window Window;
-  typedef CGAL__typename _Interface::Key Key;
-  typedef CGAL__typename _Interface Interface;
+  typedef  _Data Data;
+  typedef  _Window Window;
+  typedef typename _Interface::Key Key;
+  typedef  _Interface Interface;
 protected:
-  typedef CGAL_Range_tree_d<_Data, _Window, _Interface> rT_d;
-  tree_base_type *sublayer_tree; 
-  _Interface interface;
+  typedef CGAL_Range_tree_d< _Data,  _Window,  _Interface> rT_d;
+  tree_base_type *sublayer_tree;
+   _Interface interface;
   int is_build;
  
   // A vertex is of this type:
@@ -83,8 +93,8 @@ friend range_tree_node;
 
     range_tree_node( range_tree_node    * _left,
                      range_tree_node    * _right,
-                     const Data              & _obj,
-                     const CGAL__typename Key  & _key ) :
+                     const  Data & _obj,
+                     const  Key  & _key ) :
       object( _obj ), key( _key )
     {
       left_link = _left;
@@ -94,7 +104,7 @@ friend range_tree_node;
 
     range_tree_node( range_tree_node    * _left,
                      range_tree_node    * _right,
-                     const CGAL__typename Key  & _key ) :
+                     const  Key  & _key ) :
       key( _key )
     {
       left_link = _left;
@@ -108,7 +118,7 @@ friend range_tree_node;
     }
 
     Data object;
-    CGAL__typename Key key;
+     Key key;
     tree_base_type *sublayer;
   };
   typedef range_tree_node *link_type;
@@ -140,11 +150,13 @@ friend range_tree_node;
   bool is_anchor(){return false;}
 
   // returns true, if the object lies inside of win
-  bool is_inside(_Window const &win, _Data const& object)
+  bool is_inside( _Window const &win,  _Data const& object)
   {
     if(is_less_equal(interface.get_left(win), interface.get_key(object)) 
-       && interface.comp(interface.get_key(object),interface.get_right(win))) //half open
-//       && is_less_equal(interface.get_key(object),interface.get_right(win))) //closed interval
+       && interface.comp(interface.get_key(object),interface.get_right(win)))
+   //half open
+//       && is_less_equal(interface.get_key(object),interface.get_right(win)))
+   //closed interval
     {
       return sublayer_tree->is_inside(win,object);
     }
@@ -166,7 +178,7 @@ friend range_tree_node;
 
     while(current!=last)
     {
-      if (interface.comp(interface.get_key(*current), interface.get_key(*prev)))
+      if (interface.comp(interface.get_key(*current),interface.get_key(*prev)))
 	startpoints.push_back(current);
       prev = current++;
     }
@@ -183,7 +195,8 @@ friend range_tree_node;
 	else 
 	  current_last = last;
 	tmp_startpoints.push_back(current_first);
-	inplace_merge(current_first, current_middle, current_last, interface.key_comp);
+	inplace_merge(current_first, current_middle, current_last, 
+		      interface.key_comp);
       }
       if(startpoints.size()>0)
       {
@@ -198,7 +211,8 @@ friend range_tree_node;
   // merge sort algorithms that takes O(n) time if the sequence to
   // be sorted consists of two sorted subsequences.
 
-  void dynamic_merge(vector<Data>::iterator & first, vector<Data>::iterator & last)
+  void dynamic_merge(vector<Data>::iterator & first, 
+		     vector<Data>::iterator & last)
   {
     vector<Data>::iterator prev, current=first;
     vector<Data>::iterator current_first, current_middle, current_last;
@@ -209,7 +223,8 @@ friend range_tree_node;
 
     while(current!=last)
     {
-      if (interface.comp(interface.get_key(*current), interface.get_key(*prev)))
+      if (interface.comp(interface.get_key(*current), 
+			 interface.get_key(*prev)))
 	startpoints.push_back(current);
       prev = current++;
     }
@@ -226,7 +241,8 @@ friend range_tree_node;
 	else 
 	  current_last = last;
 	tmp_startpoints.push_back(current_first);
-	inplace_merge(current_first, current_middle, current_last, interface.key_comp);
+	inplace_merge(current_first, current_middle, current_last, 
+		      interface.key_comp);
       }
       if(startpoints.size()>0)
       {
@@ -240,7 +256,7 @@ friend range_tree_node;
 #ifdef carray
   // merge sort algorithms that takes O(n) time if the sequence to
   // be sorted consists of two sorted subsequences.
-  void dynamic_merge(_Data * first, _Data * last)
+  void dynamic_merge( _Data * first,  _Data * last)
   {
     Data * prev;
     Data * current=first;
@@ -254,7 +270,8 @@ friend range_tree_node;
 
     while(current!=last)
     {
-      if (interface.comp(interface.get_key(*current), interface.get_key(*prev)))
+      if (interface.comp(interface.get_key(*current), 
+			 interface.get_key(*prev)))
 	startpoints.push_back(current);
       prev = current++;
     }
@@ -271,7 +288,8 @@ friend range_tree_node;
 	else 
 	  current_last = last;
 	tmp_startpoints.push_back(current_first);
-	inplace_merge(current_first, current_middle, current_last, interface.key_comp);
+	inplace_merge(current_first, current_middle, current_last, 
+		      interface.key_comp);
       }
       if(startpoints.size()>0)
       {
@@ -420,7 +438,8 @@ friend range_tree_node;
       vector<Data>::iterator sub_first = sublevel_first;
       vector<Data>::iterator sub_last = sublevel_last;
    
-      g->make_tree((vector<Data>::iterator&)sub_first, (vector<Data>::iterator&)sub_last);
+      g->make_tree((vector<Data>::iterator&)sub_first, 
+		   (vector<Data>::iterator&)sub_last);
       
       vparent->sublayer= g;
     }
@@ -462,7 +481,8 @@ friend range_tree_node;
 	tree_base_type *g = sublayer_tree->clone();
         vector<Data>::iterator sub_first = sublevel_first;
 	vector<Data>::iterator sub_last = sublevel_last;
-	g->make_tree((vector<Data>::iterator&)sub_first, (vector<Data>::iterator&)sub_last);
+	g->make_tree((vector<Data>::iterator&)sub_first, 
+		     (vector<Data>::iterator&)sub_last);
 	vparent->sublayer = g;
       }
   }
@@ -476,10 +496,10 @@ friend range_tree_node;
 			link_type& rightchild,
 			link_type& prevchild, 
 			link_type& leftmostlink,
-			_Data *& current, 
-			_Data *& last,
-			_Data *& sublevel_first,
-			_Data *& sublevel_last)
+			 _Data *& current, 
+			 _Data *& last,
+			 _Data *& sublevel_first,
+			 _Data *& sublevel_last)
   {
     // only two elements ==> two leaves and a parent is constructed
     if (n==2)
@@ -605,7 +625,8 @@ friend range_tree_node;
       (*result++)=v->object;
   }
 #endif
-  void report_subtree(link_type v, back_insert_iterator<vector<_Data> > result)
+  void report_subtree(link_type v, 
+		      back_insert_iterator<vector< _Data> > result)
   {
     if(left(v)!=CGAL__NIL)
     {
@@ -615,7 +636,7 @@ friend range_tree_node;
     else
       (*result++)=v->object;
   }
-  void report_subtree(link_type v, back_insert_iterator<list<_Data> > result)
+  void report_subtree(link_type v, back_insert_iterator<list< _Data> > result)
   {
     if(left(v)!=CGAL__NIL)
     {
@@ -626,7 +647,7 @@ friend range_tree_node;
       (*result++)=v->object;
   }
 #ifdef ostreamiterator
-  void report_subtree(link_type v, ostream_iterator<_Data> result)
+  void report_subtree(link_type v, ostream_iterator< _Data> result)
   {
     if(left(v)!=CGAL__NIL)
     {
@@ -639,9 +660,11 @@ friend range_tree_node;
 #endif
 
 
-  bool is_valid(link_type& v, link_type&  leftmost_child, link_type& rightmost_child)
+  bool is_valid(link_type& v, link_type&  leftmost_child, 
+		link_type& rightmost_child)
   {
-    link_type leftmost_child_l, rightmost_child_l,  leftmost_child_r, rightmost_child_r;
+    link_type leftmost_child_l, rightmost_child_l,  leftmost_child_r, 
+      rightmost_child_r;
     if (v->sublayer != (tree_base_type *)0)
     {
       tree_base_type *T= v->sublayer;
@@ -699,7 +722,8 @@ public:
     }
   }
 
-  // a prototype of the tree is returned
+
+ // a prototype of the tree is returned
   tree_base_type *clone() const 
   { 
     return new CGAL_Range_tree_d(*this, true); 
@@ -760,7 +784,8 @@ public:
       return true;
     }
 
-    dynamic_merge((vector<Data>::iterator&)first, (vector<Data>::iterator&)last);
+    dynamic_merge((vector<Data>::iterator&)first, 
+		  (vector<Data>::iterator&)last);
     
     leftmostlink = CGAL__NIL;
     vector<Data>::iterator sublevel_first, sublevel_last;
@@ -781,8 +806,8 @@ public:
 
 #ifdef carray
   // the tree is build according to the input elements in [first,last)
-  bool make_tree(_Data * first, 
-		 _Data * last)
+  bool make_tree( _Data * first, 
+		  _Data * last)
   {
     link_type leftchild, rightchild, prevchild, leftmostlink;
 
@@ -818,8 +843,8 @@ public:
 #endif
   
   // all elements that ly in win are inserted in result
-  back_insert_iterator<list<_Data> > window_query(_Window const &win,  
-						  back_insert_iterator<list<_Data> > result)
+  back_insert_iterator<list< _Data> > window_query( _Window const &win,  
+			     back_insert_iterator<list< _Data> > result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
        return result;
@@ -862,7 +887,8 @@ public:
       while(right(v)!=CGAL__NIL)
       {
 //	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) //half open interval
+	if(interface.comp(v->key, interface.get_right(win))) 
+	  //half open interval
 	{
 	  if(left(left(v))!=CGAL__NIL)
 	  {
@@ -890,8 +916,8 @@ public:
     return result;
   }
   // all elements that ly in win are inserted in result
-   back_insert_iterator<vector<_Data> >  window_query(_Window const &win,  
-						      back_insert_iterator<vector<_Data> > result)
+   back_insert_iterator<vector< _Data> >  window_query( _Window const &win,  
+			       back_insert_iterator<vector< _Data> > result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
        return result;
@@ -934,7 +960,8 @@ public:
       while(right(v)!=CGAL__NIL)
       {
 //	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) //half open interval
+	if(interface.comp(v->key, interface.get_right(win))) 
+	  //half open interval
 	{
 	  if(left(left(v))!=CGAL__NIL)
 	  {
@@ -964,8 +991,8 @@ public:
 
 #ifdef carray
   // all elements that ly in win are inserted in result
-  _Data * window_query(_Window const &win,  
-		       _Data * result)
+   _Data * window_query( _Window const &win,  
+				 _Data * result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
        return result;
@@ -1008,7 +1035,8 @@ public:
       while(right(v)!=CGAL__NIL)
       {
 //	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) //half open interval
+	if(interface.comp(v->key, interface.get_right(win))) 
+	   //half open interval
 	{
 	  if(left(left(v))!=CGAL__NIL)
 	  {
@@ -1038,8 +1066,8 @@ public:
 #endif
 #ifdef ostreamiterator
   // all elements that ly in win are inserted in result
-  ostream_iterator<_Data> window_query(_Window const &win,  
-				       ostream_iterator<_Data>& result)
+  ostream_iterator< _Data> window_query( _Window const &win,  
+				       ostream_iterator< _Data>& result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
       return result;
@@ -1082,7 +1110,8 @@ public:
       while(right(v)!=CGAL__NIL)
       {
 //	if(is_less_equal(v->key, interface.get_right(win))) closed interval
-	if(interface.comp(v->key, interface.get_right(win))) //half open interval
+	if(interface.comp(v->key, interface.get_right(win))) 
+	  //half open interval
 	{
 	  if(left(left(v))!=CGAL__NIL)
 	  {
@@ -1112,30 +1141,30 @@ public:
 #endif
 
   // a window query is performed 
-   back_insert_iterator<list<_Data> > enclosing_query(_Window const &win,  
-						      back_insert_iterator<list<_Data> > result)
+   back_insert_iterator<list< _Data> > enclosing_query(  _Window const &win,  
+				 back_insert_iterator<list< _Data> > result)
   {
     return window_query(win, result);
   }
 
   // a window query is performed 
-  back_insert_iterator<vector<_Data> > enclosing_query(_Window const &win,  
-						       back_insert_iterator<vector<_Data> > result)
+  back_insert_iterator<vector< _Data> > enclosing_query( _Window const &win,  
+			       back_insert_iterator<vector< _Data> > result)
   {
     return window_query(win, result);
   }
 #ifdef carray
   // a window query is performed 
-  _Data *enclosing_query(_Window const &win,  
-		       _Data * result)
+   _Data *enclosing_query( _Window const &win,  
+				   _Data * result)
   {
     return window_query(win, result);
   }
 #endif
 #ifdef ostreamiterator
   // a window query is performed 
-  ostream_iterator<_Data>  enclosing_query(_Window const &win,  
-					   ostream_iterator<_Data> result)
+  ostream_iterator< _Data>  enclosing_query( _Window const &win,  
+				ostream_iterator< _Data> result)
   {
     return window_query(win, result);
   }

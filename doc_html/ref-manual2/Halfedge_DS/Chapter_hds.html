@@ -1,0 +1,743 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_hds.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1><A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structures</H1>
+
+<A NAME="chapterHds"></A>
+<BR><P>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+<P>
+
+A halfedge data structure is an edge-centered data structure capable
+of maintaining incidence informations of vertices, edges and facets,
+for example for planar maps or polyhedrons. Each edge is decomposed
+into two halfedges with opposite orientations. One incident facet and
+one incident vertex are stored in each halfedge. For each facet and
+each vertex one incident halfedge is stored. Reduced variants of the
+halfedge data structure can omit some of these informations, for
+example the halfedge pointers in vertices or the storage of vertices at all.<P>
+
+
+    <CENTER>
+    <A HREF="./halfedge.gif">
+        <img src="./halfedge_small.gif" alt="Halfedge Diagram"></A><P>
+    </CENTER>
+<P>
+
+The data structure provided here is known as the
+FE-structure&nbsp;[<A HREF="../biblio.html#Biblio_w-ebdss-85">Wei85</A>], as
+halfedges&nbsp;[<A HREF="../biblio.html#Biblio_m-ism-88">M&auml;n88</A>, <A HREF="../biblio.html#Biblio_bfh-mgedm-95">BFH95</A>] or as the doubly connected edge
+list (DCEL)&nbsp;[<A HREF="../biblio.html#Biblio_bkos-cgaa-97">dBvKOS97</A>], although the original reference for
+the DCEL&nbsp;[<A HREF="../biblio.html#Biblio_mp-fitcp-78">MP78</A>] describes a different data structure. We
+continue naming it halfedge data structure (HDS). This data structure
+can also be seen as one of the variants of the quad-edge data
+structure&nbsp;[<A HREF="../biblio.html#Biblio_gs-pmgsc-85">GS85</A>], reduced to support only orientable
+surfaces. In general, the quad-edge data structure has a richer
+modeling space and can represent non-orientable 2-manifolds. The dual
+and the primal graph are symmetrically represented; the same
+algorithms can be applied to the dual graph as well as to the primal
+graph. This implies a lack of static type checking to distinguish
+between facets and vertices. Even though halfedges are similar to the
+winged edge data structure&nbsp;[<A HREF="../biblio.html#Biblio_b-prcv-75">Bau75</A>] or the original reference
+for the DCEL&nbsp;[<A HREF="../biblio.html#Biblio_mp-fitcp-78">MP78</A>], they are not equivalent, since the
+traversal algorithms are forced to search for certain incidences where
+the information is directly available in the halfedge data structure.
+An overview and comparison of these different data structures together
+with a thorough description of the design implemented here can be
+found in&nbsp;[<A HREF="../biblio.html#Biblio_k-ddsps-98">Ket98</A>].<P>
+
+<H3>Design Overview</H3>
+<P>
+
+The design strictly separates topology and geometry. Vertices,
+halfedges and facets carry both kinds of information. The
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> acts as a container class and stores all
+items and manages their incidence relations. For example the
+<I>CGAL_Polyhedron</I> from Chapter&nbsp;<A HREF="../Polyhedron/Chapter_polyhedron.html#chapterPolyhedron"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> uses the
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> and adds geometric operations. It
+imposes further restrictions on the data structure, for example, that
+an edge always has two distinct endpoints.<P>
+
+
+    <CENTER>
+    <A NAME="figurePolyDesign">
+        <img src="./poly_design_color.gif"
+         alt="Halfedge Data-Structure Design"><BR>
+    Figure: Responsibilities of the different layers in the 
+            halfedge data-structure design.
+    <P>
+    </CENTER>
+<P>
+
+Figure&nbsp;
+  <A HREF="Chapter_hds.html#figurePolyDesign"><IMG 
+  SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+
+offers a closer look at the design using <I>CGAL_Polyhedron</I> as example.
+Note that <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I>, <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>, <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I>
+and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> are concepts, where each can have multiple
+models. There are many different possibilities for vertices, edges and
+facets. Currently, two different models are provided for the
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I>. Many combinations are possible and
+result in a different <I>CGAL_Polyhedron</I>. We make use of the
+implicit instantiation of template classes in C++. The requirement
+set for a model consists of a mandatory part that every model must
+comply with and certain optional parts a model must only comply with
+if the corresponding functionality is actually used. For example, a
+vertex is allowed to be empty. If we want to use it for the polyhedral
+surface, then the normal vector computation imposes the additional
+requirements that the vertex must contain a three-dimensional point
+and gives access to it with the member function <I>point()</I>.<P>
+
+The responsibilities of the base classes for vertices, halfedges and
+facets are the actual storage of the incidences in terms of
+<I>void</I>-pointers, the geometry and other attributes. Especially the
+storage of incidences with <I>void</I>-pointers allows, for example,
+the facet class to be exchanged without rewriting the halfedge class.
+The advantage of strong type checking will be reestablished in the
+next layer. Implementations for vertices, edges and facets are
+provided that fulfill the minimal set of requirements. They can be
+used as base classes for own extensions. Richer implementations are
+provided as defaults; for polyhedrons they provide a three-dimensional
+point in the vertices and a plane equation in the facets.<P>
+
+The <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> is responsible for the storage
+organization of the vertices, halfedges and facets. Currently,
+implementations are provided that use a bidirectional list or an STL
+vector internally. The <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> derives new
+classes for vertices, halfedges and facets. They replace the
+<I>void</I>-pointer incidence information with type-safe pointers at
+the interface. Additional information besides the incidence
+information simply stays unaffected and will be inherited.<P>
+
+Different models are possible for the <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I>
+(two are available right now). Thus the set of requirements for the
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> is kept small. To support the
+implementation of high-level operations, a helper class
+<I>Halfedge_data_structure_decorator</I> is provided, which is not
+shown in Figure&nbsp;
+  <A HREF="Chapter_hds.html#figurePolyDesign"><IMG 
+  SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+
+but would be placed at the side
+of the <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I>, since it broadens that interface
+but does not hide it. It adds Euler operations and adaptive
+functionality. For example, if the <I>prev()</I> function is not
+provided for halfedges, a <I>find_prev()</I> function searches the
+previous halfedge along the facet. If the <I>prev()</I> function is
+available, the <I>find_prev()</I> function simply calls it. This
+distinction is resolved at compile time with a technique called <EM>compile-time tags</EM>, similar to iterator tags in&nbsp;[<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>].<P>
+
+The <I>CGAL_Polyhedron</I> (Chapter&nbsp;<A HREF="../Polyhedron/Chapter_polyhedron.html#chapterPolyhedron"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>) adds an
+ease-of-use layer in terms of high-level
+functions, high-level concepts for accessing the items, i.e.&nbsp;handles,
+iterators and circulators (pointers are no longer visible at this
+interface), and the protection of the combinatorial integrity. It
+derives new vertices, halfedges and facets to provide the handles and
+hide the pointers.<P>
+
+<H3>Organization of this Chapter</H3>
+<P>
+
+Section&nbsp;<A HREF="Halfedge_data_structure.html#sectionHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> describes the requirements an
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> with its three local classes for
+vertices, halfedges and facets must fulfill.
+Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> names the models currently available.
+These models make use of the <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>, <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I>
+and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> concepts, whose requirements are stated in
+Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsBases"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The predefined base classes are
+described in Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsBasesModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The helper class
+<I>Halfedge_data_structure_decorator</I> follows in
+Section&nbsp;<A HREF="CGAL_Halfedge_data_structure_decorator.html#sectionHdsDecorator"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Several examples of halfedge data
+structures in Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsExamples"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> conclude the chapter.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Halfedge_data_structure.html"><I>Halfedge_data_structure</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Vertex.html"><I>Vertex</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Halfedge.html"><I>Halfedge</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Facet.html"><I>Facet</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_3"></A>
+<H2>Models of <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I></H2>
+<P>
+
+<A NAME="sectionHdsModels"></A><P>
+
+Four models are currently provided for the
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept in CGAL. Two generic models are
+parameterized with models of the <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>,
+<I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> concepts:
+<I><A HREF="CGAL_Halfedge_data_structure_using_list.html#Cross_link_anchor_5">CGAL_Halfedge_data_structure_using_list</A></I> manages the items with a
+doubly-linked list, and <I><A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A></I>
+manages the items internally with an STL vector. Two further models
+provide default solutions based on the generic model using lists. The
+model <I><A HREF="CGAL_Halfedge_data_structure_default.html#Cross_link_anchor_4">CGAL_Halfedge_data_structure_default</A></I> implements all
+incidences and allows to choose a point type for vertices.
+<I><A HREF="../Polyhedron/CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3</A></I> is prepared for
+polyhedral surfaces. It implements again all incidences and stores a
+three-dimensional point in vertices and a plane equation in facets,
+see Section&nbsp;<A HREF="../Polyhedron/CGAL_Halfedge_data_structure_polyhedron_default_3.html#sectionPolyHdsDefault"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> for details.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Halfedge_data_structure_default.html"><I>CGAL_Halfedge_data_structure_default&lt;Point&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Halfedge_data_structure_using_list.html"><I>CGAL_Halfedge_data_structure_using_list&lt;V,H,F&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Halfedge_data_structure_using_vector.html"><I>CGAL_Halfedge_data_structure_using_vector&lt;V,H,F&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_4"></A>
+<H2>Requirements for <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>,  <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I></H2>
+<P>
+
+<A NAME="sectionHdsBases"></A><P>
+
+Two predefined models of the <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept
+make use of the concepts of <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>, <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> and
+<I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I>, whose requirements are defined in the
+following subsections. The incidence relations and the mandatory and
+optional member functions are summarized in
+Figure&nbsp;
+  <A HREF="Chapter_hds.html#figureOptionalBasesMethods"><IMG 
+  SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+.<P>
+
+
+    <CENTER>
+    <A NAME="figureOptionalBasesMethods">
+    <A HREF="./hds_bases_optional.gif">
+        <img src="./hds_bases_optional_small.gif" 
+             alt="Class Diagram"></A><BR>
+    <A HREF="./hds_bases_optional.gif">Figure:</A>
+    The three concepts <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>, <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I>, and 
+          <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> for the halfedge data structure. Member
+          functions with shaded background are mandatory. The others
+          are optionally supported.
+    </CENTER>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Vertex_base.html"><I>Vertex_base</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Halfedge_base.html"><I>Halfedge_base</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Facet_base.html"><I>Facet_base</I></A>.</UL>
+
+<P>
+
+<P>
+<A NAME="Section_5"></A>
+<H2>Models of <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>,  <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I></H2>
+<P>
+
+<A NAME="sectionHdsBasesModels"></A><P>
+
+CGAL currently provides the following models for the concepts of
+<I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>, <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> and <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I>. The
+first set of models implements the minimal set of requirements
+demanded for the concepts. The second set provides all described
+incidences and a point type for vertices. Another model for the
+<I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> concept is tailored for polyhedral surfaces and
+includes a plane equation, see Section&nbsp;<A HREF="../Polyhedron/Chapter_polyhedron.html#sectionPolyHdsBases"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+These models can be used directly or they can serve as base classes
+for further developments.<P>
+
+<I>#include &lt;CGAL/Halfedge_data_structure_bases.h&gt;</I><P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Vertex_min_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_min_base">CGAL_Vertex_min_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the minimal vertex functionality with no data at all.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class Point&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Vertex_max_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_max_base">CGAL_Vertex_max_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the maximal vertex functionality including halfedge pointer
+    and a template parameter for the point.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Halfedge_min_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_min_base">CGAL_Halfedge_min_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the minimal halfedge functionality with next and opposite
+    pointers.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Halfedge_max_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_max_base">CGAL_Halfedge_max_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the maximal halfedge functionality including previous,
+    vertex and facet pointers.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Facet_min_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Facet_min_base">CGAL_Facet_min_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the minimal facet functionality with no data at all.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Facet_max_base"></A>
+class <A HREF="Chapter_hds.html#Struct_CGAL_Facet_max_base">CGAL_Facet_max_base</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the maximal functionality for facets including halfedge
+    pointer.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Halfedge_data_structure_using_list.html#Cross_link_anchor_5">CGAL_Halfedge_data_structure_using_list</A>&lt;V,H,F&gt;</I> and<BR><I><A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A>&lt;V,H,F&gt;</I>.<P>
+
+<P><UL><LI>
+ Class declaration of <A HREF="CGAL_Halfedge_data_structure_decorator.html"><I>CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_7"></A>
+<H2>Examples of <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structures</H2>
+<P>
+
+<A NAME="sectionHdsExamples"></A><P>
+
+<H3>The Default <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structure</H3>
+<P>
+
+The default halfedge data structure from
+Section&nbsp;<A HREF="CGAL_Halfedge_data_structure_default.html#sectionHdsDefault"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> expects a point as template argument,
+which we choose to be an <TT>int</TT> for simplicity. The example program
+defines a halfedge data structure and a decorator, see
+Section&nbsp;<A HREF="CGAL_Halfedge_data_structure_decorator.html#sectionHdsDecorator"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> for the decorator. The program
+creates a loop, consisting of two halfedges, one vertex and two
+facets, and checks its validity.<P>
+
+<PRE>/*  hds_prog_default.C       */
+/*  ------------------------------ */
+#include &lt;CGAL/Halfedge_data_structure_default.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_default.html#Cross_link_anchor_4">CGAL_Halfedge_data_structure_default&lt;Point&gt;</A>  HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+
+int main() {
+    HDS hds;
+    Decorator decorator;
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    return 0;
+}
+</PRE><P>
+
+<H3>A Minimal <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structure</H3>
+<P>
+
+The following program declares a minimal structure <TT>HDS</TT> using the
+minimal bases provided in Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsBasesModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> and a
+list-bases halfedge data structure from
+Section&nbsp;<A HREF="CGAL_Halfedge_data_structure_using_list.html#sectionHdsUsingList"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The result is a data structure
+maintaining only halfedges with next and opposite pointers. No
+vertices or facets are stored. The data structure models an <EM>undirected graph</EM>.<P>
+
+<PRE>/*  hds_prog_graph.C        */
+/*  ------------------------------ */
+#include &lt;CGAL/Halfedge_data_structure_bases.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_using_list.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+
+typedef <A HREF="CGAL_Halfedge_data_structure_using_list.html#Cross_link_anchor_5">CGAL_Halfedge_data_structure_using_list</A> &lt;
+            <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_min_base">CGAL_Vertex_min_base</A>, 
+            <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_min_base">CGAL_Halfedge_min_base</A>, 
+            <A HREF="Chapter_hds.html#Struct_CGAL_Facet_min_base">CGAL_Facet_min_base</A> &gt;                    HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+
+int main() {
+    HDS hds;
+    Decorator decorator;
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    return 0;
+}
+</PRE><P>
+
+<H3>The Default with a Vector Instead of a List</H3>
+<P>
+
+The default halfedge data structure uses a list internally and the
+maximal base classes. Assuming we have a point type <TT>Point</TT> we can
+declare an alternative data structure <TT>HDS</TT> using the same base
+classes but the vector storage from Section&nbsp;<A HREF="CGAL_Halfedge_data_structure_using_vector.html#sectionHdsUsingVector"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Note that for the vector storage the size of the halfedge data
+structure must be reserved beforehand, either with the constructor as
+shown in the example or with the <TT>reserve()</TT> member function.<P>
+
+<PRE>/*  hds_prog_vector.C        */
+/*  ------------------------------ */
+#include &lt;CGAL/Halfedge_data_structure_bases.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_using_vector.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A> &lt;
+            <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_max_base">CGAL_Vertex_max_base</A>&lt; Point &gt;, 
+            <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_max_base">CGAL_Halfedge_max_base</A>, 
+            <A HREF="Chapter_hds.html#Struct_CGAL_Facet_max_base">CGAL_Facet_max_base</A> &gt;                    HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+
+int main() {
+    HDS hds(1,2,2);
+    Decorator decorator;
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    return 0;
+}
+</PRE><P>
+
+<H3>Example Adding Color to Facets</H3>
+<P>
+
+This example re-uses the base class available for facets and adds
+another member variable <I>color</I>. The facet in the halfedge data
+structure and data structures building upon that will inherit
+the new member variable, as the main function indicates. The same can
+be done with any kind of functionality and any of the three items;
+vertices, halfedges or facets. However, note that additional pointers
+to vertices, halfedges, and facets cannot be introduced this way,
+since they are only maintained as <TT>void*</TT> pointers at this
+level. The internal classes, which are responsible for the type safe
+pointers, must be extended to achieve this.<P>
+
+<PRE>/*  hds_prog_color.C         */
+/*  ------------------------------ */
+#include &lt;CGAL/basic.h&gt;
+#include &lt;CGAL/IO/Color.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_bases.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_using_list.h&gt;
+
+/* A facet with a color member variable. */
+class My_facet : public <A HREF="Chapter_hds.html#Struct_CGAL_Facet_max_base">CGAL_Facet_max_base</A> {
+public:
+    CGAL_Color color;
+};
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_using_list.html#Cross_link_anchor_5">CGAL_Halfedge_data_structure_using_list</A> &lt;
+            <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_max_base">CGAL_Vertex_max_base</A>&lt; Point &gt;, 
+            <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_max_base">CGAL_Halfedge_max_base</A>, 
+            My_facet &gt;                               HDS;
+
+int main() {
+    HDS hds;
+    My_facet* f = hds.new_facet();
+    f-&gt;color = CGAL_RED;
+    return 0;
+}
+
+    
+</PRE><P>
+
+<H3>Example Extending the Minimal <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Base with a Previous Pointer</H3>
+<P>
+
+The minimal halfedge data structure above can be extended to a data
+structure also supporting a previous pointer for halfedges. We replace
+the <I><A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_min_base">CGAL_Halfedge_min_base</A></I> with our own <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I>
+derived from the <I><A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_min_base">CGAL_Halfedge_min_base</A></I>.<P>
+
+<PRE>
+  class My_halfedge : public <A HREF="Chapter_hds.html#Struct_CGAL_Halfedge_min_base">CGAL_Halfedge_min_base</A> {
+      void* prv;
+  public:
+      typedef  CGAL_Tag_true   Supports_halfedge_prev;
+      void*       prev()                    { return prv;}
+      const void* prev() const              { return prv;}
+      void        set_prev( void* h)        { prv = h;}
+  };  
+</PRE><P>
+
+<H3>Example Using own <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Structure</H3>
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR><P>
+
+The halfedge data structure as presented here is not as space efficient as
+for example the winged
+edge data structure&nbsp;[<A HREF="../biblio.html#Biblio_b-prcv-75">Bau75</A>], the DCEL&nbsp;[<A HREF="../biblio.html#Biblio_mp-fitcp-78">MP78</A>] or
+variants of the quad-edge data structure&nbsp;[<A HREF="../biblio.html#Biblio_gs-pmgsc-85">GS85</A>].
+On the other side they do not need any search operations during
+traversals. A comparison can be found in&nbsp;[<A HREF="../biblio.html#Biblio_k-ddsps-98">Ket98</A>].<P>
+
+Computation time versus memory space can also be traded with the
+halfedge data structure design as presented here. We will use
+traditional C techniques like type casting and make the assumption
+that pointers (especially those from <TT>malloc</TT> or <TT>new</TT>) points
+to even addresses. The idea is as follows: The halfedge data structure
+allocate halfedges pairwise. Concerning the vector based data
+structure this implies that the absolute value of the difference
+between a halfedge and its opposite halfedge is always one with
+respect to C pointer arithmetic. We can replace the opposite pointer
+by a single bit coding the sign of this difference. We will store
+this bit as the least significant bit together with the next halfedge
+pointer. The example also omits the previous pointer. What remains
+are three pointers per halfedge. The same solution can be applied to
+the list based polyhedron traits class with the difference that the
+<TT>SIZE</TT> constant must reflect the additional pointers needed for
+the list management. They are added internally of the halfedge data
+structure using the base class <I>CGAL_In_place_list_base&lt;My_halfedge&gt;</I>.<P>
+
+<PRE>/*  hds_prog_compact.C     */
+/*  ------------------------------ */
+#include &lt;CGAL/Halfedge_data_structure_bases.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_using_vector.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+
+/* Define a new halfedge class. */
+class My_halfedge {
+protected:
+    size_t  nxt;
+    void*   v;
+    void*   f;
+public:
+    typedef CGAL_Tag_false Supports_halfedge_prev;
+    typedef CGAL_Tag_true  Supports_halfedge_vertex;
+    typedef CGAL_Tag_true  Supports_halfedge_facet;
+
+    My_halfedge() : f(NULL), nxt(0) {}
+
+    void*       opposite()       {
+        const size_t SIZE = sizeof( My_halfedge);
+        if ( nxt &amp; 1)
+            return (char*)this + SIZE;
+        return (char*)this - SIZE;
+    }
+    const void* opposite() const {
+        const size_t SIZE = sizeof( My_halfedge);
+        if ( nxt &amp; 1)
+            return (const char*)this + SIZE;
+        return (const char*)this - SIZE;
+    }
+    void*       next()           { return (void*)(nxt &amp; (~ size_t(1)));}
+    const void* next() const     { return (void*)(nxt &amp; (~ size_t(1)));}
+
+    void*       vertex()         { return v;}
+    const void* vertex() const   { return v;}
+
+    void*       facet()          { return f;}
+    const void* facet() const    { return f;}
+
+    bool is_border() const       { return f == NULL;}
+
+    void  set_opposite( void* g) {
+        const size_t SIZE = sizeof( My_halfedge);
+        char* h = (char*)g;
+        CGAL_assertion( abs( h - (char*)this) == SIZE);
+        if ( h &gt; (char*)this)
+            nxt |= 1;
+        else
+            nxt &amp;= (~ size_t(1));
+    }
+    void  set_next( void* h)     {
+	CGAL_assertion( ((size_t)h &amp; 1) == 0);
+        nxt = ((size_t)(h)) | (nxt &amp; 1);
+    }
+    void  set_vertex( void* _v)  { v = _v;}
+    void  set_facet( void* _f)   { f = _f;}
+};
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A> &lt;
+            <A HREF="Chapter_hds.html#Struct_CGAL_Vertex_max_base">CGAL_Vertex_max_base</A>&lt; Point &gt;,
+            My_halfedge,
+            <A HREF="Chapter_hds.html#Struct_CGAL_Facet_max_base">CGAL_Facet_max_base</A> &gt;                    HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+
+int main() {
+    HDS hds(1,2,2);
+    Decorator decorator;
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    return 0;
+}
+</PRE><P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P>
+<H3>Example Using the <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Iterator</H3>
+<P>
+
+Three edges are created in the default halfedge data structure.
+The halfedge iterator is used to count the halfedges.<P>
+
+<PRE>/*  hds_prog_halfedge_iterator.C  */
+/*  ------------------------------------- */
+#include &lt;CGAL/Halfedge_data_structure_default.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_default.html#Cross_link_anchor_4">CGAL_Halfedge_data_structure_default&lt;Point&gt;</A>  HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+typedef HDS::Halfedge_iterator                       Halfedge_iterator;
+
+int main() {
+    HDS hds;
+    Decorator decorator;
+    decorator.create_loop( hds);
+    decorator.create_segment( hds);
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    int n = 0;
+    Halfedge_iterator begin = hds.halfedges_begin();
+    for( ; begin != hds.halfedges_end(); ++begin)
+	++n;
+    CGAL_assertion( n == 6);  /* == 3 edges */
+    return 0;
+}
+</PRE><P>
+
+<H3>Example for an Adapter to Build an Edge Iterator</H3>
+<P>
+
+Three edges are created in the default halfedge data structure.
+The adapter <TT>N_step_adaptor</TT> is used to declare an edge
+iterator, which is used to count the edges.<P>
+
+<PRE>/*  hds_prog_edge_iterator.C  */
+/*  --------------------------------- */
+#include &lt;CGAL/Halfedge_data_structure_default.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;
+#include &lt;CGAL/N_step_adaptor.h&gt;
+
+typedef int                                          Point;
+typedef <A HREF="CGAL_Halfedge_data_structure_default.html#Cross_link_anchor_4">CGAL_Halfedge_data_structure_default&lt;Point&gt;</A>  HDS;
+typedef <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>  Decorator;
+typedef HDS::<A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>                                <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>;
+typedef HDS::Halfedge_iterator                       Halfedge_iterator;
+typedef HDS::iterator_category                       Iterator_category;
+typedef CGAL_N_step_adaptor&lt; Halfedge_iterator, 2,
+		 	     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>&amp;, <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*,
+			     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>,  ptrdiff_t,
+			     Iterator_category&gt;      Edge_iterator;
+
+int main() {
+    HDS hds;
+    Decorator decorator;
+    decorator.create_loop( hds);
+    decorator.create_segment( hds);
+    decorator.create_loop( hds);
+    CGAL_assertion( decorator.is_valid( hds));
+    int n = 0;
+    Edge_iterator begin = hds.halfedges_begin();
+    for( ; begin != hds.halfedges_end(); ++begin)
+	++n;
+    CGAL_assertion( n == 3);  /* == 3 edges */
+    return 0;
+}
+</PRE><P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

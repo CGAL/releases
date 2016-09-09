@@ -1,0 +1,313 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_checks.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_checks.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Checks</H1>
+<P>
+
+Much of the CGAL code contains checks.
+For example, all checks used in the kernel code are prefixed by
+<I>CGAL_KERNEL</I>.
+Other packages have their own prefixes, as documented in the corresponding
+chapters.
+Some are there to check if the kernel behaves correctly, others are there to
+check if the user calls kernel routines in an acceptable manner.<P>
+
+There are four types of checks.
+The first three are errors and lead to a halt of the program if they fail.
+The last only leads to a warning.
+<DL>
+<DT><B>Preconditions</B><DD> check if the caller of a routine has called it in a
+proper fashion.
+If such a check fails it is the responsibility of the caller
+(usually the user of the library).
+<DT><B>Postconditions</B><DD> check if a routine does what it promises to do.
+If such a check fails it is the fault of this routine, so of the library.
+<DT><B>Assertions</B><DD> are other checks that do not fit in the above two
+categories.
+<DT><B>Warnings</B><DD> are checks for which it is not so severe if they fail.
+</DL><P>
+
+By default, all of these checks are performed.
+It is however possible to turn them off through the use of compile time
+switches.
+For example, for the checks in the kernel code these are
+<I>CGAL_KERNEL_NO_PRECONDITIONS</I>,
+<I>CGAL_KERNEL_NO_POSTCONDITIONS</I>,
+<I>CGAL_KERNEL_NO_ASSERTIONS</I> and
+<I>CGAL_KERNEL_NO_WARNINGS</I>.
+So, in order to compile the file <TT>foo.C</TT> with the postcondition checks
+off, you should do:<BR><TT>CC -DCGAL_KERNEL_NO_POSTCONDITIONS foo.C</TT><P>
+
+Not all checks are on by default.
+All four types of checks can be marked as expensive or exactness checks
+(or both).
+These checks need to be turned on explicitly by supplying one or both of
+the compile time switches <I>CGAL_KERNEL_CHECK_EXPENSIVE</I> and
+<I>CGAL_KERNEL_CHECK_EXACTNESS</I>.<P>
+
+Expensive checks are, as the word says, checks that take a considerable
+time to compute.
+Considerable is an imprecise phrase.
+Checks that add less than 10 percent to the execution time of the routine
+they are in are not expensive.
+Checks that can double the execution time are.
+Somewhere in between lies the border line.
+Exactness checks are checks that rely on exact arithmetic.
+For example, if the intersection of two lines is computed, the postcondition
+of this routine may state that the intersection point lies on both lines.
+However, if the computation is done with doubles as number type, this may not
+be the case, due to round off errors.
+So, exactness checks should only be turned on if the computation is done
+with some exact number type.<P>
+
+<A NAME="Section_5"></A>
+<H2>Altering the failure behaviour</H2>
+<P>
+
+As stated above, if a postcondition, precondition or assertion is
+violated, the program will abort (stop and produce a core dump).
+This behaviour can be changed by means of the following function.<P>
+
+<I>#include &lt;CGAL/assertions.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Failure_behaviour_CGAL_set_error_behaviour6CGAL_Failure_behaviour_eb9;"></A>
+<A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_set_error_behaviour ( <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> eb)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+The parameter should have one of the following values.<P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Enum_CGAL_Failure_behaviour"></A>
+enum <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> { <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_ABORT</A>, <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_EXIT</A>, <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A>};
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+The first value is the default.
+If the <I><A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_EXIT</A></I> value is set, the program will stop, but not
+dump the core.
+The last value tells the checks to go on after diagnosing the error.
+The value that is returned is the value that was in use before.<P>
+
+For warnings there is a separate routine, which works in the same way.
+The only difference is that for warnings the default value is
+<I><A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A></I>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Failure_behaviour_CGAL_set_warning_behaviour6CGAL_Failure_behaviour_eb9;"></A>
+<A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_set_warning_behaviour ( <A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> eb)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Section_6"></A>
+<H2>Control at a finer granularity</H2>
+<P>
+
+The compile time flags as described up to now all operate on the whole
+library.
+Sometimes you may want to have a finer control.
+CGAL offers the possibility to turn checks on and off with a bit finer
+granularity, namely the module in which the routines are defined.
+The name of the module is to be appended directly after the CGAL prefix.
+So, the flag <I>CGAL_KERNEL_NO_ASSERTIONS</I> switches off assertions in
+the kernel only, the flag <I>CGAL_CH_CHECK_EXPENSIVE</I> turns on
+expensive checks in the convex hull module.
+The name of a particular module is documented with that module.<P>
+
+<BR><IMG BORDER=0 SRC="cc_advanced_begin.gif" ALT="begin of advanced section"><BR><P>
+
+<A NAME="Section_7"></A>
+<H2>Customising how errors are reported</H2>
+<P>
+
+Normally, error messages are written to the standard error output.
+It is possible to do something different with them.
+To that end you can register your own handler.
+This function should be declared as follows.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_my_failure_function6_const_char_*type+_const_char_*expression+_const_char_*file+_int_line+_const_char_*explanation9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    my_failure_function ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    const char *type, <BR>
+     const char *expression, <BR>
+     const char *file, <BR>
+     int line, <BR>
+     const char *explanation)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+Your failure function will be called with the following parameters.
+<I>type</I> is a string that contains one of the words precondition,
+postcondition, assertion or warning.
+The parameter <I>expression</I> contains the expression that was violated.
+<I>file</I> and <I>line</I> contain the place where the check was made.
+The <I>explanation</I> parameter contains an explanation of what was
+checked.
+It can be <I>NULL</I>, in which case the <I>expression</I> is thought
+to be descriptive enough.<P>
+
+There are several things that you can do with your own handler.
+You can display a diagnostic message in a different way, for instance in
+a pop up window or to a log file (or a combination).
+You can also implement a different policy on what to do after an error.
+For instance, you can throw an exception or ask the user in a dialog whether
+to abort or to continue.
+If you do this, it is best to set the error behaviour to
+<I><A HREF="Chapter_checks.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A></I>, so that it does not interfere with your policy.<P>
+
+You can register two handlers, one for warnings and one for errors.
+Of course, you can use the same function for both if you want.
+When you set a handler, the previous handler is returned, so you can restore
+it if you want.<P>
+
+<I>#include &lt;CGAL/assertions.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Failure_function_CGAL_set_error_handler6CGAL_Failure_function_handler9;"></A>
+CGAL_Failure_function
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_set_error_handler ( CGAL_Failure_function handler)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Failure_function_CGAL_set_warning_handler6CGAL_Failure_function_handler9;"></A>
+CGAL_Failure_function
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_set_warning_handler ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_Failure_function handler)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H4>Example</H4>
+<P>
+
+<PRE>
+#include &lt;CGAL/assertions.h&gt;
+
+void my_failure_handler(
+    const char *type,
+    const char *expr,
+    const char* file,
+    int line,
+    const char* msg)
+{
+    /* report the error in some way. */
+}
+
+void foo()
+{
+    CGAL_Failure_function prev;
+    prev = CGAL_set_error_handler(my_failure_handler);
+    /* call some routines. */
+    CGAL_set_error_handler(prev);
+}
+</PRE><P>
+
+<BR><IMG BORDER=0 SRC="cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><HR> Next chapter: <A HREF="Chapter_IOStream.html">Operators for IO Streams</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_checks.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

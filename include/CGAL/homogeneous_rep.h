@@ -1,44 +1,84 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/homogeneous_rep.h
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: homogeneous_rep.h
-// Author: Stefan Schirra
 
 #ifndef CGAL_HOMOGENEOUS_REP_H
 #define CGAL_HOMOGENEOUS_REP_H
 
 #define CGAL_REP_CLASS_DEFINED
 
+#ifndef CGAL_QUOTIENT_H
 #include <CGAL/Quotient.h>
+#endif // CGAL_QUOTIENT_H
+
+// 2D homogeneous point data accessor
+template < class _FT, class _RT >
+class CGAL_Data_accessorH2
+{
+public:
+    typedef  _FT                  FT;
+    typedef  _RT                  RT;
+    typedef  CGAL_PointH2<FT,RT>  Point;
+
+    RT  get_hx( Point const& p) const { return( p.hx()); }
+    RT  get_hy( Point const& p) const { return( p.hy()); }
+    RT  get_hw( Point const& p) const { return( p.hw()); }
+
+    void
+    get( Point const& p, RT& hx, RT& hy, RT& hw) const
+    {
+        hx = get_hx( p);
+        hy = get_hy( p);
+        hw = get_hw( p);
+    }
+
+    void
+    set( Point& p, RT const& hx, RT const& hy, RT const& hw) const
+    {
+        p = Point( hx, hy, hw);
+    }
+};
 
 template<class nt>
 class CGAL_Homogeneous
@@ -48,6 +88,10 @@ public:
 
     typedef     nt                            RT;
     typedef     CGAL_Quotient<nt>             FT;
+
+// data accessor
+
+    typedef CGAL_Data_accessorH2<FT,RT>       Data_accessor_2;
 
 // two-dimensional
 
@@ -65,6 +109,10 @@ public:
     typedef CGAL_CircleH2<FT,RT>              Circle_2;
 
     typedef CGAL_Iso_rectangleH2<FT,RT>       Iso_rectangle_2;
+
+
+    typedef CGAL_ConicHPA2<Point_2,Data_accessor_2>
+                                              Conic_2;
 
 
 // three-dimensional
@@ -86,41 +134,34 @@ public:
 
     typedef CGAL_TetrahedronH3<FT,RT>         Tetrahedron_3;
 
-#ifdef CGAL_WORKAROUND_013
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
     typedef CGAL__Vector_2_rft_wrapper< CGAL_Homogeneous<RT> >* W2ptr;
     typedef CGAL__Vector_3_rft_wrapper< CGAL_Homogeneous<RT> >* W3ptr;
-#endif // CGAL_WORKAROUND_013
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
 
 // Geert-Jan's additional features
 
   static
   FT
   make_FT(const RT & num, const RT& denom)
-  {
-   return FT(num, denom);
-  }
+  { return FT(num, denom); }
 
   static
   FT
   make_FT(const RT & num)
-  {
-   return FT(num);
-  }
+  { return FT(num); }
 
   static
   RT
   FT_numerator(const FT &r)
-  {
-   return r.numerator();
-  }
+  { return r.numerator(); }
 
   static
   RT
   FT_denominator(const FT &r)
-  {
-   return r.denominator();
-  }
+  { return r.denominator(); }
 
 };
+
 
 #endif // CGAL_HOMOGENEOUS_REP_H

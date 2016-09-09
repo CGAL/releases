@@ -1,38 +1,46 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: nsquare_intersecting.h
-// Author: Carl Van Geem
-
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/nsquare_intersecting.h
+// author(s)     :            Carl Van Geem 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 /*
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,27 +55,48 @@ INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 #ifndef CGAL_NSQUARE_INTERSECTING_H
 #define CGAL_NSQUARE_INTERSECTING_H
 
-#ifdef __GNUC__
-#include <typeinfo>
+#ifndef CGAL_BASIC_H
+#include <CGAL/basic.h>
 #endif
 
 #include <list.h>
+
+#ifndef CGAL_CARTESIAN_H
 #include <CGAL/Cartesian.h>
-#include <iostream.h>
+#endif
+#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
+#endif
+#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
+#endif
+#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
+#endif
+
+#ifndef CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Segment_2_Segment_2_intersection.h>
+#endif
+#ifndef CGAL_POLYGON_2_H
 #include <CGAL/Polygon_2.h>
+#endif
+
+#include <iostream.h>
 
 
 template < class R >
 class CGAL_Intersectionresult
 {
+  typedef CGAL_Point_2<R> Point;
+  typedef CGAL_Segment_2<R> Segment;
+  typedef list<Segment> Segment_list;
+  //typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  //typedef typename Polygon::Edge_const_iterator edge_iterator;
+
  private:
   CGAL_Object                    _intersection_object;
-  list< CGAL_Segment_2<R> >      _segments_poly1;
-  list< CGAL_Segment_2<R> >      _segments_poly2;
+  Segment_list      _segments_poly1;
+  Segment_list      _segments_poly2;
   bool                           _is_vertex_of_poly1;
   bool                           _is_vertex_of_poly2;
   bool                           _is_edge_of_poly1;
@@ -78,9 +107,9 @@ class CGAL_Intersectionresult
  public:
   CGAL_Intersectionresult() ;
   CGAL_Intersectionresult (const CGAL_Intersectionresult<R> &ires ) ;
-  CGAL_Intersectionresult (const CGAL_Point_2<R> &iobj,
-                           const CGAL_Segment_2<R> &iseg1,
-                           const CGAL_Segment_2<R> &iseg2,
+  CGAL_Intersectionresult (const Point &iobj,
+                           const Segment &iseg1,
+                           const Segment &iseg2,
                            const bool &i_is_vertex_of_poly1,
                            const bool &i_is_vertex_of_poly2,
                            const bool &i_is_edge_of_poly1,
@@ -88,9 +117,9 @@ class CGAL_Intersectionresult
                            const bool &i_is_vertex_vertex_intersection,
                            const bool &i_is_vertex_edge_intersection,
                            const bool &i_is_edge_edge_intersection) ;
-  CGAL_Intersectionresult (const CGAL_Segment_2<R> &iobj,
-                           const CGAL_Segment_2<R> &iseg1,
-                           const CGAL_Segment_2<R> &iseg2,
+  CGAL_Intersectionresult (const Segment &iobj,
+                           const Segment &iseg1,
+                           const Segment &iseg2,
                            const bool &i_is_vertex_of_poly1,
                            const bool &i_is_vertex_of_poly2,
                            const bool &i_is_edge_of_poly1,
@@ -105,10 +134,10 @@ class CGAL_Intersectionresult
 
   CGAL_Object     intersection_object() const { return _intersection_object;}
   CGAL_Object&    intersection_object() { return _intersection_object;}
-  list< CGAL_Segment_2<R> >  segments_poly1() const { return _segments_poly1;}
-  list< CGAL_Segment_2<R> >& segments_poly1() { return _segments_poly1;}
-  list< CGAL_Segment_2<R> >  segments_poly2() const { return _segments_poly2;}
-  list< CGAL_Segment_2<R> >& segments_poly2() { return _segments_poly2;}
+  Segment_list  segments_poly1() const { return _segments_poly1;}
+  Segment_list& segments_poly1() { return _segments_poly1;}
+  Segment_list  segments_poly2() const { return _segments_poly2;}
+  Segment_list& segments_poly2() { return _segments_poly2;}
   bool   is_vertex_of_poly1() const { return _is_vertex_of_poly1;}
   bool&  is_vertex_of_poly1() { return _is_vertex_of_poly1;}
   bool   is_vertex_of_poly2() const { return _is_vertex_of_poly2;}
@@ -141,6 +170,13 @@ class CGAL_Intersectionresult
 template < class R > 
 class CGAL_List_of_intersections
 {
+ public:
+  typedef CGAL_Point_2<R> Point;
+  typedef CGAL_Segment_2<R> Segment;
+  typedef list<Segment> Segment_list;
+  //typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  //typedef typename Polygon::Edge_const_iterator edge_iterator;
+
  private:
    list<CGAL_Intersectionresult<R> >    _list_of_intersections;
  public:
@@ -155,9 +191,9 @@ class CGAL_List_of_intersections
                                    return _list_of_intersections; }
    list<CGAL_Intersectionresult<R> >&  list_of_intersections() {
                                    return _list_of_intersections; }
-   void add( const CGAL_Point_2<R> &iobj,
-             const CGAL_Segment_2<R> &iseg1,
-             const CGAL_Segment_2<R> &iseg2,
+   void add( const Point &iobj,
+             const Segment &iseg1,
+             const Segment &iseg2,
              const bool &i_is_vertex_of_poly1,
              const bool &i_is_vertex_of_poly2,
              const bool &i_is_edge_of_poly1,
@@ -182,9 +218,9 @@ class CGAL_List_of_intersections
       }
 
 
-   void add( const CGAL_Segment_2<R> &iobj,
-             const CGAL_Segment_2<R> &iseg1,
-             const CGAL_Segment_2<R> &iseg2,
+   void add( const Segment &iobj,
+             const Segment &iseg1,
+             const Segment &iseg2,
              const bool &i_is_vertex_of_poly1,
              const bool &i_is_vertex_of_poly2,
              const bool &i_is_edge_of_poly1,
@@ -215,22 +251,29 @@ class CGAL_List_of_intersections
 template < class R, class Container >
 class CGAL_nsquareintersection {
  public:
+  typedef CGAL_Point_2<R> Point;
+  typedef CGAL_Segment_2<R> Segment;
+  typedef list<Segment> Segment_list;
+  typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  typedef typename Polygon::Edge_const_iterator edge_iterator;
+  typedef typename Segment_list::iterator segment_iterator;
+
   CGAL_nsquareintersection() {}
   list <CGAL_Intersectionresult<R> > operator()(
-                          list<CGAL_Segment_2<R> >::iterator beginpoly1,
-                          list<CGAL_Segment_2<R> >::iterator endpoly1,
-                          list<CGAL_Segment_2<R> >::iterator beginpoly2,
-                          list<CGAL_Segment_2<R> >::iterator endpoly2) 
+                          segment_iterator beginpoly1,
+                          segment_iterator endpoly1,
+                          segment_iterator beginpoly2,
+                          segment_iterator endpoly2) 
  {
   CGAL_List_of_intersections<R> tobereturned;
   list<CGAL_Intersectionresult<R> >::iterator it;
-  list<CGAL_Segment_2<R> >::iterator it1;
-  list<CGAL_Segment_2<R> >::iterator it2;
+  segment_iterator it1;
+  segment_iterator it2;
   CGAL_Object    result;
-  CGAL_Point_2<R> ipoint;
+  Point ipoint;
 
-  CGAL_Segment_2<R> isegment;
-  CGAL_Point_2<R> acgalpoint;
+  Segment isegment;
+  Point acgalpoint;
   bool notfound;
   bool i_is_vertex_of_poly1;
   bool i_is_vertex_of_poly2;
@@ -331,20 +374,20 @@ class CGAL_nsquareintersection {
  }
 
   list <CGAL_Intersectionresult<R> > operator()(
-         CGAL_Polygon_2<R, Container >::Edge_const_iterator beginpoly1,
-         CGAL_Polygon_2<R, Container >::Edge_const_iterator endpoly1,
-         CGAL_Polygon_2<R, Container >::Edge_const_iterator beginpoly2,
-         CGAL_Polygon_2<R, Container >::Edge_const_iterator endpoly2)
+         edge_iterator beginpoly1,
+         edge_iterator endpoly1,
+         edge_iterator beginpoly2,
+         edge_iterator endpoly2)
  {
   CGAL_List_of_intersections<R> tobereturned;
   list<CGAL_Intersectionresult<R> >::iterator it;
-  CGAL_Polygon_2<R, Container >::Edge_const_iterator it1;
-  CGAL_Polygon_2<R, Container >::Edge_const_iterator it2;
+  edge_iterator it1;
+  edge_iterator it2;
   CGAL_Object    result;
-  CGAL_Point_2<R> ipoint;
+  Point ipoint;
 
-  CGAL_Segment_2<R> isegment;
-  CGAL_Point_2<R> acgalpoint;
+  Segment isegment;
+  Point acgalpoint;
   bool notfound;
   bool i_is_vertex_of_poly1;
   bool i_is_vertex_of_poly2;
@@ -447,8 +490,8 @@ class CGAL_nsquareintersection {
 
 };
 
-#ifdef CGAL_INCLUDE_TEMPLATE_CODE
-#include "nsquare_intersecting.C"
+#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
+#include <CGAL/nsquare_intersecting.C>
 #endif
 
 #endif //  CGAL_NSQUARE_INTERSECTING_H

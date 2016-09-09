@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_Iterator.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: iterator</TITLE>
+  <TITLE>STL in CGAL: iterator</TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -47,19 +47,19 @@ same <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> twice. They should
 <H3>Creation</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it;
-        </I>
+        </I></NOBR>
         </TD></TR>
     
     <P>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it (  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it1);
-        </I>
+        </I></NOBR>
         </TD></TR>
     
     <P>
@@ -70,78 +70,78 @@ same <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> twice. They should
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      it =  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Assignment.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      it ==  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it1
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for equality: Two iterators are equal if they refer to the
     same item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      it !=  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> it1
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for inequality. The result is the same as <I>!(it == it1)</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     * it  
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns a reference to the value of the <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>. This operator can
     only be used in order to assign a value to this reference.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     ++ it  
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Prefix increment operation.
     <BR><STRONG>Precondition: </STRONG><I>it</I> is dereferenceable.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      it  ++
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Postfix increment operation. The result is the same as that of
     <I><A HREF="iterator.html#Cross_link_anchor_1">iterator</A> tmp = it; ++it; return tmp;</I>.
@@ -234,7 +234,7 @@ refer to the <TT>STL</TT> reference manuals.
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

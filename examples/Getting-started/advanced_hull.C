@@ -1,10 +1,3 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Traits classes in CGAL
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include <CGAL/Homogeneous.h>
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/Point_2.h>
@@ -13,46 +6,51 @@
 #include <vector.h>
 #include <iostream.h>
 
-typedef CGAL_Homogeneous<long> Rep;
+typedef CGAL_Homogeneous<long> Rep_class;
 
-typedef CGAL_Point_2<Rep> Point_2;
+typedef CGAL_Point_2<Rep_class> Point_2;
 
 const int IN_COUNT = 6;
 
 struct Special_point {
     Special_point() {}
     Special_point(int x, int y) : pt(x, y), next_on_hull(0) {}
-    CGAL_Point_2<Rep> pt;
+    CGAL_Point_2<Rep_class> pt;
     Special_point *next_on_hull;
 };
 
 struct Special_less_xy {
     bool operator()(Special_point *p, Special_point *q) const
-	{ return CGAL_lexicographically_xy_smaller(p->pt, q->pt); }
+        { return CGAL_lexicographically_xy_smaller(p->pt, q->pt); }
 };
 
 struct Special_less_yx {
     bool operator()(Special_point *p, Special_point *q) const
-	{ return CGAL_lexicographically_yx_smaller(p->pt, q->pt); }
+        { return CGAL_lexicographically_yx_smaller(p->pt, q->pt); }
 };
 
 struct Special_greater_xy {
     bool operator()(Special_point *p, Special_point *q) const
-	{ return CGAL_lexicographically_xy_larger(p->pt, q->pt); }
+        { return CGAL_lexicographically_xy_larger(p->pt, q->pt); }
 };
 
 struct Special_greater_yx {
     bool operator()(Special_point *p, Special_point *q) const
-	{ return CGAL_lexicographically_yx_larger(p->pt, q->pt); }
+        { return CGAL_lexicographically_yx_larger(p->pt, q->pt); }
 };
 
 struct Special_right_of_line {
     Special_right_of_line(Special_point *p, Special_point *q)
-		    :rol(p->pt, q->pt) {}
+                    :rol(p->pt, q->pt) {}
     bool operator()(Special_point *r) const
-		    { return rol(r->pt);}
+                    { return rol(r->pt);}
 private:
-    CGAL_r_Right_of_line<Rep> rol;
+    CGAL_r_Right_of_line<Rep_class> rol;
+};
+
+struct Special_leftturn {
+    bool operator()(Special_point *p, Special_point *q, Special_point *r)const
+        { return CGAL_leftturn(p->pt, q->pt, r->pt); }
 };
 
 struct Special_point_traits {
@@ -62,18 +60,9 @@ struct Special_point_traits {
     typedef Special_less_yx Less_yx;
     typedef Special_greater_yx Greater_yx;
     typedef Special_right_of_line Right_of_line;
+    typedef Special_leftturn Leftturn;
     Special_point_traits() {}
-    bool    leftturn(Point_2, Point_2, Point_2) const;
 };
-
-bool
-Special_point_traits::leftturn(
-    Point_2 p,
-    Point_2 q,
-    Point_2 r) const
-{
-    return CGAL_leftturn(p->pt, q->pt, r->pt);
-}
 
 static Special_point in[IN_COUNT] = {
     Special_point(0, 0),
@@ -95,15 +84,15 @@ link(Pointer_collection &c)
     cur = c.begin();
 // return NULL if there are no points.
     if (cur == c.end())
-	return 0;
+        return 0;
 // prev and cur iterate over all CH points. prev lags one behind.
 // Every time we set the next pointer in prev to cur.
     prev = cur;
     ++ cur;
     while (cur != c.end()) {
-	(*prev)->next_on_hull = *cur;
-	prev = cur;
-	++cur;
+        (*prev)->next_on_hull = *cur;
+        prev = cur;
+        ++cur;
     }
 // Close the chain.
     (*prev)->next_on_hull = c.front();
@@ -115,14 +104,14 @@ void main()
 // Initialise a vector with pointers to the input points.
     Pointer_collection pointers(IN_COUNT), out;
     for (int i=0; i<IN_COUNT; i++)
-	pointers[i] = in+i;
+        pointers[i] = in+i;
 
 // Compute the convex hull of the pointers.
     CGAL_convex_hull_points_2(
-		pointers.begin(),
-		pointers.end(),
-		back_inserter(out),
-		Special_point_traits());
+                pointers.begin(),
+                pointers.end(),
+                back_inserter(out),
+                Special_point_traits());
 
 // Link the points of the convex hull together.
     Special_point *first, *cur;
@@ -130,8 +119,8 @@ void main()
 
 // Print all points of the convex hull.
     if (first != 0)
-	do {
-	    cout << cur->pt << '\n';
-	    cur = cur->next_on_hull;
-	} while (cur != first);
+        do {
+            cout << cur->pt << '\n';
+            cur = cur->next_on_hull;
+        } while (cur != first);
 }

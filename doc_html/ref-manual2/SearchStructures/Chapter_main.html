@@ -1,0 +1,649 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Search Structures</H1>
+ <A NAME="Trees"></A><P>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+<P>
+
+This chapter presents the CGAL range tree, segment tree, and <MATH>KD</MATH>-tree
+data structures.
+The range tree is theoretically superior to the <MATH>KD</MATH>-tree, but the
+latter often seems to perform better.
+However, the range tree as implemented in CGAL is more flexible than the
+<MATH>KD</MATH>-tree implementation, in that it enables to layer together range trees
+and segment trees in the same data structure.<P>
+
+First the range and segment trees are introduced in
+sections&nbsp;<A HREF="Chapter_main.html#s-rangesegment"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> through&nbsp;<A HREF="Chapter_main.html#general"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Then the <MATH>KD</MATH>-tree is presented in Sections&nbsp;<A HREF="Chapter_main.html#KDT_chapter"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> through
+<A HREF="Chapter_main.html#KDT_sec:req:interface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<A NAME="Section_2"></A>
+<H2>Range and Segment Trees</H2>
+
+<A NAME="s-rangesegment"></A><P>
+
+A one-dimensional range tree is a binary search tree on
+<B>one-dimensional point data</B>.
+Here we call all one-dimensional data types having a strict ordering
+(like integer and double) <EM>point data</EM>.
+<B><MATH>d</MATH>-dimensional point data</B> are <MATH>d</MATH>-tuples of one-dimensional
+point data.<P>
+
+A one-dimensional segment tree is a binary search tree as well, but with
+<B>one-dimensional interval data</B> as input data.
+One-dimensional interval data is a pair (i.e., 2-tuple) <MATH>(a,b)</MATH>, where <MATH>a</MATH>
+and <MATH>b</MATH> are one-dimensional point data of the same type and <MATH>a&lt; b</MATH>.
+The pair <MATH>(a,b)</MATH> represents a half open interval <MATH>[a,b)</MATH>.
+Analogously, a <MATH>d</MATH>-dimensional interval is represented by a <MATH>d</MATH>-tuple of
+one-dimensional intervals.<P>
+
+The <B>input data type</B> for a <MATH>d</MATH>-dimensional tree is a container
+class consisting of a <MATH>d</MATH>-dimensional point data type, interval data type
+or a mixture of both, and optionally a <B>value type</B>, which
+can be used to store arbitrary data.
+E.g., the <MATH>d</MATH>-dimensional bounding box of a <MATH>d</MATH>-dimensional polygon
+may define the interval data of a <MATH>d</MATH>-dimensional segment tree and
+the polygon itself can be stored as its value.
+An <B>input data item</B> is an instance of an input data type.<P>
+
+The range and segment tree classes are fully generic in the sense that they
+can be used to define <B>multilayer trees</B>.
+A multilayer tree of dimension (number of layers) <MATH>d</MATH> is a simple tree in
+the <MATH>d</MATH>-th layer, whereas the <MATH>k</MATH>-th layer, <MATH>1&lt;=k&lt;=d-1</MATH>, of the tree
+defines a tree where each (inner) vertex contains a multilayer tree of
+dimension <MATH>d-k+1</MATH>.
+The <MATH>k-1</MATH>-dimensional tree which is nested in the <MATH>k</MATH>-dimensional tree
+(<MATH>T</MATH>) is called the <EM>sublayer tree</EM> (of <MATH>T</MATH>).
+For example, a <MATH>d</MATH>-dim tree can be a range tree on the first layer,
+constructed with respect to the first dimension of <MATH>d</MATH>-dimensional data
+items.
+On all the data items in each subtree, a <MATH>(d-1)</MATH>-dimensional tree is built,
+either a range or a segment tree, with respect to the second dimension of
+the data items.
+And so on.<P>
+
+Figures 
+<A HREF="Chapter_spez.html#fig:d-segment.eps">here</A> explain the meaning 
+of a sublayer tree graphically.
+<P>
+
+After creation of the tree, further insertions or deletions of data items
+are disallowed.
+The tree class does neither depend on the type of data nor on the concrete
+physical representation of the data items.
+E.g., let a multilayer tree be a segment tree for which each vertex
+defines a range tree.
+We can choose the data items to consist of intervals of type <I>double</I>
+and the point data of type <I>integer</I>.
+As value type we can choose <I>string</I>.<P>
+
+For this generality we have to
+define what the tree of each dimension looks like and how the
+input data is organized.
+For dimension <MATH>k</MATH>, <MATH>1&lt;=k&lt;=4</MATH>, CGAL provides ready-to-use
+range and segment trees that can store k-dimensional keys
+(intervals resp.). These classes are defined in
+Section&nbsp;<A HREF="Chapter_main.html#k-range"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> (Section&nbsp;<A HREF="Chapter_main.html#k-segment"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> resp.). These
+classes are parameterized with a traits class that defines, among
+other things, the key and interval type of a tree
+(cf.&nbsp;Section&nbsp;<A HREF="Chapter_main.html#RT::SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>).
+In Section&nbsp;<A HREF="Chapter_main.html#RT::SectReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> we give the requirements tree traits
+classes must fulfill.<P>
+
+In case you want to create a combined tree structure,
+refer Section&nbsp;<A HREF="Chapter_main.html#general"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The classes described in that section
+enable you to define each layer of a tree
+separately. These tree classes are templatized with the type of
+the data item, the query interval and a traits class which is
+used as an interface to the data. In Section&nbsp;<A HREF="Chapter_main.html#TreeInterface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> we
+describe the ready-to-use traits CGAL
+provides and the requirements a traits class has to fulfill. By
+this, the advanced user can develop his own traits classes.<P>
+
+We now give a short definition of the version of
+the range tree and segment tree implemented here. The
+presentation closely follows&nbsp;[<A HREF="../biblio.html#Biblio_bkos-cgaa-97">dBvKOS97</A>].<P>
+
+<H3>Definition of a Range Tree</H3>
+<P>
+
+A one-dimensional range tree is a binary search tree on one-dimensional
+point data.
+The point data of the tree is stored in the leaves.
+Each inner vertex stores the highest entry of its left subtree.
+The version of a range tree implemented here is static, which means that
+after construction of the tree, no elements be inserted or deleted.
+A <MATH>d</MATH>-dimensional range tree is a binary leaf search tree according to the
+first dimension of the <MATH>d</MATH>-dimensional point data, where each vertex contains
+a <MATH>(d-1)</MATH>-dimensional search tree of the points in the subtree (sublayer tree)
+with respect to the second dimension.
+See&nbsp;[<A HREF="../biblio.html#Biblio_bkos-cgaa-97">dBvKOS97</A>] and&nbsp;[<A HREF="../biblio.html#Biblio_Samet90">Sam90</A>] for more detailed information.<P>
+
+A <MATH>d</MATH>-dimensional range tree can be used to determine all
+<MATH>d</MATH>-dimensional points that lie inside a given <MATH>d</MATH>-dimensional
+interval (<I>window_query</I>).<P>
+
+
+The pictures below show a two-dimensional and a <MATH>d</MATH>-dimensional
+range tree.
+<P>
+
+
+    <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=50% NOWRAP COLSPAN=2>
+    <img border=0 src="./range2.gif" alt="A two-dimensional range tree">
+    </TD>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH=50%><img border=0 src="./d-range.gif"
+alt="A
+    d-dimensional range tree">
+      </TD></TR></TABLE>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=45%  COLSPAN=2>
+    A two-dimensional range tree. The
+      tree is a binary search tree on the first dimension. Each
+      sublayer tree of a vertex <MATH>v</MATH> is a binary search tree on the
+second
+      dimension. The data items in a sublayer tree of <MATH>v</MATH> are
+      all data items of the subtree of <MATH>v</MATH>
+ </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+A d-dimensional range tree. For
+      each layer of the tree, one
+      sublayer tree is illustrated.
+ </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Definition of a Segment Tree</H3>
+<P>
+
+A segment tree is a static binary search tree for a given set of
+coordinates. The set of coordinates is defined by the endpoints
+of the input data intervals. Any two adjacent coordinates
+build an elementary interval. Every leaf corresponds to an
+elementary interval.
+Inner vertices
+correspond to the union of the subtree intervals of the vertex.
+Each vertex or leaf <MATH>v</MATH> contains a sublayer type (or a
+list, if it is one-dimensional) that will contain all intervals <MATH>I</MATH>, such that
+<MATH>I</MATH> contains the interval of vertex <MATH>v</MATH> but not the interval
+of the parent vertex of <MATH>v</MATH>.<P>
+
+A <MATH>d</MATH>-dimensional segment tree can be used to solve the following problems:
+<UL>
+<LI>Determine all <MATH>d</MATH>-dimensional intervals that enclose a
+given <MATH>d</MATH>-dimensional interval
+(<I>enclosing_query</I>).
+<LI>Determine all <MATH>d</MATH>-dimensional intervals that partially overlap or are
+contained in a given <MATH>d</MATH>-dimensional interval (<I>window_query</I>).
+</UL><P>
+
+
+An example of a one-dimensional segment tree and an example
+of a two-dimensional
+segment tree is shown below.
+<P>
+
+
+    <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=50% NOWRAP COLSPAN=2>
+    <img border=0 src="./segment2.gif" alt="A one-dimensional segment
+tree">
+    </TD>
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH=50%><img border=0
+src="./d-segment.gif" alt="A
+    d-dimensional segment tree">
+      </TD></TR></TABLE>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%  COLSPAN=2>
+A one-dimensional segment
+  tree. The segments and the corresponding elementary intervals
+  are shown below the tree. The arcs from the nodes point to
+  their subsets.
+ </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=45%>
+A two-dimensional segment
+  tree. The first layer of the tree is built according to the
+  elementary intervals of the first dimension. Each
+  sublayer tree of a vertex  <MATH>v</MATH> is a segment tree according to
+  the  second dimension of all data items of  <MATH>v</MATH>.
+ </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+One possible application of a two-dimensional segment tree is the
+following. Given a set of convex polygons in two-dimensional
+space (<A HREF="../Polygon/CGAL_Polygon_2.html#Cross_link_anchor_0">CGAL_Polygon_2</A>), we want to determine all polygons
+that intersect a given rectangular query window. Therefore, we define a
+two-dimensional segment tree, where the two-dimensional interval of
+a data item corresponds to the bounding box of a polygon and the
+value type corresponds to the polygon itself. The segment tree is created
+with a sequence of all data items, and a window query is
+performed. The polygons of the resulting data items are finally
+tested independently for intersections.<P>
+
+<P><A NAME="Section_3"></A>
+<H2>k-dimensional Range Trees</H2>
+
+<A NAME="k-range"></A>
+CGAL provides four range tree classes for <MATH>k is in {1,...,4}</MATH>.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_tree_k.html"><I>CGAL_Range_tree_</I><TT>k</TT><I>&lt;Traits&gt;</I></A>.</UL>
+
+
+<A NAME="Section_4"></A>
+<H2>k-dimensional Segment Trees</H2>
+
+<A NAME="segment-k"></A><P>
+
+<A NAME="k-segment"></A>
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Segment_tree_k.html"><I>CGAL_Segment_tree_</I><TT>k</TT><I>&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_5"></A>
+<H2>Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class Implementations <A NAME="RT::SectPredefined"></A></H2>
+<P>
+
+This section provides range tree and segment tree traits class implementations for the
+CGAL kernel.<P>
+
+<H3>Set-like Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Classes</H3>
+<P>
+
+The following traits classes are set-like, since no data is
+associated to the keys.<P>
+
+<H4>Set-like Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 2D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_segment_tree_traits_set_2.html"><I>CGAL_Range_segment_tree_traits_set_2&lt;R&gt;</I></A>.</UL>
+
+
+<H4>Set-like Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 3D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_segment_tree_traits_set_3.html"><I>CGAL_Range_segment_tree_traits_set_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<H3>Map-like Range Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Classes</H3>
+
+The following traits classes are map-like, since they allow to
+associate data to the keys.<P>
+
+<H4>Map-like Range Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 2D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_tree_traits_map_2.html"><I>CGAL_Range_tree_traits_map_2&lt;R,T&gt;</I></A>.</UL>
+
+<P>
+
+<H4>Map-like Range Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 3D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_tree_traits_map_3.html"><I>CGAL_Range_tree_traits_map_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<H3>Map-like Segment Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Classes</H3>
+
+The following traits classes are map-like, since they allow to
+associate data to the keys.<P>
+
+<H4>Map-like Segment Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 2D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Segment_tree_traits_map_2.html"><I>CGAL_Segment_tree_traits_map_2&lt;R,T&gt;</I></A>.</UL>
+
+
+<H4>Map-like Segment Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class for 3D Kernel Points</H4>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Segment_tree_traits_map_3.html"><I>CGAL_Segment_tree_traits_map_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_6"></A>
+<H2>Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class Requirements <A NAME="RT::SectReq"></A></H2>
+<P>
+
+This section describes the requirements for range and segment tree traits classes.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Range_segment_tree_traits_k.html"><I>Range_segment_tree_traits_</I><TT>k</TT><I></I></A>.</UL>
+
+<P>
+
+<A NAME="Section_7"></A>
+<H2>Creating an arbitrary multilayer tree</H2>
+
+<A NAME="general"></A><P>
+
+Now let us have a closer look on how a multilayer tree is built.
+In case of creating a <MATH>d</MATH>-dimensional tree, we handle a
+sequence of arbitrary data
+items, where each item defines a <MATH>d</MATH>-dimensional interval, point
+or other object. The tree is constructed with an iterator over
+this structure. In the <MATH>i</MATH>-th layer, the tree is
+built with respect to the data slot that defines the <MATH>i</MATH>-th
+dimension. Therefore, we need to define which data slot
+corresponds to which dimension.
+In addition we want our tree to work with arbitrary data items.
+This requires an
+adaptor between the algorithm and the data item. This is resolved
+by the use of traits classes, implemented in
+form of a traits class using
+function objects.
+These classes provide
+access functions to a specified data slot of a data item.
+A <MATH>d</MATH>-dimensional tree is then defined separately for each layer by
+defining a traits class for each layer.<P>
+
+<H3>Tree <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> class and its Requirements</H3>
+
+<A NAME="TreeInterface"></A><P>
+
+Tree class <I>Range_tree_d</I> and class
+<I>Segment_tree_d</I> are templatized with a parameter
+<I>CGAL_Traits</I>. <I>CGAL_Traits</I> builds the
+interface between the tree and the data items. We now describe
+the traits class for a <I>Range_tree_d</I> layer and for a
+<I>Segment_tree_d</I> layer. The traits classes are implemented as
+template classes. If you do not want to use these traits classes you
+can also define your own class which has at least to provide
+the functionality of the traits class described below.<P>
+
+<H4>CGAL_tree_point_traits  - Requirements</H4>
+<P>
+
+<H3>Definition</H3><I>CGAL_tree_point_traits</I> is a template class
+that provides an interface to data items.<P>
+
+<H3>Types</H3><UL><LI>
+ Class declaration of <A HREF="Point_traits.html"><I>Point_traits</I></A>.</UL>
+
+<P>
+
+<H4>CGAL_tree_interval_traits</H4>
+<P>
+
+<H3>Definition</H3><I>CGAL_tree_interval_traits</I> is a template class
+that provides an interface to data items. It is similar to
+<I>CGAL_tree_interval_traits</I>, except that it provides
+access to two data slots of the same type of each container class
+(<I>Data, Window</I>) instead of providing access to one
+data slot of container class <I>Data</I> and two data slots
+of class <I>Window</I>.<P>
+
+<H3>Types</H3><UL><LI>
+ Class declaration of <A HREF="Interval_traits.html"><I>Interval_traits</I></A>.</UL>
+
+<P>
+
+<H3>CGAL_Range_tree and CGAL_Segment_tree</H3>
+<P>
+
+<H3>Definition</H3><P>
+
+The tree classes were first intended to have a template argument
+defining the type of the sublayer tree. This leads to nested
+template arguments, where the internal class and function
+identifier got longer than a
+compiler dependent limit. Even for dimension 2 this
+happened. Therefore we chose another design. Now a tree is created
+with a prototype of the sublayer tree. With this prototype the
+sublayer tree can be cloned. The design pattern
+corresponds to the Prototype design pattern in
+&nbsp;[<A HREF="../biblio.html#Biblio_ghjv-dpero-95">GHJV95</A>].<P>
+
+In this sense, an instance of a
+three-dimensional range tree (segment tree) would have to be
+created as a range tree (segment tree) with creation variable
+<I>Sublayer_type s</I>, which is a prototype of a two-dimensional
+range tree (segment tree). Because a range tree of segment tree
+is expecting a prototype for its creation, a recursion anchor which
+builds dimension ``zero'' is needed.
+<I><A HREF="CGAL_Tree_anchor.html#Cross_link_anchor_13">CGAL_Tree_anchor</A></I> described in
+section&nbsp;<A HREF="CGAL_Tree_anchor.html#CGALTreeanchor"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> fulfills all these requirements.
+All tree classes (range tree, segment tree, tree anchor) are
+derived from an abstract base class
+<I>CGAL_Tree_base</I>.<P>
+
+Additionally a range tree (segment tree) is build in function
+<I>make_tree</I> using iterators.
+The iterator concept is realized in the Standard
+Template Library and in many other libraries,
+see&nbsp;[<A HREF="../biblio.html#Biblio_ms-strg-96">MS96</A>]. As long as the GNU, SUN and SGI compiler do not
+support template member functions, we only support member
+functions parameterized with iterators working on <I>STL  list, STL vector</I> and <I>C-arrays</I>.<P>
+
+The trees are templatized with three arguments: <I>Data,  Window</I> and <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A></I>. Type <I>Data</I> defines
+the input data type and type <I>Window</I> defines the query
+window type.
+The tree uses a well defined set of functions in
+order to access data. These functions have to be provided by
+class <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A></I>. The requirements are described in
+Section&nbsp;<A HREF="Chapter_main.html#TreeInterface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Range_tree_d.html"><I>CGAL_Range_tree_d&lt;Data, Window, Traits&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Segment_tree_d.html"><I>CGAL_Segment_tree_d&lt;Data, Window, Traits&gt;</I></A>.</UL>
+
+<P>
+
+<H3>Sublayer_type</H3>
+
+<A NAME="SubtypeRequirements"></A>
+A <I>Sublayer_type</I> of class <I><A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A></I>
+or <I><A HREF="CGAL_Segment_tree_d.html#Cross_link_anchor_12">CGAL_Segment_tree_d</A></I> has
+to fulfill the following requirements:
+First of all, the class has to be derived from the abstract base
+class <I>CGAL_Tree_base</I>.
+The traits class of the sublayer type is defined by this abstract
+base class.
+E.g., the class has to provide methods
+<I>make_tree</I>, <I>window_query</I>,
+<I>enclosing_query</I> and
+<I>is_inside</I>.
+with the same parameter types as the instantiated class
+<I><A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A></I> or <I><A HREF="CGAL_Segment_tree_d.html#Cross_link_anchor_12">CGAL_Segment_tree_d</A></I>,
+respectively.
+Furthermore a method <I>bool  is_anchor()</I> has to be provided. If the <I>Sublayer_type</I> class
+builds a recursion anchor for class
+<I><A HREF="CGAL_Segment_tree_d.html#Cross_link_anchor_12">CGAL_Segment_tree_d</A></I>, this function is expected to
+return <I>true</I>, <I>false</I> otherwise.<P>
+
+Such a recursion anchor class is provided by the following class.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Tree_anchor.html"><I>CGAL_Tree_anchor&lt;Data, Window&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_8"></A>
+<H2>$KD$-trees</H2>
+
+<A NAME="KDT_chapter"></A><P>
+
+The implementation of the $KD$-tree is independent of the implementation of
+the rest of CGAL and can be used separately from CGAL.<P>
+
+The $KD$-tree class is parameterized with an interface class, that defines
+the interface between the $KD$-tree and the geometric primitives used.
+CGAL provides ready-made interface class that is presented in
+ Section <A HREF="Chapter_main.html#KDT_sec:def:interface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+The formal requirements for a class to be a $KD$-tree interface class is
+described in  Section <A HREF="Chapter_main.html#KDT_sec:def:interface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+For a given set <MATH>S = \brc p<SUB>1</SUB>, ..., p<SUB>n</SUB> </MATH> on <MATH>n</MATH> points in
+<MATH><TT>I\hspace-0.025em R</TT><SUP>d</SUP></MATH>, it is sometimes useful to be able to answer <EM>orthogonal
+range-searching</EM> on <MATH>S</MATH>; namely, given an axis parallel query box
+<MATH>B</MATH> in <MATH><TT>I\hspace-0.025em R</TT><SUP>d</SUP></MATH>, one would like to ``quickly'' determine the subset of
+points of <MATH>S</MATH> lying inside <MATH>B</MATH>.<P>
+
+Several data structures were suggested for that problem.
+Foremost among those, at least theoreticly, is the range-tree data structure
+with <MATH>O(n log<SUP>d</SUP>(n))</MATH> preprocessing time, <MATH>O(nlog<SUP>d-1</SUP>(n))</MATH> space,
+and <MATH>O(log<SUP>d</SUP>(n) + k)</MATH> query time, where <MATH>k</MATH> is the output size of
+the query.<P>
+
+A theoreticly inferior data structure is the $KD$-tree, which offers <MATH>O(n
+logn)</MATH> preprocessing time, <MATH>O(n)</MATH> space, and <MATH>O(n<SUP>1-1/d</SUP>)</MATH> query
+time. The $KD$-tree is a binary tree constructed as follows: we compute
+the point <MATH>p<SUB>i</SUB></MATH> of <MATH>S</MATH> such that its first coordinate is the median
+value among <MATH>p<SUB>1</SUB><SUP>1</SUP>, ..., p<SUB>n</SUB><SUP>1</SUP></MATH>, where <MATH>p<SUB>i</SUB><SUP>k</SUP></MATH> denote the <MATH>k</MATH>-th
+coordinate of the <MATH>i</MATH>-th point of <MATH>S</MATH>. Let <MATH>S<SUB>1</SUB></MATH> denote all the points
+of <MATH>S</MATH> with first coordinate smaller than <MATH>p<SUB>i</SUB></MATH>'s first coordinate, and
+let <MATH>S<SUB>2</SUB> = S \ S<SUB>1</SUB></MATH>. Let <MATH>T<SUB>1</SUB>,T<SUB>2</SUB></MATH> be the $KD$-trees constructed
+recursively for <MATH>S<SUB>1</SUB>, S<SUB>2</SUB></MATH>, respectively. The $KD$-tree of <MATH>S</MATH> is simply
+the binary tree having <MATH>T<SUB>1</SUB></MATH> as its left subtree and <MATH>T<SUB>2</SUB></MATH> as its
+right subtree. We apply this algorithm recursively, splitting the sets
+in the <MATH>i</MATH>-level of the $KD$-tree using the median point in the <MATH>k</MATH>-th
+coordinate, where <MATH>k=(i mod n) + 1</MATH>. See Figure
+[ref:KDT_fig:kdtree] for an illustration.<P>
+
+The resulting data structure has linear size, <MATH>O(nlogn)</MATH>
+preprocessing time, and can answer a query in <MATH>O(n<SUP>1-1/d</SUP> +k)</MATH> time,
+where <MATH>k</MATH> is the size of the query output. See [<A HREF="../biblio.html#Biblio_bkos-cgaa-97">dBvKOS97</A>].<P>
+
+
+<P>
+<center><img border=0 src="./kdtree.gif" alt=" "><br>
+The partition of a set of  points induced by a kd-tree of the points</center>
+<P>
+
+<A NAME="KDT_sec:class:main"></A><P>
+
+In this section we define the class <I><A HREF="CGAL_Kdtree_d.html#Cross_link_anchor_14">CGAL_Kdtree_d</A></I> that
+implements the CGAL $KD$-tree.<P>
+
+<H3><I>{<A HREF="CGAL_Kdtree_d.html#Cross_link_anchor_14">CGAL_Kdtree_d&lt;I&gt;</A>}</I></H3><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Kdtree_d.html"><I>CGAL_Kdtree_d&lt;I&gt;</I></A>.</UL>
+
+<P>
+
+<H3><I><A HREF="CGAL_Kdtree_d.html#Cross_link_anchor_14">CGAL_Kdtree_d&lt;I&gt;</A>::Box</I></H3><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Kdtree_d.html"><I>CGAL_Kdtree_d&lt;I&gt;::Box</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_9"></A>
+<H2>$KD$-tree Default Interface Class</H2>
+
+<A NAME="KDT_sec:def:interface"></A><P>
+
+CGAL contains a default implementation for the $KD$-tree interface
+class. In this section we describe how to use it.<P>
+
+$KD$-tree implemented using the default interface may be applied to any
+standard class of point provided by CGAL.<P>
+
+The default interface class <I>CGAL_Kdtree_Interface&lt;Point&gt;</I> is
+templated with a parameter <I>Point</I>, which is required to
+supply the following methods:<P>
+
+<UL>
+<LI>Constructor, and copy constructor.<P>
+
+<LI><I>int dimension();</I> - return the dimension of the point.<P>
+
+<LI><I>operator[](int dim);</I> - an operator for accessing
+the various coordinates of the given point. Used also to copy
+coordinates between points.
+</UL><P>
+
+There are two other default interface classes <I>CGAL_Kdtree_Interface_2d&lt;Point&gt;</I>
+and <I>CGAL_Kdtree_Interface_3d&lt;Point&gt;</I> which should be used when using
+2D and 3D points from the CGAL kernel. This is done since the points in the
+kernel do not support changing their coordinates through direct access.<P>
+
+<A NAME="Section_10"></A>
+<H2>$KD$-tree Interface Class Specification</H2>
+
+<A NAME="KDT_sec:req:interface"></A><P>
+
+In this section we present the formal requirements for a $KD$-tree
+interface class, that can be used to instantiate a variable of type
+<I><A HREF="CGAL_Kdtree_d.html#Cross_link_anchor_14">CGAL_Kdtree_d&lt;I&gt;</A></I>.<P>
+
+The $KD$-tree class is parameterized with the
+interface class <I>I</I> which defines the abstract interface
+between the $KD$-tree and the data (i.e., points). The following
+requirement catalog lists the primitives, i.e.,&nbsp;types, member functions
+etc., that must be defined for a class that can be used to
+parameterize $KD$-trees. Ready-made implementation is available
+and described in Section&nbsp;<A HREF="Chapter_main.html#KDT_sec:def:interface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="I.html"><I>I</I></A>.</UL>
+
+<P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,44 +1,60 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: CGAL_Bbox_3.h
-// Author: Andreas Fabri
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Bbox_3.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
+ 
 
 #ifndef CGAL_BBOX_3_H
 #define CGAL_BBOX_3_H
 
+#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif // CGAL_BASIC_H
+#ifndef CGAL_CARTESIAN_CLASSES_H
 #include <CGAL/cartesian_classes.h>
+#endif // CGAL_CARTESIAN_CLASSES_H
+#ifndef CGAL_SIXTUPLE_H
 #include <CGAL/Sixtuple.h>
+#endif // CGAL_SIXTUPLE_H
 
 
 class CGAL_Bbox_3 : public CGAL_Handle
@@ -147,7 +163,8 @@ inline
 ostream&
 operator<<(ostream &os, const CGAL_Bbox_3 &b)
 {
-    switch(os.iword(CGAL_IO::mode)) {
+  switch(os.iword(CGAL_IO::mode))
+  {
     case CGAL_IO::ASCII :
         return os << b.xmin() << ' ' << b.ymin() << b.zmin();
     case CGAL_IO::BINARY :
@@ -159,14 +176,14 @@ operator<<(ostream &os, const CGAL_Bbox_3 &b)
         CGAL_write(os, b.zmax());
         return os;
     default:
-        os << "Bbox_3((" << b.xmin() 
-           << ", "       << b.ymin() 
+        os << "Bbox_3((" << b.xmin()
+           << ", "       << b.ymin()
            << ", "       << b.zmin() << "), (";
         os <<               b.xmax()
-           << ", "       << b.ymax() 
+           << ", "       << b.ymax()
            << ", "       << b.zmax() << "))";
         return os;
-    }
+  }
 }
 #endif // CGAL_NO_OSTREAM_INSERT_BBOX_3
 
@@ -177,9 +194,10 @@ inline
 istream&
 operator>>(istream &is, CGAL_Bbox_3 &b)
 {
-    double xmin, ymin, zmin, xmax, ymax, zmax;
+  double xmin, ymin, zmin, xmax, ymax, zmax;
 
-    switch(is.iword(CGAL_IO::mode)) {
+  switch(is.iword(CGAL_IO::mode))
+  {
     case CGAL_IO::ASCII :
         is >> xmin >> ymin >> xmax >> ymax;
         break;
@@ -191,9 +209,9 @@ operator>>(istream &is, CGAL_Bbox_3 &b)
         CGAL_read(is, ymax);
         CGAL_read(is, zmax);
         break;
-    }
-    b = CGAL_Bbox_3(xmin, ymin, zmin, xmax, ymax, zmax);
-    return is;
+  }
+  b = CGAL_Bbox_3(xmin, ymin, zmin, xmax, ymax, zmax);
+  return is;
 }
 
 #endif // CGAL_NO_ISTREAM_EXTRACT_BBOX_3

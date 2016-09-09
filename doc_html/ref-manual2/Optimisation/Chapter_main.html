@@ -1,0 +1,353 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Geometric Optimisation</H1>
+ <A NAME="Optimisation"></A><P>
+
+<P>
+
+<br>
+<br>
+<P>
+
+<P>
+
+<H2>Introduction</H2><P><P>
+
+This chapter describes routines for solving geometric optimisation problems.
+The first two sections contain algorithms for computing and updating the
+<UL>
+<LI>smallest enclosing circle
+(Section&nbsp;<A HREF="Chapter_main.html#sec:smallest_enclosing_circles"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>) and the
+<LI>smallest enclosing ellipse
+(Section&nbsp;<A HREF="Chapter_main.html#sec:smallest_enclosing_ellipses"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>), respectively,
+</UL>
+of a finite point set. The remaining sections describe algorithms for
+searching in matrices with specific properties and some applications.
+In particular, there are general implementations of
+<UL>
+<LI>monotone matrix search (Section&nbsp;<A HREF="Chapter_main.html#secMonotoneMatrixSearch"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>),
+which can be applied to compute
+<UL>
+<LI>extremal polygons of a convex polygon
+(Section&nbsp;<A HREF="Chapter_main.html#secComputingExtremalPolygons"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>) <I>or</I>
+<LI>all furthest neighbors for the vertices of a convex polygon
+(Section&nbsp;<A HREF="Chapter_main.html#secAllFurthestNeighbors"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>),
+</UL>
+<LI>and sorted matrix search (Section&nbsp;<A HREF="Chapter_main.html#secSortedMatrixSearch"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>),
+which can be used to compute the <MATH>p</MATH>-centers of a planar point set
+(Section&nbsp;<A HREF="Chapter_main.html#sec_RectangularPCenters"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>).
+</UL><P>
+
+<H4><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class</H4>
+
+The class and function templates are parameterized with a traits class
+which defines the abstract interface between the optimisation
+algorithm and the primitives it uses. We provide traits class
+implementations that interface the optimisation algorithms with the
+CGAL kernel. For some algorithms, in addition, we provide traits
+class adapters to user supplied point classes. Finally, we describe
+the requirements that must be fulfilled by traits classes for
+optimisation algorithms. This is at the same time a specification for
+using the provided traits class implementations as for users who want
+to supply their own traits class.<P>
+
+<H4>Assertions</H4>
+
+The optimisation code uses infix <I>OPTIMISATION</I> in the assertions,
+e.g. defining the compiler flag
+<I>CGAL_OPTIMISATION_NO_PRECONDITIONS</I> switches precondition
+checking off, cf.&nbsp;Section&nbsp;2 of the Reference Manual Part 0, General
+Introduction.<P>
+
+<P><A NAME="Section_1"></A>
+<H2>Smallest Enclosing Circles</H2>
+
+<A NAME="sec:smallest_enclosing_circles"></A><P>
+
+This section describes routines for computing and updating the
+smallest enclosing circle of a finite point set. Formally, the
+`smallest enclosing circle' is the boundary of the closed disk of
+minimum area covering the point set. It is known that this disk is
+unique. We usually identify the disk with its bounding circle,
+allowing us to talk about points being on the boundary of the circle,
+etc.<P>
+
+The algorithm works in an incremental manner. It is implemented as
+semi-dynamic data structures, thus allowing to insert points while
+maintaining the smallest enclosing circle.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_circle_2.html"><I>CGAL_Min_circle_2&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Optimisation_circle_2.html"><I>CGAL_Optimisation_circle_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_circle_2_traits_2.html"><I>CGAL_Min_circle_2_traits_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_circle_2_adapterC2.html"><I>CGAL_Min_circle_2_adapterC2&lt;PT,DA&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_circle_2_adapterH2.html"><I>CGAL_Min_circle_2_adapterH2&lt;PT,DA&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+<A HREF="requirements_adapterC2.html">Requirements of Traits Class Adapters to 2D Cartesian Points</A>.</UL>
+
+<P>
+
+<UL><LI>
+<A HREF="requirements_adapterH2.html">Requirements of Traits Class Adapters to 2D Homogeneous Points</A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR><P>
+
+<UL><LI>
+<A HREF="requirements_Min_circle_2.html">Requirements of Traits Classes for 2D Smallest Enclosing Circle</A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><A NAME="Section_2"></A>
+<H2>Smallest Enclosing Ellipses</H2>
+
+<A NAME="sec:smallest_enclosing_ellipses"></A><P>
+
+This section describes routines for computing and updating the
+smallest enclosing ellipse of a finite point set. Formally, the
+`smallest enclosing ellipse' is the boundary of the closed disk of
+minimum area covering the point set. It is known that this disk is
+unique. We usually identify the disk with its bounding ellipse,
+allowing us to talk about points being on the boundary of the ellipse,
+etc.<P>
+
+The algorithm works in an incremental manner. It is implemented as
+semi-dynamic data structures, thus allowing to insert points while
+maintaining the smallest enclosing ellipse.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_ellipse_2.html"><I>CGAL_Min_ellipse_2&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Optimisation_ellipse_2.html"><I>CGAL_Optimisation_ellipse_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_ellipse_2_traits_2.html"><I>CGAL_Min_ellipse_2_traits_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_ellipse_2_adapterC2.html"><I>CGAL_Min_ellipse_2_adapterC2&lt;PT,DA&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Min_ellipse_2_adapterH2.html"><I>CGAL_Min_ellipse_2_adapterH2&lt;PT,DA&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+<A HREF="requirements_adapterC2.html">Requirements of Traits Class Adapters to 2D Cartesian Points</A>.</UL>
+
+<P>
+
+<UL><LI>
+<A HREF="requirements_adapterH2.html">Requirements of Traits Class Adapters to 2D Homogeneous Points</A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR><P>
+
+<UL><LI>
+<A HREF="requirements_Min_ellipse_2.html">Requirements of Traits Classes for 2D Smallest Enclosing Ellipse</A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><A NAME="Section_3"></A>
+<H2>Computing Extremal Polygons</H2>
+
+<A NAME="secComputingExtremalPolygons"></A>
+\cgalColumnLayout<P>
+
+This section describes several functions to compute a maximal <MATH>k</MATH>-gon
+<MATH>P<SUB>k</SUB></MATH> that can be inscribed into a given convex polygon <MATH>P</MATH>. The
+criterion for maximality can be chosen freely by defining an
+appropriate traits class as specified in section
+<A HREF="Exp_traits.html#req_ExtremalPolygonTraits"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. For CGAL point classes there are
+two predefined traits classes to compute a maximum area (see section
+<A HREF="computing_maximum_area_inscribed_k_gon.html#secMaximumAreaInscribedKgon"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>) resp. perimeter (see section
+<A HREF="computing_maximum_perimeter_inscribed_k_gon.html#secMaximumPerimeterInscribedKgon"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>) inscribed <MATH>k</MATH>-gon.<P>
+
+<UL><LI>
+<A HREF="computing_maximum_area_inscribed_k_gon.html">Function Declaration of CGAL_maximum_area_inscribed_k_gon</A>.</UL>
+
+<UL><LI>
+<A HREF="computing_maximum_perimeter_inscribed_k_gon.html">Function Declaration of CGAL_maximum_perimeter_inscribed_k_gon</A>.</UL>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<UL><LI>
+<A HREF="computing_general_extremal_polygons.html">Function Declaration of CGAL_extremal_polygon</A>.</UL>
+
+<UL><LI>
+ Class declaration of <A HREF="Exp_traits.html"><I>Exp_traits</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><A NAME="Section_4"></A>
+<H2>All Furthest Neighbors</H2>
+
+<A NAME="secAllFurthestNeighbors"></A>
+\cgalColumnLayout<P>
+
+This section describes a function to compute all furthest neighbors
+for the vertices of a convex polygon.<P>
+
+<UL><LI>
+<A HREF="all_furthest_neighbors.html">Definition of function CGAL_all_furthest_neighbors</A>.</UL>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<UL><LI>
+ Class declaration of <A HREF="Afn_traits.html"><I>Afn_traits</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><A NAME="Section_5"></A>
+<H2>Rectangular <MATH>p</MATH>-Centers</H2>
+
+<A NAME="sec_RectangularPCenters"></A>
+\cgalColumnLayout<P>
+
+This section describes a function to compute rectilinear <MATH>p</MATH>-centers
+of a planar point set, i.e. a set of <MATH>p</MATH> points such that the maximum
+minimal distance between both sets is minimized.<P>
+
+<UL><LI>
+<A HREF="rectangular_p_centers.html">Definition of function CGAL_rectangular_p_center_2</A>.</UL>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<UL><LI>
+ Class declaration of <A HREF="Rpc_traits.html"><I>Rpc_traits</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<A NAME="Section_6"></A>
+<H2>Monotone Matrix Search</H2>
+
+<A NAME="secMonotoneMatrixSearch"></A>
+\cgalColumnLayout<P>
+
+In this section we describe a general function to compute the maxima
+for all rows of a totally monotone matrix.<P>
+
+<UL><LI>
+<A HREF="monotone_matrix_search.html">Function Declaration of CGAL_monotone_matrix_search</A>.</UL>
+
+<UL><LI>
+ Class declaration of <A HREF="Mms_matrix.html"><I>Mms_matrix</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Dynamic_matrix.html"><I>CGAL_Dynamic_matrix&lt;M&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="BasicMatrix.html"><I>BasicMatrix</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<P><BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<A NAME="Section_7"></A>
+<H2>Sorted Matrix Search</H2>
+
+<A NAME="secSortedMatrixSearch"></A>
+\cgalColumnLayout<P>
+
+This section describes a general function to select the smallest
+entry in a set of sorted matrices that fulfills a certain criterion.<P>
+
+<UL><LI>
+<A HREF="sorted_matrix_search.html">Function Declaration of CGAL_sorted_matrix_search</A>.</UL>
+
+<UL><LI>
+ Class declaration of <A HREF="Sms_traits.html"><I>Sms_traits</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Sorted_matrix_search_traits_adaptor.html"><I>CGAL_Sorted_matrix_search_traits_adaptor&lt;F,M&gt;</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

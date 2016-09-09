@@ -1,0 +1,265 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_triangulation.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Triangulations</H1>
+ <A NAME="I1_ChapterTriangulations"></A><P>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+<P>
+
+This chapter presents a framework for triangulations that are
+2-manifolds without singularities that may be embedded in the
+3D space. Examples are the triangulation of a simple polygon in the plane, the
+Delaunay triangulations of points in the plane, or triangulated
+irregular networks (<TT>Tin</TT>s) which are used as terrain model in
+<TT>Gis</TT>. All these triangulations are based on vertices and
+triangular faces, and on incidence information between vertices
+and faces. On top of that <EM>abstract triangulation</EM> come different
+<EM>geometric layers</EM>: They vary in the geometric information
+associated to a vertex (e.g., two-dimensional points for triangulations
+in the plane, or three-dimensional points for <TT>Tin</TT>s), and they
+vary in the functionality. The insertion of a point into a Delaunay
+triangulation or a <TT>Tin</TT> requires different update steps.<P>
+
+<H3>Design Rationale</H3>
+<P>
+
+As triangulations are basic data structures they are not implemented
+as a layer on top of a planar map, but they have a proper internal
+representation. The elementary objects of the triangulation are
+vertices and triangular faces with pointers to their three neighbors and
+their three vertices. This representation needs less storage
+and should result in faster algorithms. Notice that edges are not represented
+in triangulation. Therefore, to attach information on edges, one should use an
+edge-based data structure such as <I><A HREF="../Planar_map/CGAL_Planar_map_2.html#Cross_link_anchor_0">CGAL_Planar_map_2</A></I>.<P>
+
+The abstract triangulation layer is implemented by two classes for the
+faces and vertices of a triangulation. The geometric layer is
+implemented by several triangulation classes which allow to interact
+with a collection of faces and vertices. Triangulations can be
+traversed with iterators and circulators.<P>
+
+A triangulation may or may not have a boundary. A triangle having an
+edge on the boundary has no neighbor through this edge. For
+triangulations in the plane, it is sometimes convenient to
+artificially close the triangulation by adding an auxiliary point
+so that it is homeomorphic to a 3D sphere.<P>
+
+<H3>Organization of this Chapter</H3>
+<P>
+
+Sections&nbsp;<A HREF="Chapter_triangulation.html#I1_SectTriangulation_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> to <A HREF="Chapter_triangulation.html#I1_SectDelaunay_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> introduce
+triangulation classes which decompose the plane in
+triangles. Section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectTriangulation_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents a class that
+maintains a triangulation of the convex hull of points in the
+plane. Section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectDelaunay_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents a class that maintains the
+<EM>Delaunay property</EM> for a set of points. Both classes are
+dynamic, that is points can be inserted in and removed from
+the triangulation.<P>
+
+The triangulation classes are parameterized with a triangulation traits class,
+that defines the types of the primitives the triangulation uses.
+CGAL provides some traits class implementations for the
+CGAL kernel that are presented in section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+Section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectRequirements"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents the syntactical and
+semantical requirements that must be fulfilled by a triangulation
+traits class. This is at the same time a specification for people that
+want to use the classes provided by CGAL as for people that want to
+extend the framework.<P>
+
+Section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectImpl"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> gives the necessary informations for people who
+want to reuse classes provided by CGAL.<P>
+
+<H3>Operations on Indices</H3><P>
+
+The three vertices of a face are indexed with 0, 1 and 2. This order
+defines a counterclockwise order. Given an index of a vertex the following
+functions allow to compute the index of the (counter-) clockwise neighbor
+vertex.
+Thus, all the classes provide the two functions
+<I>int ccw(int i)</I> and <I>int cw(int i)</I>.
+Note that the functions are static member functions although they do not depend
+on the actual face.<P>
+
+Note further that <I>f.neighbor(f.ccw(i))</I> is the
+neighbor of <I>f</I>, turning counterclockwise around vertex <I>i</I>
+of&nbsp;<I>f</I> and that <I>f.vertex(f.ccw(i))</I> is the
+vertex of <I>f</I>, turning counterclockwise inside <I>f</I> from vertex
+<I>i</I>.<P>
+
+
+<img border=0 src=Neighbor_number.gif align=center alt="Neighbors">
+<P>
+
+<P><A NAME="Section_2"></A>
+<H2>Triangulation of Points in the Plane <A NAME="I1_SectTriangulation_2"></A></H2>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_2.html"><I>CGAL_Triangulation_2&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_3"></A>
+<H2>Delaunay Triangulation of Points <A NAME="I1_SectDelaunay_2"></A></H2>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Delaunay_triangulation_2.html"><I>CGAL_Delaunay_triangulation_2&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_4"></A>
+<H2>Predefined Triangulation <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> Classes <A NAME="I1_SectPredefined"></A></H2>
+<P>
+
+The classes <I><A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A></I> and
+<I><A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Traits&gt;</A></I> are parameterized with a
+triangulation traits class. CGAL provides some
+traits class implementations for the CGAL kernel. These
+implementations allow to vary the metric used in the triangulations
+and to operate on 2d-projections of three-dimensional points.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_euclidean_traits_2.html"><I>CGAL_Triangulation_euclidean_traits_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_euclidean_xy_traits_3.html"><I>CGAL_Triangulation_euclidean_xy_traits_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_5"></A>
+<H2>Requirements<A NAME="I1_SectRequirements"></A></H2>
+<P>
+
+<H3>Requirements for Triangulation <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> Classes <A NAME="I1_SectReq"></A></H3>
+<P>
+
+The classes <I><A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A></I> and
+<I><A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Traits&gt;</A></I> are parameterized with a
+triangulation traits class, that defines the types of the primitives
+the triangulation uses. The following requirement catalog lists the
+primitives, i.e.&nbsp;types, member functions etc., that must be defined
+for a class that can be used to parameterize triangulations. The
+traits class implementations for the CGAL kernel from
+section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> can be used as a starting point for
+customizing own triangulation traits classes, for example through
+derivation and specialization.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Traits.html"><I>Traits</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Distance.html"><I>Distance</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Vertex.html"><I>Vertex</I></A>.</UL>
+
+<P>
+
+<P><UL><LI>
+ Class declaration of <A HREF="Face.html"><I>Face</I></A>.</UL>
+
+<P>
+
+<P><A NAME="Section_6"></A>
+<H2>Implementations<A NAME="I1_SectImpl"></A></H2>
+<P>
+
+This section gives further information about classes that can be used
+as starting point if you want to write your own vertex or face classes.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_vertex.html"><I>CGAL_Triangulation_vertex&lt;P&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_face.html"><I>CGAL_Triangulation_face&lt;V&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_vertex_circulator.html"><I>CGAL_Triangulation_vertex_circulator&lt;V,F&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_edge_circulator.html"><I>CGAL_Triangulation_edge_circulator&lt;V,F&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_face_circulator.html"><I>CGAL_Triangulation_face_circulator&lt;V,F&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_2_vertex_iterator.html"><I>CGAL_Triangulation_2_vertex_iterator&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_2_edge_iterator.html"><I>CGAL_Triangulation_2_edge_iterator&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Triangulation_2_face_iterator.html"><I>CGAL_Triangulation_2_face_iterator&lt;Traits&gt;</I></A>.</UL>
+
+<P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,48 +1,71 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Aff_transformationH2.h
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Source: Aff_transformationH2.h
-// Author: Stefan Schirra
 
 #ifndef CGAL_AFF_TRANSFORMATIONH2_H
 #define CGAL_AFF_TRANSFORMATIONH2_H
 
+#ifndef CGAL_RATIONAL_ROTATION_H
 #include <CGAL/rational_rotation.h>
+#endif // CGAL_RATIONAL_ROTATION_H
 
-#ifdef CGAL_WORKAROUND_015
+#if defined(CGAL_CFG_INCOMPLETE_TYPE_BUG_1) && \
+   !defined(CGAL_NO_LINE_TRANSFORM_IN_AT)
 #define CGAL_NO_LINE_TRANSFORM_IN_AT
-#endif // CGAL_WORKAROUND_015
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
+
+template <class FT, class RT>
+class CGAL__Aff_transformationH2;
 
 template <class FT, class RT>
 class CGAL__Aff_transformation_repH2;
+
+template <class FT, class RT>
+CGAL_Aff_transformationH2<FT,RT>
+CGAL__general_transformation_composition (
+                                   CGAL__Aff_transformation_repH2<FT,RT> l,
+                                   CGAL__Aff_transformation_repH2<FT,RT> r);
 
 template <class FT, class RT>
 class CGAL__Aff_transformation_rep_baseH2 : public CGAL_Rep
@@ -62,6 +85,10 @@ public:
     virtual  CGAL__Aff_transformation_repH2<FT,RT>
                         general_form() const = 0;
     virtual  bool       is_even() const = 0;
+
+    virtual  RT         homogeneous(int i, int j) const = 0;
+    virtual  FT         cartesian(int i, int j) const = 0;
+
 
 };
 
@@ -151,6 +178,9 @@ public:
                 return CGAL_sign( (a*e - b*d)*g )== 1;
               }
 
+    virtual   RT   homogeneous(int i, int j) const;
+    virtual   FT   cartesian(int i, int j) const;
+
     RT    a;           //    |  a  b  c  |   | x |   | xn |
     RT    b;           //    |  d  e  f  | * | y | = | yn |
     RT    c;           //    |  0  0  g  |   | w |   | wn |
@@ -159,11 +189,11 @@ public:
     RT    f;
     RT    g;
 
-  friend   CGAL_Aff_transformationH2<FT,RT>
-    CGAL__general_transformation_composition(
+  friend CGAL_Aff_transformationH2<FT,RT>
+         CGAL__general_transformation_composition CGAL_NULL_TMPL_ARGS (
                                    CGAL__Aff_transformation_repH2<FT,RT> l,
-                                   CGAL__Aff_transformation_repH2<FT,RT> r );
-
+                                   CGAL__Aff_transformation_repH2<FT,RT> r
+                                                                      );
 };
 
 template < class FT, class RT >
@@ -215,6 +245,10 @@ public:
                                 RT(0)  ,   _tv.hw(),  _tv.hy(),
                                                       _tv.hw() );
              }
+
+    virtual  RT   homogeneous(int i, int j) const;
+    virtual  FT   cartesian(int i, int j) const;
+
 
 private:
 
@@ -280,6 +314,10 @@ public:
                            _sin,    _cos,  RT(0)  ,
                                            _den );
              }
+
+    virtual  RT   homogeneous(int i, int j) const;
+    virtual  FT   cartesian(int i, int j) const;
+
 
 private:
     RT  _sin;
@@ -347,6 +385,10 @@ public:
                                                   _sf_den );
              }
 
+    virtual  RT   homogeneous(int i, int j) const;
+    virtual  FT   cartesian(int i, int j) const;
+
+
 private:
 
     RT  _sf_num;
@@ -413,10 +455,10 @@ public:
                                                               const RT& g
                                                                     = RT(1)  );
 
-#ifdef CGAL_WORKAROUND_008
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
           CGAL_Aff_transformationH2(
                                 CGAL__Aff_transformation_repH2<FT,RT>* ptr);
-#endif // CGAL_WORKAROUND_008
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
 
 
           ~CGAL_Aff_transformationH2();
@@ -433,12 +475,22 @@ public:
                             inverse() const;
     bool                    is_even() const;
     bool                    is_odd()  const;
+
+                            // Access functions for matrix form
+    FT                      cartesian(int i, int j) const;
+    RT                      homogeneous(int i, int j) const;
+    FT                      m(int i, int j) const
+                            { return cartesian(i,j); }
+    RT                      hm(int i, int j) const
+                            { return homogeneous(i,j); }
+
     CGAL__Aff_transformation_repH2<FT,RT>
                             general_form() const;
 
 //  friend   CGAL_Aff_transformationH2<FT,RT>
-//    operator*(const CGAL_Aff_transformationH2<FT,RT>& left_argument,
-//              const CGAL_Aff_transformationH2<FT,RT>& right_argument );
+//    operator* CGAL_NULL_TMPL_ARGS
+//              (const CGAL_Aff_transformationH2<FT,RT>& left_argument,
+//               const CGAL_Aff_transformationH2<FT,RT>& right_argument );
 
     CGAL_Aff_transformationH2<FT,RT> operator*(
               const CGAL_Aff_transformationH2<FT,RT>& right_argument ) const;
@@ -452,59 +504,56 @@ private:
 template < class FT, class RT >
 CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2()
 {
- PTR = new CGAL__Aff_transformation_repH2<FT,RT>();
+  PTR = new CGAL__Aff_transformation_repH2<FT,RT>();
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                     const CGAL_Aff_transformationH2<FT,RT>& t)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2(const CGAL_Aff_transformationH2<FT,RT>& t)
  : CGAL_Handle(t)
 {
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                               const CGAL_Translation,
-                                               const CGAL_VectorH2<FT,RT>& v)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2(const CGAL_Translation,const CGAL_VectorH2<FT,RT>& v)
 {
- PTR = new CGAL__Translation_repH2<FT,RT>( v );
+  PTR = new CGAL__Translation_repH2<FT,RT>( v );
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                               const CGAL_Scaling,
-                                               const RT& a, const RT& b)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2(const CGAL_Scaling, const RT& a, const RT& b)
 {
- PTR = new CGAL__Scaling_repH2<FT,RT>( a, b);
+  PTR = new CGAL__Scaling_repH2<FT,RT>( a, b);
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                               const CGAL_Scaling,
-                                               const RT& xa, const RT& xb,
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2( const CGAL_Scaling, const RT& xa, const RT& xb,
                                                const RT& ya, const RT& yb)
 {
- PTR = new CGAL__Aff_transformation_repH2<FT,RT>(
-                    xa * yb,    RT(0)  ,    RT(0)  ,
-                    RT(0)  ,    ya * xb,    RT(0)  ,
-                                            xb * yb  );
+  PTR = new CGAL__Aff_transformation_repH2<FT,RT>(
+                     xa * yb,    RT(0)  ,    RT(0)  ,
+                     RT(0)  ,    ya * xb,    RT(0)  ,
+                                             xb * yb  );
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                               const CGAL_Rotation,
-                                               const RT& sine,
-                                               const RT& cosine,
-                                               const RT& denominator)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2(const CGAL_Rotation,
+                          const RT& sine,
+                          const RT& cosine,
+                          const RT& denominator)
 {
- PTR = new CGAL__Rotation_repH2<FT,RT>(sine, cosine, denominator);
+  PTR = new CGAL__Rotation_repH2<FT,RT>(sine, cosine, denominator);
 }
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                           const CGAL_Rotation,
-                                           const CGAL_DirectionH2<FT,RT>& dir,
-                                           const RT& n,
-                                           const RT& d)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2( const CGAL_Rotation,
+                           const CGAL_DirectionH2<FT,RT>& dir,
+                           const RT& n,
+                           const RT& d)
 {
 
  const RT   RTzero = RT(0)  ;
@@ -520,17 +569,17 @@ CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                 const CGAL_VectorH2<FT,RT>& v,
-                                 const RT& sine,
-                                 const RT& cosine,
-                                 const RT& denominator,
-                                 const RT& scaling_numerator,
-                                 const RT& scaling_denominator )
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2( const CGAL_VectorH2<FT,RT>& v,
+                           const RT& sine,
+                           const RT& cosine,
+                           const RT& denominator,
+                           const RT& scaling_numerator,
+                           const RT& scaling_denominator )
 {
- CGAL_Aff_transformationH2<FT,RT>
+  CGAL_Aff_transformationH2<FT,RT>
         scaling(CGAL_SCALING,scaling_numerator,scaling_denominator);
- CGAL_Aff_transformationH2<FT,RT>
+  CGAL_Aff_transformationH2<FT,RT>
         combination =
         CGAL_Aff_transformationH2<FT,RT>(CGAL_TRANSLATION,
                                          scaling.inverse().transform(-v) )
@@ -540,32 +589,32 @@ CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
       * CGAL_Aff_transformationH2<FT,RT>(CGAL_TRANSLATION,
                                          v ) ;
 
- //  PTR is still 0
- //  currently LEDA (3.3) checks PTR in assignment before deletion
- *this = combination;
+  //  PTR is still 0
+  //  currently LEDA (3.3) checks PTR in assignment before deletion
+  *this = combination;
 
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                   const RT& a, const RT& b, const RT& c,
-                                   const RT& d, const RT& e, const RT& f,
-                                   const RT& g)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2( const RT& a, const RT& b, const RT& c,
+                           const RT& d, const RT& e, const RT& f,
+                                                     const RT& g)
 {
- PTR = new CGAL__Aff_transformation_repH2<FT,RT>( a,   b,   c,
-                                                  d,   e,   f,
-                                                            g  );
+  PTR = new CGAL__Aff_transformation_repH2<FT,RT>( a,   b,   c,
+                                                   d,   e,   f,
+                                                             g  );
 }
 
 template < class FT, class RT >
-CGAL_Aff_transformationH2<FT,RT>::CGAL_Aff_transformationH2(
-                                   const RT& a, const RT& b,
-                                   const RT& d, const RT& e,
-                                   const RT& g)
+CGAL_Aff_transformationH2<FT,RT>::
+CGAL_Aff_transformationH2( const RT& a, const RT& b,
+                           const RT& d, const RT& e,
+                                                     const RT& g)
 {
- PTR = new CGAL__Aff_transformation_repH2<FT,RT>( a,   b,   RT(0),
-                                                  d,   e,   RT(0),
-                                                            g  );
+  PTR = new CGAL__Aff_transformation_repH2<FT,RT>( a,   b,   RT(0),
+                                                   d,   e,   RT(0),
+                                                             g  );
 }
 
 //template < class FT, class RT >
@@ -582,83 +631,107 @@ CGAL_Aff_transformationH2<FT,RT>::~CGAL_Aff_transformationH2()
 
 template < class FT, class RT >
 CGAL_PointH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::transform(const CGAL_PointH2<FT,RT>& p) const
+CGAL_Aff_transformationH2<FT,RT>::
+transform(const CGAL_PointH2<FT,RT>& p) const
 {
- return ptr()->transform(p);
+  return ptr()->transform(p);
 }
 
 
 template < class FT, class RT >
 CGAL_VectorH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::transform(
-                                      const CGAL_VectorH2<FT,RT>& v) const
+CGAL_Aff_transformationH2<FT,RT>::
+transform( const CGAL_VectorH2<FT,RT>& v) const
 {
- return ptr()->transform(v);
+  return ptr()->transform(v);
 }
 
 template < class FT, class RT >
 CGAL_DirectionH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::transform(
-                                      const CGAL_DirectionH2<FT,RT>& d) const
+CGAL_Aff_transformationH2<FT,RT>::
+transform( const CGAL_DirectionH2<FT,RT>& d) const
 {
- return ptr()->transform(d);
+  return ptr()->transform(d);
 }
 
 #ifndef CGAL_NO_LINE_TRANSFORM_IN_AT
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::transform(const CGAL_LineH2<FT,RT>& l) const
+CGAL_Aff_transformationH2<FT,RT>::
+transform(const CGAL_LineH2<FT,RT>& l) const
 {
- return CGAL_LineH2<FT,RT>( transform( l.point(0)), transform( l.point(1)) );
+  return CGAL_LineH2<FT,RT>( transform( l.point(0)), transform( l.point(1)) );
 }
 #endif // CGAL_NO_LINE_TRANSFORM_IN_AT
 
 template < class FT, class RT >
 CGAL_Aff_transformationH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::inverse() const
+CGAL_Aff_transformationH2<FT,RT>::
+inverse() const
 {
- return ptr()->inverse();
+  return ptr()->inverse();
 }
 
 template < class FT, class RT >
 bool
-CGAL_Aff_transformationH2<FT,RT>::is_even() const
+CGAL_Aff_transformationH2<FT,RT>::
+is_even() const
 {
- return ptr()->is_even();
+  return ptr()->is_even();
 }
 
 template < class FT, class RT >
 bool
-CGAL_Aff_transformationH2<FT,RT>::is_odd() const
+CGAL_Aff_transformationH2<FT,RT>::
+is_odd() const
 {
- return !( ptr()->is_even() );
+  return !( ptr()->is_even() );
+}
+
+template < class FT, class RT >
+inline
+FT
+CGAL_Aff_transformationH2<FT,RT>::
+cartesian(int i, int j) const
+{
+  return ptr()->cartesian(i,j);
+}
+
+template < class FT, class RT >
+inline
+RT
+CGAL_Aff_transformationH2<FT,RT>::
+homogeneous(int i, int j) const
+{
+  return ptr()->homogeneous(i,j);
 }
 
 template < class FT, class RT >
 CGAL__Aff_transformation_repH2<FT,RT>
-CGAL_Aff_transformationH2<FT,RT>::general_form() const
+CGAL_Aff_transformationH2<FT,RT>::
+general_form() const
 {
- return ptr()->general_form();
+  return ptr()->general_form();
 }
 
 template <class FT, class RT>
 CGAL_Aff_transformationH2<FT,RT>
 //operator*(const CGAL_Aff_transformationH2<FT,RT>& left_argument,
 //          const CGAL_Aff_transformationH2<FT,RT>& right_argument )
-CGAL_Aff_transformationH2<FT,RT>::operator*(
-                const CGAL_Aff_transformationH2<FT,RT>& right_argument) const
+CGAL_Aff_transformationH2<FT,RT>::
+operator*(const CGAL_Aff_transformationH2<FT,RT>& right_argument) const
 {
-return CGAL__general_transformation_composition(
-//                  left_argument.ptr()->general_form(),
+  return CGAL__general_transformation_composition(
                   ptr()->general_form(),
                   right_argument.ptr()->general_form() );
 }
 
 template < class FT, class RT >
 CGAL__Aff_transformation_rep_baseH2<FT,RT>*
-CGAL_Aff_transformationH2<FT,RT>::ptr() const
+CGAL_Aff_transformationH2<FT,RT>::
+ptr() const
 {
- return (CGAL__Aff_transformation_rep_baseH2<FT,RT>*)PTR;
+  return (CGAL__Aff_transformation_rep_baseH2<FT,RT>*)PTR;
 }
 
 template <class FT, class RT>
@@ -671,6 +744,229 @@ return CGAL_Aff_transformationH2<FT,RT>(
        l.a*r.a + l.b*r.d,   l.a*r.b + l.b*r.e,   l.a*r.c + l.b*r.f + l.c*r.g,
        l.d*r.a + l.e*r.d,   l.d*r.b + l.e*r.e,   l.d*r.c + l.e*r.f + l.f*r.g,
                                                  l.g*r.g                     );
+}
+
+template < class FT, class RT >
+RT
+CGAL__Aff_transformation_repH2<FT,RT>::
+homogeneous(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return a;
+              case 1: return b;
+              case 2: return c;
+            }
+    case 1: switch (j)
+            {
+              case 0: return d;
+              case 1: return e;
+              case 2: return f;
+            }
+    case 2: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return RT(0);
+              case 2: return g;
+            }
+  }
+  return RT(0);
+}
+
+template < class FT, class RT >
+FT
+CGAL__Aff_transformation_repH2<FT,RT>::
+cartesian(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  if ( (i == 2) && (j == 2) )  return FT(1);
+  return FT(homogeneous(i,j)) / FT(g);
+}
+
+
+template < class FT, class RT >
+RT
+CGAL__Translation_repH2<FT,RT>::
+homogeneous(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return _tv.hw();
+              case 1: return RT(0);
+              case 2: return _tv.hx();
+            }
+    case 1: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return _tv.hw();
+              case 2: return _tv.hy();
+            }
+    case 2: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return RT(0);
+              case 2: return _tv.hw();
+            }
+  }
+  return RT(0);
+}
+
+template < class FT, class RT >
+FT
+CGAL__Translation_repH2<FT,RT>::
+cartesian(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return FT(1);
+              case 1: return FT(0);
+              case 2: return _tv.x();
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(1);
+              case 2: return _tv.y();
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+  }
+  return FT(0);
+}
+
+
+template < class FT, class RT >
+RT
+CGAL__Rotation_repH2<FT,RT>::
+homogeneous(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return _cos;
+              case 1: return - _sin;
+              case 2: return RT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return _sin;
+              case 1: return _cos;
+              case 2: return RT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return RT(0);
+              case 2: return _den;
+            }
+  }
+  return RT(0);
+}
+
+template < class FT, class RT >
+FT
+CGAL__Rotation_repH2<FT,RT>::
+cartesian(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return FT(_cos) / FT(_den);
+              case 1: return - FT(_sin) / FT(_den);
+              case 2: return RT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(_sin) / FT(_den);
+              case 1: return FT(_cos) / FT(_den);
+              case 2: return FT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+  }
+  return FT(0);
+}
+
+
+template < class FT, class RT >
+RT
+CGAL__Scaling_repH2<FT,RT>::
+homogeneous(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return _sf_num;
+              case 1: return RT(0);
+              case 2: return RT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return _sf_num;
+              case 2: return RT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return RT(0);
+              case 1: return RT(0);
+              case 2: return _sf_den;
+            }
+  }
+  return RT(0);
+}
+
+template <class FT, class RT>
+FT
+CGAL__Scaling_repH2<FT,RT>::
+cartesian(int i, int j) const
+{
+  CGAL_kernel_precondition( (i >= 0) && (i <= 2) && (j >= 0) && (j <= 2) );
+  switch (i)
+  {
+    case 0: switch (j)
+            {
+              case 0: return FT(_sf_num) / FT(_sf_den);
+              case 1: return FT(0);
+              case 2: return FT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(_sf_num) / FT(_sf_den);
+              case 2: return FT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+  }
+  return FT(0);
 }
 
 

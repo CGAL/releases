@@ -1,0 +1,1166 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_generators.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Random Sources and Geometric Object Generators</H1>
+
+<A NAME="chapterGenerators"></A>
+<BR><BR><BR><P>
+
+A variety of generators for random numbers and geometric objects is
+provided in CGAL. They are useful as synthetic test data sets,
+e.g.&nbsp;for testing algorithms on degenerate object sets and for
+performance analysis.<P>
+
+The first section describes the random number source used for random
+generators. The second section provides useful generic functions
+related to random numbers like <I>CGAL_random_selection()</I>. The
+third section documents generators for two-dimensional point sets, the
+fourth section for three-dimensional point sets. The fifth section
+presents examples using functions from
+Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionGenericFunctions"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> to generate composed objects
+like segments.<P>
+
+Note that the STL algorithm <I>random_shuffle</I> is
+useful in this context to achieve random permutations for otherwise
+regular generators (e.g.&nbsp;points on a grid or segment).<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Random.html"><I>CGAL_Random</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_1"></A>
+<H2>Support Functions for Generators</H2>
+<P>
+
+<H3><I>CGAL_random_selection()</I></H3>
+
+<A NAME="sectionRandomSelection"></A><P>
+
+<I>CGAL_random_selection</I> chooses <MATH>n</MATH> items at random from a random
+access iterator range which is useful to produce degenerate input data
+sets with multiple entries of identical items.<P>
+
+<I>#include &lt;CGAL/random_selection.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class RandomAccessIterator, class Size,   class OutputIterator, class Random&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_OutputIterator_CGAL_random_selection6_RandomAccessIterator_first+__RandomAccessIterator_last+___Size_n+_OutputIterator_result+_Random__rnd_=_CGAL_random9;"></A>
+OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_random_selection ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    RandomAccessIterator first, <BR>
+     RandomAccessIterator last, <BR>
+     Size n, <BR>
+     OutputIterator result, <BR>
+     Random&amp; rnd = CGAL_random)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    chooses a random item from the range
+    <MATH>[</MATH><I>first</I><MATH>,</MATH><I>last</I><MATH>)</MATH>
+    and writes it to <I>result</I>, each item from the range with equal
+    probability, and repeats this <MATH>n</MATH> times, thus writing
+    <MATH>n</MATH> items to <I>result</I>. A single random number is
+    needed from <I>rnd</I> for each item. Returns the value of
+    <I>result</I> after inserting the <MATH>n</MATH> items.
+    <BR><STRONG>Precondition: </STRONG><I>Random</I> is a random number
+    generator type as provided by the STL or by <I><A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A></I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<P><A NAME="Section_2"></A>
+<H2>2D Point Generators</H2>
+
+<A NAME="sectionPointGenerators"></A><P>
+
+Two kind of point generators are provided: First, random point
+generators and second deterministic point generators. Most random
+point generators and a few deterministic point generators are provided
+as input iterators. The input iterators model an infinite sequence of
+points. The function <I>CGAL_copy_n()</I> could be used to copy a
+finite sequence, see Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCopyN"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The iterator adaptor
+<I><A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A></I> can be used to create finite iterator
+ranges, see Section&nbsp;<A HREF="../STL_Extension/CGAL_Counting_iterator.html#sectionCountingIterator"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Other generators are provided as functions writing to an output
+iterator. Further functions add degeneracies or random perturbations.<P>
+
+<H3>Point Generators as Input Iterators</H3>
+<P>
+
+<H3>Definition</H3>Input iterators are provided for random points uniformly distributed
+over a two-dimensional domain (square or disc) or a one-dimensional
+domain (boundary of a square, circle, or segment). Another input
+iterator generates equally spaced points from a segment.<P>
+
+All iterators are parameterized with the point type <I>P</I> and all
+with the exception of the class <I><A HREF="Chapter_generators.html#Cross_link_anchor_6">CGAL_Points_on_segment_2</A></I> have a second
+template argument <I>Creator</I> which defaults to the class
+<I><A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,P&gt;</I>[<A HREF="#Footnote_1">^1</A>].
+The <I>Creator</I> must be a function object accepting two <I>double</I>
+values <MATH>x</MATH> and <MATH>y</MATH> and returning an initialized point <I>(x,y)</I> of type
+<I>P</I>. Predefined implementations for these creators like the
+default can be found in Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCreatorFunctionObjects"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+They simply assume an appropriate constructor for type <I>P</I>.<P>
+
+All generators know a range within which the coordinates of the
+generated points will lie.<P>
+
+<I>#include &lt;CGAL/point_generators_2.h&gt;</I><P>
+
+<H3>Types</H3>The generators comply to the requirements of input iterators which
+includes local type declarations including <I>value_type</I> which
+denotes <I>P</I> here.<P>
+
+<H3>Creation</H3><P>
+
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_1">CGAL_Random_points_in_disc_2</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double r, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed in the open disc with radius
+    <MATH>r</MATH>,
+    i.e.&nbsp;<MATH>|</MATH><I>*g</I><MATH>| &lt; r</MATH>&nbsp;. Two
+    random numbers are needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_2"></A>
+
+<A NAME="Cross_link_anchor_2"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_2">CGAL_Random_points_on_circle_2</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double r, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed on the circle with radius
+    <MATH>r</MATH>,
+    i.e.&nbsp;<MATH>|</MATH><I>*g</I><MATH>| == r</MATH>&nbsp;. A
+    single random number is needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_3"></A>
+
+<A NAME="Cross_link_anchor_3"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_3">CGAL_Random_points_in_square_2</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double a, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed in the half-open square with side
+    length <MATH>2 a</MATH>, centered at the origin,
+    i.e.&nbsp;<MATH>Forall p = </MATH><I>*g</I><MATH>:  -a &lt;=p.x() &lt; a</MATH>
+    and <MATH>-a &lt;=p.y() &lt; a</MATH>&nbsp;. Two random numbers are
+    needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_4"></A>
+
+<A NAME="Cross_link_anchor_4"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_4">CGAL_Random_points_on_square_2</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double a, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed on the boundary of the square with
+    side length <MATH>2 a</MATH>, centered at the origin,
+    i.e.&nbsp;<MATH>Forall p = </MATH><I>*g</I><MATH>:</MATH> one
+    coordinate is either <MATH>a</MATH> or <MATH>-a</MATH> and for the
+    other coordinate <MATH>c</MATH> holds
+    <MATH>-a &lt;=c &lt; a</MATH>&nbsp;. A single random number is
+    needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_5"></A>
+
+<A NAME="Cross_link_anchor_5"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_5">CGAL_Random_points_on_segment_2</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     P p, <BR>
+     P q, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed on the segment from <MATH>p</MATH>
+    to <MATH>q</MATH> (excluding <MATH>q</MATH>),
+    i.e.&nbsp;<MATH></MATH><I>*g</I><MATH> == (1-lambda) p + lambda q</MATH>
+    where <MATH>0 &lt;=lambda &lt; 1</MATH>&nbsp;. A single random
+    number is needed from <I>rnd</I> for each point.
+    <BR><STRONG>Precondition: </STRONG>The expressions
+    <I>CGAL_to_double(p.x())</I> and <I>CGAL_to_double(p.y())</I> must
+    result in the respective <I>double</I> representation of the
+    coordinates and similar for <MATH>q</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_6"></A>
+
+<A NAME="Cross_link_anchor_6"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_6">CGAL_Points_on_segment_2&lt;P&gt;</A> g (  P p,  P q,  size_t n,  size_t i = 0);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> equally spaced on the segment from <MATH>p</MATH> to
+    <MATH>q</MATH>. <MATH>n</MATH> points are placed on the segment
+    including <MATH>p</MATH> and <MATH>q</MATH>. The iterator denoted
+    the point <MATH>i</MATH> where <MATH>p</MATH> has the index 0 and
+    <MATH>q</MATH> the index <MATH>n</MATH>.
+    <BR><STRONG>Precondition: </STRONG>The expressions
+    <I>CGAL_to_double(p.x())</I> and <I>CGAL_to_double(p.y())</I> must
+    result in the respective <I>double</I> representation of the
+    coordinates and similar for <MATH>q</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    double
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    g.range ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the range in which the point coordinates lie,
+    i.e.&nbsp;<MATH>Forall x: |x| &lt;=</MATH><I>range()</I> and
+    <MATH>Forall y: |y| &lt;=</MATH><I>range()</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The generators <I><A HREF="Chapter_generators.html#Cross_link_anchor_5">CGAL_Random_points_on_segment_2</A></I> and
+<I><A HREF="Chapter_generators.html#Cross_link_anchor_6">CGAL_Points_on_segment_2</A></I> have to additional methods.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     P
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    g.source ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the source point of the segment.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     P
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    g.target ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the target point of the segment.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>See Also</H3><I>stl::random_shuffle</I>, <I>CGAL_random_selection</I>,
+<I>CGAL_copy_n</I>, <I><A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A></I>,
+
+<I><A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_24">CGAL_Join_input_iterator_1</A></I>.<P>
+
+<H3>Point Generators as Functions</H3>
+<P>
+
+<H3>Grid Points</H3><P>
+
+Grid points are generated by functions writing to an output iterator.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class OutputIterator, Creator creator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_OutputIterator__CGAL_points_on_square_grid_26_double_a+_size_t_n+_OutputIterator_o+__Creator_creator_=___CGAL_Creator_uniform_26double+P99;"></A>
+OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_points_on_square_grid_2 ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double a, <BR>
+     size_t n, <BR>
+     OutputIterator o, <BR>
+     Creator creator = <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,P&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    creates the <MATH>n</MATH> first points on the regular
+    <MATH>ceiling(sqrt(n))
+    &times; ceiling(  sqrt(n))</MATH> grid
+    within the square <MATH>[-a,a]&times; [-a,a]</MATH>. Returns the
+    value of <MATH>o</MATH> after inserting the <MATH>n</MATH> points.
+    <BR><STRONG>Precondition: </STRONG><I>Creator</I> must be a
+    function object accepting two <I>double</I> values <MATH>x</MATH>
+    and <MATH>y</MATH> and returning an initialized point <I>(x,y)</I>
+    of type <I>P</I>. Predefined implementations for these creators
+    like the default can be found in
+    Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCreatorFunctionObjects"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The
+    <I>OutputIterator</I> must accept values of type <I>P</I>. If the
+    <I>OutputIterator</I> has a <I>value_type</I> the default
+    initializer of the <I>creator</I> can be used. <I>P</I> is set to
+    the <I>value_type</I> in this case.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class P, class OutputIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_OutputIterator_CGAL_points_on_segment_26_const_P__p+_const_P__q+_size_t_n+__OutputIterator_o9;"></A>
+OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_points_on_segment_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     P p, <BR>
+     P q, <BR>
+     size_t n, <BR>
+     OutputIterator o)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    creates <MATH>n</MATH> points equally spaced on the segment from
+    <MATH>p</MATH> to <MATH>q</MATH>,
+    i.e.&nbsp;<MATH>Forall i: 0 &lt;=i &lt; n: o[i] := (n-i-1)/(n-1) p +
+    (i)/(n-1) q</MATH>.
+    Returns the value of <MATH>o</MATH> after inserting the
+    <MATH>n</MATH> points.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>Random Perturbations</H3><P>
+
+Degenerate input sets like grid points can be randomly perturbed by a
+small amount to produce <EM>quasi</EM>-degenerate test sets. This
+challenges numerical stability of algorithms using inexact arithmetic and
+exact predicates to compute the sign of expressions slightly off from zero.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class ForwardIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_perturb_points_26_ForwardIterator_first+_ForwardIterator_last+___double_xeps+_double_yeps_=_xeps+_CGAL_Random__rnd_=_CGAL_random+__Creator_creator_=_CGAL_Creator_uniform_26double+P99;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_perturb_points_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     double xeps, <BR>
+     double yeps = xeps, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random, <BR>
+     Creator creator = <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,P&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    perturbs the points in the range
+    <MATH>[</MATH><I>first</I><MATH>,</MATH><I>last</I><MATH>)</MATH>
+    by replacing each point with a random point from the rectangle
+    <I>xeps</I> <MATH>&times;</MATH> <I>yeps</I> centered at the
+    original point. Two random numbers are needed from <I>rnd</I> for
+    each point. <BR><STRONG>Precondition: </STRONG><I>Creator</I> must
+    be a function object accepting two <I>double</I> values
+    <MATH>x</MATH> and <MATH>y</MATH> and returning an initialized
+    point <I>(x,y)</I> of type <I>P</I>. Predefined implementations for
+    these creators like the default can be found in
+    Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCreatorFunctionObjects"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The
+    <I>value_type</I> of the <I>ForwardIterator</I> must be assignable
+    to <I>P</I>. <I>P</I> is equal to the <I>value_type</I> of the
+    <I>ForwardIterator</I> when using the default initializer. The
+    expressions <I>CGAL_to_double((*first).x())</I> and
+    <I>CGAL_to_double((*first).y())</I> must result in the respective
+    coordinate values.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>Adding Degeneracies</H3><P>
+
+For a given point set certain kinds of degeneracies can be produced
+adding new points. The <I>CGAL_random_selection()</I> function is
+useful to generate multiple entries of identical points, see
+Section&nbsp;<A HREF="Chapter_generators.html#sectionRandomSelection"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The
+<I>CGAL_random_collinear_points_2()</I> function adds collinearities to
+a point set.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class RandomAccessIterator, class OutputIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_OutputIterator_CGAL_random_collinear_points_26_RandomAccessIterator_first+__RandomAccessIterator_last+___size_t_n+_OutputIterator_first2+_CGAL_Random__rnd_=_CGAL_random+__Creator_creator_=_CGAL_Creator_uniform_26double+P99;"></A>
+OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_random_collinear_points_2 ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    RandomAccessIterator first, <BR>
+     RandomAccessIterator last, <BR>
+     size_t n, <BR>
+     OutputIterator first2, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random, <BR>
+     Creator creator = <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,P&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    randomly chooses two points from the range
+    <MATH>[</MATH><I>first</I><MATH>,</MATH><I>last</I><MATH>)</MATH>,
+    creates a random third point on the segment connecting this two
+    points, writes it to <I>first2</I>, and repeats this <MATH>n</MATH>
+    times, thus writing <MATH>n</MATH> points to <I>first2</I> that are
+    collinear with points in the range
+    <MATH>[</MATH><I>first</I><MATH>,</MATH><I>last</I><MATH>)</MATH>.
+    Three random numbers are needed from <I>rnd</I> for each point.
+    Returns the value of <I>first2</I> after inserting the
+    <MATH>n</MATH> points. <BR><STRONG>Precondition: </STRONG>
+    <I>Creator</I> must be a function object accepting two
+    <I>double</I> values <MATH>x</MATH> and <MATH>y</MATH> and
+    returning an initialized point <I>(x,y)</I> of type <I>P</I>.
+    Predefined implementations for these creators like the default can
+    be found in Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCreatorFunctionObjects"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The
+    <I>value_type</I> of the <I>RandomAccessIterator</I> must be
+    assignable to <I>P</I>. <I>P</I> is equal to the <I>value_type</I>
+    of the <I>RandomAccessIterator</I> when using the default
+    initializer. The expressions <I>CGAL_to_double((*first).x())</I>
+    and <I>CGAL_to_double((*first).y())</I> must result in the
+    respective coordinate values.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>See Also</H3><I>stl::random_shuffle</I>, <I>CGAL_random_selection</I>.<P>
+
+<H3>Example</H3>We want to generate a test set of 1000 points, where 60% are chosen
+randomly in a small disc, 20% are from a larger grid, 10% duplicates
+are added, and 10% collinearities added. A random shuffle removes the
+construction order from the test set. See Figure <A HREF="#PointGenerators">
+  <IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10"
+  HEIGHT="10"></A> for the example output.<P>
+
+<PRE>/*  generators_prog1.C       */
+/*  ------------------------------ */
+/*  CGAL example program for point generators. */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;vector.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/copy_n.h&gt;
+#include &lt;CGAL/random_selection.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;  /* only used for visualization */
+
+typedef CGAL_Cartesian&lt;double&gt;                R;
+typedef CGAL_Point_2&lt;R&gt;                       Point;
+typedef <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,Point&gt;  Creator;
+
+int main()
+{
+    /* Create test point set. Prepare a vector for 1000 points. */
+    vector&lt;Point&gt; points;
+    points.reserve(1000);
+
+    /* Create 600 points within a disc of radius 150. */
+    <A HREF="Chapter_generators.html#Cross_link_anchor_1">CGAL_Random_points_in_disc_2</A>&lt;Point,Creator&gt; g( 150.0);
+    CGAL_copy_n( g, 600, back_inserter( points));
+
+    /* Create 200 points from a 15 x 15 grid. */
+    CGAL_points_on_square_grid_2( 250.0, 200, back_inserter(points),Creator());
+
+    /* Select 100 points randomly and append them at the end of */
+    /* the current vector of points. */
+    CGAL_random_selection( points.begin(), points.end(), 100, 
+			   back_inserter( points));
+
+    /* Create 100 points that are collinear to two randomly chosen */
+    /* points and append them to the current vector of points. */
+    CGAL_random_collinear_points_2( points.begin(), points.end(), 100,
+				    back_inserter( points));
+
+    /* Check that we have really created 1000 points. */
+    assert( points.size() == 1000);
+
+    /* Use a random permutation to hide the creation history */
+    /* of the point set. */
+    random_shuffle( points.begin(), points.end(), CGAL_random);
+
+    /* Visualize point set. Can be omitted, see example programs */
+    /* in the CGAL source code distribution. */
+    CGAL_Window_stream W(512, 512);
+    W.init(-256.0, 255.0, -256.0);
+    W &lt;&lt; CGAL_BLACK;
+    for( vector&lt;Point&gt;::iterator i = points.begin(); i != points.end(); i++)
+	W &lt;&lt; *i;
+
+    /*  Wait for mouse click in window. */
+    Point p;
+    W &gt;&gt; p;
+
+    return 0;
+}
+</PRE><P>
+
+
+  <A NAME="PointGenerators">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./generators_prog1.gif">Figure:</A>
+    Output of example program for point generators.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./generators_prog1.gif">
+        <img src="./generators_prog1_small.gif" 
+             alt="Point Generator Example Output"></A>
+  </TD></TR></TABLE>
+<P>
+
+<P>The second example demonstrates the point generators with integer
+points. Arithmetic with <I>double</I>'s is sufficient to produce
+regular integer grids. See Figure 
+  <A HREF="#IntegerPointGenerators">
+  <IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10"
+  HEIGHT="10"></A>
+for the example output.<P>
+
+<PRE>/*  generators_prog2.C       */
+/*  ------------------------------ */
+/*  CGAL example program for point generators creating integer points. */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;vector.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/copy_n.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;  /* only for visualization used */
+
+typedef CGAL_Cartesian&lt;double&gt;                R;
+typedef CGAL_Point_2&lt;R&gt;                       Point;
+typedef <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,Point&gt;  Creator;
+
+int main()
+{
+    /* Create test point set. Prepare a vector for 400 points. */
+    vector&lt;Point&gt; points;
+    points.reserve(400);
+
+    /* Create 250 points from a 16 x 16 grid. Note that the double */
+    /* arithmetic _is_ sufficient to produce exact integer grid points. */
+    /* The distance between neighbors is 34 pixel = 510 / 15. */
+    CGAL_points_on_square_grid_2( 255.0, 250, back_inserter(points),Creator());
+
+    /* Lower, left corner. */
+    assert( points[0].x() == -255);
+    assert( points[0].y() == -255);
+
+    /* Upper, right corner. Note that 6 points are missing to fill the grid. */
+    assert( points[249].x() == 255 - 6 * 34);
+    assert( points[249].y() == 255);
+
+    /* Create 250 points within a disc of radius 150. */
+    <A HREF="Chapter_generators.html#Cross_link_anchor_1">CGAL_Random_points_in_disc_2</A>&lt;Point,Creator&gt; g( 150.0);
+    CGAL_copy_n( g, 250, back_inserter( points));
+
+    /* Check that we have really created 500 points. */
+    assert( points.size() == 500);
+
+    /* Visualize point set. Can be omitted, see example programs */
+    /* in the CGAL source code distribution. */
+    CGAL_Window_stream W(524, 524);
+    W.init(-262.0, 261.0, -262.0);
+    W &lt;&lt; CGAL_BLACK;
+    for( vector&lt;Point&gt;::iterator i = points.begin(); i != points.end(); i++)
+	W &lt;&lt; *i;
+
+    /*  Wait for mouse click in window. */
+    Point p;
+    W &gt;&gt; p;
+
+    return 0;
+}
+</PRE><P>
+
+
+  <A NAME="IntegerPointGenerators">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./generators_prog2.gif">Figure:</A>
+        Output of example program for point generators working
+        on integer points.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./generators_prog2.gif">
+        <img src="./generators_prog2_small.gif" 
+             alt="Integer Point Generator Example Output"></A>
+  </TD></TR></TABLE>
+<P>
+
+<P><A NAME="Section_3"></A>
+<H2>3D Point Generators</H2>
+<P>
+
+One kind of point generators is currently provided: Random point
+generators implemented as input iterators. The input iterators model
+an infinite sequence of points. The function <I>CGAL_copy_n()</I> could
+be used to copy a finite sequence, see Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCopyN"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The
+iterator adaptor <I><A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A></I> can be used to create
+finite iterator ranges, see Section&nbsp;<A HREF="../STL_Extension/CGAL_Counting_iterator.html#sectionCountingIterator"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<H3>Point Generators as Input Iterators</H3>
+<P>
+
+<H3>Definition</H3>Input iterators are provided for random points uniformly distributed
+in a three-dimensional volume (sphere or cube) or a two-dimensional
+surface (boundary of a sphere).<P>
+
+All iterators are parameterized with the point type <I>P</I> and a second
+template argument <I>Creator</I> which defaults to
+<I>CGAL_Creator_uniform_3&lt;double,P&gt;</I>[<A HREF="#Footnote_2">^2</A>].
+The <I>Creator</I> must be a function object accepting three
+<I>double</I> values <MATH>x</MATH>, <MATH>y</MATH> and <MATH>z</MATH> and returning an initialized
+point <I>(x,y,z)</I> of type <I>P</I>. Predefined implementations for
+these creators like the default can be found in
+Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionCreatorFunctionObjects"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. They simply assume an
+appropriate constructor for type <I>P</I>.<P>
+
+All generators know a range within which the coordinates of the
+generated points will lie.<P>
+
+<I>#include &lt;CGAL/point_generators_3.h&gt;</I><P>
+
+<H3>Types</H3>The generators comply to the requirements of input iterators which
+includes local type declarations including <I>value_type</I> which
+denotes <I>P</I> here.<P>
+
+<H3>Creation</H3><P>
+
+
+<A NAME="Index_anchor_7"></A>
+
+<A NAME="Cross_link_anchor_7"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_7">CGAL_Random_points_in_sphere_3</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double r, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed in the open sphere with radius
+    <MATH>r</MATH>,
+    i.e.&nbsp;<MATH>|</MATH><I>*g</I><MATH>| &lt; r</MATH>&nbsp;.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_8"></A>
+
+<A NAME="Cross_link_anchor_8"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_8">CGAL_Random_points_on_sphere_3</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double r, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed on the boundary of a sphere with
+    radius <MATH>r</MATH>,
+    i.e.&nbsp;<MATH>|</MATH><I>*g</I><MATH>| == r</MATH>&nbsp;. Two
+    random numbers are needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_9"></A>
+
+<A NAME="Cross_link_anchor_9"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_generators.html#Cross_link_anchor_9">CGAL_Random_points_in_cube_3</A>&lt;P,Creator&gt; g ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double a, <BR>
+     <A HREF="CGAL_Random.html#Cross_link_anchor_0">CGAL_Random</A>&amp; rnd = CGAL_random);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating points of type
+    <I>P</I> uniformly distributed in the half-open cube with side
+    length <MATH>2 a</MATH>, centered at the origin,
+    i.e.&nbsp;<MATH>Forall p = </MATH><I>*g</I><MATH>:  -a &lt;=p.x(),p.y(),p.z() &lt; a</MATH>&nbsp;.
+    Three random numbers are needed from <I>rnd</I> for each point.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+<H3>See Also</H3><I>stl::random_shuffle</I>, <I>CGAL_random_selection</I>,
+<I>CGAL_copy_n</I>, <I><A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A></I>,
+
+<I><A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_24">CGAL_Join_input_iterator_1</A></I>.<P>
+
+<P><A NAME="Section_4"></A>
+<H2>Examples Generating Segments</H2>
+<P>
+
+The following two examples illustrate the use of the generic functions
+from Section&nbsp;<A HREF="../STL_Extension/Chapter_main.html#sectionGenericFunctions"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> like
+<I>CGAL_Join_input_iterator</I> to generate composed objects from other
+generators - here two-dimensional segments from two point generators.<P>
+
+We want to generate a test set of 200 segments, where one endpoint is
+chosen randomly from a horizontal segment of length 200, and the other
+endpoint is chosen randomly from a circle of radius 250. See
+Figure <A
+  HREF="#SegmentGenerator"> <IMG SRC="../cc_ref_up_arrow.gif"
+  ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> for the example
+output.<P>
+
+<PRE>/*  Segment_generator_prog1.C  */
+/*  ----------------------------------- */
+/*  CGAL example program for the generic segment generator. */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;vector.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/function_objects.h&gt;
+#include &lt;CGAL/Join_input_iterator.h&gt;
+#include &lt;CGAL/copy_n.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;  /* only for visualization used */
+
+typedef CGAL_Cartesian&lt;double&gt;                R;
+typedef CGAL_Point_2&lt;R&gt;                       Point;
+typedef <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt;double,Point&gt;  Pt_creator;
+typedef CGAL_Segment_2&lt;R&gt;                     Segment;
+
+int main()
+{
+    /* Create test segment set. Prepare a vector for 200 segments. */
+    vector&lt;Segment&gt; segs;
+    segs.reserve(200);
+
+    /* Prepare point generator for the horizontal segment, length 200. */
+    typedef  <A HREF="Chapter_generators.html#Cross_link_anchor_5">CGAL_Random_points_on_segment_2</A>&lt;Point,Pt_creator&gt;  P1;
+    P1 p1( Point(-100,0), Point(100,0));
+    
+    /* Prepare point generator for random points on circle, radius 250. */
+    typedef  <A HREF="Chapter_generators.html#Cross_link_anchor_2">CGAL_Random_points_on_circle_2</A>&lt;Point,Pt_creator&gt;  P2;
+    P2 p2( 250);
+    
+    /* Create 200 segments. */
+    typedef <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt; Point, Segment&gt; Seg_creator;
+    typedef CGAL_Join_input_iterator_2&lt; P1, P2, Seg_creator&gt; Seg_iterator;
+    Seg_iterator g( p1, p2);
+    CGAL_copy_n( g, 200, back_inserter( segs));
+
+    /* Visualize segments. Can be omitted, see example programs */
+    /* in the CGAL source code distribution. */
+    CGAL_Window_stream W(512, 512);
+    W.init(-256.0, 255.0, -256.0);
+    W &lt;&lt; CGAL_BLACK;
+    for( vector&lt;Segment&gt;::iterator i = segs.begin(); i != segs.end(); i++)
+	W &lt;&lt; *i;
+
+    /*  Wait for mouse click in window. */
+    Point p;
+    W &gt;&gt; p;
+
+    return 0;
+}
+</PRE><P>
+
+
+  <A NAME="SegmentGenerator">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./Segment_generator_prog1.gif">Figure:</A>
+    Output of example program for the generic segment generator.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./Segment_generator_prog1.gif">
+        <img src="./Segment_generator_prog1_small.gif" 
+             alt="Segment Generator Example Output"></A>
+  </TD></TR></TABLE>
+<P>
+
+The second example generates a regular structure of 100 segments, see
+Figure <A
+  HREF="#SegmentGeneratorFan"> <IMG SRC="../cc_ref_up_arrow.gif"
+  ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> for the example
+output. It uses the <I><A HREF="Chapter_generators.html#Cross_link_anchor_6">CGAL_Points_on_segment_2</A></I> iterator,
+<I>CGAL_Join_input_iterator_2</I> and <I><A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A></I> to
+avoid any intermediate storage of the generated objects until they are
+used, in this example copied to a window stream.<P>
+
+<PRE>/*  Segment_generator_prog2.C  */
+/*  ------------------------------------- */
+/*  CGAL example program generating a regular segment pattern. */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/function_objects.h&gt;
+#include &lt;CGAL/Join_input_iterator.h&gt;
+#include &lt;CGAL/Counting_iterator.h&gt;
+#include &lt;CGAL/IO/Ostream_iterator.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt;                            R;
+typedef CGAL_Point_2&lt;R&gt;                                   Point;
+typedef CGAL_Segment_2&lt;R&gt;                                 Segment;
+typedef <A HREF="Chapter_generators.html#Cross_link_anchor_6">CGAL_Points_on_segment_2&lt;Point&gt;</A>                   PG;
+typedef <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt; Point, Segment&gt;           Creator;
+typedef CGAL_Join_input_iterator_2&lt; PG, PG, Creator&gt;      Segm_iterator;
+typedef <A HREF="../STL_Extension/CGAL_Counting_iterator.html#Cross_link_anchor_22">CGAL_Counting_iterator</A>&lt;Segm_iterator,Segment&gt;     Count_iterator;
+
+
+int main()
+{
+    /* Open window. */
+    CGAL_Window_stream W(512, 512);
+    W.init(-256.0, 255.0, -256.0);
+    W &lt;&lt; CGAL_BLACK;
+
+    /* A horizontal like fan. */
+    PG p1( Point(-250, -50), Point(-250, 50),50);     /* Point generator. */
+    PG p2( Point( 250,-250), Point( 250,250),50);
+    Segm_iterator  t1( p1, p2);                       /* Segment generator. */
+    Count_iterator t1_begin( t1);                     /* Finite range. */
+    Count_iterator t1_end( 50);
+    copy( t1_begin, t1_end, 
+	  <A HREF="../Stream_support/CGAL_Ostream_iterator.html#Cross_link_anchor_0">CGAL_Ostream_iterator</A>&lt;Segment,CGAL_Window_stream&gt;(W));
+
+    /* A vertical like fan. */
+    PG p3( Point( -50,-250), Point(  50,-250),50);
+    PG p4( Point(-250, 250), Point( 250, 250),50);
+    Segm_iterator  t2( p3, p4);
+    Count_iterator t2_begin( t2);
+    Count_iterator t2_end( 50);
+    copy( t2_begin, t2_end, 
+	  <A HREF="../Stream_support/CGAL_Ostream_iterator.html#Cross_link_anchor_0">CGAL_Ostream_iterator</A>&lt;Segment,CGAL_Window_stream&gt;(W));
+
+    /*  Wait for mouse click in window. */
+    Point p;
+    W &gt;&gt; p;
+    return 0;
+}
+</PRE><P>
+
+
+  <A NAME="SegmentGeneratorFan">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./Segment_generator_prog2.gif">Figure:</A>
+    Output of example program for the generic segment generator using
+    pre-computed point locations.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./Segment_generator_prog2.gif">
+        <img src="./Segment_generator_prog2_small.gif" 
+             alt="Segment Generator Example Output 2"></A>
+  </TD></TR></TABLE>
+<P>
+
+\cgalColumnLayout<P>
+
+<P><P>
+
+<A NAME="Section_5"></A>
+<H2>Building Random Convex Sets</H2>
+
+<A NAME="section_BuildingRandomConvexSets"></A><P>
+
+This section describes a function to compute a random convex planar
+point set of given size where the points are drawn from a specific
+domain.<P>
+
+<I>#include &lt;CGAL/random_convex_set_2.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class OutputIterator, class  <A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>, class <A HREF="Traits.html#Cross_link_anchor_11">Traits</A> &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_OutputIterator__CGAL_random_convex_set_26_int_n+_OutputIterator_o+_const__Point_generator__pg+_Traits_t_=_Default_traits9;"></A>
+OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_random_convex_set_2 ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    int n, <BR>
+     OutputIterator o, <BR>
+     <A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A> pg, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_11">Traits</A> t = Default_traits)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    computes a random convex <I>n</I>-gon by writing its vertices
+    (oriented counterclockwise) to <I>o</I>. The resulting polygon is
+    scaled such that it fits into the bounding box as specified by
+    <I>pg</I>. Therefore we cannot easily describe the resulting
+    distribution.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>Precondition</H3>
+<OL>
+<LI><I><A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A></I> satisfies the requirements stated in
+section <A HREF="Point_generator.html#point_generator_req"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>,
+<LI>If <I><A HREF="Traits.html#Cross_link_anchor_11">Traits</A></I> is specified, it has to satisfy the
+requirements stated in section <A HREF="Traits.html#req_random_convex_sets_traits"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+and <I><A HREF="Traits.html#Cross_link_anchor_11">Traits</A>::Point_2</I> must be the same as
+<I><A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>::value_type</I>,
+<LI>if <I><A HREF="Traits.html#Cross_link_anchor_11">Traits</A></I> is not specified,
+<I><A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>::value_type</I> must be <I>CGAL_Point_2&lt;  R &gt;</I> for some representation class <I>R</I>,
+<LI><I>OutputIterator</I> accepts
+<I><A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>::value_type</I> as value type <I>and</I>
+<LI><MATH>n &gt;=3</MATH>.
+</OL><P>
+
+<H3>See Also</H3><I><A HREF="Chapter_generators.html#Cross_link_anchor_3">CGAL_Random_points_in_square_2</A></I> and
+<I><A HREF="Chapter_generators.html#Cross_link_anchor_1">CGAL_Random_points_in_disc_2</A></I>.<P>
+
+<H3>Implementation</H3>The implementation uses the centroid method
+described in [<A HREF="../biblio.html#Biblio_s-zkm-96">Sch96</A>] and has a worst case running time of <MATH>O(r
+* n + n * log n)</MATH>, where <MATH>r</MATH> is the time needed by <I>pg</I>
+to generate a random point.<P>
+
+<H3>Example</H3>The following program displays a random convex 500-gon where the
+points are drawn uniformly from the unit square centered at the
+origin.<P>
+
+<PRE>
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt; 
+#include &lt;CGAL/random_convex_set_2.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;
+#include &lt;CGAL/IO/Ostream_iterator.h&gt;
+
+int main() {
+  typedef CGAL_Cartesian&lt; double &gt;   R;
+  typedef CGAL_Point_2&lt; R &gt;          Point_2;
+  typedef <A HREF="Chapter_generators.html#Cross_link_anchor_3">CGAL_Random_points_in_square_2</A>&lt; 
+    Point_2,
+    <A HREF="../STL_Extension/Chapter_main.html#Cross_link_anchor_18">CGAL_Creator_uniform_2</A>&lt; double, Point_2 &gt; &gt;
+  <A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>;
+  
+  // create 500-gon and write it into a window:
+  CGAL_Window_stream W;
+  W.init( -0.55, 0.55, -0.55);
+  CGAL_random_convex_set_2( 
+    500, 
+    <A HREF="../Stream_support/CGAL_Ostream_iterator.html#Cross_link_anchor_0">CGAL_Ostream_iterator</A>&lt; Point_2, CGAL_Window_stream &gt;( W),
+    <A HREF="Point_generator.html#Cross_link_anchor_10">Point_generator</A>( 0.5));
+
+  // wait for mouse-click:
+  Point_2 p;
+  W &gt;&gt; p;
+}
+</PRE><P>
+
+<UL><LI>
+ Class declaration of <A HREF="Point_generator.html"><I>Point_generator</I></A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<UL><LI>
+ Class declaration of <A HREF="Traits.html"><I>Traits</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+
+
+<P><HR><H3>Footnotes</H3><P>
+
+<OL>
+<LI><A NAME="Footnote_1">For compilers not supporting these kind of default arguments, both  template arguments must be provided when using these generators.
+<LI><A NAME="Footnote_2">For compilers not supporting these kind of default arguments, both  template arguments must be provided when using these generators.
+</OL>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

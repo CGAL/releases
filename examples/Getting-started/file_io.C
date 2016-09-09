@@ -1,10 +1,3 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Appendix (A short introduction to C++)
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include "tutorial.h"
 #include <fstream.h>
 
@@ -16,7 +9,7 @@ istream& operator>>(istream& is,  Segment &seg)
 ostream& operator<<(ostream& os, const Segment &seg)
 { return os << seg.i; }
 
-main()
+void main()
 {
     Segment seg;
     ifstream fin("segin");

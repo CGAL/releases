@@ -1,0 +1,310 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Simplices_3.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Tetrahedron_3<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Simplices_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_25"></A>
+
+<A NAME="Cross_link_anchor_24"></A>
+
+<P>
+
+<H1> 3D Tetrahedron (<I><A HREF="CGAL_Tetrahedron_3.html#Cross_link_anchor_24">CGAL_Tetrahedron_3</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object <MATH>t</MATH> of the class
+<I><A HREF="CGAL_Tetrahedron_3.html#Cross_link_anchor_24">CGAL_Tetrahedron_3</A></I> is an oriented tetrahedron in the
+three-dimensional Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>.
+<P>
+
+It is defined by four vertices <MATH>p<SUB>0</SUB></MATH>,
+<MATH>p<SUB>1</SUB></MATH>, <MATH>p<SUB>2</SUB></MATH> and
+<MATH>p<SUB>3</SUB></MATH>. The orientation of a tetrahedron is the
+orientation of its four vertices. That means it is positive when
+<MATH>p<SUB>3</SUB></MATH> is on the positive side of the plane defined
+by <MATH>p<SUB>0</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH> and
+<MATH>p<SUB>2</SUB></MATH>.
+<P>
+
+The tetrahedron itself splits the space <MATH>E<SUB>3</SUB></MATH> in a
+<EM>positive</EM> and a <EM>negative</EM> side.
+<P>
+
+The boundary of a tetrahedron splits the space in two open regions, a
+bounded one and an unbounded one.
+<P>
+
+<I>#include &lt;CGAL/Tetrahedron_3.h&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Tetrahedron_3.html#Cross_link_anchor_24">CGAL_Tetrahedron_3&lt;R&gt;</A> t ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p0, <BR>
+     <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p1, <BR>
+     <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p2, <BR>
+     <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p3);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a tetrahedron <I>t</I> with vertices
+    <MATH>p<SUB>0</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH>,
+    <MATH>p<SUB>2</SUB></MATH> and <MATH>p<SUB>3</SUB></MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     t ==  t2
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two tetrahedra are equal, iff there exists a
+    cyclic permutation of the vertices of <MATH>t2</MATH>, such that
+    they are equal to the vertices of&nbsp;<I>t</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     t !=  t2
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    t.vertex ( int i)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th vertex modulo 4 of&nbsp;<I>t</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     t [ int i]
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>vertex(int i)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    t.is_degenerate ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Tetrahedron <I>t</I> is degenerate, if the vertices are coplanar.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    CGAL_Orientation
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.orientation ()
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Chapter_Utilities.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.oriented_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Chapter_Utilities.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.bounded_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+For convenience we provide the following boolean functions:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.has_on_positive_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.has_on_negative_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.has_on_boundary (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.has_on_bounded_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.has_on_unbounded_side (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Bbox_3.html#Cross_link_anchor_25">CGAL_Bbox_3</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    t.bbox ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <I>t</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Tetrahedron_3.html#Cross_link_anchor_24">CGAL_Tetrahedron_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.transform (  <A HREF="CGAL_Aff_transformation_3.html#Cross_link_anchor_26">CGAL_Aff_transformation_3&lt;R&gt;</A> at)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the tetrahedron obtained by applying <MATH>at</MATH> on the
+    three vertices of&nbsp;<I>t</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+
+<P><HR><H3>Footnotes</H3><P>
+
+<OL>
+<LI><A NAME="Footnote_1">See Chapter&nbsp;[ref:Utilities]  for the definition of <I>CGAL_Oriented_side</I>.
+</OL>
+<HR><B> Return to chapter:</B> <A HREF="Chapter_Simplices_3.html">3D Simplices<A NAME="Simplices3"></A></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Simplices_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

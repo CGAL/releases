@@ -1,10 +1,3 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Arithmetics
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Vector_2.h>
@@ -12,9 +5,9 @@
 #include <vector.h>
 #include <list.h>
 
-typedef CGAL_Cartesian<double> RepClass;
-typedef CGAL_Point_2<RepClass> Point_2;
-typedef CGAL_Vector_2<RepClass> Vector_2;
+typedef CGAL_Cartesian<double> Rep_class;
+typedef CGAL_Point_2<Rep_class> Point_2;
+typedef CGAL_Vector_2<Rep_class> Vector_2;
 
 struct Point_mass {
     Point_2 pos;
@@ -43,7 +36,7 @@ void write(const Point_2 &centre)
          << centre.x() <<", "<< centre.y() <<")\n";
 }
 
-main()
+void main()
 {
     const int N = 4;
     Point_mass points1[N] = {

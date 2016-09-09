@@ -1,0 +1,152 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Random_access_adaptor<IC,Dist></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_29"></A>
+
+<A NAME="Cross_link_anchor_27"></A>
+<H3>A Random Access Adaptor for Iterators and Circulators</H3>
+
+<P>
+
+<H3>Definition</H3>The class
+<I><A HREF="CGAL_Random_access_adaptor.html#Cross_link_anchor_27">CGAL_Random_access_adaptor</A>&lt;IC,Dist&gt;</I> provides a random
+access for data structures. Either the data structure supports random
+access iterators or circulators where this class maps function calls to
+the iterator or circulator, or a STL <I>vector</I> is used to provide
+the random access. The iterator or circulator of the data structure are
+of type <I>IC</I>. Their distance type is <I>Dist</I>.
+<P>
+
+<H3>Creation</H3><I>#include &lt;CGAL/Random_access_adaptor.h&gt;</I>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Random_access_adaptor.html#Cross_link_anchor_27">CGAL_Random_access_adaptor</A>&lt;IC,Dist&gt; random_access;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    invalid index.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Random_access_adaptor.html#Cross_link_anchor_27">CGAL_Random_access_adaptor</A>&lt;IC,Dist&gt; random_access (  IC i);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    empty random access index initialized to start at <MATH>i</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Random_access_adaptor.html#Cross_link_anchor_27">CGAL_Random_access_adaptor</A>&lt;IC,Dist&gt; random_access (  IC i,  IC j);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    random access index initialized to the range [<MATH>i,j</MATH>).
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    random_access.reserve ( Dist r)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reserve <MATH>r</MATH> entries, if a <I>vector</I> is used
+    internally.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    IC
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     random_access [ Dist n]
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns iterator or circulator to the <MATH>n</MATH>-th item.
+    <BR><STRONG>Precondition: </STRONG><MATH>n &lt;</MATH> number of
+    items in <I>random_access</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    random_access.push_back (  IC k)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    adds <MATH>k</MATH> at the end of the indices.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Inverse_index.html#Cross_link_anchor_26">CGAL_Inverse_index</A></I> and
+<I><A HREF="CGAL_Random_access_value_adaptor.html#Cross_link_anchor_28">CGAL_Random_access_value_adaptor</A></I>.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Random_access_value_adaptor.html"><I>CGAL_Random_access_value_adaptor&lt;IC,T,Dist&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

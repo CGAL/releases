@@ -1,0 +1,138 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Numbertype.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Interval_nt_advanced</TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Numbertype.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_3"></A>
+
+<A NAME="Cross_link_anchor_3"></A>
+
+<P>
+
+<H2> Advanced Interval Arithmetic (<I><A HREF="CGAL_Interval_nt_advanced.html#Cross_link_anchor_3">CGAL_Interval_nt_advanced</A></I>
+)</H2>
+<P>
+
+<A NAME="interval-adv"></A>
+<P>
+
+<I><A HREF="CGAL_Interval_nt.html#Cross_link_anchor_2">CGAL_Interval_nt</A></I> derives from <I><A HREF="CGAL_Interval_nt_advanced.html#Cross_link_anchor_3">CGAL_Interval_nt_advanced</A></I>.
+It allows you to make faster computations, but you need to set the
+correct rounding mode of the FPU (towards infinity) before doing any
+computation with this number type. See for details above, and in the
+test programs.
+<P>
+
+<I>#include &lt;CGAL/Interval_arithmetic.h&gt;</I>
+<P>
+
+<H3>Implementation</H3>The basic idea is to use the directed rounding
+modes specified by the <I>IEEE 754</I> standard, which are implemented
+by almost all processors nowadays. It states that you have the
+possibility, concerning the basic floating point operations
+(<MATH>+,-,*,/,sqrt()</MATH>) to specify the rounding mode of each
+operation instead of using the default, which is usually to round to
+the nearest. This feature allows us to compute easily on intervals. For
+example, to add the two intervals [a.i;a.s] and [b.i;b.s], compute
+<MATH>c.i=a.i+b.i</MATH> rounded towards minus infinite, and
+<MATH>c.s=a.s+b.s</MATH> rounded towards plus infinite, and the result
+is the interval [c.i;c.s]. This method can be extended easily to the
+other operations.
+<P>
+
+The problem is that we have to change the rounding mode very often, and
+the functions of the C library doing this operation are slow and
+different from one architecture to another. That's why assembly
+versions are used as often as possible. Another trick is to compute the
+opposite of the lower bound, instead of the normal lower bound, which
+allows us to change the rounding mode once less. Therefore, all basic
+operations, which are in the class <I><A HREF="CGAL_Interval_nt_advanced.html#Cross_link_anchor_3">CGAL_Interval_nt_advanced</A></I>
+assume that the rounding mode is set to positive infinite, and
+everything work with this correctly set. The class
+<I><A HREF="CGAL_Interval_nt.html#Cross_link_anchor_2">CGAL_Interval_nt</A></I> takes care of this, but is a bit slower.
+<P>
+
+Note also that NaNs are not handled, so be careful with that
+(especially if you `divide by zero').
+<P>
+
+\paragraphFPU rounding modes
+<P>
+
+We provide the following functions (in C or assembly) to change the
+rounding mode. <UL> <LI><I>CGAL_FPU_set_rounding_to_zero()</I> <LI>
+<I>CGAL_FPU_set_rounding_to_nearest()</I> <LI>
+<I>CGAL_FPU_set_rounding_to_infinity()</I> <LI>
+<I>CGAL_FPU_set_rounding_to_minus_infinity()</I> </UL>
+<P>
+
+\paragraphPlatform support
+<P>
+
+This part of CGAL must be ported to each non-supported platform,
+because of the use of directed rounding modes. Here is the current
+state of supported platforms:
+<P>
+
+<UL> <LI>Sparc <UL>\itemsep0pt\topsep0pt\partopsep0pt\parsep0pt <LI>g++
+uses the assembly versions, independent of the OS. <LI>CC uses the C
+library functions to change the rounding modes. Works under Solaris
+(SunOS doesn't use the same files, sorry). </UL> <LI>Intel
+<UL>\itemsep0pt\topsep0pt\partopsep0pt\parsep0pt <LI>g++ uses the
+assembly versions, independent of the OS (tested for Linux). <LI>For
+Windows (<A HREF="NT.html#Cross_link_anchor_0">NT</A>, 95), Solaris, and others the situation is unknown. </UL>
+<LI>Alpha <UL>\itemsep0pt\topsep0pt\partopsep0pt\parsep0pt <LI>g++
+2.7.2 doesn't support (g++ 2.8 and egcs do) the necessary command line
+option (to set the dynamic rounding mode). There are several
+possibilities to make it work, but all of them are painful. <LI>CC: I
+don't know, but cc works when you specify the command line option
+&quot;-fprm d&quot;. </UL> <LI>Mips
+<UL>\itemsep0pt\topsep0pt\partopsep0pt\parsep0pt <LI>g++ and CC use the
+C library functions. </UL> </UL>
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Gmpz.html"><I>CGAL_Gmpz</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Numbertype.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

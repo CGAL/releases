@@ -1,0 +1,935 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_hds.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Halfedge_data_structure_decorator<HDS></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_10"></A>
+
+<A NAME="Cross_link_anchor_10"></A>
+<A NAME="Section_6"></A>
+<H2>Decorator for <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structures</H2>
+
+<P>
+
+<A NAME="sectionHdsDecorator"></A>
+<P>
+
+The class <I><A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A></I>
+provides additional functions to examine and to modify a halfedge data
+structure. All these functions take care of the different capabilities
+a certain halfedge data structure may have or may not have. The
+functions evaluate the support type tags of the halfedge data structure
+to decide on the actions. If the feature is not supported nothing is
+done. Note that for example the creation of new halfedges is mandatory
+for all halfedge data structures and will not appear here again.
+<P>
+
+<I>#include &lt;CGAL/Halfedge_data_structure_decorator.h&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_HDS"></A>
+<A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>::HDS
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the type of the halfedge data structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Vertex"></A>
+<A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>::<A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the vertex type of the halfedge data structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Halfedge"></A>
+<A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>::<A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the halfedge type of the halfedge data structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Facet"></A>
+<A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>::<A HREF="Facet.html#Cross_link_anchor_3">Facet</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the facet type of the halfedge data structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Point"></A>
+<A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A>::Point
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the point type used in the vertex.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Halfedge_data_structure_decorator.html#Cross_link_anchor_10">CGAL_Halfedge_data_structure_decorator&lt;HDS&gt;</A> D;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+<P>
+
+<H3> Access Functions</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.get_vertex_halfedge ( <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the incident halfedge of <MATH>v</MATH> if supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.get_vertex ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the incident vertex of <MATH>h</MATH> if supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.get_prev ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the previous halfedge of <MATH>h</MATH> if supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.find_prev ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the previous halfedge of <MATH>h</MATH>. Uses the
+    <I>prev()</I> method if supported or performs a search around the
+    facet using <I>next()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.get_facet ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the incident facet of <MATH>h</MATH> if supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.get_facet_halfedge ( <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the incident halfedge of <MATH>f</MATH> if supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Creation of New Primitives</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.new_vertex ( HDS&amp; hds)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a new vertex from <I>hds</I> if vertices are supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.new_vertex ( HDS&amp; hds,  const <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a copy of <MATH>v</MATH> from <I>hds</I> if vertices are
+    supported, <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.new_vertex ( HDS&amp; hds,  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a new vertex from <I>hds</I> initialized to <MATH>p</MATH>
+    if vertices are supported, <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.new_facet ( HDS&amp; hds)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a new facet from <I>poly</I> if facets are supported,
+    <I>NULL</I> otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.new_facet ( HDS&amp; hds,  const <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a copy of <MATH>f</MATH> from <I>hds</I> if facets are
+    supported, <I>NULL</I> otherwise.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Creation of New Composed Items</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.create_loop ( HDS&amp; hds)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a halfedge from a newly created loop in <I>hds</I>
+    consisting of a single closed edge, one vertex and two facets (if
+    supported respectively).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.create_segment ( HDS&amp; hds)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a halfedge from a newly created segment in <I>hds</I>
+    consisting of a single open edge, two vertices and one facet (if
+    supported respectively).
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Removal of Elements</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.delete_vertex ( HDS&amp; poly,  <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the vertex <MATH>v</MATH> if vertices are supported.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.delete_facet ( HDS&amp; poly,  <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the facet <MATH>f</MATH> if facets are supported.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Modifying Functions (Composed)</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.close_tip ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    makes <I>h-&gt;opposite()</I> the successor of <MATH>h</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.close_tip ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    makes <I>h-&gt;opposite()</I> the successor of <MATH>h</MATH> and
+    sets the vertex to <MATH>v</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.insert_tip ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts the tip of the edge <MATH>h</MATH> into the halfedges
+    around the vertex pointed to by <MATH>v</MATH>. <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>
+    <I>h-&gt;opposite()</I> is the new successor of <MATH>v</MATH> and
+    <I>h-&gt;next()</I> will be set to <I>v-&gt;next()</I>. The vertex
+    of <MATH>h</MATH> will be the one <MATH>v</MATH> points to if
+    vertices are supported.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.remove_tip ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the edge <I>h-&gt;next()-&gt;opposite()</I> from the
+    halfedge circle around the vertex pointed to by <MATH>h</MATH>. The
+    new successor halfedge of <MATH>h</MATH> will be
+    <I>h-&gt;next()-&gt;opposite()-&gt;next()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.insert_halfedge ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts the halfedge <MATH>h</MATH> between <MATH>f</MATH> and
+    <I>f-&gt;next()</I>. The facet of <MATH>h</MATH> will be the one
+    <MATH>f</MATH> points to if facets are supported.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.remove_halfedge ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes edge <I>h-&gt;next()</I> from the halfedge circle around
+    the facet pointed to by <MATH>h</MATH>. The new successor of
+    <MATH>h</MATH> will be <I>h-&gt;next()-&gt;next()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_vertex_in_vertex_loop ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    loops around the vertex incident to <MATH>h</MATH> and sets all
+    vertex pointers to <MATH>v</MATH>.
+    <BR><STRONG>Precondition: </STRONG><I>h != NULL</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_facet_in_facet_loop ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    loops around the facet incident to <MATH>h</MATH> and sets all
+    facet pointers to <MATH>f</MATH>.
+    <BR><STRONG>Precondition: </STRONG><I>h != NULL</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.flip_edge ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    performs an edge flip, i.e.&nbsp;Delaunay flip. It returns
+    <MATH>h</MATH> after rotating the edge <MATH>h</MATH> one vertex in
+    the direction the facet orientation points to.
+    <BR><STRONG>Precondition: </STRONG><I>h != NULL</I> and the facet
+    cycles on both sides of <MATH>h</MATH> are triangles.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Modifying Functions (For Border Halfedges)</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.make_hole ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the facet incident to <I>h</I> from <I>hds</I> and creates
+    a hole. <BR><STRONG>Precondition: </STRONG><I>h != NULL</I> and
+    <I>!(h-&gt;is_border())</I>. If facets are supported,
+    <I>Supports_removal</I> must be equivalent to <I>CGAL_Tag_true</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.fill_hole ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    creates a new facet from <I>hds</I> and fills the hole incident to
+    <I>h</I>. <BR><STRONG>Precondition: </STRONG><I>h != NULL</I> and
+    <I>h-&gt;is_border()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    D.add_facet_to_border ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    HDS&amp; hds, <BR>
+     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h, <BR>
+     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    creates a new facet from <I>hds</I> within the hole incident to
+    <MATH>h</MATH> and <MATH>g</MATH> by connecting the tip of
+    <MATH>g</MATH> with the tip of <MATH>h</MATH> with a new halfedge
+    from <I>hds</I> and filling this separated part of the hole with a
+    new facet from <I>hds</I>, such that the new facet is incident to
+    <MATH>g</MATH>. Returns the halfedge of the new edge that is
+    incident to the new facet. <BR><STRONG>Precondition: </STRONG>
+    <I>h != NULL</I>, <I>g != NULL</I>, <I>h-&gt;is_border()</I>,
+    <I>g-&gt;is_border()</I> and <MATH>g</MATH> can be reached along
+    the same hole starting with <MATH>h</MATH>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Modifying Functions (Euler Operators)</H3>
+<P>
+
+The following Euler operations modify consistently the combinatorial
+structure of the halfedge data structure. The geometry remains
+unchanged. Note that well known graph operations are also captured with
+these Euler operators, for example an edge contraction is equal to an
+<I>join_vertex()</I> operation, or an edge removal to
+<I>join_facet()</I>.
+<P>
+
+Given a halfedge data structure <I>hds</I> and a halfedge pointer
+<MATH>h</MATH> four special applications of the Euler operators are:
+<I>split_vertex(h,h)</I> results in an antenna emanating from the tip
+of <I>h</I>. <I>split_vertex(h,h-&gt;next()-&gt;opposite())</I> results
+in an edge split of the halfedge <I>h-&gt;next</I> with a new vertex
+in-between. <I>split_facet(h,h)</I> results in a loop directly
+following <I>h</I>. <I>split_facet(h,h-&gt;next())</I> results in a
+bridge parallel to the halfedge <I>h-&gt;next</I> with a new facet
+in-between.
+<P>
+
+
+    <CENTER>
+    <img src="./euler_facet.gif" alt="Euler Facet Operator"><P>
+    </CENTER>
+
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.split_facet ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    split the facet incident to <I>h</I> and <I>g</I> into two facets
+    with a new diagonal between the two vertices denoted by <I>h</I>
+    and <I>g</I> respectively. The second (new) facet obtained from
+    <I>hds</I> is a copy of the first facet. The new diagonal is
+    returned. The time is proportional to the distance from <I>h</I> to
+    <I>g</I> around the facet.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.join_facet ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    join the two facets incident to <MATH>h</MATH>. The facet incident
+    to <I>h-&gt;opposite()</I> gets removed by <I>hds</I>. Both facets
+    might be holes. Returns the predecessor of <MATH>h</MATH> around
+    the facet. The invariant <I>join_facet( split_facet( h, g))</I>
+    returns <MATH>h</MATH> and keeps the data structure unchanged. The
+    time is proportional to the size of the facet removed and the time
+    to compute <I>h-&gt;prev()</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>HDS</I> supports removal of facets.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+
+    <CENTER>
+    <img src="./euler_vertex.gif" alt="Euler Vertex Operator"><P>
+    </CENTER>
+
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.split_vertex ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    split the vertex incident to <I>h</I> and <I>g</I> into two
+    vertices and connects them with a new edge. The second (new) vertex
+    obtained from <I>hds</I> is a copy of the first vertex. The new
+    edge is returned. The time is proportional to the distance from
+    <I>h</I> to <I>g</I> around the vertex.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.join_vertex ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    join the two vertices incident to <MATH>h</MATH>. The vertex
+    denoted by <I>h-&gt;opposite()</I> gets removed by <I>hds</I>.
+    Returns the predecessor of <MATH>h</MATH> around the vertex. The
+    invariant <I>join_vertex( split_vertex( h, g))</I> returns
+    <MATH>h</MATH> and keeps the polyhedron unchanged. The time is
+    proportional to the degree of the vertex removed and the time to
+    compute <I>h-&gt;prev()</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>HDS</I> supports removal of vertices.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+
+    <CENTER>
+    <img src="./euler_loop.gif" alt="Euler Loop Operator"><P>
+    </CENTER>
+
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    D.split_loop ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    HDS&amp; hds, <BR>
+     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h, <BR>
+     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* i, <BR>
+     <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* j)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    cut the halfedge data structure into two parts along the cycle
+    <MATH>(h,i,j)</MATH>. Three copies of the vertices, three copies of
+    the halfedges, and two new triangles will be created.
+    <MATH>h,i,j</MATH> will be incident to the first new triangle. The
+    return value will be a halfedge denoting the new halfedge of the
+    second new triangle which was <I>h-opposite()</I> beforehand.
+    <BR><STRONG>Precondition: </STRONG><MATH>h,i,j</MATH> are distinct,
+    consecutive vertices of the halfedge data structure and form a
+    cycle: i.e. <I>h-&gt;vertex() ==  i-&gt;opposite()-&gt;vertex()</I>
+    , ..., <I>j-&gt;vertex() ==  h-&gt;opposite()-&gt;vertex()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.join_loop ( HDS&amp; hds,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    glues the boundary of two facets together. Both facets and the
+    vertices of the facet loop <MATH>g</MATH> gets removed. Returns
+    <MATH>h</MATH>. The invariant
+    <I>join_loop( h, split_loop( h, i, j))</I> returns <MATH>h</MATH>
+    and keeps the data structure unchanged.
+    <BR><STRONG>Precondition: </STRONG><I>HDS</I> supports removal of
+    vertices and facets. The facets denoted by <MATH>h</MATH> and
+    <MATH>g</MATH> are different and have an equal degree
+    (i.e.&nbsp;number of edges).
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Modifying Functions (Primitives)</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_point ( <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v,  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the point of <MATH>v</MATH> to <MATH>p</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_point ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the point of the vertex incident to <MATH>h</MATH> to
+    <MATH>p</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_vertex_halfedge ( <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident halfedge of <MATH>v</MATH> to <MATH>g</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_vertex_halfedge ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident halfedge of the vertex incident to <MATH>h</MATH>
+    to <MATH>h</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_vertex ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>* v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident vertex of <MATH>h</MATH> to <MATH>v</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_prev ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the previous link of <MATH>h</MATH> to <MATH>g</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_facet ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h,  <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident facet of <MATH>h</MATH> to <MATH>f</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_facet_halfedge ( <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>* f,  <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* g)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident halfedge of <MATH>f</MATH> to <MATH>g</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    D.set_facet_halfedge ( <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A>* h)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sets the incident halfedge of the facet incident to <MATH>h</MATH>
+    to <MATH>h</MATH>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Miscellaneous</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    D.is_valid ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     HDS hds, <BR>
+     bool verbose = false, <BR>
+     int level = 0)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> is the halfedge data structure <I>hds</I>
+    according to the <I>level</I> value. If <I>verbose</I> is
+    <I>true</I>, statistics are printed to <I>cerr</I>. A halfedge data
+    structure has no definition of validness of its own, but a useful
+    set of tests is defined with the following levels: <BR> <EM>Level
+    0:</EM> The number of halfedges is even. All pointers except the
+    facet pointer for border halfedges are unequal to <I>NULL</I>. For
+    all halfedges <MATH>h</MATH>: The opposite halfedge is different
+    from <MATH>h</MATH> and the opposite of the opposite is equal to
+    <MATH>h</MATH>. The next of the previous halfedge is equal to
+    <MATH>h</MATH>. For all vertices <MATH>v</MATH>: the incident
+    vertex of the incident halfedge of <MATH>v</MATH> is equal to
+    <MATH>v</MATH>. The halfedges around <MATH>v</MATH> starting with
+    the incident halfedge of <MATH>v</MATH> form a cycle. For all
+    facets <MATH>f</MATH>: the incident facet of the incident halfedge
+    of <MATH>f</MATH> is equal to <MATH>f</MATH>. The halfedges around
+    <MATH>f</MATH> starting with the incident halfedge of
+    <MATH>f</MATH> form a cycle. Some checks that redundancies among
+    internal variables holds, e.g. that the iterators enumerate as many
+    items as the related size value indicates. <BR> <EM>Level 1:</EM>
+    All tests of level 0. For all halfedges <MATH>h</MATH>: The
+    incident vertex of <MATH>h</MATH> is equal to the incident vertex
+    of the opposite of the next halfedge. The incident facet of
+    <MATH>h</MATH> is equal to the incident facet of the next halfedge.
+    <BR> <EM>Level 2:</EM> All tests of level 1. The sum of all
+    halfedges that can be reached through the vertices must be equal to
+    the number of all halfedges, i.e.&nbsp;all halfedges incident to a
+    vertex must form a single cycle. <BR> <EM>Level 3:</EM> All tests
+    of level 2. The sum of all halfedges that can be reached through
+    the facets must be equal to the number of all halfedges,
+    i.e.&nbsp;all halfedges surrounding a facet must form a single
+    cycle (no holes in facets). <BR> <EM>Level 4:</EM> All tests of
+    level 3 and <I>normalized_border_is_valid</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    D.normalized_border_is_valid ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     HDS hds, <BR>
+     bool verbose = false)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> if the border halfedges are in normalized
+    representation, which is when enumerating all halfedges with the
+    iterator: The non-border edges precede the border edges. For border
+    edges, the second halfedge is a border halfedge. (The first
+    halfedge may or may not be a border halfedge.) The halfedge
+    iterator <I>border_halfedges_begin()</I> denotes the first border
+    edge. If <I>verbose</I> is <I>true</I>, statistics are printed to
+    <I>cerr</I>.
+        </TD></TR>
+        </TABLE><!3>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

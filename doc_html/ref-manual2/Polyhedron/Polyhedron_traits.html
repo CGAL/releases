@@ -1,0 +1,143 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_polyhedron.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: Polyhedron_traits</TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_4"></A>
+
+<A NAME="Cross_link_anchor_4"></A>
+<A NAME="Section_2"></A>
+<H2>Requirements for a <I><A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A></I></H2>
+
+<P>
+
+<A NAME="sectionPolyTraits"></A>
+<P>
+
+<H3>Definition</H3>A model for the <I><A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A></I> concept
+must provide the following types, operations and restrictions with
+respect to the halfedge data structure <I>HDS</I> used in the
+polyhedral surface.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Point"></A>
+<A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A>::Point
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    point type equal to <I>HDS::Point</I>, if points are supported.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Normal"></A>
+<A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A>::Normal
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    normal vector equal to <I>HDS::<A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Normal</I>, if normals are
+    supported.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Plane"></A>
+<A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A>::Plane
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    plane equation equal to <I>HDS::<A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Plane</I>, if plane
+    equations are supported.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    traits.reverse_normal ( Normal&amp; n) const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reverses the orientation of the normal vector <I>n</I>. Only needed
+    if normal vectors are supported.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    traits.reverse_plane ( Plane&amp; p) const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reverses the orientation of the plane equation <I>p</I>. Only
+    needed if plane equations are supported.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A></I> and
+<I><A HREF="CGAL_Polyhedron_default_traits_3.html#Cross_link_anchor_5">CGAL_Polyhedron_default_traits_3</A></I>.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Polyhedron_default_traits_3.html"><I>CGAL_Polyhedron_default_traits_3&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

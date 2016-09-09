@@ -1,0 +1,3303 @@
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Polyhedron_3.h
+// author(s)     : Lutz Kettner  
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
+
+#ifndef CGAL_POLYHEDRON_3_H
+#define CGAL_POLYHEDRON_3_H 1
+#ifndef CGAL_CIRCULATOR_H
+#include <CGAL/circulator.h>
+#endif
+
+#ifndef CGAL_HALFEDGE_DATA_STRUCTURE_DECORATOR_H
+#include <CGAL/Halfedge_data_structure_decorator.h>
+#endif
+
+#ifdef CGAL_POLYHEDRON_3
+#ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_POLYHEDRON_DEFAULT_TRAITS_3_H
+#include <CGAL/Polyhedron_default_traits_3.h>
+#endif
+#endif // CGAL_REP_CLASS_DEFINED
+#else // CGAL_POLYHEDRON_3
+// Stuff for a local project, not part of CGAL.
+#include <CGAL/Polyhedron_default_traits_3.h>
+#endif // CGAL_POLYHEDRON_3
+
+// #ifndef CGAL_POLYHEDRON_COPY_3_H
+// #include <CGAL/Polyhedron_copy_3.h>
+// #endif // CGAL_POLYHEDRON_COPY_3_H
+
+#ifndef CGAL_MODIFIER_BASE_H
+#include <CGAL/Modifier_base.h>
+#endif
+
+#ifndef CGAL_IO_VERBOSE_OSTREAM_H
+#include <CGAL/IO/Verbose_ostream.h>
+#endif // CGAL_IO_VERBOSE_OSTREAM_H
+
+// Define shorter names to please linker (g++/egcs)
+#define CGAL__Polyhedron_vertex                  CGAL__PhV
+#define CGAL__Polyhedron_halfedge                CGAL__PhH
+#define CGAL__Polyhedron_facet                   CGAL__PhF
+#define CGAL__Polyhedron_iterator                CGAL__PhI
+#define CGAL__Polyhedron_const_iterator          CGAL__PhCI
+#define CGAL__Polyhedron_edge_iterator           CGAL__PhEI
+#define CGAL__Polyhedron_halfedge_const_iterator CGAL__PhHCI
+#define CGAL__Polyhedron_facet_circ              CGAL__PhFC
+#define CGAL__Polyhedron_facet_const_circ        CGAL__PhFCC
+#define CGAL__Polyhedron_vertex_circ             CGAL__PhVC
+#define CGAL__Polyhedron_vertex_const_circ       CGAL__PhVCC
+
+// The following two iterators are similar to CGAL_Iterator_project
+// and CGAL_Iterator_const_project, but they implement the arrow
+// operator -> in any case. This is here possible since the elements
+// a polyhedron consists of are always classes with members.
+
+template < class I, class Val, class Dist, class Ctg>
+class CGAL__Polyhedron_iterator {
+protected:
+    I        nt;    // The internal iterator.
+public:
+    typedef  I  Iterator;
+    typedef  CGAL__Polyhedron_iterator<I,Val,Dist,Ctg> Self;
+
+    typedef  Ctg                          iterator_category;
+    typedef  Val                          value_type;
+    typedef  Val&                         Ref;
+    typedef  Val*                         Ptr;
+    typedef  value_type&                  reference;
+    typedef  const value_type&            const_reference;
+    typedef  value_type*                  pointer;
+    typedef  const value_type*            const_pointer;
+    typedef  Dist                         difference_type;
+
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_iterator() {}
+    CGAL__Polyhedron_iterator( I j) : nt(j) {}
+    // CGAL__Polyhedron_iterator( Ptr p) : nt(p) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    Iterator  current_iterator() const { return nt;}
+    Ptr       ptr() const {
+        return (Ptr)(&(*nt));
+    }
+
+    bool operator==( const Self& i) const {
+        return ( nt == i.nt);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+    Ref  operator*() const {
+        return (Ref)(*nt);
+    }
+    Ptr  operator->() const {
+        return (Ptr)(&(*nt));
+    }
+    Self& operator++() {
+        ++nt;
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        --nt;
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+// OPERATIONS Random Access Category
+// ---------------------------------
+
+// Make this adaptor bidirectional by default
+// if implicit instantiation is buggy.
+#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    Self& operator+=( difference_type n) {
+        nt += n;
+        return *this;
+    }
+    Self  operator+( difference_type n) const {
+        Self tmp = *this;
+        return tmp += n;
+    }
+    Self& operator-=( difference_type n) {
+        return operator+=( -n);
+    }
+    Self  operator-( difference_type n) const {
+        Self tmp = *this;
+        return tmp += -n;
+    }
+    difference_type  operator-( const Self& i) const {
+        return nt - i.nt;
+    }
+    Ref  operator[]( difference_type n) const {
+        Self tmp = *this;
+        tmp += n;
+        return tmp.operator*();
+    }
+    bool operator<( const Self& i) const {
+        return ( nt < i.nt);
+    }
+    bool operator>( const Self& i) const {
+        return i < *this;
+    }
+    bool operator<=( const Self& i) const {
+        return !(i < *this);
+    }
+    bool operator>=( const Self& i) const {
+        return !(*this < i);
+    }
+#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+};
+
+template < class D, class I, class Val, class Dist, class Ctg>
+inline
+CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>
+operator+( D n, CGAL__Polyhedron_iterator<I,Val,Dist,Ctg> i) {
+    return i += Dist(n);
+}
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+template < class I, class Val, class Dist, class Ctg>
+inline  Ctg
+iterator_category( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&){
+    return Ctg();
+}
+template < class I, class Val, class Dist, class Ctg>
+inline  Val*
+value_type( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&) {
+    return (Val*)(0);
+}
+template < class I, class Val, class Dist, class Ctg>
+inline  Dist*
+distance_type( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&) {
+    return (Dist*)(0);
+}
+template < class I, class Val, class Dist, class Ctg>
+inline  CGAL_Iterator_tag
+CGAL_query_circulator_or_iterator(
+    const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&)
+{
+    return CGAL_Iterator_tag();
+}
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+
+
+template < class I, class II, class Val, class Dist, class Ctg>
+class CGAL__Polyhedron_const_iterator {
+protected:
+    I        nt;    // The internal iterator.
+public:
+    typedef  I  Iterator;
+    typedef  CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg> Self;
+
+    typedef  Ctg                          iterator_category;
+    typedef  Val                          value_type;
+    typedef  value_type&                  reference;
+    typedef  const value_type&            const_reference;
+    typedef  value_type*                  pointer;
+    typedef  const value_type*            const_pointer;
+    typedef  Dist                         difference_type;
+
+    typedef  const_reference              Ref;
+    typedef  const_pointer                Ptr;
+
+    typedef  CGAL__Polyhedron_iterator<II,Val,Dist,Ctg>  mutable_iterator;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_const_iterator() {}
+    CGAL__Polyhedron_const_iterator( Iterator j) : nt(j) {}
+    // CGAL__Polyhedron_const_iterator( Ptr p) : nt(p) {}
+    CGAL__Polyhedron_const_iterator( mutable_iterator j) : nt( &*j) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    Iterator  current_iterator() const { return nt;}
+    Ptr       ptr() const {
+        return (Ptr)(&(*nt));
+    }
+
+    bool operator==( const Self& i) const {
+        return ( nt == i.nt);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+    Ref  operator*() const {
+        return (Ref)(*nt);
+    }
+    Ptr  operator->() const {
+        return (Ptr)(&(*nt));
+    }
+    Self& operator++() {
+        ++nt;
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        --nt;
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+// OPERATIONS Random Access Category
+// ---------------------------------
+
+// Make this adaptor bidirectional by default
+// if implicit instantiation is buggy.
+#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    Self& operator+=( difference_type n) {
+        nt += n;
+        return *this;
+    }
+    Self  operator+( difference_type n) const {
+        Self tmp = *this;
+        return tmp += n;
+    }
+    Self& operator-=( difference_type n) {
+        return operator+=( -n);
+    }
+    Self  operator-( difference_type n) const {
+        Self tmp = *this;
+        return tmp += -n;
+    }
+    difference_type  operator-( const Self& i) const {
+        return nt - i.nt;
+    }
+    Ref  operator[]( difference_type n) const {
+        Self tmp = *this;
+        tmp += n;
+        return tmp.operator*();
+    }
+    bool operator<( const Self& i) const {
+        return ( nt < i.nt);
+    }
+    bool operator>( const Self& i) const {
+        return i < *this;
+    }
+    bool operator<=( const Self& i) const {
+        return !(i < *this);
+    }
+    bool operator>=( const Self& i) const {
+        return !(*this < i);
+    }
+#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  Ctg
+    iterator_category( const Self&){
+        return Ctg();
+    }
+    friend inline  Dist*
+    distance_type( const Self&) {
+        return (Dist*)(0);
+    }
+    friend inline  CGAL_Iterator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Iterator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+
+template < class D, class I, class II, class Val, class Dist, class Ctg>
+inline
+CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>
+operator+( D n, CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg> i) {
+    return i += Dist(n);
+}
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+template < class I, class II, class Val, class Dist, class Ctg>
+inline  Ctg
+iterator_category(
+    const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&){
+    return Ctg();
+}
+template < class I, class II, class Val, class Dist, class Ctg>
+inline  Val*
+value_type( const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
+    return (Val*)(0);
+}
+template < class I, class II, class Val, class Dist, class Ctg>
+inline  Dist*
+distance_type( const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
+    return (Dist*)(0);
+}
+template < class I, class II, class Val, class Dist, class Ctg>
+inline  CGAL_Iterator_tag
+CGAL_query_circulator_or_iterator(
+    const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&)
+{
+    return CGAL_Iterator_tag();
+}
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+template < class It, class Val, class Dist, class Ctg>
+class CGAL__Polyhedron_edge_iterator : public It {
+protected:
+    //It        nt;    // The internal iterator, inherited from It..
+public:
+    typedef  It  Base;
+    typedef  CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg> Self;
+
+    typedef  Ctg                                     iterator_category;
+    typedef  Val                                     value_type;
+    typedef  Dist                                    difference_type;
+
+    typedef  value_type&                             reference;
+    typedef  value_type*                             pointer;
+    typedef  const value_type&                       const_reference;
+    typedef  const value_type*                       const_pointer;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_edge_iterator() {}
+    CGAL__Polyhedron_edge_iterator( It j) : It(j) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    It  current_iterator() const { return It(*this);}
+
+    Self& operator++() {
+        It::operator++();
+        It::operator++();
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        It::operator--();
+        It::operator--();
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+// OPERATIONS Random Access Category
+// ---------------------------------
+
+// Make this adaptor bidirectional by default
+// if implicit instantiation is buggy.
+#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    Self& operator+=( difference_type n) {
+        It::operator+=( n << 1);
+        return *this;
+    }
+    Self  operator+( difference_type n) const {
+        Self tmp = *this;
+        return tmp += n;
+    }
+    Self& operator-=( difference_type n) {
+        return operator+=( -n);
+    }
+    Self  operator-( difference_type n) const {
+        Self tmp = *this;
+        return tmp += -n;
+    }
+    difference_type  operator-( const Self& i) const {
+        return (It::operator-(i)) >> 1;
+    }
+#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) {
+        return iterator_category();
+    }
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  difference_type*
+    distance_type( const Self&) {
+        return (difference_type*)(0);
+    }
+    friend inline CGAL_Iterator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Iterator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+template < class D, class It, class Val, class Dist, class Ctg>
+inline
+CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg>
+operator+( D n, CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg> i) {
+    return i += Dist(n);
+}
+// This one is special for SunPro:
+#ifdef __SUNPRO_CC
+template < class I, class II, class C1, class C2, class Val,
+           class Dist, class Ctg>
+class CGAL__Polyhedron_halfedge_const_iterator {
+protected:
+    I        nt;    // The internal iterator.
+public:
+    typedef  I  Iterator;
+    typedef  CGAL__Polyhedron_halfedge_const_iterator<I,II,C1,C2,
+             Val,Dist,Ctg>                Self;
+
+    typedef  Ctg                          iterator_category;
+    typedef  Val                          value_type;
+    typedef  value_type&                  reference;
+    typedef  const value_type&            const_reference;
+    typedef  value_type*                  pointer;
+    typedef  const value_type*            const_pointer;
+    typedef  Dist                         difference_type;
+
+    typedef  const_reference              Ref;
+    typedef  const_pointer                Ptr;
+
+    typedef  CGAL__Polyhedron_iterator<II,Val,Dist,Ctg>  mutable_iterator;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_halfedge_const_iterator() {}
+    CGAL__Polyhedron_halfedge_const_iterator( Iterator j) : nt(j) {}
+    // CGAL__Polyhedron_halfedge_const_iterator( Ptr p) : nt(p) {}
+    CGAL__Polyhedron_halfedge_const_iterator( mutable_iterator j)
+        : nt( &*j) {}
+    CGAL__Polyhedron_halfedge_const_iterator( C1 c1) : nt( &*c1) {}
+    CGAL__Polyhedron_halfedge_const_iterator( C2 c2) : nt( &*c2) {}
+
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    Iterator  current_iterator() const { return nt;}
+    Ptr       ptr() const {
+        return (Ptr)(&(*nt));
+    }
+
+    bool operator==( const Self& i) const {
+        return ( nt == i.nt);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+    Ref  operator*() const {
+        return (Ref)(*nt);
+    }
+    Ptr  operator->() const {
+        return (Ptr)(&(*nt));
+    }
+    Self& operator++() {
+        ++nt;
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        --nt;
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+// OPERATIONS Random Access Category
+// ---------------------------------
+
+// Make this adaptor bidirectional by default
+// if implicit instantiation is buggy.
+#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    Self& operator+=( difference_type n) {
+        nt += n;
+        return *this;
+    }
+    Self  operator+( difference_type n) const {
+        Self tmp = *this;
+        return tmp += n;
+    }
+    Self& operator-=( difference_type n) {
+        return operator+=( -n);
+    }
+    Self  operator-( difference_type n) const {
+        Self tmp = *this;
+        return tmp += -n;
+    }
+    difference_type  operator-( const Self& i) const {
+        return nt - i.nt;
+    }
+    Ref  operator[]( difference_type n) const {
+        Self tmp = *this;
+        tmp += n;
+        return tmp.operator*();
+    }
+    bool operator<( const Self& i) const {
+        return ( nt < i.nt);
+    }
+    bool operator>( const Self& i) const {
+        return i < *this;
+    }
+    bool operator<=( const Self& i) const {
+        return !(i < *this);
+    }
+    bool operator>=( const Self& i) const {
+        return !(*this < i);
+    }
+#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  Ctg
+    iterator_category( const Self&){
+        return Ctg();
+    }
+    friend inline  Dist*
+    distance_type( const Self&) {
+        return (Dist*)(0);
+    }
+    friend inline  CGAL_Iterator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Iterator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+
+template < class D, class Val, class I, class II, class C1, class C2,
+           class Dist, class Ctg>
+inline
+CGAL__Polyhedron_halfedge_const_iterator<I,II,C1,C2,Val,Dist,Ctg>
+operator+( D n, CGAL__Polyhedron_halfedge_const_iterator<
+           I,II,C1,C2,Val,Dist,Ctg> i) {
+    return i += Dist(n);
+}
+#endif // __SUNPRO_CC //
+template < class Node, class It, class Ctg>
+class CGAL__Polyhedron_facet_circ : public It {
+    // Ptr      nt;    // The internal node ptr inherited from It.
+public:
+    typedef  It  Base;
+    typedef  CGAL__Polyhedron_facet_circ<Node,It,Ctg> Self;
+
+    typedef  Ctg                iterator_category;
+    typedef  Node               value_type;
+    typedef  ptrdiff_t          difference_type;
+    typedef  size_t             size_type;
+    typedef  value_type&        reference;
+    typedef  const value_type&  const_reference;
+    typedef  value_type*        pointer;
+    typedef  const value_type*  const_pointer;
+
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_facet_circ() : It(0) {}
+    //CGAL__Polyhedron_facet_circ( pointer p) : It(p) {}
+    CGAL__Polyhedron_facet_circ( It i) : It(i) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    pointer  ptr() const { return & It::operator*();}
+
+    bool operator==( CGAL_NULL_TYPE p) const {
+        CGAL_assertion( p == NULL);
+        return It::operator==( It(NULL));
+    }
+    bool operator!=( CGAL_NULL_TYPE p) const {
+        return !(*this == p);
+    }
+    bool operator==( const Self& i) const {
+        return  It::operator==(i);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+
+    Self& operator++() {
+        nt = (*nt).next();
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        nt = (*nt).prev();
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) {
+        return iterator_category();
+    }
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  difference_type*
+    distance_type( const Self&) {
+        return (difference_type*)(0);
+    }
+    friend inline  CGAL_Circulator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Circulator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+
+
+template < class Node, class It, class Ctg>
+class CGAL__Polyhedron_facet_const_circ : public It {
+    // Ptr      nt;    // The internal node ptr inherited from It.
+public:
+    typedef  It  Base;
+    typedef  CGAL__Polyhedron_facet_const_circ<Node,It,Ctg> Self;
+
+    typedef  Ctg                iterator_category;
+    typedef  Node               value_type;
+    typedef  ptrdiff_t          difference_type;
+    typedef  size_t             size_type;
+    typedef  value_type&        reference;
+    typedef  const value_type&  const_reference;
+    typedef  value_type*        pointer;
+    typedef  const value_type*  const_pointer;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_facet_const_circ() : It(0) {}
+    CGAL__Polyhedron_facet_const_circ( const_pointer p) : It(p) {}
+    CGAL__Polyhedron_facet_const_circ( It i) : It(i) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    const_pointer  ptr() const { return & It::operator*();}
+
+    bool operator==( CGAL_NULL_TYPE p) const {
+        CGAL_assertion( p == NULL);
+        return It::operator==( It(NULL));
+    }
+    bool operator!=( CGAL_NULL_TYPE p) const {
+        return !(*this == p);
+    }
+    bool operator==( const Self& i) const {
+        return  It::operator==(i);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+
+    Self& operator++() {
+        nt = (*nt).next();
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        nt = (*nt).prev();
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) {
+        return iterator_category();
+    }
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  difference_type*
+    distance_type( const Self&) {
+        return (difference_type*)(0);
+    }
+    friend inline  CGAL_Circulator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Circulator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+template < class Node, class It, class Ctg>
+class CGAL__Polyhedron_vertex_circ : public It {
+    // Ptr      nt;    // The internal node ptr inherited from It.
+public:
+    typedef  It  Base;
+    typedef  CGAL__Polyhedron_vertex_circ<Node,It,Ctg> Self;
+
+    typedef  Ctg                iterator_category;
+    typedef  Node               value_type;
+    typedef  ptrdiff_t          difference_type;
+    typedef  size_t             size_type;
+    typedef  value_type&        reference;
+    typedef  const value_type&  const_reference;
+    typedef  value_type*        pointer;
+    typedef  const value_type*  const_pointer;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_vertex_circ() : It(0) {}
+    //CGAL__Polyhedron_vertex_circ( pointer p) : It(p) {}
+    CGAL__Polyhedron_vertex_circ( It i) : It(i) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    pointer  ptr() const { return & It::operator*();}
+
+    bool operator==( CGAL_NULL_TYPE p) const {
+        CGAL_assertion( p == NULL);
+        return It::operator==( It(NULL));
+    }
+    bool operator!=( CGAL_NULL_TYPE p) const {
+        return !(*this == p);
+    }
+    bool operator==( const Self& i) const {
+        return  It::operator==(i);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+
+    Self& operator++() {
+        nt = (*nt).next()->opposite();
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        nt = (*nt).opposite()->prev();
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) {
+        return iterator_category();
+    }
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  difference_type*
+    distance_type( const Self&) {
+        return (difference_type*)(0);
+    }
+    friend inline  CGAL_Circulator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Circulator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+
+
+template < class Node, class It, class Ctg>
+class CGAL__Polyhedron_vertex_const_circ : public It {
+    // Ptr      nt;    // The internal node ptr inherited from It.
+public:
+    typedef  It  Base;
+    typedef  CGAL__Polyhedron_vertex_const_circ<Node,It,Ctg> Self;
+
+    typedef  Ctg                iterator_category;
+    typedef  Node               value_type;
+    typedef  ptrdiff_t          difference_type;
+    typedef  size_t             size_type;
+    typedef  value_type&        reference;
+    typedef  const value_type&  const_reference;
+    typedef  value_type*        pointer;
+    typedef  const value_type*  const_pointer;
+
+// CREATION
+// --------
+
+    CGAL__Polyhedron_vertex_const_circ() : It(0) {}
+    CGAL__Polyhedron_vertex_const_circ( const_pointer p) : It(p) {}
+    CGAL__Polyhedron_vertex_const_circ( It i) : It(i) {}
+
+// OPERATIONS Forward Category
+// ---------------------------
+
+    const_pointer  ptr() const { return & It::operator*();}
+
+    bool operator==( CGAL_NULL_TYPE p) const {
+        CGAL_assertion( p == NULL);
+        return It::operator==( It(NULL));
+    }
+    bool operator!=( CGAL_NULL_TYPE p) const {
+        return !(*this == p);
+    }
+    bool operator==( const Self& i) const {
+        return  It::operator==(i);
+    }
+    bool operator!=( const Self& i) const {
+        return !(*this == i);
+    }
+
+    Self& operator++() {
+        nt = (*nt).next()->opposite();
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+// OPERATIONS Bidirectional Category
+// ---------------------------------
+
+    Self& operator--() {
+        nt = (*nt).opposite()->prev();
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) {
+        return iterator_category();
+    }
+    friend inline  value_type*
+    value_type( const Self&) {
+        return (value_type*)(0);
+    }
+    friend inline  difference_type*
+    distance_type( const Self&) {
+        return (difference_type*)(0);
+    }
+    friend inline  CGAL_Circulator_tag
+    CGAL_query_circulator_or_iterator( const Self&) {
+        return CGAL_Circulator_tag();
+    }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+};
+
+template < class T>
+struct CGAL_Polyhedron_circulator_traits {};
+
+struct CGAL_Polyhedron_circulator_traits<CGAL_Tag_true> {
+    typedef CGAL_Bidirectional_circulator_tag  iterator_category;
+};
+
+struct CGAL_Polyhedron_circulator_traits<CGAL_Tag_false> {
+    typedef CGAL_Forward_circulator_tag  iterator_category;
+};
+
+// Forward declaration of the three element classes.
+template <class HDS> class CGAL__Polyhedron_vertex;
+template <class HDS> class CGAL__Polyhedron_halfedge;
+template <class HDS> class CGAL__Polyhedron_facet;
+
+
+// A halfedge is an oriented edge. Both orientations exist, i.e.
+// an edge is represented by two opposite halfedges. The geometric
+// relations are as follows:
+//
+//              _ _ _   .
+//             /        |\
+//                      | \
+//           /             \ next half
+//                          \ edge
+//         /                 \
+//
+//        |                   O  incident vertex
+//                facet      ,
+//        |                 /| |
+//                         / | | opposite
+//         \                 | | half edge
+//                      half | |
+//           \          edge | | /
+//                           | |/
+//             \_ _ _ _ _ _    '
+//
+
+template <class HDS>
+class CGAL__Polyhedron_halfedge : public HDS::Halfedge {
+    public:
+        typedef HDS                               Halfedge_data_structure;
+    
+    protected:
+        typedef typename HDS::Vertex              V;
+        typedef typename HDS::Halfedge            H;
+        typedef typename HDS::Facet               F;
+    
+    public:
+        typedef CGAL__Polyhedron_vertex<HDS>       Vertex;
+        typedef CGAL__Polyhedron_halfedge<HDS>     Halfedge;
+        typedef CGAL__Polyhedron_facet<HDS>        Facet;
+    
+        typedef typename  HDS::Size               Size;
+        typedef typename  HDS::Difference         Difference;
+    
+    // The following types denotes the (optionally) associated geometry. If
+    // the specific item is not supported the type is `void*'.
+    
+        typedef typename  HDS::Point              Point;
+        typedef typename  HDS::Normal             Normal;
+        typedef typename  HDS::Plane              Plane;
+    
+    // The following types are equal to either `CGAL_Tag_true' or
+    // `CGAL_Tag_false', dependant whether the named feature is
+    // supported or not.
+    
+        typedef typename  HDS::Supports_vertex_halfedge
+                                                      Supports_vertex_halfedge;
+        typedef typename  HDS::Supports_halfedge_prev
+                                                      Supports_halfedge_prev;
+        typedef typename  HDS::Supports_halfedge_vertex
+                                                      Supports_halfedge_vertex;
+        typedef typename  HDS::Supports_halfedge_facet
+                                                      Supports_halfedge_facet;
+        typedef typename  HDS::Supports_facet_halfedge
+                                                      Supports_facet_halfedge;
+    
+        typedef typename  HDS::Supports_vertex_point  Supports_vertex_point;
+        typedef typename  HDS::Supports_facet_plane   Supports_facet_plane;
+        typedef typename  HDS::Supports_facet_normal  Supports_facet_normal;
+    
+        typedef typename  HDS::Supports_removal       Supports_removal;
+    
+    // The iterator/circulator categories.
+    
+        typedef typename  HDS::iterator_category      iterator_category;
+        typedef CGAL_Polyhedron_circulator_traits<Supports_halfedge_prev>
+                                                      Circ_traits;
+        typedef typename Circ_traits::iterator_category
+                                                      circulator_category;
+    
+    protected:
+        // These extra (internal) typedefs are necessary to make
+        // SunPro CC 4.2 happy. (And they are used.)
+        typedef typename  HDS::Vertex_iterator          TR_VI;
+        typedef typename  HDS::Vertex_const_iterator    TR_C_VI;
+        typedef typename  HDS::Halfedge_iterator        TR_HI;
+        typedef typename  HDS::Halfedge_const_iterator  TR_C_HI;
+        typedef typename  HDS::Edge_iterator            TR_EI;
+        typedef typename  HDS::Edge_const_iterator      TR_C_EI;
+        typedef typename  HDS::Facet_iterator           TR_FI;
+        typedef typename  HDS::Facet_const_iterator     TR_C_FI;
+    
+    public:
+        typedef CGAL__Polyhedron_iterator<
+            TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_VI, TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_const_iterator;
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_iterator;
+    
+    #ifndef __SUNPRO_CC
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_FI, TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_const_iterator;
+    
+    // The circulators around a vertex or around a facet.
+    
+        typedef CGAL__Polyhedron_facet_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_facet_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_vertex_circulator;
+    
+    #ifdef __SUNPRO_CC
+        typedef CGAL__Polyhedron_halfedge_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge_around_facet_circulator,
+            Halfedge_around_vertex_circulator,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_facet_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>       Halfedge_around_facet_const_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>      Halfedge_around_vertex_const_circulator;
+    
+    // The handles. They are currently only simple typedef's.
+        typedef Vertex_iterator                       Vertex_handle;
+        typedef Vertex_const_iterator                 Vertex_const_handle;
+        typedef Halfedge_iterator                     Halfedge_handle;
+        typedef Halfedge_const_iterator               Halfedge_const_handle;
+        typedef Facet_iterator                        Facet_handle;
+        typedef Facet_const_iterator                  Facet_const_handle;
+    
+    // Edge iterator.
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_iterator;
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_const_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_const_iterator;
+    
+        //typedef CGAL_Iterator_project<
+        //    TR_EI,
+        //    HCast,
+        //    Halfedge&, Halfedge*,
+        //    Difference, iterator_category>       Edge_iterator;
+    
+        //typedef CGAL_Iterator_const_project<
+        //    TR_C_EI, TR_EI,
+        //    HCast,
+        //    Difference, iterator_category>       Edge_const_iterator;
+public:
+
+    CGAL__Polyhedron_halfedge() {}
+    CGAL__Polyhedron_halfedge( const H& h) : H(h) {}
+
+    Halfedge_handle opposite() { return TR_HI( H::opposite());}
+    Halfedge_handle next()     { return TR_HI( H::next());}
+    Halfedge_handle prev()     {
+        // returns the halfedge previous to this. Uses the `prev()'
+        // method if available or performs a search around the facet.
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        return TR_HI(decorator.find_prev((H*)(this)));
+    }
+    Vertex_handle   vertex()   { return TR_VI( H::vertex());}
+    Facet_handle    facet()    { return TR_FI( H::facet());}
+
+    Halfedge_const_handle opposite() const {
+                                return TR_C_HI( H::opposite());
+    }
+    Halfedge_const_handle next()     const {
+                                return TR_C_HI( H::next());
+    }
+    Halfedge_const_handle prev()     const {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        return TR_C_HI( D.find_prev(this));
+    }
+    Vertex_const_handle   vertex()   const {
+                                return TR_C_VI( H::vertex());
+    }
+    Facet_const_handle    facet()    const {
+                                return TR_C_FI(H::facet());
+    }
+
+// Derived Access Functions (not present in H).
+
+    Halfedge_handle       next_on_vertex()       {
+                                return next()->opposite();
+    }
+    Halfedge_const_handle next_on_vertex() const {
+                                return next()->opposite();
+    }
+        // the next halfedge around the vertex (clockwise). Is equal to
+        // `h.next()->opposite()'.
+
+    Halfedge_handle       prev_on_vertex()       {
+                                return opposite()->prev();
+    }
+    Halfedge_const_handle prev_on_vertex() const {
+                                return opposite()->prev();
+    }
+        // the previous halfedge around the vertex (counterclockwise). Is
+        // equal to `h.opposite()->prev()'.
+
+    bool is_border_edge() const {
+        // is true if `h' or `h.opposite()' is a border halfedge.
+        return (opposite()->is_border() || is_border());
+    }
+
+    Halfedge_around_vertex_circulator vertex_begin() {
+        // a circulator of halfedges around the vertex (clockwise).
+        return Halfedge_around_vertex_circulator(TR_HI(this));
+    }
+    Halfedge_around_vertex_const_circulator vertex_begin() const {
+        // a circulator of halfedges around the vertex (clockwise).
+        return Halfedge_around_vertex_const_circulator(TR_C_HI(this));
+    }
+
+    Halfedge_around_facet_circulator facet_begin() {
+        // a circulator of halfedges around the facet (counterclockwise).
+        return Halfedge_around_facet_circulator(TR_HI(this));
+    }
+    Halfedge_around_facet_const_circulator facet_begin() const {
+        // a circulator of halfedges around the facet (counterclockwise).
+        return Halfedge_around_facet_const_circulator(TR_C_HI(this));
+    }
+
+private:
+    // Hide some other functions of H.
+    void  set_next( Halfedge* h)  { H::set_next(h);}
+    void  set_prev( Halfedge* h)  { H::set_prev(h);}
+    void  set_vertex( Vertex* v)  { H::set_vertex(v);}
+    void  set_facet( Facet* f)    { H::set_facet(f);}
+};
+template <class HDS>
+class CGAL__Polyhedron_vertex  : public HDS::Vertex  {
+    public:
+        typedef HDS                               Halfedge_data_structure;
+    
+    protected:
+        typedef typename HDS::Vertex              V;
+        typedef typename HDS::Halfedge            H;
+        typedef typename HDS::Facet               F;
+    
+    public:
+        typedef CGAL__Polyhedron_vertex<HDS>       Vertex;
+        typedef CGAL__Polyhedron_halfedge<HDS>     Halfedge;
+        typedef CGAL__Polyhedron_facet<HDS>        Facet;
+    
+        typedef typename  HDS::Size               Size;
+        typedef typename  HDS::Difference         Difference;
+    
+    // The following types denotes the (optionally) associated geometry. If
+    // the specific item is not supported the type is `void*'.
+    
+        typedef typename  HDS::Point              Point;
+        typedef typename  HDS::Normal             Normal;
+        typedef typename  HDS::Plane              Plane;
+    
+    // The following types are equal to either `CGAL_Tag_true' or
+    // `CGAL_Tag_false', dependant whether the named feature is
+    // supported or not.
+    
+        typedef typename  HDS::Supports_vertex_halfedge
+                                                      Supports_vertex_halfedge;
+        typedef typename  HDS::Supports_halfedge_prev
+                                                      Supports_halfedge_prev;
+        typedef typename  HDS::Supports_halfedge_vertex
+                                                      Supports_halfedge_vertex;
+        typedef typename  HDS::Supports_halfedge_facet
+                                                      Supports_halfedge_facet;
+        typedef typename  HDS::Supports_facet_halfedge
+                                                      Supports_facet_halfedge;
+    
+        typedef typename  HDS::Supports_vertex_point  Supports_vertex_point;
+        typedef typename  HDS::Supports_facet_plane   Supports_facet_plane;
+        typedef typename  HDS::Supports_facet_normal  Supports_facet_normal;
+    
+        typedef typename  HDS::Supports_removal       Supports_removal;
+    
+    // The iterator/circulator categories.
+    
+        typedef typename  HDS::iterator_category      iterator_category;
+        typedef CGAL_Polyhedron_circulator_traits<Supports_halfedge_prev>
+                                                      Circ_traits;
+        typedef typename Circ_traits::iterator_category
+                                                      circulator_category;
+    
+    protected:
+        // These extra (internal) typedefs are necessary to make
+        // SunPro CC 4.2 happy. (And they are used.)
+        typedef typename  HDS::Vertex_iterator          TR_VI;
+        typedef typename  HDS::Vertex_const_iterator    TR_C_VI;
+        typedef typename  HDS::Halfedge_iterator        TR_HI;
+        typedef typename  HDS::Halfedge_const_iterator  TR_C_HI;
+        typedef typename  HDS::Edge_iterator            TR_EI;
+        typedef typename  HDS::Edge_const_iterator      TR_C_EI;
+        typedef typename  HDS::Facet_iterator           TR_FI;
+        typedef typename  HDS::Facet_const_iterator     TR_C_FI;
+    
+    public:
+        typedef CGAL__Polyhedron_iterator<
+            TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_VI, TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_const_iterator;
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_iterator;
+    
+    #ifndef __SUNPRO_CC
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_FI, TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_const_iterator;
+    
+    // The circulators around a vertex or around a facet.
+    
+        typedef CGAL__Polyhedron_facet_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_facet_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_vertex_circulator;
+    
+    #ifdef __SUNPRO_CC
+        typedef CGAL__Polyhedron_halfedge_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge_around_facet_circulator,
+            Halfedge_around_vertex_circulator,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_facet_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>       Halfedge_around_facet_const_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>      Halfedge_around_vertex_const_circulator;
+    
+    // The handles. They are currently only simple typedef's.
+        typedef Vertex_iterator                       Vertex_handle;
+        typedef Vertex_const_iterator                 Vertex_const_handle;
+        typedef Halfedge_iterator                     Halfedge_handle;
+        typedef Halfedge_const_iterator               Halfedge_const_handle;
+        typedef Facet_iterator                        Facet_handle;
+        typedef Facet_const_iterator                  Facet_const_handle;
+    
+    // Edge iterator.
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_iterator;
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_const_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_const_iterator;
+    
+        //typedef CGAL_Iterator_project<
+        //    TR_EI,
+        //    HCast,
+        //    Halfedge&, Halfedge*,
+        //    Difference, iterator_category>       Edge_iterator;
+    
+        //typedef CGAL_Iterator_const_project<
+        //    TR_C_EI, TR_EI,
+        //    HCast,
+        //    Difference, iterator_category>       Edge_const_iterator;
+
+public:
+    CGAL__Polyhedron_vertex() {}
+    CGAL__Polyhedron_vertex( const V& v) : V(v) {}
+
+    Halfedge_handle       halfedge() {return TR_HI( V::halfedge());}
+    Halfedge_const_handle halfedge() const {
+                                return TR_C_HI( V::halfedge());
+    }
+
+    // Avoids unnecessary matchings with base class. (g++ bug)
+    Point&          point()       { return V::point();}
+    const Point&    point() const { return V::point();}
+
+// Derived Access Functions (not present in V).
+
+    Halfedge_around_vertex_circulator vertex_begin() {
+        // a circulator of halfedges around the vertex (clockwise).
+        return Halfedge_around_vertex_circulator( TR_HI(halfedge().ptr()));
+    }
+    Halfedge_around_vertex_const_circulator vertex_begin() const {
+        // a circulator of halfedges around the vertex (clockwise).
+        return Halfedge_around_vertex_const_circulator(
+                   TR_C_HI(halfedge().ptr()));
+    }
+private:
+    // Hide some other functions of V.
+    void      set_halfedge( Halfedge* h) { V::set_halfedge(h);}
+};
+template <class HDS>
+class CGAL__Polyhedron_facet : public HDS::Facet {
+    public:
+        typedef HDS                               Halfedge_data_structure;
+    
+    protected:
+        typedef typename HDS::Vertex              V;
+        typedef typename HDS::Halfedge            H;
+        typedef typename HDS::Facet               F;
+    
+    public:
+        typedef CGAL__Polyhedron_vertex<HDS>       Vertex;
+        typedef CGAL__Polyhedron_halfedge<HDS>     Halfedge;
+        typedef CGAL__Polyhedron_facet<HDS>        Facet;
+    
+        typedef typename  HDS::Size               Size;
+        typedef typename  HDS::Difference         Difference;
+    
+    // The following types denotes the (optionally) associated geometry. If
+    // the specific item is not supported the type is `void*'.
+    
+        typedef typename  HDS::Point              Point;
+        typedef typename  HDS::Normal             Normal;
+        typedef typename  HDS::Plane              Plane;
+    
+    // The following types are equal to either `CGAL_Tag_true' or
+    // `CGAL_Tag_false', dependant whether the named feature is
+    // supported or not.
+    
+        typedef typename  HDS::Supports_vertex_halfedge
+                                                      Supports_vertex_halfedge;
+        typedef typename  HDS::Supports_halfedge_prev
+                                                      Supports_halfedge_prev;
+        typedef typename  HDS::Supports_halfedge_vertex
+                                                      Supports_halfedge_vertex;
+        typedef typename  HDS::Supports_halfedge_facet
+                                                      Supports_halfedge_facet;
+        typedef typename  HDS::Supports_facet_halfedge
+                                                      Supports_facet_halfedge;
+    
+        typedef typename  HDS::Supports_vertex_point  Supports_vertex_point;
+        typedef typename  HDS::Supports_facet_plane   Supports_facet_plane;
+        typedef typename  HDS::Supports_facet_normal  Supports_facet_normal;
+    
+        typedef typename  HDS::Supports_removal       Supports_removal;
+    
+    // The iterator/circulator categories.
+    
+        typedef typename  HDS::iterator_category      iterator_category;
+        typedef CGAL_Polyhedron_circulator_traits<Supports_halfedge_prev>
+                                                      Circ_traits;
+        typedef typename Circ_traits::iterator_category
+                                                      circulator_category;
+    
+    protected:
+        // These extra (internal) typedefs are necessary to make
+        // SunPro CC 4.2 happy. (And they are used.)
+        typedef typename  HDS::Vertex_iterator          TR_VI;
+        typedef typename  HDS::Vertex_const_iterator    TR_C_VI;
+        typedef typename  HDS::Halfedge_iterator        TR_HI;
+        typedef typename  HDS::Halfedge_const_iterator  TR_C_HI;
+        typedef typename  HDS::Edge_iterator            TR_EI;
+        typedef typename  HDS::Edge_const_iterator      TR_C_EI;
+        typedef typename  HDS::Facet_iterator           TR_FI;
+        typedef typename  HDS::Facet_const_iterator     TR_C_FI;
+    
+    public:
+        typedef CGAL__Polyhedron_iterator<
+            TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_VI, TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_const_iterator;
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_iterator;
+    
+    #ifndef __SUNPRO_CC
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_FI, TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_const_iterator;
+    
+    // The circulators around a vertex or around a facet.
+    
+        typedef CGAL__Polyhedron_facet_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_facet_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_vertex_circulator;
+    
+    #ifdef __SUNPRO_CC
+        typedef CGAL__Polyhedron_halfedge_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge_around_facet_circulator,
+            Halfedge_around_vertex_circulator,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_facet_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>       Halfedge_around_facet_const_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>      Halfedge_around_vertex_const_circulator;
+    
+    // The handles. They are currently only simple typedef's.
+        typedef Vertex_iterator                       Vertex_handle;
+        typedef Vertex_const_iterator                 Vertex_const_handle;
+        typedef Halfedge_iterator                     Halfedge_handle;
+        typedef Halfedge_const_iterator               Halfedge_const_handle;
+        typedef Facet_iterator                        Facet_handle;
+        typedef Facet_const_iterator                  Facet_const_handle;
+    
+    // Edge iterator.
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_iterator;
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_const_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_const_iterator;
+    
+        //typedef CGAL_Iterator_project<
+        //    TR_EI,
+        //    HCast,
+        //    Halfedge&, Halfedge*,
+        //    Difference, iterator_category>       Edge_iterator;
+    
+        //typedef CGAL_Iterator_const_project<
+        //    TR_C_EI, TR_EI,
+        //    HCast,
+        //    Difference, iterator_category>       Edge_const_iterator;
+
+public:
+    CGAL__Polyhedron_facet() {}
+    CGAL__Polyhedron_facet( const F& f) : F(f) {}
+
+    Halfedge_handle       halfedge() {return TR_HI( F::halfedge());}
+    Halfedge_const_handle halfedge()  const {
+                                return TR_C_HI( F::halfedge());
+    }
+
+    // Avoids unnecessary matchings with base class. (g++ bug)
+    Normal&         normal()       { return F::normal();}
+    const Normal&   normal() const { return F::normal();}
+    Plane&          plane()        { return F::plane();}
+    const Plane&    plane() const  { return F::plane();}
+
+// Derived Access Functions (not present in F).
+
+    Halfedge_around_facet_circulator facet_begin() {
+        // a circulator of halfedges around the facet (counterclockwise).
+        return Halfedge_around_facet_circulator( TR_HI(halfedge().ptr()));
+    }
+    Halfedge_around_facet_const_circulator facet_begin() const {
+        // a circulator of halfedges around the facet (counterclockwise).
+        return Halfedge_around_facet_const_circulator(
+                    TR_C_HI(halfedge().ptr()));
+    }
+
+private:
+    // Hide some other functions of F.
+    void      set_halfedge( Halfedge* h) { F::set_halfedge(h);}
+};
+template < class TR, class HDS >
+class CGAL_Polyhedron_3 {
+    //
+    // DEFINITION
+    //
+    // The boundary representation of a 3d-polyhedron P of the type
+    // CGAL_Polyhedron<HDS> consists of vertices, edges and facets. The
+    // vertices are points in space. The edges are straight line
+    // segments. The facets are planar polygons. We restrict here
+    // the facets to be simple planar polygons without holes and the
+    // boundary of the polyhedron to be an oriented 2-manifold. Thus
+    // facets are consistently oriented and an edge is incident to
+    // exactly two facets. We restrict the representation further
+    // that an edge has two distinct incident endpoints and
+    // following duality that an edge has two distinct incident
+    // facets. The class CGAL_Polyhedron<HDS> is able to guarantee
+    // the combinatorial properties, but not all geometric
+    // properties. Support functions are provided for testing
+    // geometric properties, e.g. test for self intersections which
+    // is  too expensive to be guaranteed as a class invariant.
+
+    public:
+        typedef HDS                               Halfedge_data_structure;
+    
+    protected:
+        typedef typename HDS::Vertex              V;
+        typedef typename HDS::Halfedge            H;
+        typedef typename HDS::Facet               F;
+    
+    public:
+        typedef CGAL__Polyhedron_vertex<HDS>       Vertex;
+        typedef CGAL__Polyhedron_halfedge<HDS>     Halfedge;
+        typedef CGAL__Polyhedron_facet<HDS>        Facet;
+    
+        typedef typename  HDS::Size               Size;
+        typedef typename  HDS::Difference         Difference;
+    
+    // The following types denotes the (optionally) associated geometry. If
+    // the specific item is not supported the type is `void*'.
+    
+        typedef typename  HDS::Point              Point;
+        typedef typename  HDS::Normal             Normal;
+        typedef typename  HDS::Plane              Plane;
+    
+    // The following types are equal to either `CGAL_Tag_true' or
+    // `CGAL_Tag_false', dependant whether the named feature is
+    // supported or not.
+    
+        typedef typename  HDS::Supports_vertex_halfedge
+                                                      Supports_vertex_halfedge;
+        typedef typename  HDS::Supports_halfedge_prev
+                                                      Supports_halfedge_prev;
+        typedef typename  HDS::Supports_halfedge_vertex
+                                                      Supports_halfedge_vertex;
+        typedef typename  HDS::Supports_halfedge_facet
+                                                      Supports_halfedge_facet;
+        typedef typename  HDS::Supports_facet_halfedge
+                                                      Supports_facet_halfedge;
+    
+        typedef typename  HDS::Supports_vertex_point  Supports_vertex_point;
+        typedef typename  HDS::Supports_facet_plane   Supports_facet_plane;
+        typedef typename  HDS::Supports_facet_normal  Supports_facet_normal;
+    
+        typedef typename  HDS::Supports_removal       Supports_removal;
+    
+    // The iterator/circulator categories.
+    
+        typedef typename  HDS::iterator_category      iterator_category;
+        typedef CGAL_Polyhedron_circulator_traits<Supports_halfedge_prev>
+                                                      Circ_traits;
+        typedef typename Circ_traits::iterator_category
+                                                      circulator_category;
+    
+    protected:
+        // These extra (internal) typedefs are necessary to make
+        // SunPro CC 4.2 happy. (And they are used.)
+        typedef typename  HDS::Vertex_iterator          TR_VI;
+        typedef typename  HDS::Vertex_const_iterator    TR_C_VI;
+        typedef typename  HDS::Halfedge_iterator        TR_HI;
+        typedef typename  HDS::Halfedge_const_iterator  TR_C_HI;
+        typedef typename  HDS::Edge_iterator            TR_EI;
+        typedef typename  HDS::Edge_const_iterator      TR_C_EI;
+        typedef typename  HDS::Facet_iterator           TR_FI;
+        typedef typename  HDS::Facet_const_iterator     TR_C_FI;
+    
+    public:
+        typedef CGAL__Polyhedron_iterator<
+            TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_VI, TR_VI,
+            Vertex,
+            Difference, iterator_category>       Vertex_const_iterator;
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_iterator;
+    
+    #ifndef __SUNPRO_CC
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_iterator<
+            TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_iterator;
+    
+        typedef CGAL__Polyhedron_const_iterator<
+            TR_C_FI, TR_FI,
+            Facet,
+            Difference, iterator_category>       Facet_const_iterator;
+    
+    // The circulators around a vertex or around a facet.
+    
+        typedef CGAL__Polyhedron_facet_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_facet_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_circ<
+            Halfedge,
+            Halfedge_iterator,
+            circulator_category>            Halfedge_around_vertex_circulator;
+    
+    #ifdef __SUNPRO_CC
+        typedef CGAL__Polyhedron_halfedge_const_iterator<
+            TR_C_HI, TR_HI,
+            Halfedge_around_facet_circulator,
+            Halfedge_around_vertex_circulator,
+            Halfedge,
+            Difference, iterator_category>       Halfedge_const_iterator;
+    #endif // __SUNPRO_CC //
+    
+        typedef CGAL__Polyhedron_facet_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>       Halfedge_around_facet_const_circulator;
+    
+        typedef CGAL__Polyhedron_vertex_const_circ<
+            Halfedge,
+            Halfedge_const_iterator,
+            circulator_category>      Halfedge_around_vertex_const_circulator;
+    
+    // The handles. They are currently only simple typedef's.
+        typedef Vertex_iterator                       Vertex_handle;
+        typedef Vertex_const_iterator                 Vertex_const_handle;
+        typedef Halfedge_iterator                     Halfedge_handle;
+        typedef Halfedge_const_iterator               Halfedge_const_handle;
+        typedef Facet_iterator                        Facet_handle;
+        typedef Facet_const_iterator                  Facet_const_handle;
+    
+    // Edge iterator.
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_iterator;
+    
+        typedef  CGAL__Polyhedron_edge_iterator<
+            Halfedge_const_iterator,
+            Halfedge,
+            Difference, iterator_category>       Edge_const_iterator;
+    
+        //typedef CGAL_Iterator_project<
+        //    TR_EI,
+        //    HCast,
+        //    Halfedge&, Halfedge*,
+        //    Difference, iterator_category>       Edge_iterator;
+    
+        //typedef CGAL_Iterator_const_project<
+        //    TR_C_EI, TR_EI,
+        //    HCast,
+        //    Difference, iterator_category>       Edge_const_iterator;
+
+    typedef TR Traits;
+
+protected:
+    HDS hds;  // the boundary representation.
+    TR  m_traits;
+
+public:
+    typedef CGAL_Polyhedron_3<TR,HDS> Self;
+
+// CREATION
+
+    CGAL_Polyhedron_3( const Traits& traits = Traits())
+    : m_traits(traits) {
+        // the empty polyhedron `P'.
+        typedef typename Traits::Point  Traits_point;
+        CGAL_assert_equal_types( Point(), Traits_point());
+    }
+    CGAL_Polyhedron_3( Size v, Size h, Size f, const Traits&
+                      traits = Traits())
+    : hds(v,h,f), m_traits(traits) {
+        // a polyhedron `P' with storage reserved for v vertices, h
+        // halfedges, and f facets. The reservation sizes are a hint for
+        // optimizing storage allocation.
+        typedef typename Traits::Point  Traits_point;
+        CGAL_assert_equal_types( Point(), Traits_point());
+    }
+
+    //CGAL_Polyhedron_3( const Self& p);
+        // copy constructor.
+
+    //Self& operator= ( const Self& p);
+        // assignment operator.
+
+    void reserve( Size v, Size h, Size f) { hds.reserve(v,h,f);}
+        // reserve storage for v vertices, h halfedges, and f facets. The
+        // reservation sizes are a hint for optimizing storage allocation.
+        // If the `capacity' is already greater than the requested size
+        // nothing happens. If the `capacity' changes all iterators and
+        // circulators invalidates.
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+protected:
+    Halfedge_handle make_tetrahedron( V* v1, V* v2, V* v3, V* v4);
+
+    Halfedge_handle make_triangle( V* v1, V* v2, V* v3);
+
+public:
+    Halfedge_handle make_tetrahedron();
+        // the combinatorial structure of a tetrahedron is added to the
+        // actual polyhedral surface. Returns an arbitrary halfedge of
+        // this structure.
+
+    Halfedge_handle make_tetrahedron(const Point& p1,
+                                     const Point& p2,
+                                     const Point& p3,
+                                     const Point& p4);
+
+    Halfedge_handle make_triangle();
+        // the combinatorial structure of a single triangle with border
+        // edges is added to the actual polyhedral surface. Returns an
+        // arbitrary halfedge of this structure.
+
+    Halfedge_handle make_triangle(const Point& p1,
+                                  const Point& p2,
+                                  const Point& p3);
+        // the single triangle p_1, p_2, p_3 with border edges is added to
+        // the actual polyhedral surface. Returns an arbitrary halfedge of
+        // this structure.
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
+
+// Access Member Functions
+
+    Size size_of_vertices() const { return hds.size_of_vertices();}
+        // number of vertices.
+
+    Size size_of_halfedges() const { return hds.size_of_halfedges();}
+        // number of all halfedges (including border halfedges).
+
+    Size size_of_facets() const { return hds.size_of_facets();}
+        // number of facets.
+
+    Size capacity_of_vertices() const {return hds.capacity_of_vertices();}
+        // space reserved for vertices.
+
+    Size capacity_of_halfedges() const {
+        // space reserved for halfedges.
+        return hds.capacity_of_halfedges();
+    }
+
+    Size capacity_of_facets() const { return hds.capacity_of_facets();}
+        // space reserved for facets.
+
+    size_t bytes() const {
+        // bytes used for the polyhedron.
+        return sizeof(Self) - sizeof(HDS) + hds.bytes();
+    }
+
+    size_t bytes_reserved() const {
+        // bytes reserved for the polyhedron.
+        return sizeof(Self) - sizeof(HDS) + hds.bytes_reserved();
+    }
+
+    Vertex_iterator vertices_begin() { return hds.vertices_begin();}
+        // iterator over all vertices.
+
+    Vertex_iterator vertices_end() { return hds.vertices_end();}
+
+    Halfedge_iterator halfedges_begin() { return hds.halfedges_begin();}
+        // iterator over all halfedges
+
+    Halfedge_iterator halfedges_end() { return hds.halfedges_end();}
+
+    Facet_iterator facets_begin() { return hds.facets_begin();}
+        // iterator over all facets
+
+    Facet_iterator facets_end() { return hds.facets_end();}
+
+    Edge_iterator edges_begin() { return halfedges_begin();}
+        // iterator over all edges. The iterator refers to halfedges, but
+        // enumerates only one of the two corresponding opposite
+        // halfedges.
+
+    Edge_iterator edges_end() { return halfedges_end();}
+        // end of the range over all edges.
+
+    // The constant iterators and circulators.
+
+    Vertex_const_iterator vertices_begin() const {
+        return hds.vertices_begin();
+    }
+    Vertex_const_iterator vertices_end() const {
+        return hds.vertices_end();
+    }
+
+    Halfedge_const_iterator halfedges_begin() const {
+      return hds.halfedges_begin();
+    }
+    Halfedge_const_iterator halfedges_end() const {
+        return hds.halfedges_end();
+    }
+    Facet_const_iterator facets_begin() const {return hds.facets_begin();}
+    Facet_const_iterator facets_end()   const {return hds.facets_end();}
+    Edge_const_iterator edges_begin()   const {return halfedges_begin();}
+    Edge_const_iterator edges_end()     const {return halfedges_end();}
+
+    const Traits& traits() const { return m_traits; }
+
+// Geometric Predicates
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    bool is_triangle( Halfedge_const_handle h) const;
+        // returns whether the connected component containing h is a
+        // single triangle.
+
+    bool is_tetrahedron( Halfedge_const_handle h) const;
+        // returns whether the connected component containing h is a
+        // single tetrahedron.
+
+// Euler Operators (Combinatorial Modifications)
+//
+// The following Euler operations modify consistently the combinatorial
+// structure of the polyhedral surface. The geometry remains unchanged.
+
+    Halfedge_handle split_facet( Halfedge_handle h,
+                                 Halfedge_handle g);
+        // split the facet incident to `h' and `g' into two facets with
+        // new diagonal between the two vertices denoted by `h' and `g'
+        // respectively. The second (new) facet is a copy of the first
+        // facet. It returns the new diagonal. The time is proportional to
+        // the distance from `h' to `g' around the facet. Precondition:
+        // `h' and `g' are incident to the same facet. `h != g' (no
+        // loops). `h->next() != g' and `g->next() != h' (no multi-edges).
+
+    Halfedge_handle join_facet( Halfedge_handle h);
+        // join the two facets incident to h. The facet incident to
+        // `h->opposite()' gets removed. Both facets might be holes.
+        // Returns the predecessor of h. The invariant `join_facet(
+        // split_facet( h, g))' returns h and keeps the polyhedron
+        // unchanged. The time is proportional to the size of the facet
+        // removed and the time to compute `h.prev()'. Precondition:
+        // `HDS' supports removal of facets. The degree of both
+        // vertices incident to h is at least three (no antennas).
+
+    Halfedge_handle split_vertex( Halfedge_handle h,
+                                  Halfedge_handle g);
+        // split the vertex incident to `h' and `g' into two vertices and
+        // connects them with a new edge. The second (new) vertex is a
+        // copy of the first vertex. It returns the new edge. The time is
+        // proportional to the distance from `h' to `g' around the vertex.
+        // Precondition: `h' and `g' are incident to the same vertex. `h
+        // != g' (no antennas). `h->next() != g' and `g->next() != h'.
+
+    Halfedge_handle join_vertex( Halfedge_handle h);
+
+// {join the two vertices incident to h. The vertex denoted by
+// `h->opposite()' gets removed. Returns the predecessor of h. The
+// invariant `join_vertex( split_vertex( h, g))' returns h and keeps the
+// polyhedron unchanged. The time is proportional to the degree of the
+// vertex removed and the time to compute `h.prev()'. Precondition:
+// `HDS' supports removal of vertices. The size of both facets incident
+// to h is at least four (no multi-edges)}
+//
+// Euler Operators Modifying Genus
+
+    Halfedge_handle split_loop( Halfedge_handle h,
+                                Halfedge_handle i,
+                                Halfedge_handle j);
+        // cut the polyhedron into two parts along the cycle (h,i,j).
+        // Three copies of the vertices and two new triangles will be
+        // created. h,i,j will be incident to the first new triangle. The
+        // returnvalue will be an halfedge iterator denoting the new
+        // halfegdes of the second new triangle which was h beforehand.
+        // Precondition: h,i,j are distinct, consecutive vertices of the
+        // polyhedron and form a cycle: i.e. `h->vertex() == i->opposite()
+        // ->vertex()', ..., `j->vertex() == h->opposite()->vertex()'. The
+        // six facets incident to h,i,j are all distinct.
+
+    Halfedge_handle join_loop( Halfedge_handle h,
+                               Halfedge_handle g);
+        // glues the boundary of two facets together. Both facets and the
+        // vertices of g gets removed. Returns an halfedge iterator for h.
+        // The invariant `join_loop( h, split_loop( h, i, j))' returns h
+        // and keeps the polyhedron unchanged. Precondition: `HDS'
+        // supports removal of vertices and facets. The facets denoted by
+        // h and g have equal size.
+
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
+
+// Modifying Facets and Holes
+
+    Halfedge_handle make_hole( Halfedge_handle h) {
+        // removes incident facet and makes all halfedges incident to the
+        // facet to border edges. Returns h. Precondition: `HDS'
+        // supports removal of facets. `! h.is_border()'.
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        return TR_HI( D.make_hole( hds, h.ptr()));
+    }
+
+    Halfedge_handle fill_hole( Halfedge_handle h) {
+        // fill a hole with a new created facet. Makes all border
+        // halfedges of the hole denoted by h incident to the new facet.
+        // Returns h. Precondition: `h.is_border()'.
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        return TR_HI( D.fill_hole( hds, h.ptr()));
+    }
+
+    Halfedge_handle add_vertex_and_facet_to_border(   Halfedge_handle h,
+                                                      Halfedge_handle g) {
+        // creates a new facet within the hole incident to h and g by
+        // connecting the tip of g with the tip of h with two new
+        // halfedges and a new vertex and filling this separated part of
+        // the hole with a new facet. Returns the new halfedge incident to
+        // the new facet and the new vertex. Precondition: `h->is_border(
+        // )', `g->is_border()', `h != g', and g can be reached along the
+        // same hole starting with h.
+        CGAL_precondition( h != g);
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        H* hh = D.add_facet_to_border( hds, h.ptr(), g.ptr());
+        CGAL_assertion( hh == &*(g.ptr()->next()));
+        D.split_vertex( hds, g.ptr(), hh->opposite());
+        return g->next();
+    }
+
+    Halfedge_handle add_facet_to_border( Halfedge_handle h,
+                                         Halfedge_handle g) {
+        // creates a new facet within the hole incident to h and g by
+        // connecting the tip of g with the tip of h with a new halfedge
+        // and filling this separated part of the hole with a new facet.
+        // Returns the new halfedge incident to the new facet.
+        // Precondition: `h->is_border()', `g->is_border()', `h != g',
+        // `h->next() != g', and g can be reached along the same hole
+        // starting with h.
+        CGAL_precondition( h != g);
+        CGAL_precondition( h->next() != g);
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        return TR_HI( D.add_facet_to_border( hds, h.ptr(), g.ptr()));
+    }
+
+// Special Operations on Polyhedral Surfaces
+
+    void delegate( CGAL_Modifier_base<HDS>& modifier) {
+        // calls the `operator()' of the `modifier'. Precondition: The
+        // `modifier' returns a consistent representation.
+        modifier( hds);
+        CGAL_postcondition( is_valid());
+    }
+
+// Operations with Border Halfedges
+
+    Size size_of_border_halfedges() const {
+        // number of border halfedges. An edge with no incident facet
+        // counts as two border halfedges. Precondition: `normalize_border
+        // ()' has been called and no halfedge insertion or removal and no
+        // change in border status of the halfedges have occured since
+        // then.
+        return hds.size_of_border_halfedges();
+    }
+
+    Size size_of_border_edges() const {
+        // number of border edges. If `size_of_border_edges() ==
+        // size_of_border_halfedges()' all border edges are incident to a
+        // facet on one side and to a hole on the other side.
+        // Precondition: `normalize_border()' has been called and no
+        // halfedge insertion or removal and no change in border status of
+        // the halfedges have occured since then.
+        return hds.size_of_border_edges();
+    }
+
+    Halfedge_iterator border_halfedges_begin() {
+        // halfedge iterator starting with the border edges. The range [
+        // `halfedges_begin(), border_halfedges_begin()') denotes all
+        // non-border edges. The range [`border_halfedges_begin(),
+        // halfedges_end()') denotes all border edges. Precondition:
+        // `normalize_border()' has been called and no halfedge insertion
+        // or removal and no change in border status of the halfedges have
+        // occured since then.
+        return hds.border_halfedges_begin();
+    }
+
+    Edge_iterator border_edges_begin() { return border_halfedges_begin();}
+        // ... trial to make Edge_iterator obsolete.
+
+    Halfedge_const_iterator border_halfedges_begin() const {
+        return hds.border_halfedges_begin();
+    }
+
+    Edge_const_iterator border_edges_begin() const {
+        return border_halfedges_begin();
+    }
+
+    bool normalized_border_is_valid( bool verbose = false) const {
+        // checks whether all non-border edges precedes the border edges.
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        bool valid = decorator.normalized_border_is_valid( hds, verbose);
+        for ( Halfedge_const_iterator i = border_halfedges_begin();
+              valid && (i != halfedges_end()); (++i, ++i)) {
+            if ( i->is_border()) {
+                CGAL_Verbose_ostream verr(verbose);
+                verr << "    both halfedges of an edge are border "
+                        "halfedges." << endl;
+                        valid = false;
+            }
+        }
+        return valid;
+    }
+
+    void normalize_border() {
+        // sorts halfedges such that the non-border edges precedes the
+        // border edges.
+             hds.normalize_border();
+             CGAL_postcondition( normalized_border_is_valid());
+    }
+
+protected:
+                      // Supports: normals,      planes
+    void inside_out_geometry( CGAL_Tag_false, CGAL_Tag_false) {}
+    void inside_out_geometry( CGAL_Tag_true,  CGAL_Tag_false);
+    void inside_out_geometry( CGAL_Tag_true,  CGAL_Tag_true);
+    void inside_out_geometry( CGAL_Tag_false, CGAL_Tag_true)  {
+        inside_out_geometry( CGAL_Tag_true(), CGAL_Tag_true());
+    }
+
+public:
+
+    void inside_out() {
+        // reverse facet orientation.
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        decorator.inside_out( hds);
+        inside_out_geometry( Supports_facet_normal(),
+                             Supports_facet_plane());
+    }
+
+    bool is_valid( bool verb = false, int level = 0) const;
+        // checks the combinatorial consistency.
+#ifdef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_triangle( V* v1, V* v2, V* v3) {
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        H* h  = hds.new_edge();
+        h->set_next( hds.new_edge());
+        h->next()->set_next( hds.new_edge());
+        h->next()->next()->set_next( h);
+        decorator.set_prev( h, h->next()->next());
+        decorator.set_prev( h->next(), h);
+        decorator.set_prev( h->next()->next(), h->next());
+        h->opposite()->set_next( h->next()->next()->opposite());
+        h->next()->opposite()->set_next( h->opposite());
+        h->next()->next()->opposite()->set_next( h->next()->opposite());
+        decorator.set_prev( h->opposite(), h->next()->opposite());
+        decorator.set_prev( h->next()->opposite(),
+                           h->next()->next()->opposite());
+        decorator.set_prev( h->next()->next()->opposite(), h->opposite());
+        // the vertices
+        decorator.set_vertex( h, v1);
+        decorator.set_vertex( h->next(), v2);
+        decorator.set_vertex( h->next()->next(), v3);
+        decorator.set_vertex( h->opposite(), v3);
+        decorator.set_vertex( h->next()->opposite(), v1);
+        decorator.set_vertex( h->next()->next()->opposite(), v2);
+        decorator.set_vertex_halfedge( h);
+        decorator.set_vertex_halfedge( h->next());
+        decorator.set_vertex_halfedge( h->next()->next());
+        // the facet
+        F* f = decorator.new_facet( hds);
+        decorator.set_facet( h, f);
+        decorator.set_facet( h->next(), f);
+        decorator.set_facet( h->next()->next(), f);
+        decorator.set_facet_halfedge( h);
+        return TR_HI(h);
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_triangle() {
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        return make_triangle( decorator.new_vertex( hds),
+                              decorator.new_vertex( hds),
+                              decorator.new_vertex( hds));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_triangle(const Point& p1, const Point& p2, const Point& p3) {
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        return make_triangle( decorator.new_vertex( hds, p1),
+                              decorator.new_vertex( hds, p2),
+                              decorator.new_vertex( hds, p3));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_tetrahedron( V* v1, V* v2, V* v3, V* v4) {
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        H* h  = make_triangle(v1,v2,v3).ptr();
+        // The remaining tip.
+        H* g  = hds.new_edge();
+        decorator.insert_tip( g->opposite(), h->opposite());
+        decorator.close_tip( g);
+        decorator.set_vertex( g, v4);
+        H* e  = hds.new_edge();
+        H* d  = hds.new_edge();
+        decorator.insert_tip( e->opposite(), h->next()->opposite());
+        decorator.insert_tip( e, g);
+        decorator.insert_tip( d->opposite(), h->next()->next()->opposite());
+        decorator.insert_tip( d, e);
+        decorator.set_vertex_halfedge( g);
+        // facets
+        F* f = decorator.new_facet( hds);
+        decorator.set_facet( h->opposite(), f);
+        decorator.set_facet( g, f);
+        decorator.set_facet( e->opposite(), f);
+        decorator.set_facet_halfedge( g);
+        f = decorator.new_facet( hds);
+        decorator.set_facet( h->next()->opposite(), f);
+        decorator.set_facet( e, f);
+        decorator.set_facet( d->opposite(), f);
+        decorator.set_facet_halfedge( e);
+        f = decorator.new_facet( hds);
+        decorator.set_facet( h->next()->next()->opposite(), f);
+        decorator.set_facet( d, f);
+        decorator.set_facet( g->opposite(), f);
+        decorator.set_facet_halfedge( d);
+        return TR_HI(h);
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_tetrahedron() {
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        return make_tetrahedron( decorator.new_vertex( hds),
+                                 decorator.new_vertex( hds),
+                                 decorator.new_vertex( hds),
+                                 decorator.new_vertex( hds));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    make_tetrahedron(const Point& p1,
+                     const Point& p2,
+                     const Point& p3,
+                     const Point& p4){
+        CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+        return make_tetrahedron( decorator.new_vertex( hds, p1),
+                                 decorator.new_vertex( hds, p2),
+                                 decorator.new_vertex( hds, p3),
+                                 decorator.new_vertex( hds, p4));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    bool
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    bool
+    #endif
+    is_triangle( Halfedge_const_handle h1) const {
+        Halfedge_const_handle h2 = h1->next();
+        Halfedge_const_handle h3 = h1->next()->next();
+        // check halfedge combinatorics.
+        // exact two edges at vertices 1, 2, 3.
+        if ( h1->opposite()->next() != h3->opposite())    return false;
+        if ( h2->opposite()->next() != h1->opposite())    return false;
+        if ( h3->opposite()->next() != h2->opposite())    return false;
+        // The facets is a triangle.
+        if ( h1->next()->next()->next() != h1) return false;
+    
+        // Assert consistency.
+        CGAL_assertion( h1 != h2);
+        CGAL_assertion( h1 != h3);
+        CGAL_assertion( h3 != h2);
+    
+        // check prev pointer.
+        CGAL_assertion_code( CGAL_Halfedge_data_structure_decorator<HDS>
+                        decorator;)
+        CGAL_assertion( decorator.get_prev( h1.ptr()) == NULL ||
+                   decorator.get_prev( h1.ptr()) == h3.ptr());
+        CGAL_assertion( decorator.get_prev( h2.ptr()) == NULL ||
+                   decorator.get_prev( h2.ptr()) == h1.ptr());
+        CGAL_assertion( decorator.get_prev( h3.ptr()) == NULL ||
+                   decorator.get_prev( h3.ptr()) == h2.ptr());
+    
+        // check vertices.
+        CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+                   decorator.get_vertex( h2->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+                   decorator.get_vertex( h3->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+                   decorator.get_vertex( h1->opposite().ptr()));
+    
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_vertex( h1.ptr()) !=
+                   decorator.get_vertex( h2.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_vertex( h1.ptr()) !=
+                   decorator.get_vertex( h3.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_vertex( h2.ptr()) !=
+                   decorator.get_vertex( h3.ptr()));
+    
+        // check facets.
+        CGAL_assertion( decorator.get_facet( h1.ptr()) ==
+                   decorator.get_facet( h2.ptr()));
+        CGAL_assertion( decorator.get_facet( h1.ptr()) ==
+                   decorator.get_facet( h3.ptr()));
+    
+        return true;
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    bool
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    bool
+    #endif
+    is_tetrahedron( Halfedge_const_handle h1) const {
+        Halfedge_const_handle h2 = h1->next();
+        Halfedge_const_handle h3 = h1->next()->next();
+        Halfedge_const_handle h4 = h1->opposite()->next();
+        Halfedge_const_handle h5 = h2->opposite()->next();
+        Halfedge_const_handle h6 = h3->opposite()->next();
+        // check halfedge combinatorics.
+        // at least three edges at vertices 1, 2, 3.
+        if ( h4 == h3->opposite())    return false;
+        if ( h5 == h1->opposite())    return false;
+        if ( h6 == h2->opposite())    return false;
+        // exact three edges at vertices 1, 2, 3.
+        if ( h4->opposite()->next() != h3->opposite())    return false;
+        if ( h5->opposite()->next() != h1->opposite())    return false;
+        if ( h6->opposite()->next() != h2->opposite())    return false;
+        // three edges at v4.
+        if ( h4->next()->opposite() != h5) return false;
+        if ( h5->next()->opposite() != h6) return false;
+        if ( h6->next()->opposite() != h4) return false;
+        // All facets are triangles.
+        if ( h1->next()->next()->next() != h1) return false;
+        if ( h4->next()->next()->next() != h4) return false;
+        if ( h5->next()->next()->next() != h5) return false;
+        if ( h6->next()->next()->next() != h6) return false;
+    
+        // Assert consistency.
+        CGAL_assertion( h1 != h2);
+        CGAL_assertion( h1 != h3);
+        CGAL_assertion( h3 != h2);
+        CGAL_assertion( h4 != h5);
+        CGAL_assertion( h5 != h6);
+        CGAL_assertion( h6 != h4);
+    
+        // check prev pointer.
+        CGAL_assertion_code( CGAL_Halfedge_data_structure_decorator<HDS>
+                        decorator;)
+        CGAL_assertion( decorator.get_prev( h1.ptr()) == NULL ||
+                   decorator.get_prev( h1.ptr()) == h3.ptr());
+        CGAL_assertion( decorator.get_prev( h2.ptr()) == NULL ||
+                   decorator.get_prev( h2.ptr()) == h1.ptr());
+        CGAL_assertion( decorator.get_prev( h3.ptr()) == NULL ||
+                   decorator.get_prev( h3.ptr()) == h2.ptr());
+        CGAL_assertion( decorator.get_prev( h4.ptr()) == NULL ||
+                   decorator.get_prev( h4.ptr()) == h1->opposite().ptr());
+        CGAL_assertion( decorator.get_prev( h5.ptr()) == NULL ||
+                   decorator.get_prev( h5.ptr()) == h2->opposite().ptr());
+        CGAL_assertion( decorator.get_prev( h6.ptr()) == NULL ||
+                   decorator.get_prev( h6.ptr()) == h3->opposite().ptr());
+    
+        // check vertices.
+        CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+                   decorator.get_vertex( h2->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+                   decorator.get_vertex( h5->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+                   decorator.get_vertex( h3->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+                   decorator.get_vertex( h6->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+                   decorator.get_vertex( h1->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+                   decorator.get_vertex( h4->opposite().ptr()));
+        CGAL_assertion( decorator.get_vertex( h4.ptr()) ==
+                   decorator.get_vertex( h5.ptr()));
+        CGAL_assertion( decorator.get_vertex( h4.ptr()) ==
+                   decorator.get_vertex( h6.ptr()));
+    
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h1.ptr()) !=
+                   decorator.get_vertex( h2.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h1.ptr()) !=
+                   decorator.get_vertex( h3.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h1.ptr()) !=
+                   decorator.get_vertex( h4.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h2.ptr()) !=
+                   decorator.get_vertex( h3.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h2.ptr()) !=
+                   decorator.get_vertex( h4.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                   decorator.get_vertex( h3.ptr()) !=
+                   decorator.get_vertex( h4.ptr()));
+    
+        // check facets.
+        CGAL_assertion( decorator.get_facet(h1.ptr()) ==
+                   decorator.get_facet(h2.ptr()));
+        CGAL_assertion( decorator.get_facet(h1.ptr()) ==
+                   decorator.get_facet(h3.ptr()));
+        CGAL_assertion( decorator.get_facet(h4.ptr()) ==
+                   decorator.get_facet(h4->next().ptr()));
+        CGAL_assertion( decorator.get_facet(h4.ptr()) ==
+                   decorator.get_facet(h1->opposite().ptr()));
+        CGAL_assertion( decorator.get_facet(h5.ptr()) ==
+                   decorator.get_facet(h5->next().ptr()));
+        CGAL_assertion( decorator.get_facet(h5.ptr()) ==
+                   decorator.get_facet(h2->opposite().ptr()));
+        CGAL_assertion( decorator.get_facet(h6.ptr()) ==
+                   decorator.get_facet(h6->next().ptr()));
+        CGAL_assertion( decorator.get_facet(h6.ptr()) ==
+                   decorator.get_facet(h3->opposite().ptr()));
+    
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h1.ptr()) !=
+                   decorator.get_facet( h4.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h1.ptr()) !=
+                   decorator.get_facet( h5.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h1.ptr()) !=
+                   decorator.get_facet( h6.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h4.ptr()) !=
+                   decorator.get_facet( h5.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h4.ptr()) !=
+                   decorator.get_facet( h6.ptr()));
+        CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                   decorator.get_facet( h5.ptr()) !=
+                   decorator.get_facet( h6.ptr()));
+    
+        return true;
+    }
+    
+    // Euler Operations
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    split_facet( Halfedge_handle h, Halfedge_handle g) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( D.get_facet(h.ptr()) == D.get_facet(g.ptr()));
+        CGAL_precondition( h != g);
+        CGAL_precondition( h != g->next());
+        CGAL_precondition( h->next() != g);
+        return TR_HI( D.split_facet( hds, h.ptr(), g.ptr()));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    join_facet( Halfedge_handle h) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( CGAL_circulator_size( h->vertex_begin()) >= Size(3));
+        CGAL_precondition( CGAL_circulator_size( h->opposite()->vertex_begin())
+                    >= Size(3));
+        return TR_HI( D.join_facet( hds, h.ptr()));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    split_vertex( Halfedge_handle h, Halfedge_handle g) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( D.get_vertex(h.ptr()) == D.get_vertex(g.ptr()));
+        CGAL_precondition( h != g);
+        return TR_HI( D.split_vertex( hds, h.ptr(), g.ptr()));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    join_vertex( Halfedge_handle h) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( CGAL_circulator_size( h->facet_begin()) >= Size(4));
+        CGAL_precondition( CGAL_circulator_size( h->opposite()->facet_begin())
+                    >= Size(4));
+        return TR_HI( D.join_vertex( hds, h.ptr()));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    split_loop( Halfedge_handle h,
+                Halfedge_handle i,
+                Halfedge_handle j) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( h != i);
+        CGAL_precondition( h != j);
+        CGAL_precondition( i != j);
+        CGAL_precondition( D.get_vertex(h.ptr())
+                    == D.get_vertex(i->opposite().ptr()));
+        CGAL_precondition( D.get_vertex(i.ptr())
+                    == D.get_vertex(j->opposite().ptr()));
+        CGAL_precondition( D.get_vertex(j.ptr())
+                    == D.get_vertex(h->opposite().ptr()));
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr()) != D.get_facet(i.ptr()));
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr()) != D.get_facet(j.ptr()));
+        CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                    D.get_facet(i.ptr()) != D.get_facet(j.ptr()));
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr())
+                    != D.get_facet(h->opposite().ptr()));
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr())
+                    != D.get_facet(i->opposite().ptr()));
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr())
+                    != D.get_facet(j->opposite().ptr()));
+        CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                    D.get_facet(i.ptr())
+                    != D.get_facet(h->opposite().ptr()));
+        CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                    D.get_facet(i.ptr())
+                    != D.get_facet(i->opposite().ptr()));
+        CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                    D.get_facet(i.ptr())
+                    != D.get_facet(j->opposite().ptr()));
+        CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                    D.get_facet(j.ptr())
+                    != D.get_facet(h->opposite().ptr()));
+        CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                    D.get_facet(j.ptr())
+                    != D.get_facet(i->opposite().ptr()));
+        CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                    D.get_facet(j.ptr())
+                    != D.get_facet(j->opposite().ptr()));
+        CGAL_precondition( D.get_facet(h->opposite().ptr()) == 0 ||
+                    D.get_facet(h->opposite().ptr())
+                    != D.get_facet(i->opposite().ptr()));
+        CGAL_precondition( D.get_facet(h->opposite().ptr()) == 0 ||
+                    D.get_facet(h->opposite().ptr())
+                    != D.get_facet(j->opposite().ptr()));
+        CGAL_precondition( D.get_facet(i->opposite().ptr()) == 0 ||
+                    D.get_facet(i->opposite().ptr())
+                    != D.get_facet(j->opposite().ptr()));
+        return TR_HI( D.split_loop( hds, h.ptr(), i.ptr(), j.ptr()));
+    }
+    
+    #ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+    template < class TR, class HDS >  CGAL_LARGE_INLINE
+    typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+    CGAL_Polyhedron_3<TR,HDS>::
+    #else
+    Halfedge_handle
+    #endif
+    join_loop( Halfedge_handle h,
+               Halfedge_handle g) {
+        CGAL_Halfedge_data_structure_decorator<HDS> D;
+        CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                    D.get_facet(h.ptr()) != D.get_facet(g.ptr()));
+        CGAL_precondition( CGAL_circulator_size( h->facet_begin()) >= Size(3));
+        CGAL_precondition( CGAL_circulator_size( h->facet_begin())
+                    == CGAL_circulator_size( g->facet_begin()));
+        return TR_HI( D.join_loop( hds, h.ptr(), g.ptr()));
+    }
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
+};
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_triangle( V* v1, V* v2, V* v3) {
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    H* h  = hds.new_edge();
+    h->set_next( hds.new_edge());
+    h->next()->set_next( hds.new_edge());
+    h->next()->next()->set_next( h);
+    decorator.set_prev( h, h->next()->next());
+    decorator.set_prev( h->next(), h);
+    decorator.set_prev( h->next()->next(), h->next());
+    h->opposite()->set_next( h->next()->next()->opposite());
+    h->next()->opposite()->set_next( h->opposite());
+    h->next()->next()->opposite()->set_next( h->next()->opposite());
+    decorator.set_prev( h->opposite(), h->next()->opposite());
+    decorator.set_prev( h->next()->opposite(),
+                       h->next()->next()->opposite());
+    decorator.set_prev( h->next()->next()->opposite(), h->opposite());
+    // the vertices
+    decorator.set_vertex( h, v1);
+    decorator.set_vertex( h->next(), v2);
+    decorator.set_vertex( h->next()->next(), v3);
+    decorator.set_vertex( h->opposite(), v3);
+    decorator.set_vertex( h->next()->opposite(), v1);
+    decorator.set_vertex( h->next()->next()->opposite(), v2);
+    decorator.set_vertex_halfedge( h);
+    decorator.set_vertex_halfedge( h->next());
+    decorator.set_vertex_halfedge( h->next()->next());
+    // the facet
+    F* f = decorator.new_facet( hds);
+    decorator.set_facet( h, f);
+    decorator.set_facet( h->next(), f);
+    decorator.set_facet( h->next()->next(), f);
+    decorator.set_facet_halfedge( h);
+    return TR_HI(h);
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_triangle() {
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    return make_triangle( decorator.new_vertex( hds),
+                          decorator.new_vertex( hds),
+                          decorator.new_vertex( hds));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_triangle(const Point& p1, const Point& p2, const Point& p3) {
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    return make_triangle( decorator.new_vertex( hds, p1),
+                          decorator.new_vertex( hds, p2),
+                          decorator.new_vertex( hds, p3));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_tetrahedron( V* v1, V* v2, V* v3, V* v4) {
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    H* h  = make_triangle(v1,v2,v3).ptr();
+    // The remaining tip.
+    H* g  = hds.new_edge();
+    decorator.insert_tip( g->opposite(), h->opposite());
+    decorator.close_tip( g);
+    decorator.set_vertex( g, v4);
+    H* e  = hds.new_edge();
+    H* d  = hds.new_edge();
+    decorator.insert_tip( e->opposite(), h->next()->opposite());
+    decorator.insert_tip( e, g);
+    decorator.insert_tip( d->opposite(), h->next()->next()->opposite());
+    decorator.insert_tip( d, e);
+    decorator.set_vertex_halfedge( g);
+    // facets
+    F* f = decorator.new_facet( hds);
+    decorator.set_facet( h->opposite(), f);
+    decorator.set_facet( g, f);
+    decorator.set_facet( e->opposite(), f);
+    decorator.set_facet_halfedge( g);
+    f = decorator.new_facet( hds);
+    decorator.set_facet( h->next()->opposite(), f);
+    decorator.set_facet( e, f);
+    decorator.set_facet( d->opposite(), f);
+    decorator.set_facet_halfedge( e);
+    f = decorator.new_facet( hds);
+    decorator.set_facet( h->next()->next()->opposite(), f);
+    decorator.set_facet( d, f);
+    decorator.set_facet( g->opposite(), f);
+    decorator.set_facet_halfedge( d);
+    return TR_HI(h);
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_tetrahedron() {
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    return make_tetrahedron( decorator.new_vertex( hds),
+                             decorator.new_vertex( hds),
+                             decorator.new_vertex( hds),
+                             decorator.new_vertex( hds));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+make_tetrahedron(const Point& p1,
+                 const Point& p2,
+                 const Point& p3,
+                 const Point& p4){
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    return make_tetrahedron( decorator.new_vertex( hds, p1),
+                             decorator.new_vertex( hds, p2),
+                             decorator.new_vertex( hds, p3),
+                             decorator.new_vertex( hds, p4));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+bool
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+bool
+#endif
+is_triangle( Halfedge_const_handle h1) const {
+    Halfedge_const_handle h2 = h1->next();
+    Halfedge_const_handle h3 = h1->next()->next();
+    // check halfedge combinatorics.
+    // exact two edges at vertices 1, 2, 3.
+    if ( h1->opposite()->next() != h3->opposite())    return false;
+    if ( h2->opposite()->next() != h1->opposite())    return false;
+    if ( h3->opposite()->next() != h2->opposite())    return false;
+    // The facets is a triangle.
+    if ( h1->next()->next()->next() != h1) return false;
+
+    // Assert consistency.
+    CGAL_assertion( h1 != h2);
+    CGAL_assertion( h1 != h3);
+    CGAL_assertion( h3 != h2);
+
+    // check prev pointer.
+    CGAL_assertion_code( CGAL_Halfedge_data_structure_decorator<HDS>
+                    decorator;)
+    CGAL_assertion( decorator.get_prev( h1.ptr()) == NULL ||
+               decorator.get_prev( h1.ptr()) == h3.ptr());
+    CGAL_assertion( decorator.get_prev( h2.ptr()) == NULL ||
+               decorator.get_prev( h2.ptr()) == h1.ptr());
+    CGAL_assertion( decorator.get_prev( h3.ptr()) == NULL ||
+               decorator.get_prev( h3.ptr()) == h2.ptr());
+
+    // check vertices.
+    CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+               decorator.get_vertex( h2->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+               decorator.get_vertex( h3->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+               decorator.get_vertex( h1->opposite().ptr()));
+
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_vertex( h1.ptr()) !=
+               decorator.get_vertex( h2.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_vertex( h1.ptr()) !=
+               decorator.get_vertex( h3.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_vertex( h2.ptr()) !=
+               decorator.get_vertex( h3.ptr()));
+
+    // check facets.
+    CGAL_assertion( decorator.get_facet( h1.ptr()) ==
+               decorator.get_facet( h2.ptr()));
+    CGAL_assertion( decorator.get_facet( h1.ptr()) ==
+               decorator.get_facet( h3.ptr()));
+
+    return true;
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+bool
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+bool
+#endif
+is_tetrahedron( Halfedge_const_handle h1) const {
+    Halfedge_const_handle h2 = h1->next();
+    Halfedge_const_handle h3 = h1->next()->next();
+    Halfedge_const_handle h4 = h1->opposite()->next();
+    Halfedge_const_handle h5 = h2->opposite()->next();
+    Halfedge_const_handle h6 = h3->opposite()->next();
+    // check halfedge combinatorics.
+    // at least three edges at vertices 1, 2, 3.
+    if ( h4 == h3->opposite())    return false;
+    if ( h5 == h1->opposite())    return false;
+    if ( h6 == h2->opposite())    return false;
+    // exact three edges at vertices 1, 2, 3.
+    if ( h4->opposite()->next() != h3->opposite())    return false;
+    if ( h5->opposite()->next() != h1->opposite())    return false;
+    if ( h6->opposite()->next() != h2->opposite())    return false;
+    // three edges at v4.
+    if ( h4->next()->opposite() != h5) return false;
+    if ( h5->next()->opposite() != h6) return false;
+    if ( h6->next()->opposite() != h4) return false;
+    // All facets are triangles.
+    if ( h1->next()->next()->next() != h1) return false;
+    if ( h4->next()->next()->next() != h4) return false;
+    if ( h5->next()->next()->next() != h5) return false;
+    if ( h6->next()->next()->next() != h6) return false;
+
+    // Assert consistency.
+    CGAL_assertion( h1 != h2);
+    CGAL_assertion( h1 != h3);
+    CGAL_assertion( h3 != h2);
+    CGAL_assertion( h4 != h5);
+    CGAL_assertion( h5 != h6);
+    CGAL_assertion( h6 != h4);
+
+    // check prev pointer.
+    CGAL_assertion_code( CGAL_Halfedge_data_structure_decorator<HDS>
+                    decorator;)
+    CGAL_assertion( decorator.get_prev( h1.ptr()) == NULL ||
+               decorator.get_prev( h1.ptr()) == h3.ptr());
+    CGAL_assertion( decorator.get_prev( h2.ptr()) == NULL ||
+               decorator.get_prev( h2.ptr()) == h1.ptr());
+    CGAL_assertion( decorator.get_prev( h3.ptr()) == NULL ||
+               decorator.get_prev( h3.ptr()) == h2.ptr());
+    CGAL_assertion( decorator.get_prev( h4.ptr()) == NULL ||
+               decorator.get_prev( h4.ptr()) == h1->opposite().ptr());
+    CGAL_assertion( decorator.get_prev( h5.ptr()) == NULL ||
+               decorator.get_prev( h5.ptr()) == h2->opposite().ptr());
+    CGAL_assertion( decorator.get_prev( h6.ptr()) == NULL ||
+               decorator.get_prev( h6.ptr()) == h3->opposite().ptr());
+
+    // check vertices.
+    CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+               decorator.get_vertex( h2->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h1.ptr()) ==
+               decorator.get_vertex( h5->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+               decorator.get_vertex( h3->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h2.ptr()) ==
+               decorator.get_vertex( h6->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+               decorator.get_vertex( h1->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h3.ptr()) ==
+               decorator.get_vertex( h4->opposite().ptr()));
+    CGAL_assertion( decorator.get_vertex( h4.ptr()) ==
+               decorator.get_vertex( h5.ptr()));
+    CGAL_assertion( decorator.get_vertex( h4.ptr()) ==
+               decorator.get_vertex( h6.ptr()));
+
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h1.ptr()) !=
+               decorator.get_vertex( h2.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h1.ptr()) !=
+               decorator.get_vertex( h3.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h1.ptr()) !=
+               decorator.get_vertex( h4.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h2.ptr()) !=
+               decorator.get_vertex( h3.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h2.ptr()) !=
+               decorator.get_vertex( h4.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+               decorator.get_vertex( h3.ptr()) !=
+               decorator.get_vertex( h4.ptr()));
+
+    // check facets.
+    CGAL_assertion( decorator.get_facet(h1.ptr()) ==
+               decorator.get_facet(h2.ptr()));
+    CGAL_assertion( decorator.get_facet(h1.ptr()) ==
+               decorator.get_facet(h3.ptr()));
+    CGAL_assertion( decorator.get_facet(h4.ptr()) ==
+               decorator.get_facet(h4->next().ptr()));
+    CGAL_assertion( decorator.get_facet(h4.ptr()) ==
+               decorator.get_facet(h1->opposite().ptr()));
+    CGAL_assertion( decorator.get_facet(h5.ptr()) ==
+               decorator.get_facet(h5->next().ptr()));
+    CGAL_assertion( decorator.get_facet(h5.ptr()) ==
+               decorator.get_facet(h2->opposite().ptr()));
+    CGAL_assertion( decorator.get_facet(h6.ptr()) ==
+               decorator.get_facet(h6->next().ptr()));
+    CGAL_assertion( decorator.get_facet(h6.ptr()) ==
+               decorator.get_facet(h3->opposite().ptr()));
+
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h1.ptr()) !=
+               decorator.get_facet( h4.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h1.ptr()) !=
+               decorator.get_facet( h5.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h1.ptr()) !=
+               decorator.get_facet( h6.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h4.ptr()) !=
+               decorator.get_facet( h5.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h4.ptr()) !=
+               decorator.get_facet( h6.ptr()));
+    CGAL_assertion( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+               decorator.get_facet( h5.ptr()) !=
+               decorator.get_facet( h6.ptr()));
+
+    return true;
+}
+
+// Euler Operations
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+split_facet( Halfedge_handle h, Halfedge_handle g) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( D.get_facet(h.ptr()) == D.get_facet(g.ptr()));
+    CGAL_precondition( h != g);
+    CGAL_precondition( h != g->next());
+    CGAL_precondition( h->next() != g);
+    return TR_HI( D.split_facet( hds, h.ptr(), g.ptr()));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+join_facet( Halfedge_handle h) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( CGAL_circulator_size( h->vertex_begin()) >= Size(3));
+    CGAL_precondition( CGAL_circulator_size( h->opposite()->vertex_begin())
+                >= Size(3));
+    return TR_HI( D.join_facet( hds, h.ptr()));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+split_vertex( Halfedge_handle h, Halfedge_handle g) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( D.get_vertex(h.ptr()) == D.get_vertex(g.ptr()));
+    CGAL_precondition( h != g);
+    return TR_HI( D.split_vertex( hds, h.ptr(), g.ptr()));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+join_vertex( Halfedge_handle h) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( CGAL_circulator_size( h->facet_begin()) >= Size(4));
+    CGAL_precondition( CGAL_circulator_size( h->opposite()->facet_begin())
+                >= Size(4));
+    return TR_HI( D.join_vertex( hds, h.ptr()));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+split_loop( Halfedge_handle h,
+            Halfedge_handle i,
+            Halfedge_handle j) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( h != i);
+    CGAL_precondition( h != j);
+    CGAL_precondition( i != j);
+    CGAL_precondition( D.get_vertex(h.ptr())
+                == D.get_vertex(i->opposite().ptr()));
+    CGAL_precondition( D.get_vertex(i.ptr())
+                == D.get_vertex(j->opposite().ptr()));
+    CGAL_precondition( D.get_vertex(j.ptr())
+                == D.get_vertex(h->opposite().ptr()));
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr()) != D.get_facet(i.ptr()));
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr()) != D.get_facet(j.ptr()));
+    CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                D.get_facet(i.ptr()) != D.get_facet(j.ptr()));
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr())
+                != D.get_facet(h->opposite().ptr()));
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr())
+                != D.get_facet(i->opposite().ptr()));
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr())
+                != D.get_facet(j->opposite().ptr()));
+    CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                D.get_facet(i.ptr())
+                != D.get_facet(h->opposite().ptr()));
+    CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                D.get_facet(i.ptr())
+                != D.get_facet(i->opposite().ptr()));
+    CGAL_precondition( D.get_facet(i.ptr()) == 0 ||
+                D.get_facet(i.ptr())
+                != D.get_facet(j->opposite().ptr()));
+    CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                D.get_facet(j.ptr())
+                != D.get_facet(h->opposite().ptr()));
+    CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                D.get_facet(j.ptr())
+                != D.get_facet(i->opposite().ptr()));
+    CGAL_precondition( D.get_facet(j.ptr()) == 0 ||
+                D.get_facet(j.ptr())
+                != D.get_facet(j->opposite().ptr()));
+    CGAL_precondition( D.get_facet(h->opposite().ptr()) == 0 ||
+                D.get_facet(h->opposite().ptr())
+                != D.get_facet(i->opposite().ptr()));
+    CGAL_precondition( D.get_facet(h->opposite().ptr()) == 0 ||
+                D.get_facet(h->opposite().ptr())
+                != D.get_facet(j->opposite().ptr()));
+    CGAL_precondition( D.get_facet(i->opposite().ptr()) == 0 ||
+                D.get_facet(i->opposite().ptr())
+                != D.get_facet(j->opposite().ptr()));
+    return TR_HI( D.split_loop( hds, h.ptr(), i.ptr(), j.ptr()));
+}
+
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+typename CGAL_Polyhedron_3<TR,HDS>::Halfedge_handle
+CGAL_Polyhedron_3<TR,HDS>::
+#else
+Halfedge_handle
+#endif
+join_loop( Halfedge_handle h,
+           Halfedge_handle g) {
+    CGAL_Halfedge_data_structure_decorator<HDS> D;
+    CGAL_precondition( D.get_facet(h.ptr()) == 0 ||
+                D.get_facet(h.ptr()) != D.get_facet(g.ptr()));
+    CGAL_precondition( CGAL_circulator_size( h->facet_begin()) >= Size(3));
+    CGAL_precondition( CGAL_circulator_size( h->facet_begin())
+                == CGAL_circulator_size( g->facet_begin()));
+    return TR_HI( D.join_loop( hds, h.ptr(), g.ptr()));
+}
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
+//template < class HDS>
+//CGAL_Polyhedron_3<TR,HDS>::
+//CGAL_Polyhedron_3( const CGAL_Polyhedron_3<TR,HDS>& p)
+//  : hds(p.size_of_vertices(),p.size_of_halfedges(),p.size_of_facets()) {
+//    // copy constructor.
+//    CGAL_Polyhedron_copy_3< CGAL_Polyhedron_3<TR,HDS>, HDS> copier( p);
+//    copier( hds);
+//}
+
+//template < class HDS>
+//CGAL_Polyhedron_3<TR,HDS>&
+//CGAL_Polyhedron_3<TR,HDS>::
+//operator= ( const CGAL_Polyhedron_3<TR,HDS>& p) {
+//    CGAL_precondition( capacity_of_vertices()  >= p.size_of_vertices());
+//    CGAL_precondition( capacity_of_halfedges() >= p.size_of_halfedges());
+//    CGAL_precondition( capacity_of_facets()    >= p.size_of_facets());
+//    // assignment operator.
+//    if ( this != &p) {
+//        hds.delete_all();
+//        CGAL_Polyhedron_copy_3<CGAL_Polyhedron_3<TR,HDS>, HDS> copier( p);
+//        copier( hds);
+//    }
+//    return *this;
+//}
+
+
+// Special Operations on Polyhedral Surfaces
+
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+void                               // Supports: normals,      planes
+CGAL_Polyhedron_3<TR,HDS>:: inside_out_geometry( CGAL_Tag_true, CGAL_Tag_false){
+    Facet_iterator begin = facets_begin();
+    Facet_iterator end   = facets_end();
+    for( ; begin != end; ++begin) {
+        m_traits.reverse_normal((*begin).normal());
+    }
+}
+
+template < class TR, class HDS >  CGAL_LARGE_INLINE
+void                               // Supports: normals,      planes
+CGAL_Polyhedron_3<TR,HDS>:: inside_out_geometry( CGAL_Tag_true, CGAL_Tag_true){
+    Facet_iterator begin = facets_begin();
+    Facet_iterator end   = facets_end();
+    for( ; begin != end; ++begin) {
+        m_traits.reverse_plane((*begin).plane());
+    }
+}
+
+template < class TR, class HDS >
+bool
+CGAL_Polyhedron_3<TR,HDS>:: is_valid( bool verb, int level) const {
+    CGAL_Verbose_ostream verr(verb);
+    verr << "begin CGAL_Polyhedron_3<TR,HDS>::is_valid( verb=true, "
+                      "level = " << level << "):" << endl;
+    CGAL_Halfedge_data_structure_decorator<HDS> decorator;
+    bool valid = decorator.is_valid( hds, verb, level + 3);
+    // All halfedges.
+    Halfedge_const_iterator begin = halfedges_begin();
+    Halfedge_const_iterator end   = halfedges_end();
+    Size  n = 0;
+    for( ; valid && (begin != end); begin++) {
+        verr << "halfedge " << n << endl;
+        // At least triangular facets and distinct geometry.
+        valid = valid && ( begin->next() != begin);
+        valid = valid && ( begin->next()->next() != begin);
+        valid = valid && ( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                           decorator.get_vertex( begin.ptr()) !=
+                           decorator.get_vertex( begin->opposite().ptr()));
+        valid = valid && ( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                           decorator.get_vertex( begin.ptr()) !=
+                           decorator.get_vertex( begin->next().ptr()));
+        valid = valid && ( ! CGAL_check_tag( Supports_halfedge_vertex()) ||
+                           decorator.get_vertex( begin.ptr()) !=
+                           decorator.get_vertex( begin->next()->
+                                                 next().ptr()));
+        if ( ! valid) {
+            verr << "    incident facet is not at least a triangle."
+                 << endl;
+            break;
+        }
+        // Distinct facets on each side of an halfegde.
+        valid = valid && ( ! CGAL_check_tag( Supports_halfedge_facet()) ||
+                           decorator.get_facet( begin.ptr()) !=
+                           decorator.get_facet( begin->opposite().ptr()));
+        if ( ! valid) {
+            verr << "    both incident facets are equal." << endl;
+            break;
+        }
+        ++n;
+    }
+    valid = valid && (n == size_of_halfedges());
+    if ( n != size_of_halfedges())
+        verr << "counting halfedges failed." << endl;
+
+    verr << "end of CGAL_Polyhedron_3<TR,HDS>::is_valid(): structure is "
+         << ( valid ? "valid." : "NOT VALID.") << endl;
+    return valid;
+}
+
+
+
+// Undef shorter names (g++/egcs)
+#undef CGAL__Polyhedron_vertex
+#undef CGAL__Polyhedron_halfedge
+#undef CGAL__Polyhedron_facet
+#undef CGAL__Polyhedron_iterator
+#undef CGAL__Polyhedron_const_iterator
+#undef CGAL__Polyhedron_edge_iterator
+#undef CGAL__Polyhedron_halfedge_const_iterator
+#undef CGAL__Polyhedron_facet_circ
+#undef CGAL__Polyhedron_facet_const_circ
+#undef CGAL__Polyhedron_vertex_circ
+#undef CGAL__Polyhedron_vertex_const_circ
+#endif // CGAL_POLYHEDRON_3_H //
+// EOF //

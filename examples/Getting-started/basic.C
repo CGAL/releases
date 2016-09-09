@@ -1,16 +1,9 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Elementaries
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include "tutorial.h"
 #include <CGAL/Point_2.h>
 #include <CGAL/Vector_2.h>
 #include <iostream.h>
 
-main()
+void main()
 {
     Point_2 p1(1.0, -1.0), p2(4.0, 3.0), p3;
     Vector_2 v1(-1, 10);

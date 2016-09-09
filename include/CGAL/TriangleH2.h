@@ -1,45 +1,57 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/TriangleH2.h
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: TriangleH2.h
-// Author: Stefan Schirra
 
 #ifndef CGAL_TRIANGLEH2_H
 #define CGAL_TRIANGLEH2_H
 
+#ifndef CGAL_POINTH2_H
 #include <CGAL/PointH2.h>
+#endif // CGAL_POINTH2_H
+#ifndef CGAL_PREDICATES_ON_POINTSH2_H
 #include <CGAL/predicates_on_pointsH2.h>
-
-
+#endif // CGAL_PREDICATES_ON_POINTSH2_H
 
 template <class FT, class RT>
 class CGAL_Triangle_repH2 : public CGAL_Rep
@@ -70,8 +82,6 @@ friend class CGAL_TriangleH2<FT,RT>;
             CGAL_PointH2<FT,RT>   A[3];
             CGAL_Orientation      orientation;
 };
-
-
 
 template <class FT, class RT>
 class CGAL_TriangleH2 : public CGAL_Handle
@@ -116,281 +126,264 @@ public:
                        operator[](int i) const;
 
 protected:
-
-    CGAL_Triangle_repH2<FT,RT>*
-                       ptr() const;
+    CGAL_Triangle_repH2<FT,RT>*    ptr() const;
 };
 
 template < class FT, class RT >
 inline
 CGAL_Triangle_repH2<FT,RT>*
 CGAL_TriangleH2<FT,RT>::ptr() const
-{
- return (CGAL_Triangle_repH2<FT,RT>*)PTR;
-}
+{ return (CGAL_Triangle_repH2<FT,RT>*)PTR; }
 
 template < class FT, class RT >
-inline
+CGAL_KERNEL_CTOR_INLINE
 CGAL_TriangleH2<FT,RT>::CGAL_TriangleH2()
-{
- PTR = new CGAL_Triangle_repH2<FT,RT>();
-}
+{ PTR = new CGAL_Triangle_repH2<FT,RT>(); }
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_TriangleH2<FT,RT>::CGAL_TriangleH2(const CGAL_TriangleH2<FT,RT>& t)
  : CGAL_Handle((CGAL_Handle&) t)
-{
-}
+{}
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_TriangleH2<FT,RT>::CGAL_TriangleH2(const CGAL_PointH2<FT,RT>& p,
                                         const CGAL_PointH2<FT,RT>& q,
                                         const CGAL_PointH2<FT,RT>& r)
-{
- PTR = new CGAL_Triangle_repH2<FT,RT>(p,q,r);
-}
+{ PTR = new CGAL_Triangle_repH2<FT,RT>(p,q,r); }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 CGAL_TriangleH2<FT,RT>&
 CGAL_TriangleH2<FT,RT>::operator=(const CGAL_TriangleH2<FT,RT> &t)
 {
- CGAL_Handle::operator=(t);
- return *this;
+  CGAL_Handle::operator=(t);
+  return *this;
 }
 template <class FT, class RT>
+CGAL_KERNEL_INLINE
 CGAL_PointH2<FT,RT>
 CGAL_TriangleH2<FT,RT>::vertex(int i) const
-{
- return ptr()->A[ i % 3 ];
-}
+{ return ptr()->A[ i % 3 ]; }
 
 template <class FT, class RT>
+inline
 CGAL_PointH2<FT,RT>
 CGAL_TriangleH2<FT,RT>::operator[](int i) const
-{
- return vertex(i);
-}
+{ return vertex(i); }
 
 template <class FT, class RT>
+inline
 CGAL_Orientation
 CGAL_TriangleH2<FT,RT>::orientation() const
-{
- return ptr()->orientation;
-}
+{ return ptr()->orientation; }
 template <class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
 CGAL_Oriented_side
 CGAL_TriangleH2<FT,RT>::oriented_side( const CGAL_PointH2<FT,RT>& p) const
 {
- CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
- CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
- CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
+  CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
+  CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
+  CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
 
- if (ptr()->orientation == CGAL_CLOCKWISE)
- {
-    if (  (o12 == CGAL_COUNTERCLOCKWISE)
-        ||(o23 == CGAL_COUNTERCLOCKWISE)
-        ||(o31 == CGAL_COUNTERCLOCKWISE) )
-    {
-        return CGAL_ON_POSITIVE_SIDE;
-    }
-    if (  (o12 == CGAL_COLLINEAR)
-        ||(o23 == CGAL_COLLINEAR)
-        ||(o31 == CGAL_COLLINEAR) )
-    {
-        return CGAL_ON_ORIENTED_BOUNDARY;
-    }
-    else
-    {
-        return CGAL_ON_NEGATIVE_SIDE;
-    }
- }
- else       // COUNTERCLOCKWISE
- {
-    if (  (o12 == CGAL_CLOCKWISE)
-        ||(o23 == CGAL_CLOCKWISE)
-        ||(o31 == CGAL_CLOCKWISE) )
-    {
-        return CGAL_ON_NEGATIVE_SIDE;
-    }
-    if (  (o12 == CGAL_COLLINEAR)
-        ||(o23 == CGAL_COLLINEAR)
-        ||(o31 == CGAL_COLLINEAR) )
-    {
-        return CGAL_ON_ORIENTED_BOUNDARY;
-    }
-    else
-    {
-        return CGAL_ON_POSITIVE_SIDE;
-    }
- }
+  if (ptr()->orientation == CGAL_CLOCKWISE)
+  {
+      if (  (o12 == CGAL_COUNTERCLOCKWISE)
+          ||(o23 == CGAL_COUNTERCLOCKWISE)
+          ||(o31 == CGAL_COUNTERCLOCKWISE) )
+      {
+          return CGAL_ON_POSITIVE_SIDE;
+      }
+      if (  (o12 == CGAL_COLLINEAR)
+          ||(o23 == CGAL_COLLINEAR)
+          ||(o31 == CGAL_COLLINEAR) )
+      {
+          return CGAL_ON_ORIENTED_BOUNDARY;
+      }
+      else
+      {
+          return CGAL_ON_NEGATIVE_SIDE;
+      }
+  }
+  else       // COUNTERCLOCKWISE
+  {
+      if (  (o12 == CGAL_CLOCKWISE)
+          ||(o23 == CGAL_CLOCKWISE)
+          ||(o31 == CGAL_CLOCKWISE) )
+      {
+          return CGAL_ON_NEGATIVE_SIDE;
+      }
+      if (  (o12 == CGAL_COLLINEAR)
+          ||(o23 == CGAL_COLLINEAR)
+          ||(o31 == CGAL_COLLINEAR) )
+      {
+          return CGAL_ON_ORIENTED_BOUNDARY;
+      }
+      else
+      {
+          return CGAL_ON_POSITIVE_SIDE;
+      }
+  }
 }
 
 template <class FT, class RT>
+inline
 bool
-CGAL_TriangleH2<FT,RT>::has_on_positive_side( const CGAL_PointH2<FT,RT>& p)
-                                                                         const
-{
- return ( oriented_side(p) == CGAL_ON_POSITIVE_SIDE );
-}
+CGAL_TriangleH2<FT,RT>::
+has_on_positive_side( const CGAL_PointH2<FT,RT>& p) const
+{ return ( oriented_side(p) == CGAL_ON_POSITIVE_SIDE ); }
 
 template <class FT, class RT>
+inline
 bool
 CGAL_TriangleH2<FT,RT>::has_on_boundary(const CGAL_PointH2<FT,RT>& p) const
-{
- return oriented_side(p) == CGAL_ON_ORIENTED_BOUNDARY;
-}
+{ return oriented_side(p) == CGAL_ON_ORIENTED_BOUNDARY; }
 
 template <class FT, class RT>
+inline
 bool
-CGAL_TriangleH2<FT,RT>::has_on_negative_side( const CGAL_PointH2<FT,RT>& p)
-                                                                         const
-{
- return  oriented_side(p) == CGAL_ON_NEGATIVE_SIDE;
-}
+CGAL_TriangleH2<FT,RT>::
+has_on_negative_side( const CGAL_PointH2<FT,RT>& p) const
+{ return  oriented_side(p) == CGAL_ON_NEGATIVE_SIDE; }
 
 template <class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
 CGAL_Bounded_side
 CGAL_TriangleH2<FT,RT>::bounded_side(const CGAL_PointH2<FT,RT>& p) const
 {
- CGAL_kernel_precondition( ! is_degenerate() );
+  CGAL_kernel_precondition( ! is_degenerate() );
 
- CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
- CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
- CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
- CGAL_Orientation ori = orientation();
- CGAL_Orientation opp = CGAL_opposite( ori);
+  CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
+  CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
+  CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
+  CGAL_Orientation ori = orientation();
+  CGAL_Orientation opp = CGAL_opposite( ori);
 
- if ( (o12 == opp) || (o23 == opp) || (o31 == opp) )
- {
-    return CGAL_ON_UNBOUNDED_SIDE;
- }
- if ( (o12 == ori) && (o23 == ori) && (o31 == ori) )
- {
-    return CGAL_ON_BOUNDED_SIDE;
- }
- return CGAL_ON_BOUNDARY;
+  if ( (o12 == opp) || (o23 == opp) || (o31 == opp) )
+  {
+      return CGAL_ON_UNBOUNDED_SIDE;
+  }
+  if ( (o12 == ori) && (o23 == ori) && (o31 == ori) )
+  {
+      return CGAL_ON_BOUNDED_SIDE;
+  }
+  return CGAL_ON_BOUNDARY;
 }
 
-
 template <class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
 bool
 CGAL_TriangleH2<FT,RT>::has_on_bounded_side(const CGAL_PointH2<FT,RT>& p) const
 {
- CGAL_kernel_precondition( ! is_degenerate() );
+  CGAL_kernel_precondition( ! is_degenerate() );
 
- CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
- CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
- CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
- CGAL_Orientation ori = ptr()->orientation;
+  CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
+  CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
+  CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
+  CGAL_Orientation ori = ptr()->orientation;
 
- return  ( (o12 == ori) && (o23 == ori) && (o31 == ori) );
+  return  ( (o12 == ori) && (o23 == ori) && (o31 == ori) );
 }
 
 template <class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
 bool
 CGAL_TriangleH2<FT,RT>::has_on_unbounded_side(const CGAL_PointH2<FT,RT>& p)
                                                                           const
 {
- CGAL_kernel_precondition( ! is_degenerate() );
+  CGAL_kernel_precondition( ! is_degenerate() );
 
- CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
- CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
- CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
- CGAL_Orientation opp = CGAL_opposite( ptr()->orientation );
+  CGAL_Orientation o12 = CGAL_orientation( vertex(1), vertex(2), p);
+  CGAL_Orientation o23 = CGAL_orientation( vertex(2), vertex(3), p);
+  CGAL_Orientation o31 = CGAL_orientation( vertex(3), vertex(1), p);
+  CGAL_Orientation opp = CGAL_opposite( ptr()->orientation );
 
- return  ( (o12 == opp) || (o23 == opp) || (o31 == opp) );
+  return  ( (o12 == opp) || (o23 == opp) || (o31 == opp) );
 }
 
 template <class FT, class RT>
+inline
 bool
 CGAL_TriangleH2<FT,RT>::is_degenerate() const
-{
- return (ptr()->orientation == CGAL_COLLINEAR);
-}
+{ return (ptr()->orientation == CGAL_COLLINEAR); }
 
 template <class FT, class RT>
+inline
 CGAL_Bbox_2
 CGAL_TriangleH2<FT,RT>::bbox() const
-{
- return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox();
-}
-
-
+{ return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox(); }
 template <class FT, class RT>
 CGAL_TriangleH2<FT,RT>
-CGAL_TriangleH2<FT,RT>::transform( const CGAL_Aff_transformationH2<FT,RT>& t)
-                                                                          const
+CGAL_TriangleH2<FT,RT>::
+transform( const CGAL_Aff_transformationH2<FT,RT>& t) const
 {
- return CGAL_TriangleH2<FT,RT>(t.transform(ptr()->A[0]),
-                               t.transform(ptr()->A[1]),
-                               t.transform(ptr()->A[2]) );
+  return CGAL_TriangleH2<FT,RT>(t.transform(ptr()->A[0]),
+                                t.transform(ptr()->A[1]),
+                                t.transform(ptr()->A[2]) );
 }
-
-
 template <class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
 bool
 CGAL_TriangleH2<FT,RT>::operator==(const CGAL_TriangleH2<FT,RT>& t) const
 {
- int j = 0;
- while ( (t.vertex(0) != vertex(j)) && (j < 3) ) j++;
- if ( j == 3)
- {
-    return false;
- }
- if ( (t.vertex(1) == vertex(j+1)) && (t.vertex(2) == vertex(j+2)) )
- {
-    return true;
- }
- return false;
+  int j = 0;
+  while ( (t.vertex(0) != vertex(j)) && (j < 3) ) j++;
+  if ( j == 3)
+  {
+      return false;
+  }
+  if ( (t.vertex(1) == vertex(j+1)) && (t.vertex(2) == vertex(j+2)) )
+  {
+      return true;
+  }
+  return false;
 }
 
 template <class FT, class RT>
+inline
 bool
 CGAL_TriangleH2<FT,RT>::operator!=(const CGAL_TriangleH2<FT,RT>& t) const
-{
- return !(*this == t);
-}
+{ return !(*this == t); }    /* XXX */
 
 template <class FT, class RT>
+inline
 bool
 CGAL_TriangleH2<FT,RT>::identical(const CGAL_TriangleH2<FT,RT>& t) const
-{
- return (PTR == t.PTR) ;
-}
+{ return (PTR == t.PTR) ; }
 
 template <class FT, class RT>
+inline
 int
 CGAL_TriangleH2<FT,RT>::id() const
-{
- return (int)PTR;
-}
-
+{ return (int)PTR; }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLEH2
 template < class FT, class RT >
-ostream &operator<<(ostream &os, const CGAL_TriangleH2<FT,RT> &t)
+ostream &
+operator<<(ostream &os, const CGAL_TriangleH2<FT,RT> &t)
 {
-    switch(os.iword(CGAL_IO::mode)) {
+  switch(os.iword(CGAL_IO::mode))
+  {
     case CGAL_IO::ASCII :
         return os << t[0] << ' ' << t[1] << ' ' << t[2];
     case CGAL_IO::BINARY :
         return os << t[0] << t[1]  << t[2];
     default:
         return os<< "TriangleH2(" << t[0] << ", " << t[1] << ", " << t[2] <<")";
-    }
+  }
 }
 #endif // CGAL_NO_OSTREAM_INSERT_TRIANGLEH2
 
 #ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLEH2
 template < class FT, class RT >
-istream &operator>>(istream &is, CGAL_TriangleH2<FT,RT> &t)
+istream &
+operator>>(istream &is, CGAL_TriangleH2<FT,RT> &t)
 {
-    CGAL_PointH2<FT,RT> p, q, r;
-
-    is >> p >> q >> r;
-      
-    t = CGAL_TriangleH2<FT,RT>(p, q, r);
-    return is;
+  CGAL_PointH2<FT,RT> p, q, r;
+  is >> p >> q >> r;
+  t = CGAL_TriangleH2<FT,RT>(p, q, r);
+  return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEH2
 

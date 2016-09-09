@@ -1,0 +1,1431 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_triangulation.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Triangulation_2<Traits></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_0"></A>
+
+<A NAME="Cross_link_anchor_0"></A>
+
+<P>
+
+The usual definition of the triangulation of a set of points specifies
+that the interior of the convex hull of the points is divided into non
+overlapping triangles having the given points as vertices. Thus the
+faces of the planar subdivision are triangles except the unbounded face
+which has as many vertices as there are points on the convex hull.
+However, for many applications, such as Kirkpatrick's hierarchy or
+incremental Delaunay construction, it is convenient that the unbounded
+face is also triangulated. In that way, special cases at the boundary
+of the convex hull are simpler to deal with.
+<P>
+
+The classes described in the following sections have one auxiliary
+vertex ``at infinity''. All vertices on the boundary of the convex hull
+are incident to this vertex.
+<P>
+
+
+<img border=0 src=infinite_vertex.gif align=center alt="Vertices at
+infinity">
+
+<P>
+
+Thus the triangulation of the set of points consists of finite and
+infinite faces. Although it is convenient to draw a triangulation as in
+the above figure you should not take the coordinates of the vertex at
+infinity, nor should you apply a geometric predicate on an infinite
+face.
+<P>
+
+<H3>Definition</H3>The class <I><A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A></I>
+maintains a triangulation of the convex hull of points in the plane.
+<P>
+
+A triangulation is a collection of vertices and faces that are linked
+together. Each face has pointers to three vertices and to three
+neighbor faces. Each vertex has a pointer to an adjacent face. The
+orientation of a face is defined by the order of its vertices, which is
+referred to as the <EM>counterclockwise order</EM>.
+<P>
+
+We call a triangulation <EM>valid</EM> if the following is true.
+<P>
+
+<B>(a)</B> Two faces that are neighbors have pointers to each other and
+they have two vertices in common. The faces have a coherent
+orientation, that is, the common vertices have opposite order in the
+two faces.
+<P>
+
+<B>(b)</B> All faces that are incident to a vertex <I>v</I> must be
+linked with neighbor pointers. <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A> <I>v</I> points to an arbitrary
+incident face.
+<P>
+
+
+<img border=0 src=valid1.gif align=center alt="Insertion">
+
+<P>
+
+The template parameter <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A></I> is the triangulation traits class.
+It defines the types of the primitives the triangulation uses. For
+example <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point</I> is a mapping on a point class. Think of it
+as 2D points in the Euclidean plane.
+<P>
+
+CGAL provides some traits class implementations for the CGAL kernel
+which are described in section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Customizing own triangulation traits classes can be done according to
+the requirements given in section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<I>#include &lt;CGAL/Triangulation_2.h&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Traits"></A>
+<A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>::<A HREF="Traits.html#Cross_link_anchor_4">Traits</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the triangulation traits type.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Point"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Point;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Segment"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Segment
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Segment;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Triangle"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Triangle
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Triangle;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+The following types denote the vertex and face type of the
+triangulation. They have the functionality as specified in
+sections&nbsp;<A HREF="Vertex.html#I1_SectVertexReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> and&nbsp;<A HREF="Face.html#I1_SectFaceReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Vertex"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::<A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A> type.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Face"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::<A HREF="Face.html#Cross_link_anchor_7">Face</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Face.html#Cross_link_anchor_7">Face</A>;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <A HREF="Face.html#Cross_link_anchor_7">Face</A> type.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Edge"></A>
+typedef pair&lt;Face_handle, int&gt;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Edge type. An <I>Edge(f,i)</I> is edge number <I>i</I> of face
+    <I>f</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following types are handles on <I><A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A></I> and <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>. A
+handle can be dereferenced with <I>operator*</I> or
+<I>operator-&gt;</I> to get an object, see the chapter on handles.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Vertex_handle"></A>
+typedef <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>::Vertex_handle
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Vertex_handle;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Face_handle"></A>
+typedef <A HREF="Face.html#Cross_link_anchor_7">Face</A>::Face_handle
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Face_handle;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+The following types denote iterators that allow to visit all finite
+vertices, edges and faces of the triangulation.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Vertex_iterator"></A>
+<A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>::Vertex_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Bidirectional, non-mutable, with value-type <I><A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A></I>, inherits
+    from <I>Vertex_handle</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Edge_iterator"></A>
+<A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>::Edge_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Bidirectional, non-mutable, with value-type <I>Edge</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Face_iterator"></A>
+<A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>::Face_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Bidirectional, non-mutable, with value-type <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>, inherits
+    from <I>Face_handle</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Line_face_circulator"></A>
+<A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>::Line_face_circulator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Bidirectional, non-mutable, with value-type <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>, inherits
+    from <I>Face_handle</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+The following types denote circulators that allow to visit vertices,
+edges and faces incident to a given vertex.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Vertex_circulator"></A>
+typedef <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>::Vertex_circulator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_circulator;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Bidirectional, non-mutable, with value-type <I><A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A></I>, inherits
+    from <I>Vertex_handle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Edge_circulator"></A>
+typedef <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>::Edge_circulator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge_circulator;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Bidirectional, non-mutable, with value-type <I>Edge</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Face_circulator"></A>
+typedef <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A>::Face_circulator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_circulator;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Bidirectional, non-mutable, with value-type <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>, inherits
+    from <I>Face_handle</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Enum_Locate_type"></A>
+enum Locate_type { VERTEX=0, EDGE, FACE, OUTSIDE, COLLINEAR_OUTSIDE};
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Specifies which case occurs during a point location operation.
+    <I>OUTSIDE</I> means outside the convex hull.
+    <I>COLLINEAR_OUTSIDE</I> means outside the convex hull but
+    collinear to all points of the triangulation, that is the convex
+    hull is 1-dimensional.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A> T (  <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> t = <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces an empty triangulation <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A> T ( Vertex_handle v,  <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> t = <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces a triangulation <I>T</I> that is initialized with the
+    vertices and faces that are linked to vertex <I>v</I>. If <I>v</I>
+    has no incident face the triangulation consists only of <I>v</I>.
+    Otherwise <I>v</I> must be the vertex at infinity.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A> T (  T0);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Copy constructor. The triangulation is duplicated, <I>T</I>and
+    <I>T0</I> refer to different triangulations. After the copy, if
+    <I>T0</I> is modified, <I>T</I>is not.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     T =  T0
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Assignment. The triangulation is duplicated, and modifying one
+    after the copy does not modify the other.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.swap (  &amp; T0)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    The triangulations <I>T0</I> and <I>T</I>are swapped.
+    <I>T.swap(T0)</I> should be preferred to <I>T=T0</I> or to
+    <I>T(T0)</I> if <I>T0</I> is deleted after that.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Setting</H3>
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.set_finite_vertex (  Vertex_handle v)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.set_infinite_vertex (  Vertex_handle v)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR>
+<P>
+
+<H3> Point Location</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.locate (  Point query,  Face_handle f = Face_handle())
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    If the point lies inside the convex hull of the points, a finite
+    face that contains the query in its interior or on its boundary is
+    returned.<BR>If the point <I>query</I> does not lie inside the
+    convex hull of the points, an infinite face with vertices
+    (infinity,p,q) is returned such that the following holds: Let
+    <I>P</I> be the current point set of the triangulation plus the
+    query point. If the dimension of the convex hull of <I>P</I> is 2,
+    the point <I>query</I> lies to the left of the oriented line
+    passing through <I>p</I> and<I>q</I>. If the dimension of the
+    convex hull of <I>P</I> is 1, <I>q</I> lies between <I>p</I> and
+    <I>query</I>, and there is no other vertex on the convex hull that
+    lies between them.<BR>The last argument <I>f</I> is an indication
+    to the <I>locate</I> step where to start.
+    <BR><STRONG>Precondition: </STRONG><I>T</I> has at least two
+    vertices.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    T.locate ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point query, <BR>
+     Locate_type&amp; lt, <BR>
+     int&amp; li, <BR>
+     Face_handle h =Face_handle())</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above. Additionally, the parameters <I>lt</I> and <I>li</I>
+    describe where the query point is located. The variable <I>li</I>
+    is the index of the vertex or the index of the vertex opposite to
+    the edge, if the point lies on a vertex or on an edge. Otherwise
+    <I>li</I> has no meaning.
+    <BR><STRONG>Precondition: </STRONG><I>T</I> has at least two
+    vertices.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Insertion and Removal</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.insert (  Point p,  Face_handle f = Face_handle())
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts point <I>p</I> in the triangulation and returns the
+    corresponding vertex.<BR>If point <I>p</I> coincides with an
+    already existing vertex, this vertex is returned and the
+    triangulation remains unchanged.<BR>If point <I>p</I> is on an
+    edge, the two incident faces are split in two.<BR>If point <I>p</I>
+    is strictly inside a face of the triangulation, the face is split
+    in three.<BR>If point <I>p</I> is strictly outside the convex hull,
+    <MATH>p</MATH> is linked to all visible points on the convex hull
+    to form the new triangulation.<BR>The last argument <I>f</I> is an
+    indication to the underlying locate algorithm of where to start.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    T.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p, <BR>
+     Locate_type&amp; lt, <BR>
+     Face_handle f =Face_handle())</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above. Additionally, parameter <I>lt</I> describes where
+    point <I>p</I> was located before updating the triangulation (see
+    <I>locate</I>).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.push_back (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Equivalent to <I>insert(p)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class InputIterator &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.insert ( InputIterator first,  InputIterator last)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts the points in the range <MATH>[.</MATH><I>first</I>,
+    <I>last</I><MATH>.)</MATH>. Returns the number of inserted points.
+    <BR><STRONG>Precondition: </STRONG>The <I>value_type</I> of
+    <I>first</I> and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.remove ( Vertex_handle v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Removes the vertex from the triangulation. The created hole is
+    retriangulated. <BR><STRONG>Precondition: </STRONG><A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A> <I>v</I>
+    must be finite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.clear ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Removes all finite vertices and faces.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.flip ( Face_handle f,  int i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Flips face <I>f</I> with its neighbor <I>i</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Traversal of the Triangulation</H3>
+<P>
+
+A triangulation can be seen as a container of faces and vertices.
+Therefore the triangulation provides several iterators and circulators
+that allow to traverse it (completely or partially).
+<P>
+
+<H3> <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A> Iterator</H3>
+<P>
+
+The triangulation defines an iterator that allows to visit all finite
+vertices. This iterator is non-mutable and bidirectional. Its value
+type is <I><A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A></I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.vertices_begin ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an iterator that refers to the ``first'' finite vertex
+    of&nbsp;<I>T</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.vertices_end ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the corresponding past-the-end iterator.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+A vertex iterator is invalidated by any modification of the
+triangulation.
+<P>
+
+<H3> Edge Iterator</H3>
+<P>
+
+The triangulation class defines an iterator that allows to visit all
+edges with finite vertices. This iterator is non-mutable and
+bidirectional. Its value type is <I>Edge</I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.edges_begin ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an iterator that refers to the ``first'' finite edge
+    of&nbsp;<I>T</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.edges_end ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the corresponding past-the-end iterator.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+An edge iterator is invalidated by any modification of the
+triangulation.
+<P>
+
+<H3> <A HREF="Face.html#Cross_link_anchor_7">Face</A> Iterator</H3>
+<P>
+
+The triangulation class defines an iterator that allows to visit all
+finite faces. This iterator is non-mutable and bidirectional. Its value
+type is <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.faces_begin ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an iterator that refers to the ``first'' finite face
+    of&nbsp;<I>T</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.faces_end ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the corresponding past-the-end iterator.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+A face iterator is invalidated by any modification of the
+triangulation.
+<P>
+
+<H3> Line <A HREF="Face.html#Cross_link_anchor_7">Face</A> Circulator</H3>
+<P>
+
+The triangulation defines a circulator that allows to visit all faces
+that are intersected by a line. This circulator is non-mutable and
+bidirectional. Its value type is <I><A HREF="Face.html#Cross_link_anchor_7">Face</A></I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    Line_face_circulator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    T.line_walk ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p, <BR>
+     Point q, <BR>
+     Face_handle f = Face_handle())</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Let <I>l</I> be the line defined by <I>p</I> and <I>q</I>. This
+    function returns a circulator that allows to traverse the finite
+    faces whose interior intersects with <I>l</I>, or that have an edge
+    that is collinear with <I>l</I> and whose interior lies completely
+    to the left of <I>l</I>.<BR>The starting point of the circulator is
+    the face <I>f</I>, if <I>f != NULL</I>, or the first such face
+    along <I>l</I>. If there is no such face the circulator has a
+    singular value.<BR>The circulator performs a wraparound and refers
+    to the infinite faces adjacent to the first and last finite face
+    that is traversed. <BR><STRONG>Precondition: </STRONG>If
+    <I>f != NULL</I>, the point <I>p</I> must be inside or on the
+    boundary of <I>f</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following figure illustrates which faces are enumerated. Lines
+<MATH>l<SUB>1</SUB></MATH> and <MATH>l<SUB>2</SUB></MATH> have no face
+to their left. Lines <MATH>l<SUB>3</SUB></MATH> and
+<MATH>l<SUB>4</SUB></MATH> have faces to their left. Note that the
+faces that are only vertex incident to lines <MATH>l<SUB>3</SUB></MATH>
+and <MATH>l<SUB>4</SUB></MATH> are not enumerated.
+<P>
+
+
+<img border=0 src=walk.gif align=center alt="The Infinite Vertex">
+
+<P>
+
+A line face circulator is invalidated if the face the circulator refers
+to is changed.
+<P>
+
+<H3> <A HREF="Vertex.html#Cross_link_anchor_6">Vertex</A> Circulator</H3>
+<P>
+
+The triangulation defines a circulator that allows to visit all
+vertices adjacent to a vertex <I>Vertex_handle v</I>. This circulator
+is non-mutable and bidirectional, where <I>operator++</I> moves the
+circulator counterclockwise. Its value type is <I>Vertex_handle</I>.
+The
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_circulator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    v.incident_vertices ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns a vertex circulator that refers to an arbitrary vertex
+    incident to vertex <I>v</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+A vertex circulator <I>circ</I> is invalidated by any modification of a
+face incident to <I>v</I> and <I>*circ</I>.
+<P>
+
+<H3> Edge Circulator</H3>
+<P>
+
+The triangulation class defines a circulator that allows to visit all
+edges adjacent to a vertex <I>Vertex_handle v</I>. This circulator is
+non-mutable and bidirectional, where <I>operator++</I> moves the
+circulator counterclockwise. Its value type is <I>Edge</I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge_circulator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    v.incident_edges ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an edge circulator that refers to an arbitrary edge
+    incident to vertex <I>v</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Edge_circulator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    v.incident_edges ( Face_handle f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an edge circulator that refers to the edge incident to
+    vertex <I>v</I>, going counterclockwise in <I>f</I> from <I>v</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+An edge circulator <I>circ</I> is invalidated by any modification of a
+face incident to the edge it refers to.
+<P>
+
+<H3> <A HREF="Face.html#Cross_link_anchor_7">Face</A> Circulator</H3>
+<P>
+
+The triangulation class defines a circulator that allows to visit all
+faces adjacent to a vertex <I>Vertex_handle v</I>. This circulator is
+non-mutable and bidirectional, where <I>operator++</I> moves the
+circulator counterclockwise. Its value type is <I>Face_handle</I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_circulator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    v.incident_faces ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns a face circulator that refers to an arbitrary face incident
+    to vertex <I>v</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_circulator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    v.incident_faces ( Face_handle f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns a face circulator that refers to face <I>f</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+A face circulator is invalidated by any modification of the face it
+refers to.
+<P>
+
+<H3> Traversal of the Convex Hull</H3>
+<P>
+
+The above three functions applied on the infinite vertex of the
+triangulation allow to visit the vertices on the convex hull, as well
+as the infinite edges and faces. Note that a counterclockwise traversal
+of the vertices adjacent to the infinite vertex is a clockwise
+traversal of the convex hull.
+<P>
+
+<I>Vertex_circulator T.infinite_vertex()-&gt;incident_vertices()</I>
+<P>
+
+<H3> Finite and Infinite Vertices and Faces</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Vertex_handle v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff vertex <I>v</I> is infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Face_handle f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff one of the vertices of <I>f</I> is
+    infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Edge e)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff edge <I>e</I> is infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Edge_circulator e)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff edge <I>e</I> is infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Edge_iterator e)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff edge <I>e</I> is infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_infinite ( Face_handle f,  int i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I>, iff the edge of face <I>f</I> with index
+    <I>i</I> is infinite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Face_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.infinite_face ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an arbitrary face that has an infinite vertex.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.infinite_vertex ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the infinite vertex.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.finite_vertex ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns an arbitrary finite vertex.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Geometric Predicates</H3>
+<P>
+
+As the faces are oriented counterclockwise, we can identify the
+``interior'' of a finite face with the positive side.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    CGAL_Oriented_side
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.oriented_side ( Face_handle f,  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns on which side of the oriented boundary of <I>f</I> lies the
+    point <I>p</I>. <BR><STRONG>Precondition: </STRONG><I>f</I> is
+    finite.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Miscellaneous</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.ccw ( int i)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <MATH>i+1</MATH> modulo
+    3.<BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=2</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.cw ( int i)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <MATH>i+2</MATH> modulo
+    3.<BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=2</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.traits ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns a const reference to the triangulation traits object.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T.dimension ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the dimension of the convex hull.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.number_of_vertices ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the number of finite vertices.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.number_of_faces ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the number of finite and infinite faces.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Triangle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.triangle ( Face_handle f)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the triangle formed by the three vertices of <I>f</I>.
+    <BR><STRONG>Precondition: </STRONG>The face is finite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Segment
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.segment ( Face_handle f,  int i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the line segment formed by the vertices <I>f-&gt;ccw(i)</I>
+    and <I>f-&gt;cw(i)</I> of face <I>f</I>.
+    <BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=2</MATH>.
+    <I>f-&gt;ccw(i)</I> and <I>f-&gt;cw(i)</I> are finite.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Segment
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.segment (  Edge e)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the line segment corresponding to edge <I>e</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Segment
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.segment (  Edge_circulator ec)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the line segment corresponding to edge <I>*ec</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Segment
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.segment (  Edge_iterator ei)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the line segment corresponding to edge <I>*ei</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    T.is_valid ( bool verbose = false,  int level = 0)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Tests the validity of all faces, if the orientation of the faces is
+    consistent. This method serves mainly for debugging user-defined
+    triangulation.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR>
+<P>
+
+<H3> I/O</H3>
+<P>
+
+The I/O operators are defined for <I>iostream</I>, and for the window
+stream provided by CGAL. The format for the iostream is an internal
+format.
+<P>
+
+<I>#include &lt;CGAL/IO/ostream_2.h&gt;</I>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_ostream__operator666ostream__os+__const_CGAL_Triangulation_26Traits9__T9;"></A>
+ostream&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     ostream&amp; os &lt;&lt;  T
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts the triangulation <I>T</I> into the stream <I>os</I>.
+    <BR><STRONG>Precondition: </STRONG>The insert operator must be
+    defined for <I>Point</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_istream__operator996istream__is+__const_CGAL_Triangulation_26Traits9__T9;"></A>
+istream&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     istream&amp; is &gt;&gt;  T
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Reads a triangulation from stream <I>is</I> and assigns it to
+    <I>T</I>. <BR><STRONG>Precondition: </STRONG>The extract operator
+    must be defined for <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<I>#include &lt;CGAL/IO/Window_stream.h&gt;</I>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Window_stream__operator666CGAL_Window_stream__W+__const_CGAL_Triangulation_26Traits9__T9;"></A>
+CGAL_Window_stream&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     CGAL_Window_stream&amp; W &lt;&lt;  T
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts the triangulation <I>T</I> into the window stream <I>W</I>.
+    The insert operator must be defined for <I>Point</I> and
+    <I>Segment</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Example</H3>The following code fragment creates a triangulation of
+2D points for the usual Euclidean metric. We read points from <TT>cin
+</TT> and writes the points on the convex hull to <TT>cout</TT>. The
+<TT>while</TT> loop can be replaced by the code in the comment, as the
+triangulation class has an <I>insert</I> member function that takes an
+STL range of points as argument.
+<P>
+
+<PRE>
+
+typedef CGAL_Cartesian&lt;CGAL_Rational&gt; Rep;
+typedef CGAL_Point_2&lt;Rep&gt; Point;
+typedef <A HREF="CGAL_Triangulation_euclidean_traits_2.html#Cross_link_anchor_2">CGAL_Triangulation_euclidean_traits_2&lt;Rep&gt;</A> <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>;
+
+typedef <A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A> Triangulation;
+typedef Triangulation::Vertex_circulator Vertex_circulator;
+
+{
+    Triangulation T();
+
+    while (cin){
+        Point p;
+        cin &gt;&gt; p;
+        T.insert(p);
+    }
+
+    Vertex_circulator hvc = T.infinite_vertex()-&gt;incident_vertices(),
+                      done(hvc);
+
+    if (hvc != NULL) {
+        do{
+            cout &lt;&lt; hvc-&gt;point();
+        }while(++hvc != done);
+    }
+}
+  
+
+</PRE>
+<P>
+
+<H3> Implementation</H3>
+<P>
+
+Locate is implemented by a line walk from a vertex of the face given as
+optional parameter (or from a finite vertex of <I>infinite_face()</I>
+if no optional parameter is given). It takes time O(n) in the worst
+case, but only O(sqrt(n)) on average if the vertices are distributed
+uniformly at random.
+<P>
+
+Insertion of a point is done by locating a face that contains the
+point, and then splitting this face while maintaining the convex hull
+if the point falls outside. Apart from the location, insertion takes
+time O(1).
+<P>
+
+Removal of a vertex is done by removing all adjacent triangles, and
+retriangulating the hole. Removal takes time O(d^2) in the worst case,
+if d is the degree of the removed vertex, which is O(1) for a random
+vertex.
+<P>
+
+The face, edge, and vertex iterators are incremented by following a
+geometric traversal of the triangulation as defined in
+[<A HREF="../biblio.html#Biblio_boo-stswe-96">dBvOO96</A>]. The
+iterators take space O(1). Incrementing them takes amortized time O(1).
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Delaunay_triangulation_2.html"><I>CGAL_Delaunay_triangulation_2&lt;Traits&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

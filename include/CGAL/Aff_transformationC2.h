@@ -1,49 +1,75 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Aff_transformationC2.h
+// author(s)     : Andreas Fabri, Lutz Kettner
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Source: Aff_transformationC2.h
-// Author: Andreas Fabri, Lutz Kettner
 
 #ifndef CGAL_AFF_TRANSFORMATIONC2_H
 #define CGAL_AFF_TRANSFORMATIONC2_H
-#include <math.h>
-#include <CGAL/rational_rotation.h>
-#include <CGAL/bool.h>
-#include <CGAL/Handle.h>
-#include <CGAL/cartesian_classes.h>
-#include <CGAL/determinant.h>
 
-#ifdef CGAL_WORKAROUND_015
+#ifndef CGAL_PROTECT_MATH_H
+#include <math.h>
+#define CGAL_PROTECT_MATH_H
+#endif // CGAL_PROTECT_MATH_H
+#ifndef CGAL_RATIONAL_ROTATION_H
+#include <CGAL/rational_rotation.h>
+#endif // CGAL_RATIONAL_ROTATION_H
+
+#include <CGAL/config.h>
+
+#ifndef CGAL_HANDLE_H
+#include <CGAL/Handle.h>
+#endif // CGAL_HANDLE_H
+#ifndef CGAL_CARTESIAN_CLASSES_H
+#include <CGAL/cartesian_classes.h>
+#endif // CGAL_CARTESIAN_CLASSES_H
+#ifndef CGAL_DETERMINANT_H
+#include <CGAL/determinant.h>
+#endif // CGAL_DETERMINANT_H
+
+#if defined(CGAL_CFG_INCOMPLETE_TYPE_BUG_1) && \
+   !defined(CGAL_NO_LINE_TRANSFORM_IN_AT)
 #define CGAL_NO_LINE_TRANSFORM_IN_AT
-#endif // CGAL_WORKAROUND_015
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
 
 
 template < class FT >
@@ -68,8 +94,8 @@ public:
   virtual CGAL_PointC2<FT>     transform(const CGAL_PointC2<FT> &p) const  = 0;
   virtual CGAL_VectorC2<FT>    transform(const CGAL_VectorC2<FT> &v) const = 0;
   virtual CGAL_DirectionC2<FT> transform(const CGAL_DirectionC2<FT> &d) const=0;
-#ifdef CGAL_WORKAROUND_004
 
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
   virtual CGAL_Aff_transformationC2<FT> general_form() const  = 0;
 #else
   virtual CGAL_Aff_transformationC2<FT> operator*(
@@ -86,10 +112,12 @@ public:
 
   virtual CGAL_Aff_transformationC2<FT> compose(
                        const CGAL__Aff_transformation_repC2<FT> &t) const  = 0;
-#endif // GAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
   virtual CGAL_Aff_transformationC2<FT> inverse() const  = 0;
 
   virtual bool                 is_even() const  = 0;
+
+  virtual FT                   cartesian(int i, int j) const = 0;
 
   virtual ostream              &print(ostream &os) const
     {
@@ -162,7 +190,7 @@ public:
       det * (-t21), det * t11 ,   det * (t13*t21-t11*t23));
   }
 
-#ifdef CGAL_WORKAROUND_004
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT> general_form() const
   {
@@ -225,11 +253,37 @@ public:
             t.t21*t12 + t.t22*t22,
             t.t21*t13 + t.t22*t23 + t.t23 );
   }
-#endif // CGAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
  virtual bool is_even() const
   {
     return ( CGAL_sign(t11 * t22 - t12 * t21) == 1 );
+  }
+
+ virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return t11;
+              case 1: return t12;
+              case 2: return t13;
+            }
+    case 1: switch (j)
+            {
+              case 0: return t21;
+              case 1: return t22;
+              case 2: return t23;
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+    }
+  return FT(0);
   }
 
  virtual ostream &print(ostream &os) const
@@ -278,7 +332,7 @@ public:
     return d;
   }
 
-#ifdef CGAL_WORKAROUND_004
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT> general_form() const
   {
@@ -343,7 +397,7 @@ public:
                                          + t.t22*_translationvector.y()
                                          + t.t23);
   }
-#endif // CGAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT>  inverse() const
   {
@@ -356,6 +410,31 @@ public:
     return true;
   }
 
+ virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return FT(1);
+              case 1: return FT(0);
+              case 2: return _translationvector.x();
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(1);
+              case 2: return _translationvector.y();
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+    }
+    return FT(0);
+  }
 
  virtual ostream &print(ostream &os) const
   {
@@ -428,7 +507,7 @@ public:
     return CGAL_Aff_transformationC2<FT>(CGAL_ROTATION,
                                          - _sinus, _cosinus, FT(1));
   }
-#ifdef CGAL_WORKAROUND_004
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT> general_form() const
   {
@@ -486,13 +565,38 @@ public:
                                          -_sinus*t.t21 + _cosinus*t.t22,
                                           t.t23);
   }
-#endif // CGAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   virtual bool                 is_even() const
   {
     return true;
   }
 
+ virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return _cosinus;
+              case 1: return -_sinus;
+              case 2: return FT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return _sinus;
+              case 1: return _cosinus;
+              case 2: return FT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+    }
+    return FT(0);
+  }
 
  virtual ostream &print(ostream &os) const
   {
@@ -538,7 +642,7 @@ public:
     return d;
   }
 
-#ifdef CGAL_WORKAROUND_004
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT> general_form() const
   {
@@ -595,7 +699,7 @@ public:
                                          _scalefactor * t.t22,
                                           t.t23);
   }
-#endif // CGAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
   CGAL_Aff_transformationC2<FT>  inverse() const
   {
@@ -607,6 +711,31 @@ public:
     return true;
   }
 
+ virtual FT cartesian(int i, int j) const
+  {
+    switch (i)
+    {
+    case 0: switch (j)
+            {
+              case 0: return _scalefactor;
+              case 1: return FT(0);
+              case 2: return FT(0);
+            }
+    case 1: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return _scalefactor;
+              case 2: return FT(0);
+            }
+    case 2: switch (j)
+            {
+              case 0: return FT(0);
+              case 1: return FT(0);
+              case 2: return FT(1);
+            }
+    }
+    return FT(0);
+  }
 
  virtual ostream &print(ostream &os) const
   {
@@ -684,9 +813,15 @@ public:
 
   CGAL_Aff_transformationC2<FT>  inverse() const;
 
-  bool                 is_even() const {return ptr()->is_even();}
+  bool                 is_even() const { return ptr()->is_even(); }
   bool                 is_odd() const;
-#ifdef CGAL_WORKAROUND_004
+
+  FT                   cartesian(int i, int j) const { return ptr()->cartesian(i,j); }
+  FT                   homogeneous(int i, int j) const { return cartesian(i,j); }
+  FT                   m(int i, int j) const { return cartesian(i,j); }
+  FT                   hm(int i, int j) const { return cartesian(i,j); }
+
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
 CGAL_Aff_transformationC2<FT>  general_form() const
 {
@@ -723,7 +858,7 @@ CGAL_Aff_transformationC2<FT> operator*(
   return (*ptr()) * (*t.ptr());
 }
 
-#endif // CGAL_WORKAROUND_004
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_3
 
 
   ostream              &print(ostream &os) const;
@@ -940,3 +1075,4 @@ ostream& operator<<(ostream& os, const CGAL_Aff_transformationC2<FT>& t)
 
 
 #endif // CGAL_AFF_TRANSFORMATIONC2_H
+

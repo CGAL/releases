@@ -1,0 +1,302 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_polyhedron.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Polyhedron_incremental_builder_3<HDS></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_7"></A>
+
+<A NAME="Cross_link_anchor_7"></A>
+<A NAME="Section_5"></A>
+<H2>An Incremental Builder for Polyhedral Surfaces</H2>
+
+<P>
+
+<A NAME="sectionPolyIncrBuilder"></A>
+<P>
+
+<H3>Definition</H3><I><A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A></I>
+is an auxiliary class that supports the incremental construction of
+polyhedral surfaces. This is for example convenient when constructing
+polyhedral surfaces from file formats like the Object File Format
+(OFF)&nbsp;[<A HREF="../biblio.html#Biblio_p-gmgv15-94">Phi94</A>],
+OpenInventor&nbsp;[<A HREF="../biblio.html#Biblio_w-impoo-94">Wer94</A>]
+or
+VRML&nbsp;[<A HREF="../biblio.html#Biblio_bpp-vrml-95">BPP95</A>, <A HREF="../biblio.html#Biblio_vrmls-96">VRML96</A>].
+<I><A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A></I> needs access to
+the internal halfedge data structure of type <I>HDS</I> of the
+polyhedral surface. It is intended to be used within a modifier, see
+<I>CGAL_Modifier_base</I> in the Support Library Manual.
+<P>
+
+The incremental builder might be of broader interest for other halfedge
+data structures as well, but it is specifically bound to the definition
+of polyhedral surfaces given here. During construction all conditions
+of polyhedral surfaces are checked and in case of violation an error
+status is set. A diagnostic message will be printed to <I>cerr</I> if
+the <I>verbose</I> flag has been set at construction time.
+<P>
+
+The incremental construction starts with a list of all point
+coordinates and concludes with a list of all facet polygons. Edges are
+not explicitly specified. They are derived from the vertex incidence
+information provided from the facet polygons. The polygons are given as
+a sequence of vertex indices. The halfedge data structure <I>HDS</I>
+must support vertices (i.e.&nbsp;<I>Supports_halfedge_vertex</I>
+<MATH>=</MATH> <I>CGAL_Tag_true</I>). The correct protocol of method
+calls to build a polyhedral surface is given as a regular expression
+below. Vertices and facets can be added in arbitrary order as long as
+<I>add_vertex_to_facet()</I> refers only to vertex indices that are
+already known.
+<P>
+
+<I>  begin_surface <MATH>(</MATH>add_vertex <MATH>|</MATH>
+<MATH>(</MATH>begin_facet add_vertex_to_facet<MATH>*</MATH>
+end_facet<MATH>))*</MATH> end_surface </I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Halfedge_data_structure"></A>
+<A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A>::<A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    halfedge data structure <I>HDS</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Point"></A>
+<A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A>::Point
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    its point type.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Size"></A>
+<A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A>::Size
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    its size type.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A> B ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    HDS&amp; hds, <BR>
+     bool verbose = false);</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    stores a reference to the halfedge data structure <I>hds</I> of a
+    polyhedral surface in its internal state. An existing polyhedral
+    surface in <I>hds</I> remains unchanged. The incremental builder
+    appends the new polyhedral surface. If <I>verbose</I> is
+    <I>true</I>, diagnostic messages will be printed to <I>cerr</I> in
+    case of malformed input data.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    B.begin_surface ( Size v,  Size f,  Size h = 0)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    starts the construction. <MATH>v</MATH> is the number of vertices
+    to expect, <MATH>f</MATH> the number of facets, and <MATH>h</MATH>
+    the number of halfedges. If <MATH>h</MATH> is unspecified (
+    <I>== 0</I>) it is estimated using Euler's equation (plus 5% for
+    the so far unknown holes and genus of the object). These values are
+    used to reserve space in the halfedge data structure <I>hds</I>. If
+    the representation supports insertion these values do not restrict
+    the class of constructible polyhedrons. If the representation does
+    not support insertion the object must fit into the reserved sizes.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    B.add_vertex (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    adds <MATH>p</MATH> to the vertex list.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    B.begin_facet ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    starts a facet.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    B.add_vertex_to_facet ( Size i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    adds a vertex with index <MATH>i</MATH> to the current facet. The
+    first point added with <I>add_vertex()</I> has the index 0.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    B.end_facet ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    ends a facet.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    B.end_surface ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    ends the construction.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    B.error ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns error status of the builder.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    B.rollback ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    undoes all changes made to the halfedge data structure since the
+    last <I>begin_surface()</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    B.check_unconnected_vertices ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> if unconnected vertices are detected. If
+    <I>verbose</I> was set to <I>true</I> (see the constructor above)
+    debug information about the unconnected vertices is printed.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    B.remove_unconnected_vertices ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> if all unconnected vertices could be removed
+    successfully. This happens either if no unconnected vertices had
+    appeared or if the halfedge data structure supports the removal of
+    individual elements.
+        </TD></TR>
+        </TABLE><!3>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

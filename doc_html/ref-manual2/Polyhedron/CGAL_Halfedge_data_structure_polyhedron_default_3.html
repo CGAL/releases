@@ -1,0 +1,83 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_polyhedron.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Halfedge_data_structure_polyhedron_default_3<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_6"></A>
+
+<A NAME="Cross_link_anchor_6"></A>
+<H3>The Default <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structure for Polyhedrons</H3>
+
+<P>
+
+<A NAME="sectionPolyHdsDefault"></A>
+<P>
+
+<H3>Definition</H3>The default
+<I><A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A></I>
+implements all incidences supported by the
+<I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept. It chooses geometry types from
+the CGAL-kernel as determined with the representation class <I>R</I>.
+It stores a point of type <I>CGAL_Point_3&lt;R&gt;</I> in each vertex
+and a plane equation of type <I>CGAL_Plane_3&lt;R&gt;</I> in each
+facet.
+<P>
+
+<I>#include &lt;CGAL/Halfedge_data_structure_polyhedron_default_3.h
+&gt;</I>
+<P>
+
+<H3>Implementation</H3>The default halfedge data structure provided for
+polyhedrons is a wrapper for the class
+<I><A HREF="../Halfedge_DS/CGAL_Halfedge_data_structure_using_list.html#Cross_link_anchor_5">CGAL_Halfedge_data_structure_using_list</A></I> using the
+<I><A HREF="../Halfedge_DS/Chapter_hds.html#Struct_CGAL_Vertex_max_base">CGAL_Vertex_max_base</A>&lt;CGAL_Point_3&lt;R&gt;&gt;</I>,
+<I><A HREF="../Halfedge_DS/Chapter_hds.html#Struct_CGAL_Halfedge_max_base">CGAL_Halfedge_max_base</A></I> and <I><A HREF="Chapter_polyhedron.html#Struct_CGAL_Polyhedron_facet_base_3">CGAL_Polyhedron_facet_base_3</A></I>
+models, see Section&nbsp;<A HREF="../Halfedge_DS/CGAL_Halfedge_data_structure_using_list.html#sectionHdsUsingList"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> to
+<A HREF="../Halfedge_DS/Chapter_hds.html#sectionHdsBasesModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> and <A HREF="Chapter_polyhedron.html#sectionPolyHdsBases"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Polyhedron_incremental_builder_3.html"><I>CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

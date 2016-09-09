@@ -1,0 +1,524 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_circulator.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<P>
+
+<h1>Requirements</h1>
+A class is said to be a circulator if it fulfills
+a set of requirements. In the following subsections we give a summary
+for the requirements of the three different circulator categories. The
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionRequirements"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents a more formal definition.
+Note that the stated return values are not required, only a return
+value that is convertible to the stated type is required.<P>
+
+
+<A NAME="Index_anchor_0"></A>
+
+<A NAME="Cross_link_anchor_0"></A>
+
+<P>
+
+<H2> Forward <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> (<I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I>)</H2>
+<P>
+
+<H3>Definition</H3>A class <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I> that satisfies the
+requirements of a forward circulator for the value type <I>T</I>,
+supports the following operations.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_value_type"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::value_type
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the value type <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_reference"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::reference
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a reference to <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_reference"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::const_reference
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const reference to <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_pointer"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::pointer
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a pointer to <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_pointer"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::const_pointer
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const pointer to <I>T</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_size_type"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::size_type
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    unsigned integral type that can hold the size of the data
+    structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_difference_type"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::difference_type
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    signed integral type that can hold the distance between two
+    circulators from the same data structure.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_iterator_category"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::iterator_category
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the circulator category <I>CGAL_Forward_circulator_tag</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> c;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator equal to <I>NULL</I>, i.e.&nbsp;a singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> c (  d);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator equal to <MATH>d</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c =  d
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Assignment.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c == NULL
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for emptiness.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c != NULL
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for non-emptiness. The result is the same as
+    <I>!(c == NULL)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c ==  d
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: Two circulators are equal if they refer to the
+    same item.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c !=  d
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality. The result is the same as <I>!(c == d)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    reference
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    * c  
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the value of the circulator. If <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I> is
+    mutable <I>*c = t</I> is valid.
+    <BR><STRONG>Precondition: </STRONG><I>c</I> is dereferenceable.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    pointer
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c  -&gt;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns a pointer to the value of the circulator.
+    <BR><STRONG>Precondition: </STRONG><I>c</I> is dereferenceable.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    ++ c  
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Prefix increment operation.
+    <BR><STRONG>Precondition: </STRONG><I>c</I> is dereferenceable.
+    <BR><STRONG>Postcondition: </STRONG><I>c</I> is dereferenceable.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c  ++
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Postfix increment operation. The result is the same as that of
+    <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> tmp = c; ++c; return tmp;</I>&nbsp;.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+<P>
+
+<H2> Bidirectional <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> (<I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I>)</H2>
+<P>
+
+<H3>Definition</H3>A class <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I> that satisfies the
+requirements of a bidirectional circulator for the value type <I>T</I>,
+supports the following operations in addition to the operations
+supported by a forward circulator.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::iterator_category
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the circulator category <I>CGAL_Bidirectional_circulator_tag</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    -- c  
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Prefix decrement operation.
+    <BR><STRONG>Precondition: </STRONG><I>c</I> is dereferenceable.
+    <BR><STRONG>Postcondition: </STRONG><I>c</I> is dereferenceable.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c  --
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Postfix decrement operation. The result is the same as that of
+    <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> tmp = c; --c; return tmp;</I>&nbsp;.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+<P>
+
+<H2> Random Access <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> (<I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I>)</H2>
+<P>
+
+<A NAME="sectionRandomAccessCirculatorRequ"></A>
+<P>
+
+<H3>Definition</H3>A class <I><A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></I> that satisfies the
+requirements of a random access <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> for the value type <I>T</I>,
+supports the following operations in addition to the operations
+supported by a bidirectional <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>::iterator_category
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the circulator category <I>CGAL_Random_access_circulator_tag</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     c += difference_type n
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    The result is the same as if the prefix increment operation was
+    applied <MATH>n</MATH> times, but it is computed in constant time.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     c + difference_type n
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above, but returns a new circulator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_Circulator_operator+6difference_type_n+_Circulator_c9;"></A>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     difference_type n +  c
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     c -= difference_type n
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    The result is the same as if the prefix decrement operation was
+    applied <MATH>n</MATH> times, but it is computed in constant time.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     c - difference_type n
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above, but returns a new circulator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    reference
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     c [ difference_type n]
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>*(c + n)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    difference_type
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     c -  <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> d
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the difference between the two circulators within the
+    interval <MATH>[ 1-s , s-1 ]</MATH> for a sequence size
+    <MATH>s</MATH>. The difference for a fixed circulator <I>c</I> (or
+    <MATH>d</MATH>) with all other circulators <MATH>d</MATH> (or
+    <I>c</I>) is a consistent ordering of the elements in the data
+    structure. There has to be a minimal circulator
+    <MATH>d<SUB></MATH>min<MATH></SUB></MATH> for which the difference
+    <I>c</I><MATH>-
+  d<SUB></MATH>min<MATH></SUB></MATH> to all other
+    circulators <I>c</I> is non-negative.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    c.min_circulator ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the minimal circulator
+    <MATH>c<SUB></MATH>min<MATH></SUB></MATH> (see previous operation)
+    in constant time. If <MATH>c</MATH> has a singular value, a
+    singular value is returned.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+There are no comparison operators required.
+<P>
+
+<HR> <B>Next:</B> <A HREF="CGAL_Forward_container_from_circulator.html">Class declaration of <I>CBP_..._container_from_circulator&lt;C&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,139 +1,172 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Triangulation_face.h
+// author(s)     : Olivier Devillers
+//                 Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
 
 #ifndef CGAL_TRIANGULATION_FACE_H
 #define CGAL_TRIANGULATION_FACE_H
 
-template < class V >
+#include <CGAL/triangulation_assertions.h>
+#include <CGAL/Triangulation_vertex.h>
+
+template < class Vertex >
+class CGAL_Triangulation_face;
+
+template < class Vertex >
 class CGAL_Triangulation_face {
 public:
-    typedef V Vertex;
-    typedef CGAL_Triangulation_face<V> Face;
-
+        typedef CGAL_Triangulation_face<Vertex> Face;
+        typedef typename Vertex::Vertex_handle Vertex_handle;
+        typedef CGAL_Pointer<Face> Face_handle;
     
+    inline Face_handle handle() const
+    {
+        return Face_handle(this);
+    }
+    
+    inline void set_vertices()
+    {
+        V[0] = NULL;
+        V[1] = NULL;
+        V[2] = NULL;
+    }
+    
+    
+    inline void set_vertices(Vertex_handle v0,
+                 Vertex_handle v1,
+                 Vertex_handle v2)
+    {
+        V[0] = v0;
+        V[1] = v1;
+        V[2] = v2;
+    }
+    
+    inline void set_neighbors()
+    {
+        N[0] = NULL;
+        N[1] = NULL;
+        N[2] = NULL;
+    }
+    
+    inline
+    void set_neighbors(Face_handle n0,
+                       Face_handle n1,
+                       Face_handle n2)
+    {
+        N[0] = n0;
+        N[1] = n1;
+        N[2] = n2;
+    }
+    
+    inline
     CGAL_Triangulation_face()
-      : _v0(NULL), _v1(NULL), _v2(NULL),
-        _n0(NULL), _n1(NULL), _n2(NULL)
-    {}
+    {
+        set_vertices();
+        set_neighbors();
+    }
     
+    inline
+    CGAL_Triangulation_face(const Vertex_handle& v0,
+                            const Vertex_handle& v1,
+                            const Vertex_handle& v2)
+    {
+        set_vertices(v0, v1, v2);
+        set_neighbors();
+    }
     
-    CGAL_Triangulation_face(Vertex *v0,
-         Vertex *v1,
-         Vertex *v2)
-      : _v0(v0), _v1(v1), _v2(v2),
-        _n0(NULL), _n1(NULL), _n2(NULL)
-    {}
-    
-    
-    CGAL_Triangulation_face(Vertex *v0,
-         Vertex *v1,
-         Vertex *v2,
-         Face *n0,
-         Face *n1,
-         Face *n2)
-      : _v0(v0), _v1(v1), _v2(v2),
-        _n0(n0), _n1(n1), _n2(n2)
-    {}
+    inline
+    CGAL_Triangulation_face(const Vertex_handle& v0,
+                            const Vertex_handle& v1,
+                            const Vertex_handle& v2,
+                            const Face_handle& n0,
+                            const Face_handle& n1,
+                            const Face_handle& n2)
+    {
+        set_vertices(v0, v1, v2);
+        set_neighbors(n0, n1, n2);
+    }
     
     
     ~CGAL_Triangulation_face()
     {}
-    void
-    set_vertex(int i, Vertex *v)
+    inline void set_vertex(int i, const Vertex_handle& v)
     {
-        CGAL_kernel_precondition( i == 0 || i == 1 || i == 2);
-        switch (i) {
-        case 0 :
-            _v0 = v;
-            break;
-        case 1 :
-            _v1 = v;
-            break;
-        default:
-            _v2 = v;
-        }
+        CGAL_triangulation_precondition( i == 0 || i == 1 || i == 2);
+        V[i] = v;
     }
     
     
-    void
-    set_neighbor(int i, Face *n)
+    inline void set_neighbor(int i, const Face_handle& n)
     {
-        CGAL_kernel_precondition( i == 0 || i == 1 || i == 2);
-        switch (i) {
-        case 0 :
-            _n0 = n;
-            break;
-        case 1 :
-            _n1 = n;
-            break;
-        default:
-            _n2 = n;
-        }
+        CGAL_triangulation_precondition( i == 0 || i == 1 || i == 2);
+        N[i] = n;
     }
     
-    Vertex*
-    vertex(int i) const
+    inline const Vertex_handle& vertex(int i) const
     {
-        CGAL_kernel_precondition( i == 0 || i == 1 || i == 2);
-        switch (i) {
-        case 0 :
-            return _v0;
-        case 1 :
-            return _v1;
-        default:
-            break;
-        }
-        return _v2;
+        CGAL_triangulation_precondition( i == 0 || i == 1 || i == 2);
+        return V[i];
     }
     
     
-    bool
-    has_vertex(Vertex *v) const
+    inline bool has_vertex(const Vertex_handle& v) const
     {
-        return (_v0 == v) || (_v1 == v) || (_v2 == v);
+        return (V[0] == v) || (V[1] == v) || (V[2]== v);
     }
     
     
-    bool
-    has_vertex(Vertex *v, int& i) const
+    inline bool has_vertex(const Vertex_handle& v, int& i) const
     {
-        if (v == _v0) {
+        if (v == V[0]) {
             i = 0;
             return true;
         }
-        if (v == _v1) {
+        if (v == V[1]) {
             i = 1;
             return true;
         }
-        if (v == _v2) {
+        if (v == V[2]) {
             i = 2;
             return true;
         }
@@ -141,56 +174,45 @@ public:
     }
     
     
-    int
-    index(Vertex *v) const
+    inline int index(const Vertex_handle& v) const
     {
-        if (v == _v0) {
+        if (v == V[0]) {
             return 0;
         }
-        if (v == _v1) {
+        if (v == V[1]) {
             return 1;
         }
-        if (v == _v2) {
+        if (v == V[2]) {
             return 2;
         }
-        CGAL_kernel_assertion(false); // we should not get here
+        CGAL_triangulation_assertion(false); // we should not get here
         return -1;
     }
-    Face*
-    neighbor(int i) const
+    inline const Face_handle& neighbor(int i) const
     {
-        CGAL_kernel_precondition( i == 0 || i == 1 || i == 2);
-        switch (i) {
-        case 0 :
-            return _n0;
-        case 1 :
-            return _n1;
-        default:
-            break;
-        }
-        return _n2;
+        CGAL_triangulation_precondition( i == 0 || i == 1 || i == 2);
+    
+        return N[i];
     }
     
     
-    bool
-    has_neighbor(Face *n) const
+    inline bool has_neighbor(const Face_handle& n) const
     {
-        return (_n0 == n) || (_n1 == n) || (_n2 == n);
+        return (N[0] == n) || (N[1] == n) || (N[2] == n);
     }
     
     
-    bool
-    has_neighbor(Face *n, int& i) const
+    inline bool has_neighbor(const Face_handle& n, int& i) const
     {
-        if(n == _n0){
+        if(n == N[0]){
             i = 0;
             return true;
         }
-        if(n == _n1){
+        if(n == N[1]){
             i = 1;
             return true;
         }
-        if(n == _n2){
+        if(n == N[2]){
             i = 2;
             return true;
         }
@@ -198,53 +220,42 @@ public:
     }
     
     
-    int
-    index(Face *n) const
+    inline int index(const Face_handle& n) const
     {
-        if (n == _n0) {
+        if (n == N[0]) {
             return 0;
         }
-        if (n == _n1) {
+        if (n == N[1]) {
             return 1;
         }
-        if (n == _n2) {
+        if (n == N[2]) {
             return 2;
         }
-        CGAL_kernel_precondition(false); // we should not get here
+        CGAL_triangulation_precondition(false); // we should not get here
         return -1;
     }
     
-    int
-    ccw(int i) const
+    inline int ccw(int i) const
     {
-        ++i;
-        if(i==3){
-            i = 0;
-        }
-        return i;
+    
+        return (i+1) % 3;
     }
     
     
-    int
-    cw(int i) const
+    inline int cw(int i) const
     {
-        --i;
-        if(i==-1){
-            i = 2;
-        }
-        return i;
+        return (i+2) % 3;
     }
     
     
-    void
-    insert(Vertex *v)
+    void insert(const Vertex_handle& v)
     {
-        CGAL_kernel_precondition(v != NULL);
-        Vertex* v0 = vertex(0);
-        Vertex* v2 = vertex(2);
+        CGAL_triangulation_precondition(v != NULL);
+        Vertex_handle v0 = vertex(0);
+        Vertex_handle v2 = vertex(2);
     
-        Face* ccwptr = neighbor(ccw(0));
-        Face* cwptr  = neighbor(cw(0));
+        Face_handle ccwptr = neighbor(ccw(0));
+        Face_handle cwptr  = neighbor(cw(0));
     
         int ccwi, cwi;
         if(ccwptr != NULL) {
@@ -254,10 +265,10 @@ public:
             cwi  = ccw(cwptr->index(v0));
         }
     
-        Face *n1ptr = new Face(v0, v, v2,
+        Face_handle n1ptr = new Face(v0, v, v2,
                                this, ccwptr, NULL);
     
-        Face *n2ptr = new Face(v0, vertex(1), v,
+        Face_handle n2ptr = new Face(v0, vertex(1), v,
                                this, n1ptr, cwptr);
     
         if( (v0 != NULL) && (v0->face() == this) ) {
@@ -284,19 +295,18 @@ public:
         }
     }
     
-    bool
-    insert(Vertex *v, int i)
+    bool insert(const Vertex_handle& v, int i)
     {
-        CGAL_kernel_precondition(v != NULL);
+        CGAL_triangulation_precondition(v != NULL);
         if(neighbor(i) != NULL) {
             cerr << "Insertion impossible as neighbor face already exists" << endl;
             return false;
         }
-        Face *f = new Face(v, vertex(cw(i)), vertex(ccw(i)),
+        Face_handle f = new Face(v, vertex(cw(i)), vertex(ccw(i)),
                            this, NULL, NULL);
         set_neighbor(i, f);
         v->set_face(f);
-        Vertex *w = vertex(ccw(i));
+        Vertex_handle w = vertex(ccw(i));
         if(w != NULL){
             w->set_face(f);
         }
@@ -304,24 +314,23 @@ public:
         return true;
     }
     
-    bool
-    remove(Vertex *&v)
+    bool remove(Vertex_handle &v)
     {
-        CGAL_kernel_precondition(v != NULL);
+        CGAL_triangulation_precondition(v != NULL);
         int i = index(v);
     
-        Face *left, *right, *ll, *rr;
+        Face_handle left, *right, *ll, *rr;
     
         left = neighbor(cw(i));
         right = neighbor(ccw(i));
     
         if(left == NULL || right == NULL) {
             if(left == NULL && right == NULL) {
-                Face *n = neighbor(i);
+                Face_handle n = neighbor(i);
                 if(n != NULL) {
                     int ni = n->index(this);
                     n->set_neighbor(ni, NULL);
-                    Vertex *q = vertex(cw(i));
+                    Vertex_handle q = vertex(cw(i));
                     if(q != NULL){
                         q->set_face(n);
                     }
@@ -329,9 +338,8 @@ public:
                     cerr << "removal of boundary vertex failed as face has"
                          << "no neighbors" << endl;
                 }
-                delete this;
-                delete v;
-                v = NULL;
+                handle().Delete();
+                v.Delete();
                 return true;
             } else {
                 cerr << "removal of boundary vertex with degree != 2 failed";
@@ -347,7 +355,7 @@ public:
         }
     
         int li = left->index(this);
-        Vertex *q = left->vertex(li);
+        Vertex_handle q = left->vertex(li);
     
         ll = left->neighbor(cw(li));
         if(ll != NULL) {
@@ -358,7 +366,7 @@ public:
         }
         set_neighbor(cw(i), ll);
     
-        delete left;
+        left.Delete();
     
         int ri = ccw(right->index(this));
         q = right->vertex(ccw(ri));
@@ -371,24 +379,23 @@ public:
         }
         set_neighbor(ccw(i), rr);
     
-        delete right;
+        right.Delete();
     
         set_vertex(i, q);
     
-        delete v;
-        v = NULL;
+        v.Delete();
         return true;
     }
     
-    void
-    flip(int i)
+    void flip(int i)
     {
+        cerr << "The flip member function should no longer be called" << endl;
         // bl == bottom left, tr == top right
-        Face* tl = neighbor(ccw(i));
-        Face* n  = neighbor(i);
+        Face_handle tl = neighbor(ccw(i));
+        Face_handle n  = neighbor(i);
     
-        Vertex* v_cw = vertex(cw(i));
-        Vertex* v_ccw = vertex(ccw(i));
+        Vertex_handle v_cw = vertex(cw(i));
+        Vertex_handle v_ccw = vertex(ccw(i));
     
         // The following seems natural, but it fails if the faces
         // this and n are neighbors on two edges (1-dim triangulation,
@@ -397,9 +404,9 @@ public:
     
         int ni = cw(n->index(v_cw));
     
-        CGAL_kernel_assertion( this == n->neighbor(ni) );
+        CGAL_triangulation_assertion( this == n->neighbor(ni) );
     
-        Face *br = n->neighbor(ccw(ni));
+        Face_handle br = n->neighbor(ccw(ni));
         int bri, tli;
     
         if(br != NULL){
@@ -438,15 +445,14 @@ public:
     bool is_valid(bool verbose = false, int level = 0) const
     {
         bool result = true;
-        Face* ncthis = (Face*)this;
         for(int i = 0; i < 3; i++) {
-            Face *n = neighbor(i);
+            Face_handle n = neighbor(i);
             if(n != NULL){
-                int ni = n->index(ncthis);
+                int ni = n->index(handle());
                 result = result && (vertex(cw(i)) == n->vertex(ccw(ni)));
                 result = result && (vertex(ccw(i)) == n->vertex(cw(ni)));
             } else {
-                result = result && (vertex(cw(i))->face() == this);
+                result = result && (vertex(cw(i))->face() == handle());
             }
         }
         return result;
@@ -454,8 +460,8 @@ public:
     
 private:
     
-      Vertex *_v0, *_v1, *_v2;
-      Face *_n0, *_n1, *_n2;
+      Vertex_handle V[3];
+      Face_handle N[3];
     
 };
 

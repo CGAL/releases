@@ -1,0 +1,474 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: Traits<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+<P>
+
+<H1> Boolean Operations <A HREF="Traits.html#Cross_link_anchor_1">Traits</A> Class Requirements (<I><A HREF="Traits.html#Cross_link_anchor_1">Traits</A></I>)</H1>
+<P>
+
+<A NAME="B_ops_SectReq"></A>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Object;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Object;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    A common object type like <I>CGAL_object</I>. The ''real'' objects
+    (e.g. <I>Output_polygon</I>, <I>Segment</I>, <I>Point</I>, ...) are
+    mapped into <I>Object</I> using the member function
+    <I>Make_object</I> (see below to the operations description).
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Point;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Point;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The point type on which the boolean operations algorithms operate.
+    It should represent a two dimensional point with coordinates of
+    type&nbsp;<I>R::NT</I>. The type must provide a copy constructor,
+    an assignment, and an equality test. Furthermore a constructor for
+    cartesian coordinates (<I>Point(R::NT,R::NT)</I>), a constructor
+    for homogenous coordinates (<I>Point(R::NT,R::NT,R::NT)</I>), and
+    the operations <I>R::NT Point::x()</I> and <I>R::NT Point::y()</I>
+    are needed, which returns the value of the <I>x</I>- or <I>y</I>
+    -coordinate, respectively. This point type represents the vertices
+    of segments, triangles, iso-oriented rectangles, and polygons,
+    which occur as possible results of a boolean operation.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Segment;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Segment;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Line segment type. It should represent a two dimensional segment
+    defined by the two extremal points of type <I>Point</I>. The type
+    must provide a copy constructor, an assignment, and an equality
+    test. Furthermore a constructor by two points (
+    <I>Segment(Point,Point)</I>) will be needed.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Triangle;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Triangle;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The type of triangles on which boolean operations can be performed.
+    It should represent a triangle in two dimensional Euclidean space
+    with vertices of type <I>Point</I>. The type must provide a copy
+    constructor, an assignment, and an equality test. Furthermore a
+    constructor by three points (<I>Triangle(Point,Point,Point)</I>)
+    will be needed.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Iso_rectangle;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Iso_rectangle;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The type of iso-oriented rectangles on which boolean operations can
+    be performed. It should represent an iso-oriented rectangle in two
+    dimensional Euclidean space with vertices of type <I>Point</I>. The
+    type must provide a copy constructor, an assignment, and an
+    equality test. Furthermore a constructor by three points (
+    <I>Iso_rectangle(Point,Point,Point)</I>) will be needed.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Polygon;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Polygon;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The type of polygons on which boolean operations will be performed
+    (i.e. <I>Input_polygon</I>, there also exists an
+    <I>Output_polygon</I>). This type should represent a simple polygon
+    in two dimensional Euclidean space with vertices of type
+    <I>Point</I>. Usually it is based on <I>Container</I>. The type
+    must provide a copy constructor, an assignment, and an equality
+    test.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Polygon_vertex_const_iterator;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Polygon_vertex_const_iterator;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    A (const) vertex forward iterator for <I>Polygon</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Typedef_Input_polygon"></A>
+typedef Polygon
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Input_polygon;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Output_polygon;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Output_polygon;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The resulting polygon type. Usually based on
+    <I>Output_polygon_container</I>. This type must represent a simple
+    polygon in two dimensional Euclidean space with vertices of type
+    <I>Point</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Bbox;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Bbox;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    A bounding box type used internally in the computation of boolean
+    operations. The type must provide an equality test.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Container;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Container;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The container in which points of type <I>Point</I> are stored for
+    further use in polygons on which boolean operations are to be
+    performed (<I>Input_polygon_container</I>). Note: The only usage of
+    <I>Container</I> is to define <I>Polygon</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Typedef_Input_polygon_container"></A>
+typedef Container
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Input_polygon_container;
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Output_polygon_container;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Output_polygon_container;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The container in which points of type <I>Point</I> are stored for
+    further use in polygons (<I>Output_polygon</I>) which result by
+    performing boolean operations. Note: The only usage of
+    <I>Output_polygon_container</I> is to define <I>Output_polygon</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Output_object_container;"></A>
+<A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A>::Output_object_container;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    The container in which objects of type <I>Object</I> are stored.
+    This container represents the result of a boolean operation, since
+    each resulting object (e.g. <I>Output_Polygon</I>, <I>Segment</I>,
+    ...) is mapped into a <I>Object</I>. and afterwards stored into a
+    container of this type <I>Output_object_container</I>. It must
+    provide a operation
+    <I>Output_object_container::push_back(Object)</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Traits.html#Cross_link_anchor_1">Traits&lt;R&gt;</A> bops_traits;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    default constructor
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.do_overlap (  Bbox a,  Bbox b)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the boxes do overlap.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.box_is_contained_in_box (  Bbox a,  Bbox b)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff <I>a</I> is contained in <I>b</I>,
+    entirely.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.is_equal (  Point p1,  Point p2)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the value of <I>p1</I> is equal to the
+    value of <I>p2</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.less_x (  Point p1,  Point p2)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the x-ccordinate of <I>p1</I> is smaller
+    than that of <I>p2</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    bops_traits.is_leftturn ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p0, <BR>
+     Point p1, <BR>
+     Point p2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff <I>p2</I> lies on the left of the oriented
+    line through <I>p0</I> and <I>p1</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Object
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.Make_object (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    maps <I>Point</I> into <I>Object</I> and returns it.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Object
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.Make_object (  Segment p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    maps <I>Segment</I> into <I>Object</I> and returns it.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Object
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.Make_object (  Output_polygon p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    maps <I>Output_polygon</I> into <I>Object</I> and returns it.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Object
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.Make_object (  Iso_rectangle p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    maps <I>Iso_rectangle</I> into <I>Object</I> and returns it.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Object
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.Make_object (  Triangle p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Maps <I>Triangle</I> into <I>Object</I> and returns it.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Bbox
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.get_Bbox (  Polygon pgon)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the bounding box of <I>Polygon</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    bops_traits.has_on_bounded_side ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Polygon pgon, <BR>
+     Point pt)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff point <I>pt</I> lies on the bounded side of
+    polygon <I>pgon</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.reverse_orientation(); ( Polygon&amp; pgon)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reverses the orientation of polygon <I>pgon</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    Polygon_vertex_const_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    bops_traits.most_left_vertex (  Polygon pgon)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the most left vertex of polygon <I>pgon</I>.
+        </TD></TR>
+        </TABLE><!3>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

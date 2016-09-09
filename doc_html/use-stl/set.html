@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_AssociativeContainer.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: set<Key, Compare></TITLE>
+  <TITLE>STL in CGAL: set<Key, Compare></TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -42,19 +42,19 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <I>Compare</I>.
 <P>
 
-<I>#include &lt;<A HREF="../../include/set.h">set.h</A>&gt;</I>
+<I>#include &lt;<A HREF="set.html#Cross_link_anchor_27">set</A>.h&gt;</I>
 <P>
 
 <H3>Types</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_iterator"></A>
 <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A const bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
@@ -65,21 +65,21 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <H3>Creation</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S (  Compare comp = Compare());
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces an empty <A HREF="set.html#Cross_link_anchor_27">set</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S (  <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S1);
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Copy constructor.
     <P>
         </TD></TR>
@@ -90,92 +90,92 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; &amp;
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      S =  <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S1
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Assignment.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      S ==  <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S1
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Equality test: Two sets are equal, if the sequences <I>S</I> and
     <I>S1</I> are elementwise equal.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      S &lt;  <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt; S1
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>S</I> is lexicographically less than
     <I>S1</I>, <I>false</I> otherwise.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
     S.begin ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="set.html#Cross_link_anchor_27">set</A>
-    <I>S</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="set.html#Cross_link_anchor_27">set</A>&nbsp;<I>S</I>.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
     S.end ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant past-the-end <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> of <A HREF="set.html#Cross_link_anchor_27">set</A> <I>S</I>.
+    Returns a constant past-the-end <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> of <A HREF="set.html#Cross_link_anchor_27">set</A>&nbsp;<I>S</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     S.empty ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>S</I> is empty.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     S.size ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns the number of items in <A HREF="set.html#Cross_link_anchor_27">set</A> <I>S</I>.
+    Returns the number of items in <A HREF="set.html#Cross_link_anchor_27">set</A>&nbsp;<I>S</I>.
         </TD></TR>
         </TABLE><!3>
 
@@ -184,33 +184,29 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <H3> Insert and Erase</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
-    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
-    S.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
-    <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos, <BR>
-     Key k)</I></TD></TR></TABLE>
-    
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    S.insert ( <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  Key k)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>k</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A> if <I>k</I> is not already present in
     <I>S</I>. The <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I> is the starting point of the
     search. The return value points to the inserted item.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;<A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>, bool&gt;
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
     S.insert (  Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>k</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A> if <I>k</I> is not already present in
     <I>S</I>. Returns a <A HREF="pair.html#Cross_link_anchor_0">pair</A>, where <I>first</I> is the <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that
@@ -220,25 +216,25 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     S.erase ( <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases the element where pos points to.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     S.erase ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases the element <I>k</I>, if present. Returns the number of
     erased elements.
@@ -250,56 +246,56 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <H3> Miscellaneous</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
     S.find ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that either points to the element <I>k</I>, or
     <I>end()</I> if <I>k</I> is not present in <A HREF="set.html#Cross_link_anchor_27">set</A> <I>S</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     S.count ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns the number of occurrences of <I>k</I> in <A HREF="set.html#Cross_link_anchor_27">set</A> <I>S</I>.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     S.lower_bound ( Key k)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the first element of <I>S</I>
     that is not less than <I>k</I>. If all elements are less than
     <I>k</I> then <I>end()</I> is returned. If <I>k</I> is present in
     the <A HREF="set.html#Cross_link_anchor_27">set</A> the returned <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> points to <I>k</I>.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="set.html#Cross_link_anchor_27">set</A>&lt;Key, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     S.upper_bound ( Key k)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the first element of the <A HREF="set.html#Cross_link_anchor_27">set</A>
     that is <A HREF="greater.html#Cross_link_anchor_23">greater</A> than <I>k</I>. If no element is <A HREF="greater.html#Cross_link_anchor_23">greater</A> than
     <I>k</I> then <I>end()</I> is returned.
@@ -322,7 +318,7 @@ The elements in the <A HREF="set.html#Cross_link_anchor_27">set</A> are ordered 
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

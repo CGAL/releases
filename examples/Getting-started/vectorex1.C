@@ -1,15 +1,8 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Appendix (A short introduction to C++)
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
-#include "tutorial.h
+#include "tutorial.h"
 #include <vector.h>
 #include <iostream.h>
 
-main()
+void main()
 {
     vector<float> fvec;
     fvec.push_back(3.14159265358979323846);
@@ -17,6 +10,6 @@ main()
     vector<int> ivec(fvec.size());
     int i;
     for (i=0; i<ivec.size(); i++)
-	ivec[i] = (int) fvec[i];
+        ivec[i] = (int) fvec[i];
     cout << ivec[0] <<' '<< ivec[1] <<'\n';
 }

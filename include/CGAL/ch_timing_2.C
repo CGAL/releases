@@ -1,47 +1,58 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Author: Stefan Schirra
-// Source: cgal_convex_hull_2.lw
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/ch_timing_2.C
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 
 #ifndef CGAL_CH_TIMING_2_C
 #define CGAL_CH_TIMING_2_C
 
+#ifndef CGAL_CH_TIMING_2_H
 #include <CGAL/ch_timing_2.h>
-
-template <class ForwardIterator, class OutputIterator, class Traits>
+#endif // CGAL_CH_TIMING_2_H
+template <class ForwardIterator1, class ForwardIterator2, class Traits>
 void
-CGAL_ch_timing( ForwardIterator first, ForwardIterator last,
-                OutputIterator result,
+CGAL_ch_timing( ForwardIterator1 first, ForwardIterator1 last,
+                ForwardIterator2 result,
                 int iterations, 
                 const Traits& ch_traits)
 {
@@ -53,6 +64,7 @@ CGAL_ch_timing( ForwardIterator first, ForwardIterator last,
   #endif // CGAL_USE_LEDA
 
   cout << endl;
+  ForwardIterator2  restart = result;
 
   #ifdef CGAL_USE_LEDA
   t = used_time();
@@ -61,30 +73,17 @@ CGAL_ch_timing( ForwardIterator first, ForwardIterator last,
   #endif // CGAL_USE_LEDA
 
   for (i=0; i < iterations; i++)
-      CGAL_ch_eddy( first, last , result, ch_traits);
-  #ifdef CGAL_USE_LEDA
-  delta_t = used_time(t);
-  #else
-  delta_t = clock() - t;
-  #endif // CGAL_USE_LEDA
-
-  cout << "CGAL_ch_eddy:               " << delta_t << endl;
-
-  #ifdef CGAL_USE_LEDA
-  t = used_time();
-  #else
-  t = clock();
-  #endif // CGAL_USE_LEDA
-
-  for (i=0; i < iterations; i++)
+  {
+      result = restart;
       CGAL_ch_akl_toussaint( first, last , result, ch_traits);
+  }
   #ifdef CGAL_USE_LEDA
   delta_t = used_time(t);
   #else
   delta_t = clock() - t;
   #endif // CGAL_USE_LEDA
 
-  cout << "CGAL_ch_akl_toussaint:      " << delta_t << endl;
+  cout << "CGAL_ch_akl_toussaint:         " << delta_t << endl;
 
   #ifdef CGAL_USE_LEDA
   t = used_time();
@@ -93,14 +92,74 @@ CGAL_ch_timing( ForwardIterator first, ForwardIterator last,
   #endif // CGAL_USE_LEDA
 
   for (i=0; i < iterations; i++)
+  {
+      result = restart;
+      CGAL_ch_eddy( first, last , result, ch_traits);
+  }
+  #ifdef CGAL_USE_LEDA
+  delta_t = used_time(t);
+  #else
+  delta_t = clock() - t;
+  #endif // CGAL_USE_LEDA
+
+  cout << "CGAL_ch_eddy:                  " << delta_t << endl;
+
+  #ifdef CGAL_USE_LEDA
+  t = used_time();
+  #else
+  t = clock();
+  #endif // CGAL_USE_LEDA
+
+  for (i=0; i < iterations; i++)
+  {
+      result = restart;
+      CGAL_ch_bykat( first, last , result, ch_traits);
+  }
+  #ifdef CGAL_USE_LEDA
+  delta_t = used_time(t);
+  #else
+  delta_t = clock() - t;
+  #endif // CGAL_USE_LEDA
+
+  cout << "CGAL_ch_bykat                  " << delta_t << endl;
+
+  #ifdef CGAL_USE_LEDA
+  t = used_time();
+  #else
+  t = clock();
+  #endif // CGAL_USE_LEDA
+
+  for (i=0; i < iterations; i++)
+  {
+      result = restart;
+      CGAL_ch_bykat_with_threshold( first, last , result, ch_traits);
+  }
+  #ifdef CGAL_USE_LEDA
+  delta_t = used_time(t);
+  #else
+  delta_t = clock() - t;
+  #endif // CGAL_USE_LEDA
+
+  cout << "CGAL_ch_bykat_with_threshold:  " << delta_t << endl;
+
+  #ifdef CGAL_USE_LEDA
+  t = used_time();
+  #else
+  t = clock();
+  #endif // CGAL_USE_LEDA
+
+  for (i=0; i < iterations; i++)
+  {
+      result = restart;
       CGAL_ch_graham_andrew( first, last , result, ch_traits);
+  }
   #ifdef CGAL_USE_LEDA
   delta_t = used_time(t);
   #else
   delta_t = clock() - t;
   #endif // CGAL_USE_LEDA
 
-  cout << "CGAL_ch_graham_andrew:      " << delta_t << endl;
+  cout << "CGAL_ch_graham_andrew:         " << delta_t << endl;
 
   #ifdef CGAL_USE_LEDA
   t = used_time();
@@ -109,14 +168,17 @@ CGAL_ch_timing( ForwardIterator first, ForwardIterator last,
   #endif // CGAL_USE_LEDA
 
   for (i=0; i < iterations; i++)
+  {
+      result = restart;
       CGAL_ch_jarvis( first, last , result, ch_traits);
+  }
   #ifdef CGAL_USE_LEDA
   delta_t = used_time(t);
   #else
   delta_t = clock() - t;
   #endif // CGAL_USE_LEDA
 
-  cout << "CGAL_ch_jarvis:             " << delta_t << endl;
+  cout << "CGAL_ch_jarvis:                " << delta_t << endl;
 
 }
 

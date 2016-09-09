@@ -1,41 +1,78 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Source: cartesian_rep.h
-// Author: Andreas Fabri
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/cartesian_rep.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
+ 
 
 #ifndef CGAL_CARTESIAN_REP_H
 #define CGAL_CARTESIAN_REP_H
 
 #define CGAL_REP_CLASS_DEFINED
+
+// 2D Cartesian point data accessor
+template < class _FT >
+class CGAL_Data_accessorC2
+{
+public:
+    typedef  _FT               FT;
+    typedef  CGAL_PointC2<FT>  Point;
+
+    FT  get_x( Point const& p) const { return( p.x()); }
+    FT  get_y( Point const& p) const { return( p.y()); }
+
+    void
+    get( Point const& p, FT& x, FT& y) const
+    {
+        x = get_x( p);
+        y = get_y( p);
+    }
+
+    void
+    set( Point& p, FT const& x, FT const& y) const
+    {
+        p = Point( x, y);
+    }
+};
+
 
 template<class ft>
 class CGAL_Cartesian
@@ -43,6 +80,9 @@ class CGAL_Cartesian
 public:
     typedef ft           FT;
     typedef ft           RT;
+
+    typedef CGAL_Data_accessorC2<FT>  Data_accessor_2;
+
     typedef CGAL_PointC2<FT>  Point_2;
     typedef CGAL_VectorC2<FT> Vector_2;
     typedef CGAL_DirectionC2<FT>  Direction_2;
@@ -54,6 +94,8 @@ public:
     typedef CGAL_CircleC2<FT>  Circle_2;
     typedef CGAL_ParabolaC2<FT>  Parabola_2;
     typedef CGAL_Parabola_arcC2<FT>  Parabola_arc_2;
+
+    typedef CGAL_ConicCPA2<Point_2,Data_accessor_2>  Conic_2;
 
     typedef CGAL_Iso_rectangleC2<FT>  Iso_rectangle_2;
 
@@ -75,18 +117,18 @@ public:
     typedef CGAL_PlaneC3<FT> Plane_3;
     typedef CGAL_TetrahedronC3<FT> Tetrahedron_3;
 
-#ifdef CGAL_WORKAROUND_013
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
     typedef CGAL__Vector_2_rft_wrapper< CGAL_Cartesian<ft> >* dummy_W2ptr;
     typedef CGAL__Vector_3_rft_wrapper< CGAL_Cartesian<ft> >* dummy_W3ptr;
-#endif // CGAL_WORKAROUND_013
+#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
 
-static    FT make_FT(const RT & num, const RT& denom)
+static  FT make_FT(const RT & num, const RT& denom)
         { return num/denom;}
-static   FT make_FT(const RT & num)
+static  FT make_FT(const RT & num)
         { return num;}
-static   RT FT_numerator(const FT &r)
+static  RT FT_numerator(const FT &r)
         { return r;}
-static   RT FT_denominator(const FT &)
+static  RT FT_denominator(const FT &)
         { return RT(1);}
 };
 

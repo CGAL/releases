@@ -1,11 +1,4 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Appendix (A short introduction to C++)
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
-#include "tutorial.h
+#include "tutorial.h"
 #include <list.h>
 #include <vector.h>
 #include <algobase.h>
@@ -13,7 +6,7 @@
 #include <iostream.h>
 
 
-main()
+void main()
 {
     double d_array[2] = { 1.3, 1.2};
     vector<double> d_vec(3, 0.5);

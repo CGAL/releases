@@ -1,0 +1,324 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Verbose_ostream</TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_2"></A>
+
+<A NAME="Cross_link_anchor_2"></A>
+
+<P>
+
+<H1> Verbose ostream (<I><A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>The class <I><A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A></I> can be used as
+an output stream. The stream output operator <I>&lt;&lt;</I> is defined
+for the builtin types. The class <I><A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A></I> stores in
+an internal state a stream and whether the output is active or not. If
+the state is active, all stream output operator <I>&lt;&lt;</I> forward
+their output to the stream. Otherwise, no output happens.
+<P>
+
+<I>#include &lt;CGAL/IO/Verbose_ostream.h&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A> verr ( bool active = false,  ostream&amp; out = cerr);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates an output stream with state set to <I>active</I> that
+    writes to the stream <I>out</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; char c
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; const char* s
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; int a
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; long l
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; double d
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; float f
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; unsigned int a
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; unsigned long l
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; long long ll
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; unsigned long long ll
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; void* p
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; short i
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; unsigned short i
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; ostream&amp; (*f)(ostream&amp;)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     verr &lt;&lt; ios&amp; (*f)(ios&amp;)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    verr.flush ()
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    verr.put ( char c)
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A>&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    verr.write ( const char* s, int n)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Example</H3>The class <I><A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A></I> can be
+conveniently used to implement for example the <I>is_valid()</I> member
+function for triangulations or other complex data structures.
+<P>
+
+<PRE>
+    bool is_valid( bool verbose = false, int level = 0) {
+        <A HREF="CGAL_Verbose_ostream.html#Cross_link_anchor_2">CGAL_Verbose_ostream</A> verr( verbose);
+        verr &lt;&lt; &quot;Triangulation::is_valid( level = &quot; &lt;&lt; level &lt;&lt; ')' &lt;&lt; endl;
+        verr &lt;&lt; &quot;    Number of vertices = &quot; &lt;&lt; size_of_vertices() &lt;&lt; endl;
+        ...
+    }
+</PRE>
+<P>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,39 +1,46 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// file  : include/CGAL/Tree_base.h
-// source: include/CGAL/Tree_base.h
-// author: Gabriele Neyer
-// $Revision: 1.2 $
-// $Date: 1997/06/16 13:41:51 $
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Tree_base.h
+// author(s)     : Gabriele Neyer
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef __CGAL_Tree_base_d__
 #define __CGAL_Tree_base_d__
@@ -69,7 +76,10 @@ INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 #define CGAL__reinterpret_cast(TYPE,EXPR) (TYPE)(EXPR)
 #endif
 
-#define CGAL__typename
+//#ifndef typename
+//#define typename
+//#endif
+
 #define carray
 
 template <class InIt>
@@ -134,29 +144,29 @@ public:
     window_query(_Window const &win, back_insert_iterator<
 		 vector<_Data> > out) = 0; 
 #ifdef carray
-  virtual _Data * window_query(_Window const &win, 
-			       _Data * out) = 0; 
+  virtual _Data * window_query( _Window const &win, 
+			        _Data * out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual ostream_iterator<_Data> window_query(_Window const &win, 
-					       ostream_iterator<_Data> out) = 0; 
+  virtual ostream_iterator< _Data> window_query( _Window const &win, 
+				    ostream_iterator< _Data> out) = 0; 
 #endif
-  virtual back_insert_iterator<list<_Data> > 
-    enclosing_query(_Window const &win, back_insert_iterator<
-		    list<_Data> > out) = 0; 
-  virtual back_insert_iterator<vector<_Data> > 
-    enclosing_query(_Window const &win, back_insert_iterator<
-		    vector<_Data> > out) = 0; 
+  virtual back_insert_iterator<list< _Data> > 
+    enclosing_query( _Window const &win, back_insert_iterator<
+		    list< _Data> > out) = 0; 
+  virtual back_insert_iterator<vector< _Data> > 
+    enclosing_query( _Window const &win, back_insert_iterator<
+		    vector< _Data> > out) = 0; 
 #ifdef carray
-  virtual  _Data * enclosing_query(_Window const &win, 
-				   _Data *out) = 0; 
+  virtual   _Data * enclosing_query( _Window const &win, 
+				    _Data *out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual ostream_iterator<_Data> enclosing_query(_Window const &win, 
-						  ostream_iterator<_Data> out) = 0; 
+  virtual ostream_iterator< _Data> enclosing_query( _Window const &win, 
+				       ostream_iterator< _Data> out) = 0; 
 #endif
-  virtual bool is_inside(_Window const &win,
-			 _Data const& object)=0;  
+  virtual bool is_inside( _Window const &win,
+			  _Data const& object)=0;  
   virtual bool is_anchor()=0;
   virtual bool is_valid()=0;
 };
@@ -168,7 +178,7 @@ public:
 // most inner class. This class is doing nothin exept stopping the recursion
 
 template <class _Data, class _Window>
-class CGAL_tree_anchor: public CGAL_tree_base<_Data, _Window>
+class CGAL_tree_anchor: public CGAL_tree_base< _Data,  _Window>
 {
 public:
   // Construct a factory with the given factory as sublayer
@@ -176,16 +186,16 @@ public:
   virtual ~CGAL_tree_anchor(){}
   tree_base_type *clone() const { return new CGAL_tree_anchor(); }
 
-  bool make_tree(list<_Data>::iterator& beg, 
-		 list<_Data>::iterator& end) 
+  bool make_tree(list< _Data>::iterator& beg, 
+		 list< _Data>::iterator& end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
     return true;
   }
 #ifdef stlvector
-  bool make_tree(vector<_Data>::iterator& beg, 
-		 vector<_Data>::iterator& end) 
+  bool make_tree(vector< _Data>::iterator& beg, 
+		 vector< _Data>::iterator& end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
@@ -193,65 +203,65 @@ public:
   }
 #endif
 #ifdef carray
-  bool make_tree(_Data *beg, 
-                 _Data *end) 
+  bool make_tree( _Data *beg, 
+                  _Data *end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
     return true;
   }
 #endif
-   back_insert_iterator<list<_Data> > window_query(_Window const &win, back_insert_iterator<
-						   list<_Data> > out){
+   back_insert_iterator<list< _Data> > window_query( _Window const &win, 
+			       back_insert_iterator<list< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  back_insert_iterator<vector<_Data> >  window_query(_Window const &win, back_insert_iterator<
-						     vector<_Data> > out){
+  back_insert_iterator<vector< _Data> >  window_query( _Window const &win, 
+                               back_insert_iterator<vector< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #ifdef carray
-  _Data * window_query(_Window const &win, 
-                    _Data * out){
+   _Data * window_query( _Window const &win, 
+                     _Data * out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
 #ifdef ostreamiterator
-  ostream_iterator<_Data> window_query(_Window const &win, 
-				       ostream_iterator<_Data> out){
+  ostream_iterator< _Data> window_query( _Window const &win, 
+				       ostream_iterator< _Data> out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
-  back_insert_iterator<list<_Data> > enclosing_query(_Window const &win, back_insert_iterator<
-						     list<_Data> > out){
+  back_insert_iterator<list< _Data> > enclosing_query( _Window const &win, 
+                                  back_insert_iterator<list< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  back_insert_iterator<vector<_Data> > enclosing_query(_Window const &win, back_insert_iterator<
-						       vector<_Data> > out){
+  back_insert_iterator<vector< _Data> > enclosing_query( _Window const &win, 
+                                  back_insert_iterator<vector< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out); 
     return out;
   }
 #ifdef carray
-  _Data * enclosing_query(_Window const &win, 
-                       _Data * out){
+   _Data * enclosing_query( _Window const &win, 
+                        _Data * out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
 #ifdef ostreamiterator
-  ostream_iterator<_Data> enclosing_query(_Window const &win, 
-					  ostream_iterator<_Data> out){
+  ostream_iterator< _Data> enclosing_query( _Window const &win, 
+					  ostream_iterator< _Data> out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -261,8 +271,8 @@ public:
 
 protected:
 
-  bool is_inside(_Window const &win, 
-		 _Data const& object)
+  bool is_inside( _Window const &win, 
+		  _Data const& object)
   {     
     USE_ARGUMENT(win);
     USE_ARGUMENT(object);

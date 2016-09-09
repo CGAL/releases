@@ -1,37 +1,47 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/predicates_on_pointsC3.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: predicates_on_pointsC3.h
-// Author: Andreas Fabri
 
 #ifndef CGAL_PREDICATES_ON_POINTSC3_H
 #define CGAL_PREDICATES_ON_POINTSC3_H
@@ -83,27 +93,25 @@ bool CGAL_lexicographically_xyz_smaller(const CGAL_PointC3<FT> &p,
 
 template < class FT >
 inline
-bool 
-CGAL_x_equal(const CGAL_PointC3<FT> &p,
-             const CGAL_PointC3<FT> &q)
+bool CGAL_x_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
 {
   return p.x() == q.x();
 }
 
+
 template < class FT >
 inline
-bool 
-CGAL_y_equal(const CGAL_PointC3<FT> &p,
-             const CGAL_PointC3<FT> &q)
+bool CGAL_y_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
 {
   return p.y() == q.y();
 }
 
 template < class FT >
 inline
-bool 
-CGAL_z_equal(const CGAL_PointC3<FT> &p,
-             const CGAL_PointC3<FT> &q)
+bool CGAL_z_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
 {
   return p.z() == q.z();
 }
@@ -142,23 +150,7 @@ CGAL_Orientation CGAL_orientation(const FT &px, const FT &py, const FT &pz,
                                   const FT &rx, const FT &ry, const FT &rz,
                                   const FT &sx, const FT &sy, const FT &sz)
 {
-  /*
-  FT t1 = px*ry;
-  FT t2 = px*sy;
-  FT t3 = qx*py;
-  FT t4 = qx*ry;
-  FT t5 = qx*sy;
-  FT t6 = t0*rz-t0*sz-t1*qz+t1*sz+t2*qz-t2*rz-t3*rz+
-          t3*sz+t4*pz-t4*sz-t5*pz+t5*rz;
-  t0 = rx*py;
-  t1 = rx*qy;
-  t2 = rx*sy;
-  t3 = sx*py;
-  t4 = sx*qy;
-  t6 = sx*ry;
-  FT det = t6 + t0*qz-t0*sz-t1*pz+t1*sz+t2*pz-t2*qz-t3*qz+
-           t3*rz+t4*pz-t4*rz-t6*pz+t6*qz;
-           */
+  FT FT0(0);
   FT t0 = ry*sz;
   FT t1 = rz*sy;
   FT t2 = qz*sy;
@@ -168,20 +160,8 @@ CGAL_Orientation CGAL_orientation(const FT &px, const FT &py, const FT &pz,
   FT t6 = py*rz - pz*ry ;
   FT t7 = py*qz - pz*qy;
 
-FT det =   (  qx*( ry*sz - rz*sy )
-                    - rx*( qy*sz - qz*sy )
-                    + sx*( qy*rz - qz*ry ) )
-          - (  px*( ry*sz - rz*sy )
-                    - rx*( py*sz - pz*sy )
-                    + sx*( py*rz - pz*ry ) )
-          + (  px*( qy*sz - qz*sy )
-                    - qx*( py*sz - pz*sy )
-                    + sx*( py*qz - pz*qy ) )
-          - (  px*( qy*rz - qz*ry )
-                    - qx*( py*rz - pz*ry )
-                    + rx*( py*qz - pz*qy ) ) ;
 
-FT det2 =   (  qx*( t0 - t1 )
+FT det =   (  qx*( t0 - t1 )
                     - rx*( qy*sz - t2 )
                     + sx*( t3 - t4 ) )
           - (  px*( t0 - t1 )
@@ -194,10 +174,12 @@ FT det2 =   (  qx*( t0 - t1 )
                     - qx* t6
                     + rx* t7  ) ;
 
-assert(det == det2);
 
-  return  (det == FT(0))? CGAL_COPLANAR : ((det > FT(0)) ? CGAL_POSITIVE
-                                                         : CGAL_NEGATIVE);
+  // these intermediary steps are necessary for SGI C++ 4.0
+  CGAL_Orientation orientation = (det == FT0) ? CGAL_COPLANAR : CGAL_NEGATIVE;
+  CGAL_Orientation result = (det > FT0) ? CGAL_POSITIVE : orientation;
+
+  return result;
 }
 
 
@@ -244,7 +226,7 @@ inline bool CGAL_collinear_are_ordered_along_line(const CGAL_PointC3<FT> &p,
                                    const CGAL_PointC3<FT> &q,
                                    const CGAL_PointC3<FT> &r)
 {
-  CGAL_exactness_precondition( CGAL_collinear(p, q, r) );
+  CGAL_kernel_exactness_precondition( CGAL_collinear(p, q, r) );
   if (p.x() != q.x())
     {
       return ((p.x() <= r.x()) && r.x() <= q.x()) ||
@@ -269,6 +251,45 @@ inline CGAL_Orientation CGAL_orientation(const CGAL_PointC3<FT> &p,
 {
   return CGAL_orientation(p.x(), p.y(), p.z(), q.x(), q.y(), q.z(),
                         r.x(), r.y(), r.z(), s.x(), s.y(), s.z());
+}
+
+template <class FT >
+CGAL_Bounded_side CGAL_side_of_bounded_sphere(
+                         const CGAL_PointC3<FT> &p, const CGAL_PointC3<FT> &q,
+                         const CGAL_PointC3<FT> &r, const CGAL_PointC3<FT> &s,
+                         const CGAL_PointC3<FT> &test)
+{
+  assert(0); // not implemented
+  return CGAL_ON_BOUNDED_SIDE;
+}
+
+template <class FT >
+CGAL_Oriented_side CGAL_side_of_oriented_sphere(
+                         const CGAL_PointC3<FT> &p0,
+                         const CGAL_PointC3<FT> &p1,
+                         const CGAL_PointC3<FT> &p2,
+                         const CGAL_PointC3<FT> &p3,
+                         const CGAL_PointC3<FT> &test)
+{
+  CGAL_VectorC3<FT> v0 = p0-test;
+  CGAL_VectorC3<FT> v1 = p1-test;
+  CGAL_VectorC3<FT> v2 = p2-test;
+  CGAL_VectorC3<FT> v3 = p3-test;
+  CGAL_VectorC3<FT> v01 = CGAL_cross_product(v0, v1);
+  CGAL_VectorC3<FT> v23 = CGAL_cross_product(v2, v3);
+
+  FT det = - (v0 * v0) * ( v1 * v23)
+           + (v1 * v1) * ( v0 * v23)
+           - (v2 * v2) * ( v01 * v3)
+           + (v3 * v3) * ( v01 * v2);
+
+  // these intermediary steps are necessary for SGI C++ 4.0
+  CGAL_Oriented_side orientation = (det == FT0) ? CGAL_ON_ORIENTED_BOUNDARY
+                                                : CGAL_ON_NEGATIVE_SIDE;
+  CGAL_Oriented_side result = (det > FT0) ? CGAL_ON_POSITIVE_SIDE
+                                          : orientation;
+
+  return result;
 }
 
 

@@ -1,91 +1,45 @@
-The installed version is CGAL-0.901, i.e. the official 0.9 version with a 
-few corrections made by stschirr@mpi-sb.mpg.de. Version 1.0 is coming soon!
+This is CGAL-1.0.
 
-CGAL documentation is available online through doc_html/index.html. Postscript
-versions of the reference manual, a `getting started' document and a document on STL 
-and CGAL are in doc_ps, printed versions are in a CGAL-folder in AG1's group 
-library. 
-The directory `examples' contains example programs. Especially, it contains a 
-makefile. To compile with CGAL, you should include a CGAL_MAKEFILE designed for your
-platform and wishes, and use the macros defined there. See examples/makefile
-for an example. See the make/README for some info on the names of the available
-makefiles.
-There are name conflicts with STL and LEDA. To work around this you have to use 
-some tricks, e.g. (un)prefix STL (you may, of course, prefer to maintain your own 
-prefixed leda_version) by including CGAL/(un)prefix_stl.h. 
-The g++-version uses the RTTI-feature, which affects the organization of class data.
-Don't mix code compiled with and without that feature.
+For installation notes see the file INSTALL.
 
-Enjoy CGAL and its flexibility!
+To use CGAL with Geomview, simply edit src/makefile_geomview,
+with the proper paths (the defaults are /usr/ucb/rsh
+and /usr/local/bin/geomview), then type in the root directory
+     cd src ; make -f makefile_geomview
+this will make the proper libGeomview.a and libGeomview.so files
+In make/makefile*, add
+     CUSTOM_LDFLAGS = -LGeomview
 
-
-
-
-
-
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-***************************
-
-
-The CGAL project
-----------------
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-The CGAL Consortium can be reached via email: cgal@cs.ruu.nl
-The CGAL project has a WWW page http://www.cs.ruu.nl/CGAL/.
-
-The goal of the project is to design and implement a robust, easy to use,
-and efficient C++ software library of geometric algorithms.
-
-The project is funded by European Union's information technologies programme
-Esprit, as Project 21957 - CGAL.
-
-
-
-The Release
------------
-
-This is release 0.9 of the CGAL library. It is the first public release.
-The version number smaller than 1 indicates that it is considered a beta
-release.
-
-Installation procedures are described in subdirectory doc_ps in file install,ps
-and subdirectory doc_html in file install.html. The content of those files is
-the same, the format is different (PostScript and HTML). You are advised to
-read this installation guide before you install CGAL. The installation process
-itself is done by the script install_cgal.
-
-The directories doc_html and doc_ps contain documentation of the CGAL library.
-The directory examples contains examples.
-Directories src and include contain the code for the CGAL library.
-The directory auxiliary contains a patch for g++ that is recommended if you use
-CGAL with g++-2.7.2. Furthermore it contains the Gnu multi precision library,
-which can be used together with CGAL.
-
-
-
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================

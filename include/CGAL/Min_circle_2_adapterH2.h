@@ -1,54 +1,61 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// file  : include/CGAL/Min_circle_2_adapterH2.h
-// source: web/Min_circle_2.aw
-// author: Bernd Gärtner, Sven Schönherr
-// $Revision: 3.2 $
-// $Date: 1997/06/24 12:42:19 $
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Min_circle_2_adapterH2.h
+// author(s)     : Sven Schönherr 
+//                 Bernd Gärtner
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef CGAL_MIN_CIRCLE_2_ADAPTERH2_H
 #define CGAL_MIN_CIRCLE_2_ADAPTERH2_H
 
 // Class declarations
 // ==================
+template < class _Traits >
+class CGAL_Min_circle_2;
+
 template < class _PT, class _DA >
 class CGAL_Min_circle_2_adapterH2;
 
 template < class _PT, class _DA >
 class CGAL__Min_circle_2_adapterH2__Circle;
-
-template < class _Traits >
-class CGAL_Min_circle_2;
 
 // Class interface and implementation
 // ==================================
@@ -78,15 +85,15 @@ class CGAL_Min_circle_2_adapterH2 {
 
   public:
     // creation
-    CGAL_Min_circle_2_adapterH2( DA const& da = DA())
+    CGAL_Min_circle_2_adapterH2( const DA& da = DA())
         : dao( da), circle( da)
     { }
 
     // operations
     CGAL_Orientation
-    orientation( Point const& p, Point const& q, Point const& r) const
+    orientation( const Point& p, const Point& q, const Point& r) const
     {
-        typedef  _DA::RT  RT;
+        typedef  typename _DA::RT  RT;
     
         RT  phx;
         RT  phy;
@@ -116,8 +123,8 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     typedef  _PT  PT;
     typedef  _DA  DA;
 
-    typedef  _DA::RT            RT;
-    typedef  CGAL_Quotient<RT>  FT;
+    typedef  typename _DA::RT            RT;
+    typedef           CGAL_Quotient<RT>  FT;
 
   private:
     // data members
@@ -130,8 +137,8 @@ class CGAL__Min_circle_2_adapterH2__Circle {
 
     // private member functions
     FT
-    sqr_dist( RT const& phx, RT const& phy, RT const& phw,
-              RT const& qhx, RT const& qhy, RT const& qhw) const
+    sqr_dist( const RT& phx, const RT& phy, const RT& phw,
+              const RT& qhx, const RT& qhy, const RT& qhw) const
     {
         RT  dhx( phx*qhw - qhx*phw);
         RT  dhy( phy*qhw - qhy*phw);
@@ -145,7 +152,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     typedef  FT  Distance;
 
     // creation
-    CGAL__Min_circle_2_adapterH2__Circle( DA const& da) : dao( da) { }
+    CGAL__Min_circle_2_adapterH2__Circle( const DA& da) : dao( da) { }
 
     void  set( )
     {
@@ -155,13 +162,13 @@ class CGAL__Min_circle_2_adapterH2__Circle {
         sqr_rad   = -FT( 1);
     }
 
-    void  set( Point const& p)
+    void  set( const Point& p)
     {
         dao.get( p, center_hx, center_hy, center_hw);
         sqr_rad = FT( 0);
     }
 
-    void  set( Point const& p, Point const& q)
+    void  set( const Point& p, const Point& q)
     {
         RT  phx;
         RT  phy;
@@ -179,7 +186,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
                               center_hx, center_hy, center_hw);
     }
 
-    void  set( Point const& p, Point const& q, Point const& r)
+    void  set( const Point& p, const Point& q, const Point& r)
     {
         RT  phx;
         RT  phy;
@@ -223,7 +230,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
 
     // predicates
     CGAL_Bounded_side
-    bounded_side( Point const& p) const
+    bounded_side( const Point& p) const
     {
         RT  phx;
         RT  phy;
@@ -236,7 +243,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     }
 
     bool
-    has_on_bounded_side( Point const& p) const
+    has_on_bounded_side( const Point& p) const
     {
         RT  phx;
         RT  phy;
@@ -247,7 +254,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     }
 
     bool
-    has_on_boundary( Point const& p) const
+    has_on_boundary( const Point& p) const
     {
         RT  phx;
         RT  phy;
@@ -258,7 +265,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     }
 
     bool
-    has_on_unbounded_side( Point const& p) const
+    has_on_unbounded_side( const Point& p) const
     {
         RT  phx;
         RT  phy;
@@ -283,7 +290,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     // additional operations for checking
     bool
     operator == (
-        CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA> const& c) const
+        const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c) const
     {
         return( ( center_hx*c.center_hw == c.center_hx*center_hw) &&
                 ( center_hy*c.center_hw == c.center_hy*center_hw) &&
@@ -298,7 +305,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
         return( p);
     }
 
-    Distance const&
+    const Distance&
     squared_radius( ) const
     {
         return( sqr_rad);
@@ -308,7 +315,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     friend
     ostream&
     operator << ( ostream& os,
-                  CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA> const& c)
+                  const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c)
     {
         switch ( CGAL_get_mode( os)) {
 

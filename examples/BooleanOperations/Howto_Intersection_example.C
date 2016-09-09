@@ -1,23 +1,28 @@
-//  Copyright CGAL 1996
+//  -*- Mode: c++ -*-
+// ============================================================================
+// 
+// Copyright (c) 1997 The CGAL Consortium
 //
-//  cgal@cs.ruu.nl
+// This software and related documentation is part of an INTERNAL release
+// of the Computational Geometry Algorithms Library (CGAL). It is not
+// intended for general use.
 //
-//  This file is part of an internal release of the CGAL basic library.
-//  The code herein may be used and/or copied only in accordance
-//  with the terms and conditions stipulated in the agreement
-//  under which the code has been supplied or with the written
-//  permission of the CGAL Project.
+// ----------------------------------------------------------------------------
 //
-//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
-//  Please send any bug reports and comments to cgal@cs.ruu.nl
+// release       : $CGAL_Revision: CGAL-0.9-I-06 $
+// release_date  : $CGAL_Date: 1998/09/02 $
 //
-//  The code comes WITHOUT ANY WARRANTY; without even the implied
-//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+// file          : ./examples/BooleanOperations/Howto_Intersection_example.C
+// source        : ./examples/BooleanOperations/Howto_Intersection_example.C
+// revision      : $Revision: 0.9.29h $
+// revision_date : $Date: Mon Feb  9 16:00:45 MET 1998  $
+// author(s)     :         Wolfgang Freiseisen <Wolfgang.Freiseisen@risc.uni-linz.ac.at>
 //
- 
-// Source: BooleanOperations_example.C
-// Author: Wolfgang Freiseisen
- 
+// coordinator   : RISC Linz
+//           (Wolfgang Freiseisen <wfreisei@risc.uni-linz.ac.at>)
+//
+// 
+// ============================================================================
 
 /*
   This is an example program for the usage of the boolean operation
@@ -27,11 +32,6 @@
                                ---------
 */
 
-#ifdef __GNUC__
-#include <typeinfo>
-#endif
-#include <iostream.h>
-
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/basic.h>
@@ -40,16 +40,18 @@
 #include <CGAL/boolean_operations_2.h>
 
 
-typedef CGAL_Quotient<int> TestNum;
-typedef CGAL_Cartesian<TestNum>              R_type;
-//typedef CGAL_Homogeneous<TestNum>            R_type;
-typedef CGAL_Point_2<R_type>                 Point_2;
-typedef CGAL_Segment_2<R_type>               Segment_2;
-typedef list< Point_2 >                      Container;
-typedef CGAL_Polygon_2< R_type, Container >  Polygon_2;
+typedef CGAL_Quotient<long int>          TestNum;
+typedef CGAL_Homogeneous<TestNum>        R_type;
 
+typedef CGAL_Point_2<R_type>             Point_2;
+typedef CGAL_Segment_2<R_type>           Segment_2;
 
-typedef vector<Point_2>                      Input_container;
+typedef list< Point_2 >                  Container;
+typedef CGAL_Polygon_traits_2<R_type>    Polygon_traits_2;
+typedef CGAL_Polygon_2< Polygon_traits_2, Container >  Polygon_2;
+
+typedef vector<Point_2>                  Input_container;
+
 
 int example_intersection(
   const Input_container& container_A,
@@ -70,23 +72,22 @@ int example_intersection(
   /* performing intersection of A and B */
   CGAL_intersection(A, B, back_inserter(result));
   
-  /* print out the result */
-  cout << "size=" << result.size() << endl;
+  /* do something with the result */
 
   /* declaration of an iterator on the result container */
   list<CGAL_Object>::const_iterator it;
   for( it= result.begin(); it != result.end(); it++) {
     if( CGAL_assign( polygon, *it) ) {
-      cout << polygon << endl;               /* polygon detected */
+        /* polygon detected */
     }
     else if( CGAL_assign( segment, *it) ) {
-      cout << segment << endl;               /* segment detected */
+        /* segment detected */
     }
     else if( CGAL_assign( point, *it) )  {  
-      cout << point << endl;                 /* point detected */
+        /* point detected */
     }
     else {
-      cout << "undefined object " << endl;   /* nothing detected */
+        /* nothing detected */
     }
   }
   

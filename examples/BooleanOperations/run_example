@@ -1,5 +1,0 @@
-
-   make
-   BooleanOperations_example > BooleanOperations_example.output1
-   diff BooleanOperations_example.output*
-   rm BooleanOperations_example.output1

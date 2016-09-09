@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_AssociativeContainer.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: multimap<Key, T, Compare></TITLE>
+  <TITLE>STL in CGAL: multimap<Key, T, Compare></TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -47,20 +47,19 @@ almost the same as of the class <I><A HREF="map.html#Cross_link_anchor_29">map</
 <A HREF="list.html#Cross_link_anchor_24">list</A> the functions that have a different syntax or semantics.
 <P>
 
-<I>#include &lt;<A HREF="../../include/multimap.h">multimap.h</A>
-&gt;</I>
+<I>#include &lt;<A HREF="multimap.html#Cross_link_anchor_30">multimap</A>.h&gt;</I>
 <P>
 
 <H3>Types</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_iterator"></A>
 <A HREF="multimap.html#Cross_link_anchor_30">multimap</A>&lt;Key, T, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A const bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
@@ -71,55 +70,55 @@ almost the same as of the class <I><A HREF="map.html#Cross_link_anchor_29">map</
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;constKey,T&gt; val)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>val</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A>. The <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I> is the
     starting point of the search. The return value points to the
     inserted item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.insert (  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;constKey,T&gt; val)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>val</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A>. Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to
     the inserted item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases the element where pos points to. This erases only one
     element
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.erase ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases all elements that are equal to <I>k</I>. Returns the number
     of erased elements.
@@ -141,7 +140,7 @@ almost the same as of the class <I><A HREF="map.html#Cross_link_anchor_29">map</
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_SequenceContainer.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: deque<T></TITLE>
+  <TITLE>STL in CGAL: deque<T></TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -41,29 +41,29 @@ time insert and erase operations at both ends. Insert and erase in the
 middle take linear time.
 <P>
 
-<I>#include &lt;<A HREF="../../include/deque.h">deque.h</A>&gt;</I>
+<I>#include &lt;<A HREF="deque.html#Cross_link_anchor_26">deque</A>.h&gt;</I>
 <P>
 
 <H3>Types</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_iterator"></A>
 <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A>::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A mutable random access <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_const_iterator"></A>
 <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A>::const_iterator
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A const random access <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
@@ -74,30 +74,30 @@ middle take linear time.
 <H3>Creation</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D;
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces an empty <A HREF="deque.html#Cross_link_anchor_26">deque</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D (  <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> q);
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Copy constructor.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D ( int n,  T t = T());
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces a <A HREF="deque.html#Cross_link_anchor_26">deque</A> with <MATH>n</MATH> items, all initialized to
     <MATH>t</MATH>.
     <P>
@@ -109,322 +109,323 @@ middle take linear time.
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> &amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D =  <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Assignment.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D ==  <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for equality: Two deques are equal, iff they have the same
     size and if their corresponding elements are equal.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D !=  <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for inequality.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D &lt;  <A HREF="deque.html#Cross_link_anchor_26">deque&lt;T&gt;</A> D1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for lexicographically smaller.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.begin ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="deque.html#Cross_link_anchor_26">deque</A>
-    <I>D</I>.
+    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     const_iterator
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.begin () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="deque.html#Cross_link_anchor_26">deque</A>
-    <I>D</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.end ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of <A HREF="deque.html#Cross_link_anchor_26">deque</A>
-    <I>D</I>.
+    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of
+    <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     const_iterator
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.end () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of <A HREF="deque.html#Cross_link_anchor_26">deque</A>
-    <I>D</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of
+    <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.empty ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>D</I> is empty.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.size ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns the number of items in <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Returns the number of items in <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D [ int pos]
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Random access operator.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      T
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      D [ int pos] const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Random access operator.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.front ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a reference to the first item in <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Returns a reference to the first item in <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      T
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.front () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a const reference to the first item in <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Returns a const reference to the first item in <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.back ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a reference to the last item in <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Returns a reference to the last item in <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      T
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.back () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a const reference to the last item in <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Returns a const reference to the last item in <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         </TABLE><!3>
 <H4>Insert and Erase</H4>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.push_front (  T)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Inserts an item at the beginning of <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Inserts an item at the beginning of <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.push_back (  T)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Inserts an item at the end of <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Inserts an item at the end of <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     D.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  T t = T())
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts a copy of <I>t</I> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I>. The
     return value points to the inserted item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     D.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  int n,  T t = T())
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <MATH>n</MATH> copy of <I>t</I> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
     <I>pos</I>. The return value points to the inserted item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
     D.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos, <BR>
      const_iterator first, <BR>
      const_iterator last)</I></TD></TR></TABLE>
     
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts a copy of the range <MATH>[.</MATH><I>first</I>,
     <I>last</I><MATH>.)</MATH> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.pop_front ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the first item from <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Removes the first item from <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     D.pop_back ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the last item from <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    Removes the last item from <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     D.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the item from <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>, where <I>pos</I> refers to.
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Removes the item from <A HREF="deque.html#Cross_link_anchor_26">deque</A>&nbsp;<I>D</I>, where <I>pos</I> refers
+    to.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     D.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> first,  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> last)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Removes the items in the range<MATH>[.</MATH><I>first</I>,
-    <I>last</I><MATH>.)</MATH> from <A HREF="deque.html#Cross_link_anchor_26">deque</A> <I>D</I>.
+    <I>last</I><MATH>.)</MATH> from <A HREF="deque.html#Cross_link_anchor_26">deque</A> &nbsp;<I>D</I>.
         </TD></TR>
         </TABLE><!3>
 <HR><B> Return to chapter:</B> <A HREF="Chapter_SequenceContainer.html">Sequence Containers</A>
@@ -444,7 +445,7 @@ middle take linear time.
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

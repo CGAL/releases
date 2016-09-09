@@ -1,0 +1,336 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_triangulation.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Delaunay_triangulation_2<Traits></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+<P>
+
+<H3>Definition</H3>The class
+<I><A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Traits&gt;</A></I> is a triangulation
+of points in a plane that maintains the <EM>Delaunay property</EM>: The
+circumscribing circle of each face does not contain any vertex.
+<P>
+
+The template parameter <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A></I> is the Delaunay triangulation
+traits class. It defines the primitives the Delaunay triangulation
+uses.
+<P>
+
+CGAL provides some traits class implementations for the CGAL kernel
+that are described in section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Customizing
+own triangulation traits classes can be done according to the
+requirements given in section&nbsp;<A HREF="Chapter_triangulation.html#I1_SectReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<I>#include &lt;CGAL/Delaunay_triangulation.h&gt;</I>
+<P>
+
+<H3>Inherits From</H3><I><A HREF="CGAL_Triangulation_2.html#Cross_link_anchor_0">CGAL_Triangulation_2&lt;Traits&gt;</A></I>
+<P>
+
+The modifying functions <I>insert</I> and <I>remove</I> overwrite the
+inherited functions to maintain the Delaunay property.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Distance"></A>
+typedef <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::<A HREF="Distance.html#Cross_link_anchor_5">Distance</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Distance.html#Cross_link_anchor_5">Distance</A>;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Traits&gt;</A> DT (  <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> t = <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces an empty Delaunay triangulation <I>DT</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Traits&gt;</A> DT ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    Vertex_handle v; <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> t = <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>());</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces a Delaunay triangulation <I>DT</I> that is initialized
+    with the vertices and faces that are linked to vertex <I>v</I>. If
+    <I>v</I> has no incident face the triangulation consists only of
+    <I>v</I>. Otherwise <I>v</I> must be the vertex at infinity.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3> Insertion and Removal</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.insert (  Point p,  Face_handle f=Face_handle())
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts point <I>p</I>. If point <I>p</I> coincides with an already
+    existing vertex, this vertex is returned and the triangulation is
+    not updated. Optional parameter <I>f</I> initialized the location.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    DT.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p, <BR>
+     Locate_type&amp; lt. Face_handle f=Face_handle())</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Same as above. Additionally, parameter <I>lt</I> describes where
+    point <I>p</I> was located before updating the triangulation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.push_back (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Equivalent to <I>insert(p)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class InputIterator &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.insert ( InputIterator first,  InputIterator last)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts the points in the range <MATH>[.</MATH><I>first</I>,
+    <I>last</I><MATH>.)</MATH>. Returns the number of inserted points.
+    <BR><STRONG>Precondition: </STRONG>The <I>value_type</I> of
+    <I>first</I> and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.remove ( Vertex_handle v)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Removes the vertex from the triangulation.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Queries</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Vertex_handle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    DT.nearest_vertex ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p, <BR>
+     Face_handle f=Face_handle())</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns any nearest vertex of <I>p</I>. <I>f</I> may be used to
+    initialize the location
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Geometric Predicates</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    CGAL_Oriented_side
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.side_of_oriented_circle ( Face_handle f,  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the side of <I>p</I> with respect to the circle
+    circumscribing the triangle associated with <I>f</I>
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Miscellaneous</H3>
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    DT.is_valid ( bool verbose = false,  int level = 0)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Tests the validity of all faces and verifies that the Delaunay
+    property and the orientation of the triangles. This method serves
+    mainly for debugging Delaunay triangulation algorithms designed by
+    the user.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR>
+<P>
+
+<H3>Example</H3>The following code fragment creates a Delaunay
+triangulation with the usual Euclidean metric for the vertical
+projection of a terrain model. The points have elevation, that is they
+are 3D points and the predicates which are defined in the Delaunay
+triangulation traits class forget about the <MATH>z</MATH>-coordinate
+of these points. The terrain model is then visualized on a 3D viewer.
+<P>
+
+<PRE>
+
+typedef CGAL_Homogeneous&lt;leda_integer&gt;  Rep;
+typedef <A HREF="CGAL_Triangulation_euclidean_xy_traits_3.html#Cross_link_anchor_3">CGAL_Triangulation_euclidean_xy_traits_3&lt;Rep&gt;</A>  Terrain;
+typedef <A HREF="CGAL_Delaunay_triangulation_2.html#Cross_link_anchor_1">CGAL_Delaunay_triangulation_2&lt;Terrain&gt;</A> Delaunay;
+
+{
+    Delaunay DT(Terrain());
+
+    while(cin){
+        CGAL_Point_3&lt;Rep&gt; p;
+        cin &gt;&gt; p;
+        DT.insert(p);
+    }
+    CGAL_Geomview_stream G;
+    G &lt;&lt; DT;
+}
+</PRE>
+<P>
+
+<H3> Implementation</H3>
+<P>
+
+Insertion is implemented by inserting in the triangulation, then
+performing a sequence of Delaunay flips. The number of flips is O(d) if
+the new vertex is of degree d in the new triangulation. For points
+distributed uniformly at random, insertion takes time O(1) on average.
+<P>
+
+Removal calls the removal in the triangulation and then retriangulates
+the hole but this time using the Delaunay criterion. Removal of a
+vertex of degree d takes time O(d^2), which is O(1) for a random vertex
+in the triangulation.
+<P>
+
+A nearest neighbor is found in time O(n) in the worst case, but O(1)
+for vertices distributed uniformly at random, and any query point.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Triangulation_euclidean_traits_2.html"><I>CGAL_Triangulation_euclidean_traits_2&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_triangulation.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

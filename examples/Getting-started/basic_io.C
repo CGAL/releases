@@ -1,14 +1,7 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Appendix (A short introduction to C++)
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
-#include "tutorial.h
+#include "tutorial.h"
 #include <iostream.h>
 
-main()
+void main()
 {
     int i;
     float f;

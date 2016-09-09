@@ -1,0 +1,640 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Predicates2D.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Predicates2D.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>2D Geometric Predicates</H1>
+ <A NAME="Predicates2D"></A><P>
+
+<A NAME="Section_13"></A>
+<H2>Order Type Predicates</H2>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Orientation_CGAL_orientation6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9_q+__const_CGAL_Point_26R9__r9;"></A>
+CGAL_Orientation
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_orientation ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I><A HREF="Chapter_Utilities.html#Var_CGAL_LEFTTURN">CGAL_LEFTTURN</A></I>, if <MATH>r</MATH> lies to the left of
+    the oriented line <MATH>l</MATH> defined by <MATH>p</MATH> and
+    <MATH>q</MATH>, returns <I><A HREF="Chapter_Utilities.html#Var_CGAL_RIGHTTURN">CGAL_RIGHTTURN</A></I> if <MATH>r</MATH>
+    lies to the right of <MATH>l</MATH>, and returns
+    <I><A HREF="Chapter_Utilities.html#Var_CGAL_COLLINEAR">CGAL_COLLINEAR</A></I> if <MATH>r</MATH> lies on <MATH>l</MATH>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+The following functions return <I>true</I> or <I>false</I>
+depending on whether the orientation of three points is equal to
+one of the constants mentioned in <A HREF="Chapter_Utilities.html#Sec:Order_types"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_leftturn6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_leftturn ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_rightturn6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_rightturn ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_collinear6const_CGAL_Point_26R9__p+___const_CGAL_Point_26R9__q+___const_CGAL_Point_26R9__r9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_collinear ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Section_14"></A>
+<H2>The Incircle Test</H2>
+<P>
+
+Instead of constructing a circle and performing the test if a
+given point lies inside or outside you might use the following
+predicate:<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Bounded_side_CGAL_side_of_bounded_circle6__const_CGAL_Point_26R9__p+___const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r+___const_CGAL_Point_26R9__test9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_side_of_bounded_circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> test)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the relative position of point <I>test</I> to the circle
+    defined by <MATH>p</MATH>, <MATH>q</MATH> and <MATH>r</MATH>. The
+    order of the points <MATH>p</MATH>, <MATH>q</MATH> and
+    <MATH>r</MATH> does not matter. <BR><STRONG>Precondition: </STRONG>
+    <I>p, q</I> and <I>r</I> are not collinear.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Oriented_side_CGAL_side_of_oriented_circle6__const_CGAL_Point_26R9__p+___const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r+___const_CGAL_Point_26R9__test9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_side_of_oriented_circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> r, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> test)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the relative position of point <I>test</I> to the oriented
+    circle defined by <MATH>p</MATH>, <MATH>q</MATH> and
+    <MATH>r</MATH>. The order of the points <MATH>p</MATH>,
+    <MATH>q</MATH> and <MATH>r</MATH> is important, since it determines
+    the orientation of the implicitly constructed circle.
+    <BR><STRONG>Precondition: </STRONG><I>p, q</I> and <I>r</I> are not
+    collinear.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Section_15"></A>
+<H2>Comparison of Coordinates of Points</H2>
+<P>
+
+In order to check if two points have the same <MATH>x</MATH> or <MATH>y</MATH> coordinate
+we provide the following functions. They allow to write code that
+does not depend on the representation type.<P>
+
+<I>#include &lt;CGAL/predicates_on_points_2.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_x_equal6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_x_equal (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p,  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> and <I>q</I> have the same
+    <I>x</I>-coordinate.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_y_equal6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_y_equal (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p,  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> and <I>q</I> have the same
+    <I>y</I>-coordinate.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+The above functions are decision versions of the following
+comparison functions returning a <I><A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A></I>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_x6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_compare_x (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p,  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_compare_y (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p,  <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+CGAL offers the same functions for points given implicitly as intersection
+of two lines. We provide these functions because we can provide
+better code for the test, than simply computing the intersection and
+calling the respective function for points.<P>
+
+<BR><STRONG>Precondition: </STRONG>Lines that define an intersection point may not be parallel.<P>
+
+<I>#include &lt;CGAL/predicates_on_lines_2.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_x6const_CGAL_Point_26R9__p+__const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>x</MATH>-coordinates of <MATH>p</MATH> and the
+    intersection of lines <MATH>l1</MATH> and <MATH>l2</MATH>
+    , see (a) in the figure 
+         below.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_x6const_CGAL_Line_26R9__l+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>x</MATH>-coordinates of the intersection of line
+    <MATH>l</MATH> with line <MATH>h1</MATH> and with line
+    <MATH>h2</MATH> , see (b) in the figure 
+         below.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_x6const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l2+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>x</MATH>-coordinates of the intersection of
+    lines <MATH>l1</MATH> and <MATH>l2</MATH> and the intersection of
+    lines <MATH>h1</MATH> and <MATH>h2</MATH>
+    , see (c) in the figure 
+         below.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+<img border=0 src=./compare1.gif align=center alt="Comparison of the x 
+or y coordinates of the (implicitly given) points in the boxes">
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y6const_CGAL_Point_26R9__p+__const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>y</MATH>-coordinates of <MATH>p</MATH> and the
+    intersection of lines <MATH>l1</MATH> and <MATH>l2</MATH>
+    , see (a) in the figure 
+         above.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y6const_CGAL_Line_26R9__l+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>y</MATH>-coordinates of the intersection of line
+    <MATH>l</MATH> with line <MATH>h1</MATH> and with line
+    <MATH>h2</MATH> , see (b) in the figure 
+         above.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y6const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l2+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>y</MATH>-coordinates of the intersection of
+    lines <MATH>l1</MATH> and <MATH>l2</MATH> and the intersection of
+    lines <MATH>h1</MATH> and <MATH>h2</MATH>
+    , see (c) in the figure 
+         above.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+The following functions compare the <I>y</I> coordinate of an point
+(that may be given implicitly) with a line.<P>
+
+<BR><STRONG>Precondition: </STRONG>If the point is given as an intersection of two lines these
+lines may not be parallel. Lines where points are projected on may not be
+vertical.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y_at_x6const_CGAL_Point_26R9__p+__const_CGAL_Line_26R9__h9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y_at_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the <MATH>y</MATH>-coordinates of <MATH>p</MATH> and the
+    vertical projection of <I>p</I> on <I>h</I>
+    , see (d) in the figure 
+         below.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y_at_x6const_CGAL_Point_26R9__p+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y_at_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    This function compares the <MATH>y</MATH>-coordinates of the
+    vertical projection of <I>p</I> on <I>h1</I> and on <I>h2</I>
+    , see (e) in the figure 
+ below.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y_at_x6const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l2+__const_CGAL_Line_26R9__h9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y_at_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Let <MATH>p</MATH> be the intersection of lines <MATH>l1</MATH> and
+    <MATH>l2</MATH>. This function compares the
+    <MATH>y</MATH>-coordinates of <MATH>p</MATH> and the vertical
+    projection of <I>p</I> on <I>h</I>
+    , see (f) in the figure 
+       below.
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_y_at_x6const_CGAL_Line_26R9__l1+__const_CGAL_Line_26R9__l2+__const_CGAL_Line_26R9__h1+__const_CGAL_Line_26R9__h29;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_y_at_x ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> l2, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h1, <BR>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_7">CGAL_Line_2&lt;R&gt;</A> h2)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Let <MATH>p</MATH> be the intersection of lines <MATH>l1</MATH> and
+    <MATH>l2</MATH>. This function compares the
+    <MATH>y</MATH>-coordinates of the vertical projection of <I>p</I>
+    on <I>h1</I> and on <I>h2</I> , see (g) in the figure 
+ below.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+<img border=0 src=./compare2.gif align=center alt="Comparison of y at x">
+<P>
+
+For lexicographical comparison CGAL provides<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_compare_lexicographically_xy6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+<A HREF="Chapter_Utilities.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_compare_lexicographically_xy ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Compares the Cartesian coordinates of points <I>p</I> and <I>q</I>
+    lexicographically in <MATH>xy</MATH> order: first
+    <MATH>x</MATH>-coordinates are compared, if they are equal,
+    <MATH>y</MATH>-coordinates are compared.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+In addition, CGAL provides the following comparison functions
+returning <I>true</I> or <I>false</I> depending on the result
+of <I>CGAL_compare_lexicographically_xy(p,q)</I>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool__CGAL_lexicographically_xy_smaller_or_equal6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_lexicographically_xy_smaller_or_equal ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_lexicographically_xy_smaller6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_lexicographically_xy_smaller ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_lexicographically_xy_larger_or_equal6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_lexicographically_xy_larger_or_equal ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_lexicographically_xy_larger6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_lexicographically_xy_larger ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_4">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>See Also</H3>Distance comparisons, Section&nbsp;<A HREF="Chapter_SqDistance.html#DistCompare"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<P>
+
+<HR> Next chapter: <A HREF="Chapter_AffTransformation_2.html">2D Transformations</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Predicates2D.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

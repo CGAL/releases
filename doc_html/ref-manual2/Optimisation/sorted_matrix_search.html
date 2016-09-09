@@ -1,0 +1,189 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+
+      <H3>Sorted Matrix Search</H3>
+      
+      This section describes a function
+      <i>CGAL_sorted_matrix_search</I> to select the smallest entry in
+      a set of sorted matrices that fulfills a certain criterion.<P>
+
+More exactly, a matrix <IMG WIDTH=124 HEIGHT=30 ALIGN=MIDDLE
+      ALT="tex2html_wrap_inline18" SRC="../MatrixSearch_sorted1.gif" >
+      (over a totally ordered set <I>S</I>) is sorted, iff <P> <IMG
+      WIDTH=500 HEIGHT=41 ALIGN=BOTTOM ALT="eqnarray5"
+      SRC="../MatrixSearch_sorted2.gif" > <P> <P> Now let <IMG WIDTH=18
+      HEIGHT=13 ALIGN=BOTTOM ALT="tex2html_wrap_inline22"
+      SRC="../MatrixSearch_sorted3.gif" > be a set of <I>n</I> sorted
+      matrices over <I>S</I> and <I>f</I> be a monotone predicate on
+      <I>S</I>, i.e.  <P> <IMG WIDTH=445 HEIGHT=16 ALIGN=BOTTOM
+      ALT="displaymath32" SRC="../MatrixSearch_sorted4.gif" > <P><BR><P>
+
+If we assume there is any feasible element in one of the matrices in
+<IMG WIDTH=18 HEIGHT=13 ALIGN=BOTTOM
+      ALT="tex2html_wrap_inline21" SRC="../MatrixSearch_sorted3.gif" >, there
+certainly is a smallest such element. This is the one we are
+searching for.<P>
+
+The feasibility test as well as some other parameters can (and have
+to) be customized through a traits class. The requirements for this
+class are described in section <A HREF="Sms_traits.html#req_SortedMatrixSearchTraits"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<I>#include &lt;CGAL/sorted_matrix_search.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class RandomAccessIC, class <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_Traits::Value_CGAL_sorted_matrix_search6_RandomAccessIC_f+__RandomAccessIC_l+_const_Traits__t9;"></A>
+<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::Value
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_sorted_matrix_search ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    RandomAccessIC f, <BR>
+     RandomAccessIC l, <BR>
+     const <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>&amp; t)</I></TD></TR></TABLE>
+     
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+returns the element <I>x</I> in one of the sorted matrices from the
+range <MATH>[ f, l )</MATH>, for which <I>t.is_feasible( x)</I>
+is true and <I>t.compare( x, y)</I> is true for all other
+<I>y</I> values from any matrix for which <I>t.is_feasible(  y)</I> is true.<P>
+
+<H3>Precondition</H3>
+<OL>
+<LI><I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A></I> satisfies the requirements for sorted matrix search
+traits classes stated in section <A HREF="Sms_traits.html#req_SortedMatrixSearchTraits"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>,
+<LI>Value type of <I>RandomAccessIC</I> is <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::Matrix</I>,
+<LI>All matrices in <MATH>[ f, l )</MATH> are sorted according to
+<I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::compare_non_strictly</I> <I>and</I>
+<LI>there is at least one entry <MATH>x</MATH> in a matrix <MATH>M  is in  [ f, l
+      )</MATH> for which <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::is_feasible( x)</I> is true.
+</OL><P>
+
+<H3>Implementation</H3>The implementation uses an algorithm by
+Frederickson and Johnson[<A HREF="../biblio.html#Biblio_fj-fkppc-83">FJ83</A>],[<A HREF="../biblio.html#Biblio_fj-gsrsm-84">FJ84</A>] and
+runs in <MATH><TT>O</TT>(n * k + f * log (n * k))</MATH>, where <MATH>n</MATH>
+is the number of input matrices, <MATH>k</MATH> denotes the maximal dimension
+of any input matrix and <MATH>f</MATH> the time needed for one feasibility
+test.<P>
+
+<H3>Example</H3>In the following program we build a random vector <MATH>a =
+    (a<SUB>i</SUB>)<SUB>i = 1,...,5</SUB></MATH> (elements drawn uniformly from <MATH>{
+    0,...,99 }</MATH>) and construct a Cartesian matrix <MATH>M</MATH> containing
+as elements all sums <MATH>a<SUB>i</SUB> + a<SUB>j</SUB>, i,j  is in  {1,...,5}</MATH>. If
+<MATH>a</MATH> is sorted, <MATH>M</MATH> is sorted as well. So we can apply
+<I>CGAL_sorted_matrix_search</I> to compute the upper bound for the
+maximal entry of <MATH>a</MATH> in <MATH>M</MATH>.<P>
+
+<PRE>#include &lt;CGAL/Random.h&gt;
+#include &lt;CGAL/function_objects.h&gt;
+#include &lt;CGAL/Cartesian_matrix.h&gt;
+#include &lt;CGAL/sorted_matrix_search.h&gt;
+#include &lt;vector.h&gt;
+
+int main() {
+
+  typedef int                              Value;
+  typedef vector&lt; Value &gt;                  Vector;
+  typedef Vector::iterator                 Value_iterator;
+  typedef vector&lt; Vector &gt;                 Vector_cont;
+  typedef CGAL_Cartesian_matrix&lt;
+    plus&lt; int &gt;,
+    Value_iterator,
+    Value_iterator &gt;                       Matrix;
+
+  // set of vectors the matrices are build from:
+  Vector_cont vectors;
+
+  // generate a random vector and sort it:
+  Vector a;
+  int i;
+  cout &lt;&lt; &quot;a = ( &quot;;
+  for ( i = 0; i &lt; 5; ++i) {
+    a.push_back( CGAL_random( 100));
+    cout &lt;&lt; a.back() &lt;&lt; &quot; &quot;;
+  }
+  cout &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+  sort( a.begin(), a.end(), less&lt; Value &gt;());
+
+  // build a cartesian from a:
+  Matrix M( a.begin(), a.end(), a.begin(), a.end());
+
+  // search an upper bound for max(a):
+  Value bound( a[4]);
+  Value upper_bound(
+    CGAL_sorted_matrix_search(
+      &amp;M,
+      &amp;M + 1,
+      CGAL_sorted_matrix_search_traits_adaptor(
+        bind2nd( greater_equal&lt; Value &gt;(), bound),
+        M)));
+  cout &lt;&lt; &quot;upper bound for &quot; &lt;&lt; bound &lt;&lt; &quot; is &quot;
+       &lt;&lt; upper_bound &lt;&lt; endl;
+
+} 
+</PRE><P>
+
+<HR> <B>Next:</B>  Class declaration of <A HREF="Sms_traits.html"><I>Sms_traits</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

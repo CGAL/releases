@@ -1,0 +1,26 @@
+CGAL KD-Tree demo
+--------------------
+
+  This directory contains the kd-tree demo. To compile you will need LEDA
+compiled with redefined names (to avoid name conflicts with Cgal).
+  To compile the demo program, enter the  directory. Update the
+makefile , and do make. This will produce several demo programs
+kdtest_2, kdtest_3, kdtest_4, kdtest_10, kdtest_20, kdtest_30 (the
+same demo program in various dimensions).
+  The program randomly chooses a set of points and a query rectangle
+and colors all  the points in the query rectangle . In the higher
+dimensions the display shows the projections of the points and the
+rectangle for every pair of axes.
+  The program can run without the rest of Cgal.
+
+
+Files:
+
+makefile
+kdtest.C               The kd-tree graphical demo program
+mygeneric.h            A few favorite macros
+point_float_d.h        Implementation of a d-point.
+tester.h               A templated code used by the kdtest programs
+window_d.h             A class for the displaying the points
+
+-----------------------------------------------------------------------

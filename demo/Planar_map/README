@@ -1,0 +1,56 @@
+Planar Map Package Demo Program
+-------------------------------
+
+  The directory contains a demo program (do "make demo" to compile)
+and a utility program for generating input files for the demo program 
+(do "make helputil" to compile).
+  There is also a directory "input_files" which contains some input
+files in the format needed for the demo program.
+
+The demo program:
+-----------------
+
+  The demo program can be run with a file in the format defined below,
+or it can be run without arguments in which case the user builds a planar
+map interactively using the mouse. 
+  The left button starts a new vertex and pressing it repeatedly will 
+insert an edge from the last vertex inserted. The right button will start 
+from the nearest existing vertex and will end a session of left-button presses
+with an edge to the nearest vertex.
+
+After the planar map is read (from the file or interactively) the user can use
+the mouse for queries (ray shooting and point location).
+
+usage: 
+	demo [filename]  
+ 
+
+The helputil program :
+-------------------
+The program handles input files for the demo program .
+The Input file should be at the following format:
+       <n = number of points>
+       <x1> <y1> 
+       ...
+       <xn> <yn>
+       <k = number of curves>
+       <s1> <t1>
+       ...
+       <sk> <tk>
+  Where xi, yi are the coordinates of point i and si,ti
+are the indices (in the the above list of points) 
+of the source and the target of curve i.
+
+  The utilities given are creating a random file of (possibly
+intersecting) segments, and intersection of such a file into
+a file of non-intersecting segments.
+
+Usages:
+
+1. Intersect Line Segments:
+	helputil  i <input_file> <output_file>
+       	
+
+2. Create random (not intersected) file with <num> segments:
+	helputil  r <num> <output_file>
+

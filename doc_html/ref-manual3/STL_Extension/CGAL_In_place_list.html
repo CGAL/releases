@@ -1,0 +1,874 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_In_place_list<T,bool></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+<P>
+
+<H2> Container Class (<I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A></I>)</H2>
+<P>
+
+<H3>Definition</H3>An object of the class
+<I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> represents a sequence of items
+of type <I>T</I> that supports bidirectional iterators and allows
+constant time insert and erase operations anywhere within the sequence.
+The functionality is similar to the <I>list&lt;T&gt;</I> in the STL.
+<P>
+
+The <I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> manages the items in place,
+i.e.&nbsp;inserted items are not copied. Two pointers of type <I>T*</I>
+are expected to be reserved in <I>T</I> for the list management. The
+base class <I><A HREF="CGAL_In_place_list_base.html#Cross_link_anchor_0">CGAL_In_place_list_base&lt;T&gt;</A></I> can be used to
+obtain such pointers.
+<P>
+
+The <I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> does not copy element items
+during insertion (unless otherwise stated for a function). On removal
+of an item or destruction of the list the items are not deleted by
+default. The second template parameter <I>bool</I> is set to
+<I>false</I> in this case. If the
+<I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> should take the responsibility
+for the stored objects the <I>bool</I> parameter could be set to
+<I>true</I>, in which case the list will delete removed items and will
+delete all remaining items on destruction. In any case, the
+<I>destroy()</I> member function deletes all items. Note that these two
+possible versions of <I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> are not
+assignable to each other to avoid confusions between the different
+storage responsibilities.
+<P>
+
+<I>#include &lt;CGAL/In_place_list.h&gt;</I>
+<P>
+
+<H3>Parameters</H3>The full class name is
+<I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool managed =  false, T* T::*next = &amp;T::next_link, T* T::*prev =  &amp;T::prev_link&gt;</I>
+. As long as no default template arguments are supported, only
+<I><A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;</I> is provided.
+<P>
+
+The parameter <I>T</I> is supposed to have a default constructor, a
+copy constructor and an assignment operator. The copy constructor and
+the assignment may not copy the pointers in <I>T</I> for the list
+management, but they are allowed to. The equality test and the
+relational order require the operators <I>==</I> and <I>&lt;</I> for
+<MATH>T</MATH> respectively. These operators must not compare the
+pointers in <I>T</I>.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_iterator"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_iterator"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::const_iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_value_type"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::value_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_reference"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::reference
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_reference"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::const_reference
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_size_type"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::size_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_difference_type"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::difference_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_reverse_iterator"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::reverse_iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_reverse_iterator"></A>
+<A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt;::const_reverse_iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; l;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces an empty list.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; l (  list&lt;T&gt; l1);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    copy constructor. Each item in <I>l1</I> is copied.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; l ( size_type n,  T t = T());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a list with <MATH>n</MATH> items, all initialized with
+    copies of <MATH>t</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class InputIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; l ( InputIterator first,  InputIterator last);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a list with copies from the range [<I>first,last</I>).
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; l ( const T* first,  const T* last);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    non-member-template version.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;T,bool&gt; &amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     l =  l1
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    assignment. Each item in <I>l1</I> is copied. Each item in <I>l</I>
+    is deleted if the <I>bool</I> parameter is <I>true</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.swap (  l1)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    swaps the contents of <I>l</I> with <I>l1</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.destroy ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    all items in <I>l</I> are deleted regardless of the <I>bool</I>
+    parameter.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Comparison Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     l ==  l1
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    test for equality: Two lists are equal, iff they have the same size
+    and if their corresponding elements are equal.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     l &lt;  l1
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares in lexicographical order.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Access Member Functions</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.begin () 
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a mutable iterator referring to the first element
+    in&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.begin () const
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a constant iterator referring to the first element
+    in&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.end () 
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a mutable iterator which is the past-end-value
+    of&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.end () const
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a constant iterator which is the past-end-value
+    of&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.empty ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> if <I>l</I> is empty.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    size_type
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.size ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the number of items in list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    size_type
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.max_size ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the maximum possible size of the list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.front ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the first item in list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    T&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.back ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the last item in list&nbsp;<I>l</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Insertion</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.push_front ( T&amp;)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts an item in front of list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.push_back ( T&amp;)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts an item at the back of list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.insert ( iterator pos,  T&amp; t)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.insert ( T* pos,  T&amp; t)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts <I>t</I> in front of <I>pos</I>. The return value points to
+    the inserted item.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.insert ( iterator pos,  size_type n,  T t = T())
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.insert ( T* pos,  size_type n,  T t = T())
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts <MATH>n</MATH> copies of <I>t</I> in front of <I>pos</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class InputIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    l.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    iterator pos, <BR>
+     InputIterator first, <BR>
+     InputIterator last)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class InputIterator&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    l.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    T* pos, <BR>
+     InputIterator first, <BR>
+     InputIterator last)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts the range [<I>first, last</I>) in front of iterator
+    <I>pos</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+As long as member templates are not supported, member functions using
+<I>T*</I> instead of the general <I>InputIterator</I> are provided.
+<P>
+
+<P>
+
+<H3> Removal</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.pop_front ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the first item from list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.pop_back ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the last item from list&nbsp;<I>l</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.erase ( iterator pos)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the item from list&nbsp;<I>l</I>, where <I>pos</I> refers
+    to.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.erase ( T* pos)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the item from list&nbsp;<I>l</I>, where <I>pos</I> refers
+    to.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.erase ( iterator first,  iterator last)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.erase ( T* first,  T* last)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    removes the items in the range [<I>first, last</I>)
+    from&nbsp;<I>l</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Special List Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.splice ( iterator pos,  &amp; x)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.splice ( T* pos,  &amp; x)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts the list <MATH>x</MATH> before position <I>pos</I> and
+    <MATH>x</MATH> becomes empty. It takes constant time.
+    <BR><STRONG>Precondition: </STRONG><I>&amp;\ccVar != &amp;x</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.splice ( iterator pos,  &amp; x,  iterator i)
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.splice ( T* pos,  &amp; x,  T* i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts an element pointed to by <MATH>i</MATH> from list
+    <MATH>x</MATH> before position <I>pos</I> and removes the element
+    from <MATH>x</MATH>. It takes constant time. <MATH>i</MATH> is a
+    valid dereferenceable iterator of <MATH>x</MATH>. The result is
+    unchanged if <I>pos == i</I> or <I>pos == ++i</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    l.splice ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    iterator pos, <BR>
+     &amp; x, <BR>
+     iterator first, <BR>
+     iterator last)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.splice ( T* pos,  &amp; x,  T* first,  T* last)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts elements in the range [<I>first, last</I>) before position
+    <I>pos</I> and removes the elements from <MATH>x</MATH>. It takes
+    constant time if <I>&amp;x == &amp;</I><I>l</I>; otherwise, it
+    takes linear time. [<I>first, last</I>) is a valid range in
+    <MATH>x</MATH>. <BR><STRONG>Precondition: </STRONG><I>pos</I> is
+    not in the range [<I>first, last</I>).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    l.remove (  T value)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    erases all elements <MATH>e</MATH> in the list <I>l</I> for which
+    <I>e  == value</I>. It is stable.
+    <BR><STRONG>Precondition: </STRONG>a suitable <I>operator==</I> for
+    the type <MATH>T</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.unique ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    erases all but the first element from every consecutive group of
+    equal elements in the list <I>l</I>.
+    <BR><STRONG>Precondition: </STRONG>a suitable <I>operator==</I> for
+    the type <MATH>T</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.merge (  &amp; x)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    merges the list <MATH>x</MATH> into the list <I>l</I> and
+    <MATH>x</MATH> becomes empty. It is stable.
+    <BR><STRONG>Precondition: </STRONG>Both lists are increasingly
+    sorted. A suitable <I>operator&lt;</I> for the type <MATH>T</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.reverse ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reverses the order of the elements in <I>l</I> in linear time.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    l.sort ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    sorts the list <I>l</I> according to the <I>operator&lt;</I> in
+    time <MATH>O(n log n)</MATH> where <I>n = size()</I>. It is stable.
+    <BR><STRONG>Precondition: </STRONG>a suitable <I>operator&lt;</I>
+    for the type <MATH>T</MATH>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<P><H3>Example</H3>
+<PRE>/*  in_list_prog.C         */
+/*  -------------------------- */
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;algobase.h&gt;
+#include &lt;CGAL/In_place_list.h&gt;
+
+struct item : public <A HREF="CGAL_In_place_list_base.html#Cross_link_anchor_0">CGAL_In_place_list_base&lt;item&gt;</A> {
+    int key;
+    item() {}
+    item( const item&amp; i) : <A HREF="CGAL_In_place_list_base.html#Cross_link_anchor_0">CGAL_In_place_list_base&lt;item&gt;</A>(i), key(i.key) {}
+    item( int i) : key(i) {}
+    bool operator== (const item&amp; i) const { return key == i.key;}
+    bool operator!= (const item&amp; i) const { return ! (*this == i);}
+    bool operator== (int i) const         { return key == i;}
+    bool operator!= (int i) const         { return ! (*this == i);}
+    bool operator&lt;  (const item&amp; i) const { return key &lt; i.key;}
+};
+
+main() {
+    typedef <A HREF="CGAL_In_place_list.html#Cross_link_anchor_1">CGAL_In_place_list</A>&lt;item,true&gt; List;
+    List  l;
+    item* p = new item(1);
+    l.push_back(  *p);
+    l.push_back(  *new item(2));
+    l.push_front( *new item(3));
+    l.push_front( *new item(4));
+    l.push_front( *new item(2));
+    List::iterator i = l.begin();
+    ++i;
+    l.insert(i,*new item(5));
+    l.insert(p,*new item(5));
+    int a[7] = {2,5,4,3,5,1,2};
+    assert( equal( l.begin(), l.end(), a));
+    #ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    l.sort();
+    l.unique();
+    int b[5] = {1,2,3,4,5};
+    assert( l.size() == 5);
+    assert( equal( l.begin(), l.end(), b));
+    #endif
+    return 0;
+}
+</PRE>
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="AdaptableUnaryFunction.html"><I>AdaptableUnaryFunction</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,83 +1,84 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: dcel_defs.h
-// Author: Wolfgang Freiseisen
- 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/bops_dcel_defs.h
+// author(s)     :            Wolfgang Freiseisen 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef CGAL__DCEL_DEFS_H
 #define CGAL__DCEL_DEFS_H
 
-#ifndef CGAL_POINT_DEFINED
-#define CGAL_POINT_DEFINED  // no TEST-Modus
-#endif
+#include <CGAL/basic.h>
 
-#ifdef __GNUC__
-#include <typeinfo>
-#endif
-
+#include <pair.h>
 #include <list.h>
 #include <vector.h>
-#include <deque.h>
+#include <set.h>
+#include <algo.h>
 
-#ifdef CGAL_POINT_DEFINED
-                            /* with CGAL-POINTS */
-//#define __BUILTIN_BOOL__
-//#include <CGAL/Cartesian.h>
-//#include <iostream.h>
-//#include <CGAL/basic.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 #include <CGAL/Object.h>
 
-#define CGAL__Point_2     CGAL_Point_2<R>
-#define CGAL__Segment_2   CGAL_Segment_2<R>
 
-template<class R>
-bool operator==(const CGAL_Object& o, const CGAL_Point_2<R>& pt) {
-  CGAL_Point_2<R> pt_o;
-  CGAL_assign(pt_o, o);
-  return pt_o != pt;
-}
-//double CGAL_to_double(int i) { return (double)i; }
+#ifdef CGAL__DCEL_DEBUG_ON
 
-#else /* help-structures */
-                            /* TESTING without CGAL-POINTS */
+# define  _DOUT cout
 
-typedef pair<int,int>                     CGAL__Point_2;
-typedef pair<CGAL__Point_2,CGAL__Point_2> CGAL__Segment_2;
+#  define CGAL__BOPS_DCEL_DEBUG(_t_) _DOUT << _t_ << flush
+#  define CGAL__BOPS_DCEL_DEBUG_LN(_t_) _DOUT << _t_ << endl << flush
+#  define CGAL__BOPS_DCEL_DEBUG_VAR(_t_,_v_) _DOUT << _t_ << _v_ << endl << flush
+#  define CGAL__BOPS_DCEL_DEBUG_PAIR(_t_,_p1_,_p2_)\
+          _DOUT << _t_ << '(' << _p1_ << ',' << _p2_ << ')' << flush
+#  define CGAL__BOPS_DCEL_DEBUG_ITERATOR(_text_, _begin_, _end_)\
+          print(_DOUT, _text_, _begin_, _end_) << flush
 
-#endif /* CGAL_POINT_DEFINED */
+#else
 
+#  define CGAL__BOPS_DCEL_DEBUG(_t_)
+#  define CGAL__BOPS_DCEL_DEBUG_LN(_t_) 
+#  define CGAL__BOPS_DCEL_DEBUG_VAR(_t_,_v_)
+#  define CGAL__BOPS_DCEL_DEBUG_PAIR(_t_,_p1_,_p2_)
+#  define CGAL__BOPS_DCEL_DEBUG_ITERATOR(_text_, _begin_, _end_) 
+
+#endif /* CGAL__DCEL_DEBUG_ON */
 
 /* Colors for the DCEL */
 class CGAL__Dcel_Color {
@@ -105,14 +106,66 @@ const CGAL__Dcel_Color   CGAL__TWICE_COLORED= 3;
 
 
 
-class CGAL__Dcel_base;
+template<class I> class CGAL__Dcel_base;
+template<class I> class CGAL__Dcel_vertex_type;
+template<class I> class CGAL__Dcel_face_type;
+template<class I> class CGAL__Dcel_edge_type;
 
-class CGAL__Dcel_vertex_type;
-class CGAL__Dcel_face_type;
-class CGAL__Dcel_edge_type;
 
-typedef const CGAL__Dcel_vertex_type* CGAL__Dcel_vertex;
-typedef const CGAL__Dcel_face_type*   CGAL__Dcel_face;
-typedef const CGAL__Dcel_edge_type*   CGAL__Dcel_edge;
+/* CGAL__Dcel_point_compare: 
+ * ------------------------
+ *   predicate structure for the comparison of points in a container
+ *   see also in CGAL__Dcel<I>::insert_new_vertex()
+ */
+template <class point_type, class vertex_type>
+struct CGAL__Dcel_point_compare {
+    CGAL__Dcel_point_compare() {}
+    CGAL__Dcel_point_compare(const point_type& p) : _pt(p) {}
+    bool operator()( const vertex_type& v ) {
+      return _pt == v.point();
+    }
+    point_type _pt;
+};
+
+template <class point_type>
+struct CGAL__Dcel_point_smaller_x : binary_function<point_type, point_type, bool>
+{
+  bool operator()(const point_type& p1, const point_type& p2) const {
+    return p1.x() <= p2.x();
+  }
+};
+
+
+template <class _I>
+struct CGAL__Dcel_defs : public _I {
+  typedef CGAL__Dcel_defs<_I>                I;
+
+  typedef vector<CGAL__Dcel_edge_type<I> >   Edges_container;
+  typedef vector<CGAL__Dcel_face_type<I> >   Faces_container;
+  typedef vector<CGAL__Dcel_vertex_type<I> > Vertices_container;
+
+  typedef typename Edges_container::const_iterator    const_edges_iterator;
+  typedef typename Faces_container::const_iterator    const_faces_iterator;
+  typedef typename Vertices_container::const_iterator const_vertices_iterator;
+
+  typedef typename Edges_container::iterator          edges_iterator;
+  typedef typename Faces_container::iterator          faces_iterator;
+  typedef typename Vertices_container::iterator       vertices_iterator;
+
+#ifndef CGAL_CFG_RETURN_TYPE_BUG_4
+  typedef typename _I::Point                          Point;
+#endif
+
+  typedef CGAL__Dcel_point_smaller_x<Point>  Point_smaller;
+  typedef set<Point, Point_smaller>          Points_container;
+  typedef typename Points_container::const_iterator   const_points_iterator;
+  typedef typename Points_container::iterator         points_iterator;
+
+
+/* old typedefs (they should not be used further!!!) */
+  typedef typename Edges_container::const_iterator edge_iterator;
+  typedef typename Faces_container::const_iterator face_iterator;
+  typedef typename Vertices_container::const_iterator vertex_iterator;
+};
 
 #endif /* CGAL__DCEL_DEFS_H */

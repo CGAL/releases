@@ -1,0 +1,230 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: Exp_traits</TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Cross_link_anchor_10"></A>
+<H3>Requirements for Extremal Polygon <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Classes</H3>
+
+<P>
+
+<A NAME="req_ExtremalPolygonTraits"></A>
+<P>
+
+<H3>Definition</H3>A class <I><A HREF="Exp_traits.html#Cross_link_anchor_10">Exp_traits</A></I> has to provide the
+following types and operations in order to qualify as a traits class
+for <I>CGAL_extremal_polygon</I>.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Exp_traits.html#Cross_link_anchor_10">Exp_traits</A>::Point_2
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    class used for representing the input points.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Exp_traits.html#Cross_link_anchor_10">Exp_traits</A>::FT
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    class used for doing computations on point coordinates (has to
+    fulfill field-type requirements).
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Exp_traits.html#Cross_link_anchor_10">Exp_traits</A>::Operation
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    AdaptableBinaryFunction class <I>op</I>: <I>Point_2</I>
+    <MATH>&times;</MATH> <I>Point_2</I> <MATH>-></MATH> <I>FT</I>.
+    Together with <I>init</I> this operation recursively defines the
+    objective function to maximize. Let <MATH>p</MATH> and
+    <MATH>q</MATH> be two vertices of a polygon <MATH>P</MATH> such
+    that <MATH>q</MATH> precedes <MATH>p</MATH> in the oriented vertex
+    chain of <MATH>P</MATH> starting with vertex <MATH>root</MATH>.
+    Then <I>op(p,q)</I> returns the value by which an arbitrary
+    sub-polygon of <MATH>P</MATH> with vertices from
+    <MATH>[root, q]</MATH> increases when <MATH>p</MATH> is added to
+    it. E.g. in the maximum area case this is the area of the triangle
+    <MATH>(root, q, p)</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    t.min_k () const
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the minimal <MATH>k</MATH> for which a maximal
+    <MATH>k</MATH>-gon can be computed. (e.g. in the maximum area case
+    this is three.)
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    FT
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.init ( const Point_2&amp; p,  const Point_2&amp; q) const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the value of the objective function for a polygon
+    consisting of the two points <I>p</I> and <I>q</I>. (e.g. in the
+    maximum area case this is <I>FT( 0)</I>.)
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Operation
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    t.operation ( const Point_2&amp; p) const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    return <I>Operation</I> where <I>p</I> is the fixed
+    <MATH>root</MATH> point.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class RandomAccessIC, class  OutputIterator &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    OutputIterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    t.compute_min_k_gon ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    RandomAccessIC points_begin, <BR>
+     RandomAccessIC points_end, <BR>
+     FT&amp; max_area, <BR>
+     OutputIterator o)</I></TD></TR></TABLE>
+     const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    writes the points of [<I>points_begin</I>, <I>points_end</I>)
+    forming a <I>min_k()</I>-gon rooted at <I>points_begin[0]</I> of
+    maximal value to o and returns the past-the-end iterator for that
+    sequence (== <I>o + min_k()</I>).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class RandomAccessIC &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    t.is_convex ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    RandomAccessIC points_begin, <BR>
+     RandomAccessIC points_end)</I></TD></TR></TABLE>
+     const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns true, iff the points [<I>points_begin</I>,
+    <I>points_end</I>) form a convex chain.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Notes</H3>
+<P>
+
+<UL> <LI><I><A HREF="Exp_traits.html#Cross_link_anchor_10">Exp_traits</A></I><I>::is_convex</I> is only used for
+precondition checking. Therefore it needs not to be specified, in case
+that precondition checking is disabled. <LI>On compilers not supporting
+member function templates, <I>RandomAccessIC</I> is fixed to
+<I>vector&lt;Point_2&gt;::iterator</I> and <I>OutputIterator</I> is
+fixed to <I>vector&lt;int&gt;::reverse_iterator</I>.
+<P>
+
+</UL>
+<P>
+
+<H3>See Also</H3><I>#include &lt;CGAL/Extremal_polygon_traits_2.h
+&gt;</I>
+<P>
+
+The classes <I>CGAL_Kgon_area_traits&lt;R&gt;</I> and
+<I>CGAL_Kgon_perimeter_traits&lt;R&gt;</I> (templatized with a CGAL
+representation class) both fulfill these requirements.
+<P>
+<HR> <B>Next:</B> <A HREF="all_furthest_neighbors.html">Definition of function CGAL_all_furthest_neighbors</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

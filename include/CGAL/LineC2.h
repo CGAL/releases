@@ -1,37 +1,47 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/LineC2.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: LineC2.h
-// Author: Andreas Fabri 
 
 #ifndef CGAL_LINEC2_H
 #define CGAL_LINEC2_H
@@ -99,13 +109,15 @@ private:
 
 
 template < class FT >
-inline CGAL__Threetuple<FT>* CGAL_LineC2<FT>::ptr() const
+inline
+CGAL__Threetuple<FT>* CGAL_LineC2<FT>::ptr() const
 {
   return (CGAL__Threetuple<FT>*)PTR;
 }
 
 template < class FT >
-inline void CGAL_LineC2<FT>::new_rep(const CGAL_PointC2<FT> &p,
+CGAL_KERNEL_INLINE
+void CGAL_LineC2<FT>::new_rep(const CGAL_PointC2<FT> &p,
                                      const CGAL_PointC2<FT> &q)
 {
   PTR = new CGAL__Threetuple<FT> (p.y() - q.y(),
@@ -114,7 +126,8 @@ inline void CGAL_LineC2<FT>::new_rep(const CGAL_PointC2<FT> &p,
 }
 
 template < class FT >
-inline void CGAL_LineC2<FT>::new_rep(const FT &a, const FT &b, const FT &c)
+CGAL_KERNEL_INLINE
+void CGAL_LineC2<FT>::new_rep(const FT &a, const FT &b, const FT &c)
 {
   PTR = new CGAL__Threetuple<FT> (a, b, c);
 }
@@ -124,17 +137,20 @@ inline void CGAL_LineC2<FT>::new_rep(const FT &a, const FT &b, const FT &c)
 #include <CGAL/RayC2.h>
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2()
 {
   PTR = new CGAL__Threetuple<FT>;
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_LineC2<FT>  &l) :
   CGAL_Handle((CGAL_Handle&)l)
 {}
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_PointC2<FT> &p,
                              const CGAL_PointC2<FT> &q)
 {
@@ -142,24 +158,28 @@ CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_PointC2<FT> &p,
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2(const FT &a, const FT &b, const FT &c)
 {
   new_rep(a, b, c);
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_SegmentC2<FT> &s)
 {
   new_rep(s.start(), s.end());
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_RayC2<FT> &r)
 {
   new_rep(r.start(), r.second_point());
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_PointC2<FT> &p,
                              const CGAL_DirectionC2<FT> &d)
 {
@@ -168,11 +188,13 @@ CGAL_LineC2<FT>::CGAL_LineC2(const CGAL_PointC2<FT> &p,
 
 
 template < class FT >
+inline
 CGAL_LineC2<FT>::~CGAL_LineC2()
 {}
 
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_LineC2<FT> &CGAL_LineC2<FT>::operator=(const CGAL_LineC2<FT> &l)
 {
 
@@ -180,6 +202,7 @@ CGAL_LineC2<FT> &CGAL_LineC2<FT>::operator=(const CGAL_LineC2<FT> &l)
   return *this;
 }
 template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
 bool CGAL_LineC2<FT>::operator==(const CGAL_LineC2<FT> &l) const
 {
   if (  (a() * l.c() != l.a() * c())
@@ -203,56 +226,59 @@ bool CGAL_LineC2<FT>::operator==(const CGAL_LineC2<FT> &l) const
 }
 
 template < class FT >
+inline
 bool CGAL_LineC2<FT>::operator!=(const CGAL_LineC2<FT> &l) const
 {
   return !(*this == l);
 }
 
 template < class FT >
+inline
 int CGAL_LineC2<FT>::id() const
 {
   return (int) PTR;
 }
 template < class FT >
+inline
 FT CGAL_LineC2<FT>::a() const
 {
-
   return ptr()->e0;
 }
 
 template < class FT >
+inline
 FT CGAL_LineC2<FT>::b() const
 {
-
   return ptr()->e1;
 }
 
 template < class FT >
+inline
 FT CGAL_LineC2<FT>::c() const
 {
-
   return ptr()->e2;
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 FT CGAL_LineC2<FT>::x_at_y(const FT &y) const
 {
-
   CGAL_kernel_precondition_msg( (a() != FT(0)),
                "Line::x_at_y(const FT &y) is undefined for horizontal line" );
   return ( -b()*y - c() ) / a();
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 FT CGAL_LineC2<FT>::y_at_x(const FT &x) const
 {
-
   CGAL_kernel_precondition_msg( (b() != FT(0)),
               "Line::x_at_y(const FT &y) is undefined for vertical line");
   return ( ( (-a()*x) - c() ) / b()) ;
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT> CGAL_LineC2<FT>::perpendicular(const CGAL_PointC2<FT> &p) const
 {
   return CGAL_LineC2<FT>( -b() , a() , b() * p.x() - a() * p.y()  );
@@ -260,6 +286,7 @@ CGAL_LineC2<FT> CGAL_LineC2<FT>::perpendicular(const CGAL_PointC2<FT> &p) const
 
 
 template < class FT >
+inline
 CGAL_LineC2<FT> CGAL_LineC2<FT>::opposite() const
 {
 
@@ -267,6 +294,7 @@ CGAL_LineC2<FT> CGAL_LineC2<FT>::opposite() const
 }
 
 template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
 CGAL_PointC2<FT> CGAL_LineC2<FT>::point(int i) const
 {
 
@@ -290,6 +318,7 @@ CGAL_PointC2<FT> CGAL_LineC2<FT>::point(int i) const
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT> CGAL_LineC2<FT>::point() const
 {
   return is_vertical() ? CGAL_PointC2<FT>( (-b()-c())/a(), FT(1) )
@@ -297,6 +326,7 @@ CGAL_PointC2<FT> CGAL_LineC2<FT>::point() const
 }
 
 template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
 CGAL_PointC2<FT> CGAL_LineC2<FT>::projection(const CGAL_PointC2<FT> &p) const
 {
   if (is_horizontal())
@@ -314,13 +344,14 @@ CGAL_PointC2<FT> CGAL_LineC2<FT>::projection(const CGAL_PointC2<FT> &p) const
 }
 
 template < class FT >
+inline
 CGAL_DirectionC2<FT> CGAL_LineC2<FT>::direction() const
 {
-
   return CGAL_DirectionC2<FT>( b(), -a() );
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_Oriented_side CGAL_LineC2<FT>::oriented_side(
                                              const CGAL_PointC2<FT> &p) const
 {
@@ -331,26 +362,30 @@ CGAL_Oriented_side CGAL_LineC2<FT>::oriented_side(
 }
 
 template < class FT >
+inline
 bool CGAL_LineC2<FT>::has_on_boundary(const CGAL_PointC2<FT> &p) const
 {
   return (a()*p.x() + b()*p.y() + c()) == FT(0);
 }
 
 template < class FT >
-inline bool CGAL_LineC2<FT>::has_on_positive_side(
+inline
+bool CGAL_LineC2<FT>::has_on_positive_side(
                                              const CGAL_PointC2<FT> &p) const
 {
   return (a()*p.x() + b()*p.y() + c()) >  FT(0);
 }
 
 template < class FT >
-inline bool CGAL_LineC2<FT>::has_on_negative_side(
+CGAL_KERNEL_INLINE
+bool CGAL_LineC2<FT>::has_on_negative_side(
                                              const CGAL_PointC2<FT> &p) const
 {
   return (a()*p.x() + b()*p.y() + c()) <  FT(0);
 }
 
 template < class FT >
+inline
 bool CGAL_LineC2<FT>::is_horizontal() const
 {
 
@@ -358,6 +393,7 @@ bool CGAL_LineC2<FT>::is_horizontal() const
 }
 
 template < class FT >
+inline
 bool CGAL_LineC2<FT>::is_vertical() const
 {
 
@@ -365,13 +401,14 @@ bool CGAL_LineC2<FT>::is_vertical() const
 }
 
 template < class FT >
+inline
 bool CGAL_LineC2<FT>::is_degenerate() const
 {
-
   return (a() == FT(0)) && (b() == FT(0)) ;
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT> CGAL_LineC2<FT>::transform(
                                   const CGAL_Aff_transformationC2<FT> &t) const
 {

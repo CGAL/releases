@@ -1,40 +1,50 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/RayH2.h
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 
 #ifndef CGAL_RAYH2_H
 #define CGAL_RAYH2_H
-
-
-
 
 template < class FT, class RT >
 class CGAL__Ray_repH2 : public CGAL_Rep
@@ -48,9 +58,6 @@ public:
     CGAL_PointH2<FT,RT>  start;
     CGAL_PointH2<FT,RT>  second;
 };
-
-
-
 
 template < class FT, class RT >
 class CGAL_RayH2 : public CGAL_Handle
@@ -90,237 +97,212 @@ public:
             transform( const CGAL_Aff_transformationH2<FT,RT> & t) const;
 protected:
 
-    CGAL__Ray_repH2<FT,RT>*
-            ptr() const;
+    CGAL__Ray_repH2<FT,RT>*    ptr() const;
 };
 
 
 
 template < class FT, class RT >
+inline
 CGAL__Ray_repH2<FT,RT>::CGAL__Ray_repH2()
-{
-}
-
+{}
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL__Ray_repH2<FT,RT>::CGAL__Ray_repH2(const CGAL_PointH2<FT,RT>& fp,
-                                        const CGAL_PointH2<FT,RT>& sp) :
-  start(fp), second(sp)
-{
-}
-
-
-
+                                        const CGAL_PointH2<FT,RT>& sp)
+  : start(fp), second(sp)
+{}
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayH2<FT,RT>::CGAL_RayH2()
-{
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
- PTR = new CGAL__Ray_repH2<FT,RT>;
-#endif // CGAL_CHECK_PRECONDITIONS
-}
+{ PTR = new CGAL__Ray_repH2<FT,RT>; }
 
 template < class FT, class RT >
-CGAL_RayH2<FT,RT>::CGAL_RayH2(const CGAL_RayH2<FT,RT>& r) :
-  CGAL_Handle(r)
-{
-}
+CGAL_KERNEL_CTOR_INLINE
+CGAL_RayH2<FT,RT>::CGAL_RayH2(const CGAL_RayH2<FT,RT>& r)
+  : CGAL_Handle(r)
+{}
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayH2<FT,RT>::CGAL_RayH2( const CGAL_PointH2<FT,RT>& sp,
                                const CGAL_PointH2<FT,RT>& secondp)
-{
- PTR = new CGAL__Ray_repH2<FT,RT>(sp,secondp);
-}
+{ PTR = new CGAL__Ray_repH2<FT,RT>(sp,secondp); }
 
 template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_RayH2<FT,RT>::CGAL_RayH2( const CGAL_PointH2<FT,RT>& sp,
                                const CGAL_DirectionH2<FT,RT>& d)
-{
- PTR = new CGAL__Ray_repH2<FT,RT>(sp, sp + d.vector());
-}
+{ PTR = new CGAL__Ray_repH2<FT,RT>(sp, sp + d.vector()); }
 
 template < class FT, class RT >
+inline
 CGAL_RayH2<FT,RT>::~CGAL_RayH2()
-{
-}
+{}
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 CGAL_RayH2<FT,RT>&
 CGAL_RayH2<FT,RT>::operator=(const CGAL_RayH2<FT,RT>& r)
 {
- CGAL_Handle::operator=(r);
- return *this;
+  CGAL_Handle::operator=(r);
+  return *this;
 }
 template < class FT, class RT >
+inline
 CGAL_PointH2<FT,RT>
 CGAL_RayH2<FT,RT>::source() const
-{
- return ptr()->start;
-}
+{ return ptr()->start; }
 
 template < class FT, class RT >
+inline
 CGAL_PointH2<FT,RT>
 CGAL_RayH2<FT,RT>::start() const
-{
- return ptr()->start;
-}
-
+{ return ptr()->start; }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 CGAL_DirectionH2<FT,RT>
 CGAL_RayH2<FT,RT>::direction() const
 {
- CGAL_kernel_precondition( !is_degenerate() );
- return CGAL_DirectionH2<FT,RT>( ptr()->second - ptr()->start );
+  CGAL_kernel_precondition( !is_degenerate() );
+  return CGAL_DirectionH2<FT,RT>( ptr()->second - ptr()->start );
 }
 template < class FT, class RT >
+inline
 CGAL_PointH2<FT,RT>
 CGAL_RayH2<FT,RT>::second_point() const
 {
- CGAL_kernel_precondition( !is_degenerate() );
- return ptr()->second;
+  CGAL_kernel_precondition( !is_degenerate() );
+  return ptr()->second;
 }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 CGAL_PointH2<FT,RT>
 CGAL_RayH2<FT,RT>::point(int i) const
 {
- CGAL_kernel_precondition( !is_degenerate() );
- CGAL_kernel_precondition( i>= 0 );
- CGAL_VectorH2<FT,RT> v = direction().vector();
- return start() + RT(i) * v;
+  CGAL_kernel_precondition( !is_degenerate() );
+  CGAL_kernel_precondition( i>= 0 );
+  CGAL_VectorH2<FT,RT> v = direction().vector();
+  return start() + RT(i) * v;
 }
 
 template < class FT, class RT >
+inline
 CGAL_LineH2<FT,RT>
 CGAL_RayH2<FT,RT>::supporting_line() const
 {
- CGAL_kernel_precondition( !is_degenerate() );
- return CGAL_LineH2<FT,RT>(*this);
+  CGAL_kernel_precondition( !is_degenerate() );
+  return CGAL_LineH2<FT,RT>(*this);
 }
 
 template < class FT, class RT >
+inline
 CGAL_RayH2<FT,RT>
 CGAL_RayH2<FT,RT>::opposite() const
-{
- return CGAL_RayH2<FT,RT>( ptr()->start, - direction() );
-}
+{ return CGAL_RayH2<FT,RT>( ptr()->start, - direction() ); }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 CGAL_RayH2<FT,RT>
-CGAL_RayH2<FT,RT>::transform(
-                       const CGAL_Aff_transformationH2<FT,RT> & t) const
+CGAL_RayH2<FT,RT>::
+transform(const CGAL_Aff_transformationH2<FT,RT> & t) const
 {
- return CGAL_RayH2<FT,RT>(t.transform(ptr()->start),
-                          t.transform(ptr()->second) );
+  return CGAL_RayH2<FT,RT>(t.transform(ptr()->start),
+                           t.transform(ptr()->second) );
 }
-
 
 #ifndef CGAL_NO_OSTREAM_INSERT_RAYH2
 template < class FT, class RT >
-ostream &operator<<(ostream &os, const CGAL_RayH2<FT,RT> &r)
+ostream &
+operator<<(ostream &os, const CGAL_RayH2<FT,RT> &r)
 {
-    switch(os.iword(CGAL_IO::mode)) {
+  switch(os.iword(CGAL_IO::mode))
+  {
     case CGAL_IO::ASCII :
         return os << r.source() << ' ' << r.second_point();
     case CGAL_IO::BINARY :
         return os << r.source() << r.second_point();
     default:
         return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
-    }
+  }
 }
 #endif // CGAL_NO_OSTREAM_INSERT_RAYH2
 
 #ifndef CGAL_NO_ISTREAM_EXTRACT_RAYH2
 template < class FT, class RT >
-istream &operator>>(istream &is, CGAL_RayH2<FT,RT> &r)
+istream &
+operator>>(istream &is, CGAL_RayH2<FT,RT> &r)
 {
-    CGAL_PointH2<FT,RT> p, q;
-
-    is >> p >> q;
-      
-    r = CGAL_RayH2<FT,RT>(p, q);
-    return is;
+  CGAL_PointH2<FT,RT> p, q;
+  is >> p >> q;
+  r = CGAL_RayH2<FT,RT>(p, q);
+  return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_RAYH2
-
-
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 bool
 CGAL_RayH2<FT,RT>::is_horizontal() const
-{
- return start().hy()*second_point().hw() == second_point().hy()*start().hw();
-}
+{ return start().hy()*second_point().hw() == second_point().hy()*start().hw(); }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 bool
 CGAL_RayH2<FT,RT>::is_vertical() const
-{
- return start().hx()*second_point().hw() == second_point().hx()*start().hw();
-}
+{ return start().hx()*second_point().hw() == second_point().hx()*start().hw(); }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 bool
 CGAL_RayH2<FT,RT>::has_on(const CGAL_PointH2<FT,RT> p) const
 {
- return ( (  p == start() )
+  return ( (  p == start() )
         ||(CGAL_DirectionH2<FT,RT>(p - ptr()->start) == direction() ) );
 }
 
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 bool
 CGAL_RayH2<FT,RT>::is_degenerate() const
-{
- return ( (ptr()->start == ptr()->second) );
-}
+{ return ( (ptr()->start == ptr()->second) ); }
 
 template < class FT, class RT >
+inline
 bool
 CGAL_RayH2<FT,RT>::collinear_has_on(const CGAL_PointH2<FT,RT> p) const
-{
- return has_on(p);
-}
-
+{ return has_on(p); }
 template < class FT, class RT >
+CGAL_KERNEL_INLINE
 bool
 CGAL_RayH2<FT,RT>::operator==(const CGAL_RayH2<FT,RT>& r) const
-{
- return ( (start() == r.start() )&&( direction() == r.direction() ) );
-}
+{ return ( (start() == r.start() )&&( direction() == r.direction() ) ); }
 
 template < class FT, class RT >
+inline
 bool
 CGAL_RayH2<FT,RT>::operator!=( const CGAL_RayH2<FT,RT>& r) const
-{
- return !(*this == r);
-}
-
+{ return !(*this == r); }   /* XXX */
 
 template < class FT, class RT >
+inline
 bool
 CGAL_RayH2<FT,RT>::identical( const CGAL_RayH2<FT,RT>& r) const
-{
- return ( PTR == r.PTR );
-}
+{ return ( PTR == r.PTR ); }
 
 template < class FT, class RT >
+inline
 int
 CGAL_RayH2<FT,RT>::id() const
-{
- return (int)PTR;
-}
-
-
+{ return (int)PTR; }
 template < class FT, class RT >
 inline
 CGAL__Ray_repH2<FT,RT>*
 CGAL_RayH2<FT,RT>::ptr() const
-{
- return (CGAL__Ray_repH2<FT,RT>*)PTR;
-}
+{ return (CGAL__Ray_repH2<FT,RT>*)PTR; }
 
 
 #endif // CGAL_RAYH2_H

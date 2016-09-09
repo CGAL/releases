@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_AssociativeContainer.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: map<Key, T, Compare></TITLE>
+  <TITLE>STL in CGAL: map<Key, T, Compare></TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -45,19 +45,19 @@ the keys. The keys into the <A HREF="map.html#Cross_link_anchor_29">map</A> are 
 Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <P>
 
-<I>#include &lt;<A HREF="../../include/map.h">map.h</A>&gt;</I>
+<I>#include &lt;<A HREF="map.html#Cross_link_anchor_29">map</A>.h&gt;</I>
 <P>
 
 <H3>Types</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_iterator"></A>
 <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A const bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
@@ -68,21 +68,21 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <H3>Creation</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M (  Compare comp = Compare());
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces an empty <A HREF="map.html#Cross_link_anchor_29">map</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M (  <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M1);
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Copy constructor.
     <P>
         </TD></TR>
@@ -93,102 +93,102 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; &amp;
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      M =  <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M1
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Assignment.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      M ==  <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M1
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Equality test: Two maps are equal, if the sequences <I>M</I> and
     <I>M1</I> are elementwise equal.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
      M &lt;  <A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, T, Compare&gt; M1
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>M</I> is lexicographically less than
     <I>M1</I>, <I>false</I> otherwise.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.begin ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="map.html#Cross_link_anchor_29">map</A>
-    <I>M</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="map.html#Cross_link_anchor_29">map</A>&nbsp;<I>M</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.end ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant past-the-end <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> of <A HREF="map.html#Cross_link_anchor_29">map</A> <I>M</I>.
+    Returns a constant past-the-end <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> of <A HREF="map.html#Cross_link_anchor_29">map</A>&nbsp;<I>M</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.empty ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>M</I> is empty.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.size ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns the number of items in <A HREF="map.html#Cross_link_anchor_29">map</A> <I>M</I>.
+    Returns the number of items in <A HREF="map.html#Cross_link_anchor_29">map</A>&nbsp;<I>M</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      M [  Key k]
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns a reference to the type <I>T</I> value associated with key
     <I>k</I>. If the <A HREF="map.html#Cross_link_anchor_29">map</A> is constant then a const reference is
@@ -202,30 +202,30 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <H3> Insert and Erase</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt; Key ,T&gt; val)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>val</I> into the <A HREF="map.html#Cross_link_anchor_29">map</A> if <I>val</I> is not already
     present in <I>M</I>. The <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I> is the starting point
     of the search. The return value points to the inserted item.
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
     <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>, bool&gt;
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.insert ( <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt; Key ,T&gt; val)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <I>val</I> into the <A HREF="map.html#Cross_link_anchor_29">map</A> if <I>val</I> is not already
     present in <I>M</I>. Returns a <A HREF="pair.html#Cross_link_anchor_0">pair</A>, where <I>first</I> is the
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the inserted item or to the item that is
@@ -234,25 +234,25 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases the element where pos points to.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.erase ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Erases all elements that equal <I>k</I>. Returns the number of
     erased elements.
@@ -264,41 +264,41 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <H3> Miscellaneous</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.find ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that either points to the element <I>k</I>, or
     <I>end()</I> if <I>k</I> is not present in <A HREF="map.html#Cross_link_anchor_29">map</A> <I>M</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     M.count ( Key k)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns the number of occurrences of <I>k</I> in <A HREF="map.html#Cross_link_anchor_29">map</A> <I>M</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.lower_bound ( Key k)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the first element of <I>M</I>
     that is not less than <I>k</I>. If all elements are less than
     <I>k</I> then <I>end()</I> is returned. If <I>k</I> is present in
@@ -306,14 +306,14 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     M.upper_bound ( Key k)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the first element of the <A HREF="map.html#Cross_link_anchor_29">map</A>
     that is <A HREF="greater.html#Cross_link_anchor_23">greater</A> than <I>k</I>. If no element is <A HREF="greater.html#Cross_link_anchor_23">greater</A> than
     <I>k</I> then <I>end()</I> is returned. If <I>k</I> is present in
@@ -337,7 +337,7 @@ Elements are stored in maps as <I>pairs</I> of <I>Key</I> and <I>T</I>.
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

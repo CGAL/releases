@@ -1,43 +1,65 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Triangulation_euclidean_traits_2.h
+// author(s)     : Olivier Devillers
+//                 Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H
 
+#include <CGAL/Point_2.h>
+#include <CGAL/Segment_2.h>
+#include <CGAL/Triangle_2.h>
+
+#include <CGAL/triangulation_assertions.h>
 #include <CGAL/squared_distance_2.h>
+#include <CGAL/Distance_2.h>
 #include <CGAL/Triangulation_vertex.h>
 #include <CGAL/Triangulation_face.h>
 #include <CGAL/Triangulation_face_circulator.h>
+#include <CGAL/Triangulation_edge_circulator.h>
 #include <CGAL/Triangulation_vertex_circulator.h>
+
 template < class R >
 class CGAL_Triangulation_euclidean_traits_2 {
 public:
@@ -48,6 +70,11 @@ public:
 
     typedef CGAL_Triangulation_vertex<Point> Vertex;
     typedef CGAL_Triangulation_face<Vertex> Face;
+    typedef typename Vertex::Vertex_handle Vertex_handle;
+    typedef typename Face::Face_handle Face_handle;
+
+    typedef CGAL_Distance_2<CGAL_Triangulation_euclidean_traits_2<R> > Distance;
+
 
     CGAL_Comparison_result compare_x(const Point &p, const Point &q) const
     {
@@ -91,76 +118,6 @@ public:
 
         return CGAL_side_of_oriented_circle(p, q, r, s);
     }
-
-    
-    class Distance{
-    public:
-        Distance(const Point& p0,
-                 const CGAL_Triangulation_euclidean_traits_2<R>* traits = NULL)
-            : _p0(p0)
-        {
-            CGAL_kernel_assertion( traits == traits ); // avoids warning
-        }
-    
-    
-        Distance(const Point& p0,
-                 const Point& p1,
-                 const CGAL_Triangulation_euclidean_traits_2<R>* traits = NULL)
-            : _p0(p0), _p1(p1)
-        {
-            CGAL_kernel_assertion( traits == traits ); // avoids warning
-        }
-    
-    
-        Distance(const Point& p0,
-                 const Point& p1,
-                 const Point& p2,
-                 const CGAL_Triangulation_euclidean_traits_2<R>* traits = NULL)
-            : _p0(p0), _p1(p1), _p2(p2)
-        {
-            CGAL_kernel_assertion( traits == traits ); // avoids warning
-        }
-    
-        void
-        set_point(int i, const Point& p)
-        {
-            CGAL_kernel_precondition(i == 0 || i == 1 || i == 2);
-            switch(i){
-            case 0:
-                _p0 = p;
-                break;
-            case 1:
-                _p1 = p;
-                break;
-            default:
-                _p2 = p;
-            }
-        }
-    
-        Point
-        get_point(int i) const
-        {
-          CGAL_kernel_precondition(i == 0 || i == 1 || i == 2);
-          switch(i){
-          case 0:
-            return _p0;
-          case 1:
-            return _p1;
-          }
-          return _p2;
-        }
-    
-        CGAL_Comparison_result
-        compare() const
-        {
-            return CGAL_compare((R::FT)CGAL_squared_distance(_p0, _p1),
-                                (R::FT)CGAL_squared_distance(_p0, _p2));
-        }
-    
-    private:
-        Point _p0, _p1, _p2;
-    };
-    
 };
 
 

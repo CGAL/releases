@@ -1,0 +1,113 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_intro.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_intro.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Introduction</H1>
+<P>
+
+CGAL, the <EM>Computational Geometry Algorithms Library</EM>, is written in
+C++ and consists of three parts.
+The first part is the kernel, which consists of constant size non-modifiable
+geometric primitive objects and operations on these objects.
+The objects are parameterized by a representation class, which specifies
+the coordinate representation and the underlying number types used for
+calculations.
+The second part is a collection of basic geometric data structures and
+algorithms, which are parameterized by traits classes that define the
+interface between the data structure or algorithm, and the primitives they use.
+The third part consists of non-geometric support facilities, such as
+`circulators', random sources, I/O support for debugging and for interfacing
+CGAL to various visualization tools.<P>
+
+<A NAME="Section_3"></A>
+<H2>Organization</H2>
+
+This part of the Reference Manual gives information that is relevant to
+all three parts of the library.
+Part&nbsp;1 of this Reference Manual covers the kernel, part&nbsp;2 the basic
+library, and part&nbsp;3 the support library.<P>
+
+Additional documents accompanying the CGAL distribution are
+`The Use of STL and STL Extensions in CGAL', and
+`Getting Started with CGAL'.
+The former document gives a manual style introduction to STL constructs such
+as iterators and containers, as well an extension, called circulator, used
+in many places in CGAL.
+The latter document gives an introduction in CGAL programming for the
+novice user.<P>
+
+<BR><IMG BORDER=0 SRC="cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+Some functionality is considered more advanced.
+Such functionality is described in sections like this one, bounded by
+horizontal brackets.
+<BR><IMG BORDER=0 SRC="cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<A NAME="Section_4"></A>
+<H2>Naming conventions</H2>
+<P>
+
+The use of representation classes not only avoids problems, it
+also makes all CGAL classes very uniform. They <B>always</B> consist of:
+<OL><P>
+
+<LI>The <EM>name space prefix</EM> <I>CGAL_</I>. This avoids name
+clashes. It will be dropped as soon as C++ compilers support the
+concept of name spaces as a feature of the programming language.<P>
+
+<LI>The <EM>capitalized base name</EM> of the geometric object, such as
+<I>Point</I>, <I>Segment</I>, <I>Triangle</I>.<P>
+
+<LI>An <EM>underscore</EM> followed by the <EM>dimension</EM> of the object,
+for example <MATH>_2</MATH>, <MATH>_3</MATH> or <MATH>_d</MATH>.<P>
+
+<LI>A <EM>representation class</EM> as parameter, which itself is
+parameterized with a number type, such as <I>CGAL_Cartesian&lt;double&gt;</I>
+or <I>CGAL_Homogeneous&lt;leda_integer&gt;</I>.
+</OL><P>
+
+<HR> Next chapter: <A HREF="Chapter_checks.html">Checks</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_intro.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

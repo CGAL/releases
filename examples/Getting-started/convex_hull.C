@@ -1,10 +1,3 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Convex Hulls
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include "tutorial.h"
 #include <CGAL/convex_hull_2.h>
 #include <list.h>
@@ -28,7 +21,7 @@ template <class iterator>
 void write(iterator cur, iterator beyond)
 {
     for (; cur != beyond; ++cur)
-	cout << *cur << '\n';
+        cout << *cur << '\n';
 }
 
 void list_version()
@@ -45,7 +38,7 @@ void array_version()
     write(out, beyond);
 }
 
-main()
+void main()
 {
     list_version();
     cout<<'\n';

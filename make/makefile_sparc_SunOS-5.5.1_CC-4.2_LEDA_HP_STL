@@ -1,0 +1,121 @@
+# This file contains CGAL makefile settings for the following platform:
+# OS:		sparc_SunOS-5.5.1
+# COMPILER:	SUNPRO 4.2
+# STL:		CGAL_STL_HP
+# LEDA:		supported
+# GMP:		supported
+
+#---------------------------------------------------------------------#
+#                    include directory settings
+#---------------------------------------------------------------------#
+
+CGAL_DIRECTORIES = \
+	/KM/projects/CGAL/CGAL-1.0/make/CGAL_directories
+include $(CGAL_DIRECTORIES)
+
+#---------------------------------------------------------------------#
+#                    os/compiler description
+#---------------------------------------------------------------------#
+
+CGAL_OS_COMPILER = sparc_SunOS-5.5.1_CC-4.2_LEDA_HP_STL
+
+#---------------------------------------------------------------------#
+#                    compiler
+#---------------------------------------------------------------------#
+
+CGAL_CXX = /opt/SUNWspro/bin/CC
+
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+
+# For more information about the compiler flags see the installation guide.
+
+# compiler specific configuration dir
+CGAL_INCL_CONF_DIR = \
+	$(CGAL_INCL_DIR)/CGAL/config/sparc_SunOS-5.5.1_CC-4.2
+
+# *** Fill in your STL include directory ***
+# (including the -I directive)
+# (e.g. -I/usr/local/STL)
+CGAL_STL_INCLUDE_DIRECTIVE = -I/KM/opt/HP_STL 
+
+# *** Fill in your LEDA include directory ***
+# (e.g. /usr/local/include)
+LEDA_INCL_DIR = \
+	/LEDA/BETA/incl
+
+# *** Fill in any additional compiler flags you need ***
+CUSTOM_CXXFLAGS = 
+
+# *** Fill in your GMP include directory ***
+GMP_INCL_DIR = \
+	/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2/sparc_sun_solaris/include
+
+CGAL_CXXFLAGS = \
+	$(CUSTOM_CXXFLAGS) \
+	-pto \
+	$(CGAL_STL_INCLUDE_DIRECTIVE) \
+	-DCGAL_USE_GMP \
+	-I$(GMP_INCL_DIR) \
+	-I$(CGAL_INCL_CONF_DIR) \
+	-DCGAL_USE_LEDA -DLEDA_PREFIX \
+	-I$(CGAL_INCL_DIR) \
+	-I$(LEDA_INCL_DIR)
+
+
+#---------------------------------------------------------------------#
+#                    linker flags
+
+#---------------------------------------------------------------------#
+
+# *** Fill in your LEDA_lib_directory ***
+# (e.g. /usr/local/lib)
+LEDA_LIB_DIR = \
+	/LEDA/BETA/solaris/CC
+
+# *** Fill in your GMP lib directory ***
+# (e.g. /usr/local/lib)
+GMP_LIB_DIR = \
+	/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2/sparc_sun_solaris/lib
+
+# *** Fill in any additional linker flags you need ***
+CUSTOM_LDFLAGS = 
+
+CGAL_LDFLAGS = \
+	$(CUSTOM_LDFLAGS) \
+	-L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) -L$(LEDA_LIB_DIR) -L$(GMP_LIB_DIR) \
+	-R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER):$(LEDA_LIB_DIR):$(GMP_LIB_DIR) \
+	-lCGAL -lP -lG -lL -lgmp -lm
+
+CGAL_WINDOW_LDFLAGS = \
+	-L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) -L$(LEDA_LIB_DIR) -L$(GMP_LIB_DIR) -L/usr/openwin/lib \
+	-R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER):$(LEDA_LIB_DIR):$(GMP_LIB_DIR):/usr/openwin/lib \
+	-lCGAL -lW -lP -lG -lL -lX11 -lgmp -lm
+
+
+#---------------------------------------------------------------------#
+#                    commands and flags for creating libraries
+#---------------------------------------------------------------------#
+
+CGAL_LIB = libCGAL.a
+CGAL_LIB_CXXFLAGS = \
+	$(CGAL_CXXFLAGS)
+CGAL_LIB_LDFLAGS = \
+	$(CUSTOM_LDFLAGS)
+CGAL_LIB_CREATE = $(CGAL_CXX) -xar -o
+
+CGAL_SHARED_LIB = libCGAL.so
+CGAL_SHARED_LIB_CXXFLAGS = \
+	-pic \
+	$(CGAL_CXXFLAGS)
+CGAL_SHARED_LIB_LDFLAGS = \
+	-L$(LEDA_LIB_DIR) \
+	-R $(LEDA_LIB_DIR) -lL \
+	$(CUSTOM_LDFLAGS)
+CGAL_SHARED_LIB_CREATE = $(CGAL_CXX) -G -o
+
+#---------------------------------------------------------------------#
+#                    EOF
+#---------------------------------------------------------------------#
+

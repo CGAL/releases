@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_SequenceContainer.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: list<T></TITLE>
+  <TITLE>STL in CGAL: list<T></TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -40,29 +40,29 @@ that supports bidirectional iterators and allows constant time insert
 and erase operations anywhere within the sequence.
 <P>
 
-<I>#include &lt;<A HREF="../../include/list.h">list.h</A>&gt;</I>
+<I>#include &lt;<A HREF="list.html#Cross_link_anchor_24">list</A>.h&gt;</I>
 <P>
 
 <H3>Types</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_iterator"></A>
 <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A>::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A mutable bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A NAME="Nested_type_const_iterator"></A>
 <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A>::const_iterator
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     A const bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
     <P>
         </TD></TR>
@@ -73,30 +73,30 @@ and erase operations anywhere within the sequence.
 <H3>Creation</H3>
 <P>
 
-        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L;
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces an empty <A HREF="list.html#Cross_link_anchor_24">list</A>.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L (  <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> q);
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Copy constructor.
     <P>
         </TD></TR>
         
-        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
-        <I>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L ( int n,  T t = T());
-        </I>
-        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
     Introduces a <A HREF="list.html#Cross_link_anchor_24">list</A> with <MATH>n</MATH> items, all initialized to
     <MATH>t</MATH>.
     <P>
@@ -108,166 +108,166 @@ and erase operations anywhere within the sequence.
 <H3>Operations</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> &amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      L =  <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Assignment.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      L ==  <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for equality: Two lists are equal, iff they have the same size
     and if their corresponding elements are equal.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      L !=  <A HREF="list.html#Cross_link_anchor_24">list&lt;T&gt;</A> L1
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Test for inequality.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.begin ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="list.html#Cross_link_anchor_24">list</A>
-    <I>L</I>.
+    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     const_iterator
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.begin () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in <A HREF="list.html#Cross_link_anchor_24">list</A>
-    <I>L</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> referring to the first element in
+    <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.end ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of <A HREF="list.html#Cross_link_anchor_24">list</A>
-    <I>L</I>.
+    Returns a mutable <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of
+    <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     const_iterator
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.end () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of <A HREF="list.html#Cross_link_anchor_24">list</A>
-    <I>L</I>.
+    Returns a constant <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> which is the past-end-value of
+    <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     bool
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.empty ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Returns <I>true</I> if <I>L</I> is empty.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     int
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.size ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns the number of items in <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Returns the number of items in <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.front ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a reference to the first item in <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Returns a reference to the first item in <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      T
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.front () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a const reference to the first item in <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Returns a const reference to the first item in <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     T&amp;
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.back ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a reference to the last item in <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Returns a reference to the last item in <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
      T
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.back () const
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Returns a const reference to the last item in <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Returns a const reference to the last item in <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         </TABLE><!3>
 
@@ -276,71 +276,71 @@ and erase operations anywhere within the sequence.
 <H3> Insertion</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.push_front (  T)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Inserts an item in front of <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Inserts an item in front of <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.push_back (  T)
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Inserts an item at the back of <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Inserts an item at the back of <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     L.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  T t)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts a copy of <I>t</I> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I>. The
     return value points to the inserted item.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     L.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  int n,  T t = T())
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts <MATH>n</MATH> copies of <I>t</I> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
     <I>pos</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
     L.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
     <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos, <BR>
      const_iterator first, <BR>
      const_iterator last)</I></TD></TR></TABLE>
     
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Inserts a copy of the range <MATH>[.</MATH><I>first</I>,
     <I>last</I><MATH>.)</MATH> in front of <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I>.
         </TD></TR>
@@ -351,54 +351,55 @@ and erase operations anywhere within the sequence.
 <H3> Removal</H3>
 <P>
 
-        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.pop_front ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the first item from <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Removes the first item from <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     L.pop_back ()
-        </I>
+        </I></NOBR>
         </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the last item from <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    Removes the last item from <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     L.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
-    Removes the item from <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>, where <I>pos</I> refers to.
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Removes the item from <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>, where <I>pos</I> refers
+    to.
         </TD></TR>
         
         <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
-        <I>
+        <I><NOBR>
     void
-        </I>
-        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
-        <I>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
     L.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> first,  <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> last)
-        </I>
-        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
     Removes the items in the range<MATH>[.</MATH><I>first</I>,
-    <I>last</I><MATH>.)</MATH> from <A HREF="list.html#Cross_link_anchor_24">list</A> <I>L</I>.
+    <I>last</I><MATH>.)</MATH> from <A HREF="list.html#Cross_link_anchor_24">list</A>&nbsp;<I>L</I>.
         </TD></TR>
         </TABLE><!3>
 <HR> <B>Next:</B>  Class declaration of <A HREF="vector.html"><I>vector&lt;T&gt;</I></A>
@@ -418,7 +419,7 @@ and erase operations anywhere within the sequence.
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

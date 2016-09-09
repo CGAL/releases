@@ -1,0 +1,359 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_circulator.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+<P>
+
+<H3>Definition</H3>The adaptor
+<I><A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A></I> is a class that
+converts any circulator type <I>C</I> to a kind of container class,
+i.e. a class that provides an <I>iterator</I> and a
+<I>const_iterator</I> type and two member functions - <I>begin()</I>
+and <I>end()</I> - that return the appropriate forward iterators. By
+analogy to STL container classes these member functions return a const
+iterator in the case that the container itself is constant and a
+mutable iterator otherwise.
+<P>
+
+For <I><A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A></I> the
+circulator has to fulfill at least the requirements for a forward
+circulator. The similar
+<I><A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_2">CGAL_Bidirectional_container_from_circulator&lt;C&gt;</A></I> adaptor
+requires a bidirectional circulator in order to provide bidirectional
+iterators and the adaptor
+<I><A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_3">CGAL_Random_access_container_from_circulator&lt;C&gt;</A></I> requires a
+random access circulator to provide random access iterators. In this
+case the adaptor implements a total ordering relation that is currently
+not required for random access circulators.
+<P>
+
+<I>#include &lt;CGAL/circulator.h&gt;</I>
+<P>
+
+<H3>Types</H3>The types shown here are similar for all
+container-from-circulator adaptors.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Typedef_Circulator"></A>
+typedef C
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_iterator"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_iterator"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::const_iterator
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_value_type"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::value_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_reference"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::reference
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_reference"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::const_reference
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_pointer"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::pointer
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_const_pointer"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::const_pointer
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_size_type"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::size_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_difference_type"></A>
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A>::difference_type
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A> container;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the resulting iterators will have a singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_1">CGAL_Forward_container_from_circulator&lt;C&gt;</A> container (  C c);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the resulting iterators will have a singular value if the
+    circulator <I>c</I> is singular.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+The bidirectional and random access container have similar
+constructors. The default construction is shown here to present the
+names.<P>
+
+
+<A NAME="Index_anchor_2"></A>
+
+<A NAME="Cross_link_anchor_2"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_2">CGAL_Bidirectional_container_from_circulator&lt;C&gt;</A> container;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_3"></A>
+
+<A NAME="Cross_link_anchor_3"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_3">CGAL_Random_access_container_from_circulator&lt;C&gt;</A> container;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    container.begin () 
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the start iterator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    container.begin () const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the start const iterator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    container.end () 
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the past-the-end iterator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    container.end () const
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the past-the-end const iterator.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The <I>iterator</I> and <I>const_iterator</I> types are of the
+appropriate iterator category. In addition to the operations required
+for their category, they have a member function
+<I>current_circulator()</I> that returns a circulator pointing to the
+same position as the iterator does.
+<P>
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Forward_circulator_from_iterator.html#Cross_link_anchor_4">CGAL_Forward_circulator_from_iterator</A></I>,
+<I><A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_10">CGAL_Forward_circulator_from_container</A></I>.<P>
+
+<H3>Example</H3>The generic <TT>reverse()</TT> algorithm from the STL can be used with an
+adaptor when at least a bidirectional circulator <TT>c</TT> is given.<P>
+
+<PRE>
+<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> c;  /* c is assumed to be a bidirectional circulator. */
+<A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_2">CGAL_Bidirectional_container_from_circulator&lt;Circulator&gt;</A> container( c);
+reverse( container.begin(), container.end());
+</PRE><P>
+
+<H3>Implementation</H3>The forward and bidirectional iterator adaptors keep track of the
+number of rounds a circulator has done around the ring-like data
+structure. This is a kind of winding number. It is used to distinguish
+between the start position and the end position which will be denoted
+by the same circulator. This winding number is zero for the
+<I>begin()</I>-iterator and one for the <I>end()</I>-iterator.
+It is incremented whenever a circulator passes the <I>begin()</I>
+position. Two iterators are equal if their internally used circulators
+and winding numbers are equal. This is more general than necessary
+since the <I>end()</I>-iterator is not supposed to move any more,
+which is here still possible in a defined manner. However, for random
+access iterators it is not yet supported.<P>
+
+The random access iterator has to be able to compute the size of the
+data structure. It is needed for the difference of a past-the-end
+iterator and the begin iterator as well as for the family of the
+add-operators where a possible wrap around might occur (this feature
+beyond the iterator requirements is not supported for the moment).
+Therefore, the constructor for the random access iterator choose the
+minimal circulator for the internal anchor position. The minimal
+circulator is part of the random access circulator requirements, see
+Section&nbsp;<A HREF="Circulator.html#sectionRandomAccessCirculatorRequ"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+These adaptor cannot be used for non-mutable circulators if the C++
+compiler has the <A HREF="CGAL_CFG_NO_LAZY_INSTANTIATION">CGAL_CFG_NO_LAZY_INSTANTIATION</A>
+bug[<A HREF="#Footnote_1">^1</A>].<P>
+
+
+
+<P><HR><H3>Footnotes</H3><P>
+
+<OL>
+<LI><A NAME="Footnote_1">The g++ accepts non-mutable circulators with some  warnings even though it has this bug.
+</OL>
+<HR> <B>Next:</B> <A HREF="CGAL_Forward_circulator_from_iterator.html">Class declaration of   <I>CBP_..._circulator_from_iterator&lt;I,T,Size,Dist&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

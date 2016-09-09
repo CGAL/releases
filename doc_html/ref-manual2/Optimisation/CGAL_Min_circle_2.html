@@ -1,0 +1,767 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Min_circle_2<Traits></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_0"></A>
+
+<A NAME="Cross_link_anchor_0"></A>
+
+<P>
+
+<H2> 2D Smallest Enclosing Circle (<I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2</A></I>)</H2>
+<P>
+
+<A NAME="sec:min_circle_2_spec"></A>
+<P>
+
+
+<P>
+
+<H3>Definition</H3>An object of the class
+<I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I> is the unique circle of smallest
+area enclosing a finite set of points in two-dimensional Euclidean
+plane <MATH><B>E</B><SUB>2</SUB></MATH>. For a point set <MATH>P</MATH>
+we denote by <MATH>mc(P)</MATH> the smallest circle that contains all
+points of <MATH>P</MATH>. Note that <MATH>mc(P)</MATH> can be
+degenerate, i.e. <MATH>mc(P)=</MATH>&Oslash;<MATH></MATH> if
+<MATH>P=</MATH>&Oslash;<MATH></MATH> and <MATH>mc(P)={p}</MATH> if
+<MATH>P={p}</MATH>.
+<P>
+
+An inclusion-minimal subset <MATH>S</MATH> of <MATH>P</MATH> with
+<MATH>mc(S)=mc(P)</MATH> is called a <EM>support set</EM>, the points
+in <MATH>S</MATH> are the <EM>support points</EM>. A support set has
+size at most three, and all its points lie on the boundary of
+<MATH>mc(P)</MATH>. If <MATH>mc(P)</MATH> has more than three points on
+the boundary, neither the support set nor its size are necessarily
+unique.
+<P>
+
+The underlying algorithm can cope with all kinds of input, e.g.
+<MATH>P</MATH> may be empty or points may occur more than once. The
+algorithm computes a support set <MATH>S</MATH> which remains fixed
+until the next insert or clear operation.
+<P>
+
+<EM>Note:</EM> In this release correct results are only guaranteed if
+exact arithmetic is used, see
+Section&nbsp;<A HREF="CGAL_Min_circle_2_traits_2.html#sec:min_circle_2_traits_impl_2D_kernel"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<I>#include &lt;CGAL/Min_circle_2.h&gt;</I>
+<P>
+
+<H3> <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> Class</H3>
+<P>
+
+The template parameter <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A></I> is a traits class that defines the
+abstract interface between the optimisation algorithm and the
+primitives it uses. For example <I><A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::Point</I> is a mapping on a
+point class. Think of it as 2D points in the Euclidean plane.
+<P>
+
+We provide a traits class implementation using the CGAL 2D kernel as
+described in Section&nbsp;<A HREF="CGAL_Min_circle_2_traits_2.html#sec:min_circle_2_traits_impl_2D_kernel"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> class adapters to user supplied point classes are available, see
+Sections&nbsp;<A HREF="CGAL_Min_circle_2_adapterC2.html#sec:min_circle_2_traits_adapterC2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+and&nbsp;<A HREF="CGAL_Min_circle_2_adapterH2.html#sec:min_circle_2_traits_adapterH2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Customizing own
+traits classes for optimisation algorithms can be done according to the
+requirements for traits classes listed in
+Section&nbsp;<A HREF="requirements_Min_circle_2.html"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+.
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Traits"></A>
+<A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A>::<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Point"></A>
+typedef <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::Point
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Point;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Point type.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Circle"></A>
+typedef <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>::Circle
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Circle;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Circle type.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following types denote iterators that allow to traverse all points
+and support points of the smallest enclosing circle, resp. The
+iterators are non-mutable and their value type is <I>Point</I>. The
+iterator category is given in parentheses.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Point_iterator"></A>
+<A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A>::Point_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    (bidirectional).
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Nested_type_Support_point_iterator"></A>
+<A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A>::Support_point_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    (random access).
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+A <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I> object can be created from an
+arbitrary point set <MATH>P</MATH> and by specialized construction
+methods expecting no, one, two or three points as arguments. The latter
+methods can be useful for reconstructing <MATH>mc(P)</MATH> from a
+given support set <MATH>S</MATH> of <MATH>P</MATH>.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt; class InputIterator &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A> min_circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    InputIterator first, <BR>
+     InputIterator last, <BR>
+     bool randomize = false, <BR>
+     CGAL_Random&amp; random = CGAL_random, <BR>
+     <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> traits = <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>());</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates a variable <I>min_circle</I> of type
+    <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I>. It is initialized to
+    <MATH>mc(P)</MATH> with <MATH>P</MATH> being the set of points in
+    the range [<I>first</I>,<I>last</I>). If <I>randomize</I> is
+    <I>true</I>, a random permutation of <MATH>P</MATH> is computed in
+    advance, using the random numbers generator <I>random</I>. Usually,
+    this will not be necessary, however, the algorithm's efficiency
+    depends on the order in which the points are processed, and a bad
+    order might lead to extremely poor performance (see example below).
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<EM>Note:</EM> In case a compiler does not support member templates
+yet, we provide specialized constructors instead. In the current
+release there are constructors for C arrays (using pointers as
+iterators), for the STL sequence containers <I>vector&lt;Point&gt;</I>
+and <I>list&lt;Point&gt;</I> and for the STL input stream iterator
+<I>istream_iterator&lt;Point&gt;</I>.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A> min_circle (  <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> traits = <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates a variable <I>min_circle</I> of type
+    <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I>. It is initialized to
+    <MATH>mc(</MATH>&Oslash;<MATH>)</MATH>, the empty set.
+    <BR><STRONG>Postcondition: </STRONG><I>min_circle</I>
+    <I>.is_empty()</I> = <I>true</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A> min_circle (  Point p,  <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> traits = <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>());
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates a variable <I>min_circle</I> of type
+    <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I>. It is initialized to
+    <MATH>mc({p})</MATH>, the set <MATH>{p}</MATH>.
+    <BR><STRONG>Postcondition: </STRONG><I>min_circle</I>
+    <I>.is_degenerate()</I> = <I>true</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A> min_circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p1, <BR>
+     Point p2, <BR>
+     <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> traits = <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>());</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates a variable <I>min_circle</I> of type
+    <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I>. It is initialized to
+    <MATH>mc({p1,p2})</MATH>, the circle with diameter equal to the
+    segment connecting <MATH>p1</MATH> and <MATH>p2</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A> min_circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     Point p1, <BR>
+     Point p2, <BR>
+     Point p3, <BR>
+     <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A> traits = <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>());</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    creates a variable <I>min_circle</I> of type
+    <I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I>. It is initialized to
+    <MATH>mc({p1,p2,p3})</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Access Functions</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.number_of_points ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the number of points of <I>min_circle</I>, i.e.
+    <MATH>|P|</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    int
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.number_of_support_points ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the number of support points of <I>min_circle</I>, i.e.
+    <MATH>|S|</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Point_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.points_begin ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns an iterator referring to the first point of
+    <I>min_circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Point_iterator
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.points_end ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the corresponding past-the-end iterator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    Support_point_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.support_points_begin ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns an iterator referring to the first support point of
+    <I>min_circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    Support_point_iterator
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.support_points_end ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the corresponding past-the-end iterator.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     Point
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.support_point ( int i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the <I>i</I>-th support point of <I>min_circle</I>. Between
+    two modifying operations (see below) any call to <I>min_circle</I>
+    <I>.support_point(i)</I> with the same <I>i</I> returns the same
+    point.
+    <BR><STRONG>Precondition: </STRONG><MATH>0 &lt;=i&lt; </MATH><I>min_circle</I><I>.number_of_support_points()</I><MATH></MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     Circle
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.circle ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the current circle of <I>min_circle</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Predicates</H3>By definition, an empty
+<I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I> has no boundary and no bounded
+side, i.e. its unbounded side equals the whole plane
+<MATH><B>E</B><SUB>2</SUB></MATH>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    CGAL_Bounded_side
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.bounded_side (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>CGAL_ON_BOUNDED_SIDE</I>, <I>CGAL_ON_BOUNDARY</I>, or
+    <I>CGAL_ON_UNBOUNDED_SIDE</I> iff <I>p</I> lies properly inside, on
+    the boundary, or properly outside of <I>min_circle</I>, resp.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.has_on_bounded_side (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly inside
+    <I>min_circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.has_on_boundary (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies on the boundary of
+    <I>min_circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.has_on_unbounded_side (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly outside of
+    <I>min_circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.is_empty ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>min_circle</I> is empty (this implies
+    degeneracy).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.is_degenerate ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>min_circle</I> is degenerate, i.e. if
+    <I>min_circle</I> is empty or equal to a single point, equivalently
+    if the number of support points is less than 2.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Modifiers</H3>New points can be added to an existing
+<I>min_circle</I>, allowing to build <MATH>mc(P)</MATH> incrementally,
+e.g. if <MATH>P</MATH> is not known in advance. Compared to the direct
+creation of <MATH>mc(P)</MATH>, this is not much slower, because the
+construction method is incremental itself.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.insert (  Point p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts <I>p</I> into <I>min_circle</I> and recomputes the smallest
+    enclosing circle.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt; class InputIterator &gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    min_circle.insert ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    InputIterator first, <BR>
+     InputIterator last)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    inserts the points in the range [<I>first</I>,<I>last</I>) into
+    <I>min_circle</I> and recomputes the smallest enclosing circle by
+    calling <I>insert(p)</I> for each point <I>p</I> in [<I>first</I>,
+    <I>last</I>). <BR><STRONG>Precondition: </STRONG>The value type of
+    <I>first</I> and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<EM>Note:</EM> In case a compiler does not support member templates
+yet, we provide specialized <I>insert</I> functions instead. In the
+current release there are <I>insert</I> functions for C arrays (using
+pointers as iterators), for the STL sequence containers
+<I>vector&lt;Point&gt;</I> and <I>list&lt;Point&gt;</I> and for the STL
+input stream iterator <I>istream_iterator&lt;Point&gt;</I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.clear ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    deletes all points in <I>min_circle</I> and sets <I>min_circle</I>
+    to the empty set.
+    <BR><STRONG>Postcondition: </STRONG><I>min_circle</I>
+    <I>.is_empty()</I> = <I>true</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<H3> Validity Check</H3>
+<P>
+
+An object <I>min_circle</I> is valid, iff <UL> <LI><I>min_circle</I>
+contains all points of its defining set <MATH>P</MATH>,
+<LI><I>min_circle</I> is the smallest circle spanned by its support set
+<MATH>S</MATH>, and <LI><MATH>S</MATH> is minimal, i.e. no support
+point is redundant. </UL> Using the traits class implementation for the
+CGAL kernel with exact arithmetic as described in
+Section&nbsp;<A HREF="CGAL_Min_circle_2_traits_2.html#sec:min_circle_2_traits_impl_2D_kernel"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> guarantees
+validity of <I>min_circle</I>. The following function is mainly
+intended for debugging user supplied traits classes but also for
+convincing the anxious user that the traits class implementation is
+correct.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    min_circle.is_valid ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    bool verbose = false, <BR>
+     int level = 0)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>min_circle</I> is valid. If
+    <I>verbose</I> is <I>true</I>, some messages concerning the
+    performed checks are written to standard error stream. The second
+    parameter <I>level</I> is not used, we provide it only for
+    consistency with interfaces of other classes.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR>
+<P>
+
+<H3> Miscellaneous</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    min_circle.traits ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a const reference to the traits class object.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> I/O</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_ostream__operator_66_6_ostream__os+__const_CGAL_Min_circle_26Traits9___min_circle9;"></A>
+ostream&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     ostream&amp; os &lt;&lt;  min_circle
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    writes <I>min_circle</I> to output stream <I>os</I>.
+    <BR><STRONG>Precondition: </STRONG>The output operator is defined
+    for <I>Point</I> (and for <I>Circle</I>, if pretty printing is
+    used).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_istream__operator_99_6_istream__is+__CGAL_Min_circle_26Traits9__min_circle9;"></A>
+istream&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     istream&amp; is &gt;&gt;  &amp; min_circle
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    reads <I>min_circle</I> from input stream <I>is</I>.
+    <BR><STRONG>Precondition: </STRONG>The input operator is defined
+    for <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<I>#include &lt;CGAL/IO/Window_stream.h&gt;</I>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Window_stream___operator_66_6_CGAL_Window_stream__ws+__const_CGAL_Min_circle_26Traits9__min_circle9;"></A>
+CGAL_Window_stream&amp;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+     CGAL_Window_stream&amp; ws &lt;&lt;  min_circle
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    writes <I>min_circle</I> to window stream <I>ws</I>.
+    <BR><STRONG>Precondition: </STRONG>The window stream output
+    operator is defined for <I>Point</I> and <I>Circle</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Min_ellipse_2.html#Cross_link_anchor_5">CGAL_Min_ellipse_2</A></I> ,
+<I><A HREF="CGAL_Min_circle_2_traits_2.html#Cross_link_anchor_2">CGAL_Min_circle_2_traits_2</A></I> ,  <I><A HREF="CGAL_Min_circle_2_adapterC2.html#Cross_link_anchor_3">CGAL_Min_circle_2_adapterC2</A></I>
+, <I><A HREF="CGAL_Min_circle_2_adapterH2.html#Cross_link_anchor_4">CGAL_Min_circle_2_adapterH2</A></I> .
+<P>
+
+<H3>Implementation</H3>We implement the algorithm of Welzl, with
+move-to-front
+heuristic&nbsp;[<A HREF="../biblio.html#Biblio_w-sedbe-91a">Wel91</A>].
+If randomization is chosen, the creation time is almost always linear
+in the number of points. Access functions and predicates take constant
+time, inserting a point might take up to linear time, but substantially
+less than computing the new smallest enclosing circle from scratch. The
+clear operation and the check for validity each takes linear time.
+<P>
+
+<H3>Example</H3>To illustrate the creation of
+<I><A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A></I> and to show that randomization
+can be useful in certain cases, we give an example.
+<P>
+
+ <PRE>
+#include &lt;CGAL/Gmpz.h&gt;
+#include &lt;CGAL/Homogeneous.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Min_circle_2_traits_2.h&gt;
+#include &lt;CGAL/Min_circle_2.h&gt;
+
+typedef  CGAL_Gmpz                      NT;
+typedef  CGAL_Homogeneous&lt;NT&gt;           R;
+typedef  CGAL_Point_2&lt;R&gt;                Point;
+typedef  <A HREF="CGAL_Min_circle_2_traits_2.html#Cross_link_anchor_2">CGAL_Min_circle_2_traits_2&lt;R&gt;</A>  <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>;
+typedef  <A HREF="CGAL_Min_circle_2.html#Cross_link_anchor_0">CGAL_Min_circle_2&lt;Traits&gt;</A>      Min_circle;
+
+int main()
+{
+    int     n = 1000;
+    Point*  P = new Point[ n];
+
+    for ( int i = 0; i &lt; n; ++i)
+        P[ i] = Point( (i%2 == 0 ? i : -i), 0);
+    // (0,0), (-1,0), (2,0), (-3,0), ...
+
+    Min_circle  mc1( P, P+n);           // very slow
+    Min_circle  mc2( P, P+n, true);     // fast
+
+    delete[] P;
+    return( 0);
+}
+</PRE>
+
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Optimisation_circle_2.html"><I>CGAL_Optimisation_circle_2&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,49 +1,61 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/IO/Window_stream.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
- 
-// Source: Window_stream.h
-// Author: Andreas Fabri
 
 #ifndef CGAL_WINDOW_STREAM_H
 #define CGAL_WINDOW_STREAM_H
 
-
 #include <CGAL/IO/Color.h>
 
 #include <LEDA/window.h>
-//#include <LEDA/REDEFINE_NAMES.h>
-//typedef window leda_window;
-//#include <LEDA/UNDEFINE_NAMES.h>
-typedef window leda_window;   // line added by Stefan
+
+// UNCOMMENT IF THE TYPE LEDA_WINDOW IS NOT DEFINED
+// #if ( __LEDA__ < 360 )
+// #define leda_window window
+// #define leda_color  color
+// #define leda_black  black
+// #endif
 
 class CGAL_Window_stream : public leda_window  {
 
@@ -58,18 +70,16 @@ public:
     leda_window::display(xpos, ypos);
   }
 
-
-
   void init(const CGAL_Bbox_2 &b = CGAL_Bbox_2(0, 0, 1, 1))
   {
     leda_window::init(b.xmin(), b.xmax(), b.ymin());
-    set_fg_color(black);
+    set_fg_color(leda_black);
   }
 
   void init(double xmin, double xmax, double ymin)
   {
     leda_window::init(xmin, xmax, ymin);
-    set_fg_color(black);
+    set_fg_color(leda_black);
   }
 
   int read_mouse(double& x, double& y)
@@ -82,21 +92,19 @@ public:
   {
     return _button;
   }
-  // we keep the foreground color in a field, as LEDA's window
+ // we keep the foreground color in a field, as LEDA's window
   // can't store it in the shared library version
 private:
   int _button;
 
 };
- 
 
 
 #endif // CGAL_WINDOW_STREAM_H
 
-//  Each of the following operators is individually 
+//  Each of the following operators is individually
 //  protected against multiple inclusion.
 
- 
 #ifdef CGAL_POINT_2_H
 #ifndef CGAL_WINDOW_STREAM_POINT_2
 #define CGAL_WINDOW_STREAM_POINT_2
@@ -111,17 +119,16 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Point_2<R> &p)
 template< class R >
 CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Point_2<R> &p)
 {
+  typedef typename R::FT FT;
   double x, y;
   w.read_mouse(x,y);
   w.draw_point(x,y);
-  p = CGAL_Point_2<R>(R::RT(x), R::RT(y));
+  p = CGAL_Point_2<R>(FT(x), FT(y));
   return w;
 }
 #endif // CGAL_WINDOW_STREAM_POINT_2
 #endif //  CGAL_POINT_2_H
- 
 
- 
 #ifdef CGAL_LINE_2_H
 #ifndef CGAL_WINDOW_STREAM_LINE_2
 #define CGAL_WINDOW_STREAM_LINE_2
@@ -139,12 +146,14 @@ template< class R >
 CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
                                CGAL_Segment_2<R> &s)
 {
+  typedef  typename R::FT  FT;
+
   double x1, y1, x2, y2;
   w.read_mouse(x1,y1);
   w.read_mouse_seg(x1,y1, x2, y2);
   w.draw_segment(x1,y1, x2, y2);
-  s = CGAL_Segment_2<R>(CGAL_Point_2<R>(R::FT(x1), R::FT(y1)),
-                        CGAL_Point_2<R>(R::FT(x2), R::FT(y2)));
+  s = CGAL_Segment_2<R>(CGAL_Point_2<R>(FT(x1), FT(y1)),
+                        CGAL_Point_2<R>(FT(x2), FT(y2)));
   return w;
 }
 
@@ -208,10 +217,8 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Ray_2<R> &r)
 #endif // CGAL_WINDOW_STREAM_RAY_2
 #endif //CGAL_RAY_2_H
 
- 
 
 
- 
 #ifdef CGAL_TRIANGLE_2_H
 #ifndef CGAL_WINDOW_STREAM_TRIANGLE_2
 #define CGAL_WINDOW_STREAM_TRIANGLE_2
@@ -241,21 +248,19 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
   double x0, y0, x1, y1, x2, y2;
   w.read_mouse(x0,y0);
   w.read_mouse_seg(x0,y0, x1, y1);
-  w.draw_seg(x0,y0, x1, y1);
+  w.draw_segment(x0,y0, x1, y1);
   w.read_mouse_seg(x1,y1, x2, y2);
-  w.draw_seg(x1,y1, x2, y2);
-  w.draw_seg(x2,y2, x0, y0);
-  r = CGAL_Triangle_2<R>(CGAL_Point_2<R>(x0,y0),
+  w.draw_segment(x1,y1, x2, y2);
+  w.draw_segment(x2,y2, x0, y0);
+  t = CGAL_Triangle_2<R>(CGAL_Point_2<R>(x0,y0),
                          CGAL_Point_2<R>(x1,y1),
                          CGAL_Point_2<R>(x2,y2));
   return w;
 }
 #endif // CGAL_WINDOW_STREAM_TRIANGLE_2
 #endif // CGAL_TRIANGLE_2_H
- 
 
 
- 
 #ifdef CGAL_ISO_RECTANGLE_2_H
 #ifndef CGAL_WINDOW_STREAM_ISO_RECTANGLE_2
 #define CGAL_WINDOW_STREAM_ISO_RECTANGLE_2
@@ -291,9 +296,7 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 }
 #endif // CGAL_WINDOW_STREAM_ISO_RECTANGLE_2
 #endif // CGAL_ISO_RECTANGLE_2_H
- 
 
- 
 #ifdef CGAL_PARABOLA_2_H
 #ifndef CGAL_WINDOW_STREAM_PARABOLA_2
 #define CGAL_WINDOW_STREAM_PARABOLA_2
@@ -306,16 +309,17 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
   double diag_sq = width*width + height*height;
 
   double lambda=1.0;
-  
+
   CGAL_Point_2<R> p1 = par.base(),
                   p2;
 
-  while((par(lambda)-p1).operator*(par(lambda)-p1) < diag_sq){
+  while(CGAL_to_double((par(lambda)-p1).operator*(par(lambda)-p1)) < diag_sq){
+          < diag_sq){
     lambda *= 2.0;
   }
 
-  while((par(lambda)-p1).operator*(par(lambda)-p1) > diag_sq){
-    lambda /= 2.0;
+  while(CGAL_to_double((par(lambda)-p1).operator*(par(lambda)-p1)) > diag_sq){
+    lambda *= 0.5;
   }
 
   lambda *= 2.0;
@@ -350,9 +354,7 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 }
 #endif // CGAL_WINDOW_STREAM_PARABOLA_2
 #endif // CGAL_PARABOLA_2_H
- 
 
- 
 #ifdef CGAL_PARABOLA_ARC_2_H
 #ifndef CGAL_WINDOW_STREAM_PARABOLA_ARC_2
 #define CGAL_WINDOW_STREAM_PARABOLA_ARC_2
@@ -363,11 +365,11 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
   double lambda, lmin, lmax;
 
   if (arc.lambda_target() > arc.lambda_source()){
-    lmin = arc.lambda_source();
-    lmax = arc.lambda_target();
+    lmin = CGAL_to_double(arc.lambda_source());
+    lmax = CGAL_to_double(arc.lambda_target());
   } else {
-    lmin = arc.lambda_target();
-    lmax = arc.lambda_source();
+    lmin = CGAL_to_double(arc.lambda_target());
+    lmax = CGAL_to_double(arc.lambda_source());
   }
 
   double delta = CGAL_abs(lmax - lmin)/100.0;
@@ -383,10 +385,8 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 }
 #endif //CGAL_WINDOW_STREAM_PARABOLA_ARC_2
 #endif // CGAL_PARABOLA_ARC_2_H
- 
 
 
- 
 #ifdef CGAL_CIRCLE_2_H
 #ifndef CGAL_WINDOW_STREAM_CIRCLE_2
 #define CGAL_WINDOW_STREAM_CIRCLE_2
@@ -406,6 +406,8 @@ template< class R >
 CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
                                CGAL_Circle_2<R> &c)
 {
+  typedef  typename R::FT  FT;
+
   double cx, cy, x1, y1;
   w.read_mouse(cx,cy);
   w.read_mouse_circle(cx,cy, x1, y1);
@@ -413,7 +415,7 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
                   p(x1, y1);
 
   CGAL_Vector_2<R> v = center - p;
-  R::FT sr = v*v;
+  FT sr = v*v;
 
   w.draw_circle(cx, cy , sqrt(sr));
   c = CGAL_Circle_2<R>(center, sr);
@@ -421,30 +423,26 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 }
 #endif // CGAL_WINDOW_STREAM_CIRCLE_2
 #endif // CGAL_CIRCLE_2_H
- 
 
 
- 
 #ifndef CGAL_WINDOW_STREAM_COLOR_2
 #define CGAL_WINDOW_STREAM_COLOR_2
 inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
                                       const CGAL_Color& c)
 {
-  w.set_fg_color(color(c.red(), c.green(), c.blue()));
+  w.set_fg_color(leda_color(c.red(), c.green(), c.blue()));
 
   return w;
 }
 #endif // CGAL_WINDOW_STREAM_COLOR_2
- 
 
- 
 #ifdef CGAL_BBOX_2_H
 #ifndef CGAL_WINDOW_STREAM_BBOX_2
 #define CGAL_WINDOW_STREAM_BBOX_2
 inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
                                       const CGAL_Bbox_2 &b)
 {
-  line_style style = w.set_line_style(dotted);
+  line_style style = w.set_line_style(leda_dotted);
   double xmin = b.xmin(),
          ymin = b.ymin(),
          xmax = b.xmax(),
@@ -461,51 +459,8 @@ inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 }
 #endif // CGAL_WINDOW_STREAM_BBOX_2
 #endif // CGAL_BBOX_2_H
- 
 
 
- 
-#ifdef CGAL_TRIANGULATION_2_H
-#ifndef CGAL_WINDOW_STREAM_TRIANGULATION_2_H
-#define CGAL_WINDOW_STREAM_TRIANGULATION_2_H
-template < class I >
-CGAL_Window_stream&
-operator<<(CGAL_Window_stream& os,
-           const CGAL_Triangulation_2<I> &T)
-{
-   CGAL_Triangulation_2<I>::Edge_iterator it = T.edges_begin();
-
-    while(it != T.edges_end()){
-        os << T.segment(it);
-        ++it;
-    }
-
-    return os;
-}
-#endif // CGAL_WINDOW_STREAM_TRIANGULATION_2_H
-#endif // CGAL_TRIANGULATION_2_H
-
-
-#ifdef CGAL_DELAUNAY_TRIANGULATION_2_H
-#ifndef CGAL_WINDOW_STREAM_DELAUNAY_TRIANGULATION_2_H
-#define CGAL_WINDOW_STREAM_DELAUNAY_TRIANGULATION_2_H
-template < class I >
-CGAL_Window_stream&
-operator<<(CGAL_Window_stream& os,
-           const CGAL_Delaunay_triangulation_2<I> &T)
-{
-   CGAL_Delaunay_triangulation_2<I>::Edge_iterator it = T.edges_begin();
-
-    while(it != T.edges_end()){
-        os << T.segment(it);
-        ++it;
-    }
-
-    return os;
-}
-#endif // CGAL_WINDOW_STREAM_DELAUNAY_TRIANGULATION_2_H
-#endif // CGAL_DELAUNAY_TRIANGULATION_2_H
-
-#include <CGAL/IO/optimisation_Window_stream.h>  // line added by Wieger
-                                                 // moved according to Sven
- 
+#include <CGAL/IO/triangulation_Window_stream.h>
+#include <CGAL/IO/optimisation_Window_stream.h>
+#include <CGAL/IO/polygon_Window_stream.h>

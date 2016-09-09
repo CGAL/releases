@@ -1,0 +1,148 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_main.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Inverse_index<IC></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_28"></A>
+
+<A NAME="Cross_link_anchor_26"></A>
+<H3>An Inverse Index for Iterators and Circulators</H3>
+
+<P>
+
+<H3>Definition</H3>The class <I><A HREF="CGAL_Inverse_index.html#Cross_link_anchor_26">CGAL_Inverse_index&lt;IC&gt;</A></I>
+constructs an inverse index for a given range [<MATH>i,j</MATH>) of two
+iterators or circulators of type <I>IC</I>. The first element
+<MATH>I</MATH> in the range [<MATH>i,j</MATH>) has the index 0.
+Consecutive elements are numbered incrementally. The inverse index
+provides a query for a given iterator or circulator <MATH>k</MATH> to
+retrieve its index number. <EM>Precondition:</EM> The iterator or
+circulator must be either of the random access category or the
+dereference operator must return stable and distinguishable addresses
+for the values, e.g.&nbsp;proxies or non-modifiable iterator with
+opaque values will not work.
+<P>
+
+<H3>Creation</H3><I>#include &lt;CGAL/Inverse_index.h&gt;</I>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Inverse_index.html#Cross_link_anchor_26">CGAL_Inverse_index&lt;IC&gt;</A> inverse;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    invalid index.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Inverse_index.html#Cross_link_anchor_26">CGAL_Inverse_index&lt;IC&gt;</A> inverse (  IC i);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    empty inverse index initialized to start at <MATH>i</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Inverse_index.html#Cross_link_anchor_26">CGAL_Inverse_index&lt;IC&gt;</A> inverse (  IC i,  IC j);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    inverse index initialized with range [<MATH>i,j</MATH>).
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    size_t
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     inverse [  IC k]
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns inverse index of <MATH>k</MATH>.
+    <BR><STRONG>Precondition: </STRONG><MATH>k</MATH> has been stored
+    in the inverse index.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    inverse.push_back (  IC k)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    adds <MATH>k</MATH> at the end of the indices.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>For random access iterators or circulators, it
+is done in constant time by subtracting <MATH>i</MATH>. For other
+iterator categories, an STL <I>map</I> is used, which results in a
+<MATH>log j-i</MATH> query time. The comparisons are done using the
+operator <I>operator&lt;</I> for <I>const T*</I>.
+<P>
+
+<H3>See Also</H3><I><A HREF="CGAL_Random_access_adaptor.html#Cross_link_anchor_27">CGAL_Random_access_adaptor</A></I> and
+<I><A HREF="CGAL_Random_access_value_adaptor.html#Cross_link_anchor_28">CGAL_Random_access_value_adaptor</A></I>.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Random_access_adaptor.html"><I>CGAL_Random_access_adaptor&lt;IC,Dist&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_main.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

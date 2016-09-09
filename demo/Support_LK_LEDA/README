@@ -1,0 +1,10 @@
+demo/Support_LK_LEDA/README
+---------------------------
+
+The generalized input stream and output stream iterator adpator
+are tested with the outout and input of CGAL objects to and 
+from the LEDA window.
+
+The provided makefile is prepared to link with LEDA.
+
+Lutz Kettner

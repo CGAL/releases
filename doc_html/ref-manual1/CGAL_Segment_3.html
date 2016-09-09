@@ -1,0 +1,319 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_LineRaySegment_3.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Segment_3<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_LineRaySegment_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_22"></A>
+
+<A NAME="Cross_link_anchor_21"></A>
+
+<P>
+
+<H1> 3D Segment (<I><A HREF="CGAL_Segment_3.html#Cross_link_anchor_21">CGAL_Segment_3</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object <MATH>s</MATH> of the data type
+<I><A HREF="CGAL_Segment_3.html#Cross_link_anchor_21">CGAL_Segment_3</A></I> is a directed straight line segment in the
+three-dimensional Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>,
+i.e. a straight line segment <MATH>[p,q]</MATH> connecting two points
+<MATH>p,q  is in 
+<B>R</B><SUP>3</SUP></MATH>. The segment is
+topologically closed, i.e. the end points belong to it. Point
+<MATH>p</MATH> is called the <EM>source</EM> and <MATH>q</MATH> is
+called the <EM>target</EM> of <MATH>s</MATH>. The length of
+<MATH>s</MATH> is the Euclidean distance between <MATH>p</MATH> and
+<MATH>q</MATH>. Note that there is only a function to compute the
+square of the length, because otherwise we had to perform a square root
+operation which is not defined for all number types, is expensive, and
+may not be exact.
+<P>
+
+<I>#include &lt;CGAL/Segment_3.h&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="CGAL_Segment_3.html#Cross_link_anchor_21">CGAL_Segment_3&lt;R&gt;</A> s (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p,  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> q);
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a segment <I>s</I> with source <MATH>p</MATH> and target
+    <MATH>q</MATH>. It is directed from the source towards the target.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     s ==  q
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: Two segments are equal, iff their sources and
+    targets are equal.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     s !=  q
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.source ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the source of <I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.target ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the target of <I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.min ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the point of <I>s</I>with smallest coordinate
+    (lexicographically).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.max ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the point of <I>s</I>with largest coordinate
+    (lexicographically).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.vertex ( int i)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns source or target of <I>s</I>: <I>vertex(0)</I> returns the
+    source, <I>vertex(1)</I> returns the target. The parameter <I>i</I>
+    is taken modulo 2, which gives easy access to the other vertex.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.point ( int i)
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>vertex(i)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+     s [ int i]
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>vertex(i)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    R::FT
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    s.squared_length ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the squared length of <I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A HREF="CGAL_Direction_3.html#Cross_link_anchor_18">CGAL_Direction_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.direction ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the direction from source to target.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Segment_3.html#Cross_link_anchor_21">CGAL_Segment_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.opposite ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a segment with source and target interchanged.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Line_3.html#Cross_link_anchor_19">CGAL_Line_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    s.supporting_line ()
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the line <MATH>l</MATH> passing through <I>s</I>. Line
+    <MATH>l</MATH> has the same orientation as segment <I>s</I>, that
+    is from the source to the target of <I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.is_degenerate ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    segment <I>s</I> is degenerate, if source and target fall together.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    s.has_on (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_16">CGAL_Point_3&lt;R&gt;</A> p)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    A point is on <I>s</I>, iff it is equal to the source or target of
+    <I>s</I>, or if it is in the interior of <I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Bbox_3.html#Cross_link_anchor_25">CGAL_Bbox_3</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    s.bbox ()
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing&nbsp;<I>s</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A HREF="CGAL_Segment_3.html#Cross_link_anchor_21">CGAL_Segment_3&lt;R&gt;</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    s.transform (  <A HREF="CGAL_Aff_transformation_3.html#Cross_link_anchor_26">CGAL_Aff_transformation_3&lt;R&gt;</A> t)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the segment obtained by applying <MATH>t</MATH> on the
+    source and the target of <I>s</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>A segment is internally represented by two
+points.
+<P>
+<HR><B> Return to chapter:</B> <A HREF="Chapter_LineRaySegment_3.html">3D Line, Ray and Segment</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_LineRaySegment_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

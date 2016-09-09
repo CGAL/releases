@@ -1,0 +1,129 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_hds.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: CGAL_Halfedge_data_structure_using_vector<V,H,F></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_6"></A>
+
+<A NAME="Cross_link_anchor_6"></A>
+<H3>A <A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A> Data Structure Using Vectors</H3>
+
+<P>
+
+<A NAME="sectionHdsUsingVector"></A>
+<P>
+
+<H3>Definition</H3><I><A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A>&lt;V,H,F&gt;</I>
+is a model of the <I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept. It is
+parameterized with a model <MATH>V</MATH> of the <I><A HREF="Vertex_base.html#Cross_link_anchor_7">Vertex_base</A></I>
+concept, a model <MATH>H</MATH> of the <I><A HREF="Halfedge_base.html#Cross_link_anchor_8">Halfedge_base</A></I> concept,
+and a model <MATH>F</MATH> of the <I><A HREF="Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> concept, whose
+requirements can be found in Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsBases"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Predefined models can be found in
+Section&nbsp;<A HREF="Chapter_hds.html#sectionHdsBasesModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<I><A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A>&lt;V,H,F&gt;</I> uses an
+STL <I>vector</I> to store the elements. This implies random access
+iterators to access the elements, but no support for random insertions
+and deletions. The capacity is restricted to the reserved size.
+Allocations are not possible beyond the capacity without calling
+reserve again. All pointers, iterators and circulators are invalidated
+upon a reserve call that increases the capacity. (This restriction
+might be dropped in the future and the polyhedron will automatically
+reallocate if the capacity exceeds.)
+<P>
+
+<I>#include &lt;CGAL/Halfedge_data_structure_using_vector.h&gt;</I>
+<P>
+
+<H3>Types</H3>It supports all types required for the
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept, specifically the following two
+types are fixed.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_Supports_removal"></A>
+typedef CGAL_Tag_false
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    Supports_removal;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Typedef_iterator_category"></A>
+typedef random_access_iterator_tag
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    iterator_category;
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Operations</H3><I><A HREF="CGAL_Halfedge_data_structure_using_vector.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_using_vector</A>&lt;V,H,F&gt;</I>
+complies to the requirements for the concept
+<I><A HREF="Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> as stated in
+Section&nbsp;<A HREF="Halfedge_data_structure.html#sectionHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<H3>Implementation</H3>It uses STL <I>vector</I> to implement the
+internal storage.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="Vertex_base.html"><I>Vertex_base</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_hds.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

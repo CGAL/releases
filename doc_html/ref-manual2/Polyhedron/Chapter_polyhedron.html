@@ -1,0 +1,593 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_polyhedron.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>3D-Polyhedral Surfaces</H1>
+
+<A NAME="chapterPolyhedron"></A>
+<BR><P>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+<P>
+
+This chapter presents polyhedral surfaces in three dimensions. They
+are a collection of vertices, edges and facets with an incidence
+relationship on them. The organization beneath is a halfedge data
+structure which restricts the class of representable surfaces to
+orientable 2-manifolds - with and without boundary. In the case of a
+closed surface we call it a <EM>polyhedron</EM>.<P>
+
+
+    <CENTER>
+        <img src="./shark.gif" alt="Shaded Rendering of a Shark Model"><P>
+    </CENTER>
+<P>
+
+<H3>Design Rationale</H3>
+<P>
+
+Chapter&nbsp;<A HREF="../Halfedge_DS/Chapter_hds.html#chapterHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> gives a design overview of the
+<I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept, its flexibility, predefined
+models and their potential use in data structures such as polyhedral
+surfaces, see also&nbsp;[<A HREF="../biblio.html#Biblio_k-ddsps-98">Ket98</A>]. A halfedge data structure is an
+edge-centered data structure. Each edge is decomposed into two
+halfedges with opposite orientations. Functions are provided to access
+incident facets and vertices. For a facet or a vertex one of the
+incident halfedges can be accessed. A halfedge data structure is
+responsible of storing the halfedges, vertices and facets, as well as
+maintaining their incidences through a pointer based interface.<P>
+
+A polyhedral surface is based on a model of the
+<I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept and adds combinatorial integrity
+(e.g. internal pointers cannot be simply written), abstract concepts
+to access the items, such as iterators and circulators, high level
+operations and ease-of-use, for example Euler operators. It also adds
+knowledge about the geometric information kept in the data structure,
+such as points or plane equations, with a traits class.<P>
+
+The class <I>CGAL_Polyhedron</I> can store polyhedrons and polyhedral
+surfaces. The template argument for the <I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I>
+allows to choose among the different possible models, for example a
+list or a vector based representation. Using a vector provides random
+access for the elements in the polyhedral surface and is more space
+efficient, but elements cannot be deleted arbitrarily. Using a list
+allows arbitrary deletions, but provides only bidirectional iterators
+and is less space efficient. The provided default model for the
+halfedge data structure
+<I><A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A></I> chooses the
+list representation and <I>CGAL_Point_3&lt;R&gt;</I> for the geometric
+information stored with vertices and <I>CGAL_Plane_3&lt;R&gt;</I> for the
+geometric information stored with facets.<P>
+
+A utility class <I><A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3</A></I> helps in
+creating polyhedral surfaces from a list of points followed by a list
+of facets represented as indices into the point list. This is
+particularly useful in combination with usual file formats for polyhedrons.<P>
+
+<H3>Organization of this Chapter</H3>
+<P>
+
+Section&nbsp;<A HREF="CGAL_Polyhedron_3.html#sectionPolyhedron"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> introduces the polyhedral surface
+class <I><A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A></I>, its three local classes <I><A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A></I>,
+<I><A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A></I>, and <I><A HREF="Facet.html#Cross_link_anchor_3">Facet</A></I>. Section&nbsp;<A HREF="Polyhedron_traits.html#sectionPolyTraits"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+defines the <I><A HREF="Polyhedron_traits.html#Cross_link_anchor_4">Polyhedron_traits</A></I> concept, which adds the geometric
+knowledge to the polyhedral surface, and
+Section&nbsp;<A HREF="CGAL_Polyhedron_default_traits_3.html#sectionPolyTraitsModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> names the provided models for
+this concept. Section&nbsp;<A HREF="Chapter_polyhedron.html#sectionPolyHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents additional
+requirements for the <I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept that were
+recognized by the polyhedral surface and states the default models
+that fulfills these requirements, see also Chapter&nbsp;<A HREF="../Halfedge_DS/Chapter_hds.html#chapterHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> on
+halfedge data structure. Section&nbsp;<A HREF="CGAL_Polyhedron_incremental_builder_3.html#sectionPolyIncrBuilder"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+continues with the description of the utility class for incremental
+construction of polyhedral surfaces.
+Section&nbsp;<A HREF="Chapter_polyhedron.html#sectionPolyExamples"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> concludes this chapter with examples
+using polyhedral surfaces.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Polyhedron_3.html"><I>CGAL_Polyhedron_3&lt;Traits,HDS&gt;</I></A>.</UL>
+
+<P>
+
+
+    <CENTER>
+    <A NAME="figurePolyOptionalMethods">
+    <A HREF="./poly_optional.gif">
+        <img src="./poly_optional_small.gif" 
+             alt="Class Diagram"></A><BR>
+    <A HREF="./poly_optional.gif">Figure:</A>
+    The three classes <I><A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A></I>, <I><A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A></I>, and 
+          <I><A HREF="Facet.html#Cross_link_anchor_3">Facet</A></I> of the polyhedral surface. Member
+          functions with shaded background are mandatory. The others
+          are optionally supported.
+    </CENTER>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Vertex.html"><I>Vertex</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Halfedge.html"><I>Halfedge</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Facet.html"><I>Facet</I></A>.</UL>
+
+<P>
+
+<P><UL><LI>
+ Class declaration of <A HREF="Polyhedron_traits.html"><I>Polyhedron_traits</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Polyhedron_default_traits_3.html"><I>CGAL_Polyhedron_default_traits_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_4"></A>
+<H2>Additional Requirements and a Default Model for a  <I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I></H2>
+<P>
+
+<A NAME="sectionPolyHds"></A><P>
+
+The additional requirements allow to work with normal vectors or plane
+equations associated to facets as flexible as with the point type
+associated to vertices. The storage of either a normal vector or a
+plane equation in a facet is optional.<P>
+
+<H3>Additional Requirements</H3>
+<P>
+
+<H3>Definition</H3>A halfedge data structure used for polyhedral surfaces must be a model
+of the <I><A HREF="../Halfedge_DS/Halfedge_data_structure.html#Cross_link_anchor_0">Halfedge_data_structure</A></I> concept as described in
+Section&nbsp;<A HREF="../Halfedge_DS/Halfedge_data_structure.html#sectionHds"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> and additionally provides the following types
+and operations for the local <I><A HREF="Facet.html#Cross_link_anchor_3">Facet</A></I> type to support optionally
+surface normals or plane equations for facets.<P>
+
+
+<P>
+
+<H3>Types</H3>Types for (optionally) associated geometry in facets. If
+they are not supported the respective types are <I>void*</I>.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Normal
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    surface normal vector stored in facets.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Plane
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    plane equation stored in facets.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>The member functions for the normal vector or the
+plane equation are only needed if the respective feature is supported.
+If plane equations are supported, a member function for the normal
+vector is necessary, though only with a value semantic of the return
+value (no reference as return value).
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Normal&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    f.normal () 
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the surface normal vector.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const Normal&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    f.normal () const
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    Plane&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    f.plane () 
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the plane equation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    const Plane&amp;
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    f.plane () const
+        </I></NOBR>
+        </TD>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Types for Tagging Optional Features</H3>
+<P>
+
+The nested types below are either equal to <I>CGAL_Tag_true</I> or
+<I>CGAL_Tag_false</I>, depending on whether the named member function
+is supported or not.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Supports_facet_normal
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <I>normal()</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A HREF="Facet.html#Cross_link_anchor_3">Facet</A>::Supports_facet_plane
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <I>plane()</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+The following dependencies among these options and those of the
+<I><A HREF="Halfedge.html#Cross_link_anchor_2">Halfedge</A></I> type must be regarded:
+<P>
+
+<I>Supports_facet_normal</I> <MATH>=</MATH> <I>CGAL_Tag_true</I>
+<MATH>==></MATH> <I>Supports_halfedge_facet</I> <MATH>=</MATH>
+<I>CGAL_Tag_true</I>. <BR><I>Supports_facet_plane</I> <MATH>=</MATH>
+<I>CGAL_Tag_true</I> <MATH>==></MATH> <I>Supports_halfedge_facet</I>
+<MATH>=</MATH> <I>CGAL_Tag_true</I>.
+<P>
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html"><I>CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<H3>Models of <I><A HREF="../Halfedge_DS/Facet_base.html#Cross_link_anchor_9">Facet_base</A></I></H3>
+
+<A NAME="sectionPolyHdsBases"></A><P>
+
+CGAL currently provides a model for the <I><A HREF="../Halfedge_DS/Facet_base.html#Cross_link_anchor_9">Facet_base</A></I> concept
+specifically tailored for polyhedral surfaces. Other models can be found
+in Section&nbsp;<A HREF="../Halfedge_DS/Chapter_hds.html#sectionHdsBasesModels"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class R&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Polyhedron_facet_base_3"></A>
+class <A HREF="Chapter_polyhedron.html#Struct_CGAL_Polyhedron_facet_base_3">CGAL_Polyhedron_facet_base_3</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    defines the maximal facet functionality for polyhedrons including
+    halfedge pointer and a plane equation of type
+    <I>CGAL_Plane_3&lt;R&gt;</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+<H3>See Also</H3><I><A HREF="../Halfedge_DS/Chapter_hds.html#Struct_CGAL_Vertex_min_base">CGAL_Vertex_min_base</A></I>, ..., <I><A HREF="../Halfedge_DS/Chapter_hds.html#Struct_CGAL_Facet_max_base">CGAL_Facet_max_base</A></I>, and<BR><I><A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3</A></I>.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Polyhedron_incremental_builder_3.html"><I>CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_6"></A>
+<H2>Examples Using Polyhedral Surfaces</H2>
+<P>
+
+<A NAME="sectionPolyExamples"></A><P>
+
+Examples of different halfedge data structures can be found in
+Section&nbsp;<A HREF="../Halfedge_DS/Chapter_hds.html#sectionHdsExamples"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<H3>First Example Using Defaults</H3>
+<P>
+
+The first example instantiates a polyhedron using the default traits
+class, the default halfedge data structure, and creates a tetrahedron.<P>
+
+<PRE>/*  polyhedron_prog_simple.C  */
+/*  ------------------------------------ */
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_polyhedron_default_3.h&gt;
+#include &lt;CGAL/Polyhedron_default_traits_3.h&gt;
+#include &lt;CGAL/Polyhedron_3.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt;                                R;
+typedef <A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A>   HDS;
+typedef <A HREF="CGAL_Polyhedron_default_traits_3.html#Cross_link_anchor_5">CGAL_Polyhedron_default_traits_3&lt;R&gt;</A>                   <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>;
+typedef <A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A>&lt;<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>,HDS&gt;                         Polyhedron;
+typedef Polyhedron::Halfedge_handle                            Halfedge_handle;
+
+int main() {
+    Polyhedron P;
+    Halfedge_handle h = P.make_tetrahedron();
+    CGAL_assertion( P.is_tetrahedron( h));
+    return 0;
+}
+</PRE><P>
+
+<H3>Example with Geometry in Vertices</H3>
+<P>
+
+This example creates a tetrahedron initialized with four points. In
+addition it demonstrates the use of the vertex iterator and the access
+to the point in the vertices. The output of
+the program will be <TT>(0 0 0) (1 0 0) (0 1 0) (0 0 1)</TT>.<P>
+
+<PRE>/*  polyhedron_prog_tetra.C  */
+/*  --------------------------------- */
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;iostream.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_polyhedron_default_3.h&gt;
+#include &lt;CGAL/Polyhedron_default_traits_3.h&gt;
+#include &lt;CGAL/Polyhedron_3.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt;                                R;
+typedef <A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A>   HDS;
+typedef <A HREF="CGAL_Polyhedron_default_traits_3.html#Cross_link_anchor_5">CGAL_Polyhedron_default_traits_3&lt;R&gt;</A>                   <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>;
+typedef <A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A>&lt;<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>,HDS&gt;                        Polyhedron;
+typedef Polyhedron::Point                                     Point;
+typedef Polyhedron::Vertex_iterator                           Vertex_iterator;
+
+int main() {
+    Point p( 0.0, 0.0, 0.0);
+    Point q( 1.0, 0.0, 0.0);
+    Point r( 0.0, 1.0, 0.0);
+    Point s( 0.0, 0.0, 1.0);
+
+    Polyhedron P;
+    P.make_tetrahedron( p, q, r, s);
+    CGAL_set_ascii_mode( cout);
+    Vertex_iterator begin = P.vertices_begin();
+    for ( ; begin != P.vertices_end(); ++begin)
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; begin-&gt;point() &lt;&lt; &quot;) &quot;;
+    cout &lt;&lt; endl;
+    return 0;
+}
+</PRE><P>
+
+<H3>Example Declaring a Point Iterator</H3>
+<P>
+
+It might be preferable to have an iterator enumerating all points
+directly instead of all vertices as in the previous example. Such an
+iterator could be used in other algorithms, for example a convex hull
+computation. The following declaration gives us such a point iterator.<P>
+
+<PRE>
+#include &lt;CGAL/Iterator_project.h&gt;
+#include &lt;CGAL/function_objects.h&gt;
+
+typedef Polyhedron::<A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>                                   <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>;
+typedef Polyhedron::Vertex_iterator                          Vertex_iterator;
+typedef Polyhedron::Point                                    Point;
+typedef Polyhedron::Difference                               Difference;
+typedef Polyhedron::iterator_category                        iterator_category;
+typedef CGAL_Project_point&lt;<A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>&gt;                           Project_point;
+typedef CGAL_Iterator_project&lt;Vertex_iterator, Project_point,
+        Point&amp;, Point*, Difference, iterator_category&gt;       Point_iterator;
+</PRE><P>
+
+The <TT>for</TT>-loop of the previous example could now be replaced with
+the following loop:<P>
+
+<PRE>
+    Point_iterator begin = P.vertices_begin();
+    for ( ; begin != P.vertices_end(); ++begin)
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; (*begin) &lt;&lt; &quot;) &quot;;
+</PRE><P>
+
+<H3>Example Writing Object File Format (OFF) with STL Algorithms</H3>
+<P>
+
+The following example creates a tetrahedron and writes it to
+<I>cout</I> using the Object File Format (OFF)&nbsp;[<A HREF="../biblio.html#Biblio_p-gmgv15-94">Phi94</A>].
+The example makes advanced use of STL algorithms (<I>copy</I>,
+<I>distance</I>), STL <I>ostream_iterator</I> and CGAL circulators.<P>
+
+<PRE>/*  polyhedron_prog_off.C    */
+/*  -------------------------------- */
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;iostream.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_polyhedron_default_3.h&gt;
+#include &lt;CGAL/Polyhedron_default_traits_3.h&gt;
+#include &lt;CGAL/Polyhedron_3.h&gt;
+#include &lt;CGAL/Iterator_project.h&gt;
+#include &lt;CGAL/function_objects.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt;                               R;
+typedef <A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A>  HDS;
+typedef <A HREF="CGAL_Polyhedron_default_traits_3.html#Cross_link_anchor_5">CGAL_Polyhedron_default_traits_3&lt;R&gt;</A>                  <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>;
+typedef <A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A>&lt;<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>,HDS&gt;                        Polyhedron;
+typedef Polyhedron::Difference                               Difference;
+typedef Polyhedron::iterator_category                        Iterator_category;
+typedef Polyhedron::Point                                    Point;
+typedef Polyhedron::<A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>                                   <A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>;
+typedef Polyhedron::Vertex_iterator                          Vertex_iterator;
+typedef Polyhedron::Facet_iterator                           Facet_iterator;
+typedef Polyhedron::Halfedge_around_facet_circulator
+                                            Halfedge_around_facet_circulator;
+
+typedef CGAL_Project_point&lt;<A HREF="Vertex.html#Cross_link_anchor_1">Vertex</A>&gt;                           Project_point;
+typedef CGAL_Iterator_project&lt;Vertex_iterator, Project_point,
+        Point&amp;, Point*, Difference, Iterator_category&gt;       Point_iterator;
+
+int main() {
+    Point p( 0.0, 0.0, 0.0);
+    Point q( 1.0, 0.0, 0.0);
+    Point r( 0.0, 1.0, 0.0);
+    Point s( 0.0, 0.0, 1.0);
+
+    Polyhedron P;
+    P.make_tetrahedron( p, q, r, s);
+
+    /* Write polyhedron on Object File Format (OFF). */
+    CGAL_set_ascii_mode( cout);
+    cout &lt;&lt; &quot;OFF&quot; &lt;&lt; endl;
+    cout &lt;&lt; P.size_of_vertices() &lt;&lt; ' ' &lt;&lt; P.size_of_facets() &lt;&lt; &quot; 0&quot; &lt;&lt; endl;
+    copy( Point_iterator( P.vertices_begin()), 
+	  Point_iterator( P.vertices_end()), 
+	  ostream_iterator&lt;Point&gt;(cout,&quot;\n&quot;));
+    Facet_iterator i = P.facets_begin();
+    for ( ; i != P.facets_end(); ++i) {
+        Halfedge_around_facet_circulator j = i-&gt;facet_begin();
+        /* Facets in polyhedral surfaces are at least triangles. */
+        CGAL_assertion( CGAL_circulator_size(j) &gt;= 3);
+        cout &lt;&lt; CGAL_circulator_size(j) &lt;&lt; &quot; &quot;;
+        do {
+            size_t d = 0;
+            distance( P.vertices_begin(), j-&gt;vertex(), d);
+            cout &lt;&lt; &quot; &quot; &lt;&lt; d;
+        } while ( ++j != i-&gt;facet_begin());
+        cout &lt;&lt; endl;
+    }
+    return 0;
+}
+</PRE><P>
+
+<H3>Example Using the Incremental Builder and Modifier Mechanism</H3>
+<P>
+
+The <I><A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3</A></I> class is used to create
+a triangle using the modifier mechanism as described in the Support
+Library Manual.<P>
+
+<PRE>/*  polyhedron_prog_incr_builder.C  */
+/*  ------------------------------------------ */
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Halfedge_data_structure_polyhedron_default_3.h&gt;
+#include &lt;CGAL/Polyhedron_default_traits_3.h&gt;
+#include &lt;CGAL/Polyhedron_incremental_builder_3.h&gt;
+#include &lt;CGAL/Polyhedron_3.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt;                                R;
+typedef <A HREF="CGAL_Halfedge_data_structure_polyhedron_default_3.html#Cross_link_anchor_6">CGAL_Halfedge_data_structure_polyhedron_default_3&lt;R&gt;</A>  HDS;
+typedef <A HREF="CGAL_Polyhedron_default_traits_3.html#Cross_link_anchor_5">CGAL_Polyhedron_default_traits_3&lt;R&gt;</A>                   <A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>;
+typedef <A HREF="CGAL_Polyhedron_3.html#Cross_link_anchor_0">CGAL_Polyhedron_3</A>&lt;<A HREF="../Polygon/Traits.html#Cross_link_anchor_1">Traits</A>,HDS&gt;                         Polyhedron;
+
+/* A modifier creating a triangle with the incremental builder. */
+template &lt; class HDS&gt;
+class Build_triangle : public CGAL_Modifier_base&lt;HDS&gt; {
+public:
+    Build_triangle() {}
+    void operator()( HDS&amp; hds) {
+        /* Postcondition: `hds' is a valid polyhedral surface. */
+        <A HREF="CGAL_Polyhedron_incremental_builder_3.html#Cross_link_anchor_7">CGAL_Polyhedron_incremental_builder_3&lt;HDS&gt;</A> B( hds, true);
+        B.begin_surface( 3, 1, 6);
+        typedef typename HDS::Point Point;
+        B.add_vertex( Point( 0, 0, 0));
+        B.add_vertex( Point( 1, 0, 0));
+        B.add_vertex( Point( 0, 1, 0));
+        B.begin_facet();
+        B.add_vertex_to_facet( 0);
+        B.add_vertex_to_facet( 1);
+        B.add_vertex_to_facet( 2);
+        B.end_facet();
+        B.end_surface();
+    }
+};
+
+int main() {
+    Polyhedron P;
+    Build_triangle&lt;HDS&gt; triangle;
+    P.delegate( triangle);
+    CGAL_assertion( P.is_triangle( P.halfedges_begin()));
+    return 0;
+}
+</PRE><P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_polyhedron.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

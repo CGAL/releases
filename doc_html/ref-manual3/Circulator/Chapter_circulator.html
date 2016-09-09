@@ -1,0 +1,1464 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_circulator.html -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>Reference Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Circulators</H1>
+
+<A NAME="chapterCirculators"></A><P>
+
+<BR><P>
+
+Circulators are quite similar to iterators in the Standard Template
+Library STL&nbsp;[<A HREF="../biblio.html#Biblio_c-wpdpi-96">C<TT>++</TT>96</A>, <A HREF="../biblio.html#Biblio_ms-strg-96">MS96</A>, <A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]. Circulators are
+a generalization of pointers that allow a programmer to work with
+different circular data structures like a ring list in a uniform
+manner. Please note that circulators are not part of the STL, but of
+CGAL.<P>
+
+An introduction to the requirements for circulators is given here.
+Thereafter a couple of adaptors are presented that convert between
+iterators and circulators. A few useful functions for circulators
+follow. Section&nbsp;<A HREF="Chapter_circulator.html#sectionDesignRationale"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> discusses the design
+decisions taken and Section&nbsp;<A HREF="Chapter_circulator.html#sectionRequirements"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> presents the
+full requirements for circulators which are needed to implement own
+circulators. A few base classes and circulator tags (like iterator
+tags&nbsp;[<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]) are provided. An advanced topic is in
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionCirculatorsAndIterators"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> the support for
+algorithms which work for iterators as well as for circulators.<P>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+
+<A NAME="sectionIntroduction"></A>
+<A NAME="sectionCirculatorWarning"></A><P>
+
+Iterators in the STL were tailored for linear sequences. The
+specialization for circular data structures leads to slightly
+different requirements which we will call <EM>circulators</EM>. The main
+difference is that a circular data structure has no natural
+past-the-end value. In consequence, a container supporting circulators
+will not have an <TT>end()</TT>-member function. The semantic of a
+circulator range differs: For a circulator <MATH>c</MATH> the range <MATH>[c,
+  c)</MATH> denotes the sequence of all elements in the data
+structure. For iterators, this range would be empty. A separate test
+for an empty sequence has been added to the circulator requirements: A
+comparison <MATH>c ==</MATH> <TT>NULL</TT> for a circulator <MATH>c</MATH> is true for an empty
+sequence. The following example demonstrates a typical use of
+circulators. It assumes a CGAL polygon given in the variable <TT>P</TT>
+of type <TT>Polygon_2</TT> (provided with a <TT>typedef</TT>) and writes
+all edges to <TT>cout</TT>. Note that the polygon provides iterators over
+edges as well as the circulator. The benefit of circulators appears in
+more graph-like data structures as discussed in
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionDesignRationale"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Examples are triangulations and
+polyhedrons.<P>
+
+<PRE>
+if ( P.edges_circulator() != NULL) {
+    Polygon_2::Edge_const_circulator  c = P.edges_circulator();
+    do {
+        cout &lt;&lt; *c;
+    } while ( ++c != P.edges_circulator());
+}
+</PRE><P>
+
+As for iterators, circulators come in different flavors. There are
+<EM>forward, bidirectional</EM> and <EM>random access circulators</EM>.
+They are either <EM>mutable</EM> or <EM>constant</EM>. The past-the-end
+value is not applicable for circulators.<P>
+
+<B>Reachability:</B>
+A circulator <MATH>d</MATH> is called <EM>reachable</EM> from a circulator <MATH>c</MATH> if and
+only if there is a finite sequence of applications of
+<I>operator++</I> to <MATH>c</MATH> that makes <MATH>c == d</MATH>. If <MATH>c</MATH> and <MATH>d</MATH> refer
+to the same non-empty data structure, then <MATH>d</MATH> is reachable from <MATH>c</MATH>,
+and <MATH>c</MATH> is reachable from <MATH>d</MATH>. In particular, any circulator <MATH>c</MATH>
+referring to a non-empty data structure will return to itself after a
+finite sequence of applications of <I>operator++</I> to <MATH>c</MATH>.<P>
+
+<B>Range:</B>
+Most of the library's algorithmic templates that operate on data
+structures have interfaces that use <EM>ranges</EM>. A range is a pair of
+circulators that designate the beginning and end of the computation. A
+range <MATH>[c, c)</MATH> is a <EM>full range</EM>; in general, a range
+<MATH>[c, d)</MATH> refers to the elements in the data structure
+starting with the one pointed to by <MATH>c</MATH> and up to but not including
+the one pointed to by <MATH>d</MATH>. Range <MATH>[c, d)</MATH> is valid if and
+only if both refer to the same data structure. The result of the
+application of the algorithms in the library to invalid ranges is
+undefined.<P>
+
+<B>Warning:</B> Please note that the definition of a range is different
+from that of iterators. An interface of a data structure must declare
+whether it works with iterators, circulators, or both. STL algorithms
+always specify only iterators in their interfaces. A range <MATH>[c,
+  d)</MATH> of circulators used in an interface for iterators will
+work as expected as long as <MATH>c != d</MATH>. A range <MATH>[c, c)</MATH> will
+be interpreted as the empty range like for iterators, which is
+different than the full range that it should denote for circulators.<P>
+
+Algorithms could be written to support both, iterators and
+circulators, in a single interface. Here, the range <MATH>[c,
+  c)</MATH> would be interpreted correctly. For more information how
+to program functions with this behavior, see
+Chapter&nbsp;<A HREF="Chapter_circulator.html#sectionCirculatorsAndIterators"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<UL><LI>
+<A HREF="Circulator.html">Requirements for Circulators</A>.</UL>
+
+
+<P><A NAME="Section_2"></A>
+<H2>Adaptor: Container with Iterators from <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></H2>
+
+<A NAME="sectionContainerFromCirc"></A><P>
+
+Algorithms working on iterators could not be applied to circulators in
+full generality, only to subranges (see the warning in
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionCirculatorWarning"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>). The following adaptors convert
+circulators to iterators (with the unavoidable space and time penalty) to
+reestablish this generality.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_container_from_circulator.html">Class declaration of <I>CBP_..._container_from_circulator&lt;C&gt;</I></A>.</UL>
+
+
+<P><A NAME="Section_3"></A>
+<H2>Adaptor: <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> from Iterator</H2>
+
+<A NAME="sectionCircFromIter"></A><P>
+
+To obtain circulators, one could use a container class like those in
+the Standard Template Library (STL) or a pair of <I>begin()</I>-,
+<I>end()</I>-iterators and one of the following adaptors. Adaptors
+for iterator pairs are described here, adaptors for container classes
+are described in the next section.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_circulator_from_iterator.html">Class declaration of   <I>CBP_..._circulator_from_iterator&lt;I,T,Size,Dist&gt;</I></A>.</UL>
+
+
+<P><A NAME="Section_4"></A>
+<H2>Adaptor: <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> from Container</H2>
+
+<A NAME="sectionCircFromContainer"></A><P>
+
+To obtain circulators, one could use a container class like those in the
+Standard Template Library (STL) or a pair of <I>begin()</I>-,
+<I>end()</I>-iterators and one of the provided adaptors here.
+Adaptors for iterator pairs are described in the previous section,
+adaptors for container classes are described here.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_circulator_from_container.html">Class declaration of <I>CBP_..._circulator_from_container&lt;C&gt;</I></A>.</UL>
+
+
+<P><A NAME="Section_5"></A>
+<H2>Functions for Circulators</H2>
+
+<A NAME="sectionCirculatorFunctions"></A><P>
+
+The size of a circulator is the size of the data structure it refers
+to. It is zero for a circulator with singular value. The size can be
+computed in linear time for forward and bidirectional circulators, and
+in constant time for random access circulators using the minimal
+circulator. The function <I>CGAL_circulator_size(c)</I>
+returns the circulator size. It uses the
+<I>c.min_circulator()</I> function if <MATH>c</MATH> is a random
+access circulator.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class C&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_C::size_type_CGAL_circulator_size6C_c9;"></A>
+C::size_type
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_circulator_size ( C c)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+The distance of a circulator <MATH>c</MATH> to a circulator <MATH>d</MATH> is the number of
+elements in the range <MATH>[c, d)</MATH>. It is defined to be zero
+for a singular circulator and it returns the size of the data
+structure when applied to a range of the form <MATH>[c, c)</MATH>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class C&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_C::difference_type__CGAL_circulator_distance6C_c+_C_d9;"></A>
+C::difference_type
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_circulator_distance ( C c,  C d)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+The following function returns the distance between either two
+iterators or two circulators. The return type is <TT>ptrdiff_t</TT> for
+compilers not supporting iterator traits yet.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_iterator_traits6IC9::difference_type__CGAL_iterator_distance6IC_ic1+_IC_ic29;"></A>
+iterator_traits&lt;IC&gt;::difference_type
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_iterator_distance ( IC ic1,  IC ic2)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>See Also</H3><I>CGAL_is_empty_range</I><P>
+
+<P><A NAME="Section_6"></A>
+<H2>Design Rationale</H2>
+
+<A NAME="sectionDesignRationale"></A><P>
+
+For circular data structures it is not straightforward to provide a
+<I>begin()</I>,<I>end()</I>-pair of STL iterators. There is no natural
+past-the-end situation. Additional bookkeeping must be implemented to
+provide an <I>end()</I>-iterator or an arbitrary sentinel must be
+introduced, which is undesirable since it would break the symmetry of
+otherwise symmetric data structure. Examples in CGAL are
+triangulations, planar maps and polyhedrons where a natural circular
+ordering of incident vertices, edges, and faces around a vertex - or
+around a facet - exists. To overcome the performance and space
+drawback of the STL iterator requirements, we have introduced <EM>circulators</EM>, and to obtain STL compliance, we provide adaptors
+between circulators and iterators, see
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionContainerFromCirc"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> up to
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionCircFromContainer"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Hence, circulators are
+designed as the natural light-weight objects to traverse ring-like
+data structures, but algorithms working on iterators can also be
+applied using the adaptors.<P>
+
+The following example shows a template function that accepts a range
+<MATH>[c, d)</MATH> of circulators and process each element in this
+range:<P>
+
+<PRE>
+template &lt;class <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A>&gt;
+void example( <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> c, <A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A> d) {
+    if (c != NULL) { /* at least one element in the range */
+        do {
+            foo(*c);  /* process element */
+        } while (++c != d);
+    }
+}
+</PRE><P>
+
+If the ring-like data structure is known to contain at least one
+element, the test <TT>if(c != NULL)</TT> can be omitted. This test for
+an empty data structure has been chosen such that it looks similar to
+a typical ring implementation using pointers to structs. However,
+other requirements for circulators, like the <I>operator++</I>, will
+force any implementation of circulators to use classes and operator
+overloading.<P>
+
+A serious design problem arises due to the fact that the STL template
+algorithms do not check whether their parameters fulfill the
+requirements of an iterator or not. Since the circulators are quite
+similar, they can be used in STL algorithms as iterators, but behave
+different. A range <MATH>[c, c)</MATH> for a circulator <MATH>C</MATH> with non
+singular value denotes the whole sequence, but the iterator algorithm
+will treat it as an empty sequence. We know four solutions to cope with
+this problem, neither is fully satisfactory.<P>
+
+One possibility is to choose different signatures for circulators than
+for iterators. The <I>operator++</I> or the <I>operator==</I> are the
+only choices since they are the member functions involved in the
+semantic of ranges. Both are natural choices and desirable for
+circulators as well as for iterators. Specific member functions are
+harder to learn and to remember. The second possibility is to change
+the semantics of circulators to behave correct in algorithms using
+iterators, but than they are full-fledged iterators and the idea about
+light-weight objects and efficiency for circulators is superfluous.
+The third possibility is to protect the algorithms using iterators
+against misuse via circulators which is easy to achieve, see the
+<I>CGAL_Assert_iterator()</I> function below in
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionAssertIterator"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Nonetheless, this checking has
+also to be done in the STL library and this is beyond the scope of
+CGAL. For implementations within CGAL it is recommended. The
+fourth alternative is to document this design problem and state it as
+a feature. In fact it is a feature that each range <MATH>[c, d)</MATH>
+of two distinct circulators <MATH>c</MATH> and <MATH>d</MATH> (a subsequence within a
+circular sequence) is a valid iterator range where one can apply STL algorithms to. The risk that one applies an algorithm to the whole
+sequence by accident, where the STL algorithms will see an empty
+range, is not too likely, since the normal use of iterators from
+container classes like <TT>sort( A.begin(), A.end())</TT> will fail for
+circulators due to the missing member function <TT>end()</TT>. We have
+chosen this (fourth) solution and documented it in the manual where
+appropriate. Following Bjarne Stroustrup: <EM>Finally, it has been a
+guideline in the design of C++ that when all is said and done the
+programmer must be trusted.</EM>&nbsp;[<A HREF="../biblio.html#Biblio_s-cpl-97">Str97</A>]<P>
+
+<A NAME="Section_7"></A>
+<H2>Requirements</H2>
+
+<A NAME="sectionRequirements"></A><P>
+
+Similar to STL iterators, we distinguish between forward,
+bidirectional, and random access circulators. Input circulators are a
+contradiction, since any circulator is supposed to return once to
+itself. Output circulators are not supported since they would be
+indistinguishable from output iterators. Most requirements for
+circulators are the same as those for iterators. We present the
+changes, please refer to [<A HREF="../biblio.html#Biblio_ms-strg-96">MS96</A>, chapter 18] or
+[<A HREF="../biblio.html#Biblio_c-wpdpi-96">C<TT>++</TT>96</A>, <A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>] for the iterator requirements.<P>
+
+<B>Past-the-end value:</B> There is no past-the-end value. On the other
+hand, a circulator can denote an empty data structure, but not with a
+past-the-end value.<P>
+
+<B>Singular values:</B> In addition to iterators, a circulator can
+denote an empty data structure. In this case it has a singular
+value.<P>
+
+<B>Dereferenceable values:</B> A circulator with a non-singular value
+is always dereferenceable.<P>
+
+<B>Reachability:</B> In contrast to iterators, dereferenceable
+circulators can reach itself with a finite and non-empty sequence of
+applications of <I>operator++</I>.<P>
+
+<B>Ranges:</B> In addition, any range <MATH>[c, c)</MATH> of a
+circulator <MATH>C</MATH> is a valid range. If the circulator has a singular
+value, the range <MATH>[c, c)</MATH> denotes the empty range,
+otherwise the circulator is dereferenceable and the range <MATH>[c,
+  c)</MATH> denotes the whole sequence of elements in the data
+structure. <EM>Remark:</EM> When a circulator is used in a place of an
+iterator, like with an STL algorithm, it will work as supposed to with
+the only exception that the range <MATH>[c, c)</MATH> denotes always
+the empty range. This is not a requirement itself, it is a consequence
+of the requirements stated here and the fact that the STL requirements
+for iterators do not include a type safety check for the template
+parameters used in the related STL algorithms.<P>
+
+<B>Types:</B> Since there is no builtin type that can fulfill the
+requirements for a circulator we can assume that any circulator is
+implemented as a class and we can use local type declarations to add
+the useful type information about the value type and others to the
+circulators. For a circulator class <MATH>C</MATH> these are
+<I>C::value_type</I>, <I>C::reference</I>, <I>C::const_reference</I>, and
+<I>pointer</I> denoting the element type, references, and pointers
+to them. <I>C::size_type</I> is an unsigned integral type that can
+hold the size of a sequence. <I>C::difference_type</I> is a signed
+integral type that can hold the distance between two circulators of
+the same sequence (either by counting the elements inbetween or by
+subtracting two random access circulators).<P>
+
+<B>STL compliance:</B>
+The functions <I>iterator_category(...)</I>,
+<I>value_type(...)</I>, and <I>distance_type(...)</I> are
+required for STL compliance [<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]. Beyond the STL requirements is the additionally required function
+<I>CGAL_query_circulator_or_iterator(...)</I> that distinguishes
+between circulators and iterators.<P>
+
+For each circulator type <TT>C</TT> we will assume that <TT>a</TT> and <TT>b</TT> denote values of type <TT>C</TT>, <TT>r</TT> denotes a value of <TT>C&amp;</TT> (is assignable), and <TT>t</TT> denotes a value type <TT>T</TT>. Let
+<TT>D</TT> be the distance type.<P>
+
+<H3>Forward Circulators</H3>
+<P>
+
+<TABLE><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<TT>C()</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> a circulator equal to <I>NULL</I>, i.e.&nbsp;a singular
+value.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>a == NULL</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> Returns <TT>true</TT> if <TT>a</TT> has a singular value,
+<TT>false</TT> otherwise. For simplicity,</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>NULL == a</TT>
+is not provided. Implementation issues might
+fail in detecting</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> comparisons to other values that are not equal to <TT>NULL</TT>. Here, the beha-</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> vior is undefined, a runtime assertion is
+recommended.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>a != NULL</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> Returns <TT>!(a == NULL)</TT>. </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>++r</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> Like for forward iterators, but a dereferenceable
+circulator <TT>r</TT> will always</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> be dereferenceable after <TT>++r</TT> (no
+past-the-end value). <EM>Precondition:</EM> <TT>r</TT> has</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> no singular value.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>r++</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> Same as for <TT>++r</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::value_type</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>T</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::reference</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>T&amp;</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::const_reference</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>const T&amp;</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::pointer</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>T*</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::const_pointer</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> <TT>const T*</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::size_type</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> unsigned integral type.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::distance_type</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> signed integral type.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>C::iterator_category</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> circulator category <TT>CBP_Forward_circulator_tag</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<I>CGAL_query_circulator_or_iterator(a)</I> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+returns <I><A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>()</I>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>iterator_category(a)</I> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+returns <I>C::iterator_category()</I>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>value_type(a)</I> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+returns <I>(T*)(0)</I>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>distance_type(a)</I> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+returns <I>(D*)(0)</I>.
+</TD></TR></TABLE><P>
+
+<H3>Bidirectional Circulators</H3>
+<P>
+
+The same requirements as for the forward circulators hold for
+bidirectional iterators with the following change:<P>
+
+<TABLE><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<TT>C::iterator_category</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> circulator category <TT>CBP_Bidirectional_circulator_tag</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+</TD></TR></TABLE><P>
+
+<H3>Random Access Circulators</H3>
+<P>
+
+The same requirements as for the bidirectional circulators hold for
+random access iterators with the following changes and extensions.<P>
+
+The idea of a random access extends naturally to circulators using
+equivalence classes modulus the length of the sequence. With this in
+mind, the additional requirements for random access iterators hold
+also for random access circulators. The single exception is that
+the random access iterator requires a total order on the
+sequence, which a circulator cannot provide. One might define the
+ordering by splitting the circle at a fixed point, e.g. the start
+circulator provided from the data structure. This is what the adaptor
+to iterators will do. Nonetheless, we do not require this for
+circulators.<P>
+
+The difference of two circulators is not unique as for iterators. A
+reasonable requirement demands that the result is in a certain range
+<MATH>[1-</MATH><I>size, size</I><MATH>-1]</MATH>, where <I>size</I> is the size of the
+data structure, and that whenever a circulator <TT>a</TT> is fixed that
+the differences with all other circulators of the sequence form a
+consistent ordering.<P>
+
+For the adaptor to iterators there has to be a minimal circulator
+<MATH>d<SUB></MATH>min<MATH></SUB></MATH> for which the difference <MATH>c -
+  d<SUB></MATH>min<MATH></SUB></MATH> to all other circulators <MATH>c</MATH> is
+non negative.<P>
+
+<TABLE><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<TT>C::iterator_category</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> circulator category <TT>CBP_Random_access_circulator_tag</TT>.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<TT>b - a</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> a limited range and a consistent ordering
+for a fixed </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> circulator <TT>a</TT> as explained in the
+paragraph above. </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>a.min_circulator()</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> returns the minimal circulator from the
+range <MATH>[a,a)</MATH>. Its </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> value is singular if <TT>a</TT> has a singular value.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD></TR></TABLE><P>
+
+<H3>Const Circulators</H3>
+<P>
+
+As with iterators we distinguish between circulators and const
+circulators. The expression <TT>*a = t</TT> is valid for mutable
+circulators. It is invalid for const circulators.<P>
+
+<H3>Circulators in Container Classes</H3>
+<P>
+
+For a container <TT>x</TT> of class <TT>X</TT> that supports circulators
+<TT>c</TT> we would like to recommend the following requirements.<P>
+
+<TABLE><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+
+<TT>X::<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> the type of the mutable circulator.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>X::Const_circulator</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> the type of the const circulator.</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><TT>c = x.begin()</TT> </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> the start point of the data
+structure. It can be a singular value. It is of </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> type <TT>X::<A HREF="Circulator.html#Cross_link_anchor_0">Circulator</A></TT> for a mutable container or <TT>X::Const_circulator</TT> for</TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP> a const container. There must not be an <TT>end()</TT> member function.
+</TD></TR></TABLE><P>
+
+If a container will support iterators and circulators, the member
+function <TT>circulator_begin()</TT> is proposed. However, the support
+of iterators and circulators simultaneously is not recommended, since
+it would lead to fat interfaces. The natural choice should be
+supported, the other technique will be available through the adaptors
+in Section&nbsp;<A HREF="Chapter_circulator.html#sectionContainerFromCirc"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> up to
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionCircFromContainer"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<A NAME="Section_8"></A>
+<H2>Compile Time Tags and Base Classes</H2>
+<P>
+
+This section demonstrates how to distinguish in algorithms between
+different categories of circulators and how to distinguish these from
+iterators. We use compile time tags for this purpose. They are
+described as iterator tags in [<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]. Additionally, a
+couple of base classes simplify the task of writing own circulators
+that conform to the mechanism described here which is also part of the
+requirements: A circulator <I>c</I> has to have an appropriately
+defined <I>iterator_category(c)</I> function and
+<I>CGAL_query_circulator_or_iterator(c)</I> function, see also
+Section&nbsp;<A HREF="Chapter_circulator.html#sectionRequirements"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. All adaptors described in this
+chapter use these base classes.<P>
+
+<I>#include &lt;CGAL/circulator.h&gt;</I><P>
+
+To use the tags or base classes it is sufficient to include:<P>
+
+<I>#include &lt;CGAL/circulator_bases.h&gt;</I><P>
+
+<H3>Compile Time Tags</H3><P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Circulator_tag"></A>
+struct <A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    any circulator.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Iterator_tag"></A>
+struct <A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    any iterator.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+<H3>Base Classes</H3><P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Forward_circulator_base"></A>
+struct <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Bidirectional_circulator_base"></A>
+struct <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_base">CGAL_Bidirectional_circulator_base</A>;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Random_access_circulator_base"></A>
+struct <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>;
+        </I></NOBR>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+<P><BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>
+<H3>Discriminating Function for Iterator Categories</H3><P>
+
+To distinguish between circulator categories the
+<I>iterator_category()</I> function is sufficient. It is overloaded
+for the above base classes as follows. (The return values are in fact
+class derived from the <I>iterator_tag</I> types stated here, see the
+requirements in the previous section. However,
+to distinguish circulator categories the <I>iterator_tag</I> types are
+sufficient, see also the example below.)<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dst, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_forward_iterator_tag_iterator_category6__const_CGAL_Forward_circulator_base6T+Dst+Size9_9;"></A>
+forward_iterator_tag
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    iterator_category ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>&lt;T,Dst,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dst, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_bidirectional_iterator_tag_iterator_category6__const_CGAL_Bidirectional_circulator_base6T+Dst+Size9_9;"></A>
+bidirectional_iterator_tag
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    iterator_category ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_base">CGAL_Bidirectional_circulator_base</A>&lt;T,Dst,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dst, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_random_access_iterator_tag_iterator_category6__const_CGAL_Random_access_circulator_base6T+Dst+Size9_9;"></A>
+random_access_iterator_tag
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    iterator_category ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>&lt;T,Dst,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Discriminating Function between Circulators and Iterators</H3><P>
+
+The following function distinguishes between circulators and iterators
+(assuming that the iterators do also conform to the iterator tag
+description in [<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]).<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Circulator_tag_CGAL_query_circulator_or_iterator6__const_CGAL_Forward_circulator_base6T+Dist+Size9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_query_circulator_or_iterator ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Circulator_tag_CGAL_query_circulator_or_iterator6__const_CGAL_Bidirectional_circulator_base6T+Dist+Size9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_query_circulator_or_iterator ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_base">CGAL_Bidirectional_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Circulator_tag_CGAL_query_circulator_or_iterator6__const_CGAL_Random_access_circulator_base6T+Dist+Size9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP COLSPAN=2><I>
+    CGAL_query_circulator_or_iterator ( </I></TD></TR><TR><TD WIDTH=50 NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6___const_input_iterator6T+Dist9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_query_circulator_or_iterator ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     input_iterator&lt;T,Dist&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6__const_output_iterator_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_query_circulator_or_iterator (  output_iterator)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6__const_forward_iterator6T+Dist9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_query_circulator_or_iterator ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     forward_iterator&lt;T,Dist&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6__const_bidirectional_iterator6T+Dist9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_query_circulator_or_iterator ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     bidirectional_iterator&lt;T,Dist&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6__const_random_access_iterator6T+Dist9_9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_query_circulator_or_iterator ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     random_access_iterator&lt;T,Dist&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_CGAL_Iterator_tag_CGAL_query_circulator_or_iterator6_const_T*9;"></A>
+<A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_query_circulator_or_iterator ( const T*)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Value and Distance Type Querying</H3><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_T*_value_type6_const_CGAL_Forward_circulator_base6T+Dist+Size9_9;"></A>
+T*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    value_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_T*_value_type6_const_CGAL_Bidirectional_circulator_base6T+Dist+Size9_9;"></A>
+T*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    value_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_base">CGAL_Bidirectional_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_T*_value_type6_const_CGAL_Random_access_circulator_base6T+Dist+Size9_9;"></A>
+T*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    value_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_Dist*_distance_type6_const_CGAL_Forward_circulator_base6T+Dist+Size9_9;"></A>
+Dist*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    distance_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_Dist*_distance_type6_const_CGAL_Bidirectional_circulator_base6T+Dist+Size9_9;"></A>
+Dist*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    distance_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_base">CGAL_Bidirectional_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_Dist*_distance_type6_const_CGAL_Random_access_circulator_base6T+Dist+Size9_9;"></A>
+Dist*
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    distance_type ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>&lt;T,Dist,Size&gt;)</I></TD></TR></TABLE>
+    
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Compile Time Tag Assertions</H3>
+<A NAME="sectionAssertIterator"></A><P>
+
+The following assertions check during the compilation if their argument
+is of the kind as stated in the assertions name, i.e. a circulator, an
+iterator, or of a particular category, applicable for an iterator or a
+circulator. Note that no input or output circulator exists.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class C&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_circulator6_const_C__c9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_circulator (  C c)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class I&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_iterator6_const_I__i9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_iterator (  I i)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class I&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_input_category6_const_I__i9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_input_category (  I i)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class I&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_output_category6_const_I__i9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_output_category (  I i)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_forward_category6_const_IC__ic9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_forward_category (  IC ic)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_bidirectional_category6_const_IC__ic9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_bidirectional_category (  IC ic)
+        </I></NOBR>
+        
+    
+        </TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template &lt;class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_random_access_category6_const_IC__ic9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_random_access_category (  IC ic)
+        </I></NOBR>
+        
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Example</H3>The above declarations can be used to distinguish between iterators
+and circulators and between different circulator categories. The
+assertions can be used to protect a templatized algorithm against
+instantiations that do not fulfill the requirements. The following
+example program demonstrate both. The program is part of the CGAL distribution.<P>
+
+<PRE>/*  circulator_prog3.C       */
+/*  ------------------------------ */
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;list.h&gt;
+#include &lt;CGAL/circulator.h&gt;
+
+template &lt;class C&gt; inline
+int foo( C c, forward_iterator_tag) { 
+    CGAL_Assert_circulator( c);
+    CGAL_Assert_forward_category( c);
+    return 1;
+}
+template &lt;class C&gt; inline
+int foo( C c, random_access_iterator_tag) { 
+    CGAL_Assert_circulator( c);
+    CGAL_Assert_random_access_category( c);
+    return 2;
+}
+template &lt;class I&gt; inline
+int foo( I i, <A HREF="Chapter_circulator.html#Struct_CGAL_Iterator_tag">CGAL_Iterator_tag</A>) { 
+    CGAL_Assert_iterator( i);
+    return 3;
+}
+
+template &lt;class C&gt; inline
+int foo( C c, <A HREF="Chapter_circulator.html#Struct_CGAL_Circulator_tag">CGAL_Circulator_tag</A>) { 
+    CGAL_Assert_circulator( c);
+    return foo( c, iterator_category(c));
+}
+template &lt;class IC&gt; inline
+int foo( IC ic) { 
+    return foo( ic, CGAL_query_circulator_or_iterator( ic));
+}
+
+int main() {
+    typedef <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_base">CGAL_Forward_circulator_base</A>&lt;int, ptrdiff_t, size_t&gt; F;
+    typedef <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_base">CGAL_Random_access_circulator_base</A>&lt;int, ptrdiff_t, size_t&gt; R;
+    F f = F();
+    R r = R();
+    list&lt;int&gt; l;
+    assert( foo( f)         == 1);
+    assert( foo( r)         == 2);
+#ifndef __GNUG__
+    assert( foo( l.begin()) == 3);
+#endif
+    return 0;
+}
+</PRE><P>
+
+<H3>Implementation</H3><P>
+
+Since not all current compilers can eliminate the space needed for the
+compile time tags even when deriving from them, we implement a variant
+for each base class that contains a protected <I>void*</I> data member
+called <I>_ptr</I>. Here, the allocated space in the derived
+classes can be reused. The discriminating functions are overloaded for
+these extensions. The variant base classes are:<P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Forward_circulator_ptrbase"></A>
+class <A HREF="Chapter_circulator.html#Struct_CGAL_Forward_circulator_ptrbase">CGAL_Forward_circulator_ptrbase</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    forward circulator.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Bidirectional_circulator_ptrbase"></A>
+class <A HREF="Chapter_circulator.html#Struct_CGAL_Bidirectional_circulator_ptrbase">CGAL_Bidirectional_circulator_ptrbase</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    bidirectional circulator.
+    <P>
+        </TD></TR>
+        <TR><TD><BR></TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    template &lt;class T, class Dist, class Size&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    <A NAME="Struct_CGAL_Random_access_circulator_ptrbase"></A>
+class <A HREF="Chapter_circulator.html#Struct_CGAL_Random_access_circulator_ptrbase">CGAL_Random_access_circulator_ptrbase</A>;
+        </I></NOBR>
+        </TD></TR><TR><TD WIDTH=30% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    random access circulator.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+
+<P>
+
+The 1996 release of the STL that comes with the SGI C++ compiler does
+not derive their iterators from the base classes as described in
+[<A HREF="../biblio.html#Biblio_sl-stl-95">SL95</A>]. The <I>CGAL_query_circulator_or_iterator</I>
+function needs to be overloaded for several iterators in the STL explicitly. For that, we must know the classes involved in advance.
+We do not like to include all STL header files that might be necessary
+(i.e. <TT>deque.h, hashtable.h, list.h,</TT> and <TT>tree.h</TT>). Instead,
+we assume that these header files are already included and define the
+additional functions if necessary. This makes this scheme dependent
+on the order of header file inclusions, but we consider it as
+reasonable to assume that standard header files are included before
+CGAL header files.<P>
+
+SGI has released newer STL implementations on their web server
+<A HREF="http://www.sgi.com/Technology/STL/">http://www.sgi.com/Technology/STL/</A>. These releases do not
+longer implement iterators as nested classes which allow us to use
+forward declarations to stay independent from the actual header file
+inclusions.<P>
+
+The current scheme is prepared for iterator traits
+[<A HREF="../biblio.html#Biblio_m-tnutt-95">Mye95</A>, <A HREF="../biblio.html#Biblio_c-wpdpi-96">C<TT>++</TT>96</A>] and will simplify considerably when they
+are available.<P>
+
+The Gnu g++ 2.7.2 compiler has difficulties with the
+<I>iterator_category(i)</I> function implementation. The workaround
+for the Gnu library implements the function within the container
+classes. Since the <I>CGAL_query_circulator_or_iterator(c)</I>
+function relies on the same principle, it could not be implemented
+without patching the Gnu library. The problem will be solved with the
+next Gnu g++ release. The <I>CGAL_Assert_iterator(i)</I> and
+<I>CGAL_Assert_circulator_or_iterator(ic)</I> wont work either. The
+involved container are <I>list</I> and <I>tree</I>. The other
+container should work.<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<A NAME="Section_9"></A>
+<H2>Writing Algorithms for Circulators and Iterators Simultaneously</H2>
+
+<A NAME="sectionCirculatorsAndIterators"></A><P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR><P>
+
+The previous section describes how we can distinguish between
+circulators and iterators. Now we encapsulate the difference between
+both in such a way that it is easy to write algorithms that can be
+parameterized with an interval according to both requirements. The
+difference we have to consider is whether a loop will be entered the
+first time or not. For iterators it is the same test as for the rest
+of the loop, for circulators it is the comparison with <TT>NULL</TT>. So,
+we provide a test that accepts a range of either two circulators or
+two iterators and decides whether the range is empty or not.<P>
+
+<I>#include &lt;CGAL/circulator.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template&lt; class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_bool_CGAL_is_empty_range6_const_IC__i+_const_IC__j9;"></A>
+bool
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_is_empty_range (  IC i,  IC j)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    is <I>true</I> if the range [<I>i, j</I>) is empty, <I>false</I>
+    otherwise. <BR><STRONG>Precondition: </STRONG><I>IC</I> is either a
+    circulator or an iterator type. The range [<I>i, j</I>) is valid.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+Using this function we can write an <TT>example()</TT> function that
+accepts a range <MATH>[i, j)</MATH> of iterators or circulators
+and process each element in this range:<P>
+
+<PRE>
+template &lt;class IC&gt;
+void example( IC i, IC j) {
+    // assures that there is at least one element
+    if (! CGAL_is_empty_range( i, j)) { 
+        do {
+            foo(*i);  // process element
+        } while (++i != j);
+    }
+}
+</PRE><P>
+
+Again, a protection against misuse with inappropriate template
+parameters is possible.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=650>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=100% COLSPAN=3>
+        <I><NOBR>
+    template&lt; class IC&gt;
+        </I></NOBR>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I><NOBR>
+    <A NAME="Function_void_CGAL_Assert_circulator_or_iterator6const_IC__i9;"></A>
+void
+        </I></NOBR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=75% NOWRAP COLSPAN=2>
+        <I><NOBR>
+    CGAL_Assert_circulator_or_iterator (  IC i)
+        </I></NOBR>
+        </TR><TR><TD WIDTH=25% NOWRAP></TD><TD WIDTH=25% NOWRAP></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    results in a compile time error when <I>i</I> is neither a
+    circulator nor an iterator.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<H3>Loop Macro</H3><P>
+
+A macro <I>CGAL_For_all( i, j)</I> simplifies the writing of
+such simple loops as the one above. <I>i</I> and <I>j</I> can be
+either iterators or circulators. The macro loops through the range
+[<I>i, j</I>). It increments <I>i</I> until it reaches
+<I>j</I>. The implementation looks like:<P>
+
+<I>CGAL_For_all(i,j)</I> :=
+<PRE>
+for ( bool CGAL__circ_loop_flag = ! CGAL_is_empty_range(i,j);
+      CGAL__circ_loop_flag;
+      CGAL__circ_loop_flag = ((++i) != (j)) 
+)
+</PRE><P>
+
+Note that the macro behaves like a <I>for</I>-loop. It can be used with
+a single statement or with a statement block. For bidirectional
+iterators or circulators exist a backwards loop macro
+<I>CGAL_For_all_backwards( i, j)</I> that decrements <I>j</I> until
+it reaches <I>i</I>.<P>
+
+<H3>See Also</H3><I>CGAL_iterator_distance</I><P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_circulator.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

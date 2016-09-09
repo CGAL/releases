@@ -5,47 +5,49 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = /KM/projects/CGAL/make/makefile_sparc_SunOS-5.5.1_g++-2.7.2_rtti_LEDA_351
+CGAL_MAKEFILE = /KM/projects/CGAL/CGAL-1.0/make/makefile_sparc_SunOS-5.5.1_CC-4.2_LEDA
 include $(CGAL_MAKEFILE)
+
+CXX = g++
+
 
 #---------------------------------------------------------------------#
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CPPFLAGS = $(CGAL_CPPFLAGS) \
-           -g
+CXXFLAGS = -I. -I../../include $(CGAL_CXXFLAGS) -DDELAUNAY
+           
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LDFLAGS = $(CGAL_LDFLAGS)
+WINDOW_LDFLAGS = $(CGAL_WINDOW_LDFLAGS)
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-Points: Points.o
-	$(CC) -o Points Points.o $(LDFLAGS)
+# QUANTIFY = quantify
 
-Points3D: Points3D.o
-	$(CC) -o Points3D Points3D.o $(LDFLAGS)
+all: points example voronoi
 
-demo: demo.o
-	$(CC) -o demo demo.o $(CGAL_WINDOW_LDFLAGS)
+points: points.o
+	$(CGAL_CXX) -o points points.o $(LDFLAGS)
 
 example: example.o
-	$(CC) -o example example.o $(LDFLAGS)
+	$(CGAL_CXX) -o example example.o $(LDFLAGS)
 
-parse: parse.o
-	$(CC) -o parse parse.o $(LDFLAGS)
+voronoi: voronoi.o
+	$(CGAL_CXX) -o voronoi voronoi.o $(LDFLAGS)
 
 clean:
-	/bin/rm  Points Points3D demo example parse *.o core
+	- /bin/rm  *~ *.o core tr
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 .C.o:
-	$(CC) $(CPPFLAGS) -c $<
+	$(CGAL_CXX) $(CXXFLAGS) -c $<

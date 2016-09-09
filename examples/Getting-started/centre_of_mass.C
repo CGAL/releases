@@ -1,10 +1,3 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Elementaries
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
 #include "tutorial.h"
 #include <CGAL/Point_2.h>
 #include <CGAL/Vector_2.h>
@@ -27,8 +20,8 @@ Point_2 centre_of_mass(Point_mass *cur, Point_mass *beyond)
     }
     return CGAL_ORIGIN + sumv/sumw;
 }
-    
-main()
+
+void main()
 {
     const int N = 4;
     Point_mass points[N] = {

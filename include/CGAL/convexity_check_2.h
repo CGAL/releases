@@ -1,47 +1,61 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/convexity_check_2.h
+// author(s)     : Stefan Schirra 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// Author: Stefan Schirra
-// Source: cgal_convex_hull_2.lw
 
 #ifndef CGAL_CONVEXITY_CHECK_2_H
 #define CGAL_CONVEXITY_CHECK_2_H
 
-#include <CGAL/ch_assertions.h>
+#include <CGAL/stl_extensions.h>
+#include <algo.h>
 #include <CGAL/ch_utils.h>
 #ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/convex_hull_traits_2.h>
-#ifdef __GNUG__
+#ifdef CGAL_STL_GCC
+#ifndef CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
 #include <CGAL/gnu_istream_iterator_value_type_fix.h>
-#endif // __GNUG__
+#endif // CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#endif // CGAL_STL_GCC
 #endif // CGAL_REP_CLASS_DEFINED
 #ifndef CGAL_CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
@@ -49,17 +63,16 @@ INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 #endif // CGAL_CH_NO_POSTCONDITIONS
 
 
+
 /*{\Moptions
 outfile=cgal_ch_I_cc.man
 }*/
-
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
 \settowidth{\callwidth}{|CGAL_ch_|}
 \computewidths
 }*/
-
 /*{\Mtext [[\#include <CGAL/convexity_check_2.h>]]
 }*/
 
@@ -69,7 +82,7 @@ CGAL_is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                                const Traits& ch_traits);
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 counterclockwise oriented strongly convex polygon.\\ 
-{\sc traits}: uses |Traits::leftturn()| and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Leftturn| and |Traits::Less_xy|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -78,12 +91,12 @@ CGAL_is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                               const Traits& ch_traits);
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 clockwise oriented strongly convex polygon.\\ 
-{\sc traits}: uses |Traits::rightturn()| and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Rightturn| and |Traits::Less_xy|.
 }*/
 
 
 /*{\Moptions
-outfile=cgal_ch_I_cc.man
+outfile=cgal_ch_I_cc2.man
 }*/
 
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
@@ -99,7 +112,7 @@ not right of the lines defined by consecutive points in the range
 
 
 /*{\Moptions
-outfile=cgal_ch_I_cc.man
+outfile=cgal_ch_I_cc3.man
 }*/
 
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
@@ -141,9 +154,7 @@ template <class ForwardIterator>
 inline
 bool
 CGAL_is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last )
-{
-  return CGAL__is_cw_convex_2( first, last, value_type(first) );
-}
+{ return CGAL__is_cw_convex_2( first, last, value_type(first) ); }
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 clockwise oriented strongly convex polygon. Strongly means, there are
 no three collinear points.}*/
@@ -162,9 +173,7 @@ template <class ForwardIterator>
 inline
 bool
 CGAL_is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last )
-{
-  return CGAL__is_ccw_convex_2( first, last, value_type(first) );
-}
+{ return CGAL__is_ccw_convex_2( first, last, value_type(first) ); }
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 counterclockwise oriented strongly convex polygon. Strongly means, there are
 no three collinear points.}*/
@@ -231,9 +240,9 @@ CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
 #endif // CGAL_POINT_2_H
 
-#ifdef CGAL_INCLUDE_TEMPLATE_CODE
+#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/convexity_check_2.C>
-#endif // CGAL_INCLUDE_TEMPLATE_CODE
+#endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 
 #endif // CGAL_CONVEXITY_CHECK_2_H
 

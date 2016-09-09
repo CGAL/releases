@@ -1,38 +1,46 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: V2E_rep.h
-// Author: Wolfgang Freiseisen
- 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/bops_V2E_rep.h
+// author(s)     :            Wolfgang Freiseisen 
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef CGAL__V2E_REP_H
 #define CGAL__V2E_REP_H
@@ -58,7 +66,7 @@ class CGAL__V2E_rep_vertex {
   T_edge   _edge;   /* edge information */
   int      _next;   /* index to next vertex of this sublist */
                    /* calc: container< ... >.begin() + next */
-                   /* works only for vector and deque !!!   */
+                   /* works only for containers with random access iterators */
   friend class CGAL__V2E_rep_base_type<T_vertex, T_edge>;
 
 public:
@@ -73,9 +81,10 @@ public:
   int      next()  const { return _next; }
                    /* returns index to next vertex of this sublist */
                    /* calc: container< ... >.begin() + next */
-                   /* works only for vector and deque !!!   */
-  T_vertex vertex()const { return _vertex; }   /* returns vertex information */
-  T_edge   edge()  const { return _edge; }   /* returns edge information */
+                   /* works only for containers with random access iterators */
+  T_vertex  vertex()const { return _vertex; }   /* returns vertex information */
+  T_vertex& vertex()      { return _vertex; }   /* returns vertex information */
+  T_edge    edge()  const { return _edge; }   /* returns edge information */
 };
 
 /*---------------------------------------------------------------------------*/
@@ -117,15 +126,15 @@ private:
 /*---------------------------------------------------------------------------*/
 template< class T_vertex, class T_edge>
 class CGAL__V2E_rep_base_type {
-public: /* typedefs */
+public:
 
   typedef CGAL__V2E_rep_vertex<T_vertex,T_edge>     vertex_type;
-  typedef vector<vertex_type>::iterator             vertex_iterator;
-  typedef vector<vertex_type>::const_iterator       vertex_const_iterator;
+  typedef typename vector<vertex_type>::iterator       vertex_iterator;
+  typedef typename vector<vertex_type>::const_iterator vertex_const_iterator;
   typedef CGAL__V2E_rep_header< vertex_iterator >   header_type;
-  typedef vector<header_type>::iterator             header_iterator;
-  typedef vector<header_type>::const_iterator       header_const_iterator;
-  typedef vector<header_type>::size_type            size_type;
+  typedef typename vector<header_type>::iterator       header_iterator;
+  typedef typename vector<header_type>::const_iterator header_const_iterator;
+  typedef typename vector<header_type>::size_type      size_type;
 
 public:
   CGAL__V2E_rep_base_type() {}
@@ -200,7 +209,7 @@ public:
 
 
 protected:
-  typedef vector<vertex_iterator>::iterator vertex_iterator_iterator;
+  typedef typename vector<vertex_iterator>::iterator vertex_iterator_iterator;
 
   void set_vertices(int v,
        vertex_iterator_iterator from, vertex_iterator_iterator to)
@@ -246,32 +255,29 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 template< class T_vertex, class T_edge, class T_compare >
-struct CGAL__V2E_rep_compare {
+struct CGAL__V2E_rep_compare : public T_compare {
   typedef CGAL__V2E_rep_vertex<T_vertex,T_edge>     vertex_type;
-  typedef vector<vertex_type>::iterator             vertex_iterator;
-  T_compare compare;
-  vertex_iterator v0;
-  CGAL__V2E_rep_compare () {}
-  CGAL__V2E_rep_compare (vertex_iterator v) : v0(v) {}
+  typedef typename vector<vertex_type>::const_iterator vertex_iterator;
+  CGAL__V2E_rep_compare (vertex_iterator v0) : T_compare((*v0).vertex()) {}
   bool operator()( vertex_iterator v1, vertex_iterator v2 ) {
-    return compare((*v0).vertex(),(*v1).vertex(),(*v2).vertex());
+    return compare((*v1).vertex(),(*v2).vertex());
   }
 };
 
 /*---------------------------------------------------------------------------*/
 template< class T_vertex, class T_edge, class T_compare >
 class CGAL__V2E_rep_type : public CGAL__V2E_rep_base_type<T_vertex, T_edge> {
-public: /* typedefs */
+public:
   
-  typedef CGAL__V2E_rep_type<T_vertex,T_edge,T_compare> THIS;
-  typedef CGAL__V2E_rep_base_type<T_vertex,T_edge>      SUPER;
+  //typedef CGAL__V2E_rep_type<T_vertex,T_edge,T_compare> THIS;
+  //typedef CGAL__V2E_rep_base_type<T_vertex,T_edge>      SUPER;
 
 
   typedef CGAL__V2E_rep_vertex<T_vertex,T_edge>     vertex_type;
-  typedef vector<vertex_type>::iterator             vertex_iterator;
+  typedef typename vector<vertex_type>::iterator             vertex_iterator;
   typedef CGAL__V2E_rep_header< vertex_iterator >   header_type;
-  typedef vector<header_type>::iterator             header_iterator;
-  typedef vector<header_type>::size_type            size_type;
+  typedef typename vector<header_type>::iterator             header_iterator;
+  typedef typename vector<header_type>::size_type            size_type;
 
 public:
   CGAL__V2E_rep_type() {}
@@ -291,20 +297,27 @@ public:
 private:
 
   void sort_CCW(int v) {
+    typedef CGAL__V2E_rep_compare<T_vertex,T_edge,T_compare> Compare;
     if( header(v).size() > 2 ) {
-      CGAL__V2E_rep_compare<T_vertex,T_edge,T_compare> compare_object;
       vector<vertex_iterator> Lv;
       Lv.reserve( header(v).size() );
-      vertex_iterator it;
-      for( it= vertex_begin(v); it != vertex_end(it); it= vertex_next(it) )
+      for( vertex_iterator it= vertex_begin(v); it != vertex_end(it); it= vertex_next(it) )
         Lv.push_back(it);
-      compare_object.v0= header(v).vertex();
+
+      Compare compare_object( header(v).vertex());
+
 #ifdef CGAL__DCEL__V2E_DEBUG_ON
-      print(cout, "Lv", Lv.begin(), Lv.end());
+      cout << "-----------" << endl;
+        cout << "v0= " << (*(header(v).vertex())).vertex() << endl;
+      vector<vertex_iterator>::iterator _it;
+      int _i= 0;
+      for(_i= 0, _it= Lv.begin(); _it != Lv.end(); _i++,_it++)
+        cout << "Lv[" << _i << "]= " << (*(*_it)).vertex() << endl;
 #endif
-      sort( Lv.begin(), Lv.end(),  compare_object );
+      sort(Lv.begin(), Lv.end(),  compare_object );
 #ifdef CGAL__DCEL__V2E_DEBUG_ON
-      print(cout, "Lv", Lv.begin(), Lv.end());
+      for(_i= 0, _it= Lv.begin(); _it != Lv.end(); _i++,_it++)
+        cout << "Lv[" << _i << "]= " << (*(*_it)).vertex() << endl;
 #endif
       set_vertices( v, Lv.begin(), Lv.end() );
     }

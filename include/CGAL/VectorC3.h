@@ -1,63 +1,70 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/VectorC3.h
+// author        : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: VectorC3.h
-// Author: Andreas Fabri
 
 #ifndef CGAL_VECTORC3_H
 #define CGAL_VECTORC3_H
 
+#ifndef CGAL_THREETUPLE_H
 #include <CGAL/Threetuple.h>
+#endif // CGAL_THREETUPLE_H
+#ifndef CGAL_POINTC3_H
 #include <CGAL/PointC3.h>
+#endif // CGAL_POINTC3_H
+
+template < class FT >
+inline CGAL_VectorC3<FT>
+operator-(const CGAL_PointC3<FT> &p, const CGAL_Origin &o);
 
 template < class FT >
 class CGAL_VectorC3 : public CGAL_Handle
 {
-friend inline CGAL_VectorC3<FT> operator-(const CGAL_PointC3<FT> &p,
+friend inline CGAL_VectorC3<FT> operator- CGAL_NULL_TMPL_ARGS (
+                                          const CGAL_PointC3<FT> &p,
                                           const CGAL_Origin &o);
 
-#ifdef CGAL_WORKAROUND_001
-  // SGI has problems with the 'inline'
-friend CGAL_VectorC3<FT> CGAL_DirectionC3<FT>::vector() const;
-
-#else
-#ifdef CGAL_WORKAROUND_003
-  friend class CGAL_DirectionC3<FT>;
-#else
-  // that's what we want but the GNU g++ compiler has trouble with
-  // the not yet defined class CGAL_DirectionC3<FT>
-friend inline CGAL_VectorC3<FT> CGAL_DirectionC3<FT>::vector() const;
-#endif // CGAL_WORKAROUND_003
-#endif  // CGAL_WORKAROUND_001
+friend class CGAL_DirectionC3<FT>;
 
 public:
                        CGAL_VectorC3();
@@ -120,7 +127,9 @@ inline CGAL__Threetuple<FT>*   CGAL_VectorC3<FT>::ptr() const
 }
 
 
+#ifndef CGAL_DIRECTIONC3_H
 #include <CGAL/DirectionC3.h>
+#endif // CGAL_DIRECTIONC3_H
 
 template < class FT >
 CGAL_VectorC3<FT>::CGAL_VectorC3()
@@ -328,6 +337,14 @@ inline CGAL_VectorC3<FT> CGAL_VectorC3<FT>::operator/(const FT &c) const
   return CGAL_VectorC3<FT>( x()/c, y()/c, z()/c) ;
 }
 
+template < class FT >
+CGAL_VectorC3<FT> CGAL_cross_product(const CGAL_VectorC3<FT>& v,
+                                     const CGAL_VectorC3<FT>& w)
+{
+    return CGAL_VectorC3<FT>( v.y() * w.z() - v.z() * w.y() ,
+                              v.z() * w.x() - v.x() * w.z() ,
+                              v.x() * w.y() - v.y() * w.x() );
+}
 template < class FT >
 inline CGAL_DirectionC3<FT> CGAL_VectorC3<FT>::direction() const
 {

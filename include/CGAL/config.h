@@ -1,134 +1,145 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/config.h
+// author(s)     : Wieger Wesselink 
+//                 Michael Hoffmann
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 0.9
+#define CGAL_VERSION 1.0
+#define CGAL_VERSION_NR 1001010000
 
 //----------------------------------------------------------------------//
-//             flags for SGI/MIPSpro C++ x.x compilers
-//----------------------------------------------------------------------//
-#if defined(__sgi) && !defined(__GNUG__)
-#define CGAL_WORKAROUND_001
-#define CGAL_WORKAROUND_012
-#define CGAL_WORKAROUND_017
-#define CGAL_INCLUDE_TEMPLATE_CODE   // This should not be necessary!?!?!?
-#define CGAL_NO_DEFAULTS_IN_FUNCTION_TEMPLATES
-
-#include <sgidefs.h>
-
-// SGI MIPSpro C++ 7.1 -32 compiler settings
-#if _MIPS_SIM == _MIPS_SIM_ABI32
-#endif
-
-// SGI MIPSpro C++ 7.1 -n32 compiler settings
-#if _MIPS_SIM == _MIPS_SIM_NABI32
-#endif
-
-// SGI MIPSpro C++ 7.1 -64 compiler settings
-#if _MIPS_SIM == _MIPS_SIM_ABI64
-#endif
-
-// SGI MIPSpro C++ 4.0 compiler settings
-#if _MIPS_SIM != _MIPS_SIM_ABI32 && _MIPS_SIM != _MIPS_SIM_NABI32 && _MIPS_SIM != _MIPS_SIM_ABI64
-#define CGAL_TEMPLATE_FUNCTION_POINTER_WORKAROUND
-#endif
-
-#endif //  __sgi
-
-//----------------------------------------------------------------------//
-//             flags for g++ 2.7.2 compiler
-//----------------------------------------------------------------------//
-#ifdef __GNUG__
-#define CGAL_BOOL_KEYWORD
-#define CGAL_WORKAROUND_003
-#define CGAL_WORKAROUND_004
-#define CGAL_WORKAROUND_005
-#define CGAL_WORKAROUND_007
-#define CGAL_WORKAROUND_008
-#define CGAL_WORKAROUND_010
-#define CGAL_WORKAROUND_013
-#define CGAL_WORKAROUND_015
-#define CGAL_WORKAROUND_017
-#define CGAL_INCLUDE_TEMPLATE_CODE
-#define CGAL_TEMPLATE_FUNCTION_POINTER_WORKAROUND
-#endif // __GNUG__
-
-//----------------------------------------------------------------------//
-//             flags for SunPro C++ 4.1 compiler
-//----------------------------------------------------------------------//
-#ifdef __SUNPRO_CC
-#define CGAL_WORKAROUND_002
-#define CGAL_WORKAROUND_006
-#define CGAL_WORKAROUND_010
-#define CGAL_WORKAROUND_012
-#define CGAL_WORKAROUND_017
-#define CGAL_INCLUDE_TEMPLATE_CODE   // This should not be necessary!?!?!?
-#define CGAL_TEMPLATE_FUNCTION_POINTER_WORKAROUND
-#define CGAL_DEFAULTS_IN_FUNCTION_TEMPLATES_WORKAROUND
-#endif // __SUNPRO_CC
-
-//----------------------------------------------------------------------//
-//             flags for IBM C Set++ compiler (not supported)
-//----------------------------------------------------------------------//
-#if defined(__xlC__)
-#define CGAL_WORKAROUND_012
-#define CGAL_WORKAROUND_017
-#define CGAL_NO_DEFAULTS_IN_FUNCTION_TEMPLATES
-#endif
-
-//----------------------------------------------------------------------//
-//             include files
+//             include platform specific workaround flags (CGAL_CFG_...)
 //----------------------------------------------------------------------//
 
-#ifndef CGAL_WORKAROUND_012
-#include <std/typeinfo.h>
-#endif  // CGAL_WORKAROUND_012
-
-#include <CGAL/workaround_010.h>
-#include <CGAL/workaround_017.h>
-#include <CGAL/workaround_stl.h>
-#include <CGAL/bool.h>
+#include <CGAL/compiler_config.h>
 
 //----------------------------------------------------------------------//
-//             general macro's and typedefs
+//             do some post processing for the flags
 //----------------------------------------------------------------------//
-#ifndef CGAL_TYPENAME
+
+#ifdef CGAL_CFG_NO_TYPENAME
 #define typename
 #endif
 
-#ifndef CGAL_EXPLICIT
+#ifdef CGAL_CFG_NO_EXPLICIT
 #define explicit
 #endif
 
+#ifdef CGAL_CFG_NO_NAMESPACE
+#define CGAL_USING_NAMESPACE_STD
+#else
+#define CGAL_USING_NAMESPACE_STD using namespace std;
 #endif
 
+#ifdef CGAL_USE_NAMESPACE
+#define CGAL_NAMESPACE_BEGIN namespace CGAL {
+#define CGAL_NAMESPACE_END }
+#else
+#define CGAL_NAMESPACE_BEGIN
+#define CGAL_NAMESPACE_END
+#endif
+
+// unset the flag CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS if it is
+// just the missing typename keyword that gives problems
+#ifdef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS_NO_TYPENAME
+#undef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+#endif
+#endif
+
+// unset the flag CGAL_CFG_RETURN_TYPE_BUG_1 if it is
+// just the missing typename keyword that gives problems
+#ifdef CGAL_CFG_RETURN_TYPE_BUG_1
+#ifndef CGAL_CFG_RETURN_TYPE_BUG_1_NO_TYPENAME
+#undef CGAL_CFG_RETURN_TYPE_BUG_1
+#endif
+#endif
+
+// unset the flag CGAL_CFG_INCOMPLETE_TYPE_BUG_4 if it is
+// just the missing typename keyword that gives problems
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_4
+#ifndef CGAL_CFG_INCOMPLETE_TYPE_BUG_4_NO_TYPENAME
+#undef CGAL_CFG_INCOMPLETE_TYPE_BUG_4
+#endif
+#endif
+
+#ifdef CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION
+#define CGAL_NULL_TMPL_ARGS
+#else
+#define CGAL_NULL_TMPL_ARGS <>
+#endif
+
+#ifdef CGAL_CFG_NO_EXPLICIT_CLASS_TEMPLATE_SPECIALISATION
+#define CGAL_TEMPLATE_NULL
+#else
+#define CGAL_TEMPLATE_NULL template <>
+#endif
+
+//----------------------------------------------------------------------//
+//             include separate workaround files
+//----------------------------------------------------------------------//
+
+#include <CGAL/workaround_return_type.h>
+#include <CGAL/workaround_casts.h>
+#include <CGAL/workaround_stl.h>
+
+//----------------------------------------------------------------------//
+//             definition of type bool
+//----------------------------------------------------------------------//
+
+// if there is no built-in bool and LEDA is used, we use the bool from
+// LEDA - This might give a conflict with an STL that also defines its
+// bool - We decided for LEDA bool, because editing an STL .h-file is
+// easier than recompiling LEDA (you would need the LEDA source files)
+// If LEDA is not used, we use the bool from STL.
+#ifdef CGAL_CFG_NO_BUILTIN_BOOL
+#if ( defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_BOOL) )
+#include <LEDA/basic.h>
+#else
+#include <pair.h>
+#endif // CGAL_USE_LEDA
+#endif // CGAL_CFG_NO_BUILTIN_BOOL
+
+#endif // CGAL_CONFIG_H

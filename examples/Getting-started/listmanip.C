@@ -1,24 +1,17 @@
-// ---------------------------------------
-// Example program from Getting Started with CGAL
-// Chapter: Appendix (A short introduction to C++)
-// Author: Geert-Jan Giezeman
-// June 1997
-// ---------------------------------------
-
-#include "tutorial.h
+#include "tutorial.h"
 #include <list.h>
 
 void remove_2(list<int> &l)
 {
     list<int>::iterator x, cur(l.begin());
     while (cur != l.end()) {
-	if (*cur == 2) {
-	    x = cur;
-	    ++cur;
-	    l.erase(x);
-	} else {
-	    ++cur;
-	}
+        if (*cur == 2) {
+            x = cur;
+            ++cur;
+            l.erase(x);
+        } else {
+            ++cur;
+        }
     }
 }
 
@@ -26,7 +19,7 @@ void insert_7(list<int> &l)
 {
     list<int>::iterator cur(l.begin());
     while (cur != l.end())
-	l.insert(++cur, 7);
+        l.insert(++cur, 7);
 }
 
 int count_7(const list<int> & l)
@@ -34,8 +27,8 @@ int count_7(const list<int> & l)
     list<int>::const_iterator cur;
     int n = 0;
     for (cur = l.begin(); cur != l.end(); ++cur) {
-	if (*cur == 7)
-	    ++n;
+        if (*cur == 7)
+            ++n;
     }
     return n;
 }
@@ -44,7 +37,7 @@ int main()
 {
     list<int> l;
     for (int i=-1; i<4; i++)
-	l.push_back(i);
+        l.push_back(i);
     // l contains -1 0 1 2 3
     remove_2(l);
     //  l contains -1 0 1 3

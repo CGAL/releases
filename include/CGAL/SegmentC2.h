@@ -1,37 +1,47 @@
-/* 
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/SegmentC2.h
+// author(s)     : Andreas Fabri
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// Source: SegmentC2.h
-// Author: Andreas Fabri
 
 #ifndef CGAL_SEGMENTC2_H
 #define CGAL_SEGMENTC2_H
@@ -91,17 +101,20 @@ private:
 
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_SegmentC2<FT>::CGAL_SegmentC2()
 {
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
 }
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_SegmentC2<FT>::CGAL_SegmentC2(const CGAL_SegmentC2<FT>  &s) :
   CGAL_Handle((CGAL_Handle&)s)
 {}
 
 template < class FT >
+CGAL_KERNEL_CTOR_INLINE
 CGAL_SegmentC2<FT>::CGAL_SegmentC2(const CGAL_PointC2<FT> &sp,
                                  const CGAL_PointC2<FT> &ep)
 {
@@ -109,6 +122,7 @@ CGAL_SegmentC2<FT>::CGAL_SegmentC2(const CGAL_PointC2<FT> &sp,
 }
 
 template < class FT >
+inline
 CGAL_SegmentC2<FT>::~CGAL_SegmentC2()
 {}
 
@@ -121,35 +135,41 @@ CGAL_SegmentC2<FT>::operator CGAL_SegmentC2<double>() const
 #endif // CGAL_TO_DOUBLE
 
 template < class FT >
+inline
 CGAL_SegmentC2<FT> &CGAL_SegmentC2<FT>::operator=(const CGAL_SegmentC2<FT> &s)
 {
   CGAL_Handle::operator=(s);
   return *this;
 }
 template < class FT >
+inline
 bool  CGAL_SegmentC2<FT>::operator==(const CGAL_SegmentC2<FT> &s) const
 {
   return ( (source() == s.source())  && (target() == s.target()) );
 }
 
 template < class FT >
+inline
 bool  CGAL_SegmentC2<FT>::operator!=(const CGAL_SegmentC2<FT> &s) const
 {
   return !(*this == s);
 }
 
 template < class FT >
+inline
 int CGAL_SegmentC2<FT>::id() const
 {
   return (int) PTR ;
 }
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::start() const
 {
   return ptr()->e0;
 }
 
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::end() const
 {
   return ptr()->e1;
@@ -157,12 +177,14 @@ CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::end() const
 
 
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::source() const
 {
   return ptr()->e0;
 }
 
 template < class FT >
+inline
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::target() const
 {
   return ptr()->e1;
@@ -170,24 +192,23 @@ CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::target() const
 
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::min() const
 {
-
-
   return (CGAL_lexicographically_xy_smaller(source(),target())) ? source()
                                                                 : target();
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::max() const
 {
-
-
   return (CGAL_lexicographically_xy_smaller(source(),target())) ? target()
                                                                 : source();
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT> CGAL_SegmentC2<FT>::vertex(int i) const
 {
 
@@ -198,6 +219,7 @@ CGAL_PointC2<FT> CGAL_SegmentC2<FT>::vertex(int i) const
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_PointC2<FT> CGAL_SegmentC2<FT>::point(int i) const
 {
 
@@ -208,58 +230,59 @@ CGAL_PointC2<FT> CGAL_SegmentC2<FT>::point(int i) const
 }
 
 template < class FT >
+inline
 CGAL_PointC2<FT> CGAL_SegmentC2<FT>::operator[](int i) const
 {
-
   return vertex(i);
 }
 template < class FT >
+CGAL_KERNEL_INLINE
 FT CGAL_SegmentC2<FT>::squared_length() const
 {
-
   return  ( (target() - source()) * (target() - source()));
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_DirectionC2<FT> CGAL_SegmentC2<FT>::direction() const
 {
-
   return CGAL_DirectionC2<FT>( target() - source() );
 }
 
 template < class FT >
+inline
 CGAL_LineC2<FT> CGAL_SegmentC2<FT>::supporting_line() const
 {
-
   return CGAL_LineC2<FT>(*this);
 }
 
 template < class FT >
+inline
 CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::opposite() const
 {
-
   return CGAL_SegmentC2<FT>(target(), source());
 }
 
 template < class FT >
+inline
 CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::transform(
                                const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_SegmentC2<FT>(t.transform(source()),
-                           t.transform(target()));
+                            t.transform(target()));
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 CGAL_Bbox_2 CGAL_SegmentC2<FT>::bbox() const
 {
-
   return source().bbox() + target().bbox();
 }
 
 template < class FT >
+inline
 bool  CGAL_SegmentC2<FT>::is_degenerate() const
 {
-
   return (source() == target());
 }
 
@@ -286,20 +309,21 @@ istream &operator>>(istream &is, CGAL_SegmentC2<FT> &s)
     CGAL_PointC2<FT> p, q;
 
     is >> p >> q;
-      
+
     s = CGAL_SegmentC2<FT>(p, q);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_SegmentC2<FT>::is_horizontal() const
 {
-
   return (source().y() == target().y());
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_SegmentC2<FT>::is_vertical() const
 {
 
@@ -307,6 +331,7 @@ bool CGAL_SegmentC2<FT>::is_vertical() const
 }
 
 template < class FT >
+CGAL_KERNEL_INLINE
 bool CGAL_SegmentC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 {
   return(( p == source() )
@@ -321,10 +346,11 @@ bool CGAL_SegmentC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 
 
 template < class FT >
+CGAL_KERNEL_MEDIUM_INLINE
 bool CGAL_SegmentC2<FT>::collinear_has_on(const CGAL_PointC2<FT> &p)
 const
 {
-    CGAL_exactness_precondition( CGAL_collinear(source(), p, target()) );
+    CGAL_kernel_exactness_precondition( CGAL_collinear(source(), p, target()) );
     if (CGAL_abs(target().x()-source().x())
         > CGAL_abs(target().y()-source().y())) {
         if (p.x() < source().x())

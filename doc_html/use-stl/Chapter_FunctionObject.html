@@ -5,11 +5,11 @@
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_FunctionObject.html -->
-  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+  <!-- by cc_extract_html, $Revision: 2.18 $. -->
 
 <!--  Title -->
   <HEAD>
-  <TITLE>The CGAL Kernel Manual: </TITLE>
+  <TITLE>STL in CGAL: </TITLE>
   </HEAD>
 
 <!-- Background layout-->
@@ -30,15 +30,15 @@
 
 Function objects are objects with an <I>operator()(..)</I> defined. This results
 in faster code than passing function pointers, as the operator can
-even be inlined. The following function object classes are defined in \stl.<P>
+even be inlined. The following function object classes are defined in STL.<P>
 
-<A NAME="Section_4"></A>
+<A NAME="Section_7"></A>
 <H2>Arithmetic operations</H2>
 <P>
 
-<I>#include &lt;<A HREF="../../include/function.h">function.h</A>&gt;</I><P>
+<I>#include &lt;function.h&gt;</I><P>
 
-\stl defines the following function object classes <I><A HREF="plus.html#Cross_link_anchor_22">plus&lt;T&gt;</A></I>,
+STL defines the following function object classes <I><A HREF="plus.html#Cross_link_anchor_22">plus&lt;T&gt;</A></I>,
 <I>minus&lt;T&gt;</I>, <I>times&lt;T&gt;</I>, <I>divides&lt;T&gt;</I>, and
 <I>modulus&lt;T&gt;</I>, which have an operator() with two arguments.
 Furthermore, there is the function object class <I>negate&lt;T&gt;</I> with
@@ -66,13 +66,13 @@ is applied on each element of an array.<P>
 }
 </PRE><P>
 
-<P><A NAME="Section_5"></A>
+<P><A NAME="Section_8"></A>
 <H2>Comparisons</H2>
 <P>
 
-<I>#include &lt;<A HREF="../../include/function.h">function.h</A>&gt;</I><P>
+<I>#include &lt;function.h&gt;</I><P>
 
-\stl defines the following function object classes <I>equal_to&lt;T&gt;</I>,
+STL defines the following function object classes <I>equal_to&lt;T&gt;</I>,
 <I>not_equal_to&lt;T&gt;</I>, <I><A HREF="greater.html#Cross_link_anchor_23">greater&lt;T&gt;</A></I>, <I>less&lt;T&gt;</I>,
 <I>greater_equal&lt;T&gt;</I>, <I>less_equal&lt;T&gt;</I>. They all have an
 operator() with two arguments of type <I>T</I> and the return value
@@ -97,7 +97,7 @@ of the comparison function object class.<P>
 </PRE><P>
 
 The following code fragment shows how to sort an array using the
-\stl function <I>sort</I>.<P>
+STL function <I>sort</I>.<P>
 
 <PRE>
 {
@@ -127,7 +127,7 @@ The following code fragment shows how to sort an array using the
 <HR>
 
 <address> 
-  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+  The <A HREF=http://www.cs.uu.nl/CGAL/>CGAL Project</A>.    Tue, April 21, 1998. 
 </address>
 </BODY>
 </HTML>

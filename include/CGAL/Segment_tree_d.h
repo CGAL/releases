@@ -1,39 +1,46 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-// file  : include/CGAL/Segment_tree_d.h
-// source: include/CGAL/Segment_tree_d.h
-// author: Gabriele Neyer
-// $Revision: 1.2 $
-// $Date: 1997/06/16 13:40:48 $
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Segment_tree_d.h
+// author(s)     : Gabriele Neyer   
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef CGAL_Segment_tree_d__
 #define CGAL_Segment_tree_d__
@@ -54,15 +61,15 @@ INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 //             data. cf. file _interface.h for the requirements.
 
 template <class _Data, class _Window, class _Interface>
-class CGAL_Segment_tree_d: public CGAL_tree_base<_Data, _Window>
+class CGAL_Segment_tree_d: public CGAL_tree_base< _Data,  _Window>
 {
 private:
-  typedef _Data Data;
-  typedef _Window Window;
-  typedef CGAL__typename _Interface::Key Key;
-  typedef _Interface Interface;
+  typedef  _Data Data;
+  typedef  _Window Window;
+  typedef  typename _Interface::Key Key;
+  typedef  _Interface Interface;
 protected:
-  typedef CGAL_Segment_tree_d<_Data, _Window, _Interface> sT_d;
+  typedef CGAL_Segment_tree_d< _Data,  _Window,  _Interface> sT_d;
   tree_base_type *sublayer_tree; 
 
   // type of a vertex
@@ -70,7 +77,7 @@ protected:
 friend segment_tree_node;
   struct segment_tree_node: public CGAL_tree_node_base{
 friend sT_d;
-    list<_Data> objects;
+    list< _Data> objects;
     Key left_key;
     Key right_key;
     tree_base_type *sublayer;
@@ -128,10 +135,11 @@ friend sT_d;
                    else return CGAL__NIL;}
   
   // returns true, if the object lies inside of win
-  bool is_inside(_Window const &win, _Data const& object)
+  bool is_inside( _Window const &win,  _Data const& object)
   {
     if(is_less_equal(interface.get_left_win(win), interface.get_left(object)) 
-       && is_less_equal(interface.get_right(object),interface.get_right_win(win)))
+       && is_less_equal(interface.get_right(object),
+			interface.get_right_win(win)))
     {
       return sublayer_tree->is_inside(win,object);
     }
@@ -143,9 +151,11 @@ friend sT_d;
   bool is_anchor()
   { return false;}  
 
-  void insert_segment(link_type v, _Data& element)
+  void insert_segment(link_type v,  _Data& element)
   {
-    if ((is_less_equal(interface.get_left(element), (*v).left_key) && is_less_equal((*v).right_key, interface.get_right(element)))|| left(v)==CGAL__NIL)
+    if ((is_less_equal(interface.get_left(element), (*v).left_key) && 
+	 is_less_equal((*v).right_key, interface.get_right(element)))
+	|| left(v)==CGAL__NIL)
       (*v).objects.insert((*v).objects.end(), element);
     else
      {
@@ -167,8 +177,8 @@ friend sT_d;
      }
      if(v->objects.size()>0)
      {
-       list<_Data>::iterator sub_first = v->objects.begin();
-       list<_Data>::iterator sub_last = v->objects.end();
+       list< _Data>::iterator sub_first = v->objects.begin();
+       list< _Data>::iterator sub_last = v->objects.end();
 
        tree_base_type *g = sublayer_tree->clone();
        g->make_tree(sub_first, sub_last);
@@ -263,25 +273,29 @@ friend sT_d;
 
 
   // all elements that contain win are inserted into result
-   back_insert_iterator<list<_Data> > enclosing_query(_Window const &win,
-						      back_insert_iterator<list<_Data> > result,
-						      link_type v)
+   back_insert_iterator<list< _Data> > enclosing_query( _Window const &win,
+			        back_insert_iterator<list< _Data> > result,
+				         		      link_type v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) 
+	|| is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       list<_Data> tmp_result;
-       back_insert_iterator<list<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       list< _Data> tmp_result;
+       back_insert_iterator<list< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).enclosing_query(win, tmp_back_inserter);
-       list<_Data>::iterator tmp = tmp_result.begin();
+       list<  _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(is_less_equal(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(is_less_equal(interface.get_left(*tmp), 
+			  interface.get_left_win(win)))
 	 {
-	   if(is_less_equal(interface.get_right_win(win), interface.get_right(*tmp)))
+	   if(is_less_equal(interface.get_right_win(win), 
+			    interface.get_right(*tmp)))
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	       *result++=(*tmp);
 	 }
@@ -292,12 +306,14 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(is_less_equal(interface.get_left(*j), interface.get_left_win(win)))
+	   if(is_less_equal(interface.get_left(*j), 
+			    interface.get_left_win(win)))
 	   {
-	     if(is_less_equal(interface.get_right_win(win), interface.get_right(*j)))
+	     if(is_less_equal(interface.get_right_win(win), 
+			      interface.get_right(*j)))
 	       if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 		 *result++=(*j);
 	   }
@@ -313,25 +329,29 @@ friend sT_d;
      return result;
    }
   // all elements that contain win are inserted into result
-   back_insert_iterator<vector<_Data> > enclosing_query(_Window const &win,
-							back_insert_iterator<vector<_Data> > result,
+   back_insert_iterator<vector< _Data> > enclosing_query( _Window const &win,
+				back_insert_iterator<vector< _Data> > result,
 							link_type v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) 
+	|| is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       vector<_Data> tmp_result;
-       back_insert_iterator<vector<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       vector< _Data> tmp_result;
+       back_insert_iterator<vector< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).enclosing_query(win, tmp_back_inserter);
-       vector<_Data>::iterator tmp = tmp_result.begin();
+       vector< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(is_less_equal(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(is_less_equal(interface.get_left(*tmp), 
+			  interface.get_left_win(win)))
 	 {
-	   if(is_less_equal(interface.get_right_win(win), interface.get_right(*tmp)))
+	   if(is_less_equal(interface.get_right_win(win), 
+			    interface.get_right(*tmp)))
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	       *result++=(*tmp);
 	 }
@@ -342,12 +362,14 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(is_less_equal(interface.get_left(*j), interface.get_left_win(win)))
+	   if(is_less_equal(interface.get_left(*j), 
+			    interface.get_left_win(win)))
 	   {
-	     if(is_less_equal(interface.get_right_win(win), interface.get_right(*j)))
+	     if(is_less_equal(interface.get_right_win(win), 
+			      interface.get_right(*j)))
 	       if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 		 *result++=(*j);
 	   }
@@ -367,25 +389,29 @@ friend sT_d;
 
 #ifdef carray
   // all elements that contain win are inserted into result
-   _Data * enclosing_query(_Window const &win,
-			   _Data *result,
+    _Data * enclosing_query( _Window const &win,
+			    _Data *result,
 			   link_type v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) 
+	|| is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       list<_Data> tmp_result;
-       back_insert_iterator<list<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       list< _Data> tmp_result;
+       back_insert_iterator<list< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).enclosing_query(win, tmp_back_inserter);
-       list<_Data>::iterator tmp = tmp_result.begin();
+       list< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(is_less_equal(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(is_less_equal(interface.get_left(*tmp), 
+			  interface.get_left_win(win)))
 	 {
-	   if(is_less_equal(interface.get_right_win(win), interface.get_right(*tmp)))
+	   if(is_less_equal(interface.get_right_win(win), 
+			    interface.get_right(*tmp)))
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	       *result++=(*tmp);
 	 }
@@ -396,12 +422,14 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(is_less_equal(interface.get_left(*j), interface.get_left_win(win)))
+	   if(is_less_equal(interface.get_left(*j), 
+			    interface.get_left_win(win)))
 	   {
-	     if(is_less_equal(interface.get_right_win(win), interface.get_right(*j)))
+	     if(is_less_equal(interface.get_right_win(win), 
+			      interface.get_right(*j)))
 	       if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 		 *result++=(*j);
 	   }
@@ -420,25 +448,29 @@ friend sT_d;
 #endif
 #ifdef ostreamiterator
   // all elements that contain win are inserted into result
-  ostream_iterator<_Data> enclosing_query(_Window const &win,
-					  ostream_iterator<_Data> result,
+  ostream_iterator< _Data> enclosing_query( _Window const &win,
+					  ostream_iterator< _Data> result,
 					  link_type v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) 
+	|| is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       vector<_Data> tmp_result;
-       back_insert_iterator<vector<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       vector< _Data> tmp_result;
+       back_insert_iterator<vector< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).enclosing_query(win, tmp_back_inserter);
-       vector<_Data>::iterator tmp = tmp_result.begin();
+       vector< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(is_less_equal(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(is_less_equal(interface.get_left(*tmp), 
+			  interface.get_left_win(win)))
 	 {
-	   if(is_less_equal(interface.get_right_win(win), interface.get_right(*tmp)))
+	   if(is_less_equal(interface.get_right_win(win), 
+			    interface.get_right(*tmp)))
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	       *result++=(*tmp);
 	 }
@@ -449,12 +481,14 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(is_less_equal(interface.get_left(*j), interface.get_left_win(win)))
+	   if(is_less_equal(interface.get_left(*j), 
+			    interface.get_left_win(win)))
 	   {
-	     if(is_less_equal(interface.get_right_win(win), interface.get_right(*j)))
+	     if(is_less_equal(interface.get_right_win(win), 
+			      interface.get_right(*j)))
 	       if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 		 *result++=(*j);
 	   }
@@ -473,23 +507,26 @@ friend sT_d;
 
 
   // all elements that habe non empty intersection with win are put into result
-   back_insert_iterator<list<_Data> > window_query(_Window const &win,
-						   back_insert_iterator<list<_Data> > result,
+   back_insert_iterator<list< _Data> > window_query( _Window const &win,
+			     back_insert_iterator<list< _Data> > result,
 						   link_type& v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || 
+	is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       list<_Data> tmp_result;
-       back_insert_iterator<list<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       list< _Data> tmp_result;
+       back_insert_iterator<list< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).window_query(win, tmp_back_inserter);
-       list<_Data>::iterator tmp = tmp_result.begin();
+       list< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(interface.comp(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(interface.comp(interface.get_left(*tmp), 
+			   interface.get_left_win(win)))
 	 {
 	   if(is_less_equal((*v).left_key, interface.get_left_win(win))){
 	     *result++=(*tmp);
@@ -508,7 +545,7 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
 	   if(interface.comp(interface.get_left(*j), interface.get_left_win(win)))
@@ -535,23 +572,26 @@ friend sT_d;
      return result;
    }
   // all elements that habe non empty intersection with win are put into result
-   back_insert_iterator<vector<_Data> > window_query(_Window const &win,
-						     back_insert_iterator<vector<_Data> > result,
+   back_insert_iterator<vector< _Data> > window_query( _Window const &win,
+			     back_insert_iterator<vector< _Data> > result,
 						     link_type& v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || 
+	is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       vector<_Data> tmp_result;
-       back_insert_iterator<vector<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       vector< _Data> tmp_result;
+       back_insert_iterator<vector< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).window_query(win, tmp_back_inserter);
-       vector<_Data>::iterator tmp = tmp_result.begin();
+       vector< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(interface.comp(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(interface.comp(interface.get_left(*tmp), 
+			   interface.get_left_win(win)))
 	 {
 	   if(is_less_equal((*v).left_key, interface.get_left_win(win))){
 	     *result++=(*tmp);
@@ -570,10 +610,11 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(interface.comp(interface.get_left(*j), interface.get_left_win(win)))
+	   if(interface.comp(interface.get_left(*j), 
+			     interface.get_left_win(win)))
 	   {
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	     {
@@ -599,23 +640,26 @@ friend sT_d;
 
 #ifdef carray
   // all elements that habe non empty intersection with win are put into result
-    _Data * window_query(_Window const &win,
-			 _Data *result,
-			 link_type& v)
+     _Data * window_query( _Window const &win,
+			   _Data *result,
+			   link_type& v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || 
+	is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       list<_Data> tmp_result;
-       back_insert_iterator<list<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       list< _Data> tmp_result;
+       back_insert_iterator<list< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).window_query(win, tmp_back_inserter);
-       list<_Data>::iterator tmp = tmp_result.begin();
+       list< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(interface.comp(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(interface.comp(interface.get_left(*tmp), 
+			   interface.get_left_win(win)))
 	 {
 	   if(is_less_equal((*v).left_key, interface.get_left_win(win))){
 	     *result++=(*tmp);
@@ -634,10 +678,11 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(interface.comp(interface.get_left(*j), interface.get_left_win(win)))
+	   if(interface.comp(interface.get_left(*j), 
+			     interface.get_left_win(win)))
 	   {
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	     {
@@ -664,23 +709,26 @@ friend sT_d;
 
 #ifdef ostreamiterator
   // all elements that habe non empty intersection with win are put into result
-    ostream_iterator<_Data> window_query(_Window const &win,
-					 ostream_iterator<_Data> result,
+    ostream_iterator< _Data> window_query( _Window const &win,
+					 ostream_iterator< _Data> result,
 					 link_type& v)
    {
-     if(is_less_equal(interface.get_right_win(win), (*v).left_key) || is_less_equal((*v).right_key,interface.get_left_win(win)))
+     if(is_less_equal(interface.get_right_win(win), (*v).left_key) 
+	|| is_less_equal((*v).right_key,interface.get_left_win(win)))
        return result;
      if (v->sublayer!=(tree_base_type *)0 && (!v->sublayer->is_anchor()))
      {
        tree_base_type *T = v->sublayer;
 
-       vector<_Data> tmp_result;
-       back_insert_iterator<vector<_Data> > tmp_back_inserter = back_inserter(tmp_result);
+       vector< _Data> tmp_result;
+       back_insert_iterator<vector< _Data> > tmp_back_inserter = 
+	 back_inserter(tmp_result);
        (*T).window_query(win, tmp_back_inserter);
-       vector<_Data>::iterator tmp = tmp_result.begin();
+       vector< _Data>::iterator tmp = tmp_result.begin();
        while(tmp!=tmp_result.end())
        {
-	 if(interface.comp(interface.get_left(*tmp), interface.get_left_win(win)))
+	 if(interface.comp(interface.get_left(*tmp), 
+			   interface.get_left_win(win)))
 	 {
 	   if(is_less_equal((*v).left_key, interface.get_left_win(win))){
 	     *result++=(*tmp);
@@ -699,10 +747,11 @@ friend sT_d;
      {
        if(v->objects.size()>0)
        {
-	 list<_Data>::iterator j=v->objects.begin();
+	 list< _Data>::iterator j=v->objects.begin();
 	 while (j!= v->objects.end())
 	 {
-	   if(interface.comp(interface.get_left(*j), interface.get_left_win(win)))
+	   if(interface.comp(interface.get_left(*j), 
+			     interface.get_left_win(win)))
 	   {
 	     if(is_less_equal((*v).left_key, interface.get_left_win(win)))
 	     {
@@ -745,8 +794,9 @@ friend sT_d;
     }
     if(v->objects.size()>0)
     {
-//      true falls das Object das Segment enthaelt, der parent aber das Segmetn nicht enthaelt.
-      list<_Data>::iterator j=v->objects.begin();
+//      true falls das Object das Segment enthaelt, 
+//	  der parent aber das Segmetn nicht enthaelt.
+      list< _Data>::iterator j=v->objects.begin();
       link_type parent_of_v = parent(v);
       while (j!= v->objects.end())
       {
@@ -755,8 +805,9 @@ friend sT_d;
 	if(!is_less_equal( (*v).right_key, interface.get_right(*j)))
 	  return false;
 	if (parent_of_v != root())
-	  if((is_less_equal(interface.get_left(*j), (*parent_of_v).left_key)) && 
-	     (is_less_equal( (*parent_of_v).right_key, interface.get_right(*j))))
+	  if((is_less_equal(interface.get_left(*j),(*parent_of_v).left_key))&& 
+	     (is_less_equal( (*parent_of_v).right_key, 
+			     interface.get_right(*j))))
 	    return false;
 	j++;
       }
@@ -795,29 +846,30 @@ public:
   }
    
   // clone creates a prototype
-  tree_base_type *clone() const { return new CGAL_Segment_tree_d(*this, true); }
+  tree_base_type *clone() const { 
+    return new CGAL_Segment_tree_d(*this, true); }
 
   // the tree is build according to Data [first,last)
-  bool make_tree(list<_Data>::iterator& first, list<_Data>::iterator& last)
+  bool make_tree(list< _Data>::iterator& first, list< _Data>::iterator& last)
   {
     if(!is_build)
       is_build = true;
     else
       return false;
 
-    list<_Data>::iterator count = first;
+    list< _Data>::iterator count = first;
     int n=0;
     Key *keys = new Key[2*count_elements__C(first, last) + 1];
     while(count!=last)
     {
-      if (interface.comp(interface.get_left(*count),interface.get_right(*count)))
+      if (interface.comp(interface.get_left(*count),
+			 interface.get_right(*count)))
       { 
 	keys[n++]=interface.get_left(*count);
 	keys[n++]=interface.get_right(*count);
       }
       else
       {
-//	cerr << interface.get_left(*count) << "-" << interface.get_right(*count) << endl;
 	CGAL_Tree_warning_msg(interface.comp(interface.get_left(*count),
 						 interface.get_right(*count)), 
 				  "invalid segment ignored");
@@ -837,7 +889,8 @@ public:
     keys2[0]=keys[0];
     for(m=1;m<n;m++)
     {
-      if(interface.comp(keys[m],keys2[num-1])|| interface.comp(keys2[num-1],keys[m]))
+      if(interface.comp(keys[m],keys2[num-1])|| 
+	 interface.comp(keys2[num-1],keys[m]))
       {
 	keys2[num++]=keys[m];
       }
@@ -861,11 +914,12 @@ public:
     prevchild->parent_link = prevchild;
     header->left_link = leftmostlink;
 
-    list<_Data>::iterator current = first;
+    list< _Data>::iterator current = first;
     link_type r = root();
     do
     {
-      if (interface.comp(interface.get_left(*current),interface.get_right(*current)))
+      if (interface.comp(interface.get_left(*current),
+			 interface.get_right(*current)))
 	insert_segment(r, *current);
     }while(++current!=last);
 
@@ -875,19 +929,21 @@ public:
   }
 #ifdef stlvector
   // the tree is build according to interval [first,last)
-  bool make_tree(vector<_Data>::iterator& first, vector<_Data>::iterator& last)
+  bool make_tree(vector< _Data>::iterator& first, 
+		 vector< _Data>::iterator& last)
   {
     if(!is_build)
       is_build = true;
     else
       return false;
 
-    vector<_Data>::iterator count = first;
+    vector< _Data>::iterator count = first;
     int n=0;
     Key *keys = new Key[2*count_elements__C(first, last) + 1];
     while(count!=last)
     {
-      if (interface.comp(interface.get_left(*count),interface.get_right(*count)))
+      if (interface.comp(interface.get_left(*count),
+			 interface.get_right(*count)))
       { 
 	keys[n++]=interface.get_left(*count);
 	keys[n++]=interface.get_right(*count);
@@ -911,7 +967,8 @@ public:
     keys2[0]=keys[0];
     for(m=1;m<n;m++)
     {
-      if(interface.comp(keys[m],keys2[num-1])|| interface.comp(keys2[num-1],keys[m]))
+      if(interface.comp(keys[m],keys2[num-1])|| 
+	 interface.comp(keys2[num-1],keys[m]))
       {
 	keys2[num++]=keys[m];
       }
@@ -934,11 +991,12 @@ public:
     header->parent_link = prevchild;
     header->left_link = leftmostlink;
 
-    vector<_Data>::iterator current = first;
+    vector< _Data>::iterator current = first;
     link_type r = root();
     do
     {
-      if (interface.comp(interface.get_left(*current),interface.get_right(*current)))
+      if (interface.comp(interface.get_left(*current),
+			 interface.get_right(*current)))
 	insert_segment(r, *current);
     }while(++current!=last);
 
@@ -949,19 +1007,20 @@ public:
 #endif
 #ifdef carray
   // the tree is build according to Data [first,last)
-  bool make_tree(_Data *first, _Data *last)
+  bool make_tree( _Data *first,  _Data *last)
   {
     if(!is_build)
       is_build = true;
     else
       return false;
 
-    _Data * count = first;
+     _Data * count = first;
     int n=0;
     Key *keys = new Key[2*count_elements__C(first, last) + 1];
     while(count!=last)
     {
-      if (interface.comp(interface.get_left(*count),interface.get_right(*count)))
+      if (interface.comp(interface.get_left(*count),
+			 interface.get_right(*count)))
       { 
 	keys[n++]=interface.get_left(*count);
 	keys[n++]=interface.get_right(*count);
@@ -985,7 +1044,8 @@ public:
     keys2[0]=keys[0];
     for(m=1;m<n;m++)
     {
-      if(interface.comp(keys[m],keys2[num-1])|| interface.comp(keys2[num-1],keys[m]))
+      if(interface.comp(keys[m],keys2[num-1])|| 
+	 interface.comp(keys2[num-1],keys[m]))
       {
 	keys2[num++]=keys[m];
       }
@@ -1012,7 +1072,8 @@ public:
     link_type r = root();
     do
     {
-      if (interface.comp(interface.get_left(*current),interface.get_right(*current)))
+      if (interface.comp(interface.get_left(*current),
+			 interface.get_right(*current)))
 	insert_segment(r, *current);
     }while(++current!=last);
 
@@ -1023,9 +1084,11 @@ public:
 #endif
 
   // all elements that ly inside win are inserted into result
-  back_insert_iterator<list<_Data> > window_query(_Window const &win, back_insert_iterator<list<_Data> > result)
+  back_insert_iterator<list< _Data> > window_query( _Window const &win, 
+			     back_insert_iterator<list< _Data> > result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     { 
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1038,9 +1101,11 @@ public:
     return result;
   }
   // all elements that ly inside win are inserted into result
-   back_insert_iterator<vector<_Data> > window_query(_Window const &win, back_insert_iterator<vector<_Data> > result)
+   back_insert_iterator<vector< _Data> > window_query( _Window const &win, 
+                               back_insert_iterator<vector< _Data> > result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     { 
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1054,13 +1119,14 @@ public:
   }
 #ifdef carray
   // all elements that ly inside win are inserted into result
-  _Data * window_query(_Window const &win, _Data *result)
+   _Data * window_query( _Window const &win,  _Data *result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     { 
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
-					       interface.get_left_win(win)),
-				"invalid window -- query ignored");
+					   interface.get_left_win(win)),
+				     "invalid window -- query ignored");
       return result;
     }
     link_type v = root();
@@ -1071,9 +1137,11 @@ public:
 #endif
 #ifdef ostreamiterator
   // all elements that ly inside win are inserted into result
-  ostream_iterator<_Data> window_query(_Window const &win, ostream_iterator<_Data> result)
+  ostream_iterator< _Data> window_query( _Window const &win, 
+					 ostream_iterator< _Data> result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     { 
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1089,9 +1157,11 @@ public:
 
   
   // all objects that enclose win are inserted into result
-  back_insert_iterator<list<_Data> > enclosing_query(_Window const &win, back_insert_iterator<list<_Data> > result)
+  back_insert_iterator<list< _Data> > enclosing_query( _Window const &win, 
+				back_insert_iterator<list< _Data> > result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     { 
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1104,9 +1174,11 @@ public:
     return result;
   }
   // all objects that enclose win are inserted into result
-  back_insert_iterator<vector<_Data> > enclosing_query(_Window const &win, back_insert_iterator<vector<_Data> > result)
+  back_insert_iterator<vector< _Data> > enclosing_query( _Window const &win, 
+			        back_insert_iterator<vector< _Data> > result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     {
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1120,9 +1192,11 @@ public:
   }
 #ifdef ostreamiterator
   // all objects that enclose win are inserted into result
-  ostream_iterator<_Data> enclosing_query(_Window const &win, ostream_iterator<_Data> result)
+  ostream_iterator< _Data> enclosing_query( _Window const &win, 
+					    ostream_iterator< _Data> result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     {
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					       interface.get_left_win(win)),
@@ -1138,9 +1212,10 @@ public:
 
 #ifdef carray
   // all objects that enclose win are inserted into result
-  _Data * enclosing_query(_Window const &win, _Data *result)
+   _Data * enclosing_query( _Window const &win,  _Data *result)
   {
-    if(is_less_equal(interface.get_right_win(win), interface.get_left_win(win)))
+    if(is_less_equal(interface.get_right_win(win), 
+		     interface.get_left_win(win)))
     {
       CGAL_Tree_warning_msg(interface.comp(interface.get_right_win(win), 
 					      interface.get_left_win(win)),
@@ -1165,4 +1240,7 @@ public:
 };
 
 #endif
+
+
+
 

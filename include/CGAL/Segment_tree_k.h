@@ -1,40 +1,46 @@
-/* 
-
-Copyright (c) 1997 The CGAL Consortium
-
-This software and related documentation is part of the 
-Computational Geometry Algorithms Library (CGAL).
-
-Permission to use, copy, and distribute this software and its 
-documentation is hereby granted free of charge, provided that 
-(1) it is not a component of a commercial product, and 
-(2) this notice appears in all copies of the software and
-    related documentation. 
-
-CGAL may be distributed by any means, provided that the original
-files remain intact, and no charge is made other than for
-reasonable distribution costs.
-
-CGAL may not be distributed as a component of any commercial
-product without a prior license agreement with the authors.
-
-This software and documentation is provided "as-is" and without 
-warranty of any kind. In no event shall the CGAL Consortium be
-liable for any damage of any kind.
-
-The CGAL Consortium consists of Utrecht University (The Netherlands), 
-ETH Zurich (Switzerland), Free University of Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
-
-*/
-
-
-// file  : include/CGAL/Segment_tree_pre.h
-// source: include/CGAL/Segment_tree_pre.h
-// author: Gabriele Neyer
-// $Revision: 1.2 $
-// $Date: 1997/06/16 13:41:12 $
+// ============================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+//
+// ============================================================================
+//
+// release       : CGAL-1.0
+// date          : 21 Apr 1998
+//
+// file          : include/CGAL/Segment_tree_k.h
+// author(s)     : Gabriele Neyer
+//
+// email         : cgal@cs.uu.nl
+//
+// ============================================================================
 
 #ifndef __CGAL_Segment_tree_pre__
 #define __CGAL_Segment_tree_pre__
@@ -58,14 +64,14 @@ template <class _Traits_1>
 class CGAL_Segment_tree_1
 { 
 public:
-  typedef _Traits_1 Traits;
-  typedef _Traits_1::Key Key;
-  typedef _Traits_1::Interval Interval;
-  typedef _Traits_1::Key_1 Key_1;
-  typedef _Traits_1::key_1 key_1;
-  typedef _Traits_1::low_1 low_1;
-  typedef _Traits_1::high_1 high_1;
-  typedef _Traits_1::compare_1 compare_1;
+  typedef  _Traits_1 Traits;
+  typedef typename _Traits_1::Key Key;
+  typedef typename _Traits_1::Interval Interval;
+  typedef typename _Traits_1::Key_1 Key_1;
+  typedef typename _Traits_1::key_1 key_1;
+  typedef typename _Traits_1::low_1 low_1;
+  typedef typename _Traits_1::high_1 high_1;
+  typedef typename _Traits_1::compare_1 compare_1;
 
   typedef CGAL_tree_interval_traits<Interval, Interval, 
   Key_1,  low_1, high_1, low_1, 
@@ -196,8 +202,12 @@ public:
 
   ~CGAL_Segment_tree_1()
   {
-    delete Segment_tree_1;
-    delete Tree_anchor;
+    if (Segment_tree_1!=(Segment_tree_1_type *)0)
+      delete Segment_tree_1;
+    Segment_tree_1=(Segment_tree_1_type *)0;
+    if (Tree_anchor!=(Tree_anchor_type *)0)
+      delete Tree_anchor;
+    Tree_anchor=(Tree_anchor_type *)0;
   }
 
 };
@@ -212,18 +222,18 @@ class CGAL_Segment_tree_2
 { 
 public:
   typedef _Traits_2 Traits;
-  typedef _Traits_2::Key Key;
-  typedef _Traits_2::Interval Interval;
-  typedef _Traits_2::Key_2 Key_2;
-  typedef _Traits_2::Key_1 Key_1;
-  typedef _Traits_2::key_1 key_1;
-  typedef _Traits_2::key_2 key_2;
-  typedef _Traits_2::low_1 low_1;
-  typedef _Traits_2::high_1 high_1;
-  typedef _Traits_2::low_2 low_2;
-  typedef _Traits_2::high_2 high_2;
-  typedef _Traits_2::compare_1 compare_1;
-  typedef _Traits_2::compare_2 compare_2;
+  typedef typename _Traits_2::Key Key;
+  typedef typename _Traits_2::Interval Interval;
+  typedef typename _Traits_2::Key_2 Key_2;
+  typedef typename _Traits_2::Key_1 Key_1;
+  typedef typename _Traits_2::key_1 key_1;
+  typedef typename _Traits_2::key_2 key_2;
+  typedef typename _Traits_2::low_1 low_1;
+  typedef typename _Traits_2::high_1 high_1;
+  typedef typename _Traits_2::low_2 low_2;
+  typedef typename _Traits_2::high_2 high_2;
+  typedef typename _Traits_2::compare_1 compare_1;
+  typedef typename _Traits_2::compare_2 compare_2;
 
   typedef list<Interval>::iterator l_iterator;
   typedef vector<Interval>::iterator v_iterator;
@@ -369,9 +379,15 @@ public:
 
   ~CGAL_Segment_tree_2()
   {
-    delete Segment_tree_2;
-    delete Segment_tree_1;
-    delete Tree_anchor;
+    if (Segment_tree_2!=(Segment_tree_2_type *)0)
+      delete Segment_tree_2;
+    Segment_tree_2=(Segment_tree_2_type *)0;
+    if (Segment_tree_1!=(Segment_tree_1_type *)0)
+      delete Segment_tree_1;
+    Segment_tree_1=(Segment_tree_1_type *)0;
+    if (Tree_anchor!=(Tree_anchor_type *)0)
+      delete Tree_anchor;
+    Tree_anchor=(Tree_anchor_type *)0;
   }
 };
 
@@ -384,23 +400,23 @@ class CGAL_Segment_tree_3
 { 
 public:
   typedef _Traits_3 Traits;
-  typedef _Traits_3::Key Key;
-  typedef _Traits_3::Interval Interval;
-  typedef _Traits_3::Key_1 Key_1;
-  typedef _Traits_3::Key_2 Key_2;
-  typedef _Traits_3::Key_3 Key_3;
-  typedef _Traits_3::key_1 key_1;
-  typedef _Traits_3::key_2 key_2;
-  typedef _Traits_3::key_3 key_3;
-  typedef _Traits_3::low_1 low_1;
-  typedef _Traits_3::high_1 high_1;
-  typedef _Traits_3::low_2 low_2;
-  typedef _Traits_3::high_2 high_2;
-  typedef _Traits_3::low_3 low_3;
-  typedef _Traits_3::high_3 high_3;
-  typedef _Traits_3::compare_1 compare_1;
-  typedef _Traits_3::compare_2 compare_2;
-  typedef _Traits_3::compare_3 compare_3;
+  typedef typename _Traits_3::Key Key;
+  typedef typename _Traits_3::Interval Interval;
+  typedef typename _Traits_3::Key_1 Key_1;
+  typedef typename _Traits_3::Key_2 Key_2;
+  typedef typename _Traits_3::Key_3 Key_3;
+  typedef typename _Traits_3::key_1 key_1;
+  typedef typename _Traits_3::key_2 key_2;
+  typedef typename _Traits_3::key_3 key_3;
+  typedef typename _Traits_3::low_1 low_1;
+  typedef typename _Traits_3::high_1 high_1;
+  typedef typename _Traits_3::low_2 low_2;
+  typedef typename _Traits_3::high_2 high_2;
+  typedef typename _Traits_3::low_3 low_3;
+  typedef typename _Traits_3::high_3 high_3;
+  typedef typename _Traits_3::compare_1 compare_1;
+  typedef typename _Traits_3::compare_2 compare_2;
+  typedef typename _Traits_3::compare_3 compare_3;
 
   typedef list<Interval>::iterator l_iterator;
   typedef vector<Interval>::iterator v_iterator;
@@ -562,10 +578,18 @@ public:
 
   ~CGAL_Segment_tree_3()
   {
-    delete Segment_tree_3;
-    delete Segment_tree_2;
-    delete Segment_tree_1;
-    delete Tree_anchor;
+    if (Segment_tree_3!=(Segment_tree_3_type *)0)
+      delete Segment_tree_3;
+    Segment_tree_3=(Segment_tree_3_type *)0;
+    if (Segment_tree_2!=(Segment_tree_2_type *)0)
+      delete Segment_tree_2;
+    Segment_tree_2=(Segment_tree_2_type *)0;
+    if (Segment_tree_1!=(Segment_tree_1_type *)0)
+      delete Segment_tree_1;
+    Segment_tree_1=(Segment_tree_1_type *)0;
+    if (Tree_anchor!=(Tree_anchor_type *)0)
+      delete Tree_anchor;
+    Tree_anchor=(Tree_anchor_type *)0;
   }
 };
 
@@ -578,28 +602,28 @@ class CGAL_Segment_tree_4
 { 
 public:
   typedef _Traits_4 Traits;
-  typedef _Traits_4::Key Key;
-  typedef _Traits_4::Interval Interval;
-  typedef _Traits_4::Key_1 Key_1;
-  typedef _Traits_4::Key_2 Key_2;
-  typedef _Traits_4::Key_3 Key_3;
-  typedef _Traits_4::Key_4 Key_4;
-  typedef _Traits_4::key_1 key_1;
-  typedef _Traits_4::key_2 key_2;
-  typedef _Traits_4::key_4 key_4;
-  typedef _Traits_4::key_3 key_3;
-  typedef _Traits_4::low_1 low_1;
-  typedef _Traits_4::high_1 high_1;
-  typedef _Traits_4::low_2 low_2;
-  typedef _Traits_4::high_2 high_2;
-  typedef _Traits_4::low_3 low_3;
-  typedef _Traits_4::high_3 high_3;
-  typedef _Traits_4::low_4 low_4;
-  typedef _Traits_4::high_4 high_4;
-  typedef _Traits_4::compare_1 compare_1;
-  typedef _Traits_4::compare_2 compare_2;
-  typedef _Traits_4::compare_3 compare_3;
-  typedef _Traits_4::compare_4 compare_4;
+  typedef typename _Traits_4::Key Key;
+  typedef typename _Traits_4::Interval Interval;
+  typedef typename _Traits_4::Key_1 Key_1;
+  typedef typename _Traits_4::Key_2 Key_2;
+  typedef typename _Traits_4::Key_3 Key_3;
+  typedef typename _Traits_4::Key_4 Key_4;
+  typedef typename _Traits_4::key_1 key_1;
+  typedef typename _Traits_4::key_2 key_2;
+  typedef typename _Traits_4::key_4 key_4;
+  typedef typename _Traits_4::key_3 key_3;
+  typedef typename _Traits_4::low_1 low_1;
+  typedef typename _Traits_4::high_1 high_1;
+  typedef typename _Traits_4::low_2 low_2;
+  typedef typename _Traits_4::high_2 high_2;
+  typedef typename _Traits_4::low_3 low_3;
+  typedef typename _Traits_4::high_3 high_3;
+  typedef typename _Traits_4::low_4 low_4;
+  typedef typename _Traits_4::high_4 high_4;
+  typedef typename _Traits_4::compare_1 compare_1;
+  typedef typename _Traits_4::compare_2 compare_2;
+  typedef typename _Traits_4::compare_3 compare_3;
+  typedef typename _Traits_4::compare_4 compare_4;
 
   typedef list<Interval>::iterator l_iterator;
   typedef vector<Interval>::iterator v_iterator;
@@ -776,10 +800,21 @@ public:
 
   ~CGAL_Segment_tree_4()
   {
-    delete Segment_tree_4;
-    delete Segment_tree_2;
-    delete Segment_tree_1;
-    delete Tree_anchor;
+    if (Segment_tree_4!=(Segment_tree_4_type *)0)
+      delete Segment_tree_4;
+    Segment_tree_4=(Segment_tree_4_type *)0;
+    if (Segment_tree_3!=(Segment_tree_3_type *)0)
+      delete Segment_tree_3;
+    Segment_tree_3=(Segment_tree_3_type *)0;
+    if (Segment_tree_2!=(Segment_tree_2_type *)0)
+      delete Segment_tree_2;
+    Segment_tree_2=(Segment_tree_2_type *)0;
+    if (Segment_tree_1!=(Segment_tree_1_type *)0)
+      delete Segment_tree_1;
+    Segment_tree_1=(Segment_tree_1_type *)0;
+    if (Tree_anchor!=(Tree_anchor_type *)0)
+      delete Tree_anchor;
+    Tree_anchor=(Tree_anchor_type *)0;
   }
 };
 
